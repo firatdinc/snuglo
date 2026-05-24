@@ -20,18 +20,21 @@ public struct LevelLoader: Sendable {
 
     // MARK: - Public API
 
-    /// SPM module bundle'ından `Resources/Levels/<name>.json` yükler.
+    /// SPM module bundle'ından `<name>.json` yükler.
     ///
     /// `Bundle.module` SPM tarafından `internal` üretildiğinden default
     /// parametre olarak kullanılamaz; bu overload onu kapsüller.
     ///
-    /// - Parameter name: Dosya adı (uzantısız), örn. `"pack1-01"`.
+    /// - Parameter name: Dosya adı (uzantısız), örn. `"level_5x5"`.
     /// - Throws: `LoaderError.notFound` veya `LoaderError.decodingFailed`.
     public func loadLevel(named name: String) throws -> Level {
         try loadLevel(named: name, in: .module)
     }
 
-    /// Özel bundle ile `Resources/Levels/<name>.json` yükler (test injection için).
+    /// Özel bundle ile `<name>.json` yükler (test injection için).
+    ///
+    /// Not: SPM `.process("Resources")` kuralı tüm alt-dizinleri bundle root'una
+    /// flatten ettiğinden `subdirectory` parametresi kullanılmaz.
     ///
     /// - Parameters:
     ///   - name: Dosya adı (uzantısız).
@@ -40,8 +43,7 @@ public struct LevelLoader: Sendable {
     public func loadLevel(named name: String, in bundle: Bundle) throws -> Level {
         guard let url = bundle.url(
             forResource: name,
-            withExtension: "json",
-            subdirectory: "Levels"
+            withExtension: "json"
         ) else {
             throw LoaderError.notFound(name)
         }
