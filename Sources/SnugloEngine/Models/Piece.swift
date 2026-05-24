@@ -11,4 +11,10 @@ public struct Piece: Codable, Equatable, Hashable, Sendable {
         self.id = id
         self.cells = cells
     }
+
+    // MARK: — Faz B: UI convenience
+
+    /// Number of cells this piece occupies. Used for the numeric label on BlockView.
+    /// Domain model is unchanged — this is a computed property, not stored data.
+    public var cellCount: Int { cells.count }
 }
