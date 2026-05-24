@@ -3,12 +3,13 @@ import Foundation
 /// Grid'de yapılan yerleşimleri doğrular.
 ///
 /// Fail-fast sırası:
-///   1. emptyGrid   → width/height ≤ 0
+///   1. emptyGrid      → width/height ≤ 0
 ///   2. boş placements → incompleteCoverage(tüm grid)
-///   3. outOfBounds → herhangi absolute koord grid dışı
-///   4. overlap     → hücre zaten dolu
-///   5. incompleteCoverage → bazı hücreler boş kaldı
-///   6. valid       → tüm hücreler doldu
+///   3. unknownPiece   → pieceId level'da tanımlı değil
+///   4. outOfBounds    → herhangi absolute koord grid dışı
+///   5. overlap        → hücre zaten dolu
+///   6. incompleteCoverage → bazı hücreler boş kaldı
+///   7. valid          → tüm hücreler doldu
 public struct SolutionChecker: Sendable {
 
     public init() {}
@@ -42,8 +43,10 @@ public struct SolutionChecker: Sendable {
         )
 
         for placement in placements {
-            // Bilinmeyen pieceId → yerleşimi atla (hiçbir hücreyi kaplamaz)
-            guard let piece = pieceMap[placement.pieceId] else { continue }
+            // Bilinmeyen pieceId → erken hata dön
+            guard let piece = pieceMap[placement.pieceId] else {
+                return .unknownPiece(id: placement.pieceId)
+            }
 
             for cell in piece.cells {
                 let ax = cell.x + placement.origin.x

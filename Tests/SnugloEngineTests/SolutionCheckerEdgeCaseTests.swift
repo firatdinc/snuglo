@@ -179,4 +179,20 @@ final class SolutionCheckerEdgeCaseTests: XCTestCase {
         let level = Level(id: "en", width: -1, height: -1, pieces: [], solution: [])
         XCTAssertEqual(checker.check(level: level, placements: []), .emptyGrid)
     }
+
+    // MARK: - Unknown Piece ──────────────────────────────────────────────────────
+
+    /// Placements içinde level.pieces'da tanımlı olmayan bir pieceId varsa
+    /// `.unknownPiece(id:)` erken dönülmeli.
+    func testUnknownPieceIdReportedExplicitly() {
+        let piece = Piece(id: "known", cells: [Coord(x: 0, y: 0)])
+        let level = Level(id: "unk", width: 2, height: 2, pieces: [piece], solution: [])
+        let placements = [Placement(pieceId: "ghost", origin: Coord(x: 0, y: 0))]
+        let result = checker.check(level: level, placements: placements)
+        if case .unknownPiece(let id) = result {
+            XCTAssertEqual(id, "ghost")
+        } else {
+            XCTFail("Expected .unknownPiece(id: \"ghost\"), got \(result)")
+        }
+    }
 }

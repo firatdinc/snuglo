@@ -80,10 +80,11 @@ public struct SolutionChecker {
 |---|------------------------------------|----------------------------------------|
 | 1 | `width ≤ 0 \|\| height ≤ 0`        | `.emptyGrid`                           |
 | 2 | `placements` boş (ama grid var)    | `.incompleteCoverage(missing: tümGrid)` |
-| 3 | Herhangi absolute koord bound dışı | `.outOfBounds(at: Coord)`              |
-| 4 | Herhangi hücre zaten dolu          | `.overlap(at: Coord)`                  |
-| 5 | Bazı grid hücreleri boş kaldı      | `.incompleteCoverage(missing: [Coord])`|
-| 6 | Tüm hücreler dolu                  | `.valid`                               |
+| 3 | `pieceId` level'da tanımlı değil  | `.unknownPiece(id: String)`            |
+| 4 | Herhangi absolute koord bound dışı | `.outOfBounds(at: Coord)`              |
+| 5 | Herhangi hücre zaten dolu          | `.overlap(at: Coord)`                  |
+| 6 | Bazı grid hücreleri boş kaldı      | `.incompleteCoverage(missing: [Coord])`|
+| 7 | Tüm hücreler dolu                  | `.valid`                               |
 
 **Absolute koordinat hesabı:**
 `absX = piece.cells[i].x + placement.origin.x`
@@ -94,12 +95,13 @@ public struct SolutionChecker {
 ## PlacementResult
 
 ```swift
-public enum PlacementResult: Equatable {
+public enum PlacementResult: Equatable, Sendable {
     case valid
     case overlap(at: Coord)
     case outOfBounds(at: Coord)
     case incompleteCoverage(missing: [Coord])
     case emptyGrid
+    case unknownPiece(id: String)
 }
 ```
 
@@ -107,14 +109,14 @@ public enum PlacementResult: Equatable {
 
 ## Level JSON Şeması
 
-Engine'in `Level` modeli saf SPM struct'larına odaklanır;
-gerçek bundle JSON'ı `v0.2` LevelLoader task'ında şekillenecek.
+`LevelLoader` v0.1'de tam çalışır; `LoaderError.notFound` / `.readFailed` / `.decodingFailed`
+döndürür. Bundle JSON formatı:
 
 ```json
 {
-  "id": "pack1-01",
-  "width": 3,
-  "height": 3,
+  "id": "level_5x5",
+  "width": 5,
+  "height": 5,
   "pieces": [
     { "id": "p1", "cells": [{"x":0,"y":0},{"x":1,"y":0},{"x":2,"y":0}] },
     { "id": "p2", "cells": [{"x":0,"y":0},{"x":0,"y":1},{"x":0,"y":2}] },
@@ -128,12 +130,20 @@ gerçek bundle JSON'ı `v0.2` LevelLoader task'ında şekillenecek.
 }
 ```
 
-> Spec §6'daki `blocks[w,h]` formatı: Piece.cells'e dönüşüm `v0.2`'de LevelLoader içinde yapılacak.
+---
+
+## LevelLoader Hata Tablosu
+
+| `LoaderError` case              | Ne zaman fırlatılır                           |
+|---------------------------------|-----------------------------------------------|
+| `.notFound(name)`               | Bundle'da `<name>.json` URL'si yok            |
+| `.readFailed(name:underlying:)` | URL var ama `Data(contentsOf:)` başarısız     |
+| `.decodingFailed(name:underlying:)` | JSON decode hatası (şema uyuşmazlığı vs.) |
 
 ---
 
 ## v0.2+ Teaser
 
 1. **Core UI** — `GridView` + `BlockView` + drag-drop + snap mekanizması (SwiftUI, iOS 17 gestures).
-2. **LevelLoader gerçek JSON** — Bundle'dan `*.json` yükleme, `Block{w,h}` → `Piece{cells}` dönüşümü, 5 örnek level.
-3. **ProceduralGenerator iskeleti** — Recursive rectangular subdivision, ilk testleri.
+2. **ProceduralGenerator iskeleti** — Recursive rectangular subdivision, ilk testleri.
+3. **Persistence** — UserDefaults ile tamamlanan level kaydı.
