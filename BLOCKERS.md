@@ -4,6 +4,21 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
+## Faz A fix2 — IOS-16 (2026-05-25) ✅ KAPANDI
+
+Reviewer task `pBQzr92rXgbgYn9VSddjy` bulgularının tamamı kapatıldı:
+
+| # | Bulgu | Fix | Sonuç |
+|---|-------|-----|-------|
+| 1 | `PBXResourcesBuildPhase` içinde `xcodeproj` referansı | `project.yml` `*.xcodeproj` exclude + `xcodegen generate` | pbxproj'da `PBXResourcesBuildPhase` yok ✅ |
+| 2 | `onGeometryChange` iOS 18+ API, deployment target 17.0 | `IPHONEOS_DEPLOYMENT_TARGET = 18.0` tüm config'lerde | pbxproj 6 config × 18.0 ✅ |
+| 3 | SnapCalculator API/test uyumsuzluğu (regresyon) | `enum`→`struct`, `snap(fingerAt:piece:)` instance API, `calculateSnap` wrapper | 13/13 test ✅ |
+| 4 | `Typography` `.textCase` returns `some View` (iOS 26) | Text helpers `some View` döndürecek şekilde güncellendi | build temiz ✅ |
+
+**xcodebuild build ✅ — TEST SUCCEEDED (13 test, 0 failure) ✅**
+
+---
+
 ## Faz A fix — IOS-11
 
 - Faz A fix — orphan GameViewModelTests removed: `SnugloAppTests/GameViewModelTests.swift` (root-level, eski `Snuglo` modül adı + eski API) git rm ile silindi; klasör de kaldırıldı.
