@@ -30,3 +30,24 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ### [BLOCKER-05] TelemetryDeck App ID — v0.8'de gerekli
 - Kullanıcının kendi TelemetryDeck hesabını açıp App ID eklemesi gerekecek.
+
+---
+
+## v1.0-B — Nordic Hearth Theme (Faz B)
+
+### [BLOCKER-06] Dark mode renk token'ları — Faz H'de tamamlanacak
+- **Durum:** Faz B'de yalnızca light theme tanımlandı. `AppColors` içinde dark variant yok.
+- **Etki:** Dark Mode sistemi açık olduğunda uygulama light renklerle kalır (görsel uyumsuzluk).
+- **Planlanan:** Faz H — `Colors.swift`'e `Color(light:, dark:)` çiftleri eklenecek VEYA
+  Asset Catalog renk kümesi kullanılacak. Her token için dark hex değeri INDEX.md dark theming
+  bölümünde tanımlanmalı (henüz yok).
+- **Geçici çözüm:** Uygulama `light` appearance'ı zorla tutabilir
+  (`UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .light` — Faz H'e kadar).
+
+### [BLOCKER-07] Custom font bundle dosyaları — Faz H'de tamamlanacak
+- **Durum:** Faz B'de sistem-font fallback'ler kullanıldı (SF Rounded / SF Pro / SF Mono).
+  Plus Jakarta Sans, Be Vietnam Pro, Space Grotesk bundle'a eklenmedi.
+- **Etki:** Tasarım görsel olarak yakın ama birebir eşleşmiyor.
+- **Planlanan:** Faz H — `.ttf` / `.otf` dosyaları `SnugloApp/Resources/Fonts/` altına eklenecek,
+  `Info.plist`'e `UIAppFonts` array kaydedilecek, `Typography.swift` güncellenecek.
+- **Not:** `Typography.swift` başında sistem-font fallback notu ve TODOlar zaten mevcut.
