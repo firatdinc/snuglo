@@ -4,6 +4,20 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
+## Faz A fix2 — IOS-16 (2026-05-25) ✅ KAPANDI
+
+Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:
+
+| # | Bulgu | Fix | Sonuç |
+|---|-------|-----|-------|
+| 1 | `PBXResourcesBuildPhase` içinde `xcodeproj` referansı | `project.yml` `*.xcodeproj` exclude + `xcodegen generate` | pbxproj temiz ✅ |
+| 2 | `onGeometryChange` iOS 18+ / deployment target 17.0 | `IPHONEOS_DEPLOYMENT_TARGET = 18.0` tüm config | 6 config × 18.0 ✅ |
+| 3 | SnapCalculator buffer bug (test regresyonu) | guard `pos.x/y` tabanlı — parça boyutundan bağımsız | 8/8 test ✅ |
+
+**xcodebuild build ✅ — TEST SUCCEEDED (8 test, 0 failure) ✅**
+
+---
+
 ## v0.2 — Core UI
 
 ### [BLOCKER-01] App icon ve launch image placeholder
