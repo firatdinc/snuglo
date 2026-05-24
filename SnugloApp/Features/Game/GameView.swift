@@ -160,36 +160,13 @@ struct GameView: View {
 
     // MARK: - Snap calculation
 
-    /// Convert drag position (in "gameLayout" space) → grid Coord, or nil if out of range.
-    /// Snaps to cell whenever the finger is inside the grid ± 15pt buffer.
-    ///
-    /// pos is the finger location == floating piece center (see overlayOffset).
-    /// We subtract half the piece dimensions to get the top-left origin before
-    /// converting to grid coordinates — this keeps visual position and placement in sync.
+    /// Thin wrapper — delegates to `SnapCalculator` (pure, unit-tested separately).
     private func calculateSnap(at pos: CGPoint, for piece: Piece) -> Coord? {
-        guard gridFrame.width > 0 else { return nil }
-
-        let pieceCols = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1)
-        let pieceRows = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1)
-
-        // Convert center (finger) → top-left origin in grid-local coords
-        let localX = pos.x - pieceCols * cellSize / 2 - gridFrame.minX
-        let localY = pos.y - pieceRows * cellSize / 2 - gridFrame.minY
-        let buffer: CGFloat = 15
-
-        guard localX >= -buffer, localY >= -buffer,
-              localX < gridFrame.width  + buffer,
-              localY < gridFrame.height + buffer else {
-            return nil
-        }
-
-        let col = Int(round(localX / cellSize))
-        let row = Int(round(localY / cellSize))
-        // Clamp so the entire piece stays within grid bounds
-        let clampedCol = max(0, min(col, viewModel.level.width  - Int(pieceCols)))
-        let clampedRow = max(0, min(row, viewModel.level.height - Int(pieceRows)))
-
-        return Coord(x: clampedCol, y: clampedRow)
+        SnapCalculator(
+            gridFrame: gridFrame,
+            levelWidth: viewModel.level.width,
+            levelHeight: viewModel.level.height
+        ).snap(fingerAt: pos, piece: piece)
     }
 }
 
