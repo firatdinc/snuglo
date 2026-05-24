@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Snuglo - Mambo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Space+Grotesk:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#65587a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#211a17",
+                        "tertiary": "#665f31",
+                        "surface": "#fdf8fb",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#ece7ea",
+                        "outline-variant": "#cbc4ce",
+                        "on-secondary-container": "#6b605c",
+                        "primary-fixed": "#ecdcff",
+                        "on-background": "#1c1b1d",
+                        "on-primary-fixed": "#211634",
+                        "on-tertiary-fixed": "#201c00",
+                        "secondary-fixed": "#eedfda",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1b1d",
+                        "surface-tint": "#65587a",
+                        "inverse-surface": "#323032",
+                        "secondary": "#675c58",
+                        "primary-container": "#c5b5dc",
+                        "outline": "#7a757e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#ded9dc",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e6e1e4",
+                        "on-primary-fixed-variant": "#4d4162",
+                        "secondary-fixed-dim": "#d2c4be",
+                        "inverse-primary": "#d0c0e7",
+                        "on-secondary-fixed-variant": "#4e4541",
+                        "on-primary-container": "#524566",
+                        "inverse-on-surface": "#f5eff2",
+                        "on-surface-variant": "#49454d",
+                        "secondary-container": "#ebddd7",
+                        "tertiary-fixed": "#eee4aa",
+                        "primary-fixed-dim": "#d0c0e7",
+                        "surface-container-highest": "#e6e1e4",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fdf8fb",
+                        "on-tertiary-container": "#524c20",
+                        "tertiary-container": "#c6bd86",
+                        "tertiary-fixed-dim": "#d1c890",
+                        "on-tertiary-fixed-variant": "#4d471c",
+                        "surface-container-low": "#f8f2f5",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fdf8fb",
+                        "surface-container": "#f2ecf0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "padding-internal": "16px",
+                        "stack-lg": "32px",
+                        "gutter-grid": "4px",
+                        "margin-screen": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "number-display": ["Space Grotesk"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "number-display": ["20px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["15px", { "lineHeight": "21px", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAF6F0; /* Base Canvas Level 0 */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .board-grid {
+            background-color: #F2EBE0;
+            background-image: 
+                linear-gradient(to right, #E5DCC8 1.5px, transparent 1.5px),
+                linear-gradient(to bottom, #E5DCC8 1.5px, transparent 1.5px);
+            background-size: 20% 20%; /* 5x5 grid approximation */
+            border: 1.5px solid #E5DCC8;
+        }
+
+        .ambient-shadow {
+            box-shadow: 0px 4px 12px rgba(58, 51, 45, 0.06);
+        }
+
+        .block-bevel {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0px 4px 12px rgba(58, 51, 45, 0.06);
+        }
+        
+        .block-active {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0px 8px 16px rgba(58, 51, 45, 0.12);
+            transform: scale(1.1);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+        
+        /* Grid areas for blocks */
+        .grid-cell { position: absolute; width: 20%; height: 20%; }
+        
+        /* Pastel Palette for Blocks */
+        .block-color-1 { background-color: #e8dff5; } /* Lavender tint */
+        .block-color-2 { background-color: #fce1e4; } /* Soft pink */
+        .block-color-3 { background-color: #fcf4dd; } /* Soft yellow */
+        .block-color-4 { background-color: #ddedea; } /* Soft mint */
+        .block-color-5 { background-color: #daeaf6; } /* Soft blue */
+
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col font-body-md text-on-surface overflow-hidden">
+<!-- Top App Bar (Task specific focus, so hide global nav, but use styling principles) -->
+<header class="flex justify-between items-center px-margin-screen h-16 w-full fixed top-0 z-50 bg-transparent pt-safe">
+<button aria-label="Go Back" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface ambient-shadow text-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<div class="flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">Mambo</h1>
+</div>
+<div class="flex items-center justify-center rounded-xl bg-surface ambient-shadow px-3 py-1.5 min-w-[80px]">
+<span class="material-symbols-outlined text-secondary mr-1 text-[18px]">timer</span>
+<span class="font-number-display text-number-display text-on-surface">01:13</span>
+</div>
+</header>
+<!-- Main Content Canvas (The Board) -->
+<main class="flex-1 flex flex-col items-center justify-center pt-20 pb-40 px-margin-screen w-full max-w-md mx-auto">
+<!-- Game Board Container -->
+<div class="w-full aspect-square relative rounded-xl overflow-hidden ambient-shadow bg-surface p-2">
+<div class="w-full h-full board-grid rounded-lg relative">
+<!-- Placed Blocks (Simulated) -->
+<!-- L-shape Block -->
+<div class="absolute top-[20%] left-[20%] w-[40%] h-[40%] block-color-1 block-bevel rounded-md pointer-events-none" style="clip-path: polygon(0 0, 100% 0, 100% 50%, 50% 50%, 50% 100%, 0 100%);">
+<span class="absolute top-[10%] left-[10%] font-number-display text-number-display text-primary/70">3</span>
+</div>
+<!-- Line Block -->
+<div class="absolute top-[60%] left-[20%] w-[60%] h-[20%] block-color-2 block-bevel rounded-md pointer-events-none">
+<span class="absolute top-1/2 left-4 -translate-y-1/2 font-number-display text-number-display text-on-error-container/70">3</span>
+</div>
+<!-- Square-ish Block -->
+<div class="absolute top-[20%] left-[60%] w-[40%] h-[40%] block-color-4 block-bevel rounded-md pointer-events-none" style="clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%, 50% 50%);">
+<span class="absolute bottom-2 right-4 font-number-display text-number-display text-on-tertiary-container/70">3</span>
+</div>
+<!-- Single Square -->
+<div class="absolute top-[80%] left-[80%] w-[20%] h-[20%] block-color-3 block-bevel rounded-md pointer-events-none flex items-center justify-center">
+<span class="font-number-display text-number-display text-tertiary/70">1</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Tray (Unplaced Blocks) -->
+<div class="fixed bottom-0 left-0 w-full h-40 bg-surface rounded-t-xl ambient-shadow flex items-center justify-center gap-6 px-margin-screen pb-safe">
+<!-- Draggable Block 1 -->
+<div class="relative w-16 h-24 block-color-5 block-bevel rounded-md cursor-grab active:cursor-grabbing hover:opacity-90 transition-opacity" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 50% 50%, 0 50%);">
+<span class="absolute top-2 left-2 font-number-display text-number-display text-on-primary-container/70 text-sm">3</span>
+</div>
+<!-- Draggable Block 2 -->
+<div class="relative w-24 h-16 block-color-2 block-bevel rounded-md cursor-grab active:cursor-grabbing hover:opacity-90 transition-opacity" style="clip-path: polygon(0 0, 66.6% 0, 66.6% 100%, 0 100%);">
+<span class="absolute top-2 left-2 font-number-display text-number-display text-on-error-container/70 text-sm">2</span>
+</div>
+</div>
+<!-- Floating Hint Button (FAB) -->
+<button class="fixed bottom-32 right-margin-screen w-14 h-14 bg-primary-container text-on-primary-container rounded-full ambient-shadow flex items-center justify-center hover:scale-95 transition-transform duration-150 z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<!-- Badge -->
+<span class="absolute -top-1 -right-1 bg-surface text-primary font-number-display text-[12px] w-6 h-6 rounded-full flex items-center justify-center shadow-sm border border-surface-variant font-bold">3</span>
+</button>
+<script>
+        // Simple interaction for blocks in tray to demonstrate 'tactile' feel
+        const trayBlocks = document.querySelectorAll('.cursor-grab');
+        
+        trayBlocks.forEach(block => {
+            block.addEventListener('touchstart', (e) => {
+                block.classList.add('block-active');
+            });
+            block.addEventListener('touchend', (e) => {
+                block.classList.remove('block-active');
+            });
+            block.addEventListener('mousedown', (e) => {
+                block.classList.add('block-active');
+            });
+            block.addEventListener('mouseup', (e) => {
+                block.classList.remove('block-active');
+            });
+            block.addEventListener('mouseleave', (e) => {
+                block.classList.remove('block-active');
+            });
+        });
+    </script>
+</body></html>

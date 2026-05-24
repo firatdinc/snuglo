@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Snuglo - Shop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#65587a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#211a17",
+                        "tertiary": "#665f31",
+                        "surface": "#fdf8fb",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#ece7ea",
+                        "outline-variant": "#cbc4ce",
+                        "on-secondary-container": "#6b605c",
+                        "primary-fixed": "#ecdcff",
+                        "on-background": "#1c1b1d",
+                        "on-primary-fixed": "#211634",
+                        "on-tertiary-fixed": "#201c00",
+                        "secondary-fixed": "#eedfda",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1b1d",
+                        "surface-tint": "#65587a",
+                        "inverse-surface": "#323032",
+                        "secondary": "#675c58",
+                        "primary-container": "#c5b5dc",
+                        "outline": "#7a757e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#ded9dc",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e6e1e4",
+                        "on-primary-fixed-variant": "#4d4162",
+                        "secondary-fixed-dim": "#d2c4be",
+                        "inverse-primary": "#d0c0e7",
+                        "on-secondary-fixed-variant": "#4e4541",
+                        "on-primary-container": "#524566",
+                        "inverse-on-surface": "#f5eff2",
+                        "on-surface-variant": "#49454d",
+                        "secondary-container": "#ebddd7",
+                        "tertiary-fixed": "#eee4aa",
+                        "primary-fixed-dim": "#d0c0e7",
+                        "surface-container-highest": "#e6e1e4",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fdf8fb",
+                        "on-tertiary-container": "#524c20",
+                        "tertiary-container": "#c6bd86",
+                        "tertiary-fixed-dim": "#d1c890",
+                        "on-tertiary-fixed-variant": "#4d471c",
+                        "surface-container-low": "#f8f2f5",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fdf8fb",
+                        "surface-container": "#f2ecf0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem"
+                    },
+                    "spacing": {
+                        "padding-internal": "16px",
+                        "stack-lg": "32px",
+                        "gutter-grid": "4px",
+                        "margin-screen": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "safe-top": "env(safe-area-inset-top)",
+                        "safe-bottom": "env(safe-area-inset-bottom)"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "number-display": ["Space Grotesk"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "number-display": ["20px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "body-md": ["15px", { "lineHeight": "21px", "fontWeight": "400" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    },
+                    "boxShadow": {
+                        'ambient': '0px 4px 12px rgba(58, 51, 45, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .beveled-top {
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+        }
+        .interactive-scale:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden pt-[calc(64px+env(safe-area-inset-top))] pb-[calc(100px+env(safe-area-inset-bottom))]">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md flex justify-between items-center px-6 h-16 pt-safe-top">
+<button aria-label="Settings" class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-primary dark:text-primary-fixed">Snuglo</h1>
+<button aria-label="Shopping Bag" class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 -mr-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="px-margin-screen max-w-2xl mx-auto space-y-stack-lg">
+<!-- Header -->
+<div class="mt-stack-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Shop</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Enhance your cozy experience.</p>
+</div>
+<!-- Snuglo Plus Hero Card -->
+<section>
+<div class="bg-primary-container rounded-3xl p-6 relative overflow-hidden shadow-ambient beveled-top">
+<div class="absolute -right-12 -top-12 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[160px] text-primary" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<h3 class="font-headline-md text-headline-md text-on-primary-container">Snuglo Plus</h3>
+</div>
+<ul class="space-y-3 mb-6">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-md text-body-md text-on-primary-container">Ad-free meditative experience</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-md text-body-md text-on-primary-container">Unlimited daily hints</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="font-body-md text-body-md text-on-primary-container">Exclusive pastel themes</span>
+</li>
+</ul>
+<button class="w-full bg-primary text-on-primary rounded-[14px] py-4 font-headline-sm text-headline-sm interactive-scale transition-all duration-200 beveled-top hover:brightness-95 flex items-center justify-center gap-2">
+<span>Subscribe</span>
+<span class="font-body-md text-body-md opacity-80 font-normal">· $4.99/mo</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Horizontal Scroll - Hints -->
+<section>
+<div class="flex justify-between items-end mb-stack-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Hints</h3>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-margin-screen px-margin-screen snap-x snap-mandatory">
+<!-- Hint Pack 1 -->
+<div class="snap-center shrink-0 w-[140px] bg-surface-container-lowest rounded-2xl p-4 shadow-ambient flex flex-col items-center justify-between min-h-[160px] beveled-top">
+<div class="text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" style="font-variation-settings: 'FILL' 0;">lightbulb</span>
+<div class="font-number-display text-number-display text-on-surface">5</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Hints</div>
+</div>
+<button class="w-full mt-4 bg-surface-variant text-on-surface rounded-xl py-2 font-label-sm text-label-sm hover:bg-surface-dim transition-colors interactive-scale">
+                        $0.99
+                    </button>
+</div>
+<!-- Hint Pack 2 -->
+<div class="snap-center shrink-0 w-[140px] bg-surface-container-lowest rounded-2xl p-4 shadow-ambient flex flex-col items-center justify-between min-h-[160px] relative overflow-hidden beveled-top">
+<div class="absolute top-0 right-0 bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] px-2 py-1 rounded-bl-lg font-bold">POPULAR</div>
+<div class="text-center mt-2">
+<div class="flex justify-center -space-x-2 mb-2">
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<span class="material-symbols-outlined text-primary text-3xl z-10" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div class="font-number-display text-number-display text-on-surface">25</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Hints</div>
+</div>
+<button class="w-full mt-4 bg-primary text-on-primary rounded-xl py-2 font-label-sm text-label-sm hover:brightness-95 transition-colors interactive-scale beveled-top">
+                        $2.99
+                    </button>
+</div>
+<!-- Hint Pack 3 -->
+<div class="snap-center shrink-0 w-[140px] bg-surface-container-lowest rounded-2xl p-4 shadow-ambient flex flex-col items-center justify-between min-h-[160px] beveled-top">
+<div class="text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-3xl" style="font-variation-settings: 'FILL' 1;">all_inclusive</span>
+<div class="font-number-display text-number-display text-on-surface text-lg leading-none mt-1">Unlimited</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-2">Hints</div>
+</div>
+<button class="w-full mt-4 bg-surface-variant text-on-surface rounded-xl py-2 font-label-sm text-label-sm hover:bg-surface-dim transition-colors interactive-scale">
+                        $9.99
+                    </button>
+</div>
+</div>
+</section>
+<!-- Remove Ads Full Width -->
+<section class="pb-safe-bottom">
+<div class="bg-surface-container-lowest rounded-2xl p-internal shadow-ambient flex items-center justify-between beveled-top">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-error-container/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">block</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Remove Ads</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">One-time purchase</p>
+</div>
+</div>
+<button class="bg-surface text-on-surface border-[1.5px] border-[#EDE6DA] rounded-xl px-6 py-2 font-headline-sm text-[15px] hover:bg-surface-container-low transition-colors interactive-scale text-secondary">
+                    $3.99
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pt-2 pb-8 bg-surface dark:bg-surface-container-low shadow-[0px_-4px_12px_rgba(58,51,45,0.06)] rounded-t-xl pb-safe-bottom">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-1.5 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">extension</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Play</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-1.5 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">grid_view</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Levels</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim px-4 py-1.5 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">leaderboard</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1.5 hover:bg-secondary-container/50 dark:hover:bg-secondary-container/20 scale-98 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Shop</span>
+</a>
+</nav>
+</body></html>
