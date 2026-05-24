@@ -14,11 +14,11 @@
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
+		97D0707FE8B9F84CF2FCC75C /* SnugloApp.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_56231E86-BB58-48DC-A8C9-D6E2EB3B0BDC" /* SnugloApp.xcodeproj */; };
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
-		FA5F494F74EEDA424D59CC84 /* SnugloApp.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,7 @@
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
-		"TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SnugloApp.xcodeproj; sourceTree = "<group>"; };
+		"TEMP_56231E86-BB58-48DC-A8C9-D6E2EB3B0BDC" /* SnugloApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SnugloApp.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,10 +166,10 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_BA209E58-3408-4309-889B-7967C9EB6554" /* . */ = {
+		"TEMP_9C261B4C-A016-4233-A951-212B7F2CE6AA" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */,
+				"TEMP_56231E86-BB58-48DC-A8C9-D6E2EB3B0BDC" /* SnugloApp.xcodeproj */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
 				BDF0424E12B0048C1ED49C5C /* Features */,
@@ -260,7 +260,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA5F494F74EEDA424D59CC84 /* SnugloApp.xcodeproj in Resources */,
+				97D0707FE8B9F84CF2FCC75C /* SnugloApp.xcodeproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -348,6 +349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
