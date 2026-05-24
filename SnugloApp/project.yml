@@ -4,11 +4,12 @@ options:
   bundleIdPrefix: com.felabs
   deploymentTarget:
     iOS: "17.0"
-  minimumXcodeGenVersion: "2.18.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
 
 packages:
   SnugloEngine:
-    path: ..
+    path: ".."
 
 targets:
   SnugloApp:
@@ -16,53 +17,37 @@ targets:
     platform: iOS
     deploymentTarget: "17.0"
     sources:
-      - path: App
-      - path: Features
-      - path: Core
+      - path: .
+        excludes:
+          - "project.yml"
     dependencies:
       - package: SnugloEngine
+        product: SnugloEngine
     settings:
       base:
-        SWIFT_VERSION: "5.9"
-        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
         PRODUCT_BUNDLE_IDENTIFIER: com.felabs.snuglo
-        PRODUCT_NAME: Snuglo
-        MARKETING_VERSION: "0.2.0"
-        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.9"
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: Snuglo
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        MARKETING_VERSION: "0.2.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_STRICT_CONCURRENCY: minimal
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
 
   SnugloAppTests:
     type: bundle.unit-test
     platform: iOS
     deploymentTarget: "17.0"
     sources:
-      - path: ../SnugloAppTests
+      - path: ../Tests/SnugloAppTests
     dependencies:
       - target: SnugloApp
+      - package: SnugloEngine
+        product: SnugloEngine
     settings:
       base:
         SWIFT_VERSION: "5.9"
+        SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "17.0"
-        GENERATE_INFOPLIST_FILE: YES
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Snuglo.app/Snuglo"
-        BUNDLE_LOADER: "$(TEST_HOST)"
-
-schemes:
-  SnugloApp:
-    build:
-      targets:
-        SnugloApp: all
-        SnugloAppTests:
-          - testing
-    run:
-      config: Debug
-    test:
-      config: Debug
-      targets:
-        - SnugloAppTests
-    profile:
-      config: Release

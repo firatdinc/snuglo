@@ -1,82 +1,95 @@
-// GridView.swift — 5×5 grid arka planı + yerleştirilmiş parçalar
-// Canvas: hücre çizgileri (performans için)
-// ZStack overlay: placed BlockView'lar
-
 import SwiftUI
 import SnugloEngine
 
+/// Renders the puzzle grid using SwiftUI Canvas for high performance.
+/// Draws: background, grid lines, placed pieces, snap ghost.
 struct GridView: View {
-
-    let viewModel: GameViewModel   // @Observable — otomatik tracked
-    let cellSize: CGFloat
-
-    // MARK: - Türetilmiş boyutlar
-
-    private var cols: Int { viewModel.level?.width  ?? 5 }
-    private var rows: Int { viewModel.level?.height ?? 5 }
-    private var totalW: CGFloat { CGFloat(cols) * cellSize }
-    private var totalH: CGFloat { CGFloat(rows) * cellSize }
-
-    // MARK: - Body
+    let level: Level
+    let placements: [PieceID: Placement]
+    let invalidPieceIDs: Set<PieceID>
+    /// The grid cell that the currently-dragged piece would snap to.
+    let snapCoord: Coord?
+    /// ID of the piece being dragged (to draw ghost).
+    let draggingPieceID: PieceID?
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            // ── Arka plan + hücre çizgileri ──────────────────────
-            boardCanvas
-
-            // ── Yerleştirilmiş bloklar ────────────────────────────
-            ForEach(viewModel.placedPieces, id: \.piece.id) { item in
-                BlockView(
-                    piece: item.piece,
-                    colorKey: viewModel.colorKey(for: item.piece.id),
-                    cellSize: cellSize,
-                    isInvalid: false,
-                    isDragging: false
-                )
-                .offset(
-                    x: CGFloat(item.placement.origin.x) * cellSize,
-                    y: CGFloat(item.placement.origin.y) * cellSize
-                )
-                .onTapGesture {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        viewModel.pickUp(pieceId: item.piece.id)
-                    }
-                }
-                .transition(.scale(scale: 0.95).combined(with: .opacity))
+        GeometryReader { geo in
+            let cs = geo.size.width / CGFloat(level.width)
+            Canvas { context, size in
+                drawBackground(context: context, size: size)
+                drawGridLines(context: context, size: size, cs: cs)
+                drawPlacements(context: context, cs: cs)
+                drawSnapGhost(context: context, cs: cs)
             }
         }
-        .frame(width: totalW, height: totalH)
-        .clipShape(RoundedRectangle(cornerRadius: SnugloSpacing.cardRadius))
-        .shadow(color: .black.opacity(0.10), radius: 8, x: 0, y: 2)
+        .aspectRatio(CGFloat(level.width) / CGFloat(level.height), contentMode: .fit)
+        .background(AppColors.gridBackground)
+        .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cardRadius))
+        .shadow(color: .black.opacity(0.12), radius: 8, x: 0, y: 2)
     }
 
-    // MARK: - Board Canvas
+    // MARK: - Drawing helpers
 
-    private var boardCanvas: some View {
-        Canvas { context, size in
-            // Krem arka plan
-            context.fill(
-                Path(CGRect(origin: .zero, size: size)),
-                with: .color(SnugloColors.cream)
-            )
+    private func drawBackground(context: GraphicsContext, size: CGSize) {
+        let rect = CGRect(origin: .zero, size: size)
+        context.fill(
+            Path(roundedRect: rect, cornerRadius: AppSpacing.cardRadius),
+            with: .color(AppColors.gridBackground)
+        )
+    }
 
-            // Yatay ve dikey iç çizgiler (kenarlarda çizgi yok — clip ile kesilir)
-            let cW = size.width  / CGFloat(cols)
-            let cH = size.height / CGFloat(rows)
-            var lines = Path()
-
-            for col in 1..<cols {
-                let x = CGFloat(col) * cW
-                lines.move(to: CGPoint(x: x, y: 0))
-                lines.addLine(to: CGPoint(x: x, y: size.height))
-            }
-            for row in 1..<rows {
-                let y = CGFloat(row) * cH
-                lines.move(to: CGPoint(x: 0, y: y))
-                lines.addLine(to: CGPoint(x: size.width, y: y))
-            }
-            context.stroke(lines, with: .color(SnugloColors.gridLine), lineWidth: 1)
+    private func drawGridLines(context: GraphicsContext, size: CGSize, cs: CGFloat) {
+        let lineColor = AppColors.gridLines
+        // Vertical
+        for col in 0...level.width {
+            let x = CGFloat(col) * cs
+            var p = Path(); p.move(to: CGPoint(x: x, y: 0)); p.addLine(to: CGPoint(x: x, y: size.height))
+            context.stroke(p, with: .color(lineColor), lineWidth: 1)
         }
-        .frame(width: totalW, height: totalH)
+        // Horizontal
+        for row in 0...level.height {
+            let y = CGFloat(row) * cs
+            var p = Path(); p.move(to: CGPoint(x: 0, y: y)); p.addLine(to: CGPoint(x: size.width, y: y))
+            context.stroke(p, with: .color(lineColor), lineWidth: 1)
+        }
+    }
+
+    private func drawPlacements(context: GraphicsContext, cs: CGFloat) {
+        for (pieceID, placement) in placements {
+            guard let piece = level.pieces.first(where: { $0.id == pieceID }) else { continue }
+            let isInvalid = invalidPieceIDs.contains(pieceID)
+            let color = AppColors.blockColor(for: pieceID)
+            for cell in piece.cells {
+                let ax = CGFloat(cell.x + placement.origin.x)
+                let ay = CGFloat(cell.y + placement.origin.y)
+                let rect = CGRect(x: ax * cs + 2, y: ay * cs + 2,
+                                  width: cs - 4, height: cs - 4)
+                let path = Path(roundedRect: rect, cornerRadius: AppSpacing.blockRadius / 2)
+                context.fill(path, with: .color(isInvalid ? AppColors.error.opacity(0.5) : color))
+                if isInvalid {
+                    context.stroke(path, with: .color(AppColors.invalidRed), lineWidth: 2)
+                }
+            }
+        }
+    }
+
+    private func drawSnapGhost(context: GraphicsContext, cs: CGFloat) {
+        guard let coord = snapCoord,
+              let pid = draggingPieceID,
+              let piece = level.pieces.first(where: { $0.id == pid }) else { return }
+        let color = AppColors.blockColor(for: pid).opacity(0.35)
+        for cell in piece.cells {
+            let ax = CGFloat(cell.x + coord.x)
+            let ay = CGFloat(cell.y + coord.y)
+            // Only draw ghost cells that are within bounds
+            guard Int(ax) >= 0, Int(ax) < level.width,
+                  Int(ay) >= 0, Int(ay) < level.height else { continue }
+            let rect = CGRect(x: ax * cs + 2, y: ay * cs + 2,
+                              width: cs - 4, height: cs - 4)
+            context.fill(
+                Path(roundedRect: rect, cornerRadius: AppSpacing.blockRadius / 2),
+                with: .color(color)
+            )
+        }
     }
 }

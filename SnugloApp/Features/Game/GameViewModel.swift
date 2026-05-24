@@ -1,155 +1,115 @@
-// GameViewModel.swift — v0.2 Core UI
-// @Observable (iOS 17 Observation framework)
-// Sorumlu: level yükleme, parça yerleştirme/kaldırma, çözüm kontrolü
-
 import Foundation
 import Observation
 import SnugloEngine
 
+typealias PieceID = String
+
+/// Core game state machine for a single level session.
+///
+/// @MainActor — all properties read/written from the main thread (SwiftUI).
+@MainActor
 @Observable
 final class GameViewModel {
 
-    // MARK: - State (otomatik tracked by @Observable)
+    // MARK: - Published state
+    private(set) var level: Level
+    /// Accepted placements: pieceID → Placement
+    private(set) var placements: [PieceID: Placement] = [:]
+    /// Pieces whose last tryPlace was rejected (overlap / OOB).
+    private(set) var invalidPieceIDs: Set<PieceID> = []
+    /// True once all pieces are placed without overlap/OOB (prints "Solved!").
+    private(set) var isSolved: Bool = false
 
-    var level: Level?
-    var placements: [String: Placement] = [:]   // pieceId → Placement
-    var invalidPieceIds: Set<String> = []        // anlık kırmızı flash için
-    var isSolved: Bool = false
-    var loadError: String?
-
-    // MARK: - Sabitler
-
-    /// Engine v0.1 Piece modelinde renk field'ı yok; index-tabanlı renk ataması
-    private static let colorKeys = SnugloColors.blockPaletteKeys
-
-    // MARK: - Servisler
-
-    private let loader  = LevelLoader()
+    // MARK: - Private
     private let checker = SolutionChecker()
 
-    // MARK: - Renk Yardımcısı
+    // MARK: - Init
 
-    func colorKey(for pieceId: String) -> String {
-        guard let level else { return "purple" }
-        let idx = level.pieces.firstIndex(where: { $0.id == pieceId }) ?? 0
-        return Self.colorKeys[idx % Self.colorKeys.count]
+    init(level: Level) {
+        self.level = level
     }
 
-    // MARK: - Yükleme
-
-    func loadLevel(named name: String = "level_5x5") {
-        do {
-            let loaded = try loader.loadLevel(named: name)
-            level = loaded
-            placements = [:]
-            isSolved = false
-            invalidPieceIds = []
-            loadError = nil
-        } catch {
-            loadError = error.localizedDescription
-        }
+    /// Load from SnugloEngine bundle. Throws LevelLoader.LoaderError on failure.
+    static func make(levelNamed name: String = "level_5x5") throws -> GameViewModel {
+        let level = try LevelLoader().loadLevel(named: name)
+        return GameViewModel(level: level)
     }
 
-    // MARK: - Hesaplanmış Özellikler
+    /// Non-throwing convenience — returns a fallback 1×1 level on error.
+    static func makeOrFallback(levelNamed name: String = "level_5x5") -> GameViewModel {
+        if let vm = try? make(levelNamed: name) { return vm }
+        let fallback = Level(
+            id: "fallback", width: 1, height: 1,
+            pieces: [Piece(id: "p1", cells: [Coord(x: 0, y: 0)])],
+            solution: [Placement(pieceId: "p1", origin: Coord(x: 0, y: 0))]
+        )
+        return GameViewModel(level: fallback)
+    }
 
-    /// Henüz yerleştirilmemiş parçalar (tray için)
+    // MARK: - Computed helpers
+
+    /// Pieces not yet successfully placed on the grid.
     var unplacedPieces: [Piece] {
-        guard let level else { return [] }
-        return level.pieces.filter { placements[$0.id] == nil }
+        level.pieces.filter { placements[$0.id] == nil }
     }
 
-    /// Yerleştirilmiş parçalar (grid render için)
-    var placedPieces: [(piece: Piece, placement: Placement)] {
-        guard let level else { return [] }
-        return level.pieces.compactMap { piece in
-            guard let pl = placements[piece.id] else { return nil }
-            return (piece, pl)
+    // MARK: - Actions
+
+    /// Attempt to place `pieceID` with its origin at `coord`.
+    ///
+    /// - Accepts if the resulting set of placements has no overlap / OOB.
+    /// - Rejects (adds to `invalidPieceIDs`) on overlap, out-of-bounds, or unknown piece.
+    /// - Sets `isSolved = true` and prints "Solved!" when all pieces fit exactly.
+    func tryPlace(pieceID: PieceID, at coord: Coord) {
+        let newPlacement = Placement(pieceId: pieceID, origin: coord)
+
+        // Build candidate set (replace existing placement for same piece if any)
+        var candidates = Array(placements.values).filter { $0.pieceId != pieceID }
+        candidates.append(newPlacement)
+
+        let result = checker.check(level: level, placements: candidates)
+
+        switch result {
+        case .valid:
+            // All pieces placed, no conflicts → solved!
+            placements[pieceID] = newPlacement
+            invalidPieceIDs.remove(pieceID)
+            isSolved = true
+            print("Solved!")
+
+        case .incompleteCoverage:
+            // This placement is fine; more pieces still needed
+            placements[pieceID] = newPlacement
+            invalidPieceIDs.remove(pieceID)
+
+        case .overlap, .outOfBounds, .unknownPiece:
+            // Reject — caller should animate the block back
+            invalidPieceIDs.insert(pieceID)
+
+        case .emptyGrid:
+            break
         }
     }
 
-    // MARK: - Doğrulama
-
-    /// Verilen parçanın verilen origin'e yerleştirilebilir olup olmadığını kontrol eder.
-    /// - Sınır dışı hücre varsa false
-    /// - Başka yerleşmiş parçayla çakışma varsa false (kendi önceki konumu hariç)
-    func canPlace(pieceId: String, at origin: Coord) -> Bool {
-        guard let level,
-              let piece = level.pieces.first(where: { $0.id == pieceId })
-        else { return false }
-
-        // ── 1. Sınır kontrolü ────────────────────────────────────
-        for cell in piece.cells {
-            let ax = origin.x + cell.x
-            let ay = origin.y + cell.y
-            guard ax >= 0, ax < level.width,
-                  ay >= 0, ay < level.height
-            else { return false }
-        }
-
-        // ── 2. Çakışma kontrolü ──────────────────────────────────
-        // Mevcut yerleşimleri doldurulmuş hücrelere çevir (bu parçanın eski konumu hariç)
-        var occupied = Set<Coord>()
-        for (pid, pl) in placements where pid != pieceId {
-            guard let p = level.pieces.first(where: { $0.id == pid }) else { continue }
-            for c in p.cells {
-                occupied.insert(Coord(x: pl.origin.x + c.x, y: pl.origin.y + c.y))
-            }
-        }
-
-        for cell in piece.cells {
-            if occupied.contains(Coord(x: origin.x + cell.x, y: origin.y + cell.y)) {
-                return false
-            }
-        }
-
-        return true
+    /// Clear the invalid flag (call after ease-back animation completes).
+    func clearInvalid(pieceID: PieceID) {
+        invalidPieceIDs.remove(pieceID)
     }
 
-    // MARK: - Eylemler
-
-    /// Parçayı grid'e yerleştirir.
-    /// - Returns: `true` — yerleştirme geçerliyse; `false` — geçersizse (kırmızı flash tetiklenir)
-    @discardableResult
-    func place(pieceId: String, at origin: Coord) -> Bool {
-        guard canPlace(pieceId: pieceId, at: origin) else {
-            flashInvalid(pieceId)
-            return false
+    /// Re-check solved state (safe to call redundantly).
+    func checkSolved() {
+        let all = Array(placements.values)
+        guard all.count == level.pieces.count else { return }
+        if checker.check(level: level, placements: all) == .valid {
+            isSolved = true
+            print("Solved!")
         }
-        placements[pieceId] = Placement(pieceId: pieceId, origin: origin)
-        checkSolution()
-        return true
     }
 
-    /// Parçayı grid'den kaldırır; tray'e iade eder.
-    func pickUp(pieceId: String) {
-        placements.removeValue(forKey: pieceId)
+    /// Remove a piece from the grid (send back to tray).
+    func removePlacement(for pieceID: PieceID) {
+        placements.removeValue(forKey: pieceID)
+        invalidPieceIDs.remove(pieceID)
         isSolved = false
-    }
-
-    /// Tüm yerleşimleri sıfırlar.
-    func reset() {
-        placements = [:]
-        isSolved = false
-        invalidPieceIds = []
-    }
-
-    // MARK: - Yardımcı (private)
-
-    /// Geçersiz yerleşim anında kırmızı flash tetikler; 600ms sonra söner.
-    private func flashInvalid(_ pieceId: String) {
-        invalidPieceIds.insert(pieceId)
-        Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .milliseconds(600))
-            self?.invalidPieceIds.remove(pieceId)
-        }
-    }
-
-    /// Tüm parçalar yerleşmişse SolutionChecker ile doğrular.
-    private func checkSolution() {
-        guard let level, placements.count == level.pieces.count else { return }
-        let result = checker.check(level: level, placements: Array(placements.values))
-        guard result == .valid else { return }
-        isSolved = true
-        print("✅ Solved! Level: \(level.id)")
     }
 }

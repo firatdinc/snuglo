@@ -8,15 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */; };
-		1F485351B85DB34A8AA9051E /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C532FD1866ADF050BE24813 /* GameViewModelTests.swift */; };
 		273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C00CEC5196A0D5872A0987F /* GridView.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
+		530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */; };
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
+		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
+		FA5F494F74EEDA424D59CC84 /* SnugloApp.xcodeproj in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +34,6 @@
 /* Begin PBXFileReference section */
 		02900C8FA9C484E97BDE5D58 /* SnugloAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "snuglo--AnsD1"; path = ..; sourceTree = SOURCE_ROOT; };
-		1C532FD1866ADF050BE24813 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		38668694A881387CCF58C9CA /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloApp.swift; sourceTree = "<group>"; };
 		645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
@@ -41,7 +42,9 @@
 		9C00CEC5196A0D5872A0987F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		A702C36C13CE76BA82748DED /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		"TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SnugloApp.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +53,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		25849E5F4FF3BC3C73019DAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +75,23 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		3E6F161CD2F8B824209000B5 /* snuglo--AnsD1 */ = {
+			isa = PBXGroup;
+			children = (
+				EB3615D5A8B41EDC62EAE87E /* Tests */,
+			);
+			name = "snuglo--AnsD1";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4BAC45F5A50B2C4A143423A6 /* SnugloAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */,
+			);
+			path = SnugloAppTests;
+			sourceTree = "<group>";
+		};
 		56CD682D8D86026C7C6B6A0F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,15 +101,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		875AD84F5A3D92B9CA9C00C5 /* SnugloAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				1C532FD1866ADF050BE24813 /* GameViewModelTests.swift */,
-			);
-			name = SnugloAppTests;
-			path = ../SnugloAppTests;
-			sourceTree = "<group>";
-		};
 		BC8CA339462A1B3DBB39AC35 = {
 			isa = PBXGroup;
 			children = (
@@ -89,7 +108,7 @@
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				BDF0424E12B0048C1ED49C5C /* Features */,
 				1767C811E499CE379D978EA8 /* Packages */,
-				875AD84F5A3D92B9CA9C00C5 /* SnugloAppTests */,
+				3E6F161CD2F8B824209000B5 /* snuglo--AnsD1 */,
 				56CD682D8D86026C7C6B6A0F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -128,6 +147,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		EB3615D5A8B41EDC62EAE87E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4BAC45F5A50B2C4A143423A6 /* SnugloAppTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		F7CBB66B0B72A55E65EBB05D /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +166,18 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
+		"TEMP_BA209E58-3408-4309-889B-7967C9EB6554" /* . */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_4A54824B-979F-4CC3-9A38-C4B8D32981F7" /* SnugloApp.xcodeproj */,
+				CA3FFCE8583420473DAB2C0F /* Core */,
+				E704AF9A2C4909919E8EFB76 /* App */,
+				BDF0424E12B0048C1ED49C5C /* Features */,
+			);
+			name = .;
+			path = .;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,6 +186,7 @@
 			buildConfigurationList = C8C222F9F432854CC48224C0 /* Build configuration list for PBXNativeTarget "SnugloAppTests" */;
 			buildPhases = (
 				5CDB0A152B4F223C4A196AC0 /* Sources */,
+				25849E5F4FF3BC3C73019DAA /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -155,6 +195,7 @@
 			);
 			name = SnugloAppTests;
 			packageProductDependencies = (
+				C6CEC9215CDD114192DB9C26 /* SnugloEngine */,
 			);
 			productName = SnugloAppTests;
 			productReference = 02900C8FA9C484E97BDE5D58 /* SnugloAppTests.xctest */;
@@ -165,6 +206,7 @@
 			buildConfigurationList = CABC3D8E13C0FDE6093EFAE5 /* Build configuration list for PBXNativeTarget "SnugloApp" */;
 			buildPhases = (
 				491FCB7F83BB490D70B50785 /* Sources */,
+				E326D2A19F94A3DEC81FF265 /* Resources */,
 				19E2E59D9218D531EA9C97A0 /* Frameworks */,
 			);
 			buildRules = (
@@ -213,6 +255,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		E326D2A19F94A3DEC81FF265 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA5F494F74EEDA424D59CC84 /* SnugloApp.xcodeproj in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		491FCB7F83BB490D70B50785 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -233,7 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F485351B85DB34A8AA9051E /* GameViewModelTests.swift in Sources */,
+				530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +305,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -261,9 +313,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppTests;
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snuglo.app/Snuglo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SnugloApp.app/SnugloApp";
 			};
 			name = Debug;
 		};
@@ -274,10 +327,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Snuglo;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -285,8 +337,8 @@
 				);
 				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.snuglo;
-				PRODUCT_NAME = Snuglo;
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -296,7 +348,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -305,9 +356,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppTests;
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Snuglo.app/Snuglo";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SnugloApp.app/SnugloApp";
 			};
 			name = Release;
 		};
@@ -318,10 +370,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Snuglo;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -329,8 +380,8 @@
 				);
 				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.snuglo;
-				PRODUCT_NAME = Snuglo;
 				SDKROOT = iphoneos;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -496,6 +547,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		43AB9381ED7582889EB0EEBB /* SnugloEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SnugloEngine;
+		};
+		C6CEC9215CDD114192DB9C26 /* SnugloEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SnugloEngine;
 		};

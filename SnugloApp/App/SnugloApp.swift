@@ -1,6 +1,3 @@
-// SnugloApp.swift — Uygulama giriş noktası
-// v0.2: tek ekran, GameView
-
 import SwiftUI
 
 @main

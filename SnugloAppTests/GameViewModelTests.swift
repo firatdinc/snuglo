@@ -38,13 +38,12 @@ final class GameViewModelTests: XCTestCase {
 
     // MARK: - 2. Place
 
-    func testPlace_firstPieceAtValidOrigin_succeeds() {
+    // Fix 3: throws + XCTUnwrap — force-unwrap (!)'dan kurtulur, crash yerine test fail verir.
+    func testPlace_firstPieceAtValidOrigin_succeeds() throws {
         // Arrange
         sut.loadLevel(named: "level_5x5")
-        guard let level = sut.level else {
-            XCTFail("Level yüklenemedi"); return
-        }
-        let firstSolution = level.solution.first!
+        let level       = try XCTUnwrap(sut.level, "Level yüklenemedi")
+        let firstSolution = try XCTUnwrap(level.solution.first, "Solution listesi boş")
 
         // Act
         let result = sut.place(pieceId: firstSolution.pieceId, at: firstSolution.origin)

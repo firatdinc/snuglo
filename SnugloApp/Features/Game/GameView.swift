@@ -1,295 +1,195 @@
-// GameView.swift — v0.2 Ana oyun ekranı
-//
-// Sorumluluklar:
-//   • Ekran layout (coral arka plan, grid merkez, tray alt)
-//   • Drag-drop orchestration (DragGesture .global → grid hücresi)
-//   • Floating piece overlay (sürükleme sırasında)
-//   • Solved overlay
-//
-// iOS 17+ @Observable pattern: GameViewModel @State olarak tutulur.
-
 import SwiftUI
 import SnugloEngine
 
+/// Main game screen — loads level_5x5, shows grid + tray, handles drag-drop + snap.
 struct GameView: View {
 
-    // MARK: - State
+    // MARK: - ViewModel
 
-    @State private var viewModel = GameViewModel()
+    @State private var viewModel: GameViewModel = GameViewModel.makeOrFallback()
 
-    /// GridView'ın ekrandaki global çerçevesi (drop hesaplaması için)
-    @State private var gridFrame: CGRect = .zero
+    // MARK: - Drag state
 
-    /// Şu an sürüklenen parça ID'si
-    @State private var draggingPieceId: String? = nil
-
-    /// Sürükleme sırasında parmak konumu (global)
+    /// Piece currently being dragged.
+    @State private var draggingPiece: Piece? = nil
+    /// Drag position in "gameLayout" coordinate space.
     @State private var dragPosition: CGPoint = .zero
+    /// Snapped grid coord (nil = no snap / outside grid).
+    @State private var snapCoord: Coord? = nil
+    /// Grid frame in "gameLayout" coordinate space (populated after first render).
+    @State private var gridFrame: CGRect = .zero
+    /// Cell size derived from grid frame width.
+    private var cellSize: CGFloat {
+        guard gridFrame.width > 0 else { return 56 }
+        return gridFrame.width / CGFloat(viewModel.level.width)
+    }
+    /// Block overlay offset from top-left of the "gameLayout" container.
+    private func overlayOffset(for piece: Piece) -> CGPoint {
+        let halfW = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1) * cellSize / 2
+        let halfH = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1) * cellSize / 2
+        return CGPoint(x: dragPosition.x - halfW, y: dragPosition.y - halfH)
+    }
 
     // MARK: - Body
 
     var body: some View {
-        GeometryReader { geo in
-            let cSize = computedCellSize(screenSize: geo.size)
-
-            ZStack {
-                // Arka plan
-                SnugloColors.coral
-                    .ignoresSafeArea()
-
-                // Ana layout
-                VStack(spacing: 0) {
-                    // Başlık
-                    headerView
-                        .padding(.top, SnugloSpacing.lg)
-                        .padding(.horizontal, SnugloSpacing.lg)
-
-                    Spacer()
-
-                    // Grid
-                    if viewModel.level != nil {
-                        GridView(viewModel: viewModel, cellSize: cSize)
-                            .overlay(gridFrameCapture)   // global frame'i yakala
-                            .padding(.horizontal, SnugloSpacing.lg)
-                            .animation(.spring(response: 0.35, dampingFraction: 0.7), value: viewModel.placedPieces.count)
-                    }
-
-                    Spacer()
-
-                    // Tray
-                    trayView(cellSize: cSize)
-                        .padding(.horizontal, SnugloSpacing.lg)
-                        .padding(.bottom, SnugloSpacing.xl)
-                }
-
-                // Sürüklenen parça float overlay
-                floatingPieceView(cellSize: cSize)
-            }
-            // Çözüldü overlay
-            .overlay {
-                if viewModel.isSolved {
-                    solvedOverlay
-                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                }
-            }
-            .animation(.easeOut(duration: 0.3), value: viewModel.isSolved)
-        }
-        .onPreferenceChange(GridFramePreferenceKey.self) { frame in
-            gridFrame = frame
-        }
-        .onAppear {
-            viewModel.loadLevel()
-        }
-    }
-
-    // MARK: - Cell size
-
-    private func computedCellSize(screenSize: CGSize) -> CGFloat {
-        let cols  = CGFloat(viewModel.level?.width  ?? 5)
-        let rows  = CGFloat(viewModel.level?.height ?? 5)
-        let hPad  = 2 * SnugloSpacing.lg
-        let fromW = (screenSize.width - hPad) / cols
-        // Ekran yüksekliğinin %33'ünü grid'e ver
-        let fromH = (screenSize.height * 0.33) / rows
-        return min(fromW, fromH)
-    }
-
-    // MARK: - Header
-
-    private var headerView: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Snuglo")
-                    .font(SnugloTypography.title())
-                    .foregroundStyle(SnugloColors.cream)
-                if let level = viewModel.level {
-                    Text(level.id.replacingOccurrences(of: "_", with: " ").capitalized)
-                        .font(SnugloTypography.caption())
-                        .foregroundStyle(SnugloColors.cream.opacity(0.75))
-                }
-            }
-            Spacer()
-            if !viewModel.placements.isEmpty {
-                Button {
-                    withAnimation(.spring(response: 0.35)) {
-                        viewModel.reset()
-                    }
-                } label: {
-                    Image(systemName: "arrow.counterclockwise")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(SnugloColors.cream)
-                        .padding(SnugloSpacing.sm)
-                        .background(SnugloColors.cream.opacity(0.18), in: Circle())
-                }
+        ZStack(alignment: .topLeading) {
+            mainLayout
+            // Floating block follows finger
+            if let piece = draggingPiece {
+                let off = overlayOffset(for: piece)
+                BlockView(piece: piece, cellSize: cellSize,
+                          isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                          isDragging: true)
+                    .offset(x: off.x, y: off.y)
+                    .allowsHitTesting(false)
             }
         }
+        .coordinateSpace(.named("gameLayout"))
+        .background(AppColors.background.ignoresSafeArea())
     }
 
-    // MARK: - Grid frame capture (Preference)
+    // MARK: - Main layout
 
-    private var gridFrameCapture: some View {
-        GeometryReader { geo in
-            Color.clear
-                .preference(
-                    key: GridFramePreferenceKey.self,
-                    value: geo.frame(in: .global)
-                )
-        }
-    }
+    private var mainLayout: some View {
+        VStack(spacing: AppSpacing.lg) {
+            levelHeader
 
-    // MARK: - Tray
-
-    private func trayView(cellSize: CGFloat) -> some View {
-        let maxPieceH = CGFloat(
-            viewModel.unplacedPieces.map { ($0.cells.map(\.y).max() ?? 0) + 1 }.max() ?? 1
-        )
-        let trayH = maxPieceH * cellSize + SnugloSpacing.lg
-
-        return Group {
-            if viewModel.unplacedPieces.isEmpty {
-                // Tüm parçalar grid'de
-                Text(viewModel.isSolved ? "🎉 Tümü yerleşti!" : "Tüm parçalar yerleştirildi")
-                    .font(SnugloTypography.subtitle())
-                    .foregroundStyle(SnugloColors.cream)
-                    .frame(height: trayH)
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: SnugloSpacing.sm) {
-                        ForEach(viewModel.unplacedPieces, id: \.id) { piece in
-                            trayBlock(piece: piece, cellSize: cellSize)
-                        }
-                    }
-                    .padding(.horizontal, SnugloSpacing.sm)
-                    .padding(.vertical, SnugloSpacing.sm)
-                }
-                .frame(height: trayH)
-                .background(
-                    SnugloColors.cream.opacity(0.18),
-                    in: RoundedRectangle(cornerRadius: SnugloSpacing.cardRadius)
-                )
+            // Grid — fills horizontal space; square cells
+            GridView(
+                level: viewModel.level,
+                placements: viewModel.placements,
+                invalidPieceIDs: viewModel.invalidPieceIDs,
+                snapCoord: snapCoord,
+                draggingPieceID: draggingPiece?.id
+            )
+            .padding(.horizontal, AppSpacing.lg)
+            .onGeometryChange(for: CGRect.self) { proxy in
+                proxy.frame(in: .named("gameLayout"))
+            } action: { frame in
+                gridFrame = frame
             }
+
+            solvedBanner
+            Spacer(minLength: 0)
+            trayView
+        }
+        .padding(.vertical, AppSpacing.xl)
+    }
+
+    // MARK: - Sub-views
+
+    private var levelHeader: some View {
+        VStack(spacing: AppSpacing.xs) {
+            Text("Snuglo")
+                .font(AppTypography.title)
+                .foregroundStyle(.white)
+            Text(viewModel.level.id)
+                .font(AppTypography.caption)
+                .foregroundStyle(.white.opacity(0.75))
         }
     }
-
-    private func trayBlock(piece: Piece, cellSize: CGFloat) -> some View {
-        let isBeingDragged = draggingPieceId == piece.id
-
-        return BlockView(
-            piece: piece,
-            colorKey: viewModel.colorKey(for: piece.id),
-            cellSize: cellSize,
-            isInvalid: viewModel.invalidPieceIds.contains(piece.id),
-            isDragging: false
-        )
-        .opacity(isBeingDragged ? 0.28 : 1.0)
-        .animation(.easeOut(duration: 0.15), value: isBeingDragged)
-        .highPriorityGesture(
-            DragGesture(minimumDistance: 5, coordinateSpace: .global)
-                .onChanged { value in
-                    if draggingPieceId == nil {
-                        withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                            draggingPieceId = piece.id
-                        }
-                    }
-                    dragPosition = value.location
-                }
-                .onEnded { value in
-                    handleDrop(pieceId: piece.id, at: value.location)
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
-                        draggingPieceId = nil
-                    }
-                }
-        )
-    }
-
-    // MARK: - Floating piece
 
     @ViewBuilder
-    private func floatingPieceView(cellSize: CGFloat) -> some View {
-        if let pid = draggingPieceId,
-           let level = viewModel.level,
-           let piece = level.pieces.first(where: { $0.id == pid }) {
-            BlockView(
-                piece: piece,
-                colorKey: viewModel.colorKey(for: pid),
-                cellSize: cellSize,
-                isInvalid: false,
-                isDragging: true
-            )
-            .position(dragPosition)
-            .allowsHitTesting(false)
+    private var solvedBanner: some View {
+        if viewModel.isSolved {
+            Text("🎉 Solved!")
+                .font(AppTypography.title)
+                .foregroundStyle(AppColors.success)
+                .padding(.horizontal, AppSpacing.xl)
+                .padding(.vertical, AppSpacing.sm)
+                .background(.white.opacity(0.9))
+                .clipShape(RoundedRectangle(cornerRadius: AppSpacing.buttonRadius))
+                .transition(.scale(scale: 0.8).combined(with: .opacity))
         }
     }
 
-    // MARK: - Drop handling
-
-    private func handleDrop(pieceId: String, at globalPoint: CGPoint) {
-        guard !gridFrame.isEmpty, let level = viewModel.level else { return }
-
-        let cols  = CGFloat(level.width)
-        let cSize = gridFrame.width / cols
-        let localX = globalPoint.x - gridFrame.minX
-        let localY = globalPoint.y - gridFrame.minY
-
-        // Snap toleransı: ±15pt (spec §2)
-        let tolerance: CGFloat = 15
-        guard
-            localX >= -tolerance, localX < gridFrame.width  + tolerance,
-            localY >= -tolerance, localY < gridFrame.height + tolerance
-        else { return }
-
-        let col = max(0, min(Int(floor(localX / cSize)), level.width  - 1))
-        let row = max(0, min(Int(floor(localY / cSize)), level.height - 1))
-
-        _ = withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
-            viewModel.place(pieceId: pieceId, at: Coord(x: col, y: row))
+    private var trayView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: AppSpacing.md) {
+                ForEach(viewModel.unplacedPieces, id: \.id) { piece in
+                    BlockView(
+                        piece: piece,
+                        cellSize: cellSize,
+                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                        isDragging: false
+                    )
+                    .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                    .gesture(dragGesture(for: piece))
+                }
+            }
+            .padding(.horizontal, AppSpacing.lg)
+            .padding(.vertical, AppSpacing.md)
         }
+        .frame(maxWidth: .infinity)
+        .background(.white.opacity(0.18))
+        .clipShape(RoundedRectangle(cornerRadius: AppSpacing.cardRadius))
+        .padding(.horizontal, AppSpacing.lg)
     }
 
-    // MARK: - Solved overlay
+    // MARK: - Drag gesture
 
-    private var solvedOverlay: some View {
-        ZStack {
-            Color.black.opacity(0.45)
-                .ignoresSafeArea()
-
-            VStack(spacing: SnugloSpacing.lg) {
-                Text("🎉")
-                    .font(.system(size: 64))
-
-                Text("Solved!")
-                    .font(SnugloTypography.title())
-                    .foregroundStyle(SnugloColors.textPrimary)
-
-                Text("Tüm parçalar yerleşti.")
-                    .font(SnugloTypography.body())
-                    .foregroundStyle(SnugloColors.textSecondary)
-
-                Button("Tekrar Oyna") {
-                    withAnimation(.spring(response: 0.4)) {
-                        viewModel.reset()
+    private func dragGesture(for piece: Piece) -> some Gesture {
+        DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
+            .onChanged { value in
+                if draggingPiece == nil {
+                    draggingPiece = piece
+                }
+                dragPosition = value.location
+                snapCoord = calculateSnap(at: value.location, for: piece)
+            }
+            .onEnded { _ in
+                if let coord = snapCoord {
+                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                        viewModel.tryPlace(pieceID: piece.id, at: coord)
+                    }
+                    // If rejected, clear invalid flag after ease-back delay
+                    if viewModel.invalidPieceIDs.contains(piece.id) {
+                        Task { @MainActor in
+                            try? await Task.sleep(for: .milliseconds(400))
+                            viewModel.clearInvalid(pieceID: piece.id)
+                        }
                     }
                 }
-                .font(SnugloTypography.subtitle())
-                .foregroundStyle(.white)
-                .padding(.horizontal, SnugloSpacing.xl)
-                .padding(.vertical, SnugloSpacing.sm)
-                .background(SnugloColors.coral, in: RoundedRectangle(cornerRadius: SnugloSpacing.buttonRadius))
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                    draggingPiece = nil
+                    snapCoord = nil
+                }
             }
-            .padding(SnugloSpacing.xl)
-            .background(SnugloColors.cream, in: RoundedRectangle(cornerRadius: 20))
-            .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 8)
-        }
     }
-}
 
-// MARK: - Preference Key
+    // MARK: - Snap calculation
 
-struct GridFramePreferenceKey: PreferenceKey {
-    static var defaultValue: CGRect = .zero
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
-        let next = nextValue()
-        if next != .zero { value = next }
+    /// Convert drag position (in "gameLayout" space) → grid Coord, or nil if out of range.
+    /// Snaps to cell whenever the finger is inside the grid ± 15pt buffer.
+    ///
+    /// pos is the finger location == floating piece center (see overlayOffset).
+    /// We subtract half the piece dimensions to get the top-left origin before
+    /// converting to grid coordinates — this keeps visual position and placement in sync.
+    private func calculateSnap(at pos: CGPoint, for piece: Piece) -> Coord? {
+        guard gridFrame.width > 0 else { return nil }
+
+        let pieceCols = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1)
+        let pieceRows = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1)
+
+        // Convert center (finger) → top-left origin in grid-local coords
+        let localX = pos.x - pieceCols * cellSize / 2 - gridFrame.minX
+        let localY = pos.y - pieceRows * cellSize / 2 - gridFrame.minY
+        let buffer: CGFloat = 15
+
+        guard localX >= -buffer, localY >= -buffer,
+              localX < gridFrame.width  + buffer,
+              localY < gridFrame.height + buffer else {
+            return nil
+        }
+
+        let col = Int(round(localX / cellSize))
+        let row = Int(round(localY / cellSize))
+        // Clamp so the entire piece stays within grid bounds
+        let clampedCol = max(0, min(col, viewModel.level.width  - Int(pieceCols)))
+        let clampedRow = max(0, min(row, viewModel.level.height - Int(pieceRows)))
+
+        return Coord(x: clampedCol, y: clampedRow)
     }
 }
 

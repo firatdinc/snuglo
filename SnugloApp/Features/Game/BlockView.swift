@@ -1,81 +1,59 @@
-// BlockView.swift — Tek bir Piece parçasının görsel temsili
-// Hem tray'de hem grid üzerinde kullanılır.
-
 import SwiftUI
 import SnugloEngine
 
+/// Renders a single puzzle piece (tray or dragging overlay).
+/// Size = bounding box of the piece in cellSize units.
 struct BlockView: View {
-
     let piece: Piece
-    let colorKey: String
     let cellSize: CGFloat
     let isInvalid: Bool
     let isDragging: Bool
 
-    // MARK: - Boyut hesaplama
+    // MARK: - Computed
 
-    private var pieceGridWidth: Int {
-        (piece.cells.map(\.x).max() ?? 0) + 1
-    }
-    private var pieceGridHeight: Int {
-        (piece.cells.map(\.y).max() ?? 0) + 1
-    }
-    private var blockColor: Color {
-        SnugloColors.block(forKey: colorKey)
-    }
-    private var totalWidth:  CGFloat { CGFloat(pieceGridWidth)  * cellSize }
-    private var totalHeight: CGFloat { CGFloat(pieceGridHeight) * cellSize }
+    private var pieceWidth: Int  { (piece.cells.map(\.x).max() ?? 0) + 1 }
+    private var pieceHeight: Int { (piece.cells.map(\.y).max() ?? 0) + 1 }
+    private var color: Color { AppColors.blockColor(for: piece.id) }
 
     // MARK: - Body
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            // Her hücre için ayrı dikdörtgen
-            ForEach(Array(piece.cells.enumerated()), id: \.offset) { _, cell in
-                cellShape(at: cell)
+        Canvas { context, _ in
+            let fillColor: Color = isInvalid ? AppColors.error.opacity(0.7) : color
+            for cell in piece.cells {
+                let x = CGFloat(cell.x) * cellSize
+                let y = CGFloat(cell.y) * cellSize
+                let rect = CGRect(x: x + 1, y: y + 1,
+                                  width: cellSize - 2, height: cellSize - 2)
+                let path = Path(roundedRect: rect, cornerRadius: AppSpacing.blockRadius / 2)
+                context.fill(path, with: .color(fillColor))
+                if isInvalid {
+                    context.stroke(path, with: .color(AppColors.invalidRed), lineWidth: 2)
+                }
             }
-
-            // Hücre sayısı etiketi (sol üst köşe)
-            if piece.cells.count > 1 {
-                Text("\(piece.cells.count)")
-                    .font(SnugloTypography.blockNumber())
-                    .foregroundStyle(.white.opacity(0.85))
-                    .frame(width: cellSize - 4, height: cellSize - 4)
-                    .offset(x: 2, y: 2)
-                    .allowsHitTesting(false)
+            // Cell count label — centered on bounding box
+            let totalCells = piece.cells.count
+            if totalCells > 1 {
+                let midX = (CGFloat(pieceWidth) * cellSize) / 2
+                let midY = (CGFloat(pieceHeight) * cellSize) / 2
+                var text = context.resolve(Text("\(totalCells)")
+                    .font(AppTypography.blockLabel)
+                    .foregroundStyle(AppColors.textPrimary.opacity(0.7)))
+                let textSize = text.measure(in: CGSize(width: cellSize, height: cellSize))
+                context.draw(text, at: CGPoint(x: midX - textSize.width / 2,
+                                               y: midY - textSize.height / 2),
+                             anchor: .topLeading)
             }
         }
-        .frame(width: totalWidth, height: totalHeight)
-        // Geçersiz: kırmızı kenarlık
-        .overlay {
-            if isInvalid {
-                RoundedRectangle(cornerRadius: SnugloSpacing.blockRadius)
-                    .strokeBorder(SnugloColors.error, lineWidth: 2)
-            }
-        }
-        // Sürükleme: ölçek + gölge artışı
+        .frame(width: CGFloat(pieceWidth) * cellSize,
+               height: CGFloat(pieceHeight) * cellSize)
         .scaleEffect(isDragging ? 1.05 : 1.0)
         .shadow(
-            color: .black.opacity(isDragging ? 0.28 : 0.15),
-            radius: isDragging ? 10 : 4,
-            x: 0,
-            y: isDragging ? 5 : 2
+            color: .black.opacity(isDragging ? 0.25 : 0.10),
+            radius: isDragging ? 8 : 3,
+            x: 0, y: isDragging ? 4 : 2
         )
         .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isDragging)
-        .animation(.easeInOut(duration: 0.18), value: isInvalid)
-    }
-
-    // MARK: - Yardımcı
-
-    @ViewBuilder
-    private func cellShape(at cell: Coord) -> some View {
-        let inset: CGFloat = 2
-        RoundedRectangle(cornerRadius: SnugloSpacing.cellRadius)
-            .fill(blockColor)
-            .frame(width: cellSize - inset * 2, height: cellSize - inset * 2)
-            .offset(
-                x: CGFloat(cell.x) * cellSize + inset,
-                y: CGFloat(cell.y) * cellSize + inset
-            )
+        .animation(.spring(response: 0.25, dampingFraction: 0.65), value: isInvalid)
     }
 }
