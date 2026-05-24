@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */; };
 		273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C00CEC5196A0D5872A0987F /* GridView.swift */; };
+		4749283EBBBBBB741384B951 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019EC211A8ED76E9C4687A0 /* Shadow.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
 		530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */; };
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
+		754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
+		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
+		9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */; };
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
@@ -36,13 +40,17 @@
 		38668694A881387CCF58C9CA /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloApp.swift; sourceTree = "<group>"; };
 		645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		6B377C02F73E5F9D8712B20B /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		9C00CEC5196A0D5872A0987F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculatorTests.swift; sourceTree = "<group>"; };
 		A702C36C13CE76BA82748DED /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculator.swift; sourceTree = "<group>"; };
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */,
+				A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */,
 			);
 			path = SnugloAppTests;
 			sourceTree = "<group>";
@@ -131,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				82BDCB0C13EFD13CAFE73686 /* Colors.swift */,
+				6B377C02F73E5F9D8712B20B /* Radius.swift */,
+				F019EC211A8ED76E9C4687A0 /* Shadow.swift */,
 				A702C36C13CE76BA82748DED /* Spacing.swift */,
 				8DDE190833C63BBB6798DC42 /* Typography.swift */,
 			);
@@ -160,11 +171,12 @@
 				38668694A881387CCF58C9CA /* GameView.swift */,
 				D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */,
 				9C00CEC5196A0D5872A0987F /* GridView.swift */,
+				B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_ECB05D07-8C81-4FCE-B230-60A468F3AF94" /* . */ = {
+		"TEMP_09DDB21E-A535-4C0E-BCB4-8A501690862F" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				CA3FFCE8583420473DAB2C0F /* Core */,
@@ -261,6 +273,9 @@
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
+				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
+				4749283EBBBBBB741384B951 /* Shadow.swift in Sources */,
+				9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */,
 				C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */,
 				D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */,
 				4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */,
@@ -272,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */,
+				754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
