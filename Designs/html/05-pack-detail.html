@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Pack Detail - Snuglo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#65587a",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed": "#211a17",
+                      "tertiary": "#665f31",
+                      "surface": "#fdf8fb",
+                      "on-primary": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "surface-container-high": "#ece7ea",
+                      "outline-variant": "#cbc4ce",
+                      "on-secondary-container": "#6b605c",
+                      "primary-fixed": "#ecdcff",
+                      "on-background": "#1c1b1d",
+                      "on-primary-fixed": "#211634",
+                      "on-tertiary-fixed": "#201c00",
+                      "secondary-fixed": "#eedfda",
+                      "error-container": "#ffdad6",
+                      "on-surface": "#1c1b1d",
+                      "surface-tint": "#65587a",
+                      "inverse-surface": "#323032",
+                      "secondary": "#675c58",
+                      "primary-container": "#c5b5dc",
+                      "outline": "#7a757e",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#ded9dc",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#e6e1e4",
+                      "on-primary-fixed-variant": "#4d4162",
+                      "secondary-fixed-dim": "#d2c4be",
+                      "inverse-primary": "#d0c0e7",
+                      "on-secondary-fixed-variant": "#4e4541",
+                      "on-primary-container": "#524566",
+                      "inverse-on-surface": "#f5eff2",
+                      "on-surface-variant": "#49454d",
+                      "secondary-container": "#ebddd7",
+                      "tertiary-fixed": "#eee4aa",
+                      "primary-fixed-dim": "#d0c0e7",
+                      "surface-container-highest": "#e6e1e4",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#fdf8fb",
+                      "on-tertiary-container": "#524c20",
+                      "tertiary-container": "#c6bd86",
+                      "tertiary-fixed-dim": "#d1c890",
+                      "on-tertiary-fixed-variant": "#4d471c",
+                      "surface-container-low": "#f8f2f5",
+                      "on-tertiary": "#ffffff",
+                      "background": "#fdf8fb",
+                      "surface-container": "#f2ecf0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "board": "14px"
+              },
+              "spacing": {
+                      "padding-internal": "16px",
+                      "stack-lg": "32px",
+                      "gutter-grid": "4px",
+                      "margin-screen": "24px",
+                      "stack-md": "16px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Be Vietnam Pro"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "number-display": ["Space Grotesk"],
+                      "body-md": ["Be Vietnam Pro"],
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "headline-sm": ["Plus Jakarta Sans"],
+                      "label-sm": ["Be Vietnam Pro"]
+              },
+              "fontSize": {
+                      "body-lg": ["17px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "number-display": ["20px", {"lineHeight": "24px", "fontWeight": "500"}],
+                      "body-md": ["15px", {"lineHeight": "21px", "fontWeight": "400"}],
+                      "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAF6F0; /* Level 0 Canvas */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .level-tile {
+            width: 96px;
+            height: 96px;
+            background-color: #FFFFFF;
+            box-shadow: 0px 4px 12px rgba(58, 51, 45, 0.06);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .level-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+            border-radius: 14px 14px 0 0;
+            pointer-events: none;
+        }
+        
+        .level-tile.active {
+            box-shadow: 0 0 0 2px #c5b5dc, 0px 8px 16px rgba(58, 51, 45, 0.12);
+            transform: scale(1.02);
+            background-color: #fdf8fb;
+        }
+
+        .level-tile.locked {
+            background-color: #f2ecf0;
+            opacity: 0.7;
+            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .star-container {
+            display: flex;
+            gap: 2px;
+            margin-top: 4px;
+        }
+
+        .star-icon {
+            font-size: 14px;
+            color: #c6bd86;
+        }
+        
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Banner styling */
+        .pack-banner {
+            height: 240px;
+            background-color: #ebddd7;
+            border-radius: 0 0 24px 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+        }
+
+        .pack-banner-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            mix-blend-mode: multiply;
+        }
+        
+        /* Floating Action Button (Suppressed on sub-pages as per rules) */
+        
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface pb-[100px] md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md flex justify-between items-center px-6 h-16 w-full">
+<button aria-label="Back" class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="font-headline-lg-mobile text-headline-lg-mobile tracking-tight text-primary dark:text-primary-fixed font-bold">Snuglo</div>
+<button aria-label="Settings" class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<main class="pt-16 max-w-md mx-auto">
+<!-- Pack Banner -->
+<div class="pack-banner mb-stack-lg">
+<img alt="A serene, soft-focus illustration of stylized organic wooden shapes resting on a light linen texture. The color palette is composed of soothing pastels, warm off-whites, and gentle lavenders. The lighting is bright and diffuse, creating an airy, calm, and uncluttered 'Hygge' aesthetic perfect for a meditative puzzle game." class="pack-banner-image" data-alt="A serene, soft-focus illustration of stylized organic wooden shapes resting on a light linen texture. The color palette is composed of soothing pastels, warm off-whites, and gentle lavenders. The lighting is bright and diffuse, creating an airy, calm, and uncluttered 'Hygge' aesthetic perfect for a meditative puzzle game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu8kyi4sFE36T8UadrvQPtG91pJef0g02sSK43FnopbcHfq_i1PrPTCYUVdQSkstQ5xbmW-SRX4waLC5ONGg4U33MsGUQIVIMpYZWvARxqJcaHAQqEf_Nmb76nZc5QnfwrgcwrwXMeqW59muk2j9aajw9uKVwbFn7WHmqLyGTqWm0N_tmHiGqmQntLw4KY4oCt79b5zEFy2IRcJtbNcwNeqcVwMM8E82RNeuXnoHuyVEY0n5W7yS5ggRosm1Peytg0BckqWQ3kTs0B"/>
+<div class="relative z-10 w-full">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider block mb-1">Beginner</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface-variant font-bold">Morning Dew</h1>
+<div class="flex items-center mt-2 gap-4">
+<div class="w-full bg-surface-container-high h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 30%;"></div>
+</div>
+<span class="font-number-display text-number-display text-primary whitespace-nowrap">9 / 30</span>
+</div>
+</div>
+</div>
+<!-- Level Grid -->
+<div class="px-margin-screen grid grid-cols-3 gap-[16px] justify-items-center mb-stack-lg">
+<!-- Completed Levels -->
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">1</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">2</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">3</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">4</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">5</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">6</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">7</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">8</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<button class="level-tile">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary">9</span>
+<div class="star-container">
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+<span class="material-symbols-outlined fill star-icon">star</span>
+</div>
+</button>
+<!-- Active Level -->
+<button class="level-tile active">
+<span class="font-number-display text-[28px] leading-[32px] font-medium text-primary-fixed-variant">10</span>
+<div class="star-container opacity-0">
+<span class="material-symbols-outlined star-icon">star</span>
+</div>
+</button>
+<!-- Locked Levels -->
+<div class="level-tile locked">
+<span class="material-symbols-outlined text-outline">lock</span>
+<span class="font-number-display text-sm mt-1 text-outline">11</span>
+</div>
+<div class="level-tile locked">
+<span class="material-symbols-outlined text-outline">lock</span>
+<span class="font-number-display text-sm mt-1 text-outline">12</span>
+</div>
+<div class="level-tile locked">
+<span class="material-symbols-outlined text-outline">lock</span>
+<span class="font-number-display text-sm mt-1 text-outline">13</span>
+</div>
+<div class="level-tile locked">
+<span class="material-symbols-outlined text-outline">lock</span>
+<span class="font-number-display text-sm mt-1 text-outline">14</span>
+</div>
+<div class="level-tile locked">
+<span class="material-symbols-outlined text-outline">lock</span>
+<span class="font-number-display text-sm mt-1 text-outline">15</span>
+</div>
+<!-- More locked levels could go here, truncating for brevity -->
+</div>
+</main>
+<!-- Navigation suppressed as this is a detail/task page according to logic rules -->
+</body></html>

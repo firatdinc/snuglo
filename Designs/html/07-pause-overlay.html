@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paused - Snuglo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600&amp;family=Be+Vietnam+Pro:wght@400;500&amp;family=Space+Grotesk:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#65587a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#211a17",
+                        "tertiary": "#665f31",
+                        "surface": "#fdf8fb",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#ece7ea",
+                        "outline-variant": "#cbc4ce",
+                        "on-secondary-container": "#6b605c",
+                        "primary-fixed": "#ecdcff",
+                        "on-background": "#1c1b1d",
+                        "on-primary-fixed": "#211634",
+                        "on-tertiary-fixed": "#201c00",
+                        "secondary-fixed": "#eedfda",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1b1d",
+                        "surface-tint": "#65587a",
+                        "inverse-surface": "#323032",
+                        "secondary": "#675c58",
+                        "primary-container": "#c5b5dc",
+                        "outline": "#7a757e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#ded9dc",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e6e1e4",
+                        "on-primary-fixed-variant": "#4d4162",
+                        "secondary-fixed-dim": "#d2c4be",
+                        "inverse-primary": "#d0c0e7",
+                        "on-secondary-fixed-variant": "#4e4541",
+                        "on-primary-container": "#524566",
+                        "inverse-on-surface": "#f5eff2",
+                        "on-surface-variant": "#49454d",
+                        "secondary-container": "#ebddd7",
+                        "tertiary-fixed": "#eee4aa",
+                        "primary-fixed-dim": "#d0c0e7",
+                        "surface-container-highest": "#e6e1e4",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fdf8fb",
+                        "on-tertiary-container": "#524c20",
+                        "tertiary-container": "#c6bd86",
+                        "tertiary-fixed-dim": "#d1c890",
+                        "on-tertiary-fixed-variant": "#4d471c",
+                        "surface-container-low": "#f8f2f5",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fdf8fb",
+                        "surface-container": "#f2ecf0",
+                        
+                        "board-bg": "#F2EBE0",
+                        "board-line": "#E5DCC8",
+                        "btn-border": "#EDE6DA",
+                        "btn-text": "#675c58" 
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "20dp": "20px",
+                        "btn": "14px"
+                    },
+                    "spacing": {
+                        "padding-internal": "16px",
+                        "stack-lg": "32px",
+                        "gutter-grid": "4px",
+                        "margin-screen": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "number-display": ["Space Grotesk"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-sm": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["17px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["28px", {"lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "number-display": ["20px", {"lineHeight": "24px", "fontWeight": "500"}],
+                        "body-md": ["15px", {"lineHeight": "21px", "fontWeight": "400"}],
+                        "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                    },
+                    "boxShadow": {
+                        "ambient": "0px 4px 12px rgba(58, 51, 45, 0.06)"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAF6F0; /* Level 0 Background */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-primary {
+            box-shadow: inset 0 0.5px 0 0 rgba(255, 255, 255, 0.5);
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
+            filter: brightness(0.95);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-full flex items-center justify-center font-body-md text-on-surface antialiased overflow-hidden">
+<!-- Mock Background Game Elements (Blurred/Dimmed) -->
+<div class="absolute inset-0 z-0 opacity-40 blur-sm flex flex-col p-margin-screen">
+<div class="flex justify-between items-center mb-stack-lg">
+<div class="font-number-display text-number-display text-on-surface">Score: 4,250</div>
+<div class="font-number-display text-number-display text-on-surface">00:01:13</div>
+</div>
+<!-- Game Board Mock -->
+<div class="flex-grow flex items-center justify-center">
+<div class="w-full aspect-square bg-board-bg rounded-xl grid grid-cols-8 grid-rows-8 gap-px p-1" style="background-image: linear-gradient(to right, #E5DCC8 1px, transparent 1px), linear-gradient(to bottom, #E5DCC8 1px, transparent 1px); background-size: 12.5% 12.5%;">
+<!-- Mock Blocks -->
+<div class="col-span-2 row-span-1 bg-[#D4E2D4] rounded-sm m-px"></div>
+<div class="col-start-4 col-span-1 row-span-3 bg-[#E8D5D5] rounded-sm m-px"></div>
+<div class="col-start-6 col-span-3 row-span-1 bg-[#D5E1E8] rounded-sm m-px"></div>
+<div class="col-start-2 row-start-4 col-span-2 row-span-2 bg-[#E8E4D5] rounded-sm m-px"></div>
+</div>
+</div>
+</div>
+<!-- Pause Overlay Dimmer -->
+<div class="absolute inset-0 bg-[#3A332D]/30 z-10 backdrop-blur-[2px]"></div>
+<!-- Pause Card -->
+<div class="relative z-20 bg-surface-container-lowest rounded-20dp p-stack-lg w-full max-w-[320px] mx-margin-screen shadow-ambient flex flex-col items-center">
+<!-- Header -->
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-stack-sm text-center">Paused</h1>
+<div class="font-number-display text-number-display text-secondary mb-stack-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">timer</span>
+            00:01:13
+        </div>
+<!-- Actions -->
+<div class="w-full flex flex-col gap-stack-md">
+<!-- Resume Button -->
+<button class="btn-primary w-full bg-primary text-on-primary font-headline-sm text-headline-sm rounded-btn py-4 transition-all duration-150 flex items-center justify-center gap-2 shadow-ambient">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                Resume
+            </button>
+<!-- Restart Button -->
+<button class="w-full bg-surface-container-lowest border-[1.5px] border-btn-border text-btn-text font-headline-sm text-headline-sm rounded-btn py-4 transition-all duration-150 flex items-center justify-center gap-2 hover:bg-surface-container-low active:scale-[0.98]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">refresh</span>
+                Restart
+            </button>
+<!-- Home Button -->
+<button class="w-full bg-surface-container-lowest border-[1.5px] border-btn-border text-btn-text font-headline-sm text-headline-sm rounded-btn py-4 transition-all duration-150 flex items-center justify-center gap-2 hover:bg-surface-container-low active:scale-[0.98]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+                Home
+            </button>
+</div>
+</div>
+</body></html>
