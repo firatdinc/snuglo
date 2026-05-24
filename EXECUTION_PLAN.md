@@ -66,6 +66,8 @@
 
 ## v0.4 — Content
 
+> **Not (v1.0 plan):** Toplam 240 level (4 pack × 60). Pack adları: Cozy Beginnings (5×5) → Spice Route (6×6) → Mambo Nights (7×7) → Woodland Retreat (8×8). Faz D'de güncelleniyor. Aşağıdaki plan eskidir (30/pack) — Faz D'de 60/pack'e revize edilecektir.
+
 **Hedef:** 120 oynanabilir seviye (4 pack × 30).
 
 **Yapılacaklar:**
