@@ -4,6 +4,13 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
+## Faz A fix — IOS-11
+
+- Faz A fix — orphan GameViewModelTests removed: `SnugloAppTests/GameViewModelTests.swift` (root-level, eski `Snuglo` modül adı + eski API) git rm ile silindi; klasör de kaldırıldı.
+- SnapCalculator.swift ve SnapCalculatorTests.swift (9 test) main'de mevcut; review raporundaki "dosya yok" bulgusunun yanlış olduğu doğrulandı.
+
+---
+
 ## v0.2 — Core UI
 
 ### [BLOCKER-01] App icon ve launch image placeholder
