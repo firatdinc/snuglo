@@ -45,6 +45,8 @@ enum AppColors {
     static let onSurface        = Color(hex: "#1C1B1D")
     /// Muted secondary text
     static let onSurfaceVariant = Color(hex: "#49454D")
+    /// Body copy — warm dark brown, NEVER pure black (Designs/INDEX.md)
+    static let bodyText         = Color(hex: "#3A332D")
 
     // MARK: — Outline
 
@@ -90,8 +92,16 @@ enum AppColors {
     // MARK: — Helpers
 
     /// Deterministic, index-stable block color for a piece, keyed by piece ID.
+    /// Uses FNV-1a (32-bit) — result is identical across every process launch.
+    /// `String.hashValue` is randomised per-process (Swift SE-0206 / SE-0143) and
+    /// MUST NOT be used for anything that requires cross-run consistency.
     static func blockColor(for pieceID: String) -> Color {
-        blockPalette[abs(pieceID.hashValue) % blockPalette.count]
+        var h: UInt32 = 2166136261  // FNV-1a 32-bit offset basis
+        for b in pieceID.utf8 {
+            h ^= UInt32(b)
+            h &*= 16777619           // FNV-1a 32-bit prime (wrapping multiply)
+        }
+        return blockPalette[Int(h % UInt32(blockPalette.count))]
     }
 }
 

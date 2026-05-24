@@ -2,6 +2,43 @@
 
 ---
 
+## [v1.0-B fix] — Tokens & Tracking (2026-05-25)
+
+### FIX 1 — Stable piece coloring hash
+- **`Colors.swift`** — `blockColor(for:)` now uses FNV-1a 32-bit instead of `String.hashValue`.
+  Swift's `hashValue` is randomised per-process (SE-0206) and must not be used for any
+  persistent or cross-run determinism. FNV-1a produces identical results across every process
+  launch, OS version and Swift update; the same piece ID always maps to the same pastel.
+
+### FIX 2 — Headline / label tracking via Text helpers
+- **`Typography.swift`** — Added `extension Text` with six helpers that bake in the
+  per-scale tracking values specified in INDEX.md:
+
+  | Helper | Font | Tracking |
+  |---|---|---|
+  | `appHeadlineLarge()` | headlineLarge 28 pt | −0.6 pt (−0.02 em) |
+  | `appHeadlineMedium()` | headlineMedium 22 pt | −0.4 pt (−0.02 em) |
+  | `appHeadlineSmall()` | headlineSmall 18 pt | −0.3 pt (−0.02 em) |
+  | `appLabelSmall()` | labelSmall 12 pt | +0.6 pt (+0.05 em) + UPPERCASE |
+  | `appBodyLarge()` | bodyLarge 17 pt | — (bodyText foreground baked in) |
+  | `appBodyMedium()` | bodyMedium 15 pt | — (bodyText foreground baked in) |
+
+- **`GameView.swift`** — Raw `.font(AppTypography.xxx)` call-sites replaced:
+  - `Text("Snuglo")`: `.font(headlineLarge)` → `.appHeadlineLarge()`
+  - `Text(level.id)`: `.font(labelSmall).tracking(0.6).textCase(.uppercase)` → `.appLabelSmall()`
+  - `Text("🎉 Solved!")`: `.font(headlineMedium)` → `.appHeadlineMedium()`
+
+### FIX 3 — Body text color token `#3A332D`
+- **`Colors.swift`** — Added `static let bodyText = Color(hex: "#3A332D")`.
+  Per Designs/INDEX.md body copy must never be pure black; `#3A332D` (warm dark brown) is
+  the canonical body color. `appBodyLarge()` / `appBodyMedium()` apply it automatically.
+
+### Build
+- `swift build` ✅ | `swift test` ✅ — 23 engine tests, 0 failures
+- `xcodebuild test -scheme SnugloApp` ✅ — 13 app tests, 0 failures
+
+---
+
 ## [v1.0-B] — Nordic Hearth Theme (2026-05-25)
 
 ### Theme System (B1)
@@ -25,7 +62,7 @@
 
 ### BlockView Rebuilt (B3)
 - **`BlockView.swift`** — Full rebuild: Canvas-based, all Nordic Hearth tokens:
-  - Pastel fill via `AppColors.blockColor(for: piece.id)` (deterministic `hashValue % 6`)
+  - Pastel fill via `AppColors.blockColor(for: piece.id)` (deterministic `FNV-1a % 6`)
   - Corner radius `AppRadius.block` (10 pt) per cell
   - L1 shadow (idle) / L2 shadow (picked-up, scale 1.10×)
   - Inner-top bevel: 0.5 pt white-50% horizontal line when dragging

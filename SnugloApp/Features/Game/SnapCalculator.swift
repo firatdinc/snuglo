@@ -1,44 +1,66 @@
 import CoreGraphics
 import SnugloEngine
 
-/// Drag sırasında bir parçanın hangi grid hücresine snap edeceğini hesaplar.
-/// Pure hesaplama — SwiftUI state'e bağımlılığı yok, doğrudan unit-test edilebilir.
-enum SnapCalculator {
+/// Pure, testable snap-to-grid calculator.
+///
+/// Converts a finger drag position (the floating piece's **center** in the named
+/// coordinate space) into a grid `Coord` for the top-left anchor of the piece.
+///
+/// Extracted from `GameView.calculateSnap` so the coordinate algebra can be unit-tested
+/// without needing a live SwiftUI view hierarchy.
+struct SnapCalculator {
 
-    /// Drag pozisyonundan hedef grid koordinatını hesaplar.
-    ///
-    /// - Parameters:
-    ///   - pos:       Drag lokasyonu (gameLayout coordinate space).
-    ///   - piece:     Sürüklenen parça (cells dizisi lokal offset'leri tutar).
-    ///   - gridFrame: Grid view'ın ekran içindeki CGRect'i.
-    ///   - cellSize:  Tek bir hücrenin piksel boyutu (genişlik == yükseklik).
-    ///   - gridSize:  Griddeki sütun ve satır sayısı (width, height).
-    ///   - buffer:    Grid sınırı dışında kabul edilen tolerans (default 15 pt).
-    /// - Returns:     Snap hedefi `Coord`, ya da parça buffer dışındaysa `nil`.
-    static func snap(
-        at pos: CGPoint,
-        piece: Piece,
+    // MARK: - Configuration
+
+    let gridFrame: CGRect
+    let cellSize: CGFloat
+    let levelWidth: Int
+    let levelHeight: Int
+    /// Allowable over-shoot distance (pt) beyond grid edges before returning nil.
+    let snapBuffer: CGFloat
+
+    // MARK: - Init
+
+    init(
         gridFrame: CGRect,
-        cellSize: CGFloat,
-        gridSize: (width: Int, height: Int),
-        buffer: CGFloat = 15
-    ) -> Coord? {
+        levelWidth: Int,
+        levelHeight: Int,
+        snapBuffer: CGFloat = 15
+    ) {
+        self.gridFrame = gridFrame
+        self.levelWidth = levelWidth
+        self.levelHeight = levelHeight
+        self.snapBuffer = snapBuffer
+        self.cellSize = gridFrame.width > 0
+            ? gridFrame.width / CGFloat(levelWidth)
+            : 56
+    }
+
+    // MARK: - Public
+
+    /// Convert a finger position to a grid `Coord`, or `nil` when outside the grid + buffer.
+    func snap(fingerAt fingerPos: CGPoint, piece: Piece) -> Coord? {
         guard gridFrame.width > 0 else { return nil }
 
         let pieceCols = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1)
         let pieceRows = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1)
 
-        let localX = pos.x - pieceCols * cellSize / 2 - gridFrame.minX
-        let localY = pos.y - pieceRows * cellSize / 2 - gridFrame.minY
+        // Center → top-left in grid-local coordinates
+        let localX = fingerPos.x - pieceCols * cellSize / 2 - gridFrame.minX
+        let localY = fingerPos.y - pieceRows * cellSize / 2 - gridFrame.minY
 
-        guard localX >= -buffer, localY >= -buffer,
-              localX < gridFrame.width  + buffer,
-              localY < gridFrame.height + buffer else { return nil }
+        guard
+            localX >= -snapBuffer,
+            localY >= -snapBuffer,
+            localX < gridFrame.width  + snapBuffer,
+            localY < gridFrame.height + snapBuffer
+        else { return nil }
 
         let col = Int(round(localX / cellSize))
         let row = Int(round(localY / cellSize))
-        let clampedCol = max(0, min(col, gridSize.width  - Int(pieceCols)))
-        let clampedRow = max(0, min(row, gridSize.height - Int(pieceRows)))
+
+        let clampedCol = max(0, min(col, levelWidth  - Int(pieceCols)))
+        let clampedRow = max(0, min(row, levelHeight - Int(pieceRows)))
 
         return Coord(x: clampedCol, y: clampedRow)
     }

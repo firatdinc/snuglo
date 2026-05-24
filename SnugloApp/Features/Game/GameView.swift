@@ -86,12 +86,10 @@ struct GameView: View {
     private var levelHeader: some View {
         VStack(spacing: AppSpacing.xs) {
             Text("Snuglo")
-                .font(AppTypography.headlineLarge)
+                .appHeadlineLarge()
                 .foregroundStyle(AppColors.onSurface)
             Text(viewModel.level.id)
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
+                .appLabelSmall()
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
     }
@@ -100,7 +98,7 @@ struct GameView: View {
     private var solvedBanner: some View {
         if viewModel.isSolved {
             Text("🎉 Solved!")
-                .font(AppTypography.headlineMedium)
+                .appHeadlineMedium()
                 .foregroundStyle(AppColors.onPrimary)
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.vertical, AppSpacing.sm)
@@ -142,13 +140,7 @@ struct GameView: View {
             .onChanged { value in
                 if draggingPiece == nil { draggingPiece = piece }
                 dragPosition = value.location
-                snapCoord = SnapCalculator.snap(
-                    at: value.location,
-                    piece: piece,
-                    gridFrame: gridFrame,
-                    cellSize: cellSize,
-                    gridSize: (width: viewModel.level.width, height: viewModel.level.height)
-                )
+                snapCoord = calculateSnap(at: value.location, for: piece)
             }
             .onEnded { _ in
                 if let coord = snapCoord {
@@ -167,6 +159,17 @@ struct GameView: View {
                     snapCoord    = nil
                 }
             }
+    }
+
+    // MARK: — Snap calculation
+
+    /// Thin wrapper — delegates to `SnapCalculator` (pure, unit-tested separately).
+    private func calculateSnap(at pos: CGPoint, for piece: Piece) -> Coord? {
+        SnapCalculator(
+            gridFrame: gridFrame,
+            levelWidth: viewModel.level.width,
+            levelHeight: viewModel.level.height
+        ).snap(fingerAt: pos, piece: piece)
     }
 
 }
