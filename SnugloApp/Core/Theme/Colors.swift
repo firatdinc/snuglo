@@ -45,6 +45,8 @@ enum AppColors {
     static let onSurface        = Color(hex: "#1C1B1D")
     /// Muted secondary text
     static let onSurfaceVariant = Color(hex: "#49454D")
+    /// Body copy — warm dark brown, NEVER pure black (Designs/INDEX.md)
+    static let bodyText         = Color(hex: "#3A332D")
 
     // MARK: — Outline
 
@@ -89,9 +91,18 @@ enum AppColors {
 
     // MARK: — Helpers
 
-    /// Deterministic, index-stable block color for a piece, keyed by piece ID.
+    /// Deterministic, cross-runtime-stable block color for a piece, keyed by piece ID.
+    /// Uses djb2-style polynomial hash — unlike `String.hashValue`, this is stable
+    /// across processes, OS versions, and Swift runtime updates.
     static func blockColor(for pieceID: String) -> Color {
-        blockPalette[abs(pieceID.hashValue) % blockPalette.count]
+        blockPalette[abs(stableHash(pieceID)) % blockPalette.count]
+    }
+
+    /// djb2-style stable hash: consistent across runtime invocations.
+    /// `String.hashValue` is randomised per-process (Swift SE-0206) and must NOT
+    /// be used for anything that requires persistence or cross-run consistency.
+    private static func stableHash(_ s: String) -> Int {
+        s.utf8.reduce(0) { ($0 &* 31) &+ Int($1) }
     }
 }
 
