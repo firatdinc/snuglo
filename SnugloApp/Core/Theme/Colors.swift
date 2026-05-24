@@ -1,50 +1,102 @@
 import SwiftUI
 
-/// Spec §7 color palette — tek doğruluk kaynağı. Hiçbir View hardcoded hex kullanmaz.
+// MARK: — Nordic Hearth Design System: Colors
+// Source: Designs/INDEX.md (imported 2026-05-25)
+// Block palette: derived from INDEX.md "soft pastels — lavender/sage/peach/blush/cream/dusty olive"
+//   Hex values are hand-tuned to match desaturated Nordic warmth; 6 distinct pastels.
+// Light theme only. Dark mode: TODO Faz H — see BLOCKERS.md [BLOCKER-06].
+// No View should use hard-coded hex values; always reference AppColors.
+
+/// Canonical color tokens for the Nordic Hearth design system.
 enum AppColors {
-    // MARK: - Background / Surface
-    static let background   = Color(hex: "#E37B7B")  // brand coral
-    static let surface      = Color(hex: "#F5F0E8")  // light warm white
 
-    // MARK: - Grid
-    static let gridBackground = Color(hex: "#EAE0D2") // cream board
-    static let gridLines      = Color(hex: "#D5C7B5") // grid cell borders
+    // MARK: — Background / Surface (tonal layering L0 → L4)
 
-    // MARK: - Block colors
-    static let blockPurple  = Color(hex: "#A78BC9")
-    static let blockBlue    = Color(hex: "#7B9DC2")
-    static let blockCoral   = Color(hex: "#D08585")
-    static let blockOrange  = Color(hex: "#E0A865")
-    static let blockGreen   = Color(hex: "#9CC290")
-    static let blockLilac   = Color(hex: "#C8AAD9")
-    // Aliases used in BLOCKER spec
-    static let blockPink    = Color(hex: "#C8AAD9")  // == lilac
-    static let blockTeal    = Color(hex: "#7B9DC2")  // == blue
+    /// L0 — page background, warm off-white paper
+    static let background               = Color(hex: "#FDF8FB")
+    /// L1 — lowest-elevation containers
+    static let surfaceContainerLow      = Color(hex: "#F8F2F5")
+    /// L2 — standard containers (cards, tray)
+    static let surfaceContainer         = Color(hex: "#F2ECF0")
+    /// L3 — elevated containers
+    static let surfaceContainerHigh     = Color(hex: "#ECE7EA")
+    /// L4 — highest-elevation containers
+    static let surfaceContainerHighest  = Color(hex: "#E6E1E4")
 
-    // MARK: - Text
-    static let textPrimary   = Color(hex: "#2A2520")
-    static let textSecondary = Color(hex: "#7A6F66")
+    // MARK: — Primary (Lavender / CTA)
 
-    // MARK: - Semantic
-    static let primary    = Color(hex: "#E37B7B")  // == background/coral
-    static let accent     = Color(hex: "#A78BC9")  // purple
-    static let success    = Color(hex: "#7CA572")
-    static let error      = Color(hex: "#C9554E")  // invalid placement red
-    static let invalidRed = Color(hex: "#C9554E")  // explicit alias
+    static let primary          = Color(hex: "#65587A")
+    static let primaryContainer = Color(hex: "#C5B5DC")
+    static let onPrimary        = Color(hex: "#FFFFFF")
 
-    // MARK: - Block color palette (index-stable)
+    // MARK: — Secondary (Cocoa)
+
+    static let secondary   = Color(hex: "#675C58")
+    static let onSecondary = Color(hex: "#FFFFFF")
+
+    // MARK: — Tertiary (Warm Olive)
+
+    static let tertiary   = Color(hex: "#665F31")
+    static let onTertiary = Color(hex: "#FFFFFF")
+
+    // MARK: — Text / Content
+
+    /// Deep cocoa — primary text, NEVER pure black
+    static let onSurface        = Color(hex: "#1C1B1D")
+    /// Muted secondary text
+    static let onSurfaceVariant = Color(hex: "#49454D")
+
+    // MARK: — Outline
+
+    static let outline        = Color(hex: "#7A757E")
+    static let outlineVariant = Color(hex: "#CBC4CE")
+
+    // MARK: — Error
+
+    static let error   = Color(hex: "#BA1A1A")
+    static let onError = Color(hex: "#FFFFFF")
+
+    // MARK: — Block fills (6 pastels — Nordic Hearth palette)
+
+    static let blockLavender   = Color(hex: "#C5B5DC") // = primaryContainer
+    static let blockSage       = Color(hex: "#B5CDBA") // warm sage green
+    static let blockPeach      = Color(hex: "#EDCDB8") // soft peach / apricot
+    static let blockBlush      = Color(hex: "#E8BAC8") // rose blush
+    static let blockCream      = Color(hex: "#E8DFC5") // warm cream
+    static let blockDustyOlive = Color(hex: "#C5CAA8") // dusty olive
+
+    /// Index-stable palette — DO NOT reorder (deterministic piece coloring).
     static let blockPalette: [Color] = [
-        blockPurple, blockBlue, blockOrange,
-        blockGreen, blockCoral, blockLilac
+        blockLavender, blockSage, blockPeach,
+        blockBlush, blockCream, blockDustyOlive
     ]
 
-    /// Deterministic color assignment per piece ID.
+    // MARK: — Elevation / Shadow
+
+    /// Base tonal shadow color — rgba(58, 51, 45).
+    /// Apply `.opacity(0.06)` for L1 (idle), `.opacity(0.12)` for picked-up state.
+    static let shadowAmbient = Color(red: 58 / 255, green: 51 / 255, blue: 45 / 255)
+
+    // MARK: — Semantic aliases
+
+    static let invalidRed = error      // invalid placement feedback
+    static let success    = primary    // solved state indicator
+
+    // MARK: — GridView aliases
+
+    static let gridBackground = surfaceContainerLow
+    static let gridLines      = outlineVariant
+
+    // MARK: — Helpers
+
+    /// Deterministic, index-stable block color for a piece, keyed by piece ID.
     static func blockColor(for pieceID: String) -> Color {
         blockPalette[abs(pieceID.hashValue) % blockPalette.count]
     }
 }
 
-// MARK: - Hex initializer
+// MARK: — Private hex initializer
+
 private extension Color {
     init(hex: String) {
         let h = hex.trimmingCharacters(in: .init(charactersIn: "#"))

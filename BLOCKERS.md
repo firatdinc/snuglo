@@ -44,7 +44,7 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 - **Faz A — Stabilize:** build+test green, drag-drop offset doğrulama, doc sync
 - **Faz B — Nordic Hearth Tema:** Colors/Typography/Spacing yenile, BlockView sayısal etiket, dark palette
-- **Faz C — Navigation iskelesi:** RootView tab bar, 11 ekran (Splash→Settings), AppRouter
+- **Faz C — Navigation iskeleti:** RootView tab bar, 11 ekran (Splash→Settings), AppRouter
 - **Faz D — Content (240 level):** LevelGenerator, 4 pack × 60 = 240 JSON, DailyPuzzleSeeder
 - **Faz E — Persistence & Stats:** StatsStore (UserDefaults+JSON), MigrationV1, StatsView (Charts)
 - **Faz F — Ses, Haptik, Bildirim:** SoundService (AVAudioPlayer), HapticService, NotificationService
@@ -59,3 +59,24 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 - `feature/DEV-5-execution-plan-oku-v0-2-state-do-rula`: completed, absorbed into main via merge commit `3ec7527`.
 - `feature/DEV-6-v1-0-state-snapshot-brief-absorption`: completed, absorbed into main via merge commit `3ec7527`.
 - `SnugloAppTests/GameViewModelTests.swift` (root-level stale file): references obsolete `Snuglo` module name and old `GameViewModel()` API — NOT in any build target, harmless dead code. Will be cleaned up in Faz I quality gate.
+
+---
+
+## v1.0-B — Nordic Hearth Theme (Faz B)
+
+### [BLOCKER-06] Dark mode renk token'ları — Faz H'de tamamlanacak
+- **Durum:** Faz B'de yalnızca light theme tanımlandı. `AppColors` içinde dark variant yok.
+- **Etki:** Dark Mode sistemi açık olduğunda uygulama light renklerle kalır (görsel uyumsuzluk).
+- **Planlanan:** Faz H — `Colors.swift`'e `Color(light:, dark:)` çiftleri eklenecek VEYA
+  Asset Catalog renk kümesi kullanılacak. Her token için dark hex değeri INDEX.md dark theming
+  bölümünde tanımlanmalı (henüz yok).
+- **Geçici çözüm:** Uygulama `light` appearance'ı zorla tutabilir
+  (`UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .light` — Faz H'e kadar).
+
+### [BLOCKER-07] Custom font bundle dosyaları — Faz H'de tamamlanacak
+- **Durum:** Faz B'de sistem-font fallback'ler kullanıldı (SF Rounded / SF Pro / SF Mono).
+  Plus Jakarta Sans, Be Vietnam Pro, Space Grotesk bundle'a eklenmedi.
+- **Etki:** Tasarım görsel olarak yakın ama birebir eşleşmiyor.
+- **Planlanan:** Faz H — `.ttf` / `.otf` dosyaları `SnugloApp/Resources/Fonts/` altına eklenecek,
+  `Info.plist`'e `UIAppFonts` array kaydedilecek, `Typography.swift` güncellenecek.
+- **Not:** `Typography.swift` başında sistem-font fallback notu ve TODOlar zaten mevcut.
