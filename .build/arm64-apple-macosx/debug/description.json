@@ -1,0 +1,788 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.xctest/Contents/MacOS/SnugloEnginePackageTests",
+      "packagePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1",
+      "productName" : "SnugloEnginePackageTests"
+    }
+  ],
+  "copyCommands" : {
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/levels-placeholder.txt" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Resources/Levels/levels-placeholder.txt"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/levels-placeholder.txt"
+        }
+      ]
+    }
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.SnugloEngine-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/sources",
+      "importPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/LevelLoader.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/SolutionChecker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Coord.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Level.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Piece.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Placement.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/PlacementResult.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<SnugloEngine-arm64-apple-macosx26.0-debug.module-resources>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "SnugloEngine",
+      "moduleOutputPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngine.swiftmodule",
+      "objects" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/LevelLoader.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/SolutionChecker.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Coord.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Level.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Piece.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Placement.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/PlacementResult.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/resource_bundle_accessor.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+        "-module-cache-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/include/SnugloEngine-Swift.h",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "snuglo__ansd1"
+      ],
+      "outputFileMapPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/LevelLoader.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/SolutionChecker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Coord.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Level.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Piece.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Placement.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/PlacementResult.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngine.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/LevelLoader.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/SolutionChecker.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Coord.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Level.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Piece.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Placement.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/PlacementResult.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/DerivedSources/resource_bundle_accessor.swift"
+      ],
+      "tempsPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.SnugloEnginePackageTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/sources",
+      "importPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngineTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "SnugloEnginePackageTests",
+      "moduleOutputPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEnginePackageTests.swiftmodule",
+      "objects" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/include/SnugloEnginePackageTests-Swift.h",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "snuglo__ansd1"
+      ],
+      "outputFileMapPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEnginePackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.SnugloEngineTests-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/sources",
+      "importPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngine.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "SnugloEngineTests",
+      "moduleOutputPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngineTests.swiftmodule",
+      "objects" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "snuglo__ansd1"
+      ],
+      "outputFileMapPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngineTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
+      ],
+      "tempsPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "SnugloEngine" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "SnugloEngine",
+      "-package-name",
+      "snuglo__ansd1",
+      "-c",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/LevelLoader.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/SolutionChecker.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Coord.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Level.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Piece.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Placement.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/PlacementResult.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/DerivedSources/resource_bundle_accessor.swift",
+      "-I",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+      "-module-cache-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/include/SnugloEngine-Swift.h",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "snuglo__ansd1",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "SnugloEnginePackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "SnugloEnginePackageTests",
+      "-package-name",
+      "snuglo__ansd1",
+      "-c",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift",
+      "-I",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/include/SnugloEnginePackageTests-Swift.h",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "snuglo__ansd1",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "SnugloEngineTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "SnugloEngineTests",
+      "-package-name",
+      "snuglo__ansd1",
+      "-c",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift",
+      "-I",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "snuglo__ansd1",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "SnugloEngine" : [
+
+    ],
+    "SnugloEnginePackageTests" : [
+      "SnugloEngineTests",
+      "SnugloEngine"
+    ],
+    "SnugloEngineTests" : [
+      "SnugloEngine"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift" : {
+      "inputs" : [
+
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/LevelLoader.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Engine/SolutionChecker.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Coord.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Level.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Piece.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/Placement.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Models/PlacementResult.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/DerivedSources/resource_bundle_accessor.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/sources"
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/sources"
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Coord.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Level.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/LevelLoader.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Piece.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/Placement.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/PlacementResult.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/SolutionChecker.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine.build/resource_bundle_accessor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEnginePackageTests.product/Objects.LinkFileList"
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/sources"
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+Level JSON dosyaları v0.2 task'ında buraya eklenecek.
+Bu dosya yalnızca Bundle.module üretimi için gereklidir.
