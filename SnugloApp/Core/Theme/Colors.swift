@@ -91,18 +91,17 @@ enum AppColors {
 
     // MARK: — Helpers
 
-    /// Deterministic, cross-runtime-stable block color for a piece, keyed by piece ID.
-    /// Uses djb2-style polynomial hash — unlike `String.hashValue`, this is stable
-    /// across processes, OS versions, and Swift runtime updates.
+    /// Deterministic, index-stable block color for a piece, keyed by piece ID.
+    /// Uses FNV-1a (32-bit) — result is identical across every process launch.
+    /// `String.hashValue` is randomised per-process (Swift SE-0206 / SE-0143) and
+    /// MUST NOT be used for anything that requires cross-run consistency.
     static func blockColor(for pieceID: String) -> Color {
-        blockPalette[abs(stableHash(pieceID)) % blockPalette.count]
-    }
-
-    /// djb2-style stable hash: consistent across runtime invocations.
-    /// `String.hashValue` is randomised per-process (Swift SE-0206) and must NOT
-    /// be used for anything that requires persistence or cross-run consistency.
-    private static func stableHash(_ s: String) -> Int {
-        s.utf8.reduce(0) { ($0 &* 31) &+ Int($1) }
+        var h: UInt32 = 2166136261  // FNV-1a 32-bit offset basis
+        for b in pieceID.utf8 {
+            h ^= UInt32(b)
+            h &*= 16777619           // FNV-1a 32-bit prime (wrapping multiply)
+        }
+        return blockPalette[Int(h % UInt32(blockPalette.count))]
     }
 }
 
