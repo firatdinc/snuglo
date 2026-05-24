@@ -345,6 +345,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerEdgeCaseTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
         },
         {
@@ -365,6 +369,7 @@
       "moduleOutputPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngineTests.swiftmodule",
       "objects" : [
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.swift.o",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.swift.o",
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
       ],
       "otherArguments" : [
@@ -429,6 +434,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
         },
         {
@@ -439,6 +448,7 @@
       "prepareForIndexing" : false,
       "sources" : [
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift",
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerEdgeCaseTests.swift",
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
       ],
       "tempsPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build",
@@ -596,6 +606,7 @@
       "snuglo__ansd1",
       "-c",
       "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerEdgeCaseTests.swift",
       "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift",
       "-I",
       "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
@@ -794,6 +805,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
         }
       ],
@@ -809,6 +824,10 @@
         {
           "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerEdgeCaseTests.swift"
         },
         {
           "kind" : "file",

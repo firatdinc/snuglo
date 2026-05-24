@@ -9,6 +9,13 @@
     "swift-dependencies": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.swiftdeps",
     "diagnostics": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.dia"
   },
+  "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerEdgeCaseTests.swift": {
+    "dependencies": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.d",
+    "object": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.swift.o",
+    "swiftmodule": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.swiftdeps",
+    "diagnostics": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerEdgeCaseTests.dia"
+  },
   "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift": {
     "dependencies": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.d",
     "object": "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o",
