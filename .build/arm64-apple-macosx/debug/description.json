@@ -7,17 +7,45 @@
     }
   ],
   "copyCommands" : {
-    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/levels-placeholder.txt" : {
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_5x5.json" : {
       "inputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Resources/Levels/levels-placeholder.txt"
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Resources/Levels/level_5x5.json"
         }
       ],
       "outputs" : [
         {
           "kind" : "file",
-          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/levels-placeholder.txt"
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_5x5.json"
+        }
+      ]
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_6x6.json" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Resources/Levels/level_6x6.json"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_6x6.json"
+        }
+      ]
+    },
+    "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_7x7.json" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Sources/SnugloEngine/Resources/Levels/level_7x7.json"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngine_SnugloEngine.bundle/level_7x7.json"
         }
       ]
     }
@@ -313,6 +341,10 @@
       "inputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
         },
         {
@@ -332,6 +364,7 @@
       "moduleName" : "SnugloEngineTests",
       "moduleOutputPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules/SnugloEngineTests.swiftmodule",
       "objects" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.swift.o",
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
       ],
       "otherArguments" : [
@@ -392,6 +425,10 @@
       "outputs" : [
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
         },
         {
@@ -401,6 +438,7 @@
       ],
       "prepareForIndexing" : false,
       "sources" : [
+        "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift",
         "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift"
       ],
       "tempsPath" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build",
@@ -557,6 +595,7 @@
       "-package-name",
       "snuglo__ansd1",
       "-c",
+      "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift",
       "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/SolutionCheckerSanityTests.swift",
       "-I",
       "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/Modules",
@@ -751,6 +790,10 @@
         },
         {
           "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/LevelLoaderTests.swift.o"
+        },
+        {
+          "kind" : "file",
           "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/.build/arm64-apple-macosx/debug/SnugloEngineTests.build/SolutionCheckerSanityTests.swift.o"
         }
       ],
@@ -762,6 +805,10 @@
         {
           "kind" : "virtual",
           "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/firatdinc/developer/agent-board-workspaces/snuglo--AnsD1/Tests/SnugloEngineTests/LevelLoaderTests.swift"
         },
         {
           "kind" : "file",
