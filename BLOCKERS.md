@@ -8,7 +8,6 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 Aşağıdaki maddeler v1.0.0 scope'u dışında bırakılmış; v1.1'de ele alınacak:
 
-- XCUITest target setup (defer to CI bootstrap)
 - Real app icon art (1024×1024 + variants)
 - Real audio assets (5 SFX wav + bgm_cozy.mp3)
 - Real AdMob SDK integration (replace placeholder)

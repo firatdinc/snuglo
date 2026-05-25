@@ -45,12 +45,11 @@ swift test
 ```
 
 ## CI
-CI: planned for v1.1 (no GitHub Actions workflow committed in v1.0.0).
+GitHub Actions workflow (`.github/workflows/ci.yml`) ships with v1.0.0 — macOS-15 runner, `swiftlint --strict` + `swift test` + `xcodebuild build`.
 
 ## Roadmap
 v1.0 ships as a complete cozy puzzle. Future versions:
 - v1.1 — Real AdMob integration (replace placeholder)
-- v1.1 — XCUITest target + smoke suite
 - v1.1 — Final audio asset delivery
 - v1.1 — Final app icon art
 - v1.2 — More packs, daily streak rewards

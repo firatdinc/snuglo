@@ -152,6 +152,8 @@ struct PackDetailView: View {
         // H-2: descriptive label per tile
         .accessibilityLabel(levelTileA11yLabel(level))
         .accessibilityHint(level.isLocked ? "" : "Tap to play this level")
+        // Faz I-2: XCUITest identifier — level.index is 1-based; convert to 0-based for test addressing
+        .accessibilityIdentifier("packdetail.level_item.\(level.index - 1)")
     }
 
     /// H-2: "Level 12, 3 stars, completed" / "Level 5, in progress" / "Level 8, locked"

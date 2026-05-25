@@ -3,16 +3,16 @@ import SwiftUI
 // MARK: — PauseSheet (H-1: Localized)
 // Ref: Designs/html/07-pause-overlay.html
 // Sheet content — dimmed overlay with Resume/Restart/Quit buttons.
-// Faz F: Sound + Haptics inline toggles bound to AudioManager + HapticsManager singletons.
-//        Changes take effect immediately and persist via UserDefaults.
+// Toggles write to the same @AppStorage keys as SettingsView/SoundService/HapticService
+// so changes take effect immediately and are read by in-game playback.
 
 struct PauseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    // Faz F: @Bindable → @Observable singleton managers
-    @Bindable private var audio   = AudioManager.shared
-    @Bindable private var haptics = HapticsManager.shared
+    // Must match keys read by SoundService ("sfxEnabled") and HapticService ("hapticsEnabled").
+    @AppStorage("sfxEnabled")     private var sfxEnabled     = true
+    @AppStorage("hapticsEnabled") private var hapticsEnabled = true
 
     var onResume: () -> Void  = {}
     var onRestart: () -> Void = {}
@@ -98,8 +98,8 @@ struct PauseSheet: View {
             // Bound to the same singletons as SettingsView — changes are
             // instantly reflected everywhere and persisted to UserDefaults.
             HStack(spacing: AppSpacing.xl) {
-                togglePill(labelKey: "pause.sound", isOn: $audio.soundEnabled, icon: "speaker.wave.2.fill")
-                togglePill(labelKey: "pause.haptics", isOn: $haptics.enabled, icon: "hand.tap.fill")
+                togglePill(labelKey: "pause.sound", isOn: $sfxEnabled, icon: "speaker.wave.2.fill")
+                togglePill(labelKey: "pause.haptics", isOn: $hapticsEnabled, icon: "hand.tap.fill")
             }
 
             Spacer(minLength: 0)

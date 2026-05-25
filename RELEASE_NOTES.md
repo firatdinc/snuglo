@@ -16,15 +16,15 @@ First production-ready release of Snuglo.
 - Localizations: English, Türkçe, Español
 
 ## Quality
-- 66 unit tests across engine + app
+- 55 unit tests across engine + app
+- XCUITest smoke suite (5 tests) shipped
 - SwiftLint clean (0 warnings, strict)
 - Accessibility: VoiceOver labels on all interactive elements; Dynamic Type support; Reduce Motion guards on celebratory animations
 
 ## Known limitations (v1.1 targets)
 - AdMob integration uses a placeholder presenter — real Google Mobile Ads SDK swap-in is pre-launch
 - App icon is a placeholder — final art-2d delivery pending
-- Audio asset bundle is empty — sound-designer delivery pending; AudioManager no-ops gracefully
-- XCUITest target not yet committed — UI smoke runs in CI prep
+- Audio asset bundle is empty — sound-designer delivery pending; SoundService no-ops gracefully
 - Personalized ads consent uses ATTrackingManager; production needs final NSUserTrackingUsageDescription copy review
 
 ## Compatibility

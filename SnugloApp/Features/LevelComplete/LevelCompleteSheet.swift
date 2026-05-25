@@ -104,6 +104,8 @@ struct LevelCompleteSheet: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, AppSpacing.lg)
                     .accessibilityHint("Proceeds to the next level")
+                    // Faz I-2: XCUITest identifier
+                    .accessibilityIdentifier("complete.next")
 
                     HStack(spacing: AppSpacing.sm) {
                         Button {
@@ -122,6 +124,8 @@ struct LevelCompleteSheet: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityHint("Restarts this same level")
+                        // Faz I-2: XCUITest identifier
+                        .accessibilityIdentifier("complete.continue")
 
                         Button {
                             dismiss()
