@@ -2,6 +2,23 @@
 
 ---
 
+## [v1.0.0] - 2026-05-25
+### Release
+Production-ready cozy block-logic puzzle game.
+Aggregates phases A through J:
+- Faz A: Stabilization (SnapCalculator refactor, build green)
+- Faz B: Nordic Hearth theme tokens + BlockView
+- Faz C: 11 SwiftUI screens + AppRouter NavigationStack
+- Faz D: 240 deterministic levels + Daily Puzzle
+- Faz E: ProgressStore persistence + Stats real data
+- Faz F: AudioManager + HapticsManager + NotificationScheduler
+- Faz G: StoreKit 2 (5 SKU) + Ads placeholder with frequency cap
+- Faz H: Localization (en/tr/es) + Dark mode + Launch screen + App icon
+- Faz I: SwiftLint clean + accessibility groundwork
+- Faz J: Documentation + v1.0.0 release tag
+
+---
+
 ## [v1.0-I1] — SwiftLint 0 Warning (2026-05-25)
 
 ### SwiftLint Configuration (I1-1)
