@@ -1,5 +1,6 @@
 import SwiftUI
 import AppTrackingTransparency
+import UserNotifications
 
 // MARK: — SettingsView (H-1: Localized)
 // Ref: Designs/html/11-settings.html
@@ -33,12 +34,24 @@ struct SettingsView: View {
             set: { newValue in
                 if newValue {
                     Task { @MainActor in
+                        // v1.1 bug fix: check authorization result before enabling.
+                        // Previously, dailyReminderEnabled=true was set unconditionally
+                        // even when the user denied permission (showNotifDeniedAlert was
+                        // never triggered). Now we inspect the current status after request.
                         await NotificationService.shared.requestAuthorization()
-                        dailyReminderEnabled = true
-                        NotificationService.shared.reschedule(
-                            enabled: true,
-                            at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
-                        )
+                        let center = UNUserNotificationCenter.current()
+                        let settings = await center.notificationSettings()
+                        if settings.authorizationStatus == .authorized
+                            || settings.authorizationStatus == .provisional {
+                            dailyReminderEnabled = true
+                            NotificationService.shared.reschedule(
+                                enabled: true,
+                                at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
+                            )
+                        } else {
+                            dailyReminderEnabled = false
+                            showNotifDeniedAlert = true
+                        }
                     }
                 } else {
                     dailyReminderEnabled = false
@@ -254,7 +267,7 @@ struct SettingsView: View {
                         .foregroundStyle(AppColors.onSurface)
                     Spacer()
                     Text(verbatim: appVersion)
-                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .font(AppTypography.numericSmall)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
             } header: {
