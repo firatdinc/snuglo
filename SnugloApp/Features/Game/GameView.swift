@@ -2,15 +2,20 @@ import SwiftUI
 import SnugloEngine
 
 // MARK: — GameView
-// Main game screen — loads level_5x5, shows grid + tray, handles drag-drop + snap.
+// Ref: Designs/html/06-game-play.html
+// Active level screen — loads puzzle by levelId, HUD with back/pause/timer,
+// drag-drop tray at bottom, pause sheet, level-complete cover.
 //
-// Faz B palette (Nordic Hearth):
-//   Background:  AppColors.background    (#FDF8FB warm off-white)
-//   Tray area:   AppColors.surfaceContainerHigh
-//   HUD text:    AppColors.onSurface / onSurfaceVariant
-//   Solved CTA:  AppColors.primary (lavender)
+// Faz B palette (Nordic Hearth) preserved. Faz C adds: levelId param, HUD buttons,
+// pause sheet integration, level-complete cover.
 
 struct GameView: View {
+
+    // MARK: — Dependencies
+
+    @Environment(AppRouter.self) private var router
+    /// Level identifier passed from navigation. "daily" → daily puzzle.
+    var levelId: String = "level_5x5"
 
     // MARK: — ViewModel
 
@@ -18,10 +23,17 @@ struct GameView: View {
 
     // MARK: — Drag state
 
-    @State private var draggingPiece: Piece? = nil
-    @State private var dragPosition: CGPoint = .zero
-    @State private var snapCoord: Coord? = nil
-    @State private var gridFrame: CGRect = .zero
+    @State private var draggingPiece: Piece?    = nil
+    @State private var dragPosition: CGPoint    = .zero
+    @State private var snapCoord: Coord?        = nil
+    @State private var gridFrame: CGRect        = .zero
+
+    // MARK: — UI state
+
+    @State private var showPause         = false
+    @State private var showComplete      = false
+    @State private var elapsedSeconds    = 0
+    @State private var timerTask: Task<Void, Never>? = nil
 
     private var cellSize: CGFloat {
         guard gridFrame.width > 0 else { return 56 }
@@ -52,13 +64,41 @@ struct GameView: View {
         }
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
+        .navigationBarHidden(true)
+        .sheet(isPresented: $showPause) {
+            PauseSheet(
+                elapsedSeconds: elapsedSeconds,
+                onResume: { startTimer() },
+                onRestart: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() },
+                onQuit: { router.pop() }
+            )
+            .environment(router)
+        }
+        .fullScreenCover(isPresented: $showComplete) {
+            LevelCompleteSheet(
+                stars: 3,
+                elapsedSeconds: elapsedSeconds,
+                hintsUsed: 0,
+                onNext: { router.pop() },
+                onReplay: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() }
+            )
+            .environment(router)
+        }
+        .onAppear { startTimer() }
+        .onDisappear { timerTask?.cancel() }
+        .onChange(of: viewModel.isSolved) { _, solved in
+            if solved {
+                timerTask?.cancel()
+                showComplete = true
+            }
+        }
     }
 
     // MARK: — Main layout
 
     private var mainLayout: some View {
         VStack(spacing: AppSpacing.md) {
-            levelHeader
+            gameHUD
 
             GridView(
                 level: viewModel.level,
@@ -74,42 +114,54 @@ struct GameView: View {
                 gridFrame = frame
             }
 
-            solvedBanner
             Spacer(minLength: 0)
             trayView
         }
         .padding(.vertical, AppSpacing.lg)
     }
 
-    // MARK: — Sub-views
+    // MARK: — HUD
 
-    private var levelHeader: some View {
-        VStack(spacing: AppSpacing.xs) {
-            Text("Snuglo")
-                .font(AppTypography.headlineLarge)
-                .foregroundStyle(AppColors.onSurface)
-            Text(viewModel.level.id)
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
-                .foregroundStyle(AppColors.onSurfaceVariant)
+    private var gameHUD: some View {
+        HStack {
+            // Back
+            Button { router.pop() } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .frame(width: 40, height: 40)
+                    .background(AppColors.surfaceContainerLow, in: Circle())
+            }
+            .buttonStyle(.plain)
+
+            Spacer()
+
+            // Level title
+            VStack(spacing: 2) {
+                Text(levelDisplayName)
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Text(formattedTimer)
+                    .font(.system(size: 14, weight: .medium, design: .monospaced))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
+
+            Spacer()
+
+            // Pause
+            Button { pauseGame() } label: {
+                Image(systemName: "pause.fill")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .frame(width: 40, height: 40)
+                    .background(AppColors.surfaceContainerLow, in: Circle())
+            }
+            .buttonStyle(.plain)
         }
+        .padding(.horizontal, AppSpacing.lg)
     }
 
-    @ViewBuilder
-    private var solvedBanner: some View {
-        if viewModel.isSolved {
-            Text("🎉 Solved!")
-                .font(AppTypography.headlineMedium)
-                .foregroundStyle(AppColors.onPrimary)
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.vertical, AppSpacing.sm)
-                .background(AppColors.primary)
-                .clipShape(RoundedRectangle(cornerRadius: AppRadius.button))
-                .shadowL1()
-                .transition(.scale(scale: 0.85).combined(with: .opacity))
-        }
-    }
+    // MARK: — Tray
 
     private var trayView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -164,15 +216,49 @@ struct GameView: View {
                 }
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
                     draggingPiece = nil
-                    snapCoord    = nil
+                    snapCoord     = nil
                 }
             }
     }
 
+    // MARK: — Timer
+
+    private func startTimer() {
+        timerTask?.cancel()
+        timerTask = Task { @MainActor in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                guard !Task.isCancelled else { break }
+                elapsedSeconds += 1
+            }
+        }
+    }
+
+    private func pauseGame() {
+        timerTask?.cancel()
+        showPause = true
+    }
+
+    // MARK: — Helpers
+
+    private var formattedTimer: String {
+        let m = elapsedSeconds / 60
+        let s = elapsedSeconds % 60
+        return String(format: "%02d:%02d", m, s)
+    }
+
+    private var levelDisplayName: String {
+        if levelId == "daily" { return "Daily Puzzle" }
+        let parts = levelId.split(separator: "-")
+        return parts.last.map(String.init) ?? levelId
+    }
 }
 
 // MARK: — Preview
 
 #Preview {
-    GameView()
+    NavigationStack {
+        GameView(levelId: "cozy-beginnings-1")
+    }
+    .environment(AppRouter())
 }

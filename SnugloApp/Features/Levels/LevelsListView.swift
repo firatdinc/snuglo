@@ -2,26 +2,7 @@ import SwiftUI
 
 // MARK: — LevelsListView
 // Ref: Designs/html/04-levels-list.html
-// LEVELS tab content — pack cards with name, grid size badge, icon, progress.
-
-private struct LevelPack: Identifiable {
-    let id:       String
-    let name:     String
-    let gridSize: String
-    let icon:     String
-    let solved:   Int
-    let total:    Int
-    let accent:   Color
-}
-
-private let mockPacks: [LevelPack] = [
-    .init(id: "cozy",   name: "Cozy Beginnings",  gridSize: "5×5",
-          icon: "leaf.fill",           solved: 18, total: 30, accent: AppColors.primaryContainer),
-    .init(id: "spice",  name: "Spice Route",       gridSize: "6×6",
-          icon: "cup.and.saucer.fill", solved: 4,  total: 30, accent: AppColors.secondaryContainer),
-    .init(id: "nordic", name: "Nordic Hearth",      gridSize: "7×7",
-          icon: "snowflake",           solved: 0,  total: 30, accent: AppColors.tertiaryContainer)
-]
+// LEVELS tab — 4 pack cards from MockData, locked ones grayscale.
 
 struct LevelsListView: View {
 
@@ -30,7 +11,7 @@ struct LevelsListView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
-                // Header
+                // — Header —
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
                     Text("Levels")
                         .font(AppTypography.headlineLarge)
@@ -42,7 +23,7 @@ struct LevelsListView: View {
                 }
 
                 VStack(spacing: AppSpacing.md) {
-                    ForEach(mockPacks) { pack in
+                    ForEach(MockData.allPacks) { pack in
                         packCard(pack)
                     }
                 }
@@ -76,18 +57,26 @@ struct LevelsListView: View {
 
     // MARK: — Pack card
 
-    private func packCard(_ pack: LevelPack) -> some View {
+    private func packCard(_ pack: Pack) -> some View {
         Button {
-            router.push(.packDetail(packName: pack.name))
+            guard !pack.isLocked else { return }
+            router.push(.packDetail(packName: pack.title))
         } label: {
             VStack(alignment: .leading, spacing: AppSpacing.md) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                        Text(pack.name)
-                            .font(AppTypography.headlineSmall)
-                            .foregroundStyle(AppColors.onSurface)
+                        HStack(spacing: AppSpacing.sm) {
+                            Text(pack.title)
+                                .font(AppTypography.headlineSmall)
+                                .foregroundStyle(AppColors.onSurface)
+                            if pack.isLocked {
+                                Image(systemName: "lock.fill")
+                                    .font(.system(size: 12))
+                                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
+                            }
+                        }
 
-                        Label(pack.gridSize, systemImage: "square.grid.2x2")
+                        Label(pack.subtitle, systemImage: "square.grid.2x2")
                             .font(AppTypography.labelSmall)
                             .tracking(0.6)
                             .foregroundStyle(AppColors.onSurfaceVariant)
@@ -103,13 +92,15 @@ struct LevelsListView: View {
 
                     ZStack {
                         RoundedRectangle(cornerRadius: AppRadius.block, style: .continuous)
-                            .fill(pack.accent)
+                            .fill(pack.accentColor)
                             .frame(width: 48, height: 48)
-                        Image(systemName: pack.icon)
+                        Image(systemName: pack.iconName)
                             .font(.system(size: 22))
                             .foregroundStyle(AppColors.primary)
                     }
                     .shadowL1()
+                    .opacity(pack.isLocked ? 0.4 : 1.0)
+                    .grayscale(pack.isLocked ? 0.7 : 0)
                 }
 
                 // Progress
@@ -121,10 +112,10 @@ struct LevelsListView: View {
                             .foregroundStyle(AppColors.onSurfaceVariant)
                         Spacer()
                         (
-                            Text("\(pack.solved)")
+                            Text("\(pack.completedCount)")
                                 .font(AppTypography.numericLabel)
-                                .foregroundStyle(AppColors.primary)
-                            + Text("/\(pack.total)")
+                                .foregroundStyle(pack.isLocked ? AppColors.onSurfaceVariant : AppColors.primary)
+                            + Text("/\(pack.levelCount)")
                                 .font(AppTypography.bodyMedium)
                                 .foregroundStyle(AppColors.onSurfaceVariant)
                         )
@@ -133,11 +124,11 @@ struct LevelsListView: View {
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
                             Capsule().fill(AppColors.surfaceContainer)
-                            let frac = pack.total > 0
-                                ? CGFloat(pack.solved) / CGFloat(pack.total)
+                            let frac: CGFloat = pack.levelCount > 0
+                                ? CGFloat(pack.completedCount) / CGFloat(pack.levelCount)
                                 : 0
                             Capsule()
-                                .fill(AppColors.primary)
+                                .fill(pack.isLocked ? AppColors.outlineVariant : AppColors.primary)
                                 .frame(width: geo.size.width * frac)
                         }
                     }
@@ -149,12 +140,15 @@ struct LevelsListView: View {
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                    .stroke(.white.opacity(0.5), lineWidth: 1)
+                    .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
             }
             .shadowL1()
+            .grayscale(pack.isLocked ? 0.4 : 0)
+            .opacity(pack.isLocked ? 0.7 : 1.0)
         }
         .buttonStyle(.plain)
         .contentShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .disabled(pack.isLocked)
     }
 }
 

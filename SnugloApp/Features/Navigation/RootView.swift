@@ -1,11 +1,10 @@
 import SwiftUI
 
 // MARK: — RootView
-// Faz C — Navigation Skeleton
-//
+// Faz C — Navigation skeleton
 // Single NavigationStack rooted at SplashView.
-// All destinations registered here via .navigationDestination.
-// The bottom tab-bar lives inside MainMenuView (native TabView).
+// All route destinations registered here.
+// Bottom tab-bar lives inside MainMenuView (native TabView).
 
 struct RootView: View {
 
@@ -31,8 +30,8 @@ struct RootView: View {
         case .mainMenu:
             MainMenuView()
                 .navigationBarBackButtonHidden()
-        case .game:
-            GameView()
+        case .game(let levelID):
+            GameView(levelId: levelID)
                 .navigationBarBackButtonHidden()
         case .packDetail(let packName):
             PackDetailView(packName: packName)
