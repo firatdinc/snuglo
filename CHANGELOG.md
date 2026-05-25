@@ -2,6 +2,40 @@
 
 ---
 
+## [v1.0-H1] — Localization TR/EN/ES (2026-05-25)
+
+### Resources/Localization (H1-1 — .lproj strings)
+- **`SnugloApp/Resources/en.lproj/Localizable.strings`** *(new)* — 112 keys, English (dev locale).
+- **`SnugloApp/Resources/tr.lproj/Localizable.strings`** *(new)* — 112 keys, Turkish.
+- **`SnugloApp/Resources/es.lproj/Localizable.strings`** *(new)* — 112 keys, Spanish.
+- **`SnugloApp/Resources/en.lproj/InfoPlist.strings`** *(new)* — `CFBundleDisplayName`, `NSUserTrackingUsageDescription` (EN).
+- **`SnugloApp/Resources/tr.lproj/InfoPlist.strings`** *(new)* — `NSUserTrackingUsageDescription` (TR).
+- **`SnugloApp/Resources/es.lproj/InfoPlist.strings`** *(new)* — `NSUserTrackingUsageDescription` (ES).
+- Key namespaces: `common.*`, `app.*`, `onboarding.*`, `menu.*`, `tab.*`, `levels.*`, `pack.*`, `pause.*`, `complete.*`, `stats.*`, `shop.*`, `sku.*`, `settings.*`, `notif.*`, `alert.*`.
+
+### SwiftUI Views (H1-2 — LocalizedStringKey)
+- **`BottomTabBar.swift`** — `TabItem.label: String` → `labelKey: LocalizedStringKey`; tab keys: `tab.play` / `tab.levels` / `tab.stats` / `tab.shop`.
+- **`OnboardingView.swift`** — Page `headline`/`body` as `LocalizedStringKey`; Skip/Next/Get Started buttons localized.
+- **`MainMenuView.swift`** — Wordmark, daily puzzle card, continue section; dynamic data (`verbatim:`).
+- **`LevelsListView.swift`** — Locked-pack alert, header, progress labels fully localized.
+- **`PauseSheet.swift`** — `togglePill(label:)` → `togglePill(labelKey:)`; Paused/Resume/Restart/Home text.
+- **`LevelCompleteSheet.swift`** — `statCell(label:)` → `statCell(labelKey:)`; all button/stat labels.
+- **`StatsView.swift`** — `kpiCard`/`legendDot`/`legendRow` helpers → `LocalizedStringKey`; streak subtitle via `NSLocalizedString`.
+- **`ShopView.swift`** — `sectionTitle(_:)` → `LocalizedStringKey`; all section/button/badge text.
+- **`SettingsView.swift`** — All helpers → `LocalizedStringKey`; all literal strings → `settings.*` / `notif.*` keys.
+
+### Settings (H1-3 — Language Picker)
+- **`SnugloApp/Features/Settings/SettingsView.swift`** — New **Language** section (between Notifications and Privacy).
+  - `@AppStorage("snuglo.language.override")` stores `"system"` | `"en"` | `"tr"` | `"es"`.
+  - `Picker` with four tags; `onChange` writes `["lang"]` to `UserDefaults.standard["AppleLanguages"]`.
+  - `"system"` tag removes the key entirely (device locale restored).
+  - `showLanguageRestartAlert` (.alert) informs user that restart is required.
+
+### Project Config (H1-4)
+- **`SnugloApp/project.yml`** — `options.developmentLanguage: en`; `INFOPLIST_KEY_CFBundleDevelopmentRegion: en`; `INFOPLIST_KEY_CFBundleLocalizations: "en tr es"`.
+
+---
+
 ## [v1.0-G2] — Ads Placeholder + Frequency Cap (2026-05-25)
 
 ### Core/Ads (G2-1 — AdsManager)
