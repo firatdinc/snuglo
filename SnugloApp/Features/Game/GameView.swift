@@ -26,9 +26,9 @@ struct GameView: View {
 
     // MARK: — Drag state
 
-    @State private var draggingPiece: Piece?    = nil
+    @State private var draggingPiece: Piece?
     @State private var dragPosition: CGPoint    = .zero
-    @State private var snapCoord: Coord?        = nil
+    @State private var snapCoord: Coord?
     @State private var gridFrame: CGRect        = .zero
 
     // MARK: — UI state
@@ -36,7 +36,7 @@ struct GameView: View {
     @State private var showPause         = false
     @State private var showComplete      = false
     @State private var elapsedSeconds    = 0
-    @State private var timerTask: Task<Void, Never>? = nil
+    @State private var timerTask: Task<Void, Never>?
 
     private var cellSize: CGFloat {
         guard gridFrame.width > 0 else { return 56 }

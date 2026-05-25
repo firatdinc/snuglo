@@ -17,7 +17,7 @@ enum AppColors {
     /// L0 — page background, warm off-white paper
     static let background               = Color(light: "#FDF8FB", dark: "#1B1A1D")
     /// Pure white (light) / deepest surface (dark)
-    static let surfaceContainerLowest   = Color(light: "#FFFFFF",  dark: "#141316")
+    static let surfaceContainerLowest   = Color(light: "#FFFFFF", dark: "#141316")
     /// L1 — lowest-elevation containers
     static let surfaceContainerLow      = Color(light: "#F8F2F5", dark: "#252428")
     /// L2 — standard containers (cards, tray)
@@ -31,20 +31,20 @@ enum AppColors {
 
     static let primary              = Color(light: "#65587A", dark: "#C5B5DC")
     static let primaryContainer     = Color(light: "#C5B5DC", dark: "#3F3654")
-    static let onPrimary            = Color(light: "#FFFFFF",  dark: "#1B0F2E")
+    static let onPrimary            = Color(light: "#FFFFFF", dark: "#1B0F2E")
     static let onPrimaryContainer   = Color(light: "#524566", dark: "#C5B5DC")
 
     // MARK: — Secondary (Cocoa)
 
     static let secondary                = Color(light: "#675C58", dark: "#D3C5BF")
-    static let onSecondary              = Color(light: "#FFFFFF",  dark: "#411E17")
+    static let onSecondary              = Color(light: "#FFFFFF", dark: "#411E17")
     static let secondaryContainer       = Color(light: "#EBDDD7", dark: "#5D4037")
     static let onSecondaryContainer     = Color(light: "#6B605C", dark: "#D3C5BF")
 
     // MARK: — Tertiary (Warm Olive)
 
     static let tertiary                 = Color(light: "#665F31", dark: "#D0C68C")
-    static let onTertiary               = Color(light: "#FFFFFF",  dark: "#343100")
+    static let onTertiary               = Color(light: "#FFFFFF", dark: "#343100")
     static let tertiaryContainer        = Color(light: "#C6BD86", dark: "#4C4900")
     static let onTertiaryContainer      = Color(light: "#524C20", dark: "#D0C68C")
 
@@ -63,7 +63,7 @@ enum AppColors {
     // MARK: — Error
 
     static let error          = Color(light: "#BA1A1A", dark: "#FFB4AB")
-    static let onError        = Color(light: "#FFFFFF",  dark: "#690005")
+    static let onError        = Color(light: "#FFFFFF", dark: "#690005")
     static let errorContainer = Color(light: "#FFDAD6", dark: "#93000A")
 
     // MARK: — Surface Variant (alias for surfaceContainerHighest)

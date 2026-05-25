@@ -25,7 +25,7 @@ final class LevelGeneratorTests: XCTestCase {
     /// Farklı packId → farklı Level.
     func testDifferentPackIdProducesDifferentLevel() {
         let a = gen.generate(packId: "pack-alpha", levelIndex: 1, gridSize: 5)
-        let b = gen.generate(packId: "pack-beta",  levelIndex: 1, gridSize: 5)
+        let b = gen.generate(packId: "pack-beta", levelIndex: 1, gridSize: 5)
         XCTAssertNotEqual(a, b)
     }
 
@@ -164,19 +164,19 @@ final class LevelGeneratorTests: XCTestCase {
 
     func testDifficultyCurveValues() {
         // 5×5
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 1),  4)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 1), 4)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 20), 4)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 21), 5)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 60), 5)
         // 6×6
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 1),  5)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 1), 5)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 21), 6)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 41), 7)
         // 7×7
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 7, levelIndex: 1),  6)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 7, levelIndex: 1), 6)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 7, levelIndex: 41), 8)
         // 8×8
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 1),  8)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 1), 8)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 21), 10)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 41), 12)
     }

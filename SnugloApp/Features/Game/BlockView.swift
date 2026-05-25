@@ -27,7 +27,7 @@ struct BlockView: View {
 
     // MARK: — Layout geometry
 
-    private var pieceWidth: Int  { (piece.cells.map(\.x).max() ?? 0) + 1 }
+    private var pieceWidth: Int { (piece.cells.map(\.x).max() ?? 0) + 1 }
     private var pieceHeight: Int { (piece.cells.map(\.y).max() ?? 0) + 1 }
 
     // MARK: — Color
@@ -46,7 +46,7 @@ struct BlockView: View {
             renderCellCountLabel(in: context)
         }
         .frame(
-            width:  CGFloat(pieceWidth)  * cellSize,
+            width: CGFloat(pieceWidth)  * cellSize,
             height: CGFloat(pieceHeight) * cellSize
         )
         // H-2: Reduce Motion — skip scale animation; keep scale value for dragging state
@@ -110,7 +110,7 @@ struct BlockView: View {
                 .foregroundStyle(AppColors.onSurface)
         )
         let labelSize = label.measure(in: CGSize(
-            width:  CGFloat(pieceWidth)  * cellSize,
+            width: CGFloat(pieceWidth)  * cellSize,
             height: CGFloat(pieceHeight) * cellSize
         ))
         context.draw(
@@ -133,7 +133,7 @@ struct BlockView: View {
     return VStack(spacing: 24) {
         BlockView(piece: piece, cellSize: 56, isInvalid: false, isDragging: false)
         BlockView(piece: piece, cellSize: 56, isInvalid: false, isDragging: true)
-        BlockView(piece: piece, cellSize: 56, isInvalid: true,  isDragging: false)
+        BlockView(piece: piece, cellSize: 56, isInvalid: true, isDragging: false)
     }
     .padding(32)
     .background(AppColors.background)

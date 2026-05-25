@@ -158,7 +158,7 @@ final class GameViewModel {
     ///   8×8 → 120 s  |  3 stars: ≤120s 2: ≤240s 1: else
     static func computeStars(seconds: TimeInterval, gridSize: Int) -> Int {
         let base = Double(max(gridSize - 4, 1)) * 30.0   // 30, 60, 90, 120 for 5-8
-        if seconds <= base       { return 3 }
+        if seconds <= base { return 3 }
         if seconds <= base * 2.0 { return 2 }
         return 1
     }

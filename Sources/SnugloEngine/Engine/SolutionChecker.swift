@@ -69,10 +69,8 @@ public struct SolutionChecker: Sendable {
         // ── 5. Kapsama kontrolü ──────────────────────────────────────────────
         var missing: [Coord] = []
         for y in 0..<level.height {
-            for x in 0..<level.width {
-                if !grid[y][x] {
-                    missing.append(Coord(x: x, y: y))
-                }
+            for x in 0..<level.width where !grid[y][x] {
+                missing.append(Coord(x: x, y: y))
             }
         }
 

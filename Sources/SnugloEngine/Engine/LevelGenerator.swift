@@ -63,7 +63,7 @@ public struct LevelGenerator {
 
             // Normalize: origin-relative, satır önce sıralı
             let cells = region
-                .map  { Coord(x: $0.x - minX, y: $0.y - minY) }
+                .map { Coord(x: $0.x - minX, y: $0.y - minY) }
                 .sorted { $0.y != $1.y ? $0.y < $1.y : $0.x < $1.x }
 
             let pieceId = "\(packId)-\(levelIndex)-p\(i)"
@@ -72,10 +72,10 @@ public struct LevelGenerator {
         }
 
         return Level(
-            id:       "\(packId)-\(levelIndex)",
-            width:    gridSize,
-            height:   gridSize,
-            pieces:   pieces,
+            id: "\(packId)-\(levelIndex)",
+            width: gridSize,
+            height: gridSize,
+            pieces: pieces,
             solution: solution
         )
     }
@@ -216,9 +216,9 @@ public struct LevelGenerator {
         let y = cellIdx / size
         var result = [Int]()
         result.reserveCapacity(4)
-        if x > 0        { result.append(y * size + x - 1) }
+        if x > 0 { result.append(y * size + x - 1) }
         if x < size - 1 { result.append(y * size + x + 1) }
-        if y > 0        { result.append((y - 1) * size + x) }
+        if y > 0 { result.append((y - 1) * size + x) }
         if y < size - 1 { result.append((y + 1) * size + x) }
         return result
     }

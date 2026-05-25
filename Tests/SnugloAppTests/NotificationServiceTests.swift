@@ -49,7 +49,7 @@ final class NotificationServiceTests: XCTestCase {
     func test_makeComponents_midnight() {
         let date   = makeTime(hour: 0, minute: 0)
         let comps  = NotificationService.makeComponents(from: date)
-        XCTAssertEqual(comps.hour,   0, "Midnight → hour=0")
+        XCTAssertEqual(comps.hour, 0, "Midnight → hour=0")
         XCTAssertEqual(comps.minute, 0, "Midnight → minute=0")
     }
 
@@ -58,7 +58,7 @@ final class NotificationServiceTests: XCTestCase {
     func test_makeComponents_endOfDay() {
         let date   = makeTime(hour: 23, minute: 59)
         let comps  = NotificationService.makeComponents(from: date)
-        XCTAssertEqual(comps.hour,   23, "23:59 → hour=23")
+        XCTAssertEqual(comps.hour, 23, "23:59 → hour=23")
         XCTAssertEqual(comps.minute, 59, "23:59 → minute=59")
     }
 
@@ -67,10 +67,10 @@ final class NotificationServiceTests: XCTestCase {
     func test_makeComponents_onlyHourAndMinute() {
         let date  = makeTime(hour: 8, minute: 45)
         let comps = NotificationService.makeComponents(from: date)
-        XCTAssertNil(comps.year,   "makeComponents must not include year")
-        XCTAssertNil(comps.month,  "makeComponents must not include month")
-        XCTAssertNil(comps.day,    "makeComponents must not include day")
-        XCTAssertNotNil(comps.hour,   "makeComponents must include hour")
+        XCTAssertNil(comps.year, "makeComponents must not include year")
+        XCTAssertNil(comps.month, "makeComponents must not include month")
+        XCTAssertNil(comps.day, "makeComponents must not include day")
+        XCTAssertNotNil(comps.hour, "makeComponents must include hour")
         XCTAssertNotNil(comps.minute, "makeComponents must include minute")
     }
 
