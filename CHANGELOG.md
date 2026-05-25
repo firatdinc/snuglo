@@ -2,6 +2,10 @@
 
 ---
 
+## [v1.0-C] - 2026-05-25 (Faz C — 11 Ekran Gerçekten Yaratıldı)
+
+Navigation iskelesi: 11 SwiftUI screens (Splash/Onboarding/MainMenu/LevelsList/PackDetail/GamePlay/Pause/LevelComplete/Stats/Shop/Settings); AppRouter (Route enum, @Observable) + NavigationStack; BottomTabBar component; MockData with 4 packs × 60 levels (240 total); Colors.swift extended with missing tokens (surface, onPrimaryContainer, secondaryContainer, tertiaryContainer, surfaceContainerLowest); GameView refactored with levelId param, timer HUD, PauseSheet & LevelCompleteSheet integration.
+
 ## [v1.0-C] — Navigation Skeleton (2026-05-25)
 
 ### Navigation (C1–C2)
