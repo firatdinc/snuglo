@@ -12,6 +12,7 @@
 		0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E553228972F7FFB0F8EF868 /* PackDetailView.swift */; };
 		10623549868FE8396ECC486F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */; };
 		157AC88994E4677AD86AED84 /* SnugloApp.app in Resources */ = {isa = PBXBuildFile; fileRef = 55E2AC75C94FF1D485B2E8A0 /* SnugloApp.app */; };
+		1D27807043DBA93196C5E710 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3C5E6AE355B623F247316C /* BannerAdView.swift */; };
 		20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */; };
 		251FFEBB0755A3FAAB24F323 /* NotificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B820B9ACBC5CEC4F1B83D9A /* NotificationServiceTests.swift */; };
 		273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C00CEC5196A0D5872A0987F /* GridView.swift */; };
@@ -20,6 +21,7 @@
 		3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFCBE768527FBA636F28AAC /* PauseSheet.swift */; };
 		3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */; };
 		41B02F3120C34DED8A80E0D0 /* HapticsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3B870B5C4DA70337A2D476 /* HapticsManagerTests.swift */; };
+		42A713FCCF31C5AD71C0374B /* AdInterstitialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */; };
 		4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */; };
 		44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F090D7130F37BBDD451D8 /* ProgressStore.swift */; };
 		4749283EBBBBBB741384B951 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019EC211A8ED76E9C4687A0 /* Shadow.swift */; };
@@ -30,6 +32,7 @@
 		53757E96F9DBDCD6AD510009 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4F8A6CB07D25367BD321D8 /* StoreManager.swift */; };
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
 		56F4A71C2354DD0A66026405 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A30FA9DC3EFE7135C328D /* MainMenuView.swift */; };
+		644AD815EA9200CA26D84026 /* AdsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D388AFA74CDD2F268A95A894 /* AdsManagerTests.swift */; };
 		64639133E78C3684B2D5F5C8 /* ProgressStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E8C465B2441C411A96691F /* ProgressStoreTests.swift */; };
 		670809C997E19585C06ED0A4 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1764A619B318EAE91D8E9525 /* AudioManager.swift */; };
 		6B129672CD8BD82860195071 /* Snuglo.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 872D391426D5D402C2F18006 /* Snuglo.storekit */; };
@@ -51,6 +54,7 @@
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		C4B42BDA325627597C3D6E1C /* README-StoreKit.md in Resources */ = {isa = PBXBuildFile; fileRef = 125B30D67DEEC160EDBC670E /* README-StoreKit.md */; };
+		CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		D7574A18719733E0B493964F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818EF1009A596F19A02F3237 /* OnboardingView.swift */; };
 		DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B165E71825BFEA8ABE02AC /* RootView.swift */; };
@@ -102,6 +106,8 @@
 		6C4AC1CD1A9429FC63C2F349 /* AudioManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManagerTests.swift; sourceTree = "<group>"; };
 		6CB118F924AFF73AC7906940 /* SoundServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundServiceTests.swift; sourceTree = "<group>"; };
 		71A09BB21B2EEF8E2743976A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
+		7C3C5E6AE355B623F247316C /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; path = Snuglo.storekit; sourceTree = "<group>"; };
@@ -118,6 +124,8 @@
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		D388AFA74CDD2F268A95A894 /* AdsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManagerTests.swift; sourceTree = "<group>"; };
+		D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdInterstitialOverlay.swift; sourceTree = "<group>"; };
 		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		E6E47062C883114A0CD6A84B /* PackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProvider.swift; sourceTree = "<group>"; };
 		EA13FC12B31478959E864E28 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -239,6 +247,8 @@
 		44E4BF646D4293E17EC9B777 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */,
+				7C3C5E6AE355B623F247316C /* BannerAdView.swift */,
 				071C5711F1CFFED37058BD01 /* BottomTabBar.swift */,
 			);
 			path = Components;
@@ -255,6 +265,7 @@
 		4BAC45F5A50B2C4A143423A6 /* SnugloAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				D388AFA74CDD2F268A95A894 /* AdsManagerTests.swift */,
 				6C4AC1CD1A9429FC63C2F349 /* AudioManagerTests.swift */,
 				9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */,
 				1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */,
@@ -309,6 +320,14 @@
 				B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		B64ADB223E188A37795C24D8 /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */,
+			);
+			path = Ads;
 			sourceTree = "<group>";
 		};
 		BC0F3B6F4001E56081CAAF75 /* Store */ = {
@@ -381,6 +400,7 @@
 		CA3FFCE8583420473DAB2C0F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				B64ADB223E188A37795C24D8 /* Ads */,
 				19066E581C5FC13E9E0B132B /* Audio */,
 				44E4BF646D4293E17EC9B777 /* Components */,
 				BC7307459FDAF53F3EE06A9F /* Haptics */,
@@ -495,7 +515,7 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_1F21901D-D3DF-49D3-B26D-34CCF851F8A5" /* . */ = {
+		"TEMP_9C291A99-00D2-4BBD-A8EE-29F283AA3D67" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
@@ -605,8 +625,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42A713FCCF31C5AD71C0374B /* AdInterstitialOverlay.swift in Sources */,
+				CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */,
 				AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */,
 				670809C997E19585C06ED0A4 /* AudioManager.swift in Sources */,
+				1D27807043DBA93196C5E710 /* BannerAdView.swift in Sources */,
 				91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */,
 				F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
@@ -647,6 +670,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				644AD815EA9200CA26D84026 /* AdsManagerTests.swift in Sources */,
 				E1BD39DC756DE12000EFAF5D /* AudioManagerTests.swift in Sources */,
 				70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */,
 				20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */,
@@ -699,6 +723,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "To deliver personalized ads. You can opt out anytime in Settings.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -743,6 +768,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "To deliver personalized ads. You can opt out anytime in Settings.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

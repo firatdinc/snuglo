@@ -2,6 +2,59 @@
 
 ---
 
+## [v1.0-F] — Audio + Haptics + Daily Reminder BLOCKER fix (2026-05-25)
+
+### Services (F1 — SoundService)
+- **`SnugloApp/Core/Services/SoundService.swift`** *(new)* — `@MainActor final class SoundService`.
+  - `enum Sound: CaseIterable` → `click / place / snap / solve / error` (.caf assets).
+  - `AVAudioSession.setCategory(.ambient, options: [.mixWithOthers])` — kullanıcı müziği üstüne mix.
+  - `preload()` → 5 `AVAudioPlayer` init; eksik asset graceful log (no-crash).
+  - `play(_ sound:)` → `UserDefaults("sfxEnabled")` gate; default true.
+
+### Services (F2 — HapticService)
+- **`SnugloApp/Core/Services/HapticService.swift`** *(new)* — `@MainActor final class HapticService`.
+  - `UIImpactFeedbackGenerator(.light/.medium)` + `UINotificationFeedbackGenerator` (lazy).
+  - `prepareImpact()` → drag-start'ta taptic engine ısıtılır.
+  - `impact(.light/.medium)` + `notify(.success/.error/.warning)`.
+  - `UserDefaults("hapticsEnabled")` gate; default true.
+
+### Services (F3 — NotificationService)
+- **`SnugloApp/Core/Services/NotificationService.swift`** *(new)* — `UNUserNotificationCenterDelegate`.
+  - `requestAuthorization()` → `[.alert, .sound, .badge]`; try-catch silent fail.
+  - `scheduleDaily(at:)` → `removePendingNotificationRequests` önce (ghost killer), sonra `UNCalendarNotificationTrigger(repeats: true)`. Identifier: `"snuglo.daily.reminder"`.
+  - `reschedule(enabled:at:)` → Settings toggle helper.
+  - `makeComponents(from:) static` → pure function, unit test edilebilir.
+  - `willPresent` → `[.banner, .sound]` — foreground bildirim banner.
+
+### App Entry (F4)
+- **`SnugloApp/App/SnugloApp.swift`** — `init()`: `UNUserNotificationCenter.current().delegate = NotificationService.shared`.
+
+### Settings (F5)
+- **`SnugloApp/Features/Settings/SettingsView.swift`** — `@AppStorage("sfxEnabled")` + `@AppStorage("hapticsEnabled")` (SoundService/HapticService anahtarlarıyla aynı). Daily Reminder toggle → `NotificationService.shared.requestAuthorization()` + `reschedule()`. DatePicker onChange → reschedule.
+
+### GameView (F6)
+- **`SnugloApp/Features/Game/GameView.swift`** — AudioManager/HapticsManager → SoundService/HapticService:
+  - Drag start: `HapticService.prepareImpact()` + `SoundService.play(.click)`.
+  - snapCoord nil→non-nil: `HapticService.impact(.medium)` + `SoundService.play(.snap)`.
+  - Valid place: `SoundService.play(.place)` + `HapticService.impact(.light)`.
+  - Invalid: `SoundService.play(.error)` + `HapticService.notify(.error)`.
+  - `onChange(isSolved)`: `SoundService.play(.solve)` + `HapticService.notify(.success)`.
+
+### Audio Assets (F8)
+- **`SnugloApp/Resources/Sounds/`** *(new)* — 5 minimal silent CAF (44100 Hz PCM mono, 70 bytes):
+  `click.caf`, `place.caf`, `snap.caf`, `solve.caf`, `error.caf`.
+- **`project.yml`** — `Resources/Sounds` excluded from sources, resource build phase olarak eklendi.
+
+### Tests (F7) — 26 yeni test
+- **`SoundServiceTests.swift`** *(new)* — 7 test: enum 5 case, sfxEnabled gate, missing asset graceful, singleton, dynamic toggle.
+- **`HapticServiceTests.swift`** *(new)* — 8 test: tüm feedback türleri disabled no-op, enabled no-crash, singleton.
+- **`NotificationServiceTests.swift`** *(new)* — 11 test: makeComponents hour/minute extraction (normal/midnight/23:59), no leakage, identifier constant, reschedule enabled/disabled, requestAuthorization crash-free, cancelDaily idempotent, singleton.
+
+### Build (F9)
+- `xcodegen generate` ✅ | `xcodebuild build` ✅ BUILD SUCCEEDED | `xcodebuild test` ✅ SoundServiceTests/HapticServiceTests/NotificationServiceTests geçti.
+
+---
+
 ## [v1.0-G1] — StoreKit 2 IAP — 5 SKU (2026-05-25)
 
 ### Yeni: `SnugloApp/Core/Store/StoreManager.swift`

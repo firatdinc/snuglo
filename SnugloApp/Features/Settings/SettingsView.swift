@@ -1,9 +1,11 @@
 import SwiftUI
+import AppTrackingTransparency
 
 // MARK: — SettingsView
 // Ref: Designs/html/11-settings.html
-// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / ACCOUNT / ABOUT
+// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / PRIVACY / ACCOUNT / ABOUT
 // Faz F: @Bindable wrappers → AudioManager, HapticsManager, NotificationScheduler.
+// Faz G-2: PRIVACY section — ATT consent toggle for personalized ads.
 
 struct SettingsView: View {
 
@@ -23,6 +25,7 @@ struct SettingsView: View {
 
     @State private var showResetAlert        = false
     @State private var showNotifDeniedAlert  = false
+    @State private var ads                   = AdsManager.shared
 
     // MARK: — Computed: Date ↔ TimeInterval bridge for DatePicker
 
@@ -51,6 +54,30 @@ struct SettingsView: View {
                 } else {
                     dailyReminderEnabled = false
                     NotificationService.shared.reschedule(enabled: false, at: Date())
+                }
+            }
+        )
+    }
+
+    // MARK: — ATT Consent binding
+
+    /// Binding for "Personalized Ads" toggle.
+    /// ON: requests ATT authorization, updates AdsManager on result.
+    /// OFF: immediately revokes consent in AdsManager.
+    private var adsConsentToggle: Binding<Bool> {
+        Binding(
+            get: { ads.hasConsented },
+            set: { newValue in
+                if newValue {
+                    // Request ATTrackingManager authorization (iOS 14.5+)
+                    ATTrackingManager.requestTrackingAuthorization { status in
+                        let granted = status == .authorized
+                        DispatchQueue.main.async {
+                            AdsManager.shared.setConsent(granted)
+                        }
+                    }
+                } else {
+                    AdsManager.shared.setConsent(false)
                 }
             }
         )
@@ -148,6 +175,29 @@ struct SettingsView: View {
                         .font(AppTypography.labelSmall)
                         .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
                 }
+            }
+
+            // — PRIVACY —
+            Section {
+                // Personalized Ads consent (ATT / IDFA — iOS 14.5+)
+                // Toggling ON triggers ATTrackingManager.requestTrackingAuthorization.
+                // Toggling OFF revokes consent in AdsManager (SDK-side opt-out).
+                HStack {
+                    iconBadge("hand.raised.fill", color: AppColors.primaryContainer.opacity(0.6))
+                    Text("Personalized Ads")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Spacer()
+                    Toggle("", isOn: adsConsentToggle)
+                        .labelsHidden()
+                        .tint(AppColors.primary)
+                }
+            } header: {
+                sectionHeader("Privacy")
+            } footer: {
+                Text("Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
             }
 
             // — ACCOUNT —

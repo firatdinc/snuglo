@@ -40,6 +40,8 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        # Faz G-2: Required for ATTrackingManager / IDFA (App Tracking Transparency)
+        INFOPLIST_KEY_NSUserTrackingUsageDescription: "To deliver personalized ads. You can opt out anytime in Settings."
 
   SnugloAppTests:
     type: bundle.unit-test

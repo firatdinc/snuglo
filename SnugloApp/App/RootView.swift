@@ -12,6 +12,9 @@ struct RootView: View {
                 }
         }
         .environment(router)
+        // Faz G-2: Interstitial ad overlay — sits above all navigation content.
+        // FAZ-J: Remove once GADInterstitialAd handles its own UIViewController.
+        .overlay(AdInterstitialOverlay())
     }
 
     @ViewBuilder
