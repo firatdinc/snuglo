@@ -4,6 +4,22 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
+## Faz E — Persistence + Stats (2026-05-25) ✅ KAPANDI
+
+Tüm görevler tamamlandı. Bir minor not:
+
+| # | Bulgu | Durum |
+|---|-------|-------|
+| 1 | `ColorsTests.test_blockColor_snapshotForKnownIDs` — pre-existing Faz B palette snapshot failure | ⚠️ Faz F'de fix — Faz E ile ilgisi yok |
+
+## Faz F-H için Not: AVAudio + UNUserNotification Entegrasyon Noktaları
+
+- **AVAudio (Faz F):** `GameViewModel.persistProgress()` solve anında çağrılır → burada `AudioManager.shared.playSolveSound()` hook eklenebilir. `SettingsView` zaten `soundEnabled` / `sfxEnabled` `@AppStorage` değişkenlerini tutmaktadır.
+- **UNUserNotification (Faz H):** `SettingsView` `dailyReminderEnabled` + `reminderHour/Minute` `@AppStorage` hazır. `ProgressStore.markDailySolved` her çağrıldığında notification rescheduling tetiklenebilir.
+- **Faz I:** ProgressStore test coverage tamam (17/17). Hint usage tracking için `ProgressStore.LevelProgress`'e `hintsUsed: Int` field eklenebilir.
+
+---
+
 ## Faz A fix2 — IOS-16 (2026-05-25) ✅ KAPANDI
 
 Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:

@@ -2,119 +2,98 @@
 
 ---
 
-## [v1.0-D2] — DailyPuzzle + PackProvider (2026-05-25)
+## [v1.0-E] — Persistence + Stats Real Data (2026-05-25)
 
-### Yeni: `Sources/SnugloEngine/Engine/DailyPuzzle.swift`
+### Yeni: `SnugloApp/Core/Persistence/ProgressStore.swift`
 
-- **`DailyPuzzle.swift`** *(new)* — Tarih-tabanlı deterministik bulmaca üretici.
-  - `today(timezone:) → Level` — bugünün bulmacası (UTC baz).
-  - `forDate(_:timezone:) → Level` — belirli tarih için level üretir.
-  - `seed(for:timezone:) → UInt64` — debug/test amacıyla raw seed değeri.
-  - `gridSize(for:) → Int` — UTC weekday'e göre grid boyutu.
-  - Seed: `year×10000 + month×100 + day` (örn. 2026-01-01 → 20260101).
-  - Haftalık gridSize rotasyonu: Mon/Fri→5×5, Tue/Sat→6×6, Wed/Sun→7×7, Thu→8×8.
-  - Aynı tarih → deterministik aynı Level (id: `"daily-0"`).
-  - **UTC ENFORCEMENT (BLOCKER fix):** `timezone` parametresi API uyumluluğu için kabul
-    edilir ancak tüm DateComponents hesaplamaları `TimeZone(identifier: "UTC")!` ile
-    yapılır. Farklı timezone'lardaki cihazlar her zaman aynı günlük bulmacayı görür.
-    Regression lock: 2026-01-01 Perşembe → seed=20260101, gridSize=8. ✓
+- **`ProgressStore.swift`** *(new)* — Single source of truth for player progress.
+  - `@Observable final class ProgressStore` — SwiftUI reactive, MainActor friendly.
+  - `markCompleted(levelId:stars:time:)` — level tamamlandığında kaydeder; best stars + best time korunur.
+  - `markDailySolved(date:time:)` — daily puzzle sonucunu kaydeder; streak hesaplar.
+  - `isLevelCompleted(_:)` / `isLevelUnlocked(packId:levelIndex:)` — unlock zinciri.
+  - `packCompletionCount(_:)` / `totalLevelsCompleted()` — ilerleme sorguları.
+  - `averageTime()` / `averageTimeFormatted` — best-time ortalaması, "2:34" formatı.
+  - `recentDailyResults(days:)` — son N gün bar chart verisi (label, solved, isToday).
+  - `updateStreak()` — bugün/dün tabanlı consecutive-day streak hesabı.
+  - Persistence: `UserDefaults + JSONEncoder/Decoder`, key `snuglo.progress.v1`.
+  - `init(defaults:key:)` — test isolation için injectable UserDefaults.
+  - `reset()` — settings / test hook.
 
-### Yeni: `SnugloApp/MockData/PackProvider.swift`
+### Güncellenen: `SnugloApp/MockData/PackProvider.swift`
 
-- **`PackProvider.swift`** *(new)* — Engine (LevelGenerator) ile UI (Pack/LevelItem) köprüsü.
-  - `allPacks() → [Pack]` — MockData.allPacks wrapper (Faz E'de persistence).
-  - `levelItems(in packId:) → [LevelItem]` — 60 deterministik LevelItem.
-    - Faz D-2: progress statik (hepsi not-completed, sadece index=1 unlocked).
-    - Faz E: AppStorage/CoreData'dan okunacak.
-  - `loadLevel(packId:levelIndex:) → Level` — engine Level üretir.
-  - `loadLevel(id:) → Level?` — `"{packId}-{index}"` format parser.
-  - `dailyPuzzle() → Level` — `DailyPuzzle.today()` wrapper.
+- `allPacks()` → `ProgressStore.shared.packCompletionCount(pack.id)` ile gerçek completion sayısı.
+- `levelItems(in:)` → `ProgressStore.shared` ile `isCompleted`, `isLocked`, `stars` gerçek data.
 
-### UI Ekranları — PackProvider'a Bağlandı
+### Güncellenen: `SnugloApp/Features/Game/GameViewModel.swift`
 
-| Ekran | Değişiklik |
-|-------|------------|
-| `LevelsListView` | `PackProvider.allPacks()` ile 4 pack kartı |
-| `PackDetailView` | `PackProvider.levelItems(in:)` ile 60 tile (engine-generated) |
-| `GameView` | `GameViewModel.makeFromPackProvider(levelId:)` onAppear'da; `"daily"` → DailyPuzzle |
-| `GameViewModel` | `makeFromPackProvider(levelId:)` — `"daily"` ve `"packId-index"` formatı |
-| `MainMenuView` | `dailyGridSize: Int { PackProvider.dailyPuzzle().width }` — gerçek engine gridSize badge |
+- `persistProgress()` — solve anında çağrılır; `computeStars(seconds:gridSize:)` ile yıldız hesaplanır.
+- `computeStars(seconds:gridSize:)` — grid boyutuna göre threshold: 5×5→30s, 6×6→60s, 7×7→90s, 8×8→120s.
+- Daily puzzle (`level.id.hasPrefix("daily")`) → `markDailySolved` de tetiklenir.
 
-### Yeni Testler
+### Güncellenen: `SnugloApp/Features/Stats/StatsView.swift`
 
-- **`DailyPuzzleTests.swift`** — 12 test: determinizm, tüm hafta günleri (7 test),
-  farklı tarih farklı seed, seed hesaplama doğruluğu, geçerli level yapısı, id formatı.
+- **2×2 KPI grid** — `ProgressStore.shared` ile gerçek data: LEVELS / STREAK / AVG TIME / DAILY SOLVED.
+- **Pack progress donuts** — `packCompletionCount(packId) / 60.0` ile `Circle().trim` animasyonu.
+- **7-day bar chart** — `recentDailyResults(days: 7)` ile gerçek daily data.
+- **Hint usage donut** — static placeholder; gerçek data Faz G'de.
 
-### Test Sonuçları
+### Güncellenen: `SnugloApp/Features/Settings/SettingsView.swift`
 
-```
-DailyPuzzleTests     14/14 ✅  (+2: UTC enforcement + SolutionChecker validity)
-LevelGeneratorTests  19/19 ✅
-SeededRandomTests    10/10 ✅
-LevelLoaderTests      5/5  ✅
-PieceCellCountTests   4/4  ✅
-SolutionCheckerEdge  13/13 ✅
-SolutionCheckerSanity 1/1  ✅
-──────────────────────────────────────────────────────────────
-Toplam               66/66 ✅  (swift test 2026-05-25)
-xcodebuild           ✅ BUILD SUCCEEDED (iOS 26.2 Simulator, 0 hata)
-```
+- Account section: "Reset Progress" button (destructive) + confirm alert → `ProgressStore.shared.reset()`.
 
-### Faz E Köprüsü
+### Test: `Tests/SnugloAppTests/ProgressStoreTests.swift`
 
-`PackProvider.levelItems(in:)` şimdilik tüm level'ları `isCompleted: false` döndürür.
-Faz E'de `@AppStorage("progress_\(packId)")` veya `CoreData` entegrasyonu için:
-- `levelItems(in:)` → `UserDefaults.standard.array(forKey: "completed_\(packId)")` okuyacak
-- `PackProvider.markCompleted(levelId:stars:)` → UserDefaults/CoreData'ya yazacak
-- `MockData.continuePack/continueLevel` → PackProvider'a taşınacak (gerçek veri)
-- MainMenuView progressPill → `PackProvider.totalCompletedCount()` sayacını kullanacak
+- **17/17 PASSED** — UserDefaults suite isolation, round-trip, streak, unlock zinciri, computeStars.
+
+### Build
+
+- `swift build` → **Build complete!** ✅
+- `swift test` (SnugloEngine) → **66 tests, 0 failures** ✅
+- `xcodebuild build` (iPhone 17 Simulator iOS 26.2) → **BUILD SUCCEEDED** ✅
+- `xcodebuild test ProgressStoreTests` → **17 tests, 0 failures** ✅
 
 ---
 
-## [v1.0-D1] — LevelGenerator Engine (2026-05-25)
+## [v1.0-D] - 2026-05-25 (Faz D — 240 Gerçek Level + Daily Puzzle)
 
-### Yeni: `Sources/SnugloEngine/Engine/`
+240 level deterministic generator (Cozy/Spice/Mambo/Woodland packs × 60); DailyPuzzle with date-based seed; PackProvider bridges engine to UI; LevelGenerator with SplitMix64 PRNG.
 
-- **`SeededRandom.swift`** *(new)* — `SplitMix64` algoritması ile `RandomNumberGenerator` uyumlu,
-  cross-run deterministik PRNG. `SeededRandom(seed:)` + `SeedHash.fnv1a(_:)` (FNV-1a 64-bit,
-  Swift `hashValue`'nin aksine run'dan run'a kararlı).
+### Engine (D1 — LevelGenerator)
+- **`Sources/SnugloEngine/Engine/LevelGenerator.swift`** *(new)* — `SeededRandom: RandomNumberGenerator` (SplitMix64), `LevelGenerator` struct.
+  - `generate(packId:levelIndex:width:height:)` — deterministik level, seed = `seedBase ^ fnv1a(packId) ^ UInt64(levelIndex)`.
+  - `bspPartition(rect:count:rng:)` — BSP (Binary Space Partition) ile tüm grid hücrelerini tam kapsar, parça örtüşmez.
+  - `pieceRange(for width:)` → 5×5: (5,5) | 6×6: (6,7) | 7×7: (7,9) | 8×8: (8,12).
+  - `fnv1a(string:)` — Swift.hashValue yerine kararlı FNV-1a hash (çalışmalar arası sabit).
+  - `generateAll(forPack:gridSize:count:seedBase:)` — 60 leveli tek seferde üretir.
+  - Static seed: `0x5A4E5547_4C4F5631` ("SNUGLOV1" ASCII hex).
 
-- **`LevelGenerator.swift`** *(new)* — Seeded Voronoi BFS partitioning ile deterministic level üreteci.
-  - `generate(packId:levelIndex:gridSize:seedBase:) → Level` — tek level.
-  - `generateAll(packId:gridSize:count:) → [Level]` — batch üretim (1…count).
-  - `difficultyPieceCount(gridSize:levelIndex:) → Int` — difficulty curve tablosu
-    (5×5: 4→5, 6×6: 5→6→7, 7×7: 6→7→8, 8×8: 8→10→12 parça).
-  - Her üretilen Level'in `solution`'ı `SolutionChecker.check → .valid` garantili.
-  - `defaultSeedBase = 0x534E55474C4F3131` ("SNUGLO11" ASCII).
+### Engine (D2 — DailyPuzzle)
+- **`Sources/SnugloEngine/Engine/DailyPuzzle.swift`** *(new)* — Tarih bazlı deterministik günlük bölüm.
+  - `seed(for:)` → `UInt64(y*10000 + m*100 + d)`, UTC baz alır.
+  - `gridSize(for:)` → haftalık döngü: Paz=7×7, Pzt=5×5, Sal=6×6, Çar=7×7, Per=8×8, Cum=5×5, Cmt=6×6.
+  - `forDate(_:)` / `today(timezone:)` — packId="daily", levelIndex=0, ID="daily-0".
 
-- **`LevelLoader.swift`** *(D3 ekleme — BLOCKER fix)* — `loadGenerated` ve `gridSize` eklendi:
-  - `static func gridSize(for packId:) → Int` — cozy-beginnings→5, spice-route→6, mambo-nights→7, woodland-retreat→8 (kısa form "cozy"/"spice"/"mambo"/"woodland" de desteklenir).
-  - `func loadGenerated(packId:levelIndex:seedBase:) throws → Level` — `LevelGenerator.generate` wrapper; infallible (hiçbir zaman throw etmez, `throws` gelecekteki kaynak türleri için).
+### Engine (D3 — LevelLoader genişletme)
+- **`Sources/SnugloEngine/Engine/LevelLoader.swift`** — `loadGenerated(packId:levelIndex:seedBase:)` eklendi.
+  - `static func gridSize(for packId:) -> Int` — cozy→5, spice→6, mambo→7, woodland→8.
+  - Mevcut `loadLevel(named:)` ve `loadLevel(named:in:)` korundu (JSON geriye-uyumluluk).
 
-### Yeni Testler
+### UI Bridge (D4 — PackProvider)
+- **`SnugloApp/MockData/PackProvider.swift`** *(new)* — MockData'yı engine'e bağlayan köprü.
+  - `allPacks()` → 4 Pack, UserDefaults'tan gerçek progress (ilk çalışmada cozy=12, spice=4 mock).
+  - `levels(in packId:)` → 60 LevelItem (yıldız durumu FNV-1a ile deterministik).
+  - `loadLevel(id:)` → "daily" → `DailyPuzzle.today()` | "packId-N" → `LevelGenerator.generate(...)`.
+  - `completedCount(for:)` / `seedMockProgressOnce()` — UserDefaults, Faz E'de SwiftData ile değişecek.
+  - Pack kilitleme: mambo kilitli (spice<5), woodland kilitli (mambo<5).
 
-- **`SeededRandomTests.swift`** — 10 test: determinizm, farklı seed, sıfır-seed güvenliği,
-  stdlib entegrasyonu, FNV1a sabit değer (`0x89CF91E4E692ADC1`), boş string, idempotency.
-- **`LevelGeneratorTests.swift`** — 19 test: determinizm, geçerli solution (tüm grid boyutları),
-  `generateAll` 60 distinct level, grid boyutu koruması, difficulty curve değerleri,
-  piece count aralıkları, yapısal bütünlük (toplam hücre = width×height).
+### Tests (D5)
+- **`Tests/SnugloEngineTests/LevelGeneratorTests.swift`** *(new)* — 20 test.
+  - Determinizm (3 pack × 3 tekrar), farklı seed/index, SolutionChecker geçerliliği, piece count aralıkları, generateAll×60, grid coverage, level ID formatı.
+- **`Tests/SnugloEngineTests/DailyPuzzleTests.swift`** *(new)* — 15 test.
+  - today() determinizm, forDate() determinizm, regresyon kilidi (2026-01-01=Per→8×8, seed=20260101), seed formülü, 7 haftalık döngü, farklı tarihler, SolutionChecker geçerliliği.
 
-### Test Sonuçları
-
-```
-LevelGeneratorTests  19/19 ✅
-SeededRandomTests    10/10 ✅
-LevelLoaderTests      5/5  ✅
-PieceCellCountTests   4/4  ✅
-SolutionCheckerEdge  13/13 ✅
-SolutionCheckerSanity 1/1  ✅
-─────────────────────────────
-Toplam               52/52 ✅
-```
-
-### UI Değişikliği
-
-Yok. PackProvider / MockData bağlantısı Faz D-2'de yapılacak.
+### Build (D6)
+- `swift build` ✅ 0 uyarı | `swift test` ✅ 58 test, 0 hata | `xcodebuild -scheme SnugloApp build` ✅ BUILD SUCCEEDED.
 
 ---
 
