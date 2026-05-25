@@ -81,8 +81,8 @@ struct LevelsListView: View {
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
 
-                // Pack cards
-                ForEach(MockData.allPacks) { pack in
+                // Pack cards — Faz D-2: PackProvider (wraps MockData, Faz E'de persistence)
+                ForEach(PackProvider.allPacks()) { pack in
                     packCard(pack)
                 }
 

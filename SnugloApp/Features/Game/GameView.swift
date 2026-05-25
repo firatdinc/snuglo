@@ -18,6 +18,8 @@ struct GameView: View {
     var levelId: String = "level_5x5"
 
     // MARK: — ViewModel
+    // Faz D-2: PackProvider → engine Level → GameViewModel.
+    // "daily" levelId → DailyPuzzle; "packId-index" → PackProvider.loadLevel.
 
     @State private var viewModel: GameViewModel = GameViewModel.makeOrFallback()
 
@@ -68,7 +70,11 @@ struct GameView: View {
         .sheet(isPresented: $showPause) {
             PauseSheet(
                 onResume: { startTimer() },
-                onRestart: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() },
+                onRestart: {
+                    viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
+                    elapsedSeconds = 0
+                    startTimer()
+                },
                 onQuit: { router.pop() },
                 elapsedSeconds: elapsedSeconds
             )
@@ -80,11 +86,21 @@ struct GameView: View {
                 elapsedSeconds: elapsedSeconds,
                 hintsUsed: 0,
                 onNext: { router.pop() },
-                onReplay: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() }
+                onReplay: {
+                    viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
+                    elapsedSeconds = 0
+                    startTimer()
+                }
             )
             .environment(router)
         }
-        .onAppear { startTimer() }
+        .onAppear {
+            // Faz D-2: Gerçek engine level'ı yükle (lazy init — body çağrılmadan önce
+            // @State init edilemez, bu yüzden onAppear'da swap yapıyoruz).
+            let engineVM = GameViewModel.makeFromPackProvider(levelId: levelId)
+            viewModel = engineVM
+            startTimer()
+        }
         .onDisappear { timerTask?.cancel() }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {

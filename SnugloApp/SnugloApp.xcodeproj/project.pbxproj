@@ -32,6 +32,7 @@
 		9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */; };
 		9838478E2A8975B130C8C64E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D61C90179BE05FFF34656B /* StatsView.swift */; };
 		9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB0452088EF7C80E88FA92 /* ShopView.swift */; };
+		9CE833B028557F0558472ACE /* PackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E47062C883114A0CD6A84B /* PackProvider.swift */; };
 		AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650F634142598BE8F4F9EF2E /* AppRouter.swift */; };
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
@@ -84,6 +85,7 @@
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
+		E6E47062C883114A0CD6A84B /* PackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProvider.swift; sourceTree = "<group>"; };
 		EA13FC12B31478959E864E28 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 		FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseOverlayView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				71A09BB21B2EEF8E2743976A /* MockData.swift */,
+				E6E47062C883114A0CD6A84B /* PackProvider.swift */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -374,7 +377,7 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_92408FE7-456A-405C-A1F0-BFA71E925739" /* . */ = {
+		"TEMP_E0C38EDD-D06C-482F-9217-EA39089C3E01" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
@@ -493,6 +496,7 @@
 				4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */,
 				D7574A18719733E0B493964F /* OnboardingView.swift in Sources */,
 				0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */,
+				9CE833B028557F0558472ACE /* PackProvider.swift in Sources */,
 				3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */,
 				3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */,
 				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
