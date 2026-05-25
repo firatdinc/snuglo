@@ -10,15 +10,14 @@ import UserNotifications
 struct SnugloApp: App {
 
     init() {
+        // Faz I-2: XCUITest fast-path — skip splash & onboarding in UI test runs.
+        if CommandLine.arguments.contains("-UITestMode") {
+            UserDefaults.standard.set(true, forKey: "hasOnboarded")
+            UserDefaults.standard.set(true, forKey: "snuglo.uitestmode")
+        }
         // Delegate must be assigned before any notifications arrive.
         // NotificationService.shared is the UNUserNotificationCenterDelegate.
         UNUserNotificationCenter.current().delegate = NotificationService.shared
-        // I-2: Reset state for UI automation tests
-        if ProcessInfo.processInfo.arguments.contains("-uitest-reset-progress") {
-            ProgressStore.shared.reset()
-            UserDefaults.standard.removeObject(forKey: "hasOnboarded")
-            UserDefaults.standard.removeObject(forKey: "snuglo.language.override")
-        }
     }
 
     var body: some Scene {

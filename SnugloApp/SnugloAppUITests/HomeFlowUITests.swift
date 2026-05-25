@@ -11,11 +11,11 @@ final class HomeFlowUITests: SnugloAppUITestsBase {
     // after the splash screen auto-advances (~1.2 s).
 
     func testRootTabsExist() throws {
-        // Splash auto-advances in 1.2 s — give the tab bar up to 6 s to appear.
-        let homeTab = app.buttons["tab.home"]
+        // UITestMode skips splash delay; tab bar should appear almost immediately.
+        let homeTab = app.buttons["tab.play"]
         XCTAssertTrue(
             waitForElement(homeTab, timeout: 6),
-            "tab.home not found — BottomTabBar may not have appeared after Splash"
+            "tab.play not found — BottomTabBar may not have appeared after Splash"
         )
 
         XCTAssertTrue(

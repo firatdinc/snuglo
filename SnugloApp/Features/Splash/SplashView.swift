@@ -76,8 +76,14 @@ struct SplashView: View {
             visible = true
             if !reduceMotion { scale = 1.0 }
 
+            // Faz I-2: skip splash delay in XCUITest runs for faster, stable tests.
+            let isUITest = UserDefaults.standard.bool(forKey: "snuglo.uitestmode")
+            let delayMs  = isUITest ? 0 : 1200
+
             Task {
-                try? await Task.sleep(for: .milliseconds(1200))
+                if delayMs > 0 {
+                    try? await Task.sleep(for: .milliseconds(delayMs))
+                }
                 await MainActor.run {
                     router.push(hasOnboarded ? .mainMenu : .onboarding)
                 }

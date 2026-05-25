@@ -22,7 +22,7 @@ struct BottomTabBar: View {
     }
 
     private let items: [TabItem] = [
-        .init(tab: .play, labelKey: "tab.play", icon: "puzzlepiece", activeIcon: "puzzlepiece.fill", a11yId: "tab.home"),
+        .init(tab: .play, labelKey: "tab.play", icon: "puzzlepiece", activeIcon: "puzzlepiece.fill", a11yId: "tab.play"),
         .init(tab: .levels, labelKey: "tab.levels", icon: "square.grid.2x2", activeIcon: "square.grid.2x2.fill", a11yId: "tab.levels"),
         .init(tab: .stats, labelKey: "tab.stats", icon: "chart.bar", activeIcon: "chart.bar.fill", a11yId: "tab.stats"),
         .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop")

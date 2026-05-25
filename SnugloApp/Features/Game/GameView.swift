@@ -135,7 +135,10 @@ struct GameView: View {
             } action: { frame in
                 gridFrame = frame
             }
-            // Faz I-2: UITest identifier for the puzzle grid container
+            // Faz I-2: UITest identifier for the puzzle grid container.
+            // .accessibilityElement(children: .contain) is required so Canvas-based
+            // GridView is visible as otherElements["game.grid"] in XCUITest.
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier("game.grid")
 
             Spacer(minLength: 0)
@@ -278,6 +281,9 @@ struct GameView: View {
     // MARK: — Timer
 
     private func startTimer() {
+        // Faz I-2: skip timer in XCUITest runs — constant accessibility tree updates
+        // from the 1-second tick cause XCUITest snapshot queries to time out.
+        guard !UserDefaults.standard.bool(forKey: "snuglo.uitestmode") else { return }
         timerTask?.cancel()
         timerTask = Task { @MainActor in
             while !Task.isCancelled {
