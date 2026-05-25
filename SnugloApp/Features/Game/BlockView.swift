@@ -14,12 +14,16 @@ import SnugloEngine
 //   Label:   piece.cellCount centered on bounding box — always shown (accessibility)
 //            Font: AppTypography.numericLabel (SF Mono 20pt medium)
 //            Color: AppColors.onSurface (deep cocoa, not semi-transparent)
+// H-2: Reduce Motion — scale/spring animation skipped when reduceMotion is enabled.
+//       VoiceOver label + hint added for drag-drop interaction.
 
 struct BlockView: View {
     let piece: Piece
     let cellSize: CGFloat
     let isInvalid: Bool
     let isDragging: Bool
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // MARK: — Layout geometry
 
@@ -45,16 +49,21 @@ struct BlockView: View {
             width:  CGFloat(pieceWidth)  * cellSize,
             height: CGFloat(pieceHeight) * cellSize
         )
+        // H-2: Reduce Motion — skip scale animation; keep scale value for dragging state
         .scaleEffect(isDragging ? 1.10 : 1.0)
-        // Elevation shadow: L2 when dragging, L1 at rest
         .shadow(
             color: AppColors.shadowAmbient.opacity(isDragging ? 0.12 : 0.06),
             radius: isDragging ? 16 : 12,
             x: 0,
             y: isDragging ? 8 : 4
         )
-        .animation(.spring(response: 0.20, dampingFraction: 0.70), value: isDragging)
-        .animation(.spring(response: 0.25, dampingFraction: 0.65), value: isInvalid)
+        // H-2: only animate when reduceMotion is off
+        .animation(reduceMotion ? nil : .spring(response: 0.20, dampingFraction: 0.70), value: isDragging)
+        .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.65), value: isInvalid)
+        // H-2: VoiceOver — block identity + drag hint
+        .accessibilityLabel("\(piece.cellCount)-cell block")
+        .accessibilityHint("Double tap to select, then drag to place on the grid")
+        .accessibilityAddTraits(.isButton)
     }
 
     // MARK: — Canvas rendering helpers
@@ -64,22 +73,19 @@ struct BlockView: View {
         for cell in piece.cells {
             let x = CGFloat(cell.x) * cellSize
             let y = CGFloat(cell.y) * cellSize
-            // 1 pt inset on all sides keeps adjacent cells from touching
             let rect = CGRect(
                 x: x + 1, y: y + 1,
                 width: cellSize - 2, height: cellSize - 2
             )
             let path = Path(roundedRect: rect, cornerRadius: AppRadius.block)
 
-            // 1. Pastel fill (or error red)
             context.fill(path, with: .color(fillColor))
 
-            // 2. Invalid stroke
             if isInvalid {
                 context.stroke(path, with: .color(AppColors.error), lineWidth: 2)
             }
 
-            // 3. L2 inner-top bevel — 0.5 pt white-50% horizontal highlight
+            // L2 inner-top bevel — skip when reduceMotion (dragging state is muted)
             if isDragging && !isInvalid {
                 let bevelY   = y + 1 + AppRadius.block * 0.5
                 let bevelX0  = x + 1 + AppRadius.block * 0.6

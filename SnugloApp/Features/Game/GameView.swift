@@ -6,21 +6,21 @@ import SnugloEngine
 // Active level screen — loads puzzle by levelId, HUD with back/pause/timer,
 // drag-drop tray at bottom, pause sheet, level-complete cover.
 //
-// Faz B palette (Nordic Hearth) preserved. Faz C adds: levelId param, HUD buttons,
-// pause sheet integration, level-complete cover.
 // Faz F adds: AudioManager + HapticsManager hooks on drag events.
+// H-2: Dynamic Type constrained (.medium ... .xxxLarge) — grid must not overflow.
+//       Reduce Motion — drag spring animations skipped.
+//       VoiceOver — HUD buttons labelled; tray blocks labelled.
 
 struct GameView: View {
 
     // MARK: — Dependencies
 
     @Environment(AppRouter.self) private var router
-    /// Level identifier passed from navigation. "daily" → daily puzzle.
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var levelId: String = "level_5x5"
 
     // MARK: — ViewModel
-    // Faz D-2: PackProvider → engine Level → GameViewModel.
-    // "daily" levelId → DailyPuzzle; "packId-index" → PackProvider.loadLevel.
 
     @State private var viewModel: GameViewModel = GameViewModel.makeOrFallback()
 
@@ -63,11 +63,14 @@ struct GameView: View {
                 )
                 .offset(x: off.x, y: off.y)
                 .allowsHitTesting(false)
+                .accessibilityHidden(true) // overlay duplicate; original already labelled
             }
         }
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
         .navigationBarHidden(true)
+        // H-2: Constrain Dynamic Type — grid cells overflow at AX5 sizes
+        .dynamicTypeSize(.medium ... .xxxLarge)
         .sheet(isPresented: $showPause) {
             PauseSheet(
                 onResume: { startTimer() },
@@ -96,8 +99,6 @@ struct GameView: View {
             .environment(router)
         }
         .onAppear {
-            // Faz D-2: Gerçek engine level'ı yükle (lazy init — body çağrılmadan önce
-            // @State init edilemez, bu yüzden onAppear'da swap yapıyoruz).
             let engineVM = GameViewModel.makeFromPackProvider(levelId: levelId)
             viewModel = engineVM
             startTimer()
@@ -106,10 +107,8 @@ struct GameView: View {
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
-                // Faz F: Solve audio + haptic via SoundService / HapticService
                 SoundService.shared.play(.solve)
                 HapticService.shared.notify(.success)
-                // Faz G-2: Frequency-cap interstitial trigger (fires before sheet)
                 AdsManager.shared.onLevelCompleted()
                 showComplete = true
             }
@@ -155,10 +154,12 @@ struct GameView: View {
                     .background(AppColors.surfaceContainerLow, in: Circle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Back")
+            .accessibilityHint("Returns to the previous screen")
 
             Spacer()
 
-            // Level title
+            // Level title + timer
             VStack(spacing: 2) {
                 Text(levelDisplayName)
                     .font(AppTypography.headlineSmall)
@@ -167,6 +168,8 @@ struct GameView: View {
                     .font(.system(size: 14, weight: .medium, design: .monospaced))
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("\(levelDisplayName), elapsed time \(formattedTimer)")
 
             Spacer()
 
@@ -179,6 +182,8 @@ struct GameView: View {
                     .background(AppColors.surfaceContainerLow, in: Circle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Pause")
+            .accessibilityHint("Pauses the timer and shows pause options")
         }
         .padding(.horizontal, AppSpacing.lg)
     }
@@ -207,22 +212,17 @@ struct GameView: View {
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
         .shadowL1()
         .padding(.horizontal, AppSpacing.lg)
+        .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
     }
 
     // MARK: — Drag gesture
-    // Faz F audio+haptic hooks:
-    //   pickup  → first onChanged frame (draggingPiece was nil)
-    //   drop    → onEnded with no snap target
-    //   snap    → onEnded with valid placement (not yet solved)
-    //   error   → onEnded with invalid placement
-    //   levelComplete → onChange(of: isSolved) above
+    // H-2: Reduce Motion — replace .spring with .none for all placement animations.
 
     private func dragGesture(for piece: Piece) -> some Gesture {
         DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
             .onChanged { value in
                 if draggingPiece == nil {
                     draggingPiece = piece
-                    // Pickup: pre-warm taptic engine for low-latency snap feedback
                     HapticService.shared.prepareImpact()
                     SoundService.shared.play(.click)
                 }
@@ -234,7 +234,6 @@ struct GameView: View {
                     cellSize: cellSize,
                     gridSize: (width: viewModel.level.width, height: viewModel.level.height)
                 )
-                // BLOCKER-6 (1): fire snap feedback the first time snapCoord becomes non-nil
                 if newSnap != nil && snapCoord == nil {
                     HapticService.shared.impact(.medium)
                     SoundService.shared.play(.snap)
@@ -243,11 +242,11 @@ struct GameView: View {
             }
             .onEnded { _ in
                 if let coord = snapCoord {
-                    withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
+                    let animation: Animation? = reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.7)
+                    withAnimation(animation) {
                         viewModel.tryPlace(pieceID: piece.id, at: coord)
                     }
                     if viewModel.invalidPieceIDs.contains(piece.id) {
-                        // BLOCKER-6 (3): invalid placement
                         SoundService.shared.play(.error)
                         HapticService.shared.notify(.error)
                         Task { @MainActor in
@@ -255,13 +254,12 @@ struct GameView: View {
                             viewModel.clearInvalid(pieceID: piece.id)
                         }
                     } else if !viewModel.isSolved {
-                        // BLOCKER-6 (2): valid partial placement
-                        // (solved path fires through onChange(of: isSolved))
                         SoundService.shared.play(.place)
                         HapticService.shared.impact(.light)
                     }
                 }
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                withAnimation(resetAnimation) {
                     draggingPiece = nil
                     snapCoord     = nil
                 }
