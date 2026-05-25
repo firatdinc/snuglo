@@ -14,8 +14,8 @@ struct PauseOverlayView: View {
 
     var body: some View {
         ZStack {
-            // Dimmer
-            Color(hex: "#3A332D")
+            // Dimmer (H-2: migrate from Color(hex:) → AppColors token)
+            AppColors.shadowAmbient
                 .opacity(0.30)
                 .ignoresSafeArea()
                 .background(.ultraThinMaterial)
@@ -113,7 +113,7 @@ struct PauseOverlayView: View {
                         .fill(AppColors.surfaceContainerLowest)
                         .overlay {
                             RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                .stroke(Color(hex: "#EDE6DA"), lineWidth: 1.5)
+                                .stroke(AppColors.outlineVariant, lineWidth: 1.5)
                         }
                 }
             }

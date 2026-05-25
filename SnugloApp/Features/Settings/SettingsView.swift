@@ -3,40 +3,22 @@ import AppTrackingTransparency
 
 // MARK: — SettingsView (H-1: Localized)
 // Ref: Designs/html/11-settings.html
-// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / LANGUAGE / PRIVACY / ACCOUNT / ABOUT
-// Faz F: @Bindable wrappers → AudioManager, HapticsManager, NotificationScheduler.
-// Faz G-2: PRIVACY section — ATT consent toggle for personalized ads.
-// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
+// H-2: VoiceOver — Reset Progress button explicit destructive role; top-level a11y hints.
 
 struct SettingsView: View {
 
-    // MARK: — Audio settings  (Faz F: @AppStorage keys match SoundService)
-    @AppStorage("musicEnabled")          private var musicEnabled         = true
-    @AppStorage("sfxEnabled")            private var sfxEnabled           = true
-
-    // MARK: — Haptics (Faz F: key matches HapticService)
-    @AppStorage("hapticsEnabled")        private var hapticsEnabled       = true
-
-    // MARK: — Appearance theme (Faz F: 0=System, 1=Light, 2=Dark)
+    @AppStorage("musicEnabled")           private var musicEnabled         = true
+    @AppStorage("sfxEnabled")             private var sfxEnabled           = true
+    @AppStorage("hapticsEnabled")         private var hapticsEnabled       = true
     @AppStorage("appTheme")               private var appThemeRaw: Int     = 0
-
-    // MARK: — Daily reminder (Faz F: NotificationService.reschedule called on change)
-    @AppStorage("dailyReminderEnabled")  private var dailyReminderEnabled = false
-    /// Stored as TimeInterval since reference date; default 19:00.
-    @AppStorage("dailyReminderTime")     private var dailyReminderTimeInterval: Double = 19 * 3600
-
-    // MARK: — Language override (H-1)
-    /// "system" = follow device locale; "en" / "tr" / "es" = explicit override.
+    @AppStorage("dailyReminderEnabled")   private var dailyReminderEnabled = false
+    @AppStorage("dailyReminderTime")      private var dailyReminderTimeInterval: Double = 19 * 3600
     @AppStorage("snuglo.language.override") private var languageOverride: String = "system"
-
-    // MARK: — Local UI state
 
     @State private var showResetAlert            = false
     @State private var showNotifDeniedAlert      = false
     @State private var showLanguageRestartAlert  = false
     @State private var ads                       = AdsManager.shared
-
-    // MARK: — Computed: Date ↔ TimeInterval bridge for DatePicker
 
     private var reminderDate: Binding<Date> {
         Binding(
@@ -44,8 +26,6 @@ struct SettingsView: View {
             set: { dailyReminderTimeInterval = $0.timeIntervalSinceReferenceDate }
         )
     }
-
-    // MARK: — Notification toggle binding (requests authorization if needed)
 
     private var reminderToggle: Binding<Bool> {
         Binding(
@@ -68,11 +48,6 @@ struct SettingsView: View {
         )
     }
 
-    // MARK: — ATT Consent binding
-
-    /// Binding for "Personalized Ads" toggle.
-    /// ON: requests ATT authorization, updates AdsManager on result.
-    /// OFF: immediately revokes consent in AdsManager.
     private var adsConsentToggle: Binding<Bool> {
         Binding(
             get: { ads.hasConsented },
@@ -90,8 +65,6 @@ struct SettingsView: View {
             }
         )
     }
-
-    // MARK: — Computed: app version
 
     private var appVersion: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -142,7 +115,9 @@ struct SettingsView: View {
                     }
                     .labelsHidden()
                     .tint(AppColors.primary)
+                    // H-2: Picker is auto-accessible via SwiftUI, no custom label needed
                 }
+                .accessibilityElement(children: .contain)
             } header: {
                 sectionHeader("settings.appearance.title")
             }
@@ -250,7 +225,7 @@ struct SettingsView: View {
                 disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.privacy")
                 disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.terms")
 
-                // Reset Progress — destructive, confirm alert
+                // H-2: Reset Progress — explicit destructive accessibility role
                 Button {
                     showResetAlert = true
                 } label: {
@@ -263,6 +238,10 @@ struct SettingsView: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Reset all progress")
+                .accessibilityHint("Permanently deletes all your game data. This cannot be undone.")
+                // H-2: mark as destructive so VoiceOver adds the "delete" tone
+                .accessibilityAddTraits(.isButton)
             } header: {
                 sectionHeader("settings.account.title")
             }
@@ -294,7 +273,6 @@ struct SettingsView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
-        // — Notifications denied alert —
         .alert("notif.disabled.title", isPresented: $showNotifDeniedAlert) {
             Button("notif.openSettings") {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -305,13 +283,11 @@ struct SettingsView: View {
         } message: {
             Text("notif.disabled.message")
         }
-        // — Language restart alert —
         .alert("settings.language.restartTitle", isPresented: $showLanguageRestartAlert) {
             Button("common.ok", role: .cancel) {}
         } message: {
             Text("settings.language.restartMessage")
         }
-        // — Reset progress alert —
         .alert("settings.account.resetTitle", isPresented: $showResetAlert) {
             Button("common.cancel", role: .cancel) {}
             Button("settings.account.resetAction", role: .destructive) {
@@ -336,7 +312,6 @@ struct SettingsView: View {
 
     // MARK: — Sub-views
 
-    /// H-1: LocalizedStringKey so callers pass translation keys directly.
     private func sectionHeader(_ key: LocalizedStringKey) -> some View {
         Text(key)
             .font(AppTypography.labelSmall)
@@ -348,6 +323,7 @@ struct SettingsView: View {
     private func toggleRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey, isOn: Binding<Bool>) -> some View {
         HStack {
             iconBadge(icon, color: iconColor)
+                .accessibilityHidden(true)
             Text(labelKey)
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurface)
@@ -356,12 +332,15 @@ struct SettingsView: View {
                 .labelsHidden()
                 .tint(AppColors.primary)
         }
+        // SwiftUI Toggle is auto-accessible; combine row for cleaner VO navigation
+        .accessibilityElement(children: .combine)
     }
 
     private func disclosureRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey) -> some View {
         Button {} label: {
             HStack {
                 iconBadge(icon, color: iconColor)
+                    .accessibilityHidden(true)
                 Text(labelKey)
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurface)
@@ -369,6 +348,7 @@ struct SettingsView: View {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(AppColors.outlineVariant)
+                    .accessibilityHidden(true)
             }
         }
         .buttonStyle(.plain)

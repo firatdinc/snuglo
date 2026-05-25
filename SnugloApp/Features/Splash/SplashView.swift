@@ -4,6 +4,7 @@ import SwiftUI
 // Ref: Designs/html/01-splash.html
 // 3×3 pastel block logo + "Snuglo" wordmark, centered on warm background.
 // Fades in → after 1.2 s pushes to .onboarding (first launch) or .mainMenu.
+// H-2: VoiceOver — logo group combined as "Snuglo logo", wordmark hidden (redundant).
 
 struct SplashView: View {
 
@@ -11,6 +12,8 @@ struct SplashView: View {
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var visible = false
     @State private var scale: CGFloat = 0.92
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // 3×3 block grid colours (matches HTML: primaryContainer / surfaceContainerHigh / secondaryContainer / tertiaryContainer / error-container)
     private let blockColors: [Color] = [
@@ -30,7 +33,7 @@ struct SplashView: View {
             AppColors.background.ignoresSafeArea()
 
             VStack(spacing: AppSpacing.xl) {
-                // — 3×3 block grid logo —
+                // — 3×3 block grid logo — (VoiceOver: combine into single "Snuglo" element)
                 ZStack {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(AppColors.surfaceContainerLow)
@@ -48,26 +51,30 @@ struct SplashView: View {
                     }
                     .padding(8)
                 }
+                // H-2: Entire logo block → single VoiceOver element labelled "Snuglo"
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Snuglo")
                 .scaleEffect(scale)
                 .animation(
-                    .easeInOut(duration: 2.5).repeatForever(autoreverses: true),
+                    reduceMotion ? nil : .easeInOut(duration: 2.5).repeatForever(autoreverses: true),
                     value: scale
                 )
 
-                // — Wordmark —
+                // — Wordmark — hidden from VoiceOver (logo already labelled "Snuglo")
                 Text("Snuglo")
                     .font(AppTypography.headlineLarge)
                     .tracking(-0.6)
                     .foregroundStyle(AppColors.onSurface)
+                    .accessibilityHidden(true)
             }
             .opacity(visible ? 1 : 0)
             .offset(y: visible ? 0 : 10)
-            .animation(.easeOut(duration: 0.8), value: visible)
+            .animation(reduceMotion ? .none : .easeOut(duration: 0.8), value: visible)
         }
         .navigationBarHidden(true)
         .onAppear {
             visible = true
-            scale = 1.0
+            if !reduceMotion { scale = 1.0 }
 
             Task {
                 try? await Task.sleep(for: .milliseconds(1200))

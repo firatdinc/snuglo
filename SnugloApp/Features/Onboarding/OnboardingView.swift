@@ -6,6 +6,7 @@ import SwiftUI
 // "Skip" top-right → goes to mainMenu.
 // "Get Started" on last page → sets hasOnboarded + pushes mainMenu.
 // H-1: headline/body fields changed to LocalizedStringKey for i18n.
+// H-2: VoiceOver — page dots labelled, action button has hint.
 
 private struct OnboardingPage: Identifiable {
     let id: Int
@@ -39,6 +40,8 @@ struct OnboardingView: View {
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var currentPage = 0
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // H-1: Computed key for the primary action button.
     private var nextButtonKey: LocalizedStringKey {
         currentPage == pages.count - 1 ? "onboarding.getStarted" : "common.next"
@@ -53,9 +56,11 @@ struct OnboardingView: View {
                 .blur(radius: 80)
                 .offset(x: -80, y: -120)
                 .ignoresSafeArea()
+                .accessibilityHidden(true)
 
             AppColors.background.ignoresSafeArea()
                 .opacity(0.5)
+                .accessibilityHidden(true)
 
             VStack(spacing: 0) {
                 // — Skip button —
@@ -72,6 +77,8 @@ struct OnboardingView: View {
                             .padding(.vertical, AppSpacing.sm)
                     }
                     .contentShape(Rectangle())
+                    .accessibilityLabel("Skip onboarding")
+                    .accessibilityHint("Goes directly to the main menu")
                 }
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.top, AppSpacing.lg)
@@ -86,20 +93,23 @@ struct OnboardingView: View {
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(.easeInOut(duration: 0.35), value: currentPage)
+                .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: currentPage)
 
                 Spacer()
 
-                // — Dot indicator —
+                // — Dot indicator — (H-2: VoiceOver labelled)
                 HStack(spacing: AppSpacing.sm) {
                     ForEach(pages) { page in
                         Capsule()
                             .fill(currentPage == page.id ? AppColors.primary : AppColors.surfaceContainerHigh)
                             .frame(width: currentPage == page.id ? 32 : 10, height: 10)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
+                            .animation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
                     }
                 }
                 .padding(.bottom, AppSpacing.xl)
+                // H-2: Entire dot row combined as one VoiceOver element
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
 
                 // — Action button —
                 Button(action: handleNext) {
@@ -113,6 +123,10 @@ struct OnboardingView: View {
                 }
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
+                // H-2: hint changes based on page
+                .accessibilityHint(currentPage == pages.count - 1
+                    ? "Completes onboarding and opens the main menu"
+                    : "Advances to the next onboarding page")
             }
         }
         .background(AppColors.background.ignoresSafeArea())
@@ -123,7 +137,7 @@ struct OnboardingView: View {
 
     private func pageContent(_ page: OnboardingPage) -> some View {
         VStack(spacing: AppSpacing.xl) {
-            // Illustration placeholder
+            // Illustration placeholder (decorative — content text provides context)
             ZStack {
                 RoundedRectangle(cornerRadius: 32, style: .continuous)
                     .fill(page.accentColor.opacity(0.35))
@@ -138,6 +152,7 @@ struct OnboardingView: View {
                     .font(.system(size: 72, weight: .light))
                     .foregroundStyle(AppColors.primary.opacity(0.7))
             }
+            .accessibilityHidden(true) // Decorative: headline below conveys meaning
 
             VStack(spacing: AppSpacing.sm) {
                 Text(page.headline)
@@ -160,7 +175,7 @@ struct OnboardingView: View {
 
     private func handleNext() {
         if currentPage < pages.count - 1 {
-            withAnimation { currentPage += 1 }
+            withAnimation(reduceMotion ? nil : .default) { currentPage += 1 }
         } else {
             finish()
         }

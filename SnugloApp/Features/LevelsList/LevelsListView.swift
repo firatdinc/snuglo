@@ -2,11 +2,7 @@ import SwiftUI
 
 // MARK: — LevelsListView (Screen 04 · H-1: Localized)
 // Design reference: Designs/html/04-levels-list.html
-//
-// "LEVELS" tab — shows pack cards: Cozy Beginnings / Spice Route / Mambo Nights / Woodland Retreat
-// Tapping an unlocked pack → .packDetail(packId:)
-// Faz G-1: IAP-locked packs are tappable and show unlock-prompt alert → Shop
-// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
+// H-2: VoiceOver — pack cards with progress/locked status, top-bar buttons labelled.
 
 struct LevelsListView: View {
 
@@ -14,7 +10,6 @@ struct LevelsListView: View {
 
     @Environment(AppRouter.self) private var router
 
-    /// Kilitli pack dokunumu için alert state
     @State private var lockedPackTitle: String = ""
     @State private var showLockedAlert: Bool   = false
 
@@ -31,7 +26,6 @@ struct LevelsListView: View {
         }
         .navigationBarHidden(true)
         .onAppear { router.selectedTab = .levels }
-        // Faz G-1: Kilitli pack alert — H-1: localized
         .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
             Button("alert.unlockPack.goToShop") {
                 router.selectTab(.shop)
@@ -54,6 +48,8 @@ struct LevelsListView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .accessibilityLabel("Settings")
+            .accessibilityHint("Opens the settings screen")
 
             Spacer()
 
@@ -61,6 +57,7 @@ struct LevelsListView: View {
                 .font(AppTypography.headlineMedium)
                 .foregroundStyle(AppColors.primary)
                 .tracking(-0.4)
+                .accessibilityHidden(true)
 
             Spacer()
 
@@ -72,6 +69,8 @@ struct LevelsListView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .accessibilityLabel("Shop")
+            .accessibilityHint("Opens the in-app shop")
         }
         .padding(.horizontal, AppSpacing.lg)
         .frame(height: 56)
@@ -83,7 +82,6 @@ struct LevelsListView: View {
     private var packList: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.md) {
-                // Header
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
                     Text("levels.title")
                         .font(AppTypography.headlineLarge)
@@ -95,12 +93,11 @@ struct LevelsListView: View {
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
 
-                // Pack cards — Faz D-2: PackProvider (wraps MockData, Faz E'de persistence)
                 ForEach(PackProvider.allPacks()) { pack in
                     packCard(pack)
                 }
 
-                Spacer(minLength: 80) // clearance for tab bar
+                Spacer(minLength: 80)
             }
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.md)
@@ -113,8 +110,10 @@ struct LevelsListView: View {
     private func packCard(_ pack: Pack) -> some View {
         let content = packCardContent(pack)
 
+        // H-2: accessibility label built from pack info
+        let a11yLabel = packA11yLabel(pack)
+
         if pack.isLocked {
-            // Faz G-1: Kilitli packlar tıklanabilir → shop yönlendirme alertı
             Button {
                 lockedPackTitle = pack.title
                 showLockedAlert = true
@@ -123,6 +122,8 @@ struct LevelsListView: View {
                     .opacity(0.55)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(a11yLabel)
+            .accessibilityHint("Tap to unlock this pack in the shop")
         } else {
             Button {
                 router.push(.packDetail(packId: pack.id))
@@ -130,22 +131,32 @@ struct LevelsListView: View {
                 content
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(a11yLabel)
+            .accessibilityHint("Opens the level list for this pack")
         }
+    }
+
+    /// H-2: Constructs a meaningful VoiceOver label for a pack card.
+    private func packA11yLabel(_ pack: Pack) -> String {
+        if pack.isLocked {
+            return "\(pack.title). Locked. Tap to unlock."
+        }
+        let pct = Int(pack.progressFraction * 100)
+        return "\(pack.title), \(pack.completedCount) of \(pack.levelCount) levels completed, \(pct) percent"
     }
 
     private func packCardContent(_ pack: Pack) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            // Header row
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
                     Text(verbatim: pack.title)
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
 
-                    // Grid badge
                     HStack(spacing: AppSpacing.xs) {
                         Image(systemName: "square.grid.3x3")
                             .font(.system(size: 12))
+                            .accessibilityHidden(true)
                         Text(verbatim: pack.gridLabel)
                             .font(AppTypography.labelSmall)
                     }
@@ -158,7 +169,6 @@ struct LevelsListView: View {
 
                 Spacer()
 
-                // Icon tile
                 ZStack {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(pack.isLocked ? AppColors.surfaceContainerHigh : pack.accentColor.opacity(0.5))
@@ -174,9 +184,9 @@ struct LevelsListView: View {
                             .foregroundStyle(AppColors.primary)
                     }
                 }
+                .accessibilityHidden(true) // icon is decorative; label on button
             }
 
-            // Progress row
             VStack(alignment: .leading, spacing: AppSpacing.xs) {
                 HStack {
                     Text(pack.isLocked ? "pack.locked" : "pack.progress")
@@ -212,6 +222,7 @@ struct LevelsListView: View {
                     }
                 }
                 .frame(height: 12)
+                .accessibilityHidden(true) // progress conveyed in button label
             }
         }
         .padding(AppSpacing.md)

@@ -2,14 +2,7 @@ import SwiftUI
 
 // MARK: — MainMenuView (Screen 03 · H-1: Localized)
 // Design reference: Designs/html/03-main-menu.html
-//
-// Structure:
-//   • Fixed top bar: settings gear | "Snuglo" wordmark | shop bag
-//   • Scrollable content:
-//       – Level progress pill "Level 12 / 240"
-//       – Daily Puzzle hero card (date, countdown, play ▶)
-//       – Continue card (pack thumbnail, name, level, progress bar)
-//   • Bottom tab bar (Play active)
+// H-2: VoiceOver — daily puzzle card labelled, progress pill labelled, top-bar buttons hinted.
 
 struct MainMenuView: View {
 
@@ -42,6 +35,8 @@ struct MainMenuView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .accessibilityLabel("Settings")
+            .accessibilityHint("Opens the settings screen")
 
             Spacer()
 
@@ -49,6 +44,7 @@ struct MainMenuView: View {
                 .font(AppTypography.headlineMedium)
                 .foregroundStyle(AppColors.primary)
                 .tracking(-0.4)
+                .accessibilityHidden(true) // App name — not useful to repeat on every screen
 
             Spacer()
 
@@ -60,6 +56,8 @@ struct MainMenuView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .accessibilityLabel("Shop")
+            .accessibilityHint("Opens the in-app shop")
         }
         .padding(.horizontal, AppSpacing.lg)
         .frame(height: 56)
@@ -88,6 +86,7 @@ struct MainMenuView: View {
             Image(systemName: "star.fill")
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
+                .accessibilityHidden(true)
 
             Text(verbatim: "Level 12")
                 .font(AppTypography.numericLabel)
@@ -106,11 +105,13 @@ struct MainMenuView: View {
         )
         .clipShape(Capsule())
         .shadowL1()
+        // H-2: combined element for VoiceOver
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Level 12 of 240 completed")
     }
 
     // MARK: — Daily Puzzle card
 
-    // Faz D-2: PackProvider.dailyPuzzle() ile gerçek gridSize badge.
     private var dailyGridSize: Int { PackProvider.dailyPuzzle().width }
 
     private var dailyDateBadge: String {
@@ -121,11 +122,10 @@ struct MainMenuView: View {
 
     private var dailyPuzzleCard: some View {
         Button {
-            // Faz D-2: "daily" levelId → GameView'de PackProvider.dailyPuzzle()
             router.push(.gamePlay(levelId: "daily"))
         } label: {
             VStack(alignment: .leading, spacing: 0) {
-                // Hero image placeholder
+                // Hero image placeholder (decorative gradient)
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 0, style: .continuous)
                         .fill(
@@ -139,8 +139,9 @@ struct MainMenuView: View {
                             )
                         )
                         .frame(height: 140)
+                        .accessibilityHidden(true)
 
-                    // Date badge — dynamic
+                    // Date badge
                     Text(verbatim: dailyDateBadge)
                         .font(AppTypography.labelSmall)
                         .tracking(0.6)
@@ -151,8 +152,9 @@ struct MainMenuView: View {
                         .background(AppColors.background.opacity(0.9))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         .padding(AppSpacing.md)
+                        .accessibilityHidden(true) // conveyed in card label
 
-                    // GridSize indicator — from engine
+                    // GridSize indicator
                     Text(verbatim: "\(dailyGridSize)×\(dailyGridSize)")
                         .font(AppTypography.labelSmall)
                         .tracking(0.4)
@@ -163,6 +165,7 @@ struct MainMenuView: View {
                         .clipShape(Capsule())
                         .padding(AppSpacing.md)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        .accessibilityHidden(true) // conveyed in card label
                 }
 
                 // Card content
@@ -176,7 +179,8 @@ struct MainMenuView: View {
                         HStack(spacing: AppSpacing.xs) {
                             Image(systemName: "clock")
                                 .font(.system(size: 14))
-                            Text(verbatim: "Refresh in 4h 12m")  // Faz I: real countdown
+                                .accessibilityHidden(true)
+                            Text(verbatim: "Refresh in 4h 12m")
                                 .font(AppTypography.bodyMedium)
                         }
                         .foregroundStyle(AppColors.onSurfaceVariant)
@@ -184,7 +188,7 @@ struct MainMenuView: View {
 
                     Spacer()
 
-                    // Play button
+                    // Play button (decorative — button handles tap)
                     ZStack {
                         RoundedRectangle(cornerRadius: 16, style: .continuous)
                             .fill(AppColors.primaryContainer)
@@ -200,6 +204,7 @@ struct MainMenuView: View {
                             .font(.system(size: 26))
                             .foregroundStyle(AppColors.primary)
                     }
+                    .accessibilityHidden(true)
                 }
                 .padding(AppSpacing.md + 4)
                 .background(AppColors.background)
@@ -213,6 +218,9 @@ struct MainMenuView: View {
         }
         .buttonStyle(.plain)
         .scaleEffect(1.0)
+        // H-2: meaningful label for VoiceOver
+        .accessibilityLabel(Text("menu.dailyPuzzle"))
+        .accessibilityHint("Tap to play today's puzzle")
     }
 
     // MARK: — Continue section
@@ -235,13 +243,13 @@ struct MainMenuView: View {
                         .textCase(.uppercase)
                         .foregroundStyle(AppColors.primary)
                 }
+                .accessibilityLabel("View all level packs")
             }
             .padding(.horizontal, AppSpacing.xs)
 
             if let pack = MockData.continuePack, let level = MockData.continueLevel {
                 continueCard(pack: pack, level: level)
             } else {
-                // No continue item — invite to start
                 Button {
                     router.selectTab(.levels)
                 } label: {
@@ -252,12 +260,14 @@ struct MainMenuView: View {
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundStyle(AppColors.primary)
+                            .accessibilityHidden(true)
                     }
                     .padding(AppSpacing.md)
                     .background(AppColors.primaryContainer.opacity(0.3))
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
                 .buttonStyle(.plain)
+                .accessibilityHint("Opens the levels list to start your first puzzle")
             }
         }
     }
@@ -267,7 +277,7 @@ struct MainMenuView: View {
             router.push(.gamePlay(levelId: level.id))
         } label: {
             HStack(spacing: AppSpacing.md) {
-                // Pack thumbnail placeholder
+                // Pack thumbnail (decorative — label conveys pack info)
                 ZStack {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(pack.accentColor.opacity(0.3))
@@ -281,6 +291,7 @@ struct MainMenuView: View {
                         .font(.system(size: 28))
                         .foregroundStyle(AppColors.primary.opacity(0.7))
                 }
+                .accessibilityHidden(true)
 
                 // Info
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
@@ -314,6 +325,7 @@ struct MainMenuView: View {
                             .font(AppTypography.labelSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
+                    .accessibilityHidden(true) // conveyed by card label
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -327,6 +339,9 @@ struct MainMenuView: View {
             .shadowL1()
         }
         .buttonStyle(.plain)
+        // H-2: combined label with progress context
+        .accessibilityLabel("\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete")
+        .accessibilityHint("Tap to continue this level")
     }
 }
 

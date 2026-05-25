@@ -36,11 +36,11 @@ Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:
 
 ## v0.2 — Core UI
 
-### [BLOCKER-01] App icon ve launch image placeholder
-- **Durum:** Eksik — xcodegen `INFOPLIST_KEY_UILaunchScreen_Generation: YES` ile boş launch screen oluşturuldu (beyaz).
-- **Etki:** App Store submission için 1024×1024 app icon gereklidir; v1.0 öncesi tamamlanmalı.
-- **Planlanan:** v1.0 — `Resources/AppIcon.appiconset/` SwiftUI vektör icon + export script.
-- **Aksiyon (kullanıcı):** v1.0 branch'ine kadar beklenebilir; erken test için asset katalog manuel oluşturulabilir.
+### [BLOCKER-01] App icon ve launch screen — ⚠️ PARTIAL (Faz H-2)
+- **Durum:** `AppIcon.appiconset` — 1024×1024 lavender placeholder eklendi. `ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon` ayarlı.
+- **Kalan:** Faz J — gerçek art-2d icon (Snuglo logosu). Faz J'de `AppIcon-1024.png` replace edilecek.
+- **Launch Screen Background:** `LaunchBackground.colorset` hazır ama `GENERATE_INFOPLIST_FILE=YES` ile `UILaunchScreen.UIColorName` sub-key set edilemiyor.
+  **FAZ J AKSİYONU:** `project.yml`'den `GENERATE_INFOPLIST_FILE: YES` kaldır, custom `Info.plist` oluştur, `UILaunchScreen > UIColorName: LaunchBackground` ekle.
 
 ### [BLOCKER-02] Parça renk field'ı engine'de yok
 - **Durum:** `Piece` modeli `color` field'ı içermiyor (v0.1 kasıtlı tasarım).
@@ -65,14 +65,10 @@ Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:
 
 ## v1.0-B — Nordic Hearth Theme (Faz B)
 
-### [BLOCKER-06] Dark mode renk token'ları — Faz H'de tamamlanacak
-- **Durum:** Faz B'de yalnızca light theme tanımlandı. `AppColors` içinde dark variant yok.
-- **Etki:** Dark Mode sistemi açık olduğunda uygulama light renklerle kalır (görsel uyumsuzluk).
-- **Planlanan:** Faz H — `Colors.swift`'e `Color(light:, dark:)` çiftleri eklenecek VEYA
-  Asset Catalog renk kümesi kullanılacak. Her token için dark hex değeri INDEX.md dark theming
-  bölümünde tanımlanmalı (henüz yok).
-- **Geçici çözüm:** Uygulama `light` appearance'ı zorla tutabilir
-  (`UIApplication.shared.keyWindow?.overrideUserInterfaceStyle = .light` — Faz H'e kadar).
+### [BLOCKER-06] Dark mode renk token'ları — ✅ FAZ H-2'DE KAPATILDI
+- **Durum:** `Colors.swift` rewritten — 25 token, her biri `Color(light:dark:)` adaptive.
+- `UIColor { traitCollection }` bridge kullanıldı (no Asset Catalog dependency).
+- Block palette dark shift: blockLavender `#7A6D8C`, blockSage `#6F8A6B`, vb.
 
 ### [BLOCKER-07] Custom font bundle dosyaları — Faz H'de tamamlanacak
 - **Durum:** Faz B'de sistem-font fallback'ler kullanıldı (SF Rounded / SF Pro / SF Mono).
