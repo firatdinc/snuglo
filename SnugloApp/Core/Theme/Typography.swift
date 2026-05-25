@@ -45,18 +45,4 @@ enum AppTypography {
     /// Call site must add: .tracking(0.6).textCase(.uppercase)
     static let labelSmall: Font = .system(size: 12, weight: .medium)
 
-    // MARK: — Legacy aliases (Faz B → Faz C migration shim; remove in Faz C)
-
-    @available(*, deprecated, renamed: "headlineLarge")
-    static let title: Font = headlineLarge
-    @available(*, deprecated, renamed: "headlineSmall")
-    static let subtitle: Font = headlineSmall
-    @available(*, deprecated, renamed: "bodyMedium")
-    static let body: Font = bodyMedium
-    @available(*, deprecated, renamed: "labelSmall")
-    static let caption: Font = labelSmall
-    @available(*, deprecated, renamed: "numericLabel")
-    static let mono: Font = numericLabel
-    @available(*, deprecated, renamed: "numericLabel")
-    static let blockLabel: Font = numericLabel
 }

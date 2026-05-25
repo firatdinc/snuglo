@@ -16,7 +16,4 @@ enum AppSpacing {
     static let lg: CGFloat  = 24  // 6× — screen horizontal margin
     static let xl: CGFloat  = 32  // 8× — section vertical rhythm
 
-    // Legacy alias — kept for Faz B→C migration; remove in Faz C
-    @available(*, deprecated, renamed: "xl")
-    static let xxl: CGFloat = xl
 }

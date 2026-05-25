@@ -2,18 +2,19 @@ import SwiftUI
 
 // MARK: — Nordic Hearth Design System: Colors
 // Source: Designs/INDEX.md (imported 2026-05-25)
-// Block palette: derived from INDEX.md "soft pastels — lavender/sage/peach/blush/cream/dusty olive"
-//   Hex values are hand-tuned to match desaturated Nordic warmth; 6 distinct pastels.
-// Light theme only. Dark mode: TODO Faz H — see BLOCKERS.md [BLOCKER-06].
-// No View should use hard-coded hex values; always reference AppColors.
+// Faz C: Added missing tokens (surface, onPrimaryContainer, secondaryContainer, etc.)
 
 /// Canonical color tokens for the Nordic Hearth design system.
 enum AppColors {
 
     // MARK: — Background / Surface (tonal layering L0 → L4)
 
+    /// Surface = warm off-white paper (alias for background)
+    static let surface                  = Color(hex: "#FDF8FB")
     /// L0 — page background, warm off-white paper
     static let background               = Color(hex: "#FDF8FB")
+    /// Pure white — lowest elevation surface
+    static let surfaceContainerLowest   = Color(hex: "#FFFFFF")
     /// L1 — lowest-elevation containers
     static let surfaceContainerLow      = Color(hex: "#F8F2F5")
     /// L2 — standard containers (cards, tray)
@@ -25,19 +26,24 @@ enum AppColors {
 
     // MARK: — Primary (Lavender / CTA)
 
-    static let primary          = Color(hex: "#65587A")
-    static let primaryContainer = Color(hex: "#C5B5DC")
-    static let onPrimary        = Color(hex: "#FFFFFF")
+    static let primary              = Color(hex: "#65587A")
+    static let primaryContainer     = Color(hex: "#C5B5DC")
+    static let onPrimary            = Color(hex: "#FFFFFF")
+    static let onPrimaryContainer   = Color(hex: "#524566")
 
     // MARK: — Secondary (Cocoa)
 
-    static let secondary   = Color(hex: "#675C58")
-    static let onSecondary = Color(hex: "#FFFFFF")
+    static let secondary                = Color(hex: "#675C58")
+    static let onSecondary              = Color(hex: "#FFFFFF")
+    static let secondaryContainer       = Color(hex: "#EBDDD7")
+    static let onSecondaryContainer     = Color(hex: "#6B605C")
 
     // MARK: — Tertiary (Warm Olive)
 
-    static let tertiary   = Color(hex: "#665F31")
-    static let onTertiary = Color(hex: "#FFFFFF")
+    static let tertiary                 = Color(hex: "#665F31")
+    static let onTertiary               = Color(hex: "#FFFFFF")
+    static let tertiaryContainer        = Color(hex: "#C6BD86")
+    static let onTertiaryContainer      = Color(hex: "#524C20")
 
     // MARK: — Text / Content
 
@@ -53,8 +59,14 @@ enum AppColors {
 
     // MARK: — Error
 
-    static let error   = Color(hex: "#BA1A1A")
-    static let onError = Color(hex: "#FFFFFF")
+    static let error          = Color(hex: "#BA1A1A")
+    static let onError        = Color(hex: "#FFFFFF")
+    static let errorContainer = Color(hex: "#FFDAD6")
+
+    // MARK: — Surface Variant
+
+    /// Surface with slight tint — same hex as surfaceContainerHighest
+    static let surfaceVariant = Color(hex: "#E6E1E4")
 
     // MARK: — Block fills (6 pastels — Nordic Hearth palette)
 
@@ -74,13 +86,12 @@ enum AppColors {
     // MARK: — Elevation / Shadow
 
     /// Base tonal shadow color — rgba(58, 51, 45).
-    /// Apply `.opacity(0.06)` for L1 (idle), `.opacity(0.12)` for picked-up state.
     static let shadowAmbient = Color(red: 58 / 255, green: 51 / 255, blue: 45 / 255)
 
     // MARK: — Semantic aliases
 
-    static let invalidRed = error      // invalid placement feedback
-    static let success    = primary    // solved state indicator
+    static let invalidRed = error
+    static let success    = primary
 
     // MARK: — GridView aliases
 
@@ -89,7 +100,6 @@ enum AppColors {
 
     // MARK: — Helpers
 
-    /// Deterministic, index-stable block color for a piece, keyed by piece ID.
     static func blockColor(for pieceID: String) -> Color {
         blockPalette[abs(pieceID.hashValue) % blockPalette.count]
     }
@@ -97,7 +107,7 @@ enum AppColors {
 
 // MARK: — Private hex initializer
 
-private extension Color {
+extension Color {
     init(hex: String) {
         let h = hex.trimmingCharacters(in: .init(charactersIn: "#"))
         var rgb: UInt64 = 0

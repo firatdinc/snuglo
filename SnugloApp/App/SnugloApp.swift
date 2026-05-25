@@ -4,7 +4,7 @@ import SwiftUI
 struct SnugloApp: App {
     var body: some Scene {
         WindowGroup {
-            GameView()
+            RootView()
         }
     }
 }

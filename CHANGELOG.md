@@ -2,6 +2,45 @@
 
 ---
 
+## [v1.0-C] — Navigation Skeleton (2026-05-25)
+
+### Navigation (C1–C2)
+- **`AppRouter.swift`** *(new)* — `@Observable` class with `path: [Route]`, `selectedTab: AppTab`.
+  `enum Route`: `onboarding | mainMenu | game(levelID:) | packDetail(packName:) | settings | shop`.
+  `enum AppTab`: `play | levels | stats | shop`. Helpers: `push(_:)`, `pop()`, `popToRoot()`.
+- **`RootView.swift`** *(new)* — Single `NavigationStack(path:)` rooted at `SplashView`.
+  All destinations registered via `.navigationDestination(for: Route.self)`.
+- **`SnugloApp.swift`** — Entry point changed from `GameView()` → `RootView()`.
+
+### Screens (C3)
+- **`SplashView.swift`** *(new)* — 3×3 pastel block logo, fade-in + soft scale pulse.
+  Auto-advances after 1.2 s: `hasOnboarded` → mainMenu or onboarding.
+- **`OnboardingView.swift`** *(new)* — 3-page TabView carousel, dot indicators, Skip + Get Started.
+  Sets `@AppStorage("hasOnboarded")` on completion.
+- **`MainMenuView.swift`** *(new)* — TabView host (PLAY / LEVELS / STATS / SHOP).
+  Play tab: progress pill, Daily Puzzle hero card, Continue section.
+- **`LevelsListView.swift`** *(new)* — Pack cards (Cozy Beginnings, Spice Route, Nordic Hearth).
+  Each card: icon badge, progress bar, tap → packDetail.
+- **`PackDetailView.swift`** *(new)* — Banner with progress bar + 3-column LazyVGrid of 30 level tiles.
+  Tile states: completed (stars), active, locked.
+- **`StatsView.swift`** *(new)* — 2×2 stat cards (Solved 142 / Time 48h / Fastest 1:12 / Streak 14d),
+  weekly bar chart, hint donut.
+- **`ShopView.swift`** *(new)* — Snuglo Plus hero card, horizontal hint packs scroll, Remove Ads row.
+- **`SettingsView.swift`** *(new)* — Toggle rows (Music / SFX / Haptics / Daily reminder), About section.
+  Backed by `@AppStorage`.
+- **`PauseOverlayView.swift`** *(new)* — Blur dimmer + card: Paused headline, timer, Resume/Restart/Home.
+- **`LevelCompleteSheet.swift`** *(new)* — Bottom sheet: check circle, puzzle thumbnail, stats row
+  (Time / Stars / Hints), Next Level / Replay / Home actions.
+
+### Theme (C5)
+- **`Colors.swift`** — Added `errorContainer`, `surfaceVariant` tokens.
+  Made `Color(hex:)` initializer `internal` (was `private`) so feature files can use it.
+- **`Typography.swift`** — Removed deprecated Faz B shims: `title`, `subtitle`, `body`, `caption`,
+  `mono`, `blockLabel`. No call-sites were using them (confirmed by grep).
+- **`Spacing.swift`** — Removed deprecated Faz B shim: `xxl`. No call-sites (confirmed by grep).
+
+---
+
 ## [v1.0-B] — Nordic Hearth Theme (2026-05-25)
 
 ### Theme System (B1)
