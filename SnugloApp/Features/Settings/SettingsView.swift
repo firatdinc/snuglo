@@ -13,6 +13,9 @@ struct SettingsView: View {
     @AppStorage("reminderHour")         private var reminderHour         = 20
     @AppStorage("reminderMinute")       private var reminderMinute       = 0
 
+    // Reset progress confirmation
+    @State private var showResetAlert = false
+
     var body: some View {
         List {
             // — SOUND & FEEL —
@@ -96,6 +99,28 @@ struct SettingsView: View {
                 disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, label: "Restore Purchases")
                 disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, label: "Privacy Policy")
                 disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, label: "Terms of Service")
+
+                // Reset Progress — destructive, confirm alert
+                Button {
+                    showResetAlert = true
+                } label: {
+                    HStack {
+                        iconBadge("trash.fill", color: Color(UIColor.systemRed).opacity(0.15))
+                        Text("Reset Progress")
+                            .font(AppTypography.bodyMedium)
+                            .foregroundStyle(.red)
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.plain)
+                .alert("Reset All Progress?", isPresented: $showResetAlert) {
+                    Button("Cancel", role: .cancel) {}
+                    Button("Reset", role: .destructive) {
+                        ProgressStore.shared.reset()
+                    }
+                } message: {
+                    Text("This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.")
+                }
             } header: {
                 sectionHeader("Account")
             }
