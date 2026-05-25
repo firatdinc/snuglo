@@ -6,6 +6,7 @@ options:
     iOS: "18.0"
   createIntermediateGroups: true
   generateEmptyDirectories: true
+  developmentLanguage: en
 
 packages:
   SnugloEngine:
@@ -42,6 +43,9 @@ targets:
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
         # Faz G-2: Required for ATTrackingManager / IDFA (App Tracking Transparency)
         INFOPLIST_KEY_NSUserTrackingUsageDescription: "To deliver personalized ads. You can opt out anytime in Settings."
+        # H-1: Localization support — EN (dev), TR, ES
+        INFOPLIST_KEY_CFBundleDevelopmentRegion: en
+        INFOPLIST_KEY_CFBundleLocalizations: "en tr es"
 
   SnugloAppTests:
     type: bundle.unit-test
