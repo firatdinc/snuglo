@@ -2,6 +2,69 @@
 
 ---
 
+## [v1.0-D2] — DailyPuzzle + PackProvider (2026-05-25)
+
+### Yeni: `Sources/SnugloEngine/Engine/DailyPuzzle.swift`
+
+- **`DailyPuzzle.swift`** *(new)* — Tarih-tabanlı deterministik bulmaca üretici.
+  - `today(timezone:) → Level` — device timezone ile bugünün bulmacası.
+  - `forDate(_:timezone:) → Level` — belirli tarih için level üretir.
+  - `seed(for:timezone:) → UInt64` — debug/test amacıyla raw seed değeri.
+  - Seed: `year×10000 + month×100 + day` (örn. 2026-01-01 → 20260101).
+  - Haftalık gridSize rotasyonu: Mon/Fri→5×5, Tue/Sat→6×6, Wed/Sun→7×7, Thu→8×8.
+  - Aynı tarih → deterministik aynı Level (id: `"daily-0"`).
+
+### Yeni: `SnugloApp/MockData/PackProvider.swift`
+
+- **`PackProvider.swift`** *(new)* — Engine (LevelGenerator) ile UI (Pack/LevelItem) köprüsü.
+  - `allPacks() → [Pack]` — MockData.allPacks wrapper (Faz E'de persistence).
+  - `levelItems(in packId:) → [LevelItem]` — 60 deterministik LevelItem.
+    - Faz D-2: progress statik (hepsi not-completed, sadece index=1 unlocked).
+    - Faz E: AppStorage/CoreData'dan okunacak.
+  - `loadLevel(packId:levelIndex:) → Level` — engine Level üretir.
+  - `loadLevel(id:) → Level?` — `"{packId}-{index}"` format parser.
+  - `dailyPuzzle() → Level` — `DailyPuzzle.today()` wrapper.
+
+### UI Ekranları — PackProvider'a Bağlandı
+
+| Ekran | Değişiklik |
+|-------|------------|
+| `LevelsListView` | `PackProvider.allPacks()` ile 4 pack kartı |
+| `PackDetailView` | `PackProvider.levelItems(in:)` ile 60 tile (engine-generated) |
+| `GameView` | `GameViewModel.makeFromPackProvider(levelId:)` onAppear'da; `"daily"` → DailyPuzzle |
+| `GameViewModel` | `makeFromPackProvider(levelId:)` — `"daily"` ve `"packId-index"` formatı |
+| `MainMenuView` | `dailyGridSize: Int { PackProvider.dailyPuzzle().width }` — gerçek engine gridSize badge |
+
+### Yeni Testler
+
+- **`DailyPuzzleTests.swift`** — 12 test: determinizm, tüm hafta günleri (7 test),
+  farklı tarih farklı seed, seed hesaplama doğruluğu, geçerli level yapısı, id formatı.
+
+### Test Sonuçları
+
+```
+DailyPuzzleTests     12/12 ✅
+LevelGeneratorTests  19/19 ✅
+SeededRandomTests    10/10 ✅
+LevelLoaderTests      5/5  ✅
+PieceCellCountTests   4/4  ✅
+SolutionCheckerEdge  13/13 ✅
+SolutionCheckerSanity 1/1  ✅
+─────────────────────────────
+Toplam               64/64 ✅
+```
+
+### Faz E Köprüsü
+
+`PackProvider.levelItems(in:)` şimdilik tüm level'ları `isCompleted: false` döndürür.
+Faz E'de `@AppStorage("progress_\(packId)")` veya `CoreData` entegrasyonu için:
+- `levelItems(in:)` → `UserDefaults.standard.array(forKey: "completed_\(packId)")` okuyacak
+- `PackProvider.markCompleted(levelId:stars:)` → UserDefaults/CoreData'ya yazacak
+- `MockData.continuePack/continueLevel` → PackProvider'a taşınacak (gerçek veri)
+- MainMenuView progressPill → `PackProvider.totalCompletedCount()` sayacını kullanacak
+
+---
+
 ## [v1.0-D1] — LevelGenerator Engine (2026-05-25)
 
 ### Yeni: `Sources/SnugloEngine/Engine/`
