@@ -114,6 +114,20 @@ struct MainMenuView: View {
 
     private var dailyGridSize: Int { PackProvider.dailyPuzzle().width }
 
+    /// H-1 BLOCKER 2: real locale-aware countdown to next midnight.
+    private var refreshCountdownString: String {
+        let cal = Calendar.current
+        let now = Date()
+        guard let tomorrow = cal.date(byAdding: .day, value: 1, to: cal.startOfDay(for: now)) else {
+            return "—"
+        }
+        let fmt = DateComponentsFormatter()
+        fmt.unitsStyle = .abbreviated
+        fmt.allowedUnits = [.hour, .minute]
+        fmt.calendar = cal
+        return fmt.string(from: now, to: tomorrow) ?? "—"
+    }
+
     private var dailyDateBadge: String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MMM d"
@@ -180,8 +194,12 @@ struct MainMenuView: View {
                             Image(systemName: "clock")
                                 .font(.system(size: 14))
                                 .accessibilityHidden(true)
-                            Text(verbatim: "Refresh in 4h 12m")
-                                .font(AppTypography.bodyMedium)
+                            // H-1 BLOCKER 2: real countdown + localized format
+                            Text(verbatim: String(
+                                format: NSLocalizedString("menu.refresh", comment: ""),
+                                refreshCountdownString
+                            ))
+                            .font(AppTypography.bodyMedium)
                         }
                         .foregroundStyle(AppColors.onSurfaceVariant)
                     }
