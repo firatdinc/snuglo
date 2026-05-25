@@ -28,6 +28,6 @@ First production-ready release of Snuglo.
 - Personalized ads consent uses ATTrackingManager; production needs final NSUserTrackingUsageDescription copy review
 
 ## Compatibility
-- Minimum iOS: 17.0
+- Minimum iOS: 18.0
 - Architectures: arm64 (device), arm64 + x86_64 (simulator)
 - Languages: en, tr, es

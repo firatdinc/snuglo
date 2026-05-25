@@ -29,11 +29,12 @@ Cozy block-logic puzzle game for iOS — drag pastel blocks onto a grid, solve a
 
 ## Requirements
 - Xcode 15+
-- iOS 17.0+
+- iOS 18.0+
 - xcodegen + swiftlint (`brew install xcodegen swiftlint`)
 
 ## Build
 ```
+cd SnugloApp
 xcodegen generate
 open SnugloApp.xcodeproj
 ```
@@ -44,7 +45,7 @@ swift test
 ```
 
 ## CI
-GitHub Actions workflow at `.github/workflows/ci.yml` runs SwiftLint + tests.
+CI: planned for v1.1 (no GitHub Actions workflow committed in v1.0.0).
 
 ## Roadmap
 v1.0 ships as a complete cozy puzzle. Future versions:
