@@ -109,6 +109,41 @@ final class ProgressStoreTests: XCTestCase {
         XCTAssertEqual(store.longestStreak, 2)
     }
 
+    // MARK: - testStreak_brokenIfDayMissed
+
+    /// Regression: load() must not blindly restore a stale currentStreak from disk.
+    /// Scenario: disk has currentStreak=1 from two days ago (yesterday+today both missed).
+    /// A fresh store must call updateStreak() during load() and return 0.
+    func testStreak_brokenIfDayMissed() {
+        let suite = "test.streak.broken.\(UUID().uuidString)"
+        let ud = UserDefaults(suiteName: suite)!
+
+        let cal = Calendar.current
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        df.locale = Locale(identifier: "en_US_POSIX")
+        let twoDaysAgo = df.string(from: cal.date(byAdding: .day, value: -2,
+                                                   to: cal.startOfDay(for: Date()))!)
+
+        // Manually craft a persisted snapshot that has currentStreak=1 but the
+        // solve date is two days ago — simulates a user who solved, then missed a day.
+        let json = """
+        {
+          "levelProgress": {},
+          "dailyResults": [{"date": "\(twoDaysAgo)", "solved": true, "time": 60.0}],
+          "currentStreak": 1,
+          "longestStreak": 1
+        }
+        """
+        ud.set(json.data(using: .utf8)!, forKey: suite)
+
+        // Loading a fresh store must recalculate (NOT blindly restore) currentStreak.
+        // Neither yesterday nor today is solved → streak must be 0.
+        let store = ProgressStore(defaults: ud, key: suite)
+        XCTAssertEqual(store.currentStreak, 0, "Streak must reset to 0 — a day was missed")
+        XCTAssertEqual(store.longestStreak, 1, "Longest streak should be preserved from disk")
+    }
+
     // MARK: - testPackCompletionCount
 
     func testPackCompletionCount_empty() {

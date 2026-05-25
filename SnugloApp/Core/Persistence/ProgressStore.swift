@@ -79,6 +79,13 @@ final class ProgressStore {
         save()
     }
 
+    /// Recalculates currentStreak from stored dailyResults.
+    /// Call from StatsView.onAppear to catch streak breaks that occurred while
+    /// the app was backgrounded (e.g. user returns after missing a day).
+    func refreshStreak() {
+        updateStreak()
+    }
+
     // MARK: - Query Helpers
 
     func isLevelCompleted(_ levelId: String) -> Bool {
@@ -148,8 +155,10 @@ final class ProgressStore {
               let snap = try? JSONDecoder().decode(Snapshot.self, from: data) else { return }
         levelProgress = snap.levelProgress
         dailyResults  = snap.dailyResults
-        currentStreak = snap.currentStreak
+        // Restore longestStreak from disk; currentStreak is always recalculated
+        // so stale/ghost streaks (e.g. user missed a day) are corrected on every launch.
         longestStreak = snap.longestStreak
+        updateStreak()
     }
 
     private func save() {
