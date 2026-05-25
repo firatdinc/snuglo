@@ -4,6 +4,18 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
+## v1.1 Backlog (Faz J — 2026-05-25)
+
+Aşağıdaki maddeler v1.0.0 scope'u dışında bırakılmış; v1.1'de ele alınacak:
+
+- XCUITest target setup (defer to CI bootstrap)
+- Real app icon art (1024×1024 + variants)
+- Real audio assets (5 SFX wav + bgm_cozy.mp3)
+- Real AdMob SDK integration (replace placeholder)
+- Native speaker review of TR/ES translations
+
+---
+
 ## Faz E — Persistence + Stats (2026-05-25) ✅ KAPANDI
 
 Tüm görevler tamamlandı. Bir minor not:
