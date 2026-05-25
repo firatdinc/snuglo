@@ -23,6 +23,19 @@ struct Pack: Identifiable, Hashable {
     var progressFraction: CGFloat {
         levelCount > 0 ? CGFloat(completedCount) / CGFloat(levelCount) : 0
     }
+
+    // MARK: — Localisation helpers (H-1)
+
+    /// Raw l10n key for NSLocalizedString contexts (e.g. a11y labels).
+    var rawTitleKey: String {
+        "pack.\(id.replacingOccurrences(of: "-", with: "_")).title"
+    }
+    /// SwiftUI localised title (Text / Picker).
+    var titleKey: LocalizedStringKey { LocalizedStringKey(rawTitleKey) }
+    /// Grid-size badge label, e.g. "5×5 grid" — falls back to subtitle if key missing.
+    var gridLabelKey: LocalizedStringKey {
+        LocalizedStringKey("pack.grid_label.\(gridSize)")
+    }
 }
 
 struct LevelItem: Identifiable, Hashable {

@@ -34,6 +34,7 @@ struct ShopView: View {
         .background(AppColors.background.ignoresSafeArea())
         .navigationTitle("shop.title")
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("screen.shop")
         .task { await store.loadProducts() }
         .overlay {
             if store.isLoading || isPurchasing { loadingOverlay }

@@ -20,6 +20,7 @@ struct MainMenuView: View {
             BottomTabBar()
         }
         .navigationBarHidden(true)
+        .accessibilityIdentifier("screen.mainMenu")
         .onAppear { router.selectedTab = .play }
     }
 
@@ -239,6 +240,8 @@ struct MainMenuView: View {
         // H-2: meaningful label for VoiceOver
         .accessibilityLabel(Text("menu.dailyPuzzle"))
         .accessibilityHint("Tap to play today's puzzle")
+        // Faz I-2: UITest smoke identifier
+        .accessibilityIdentifier("mainmenu.daily_card")
     }
 
     // MARK: — Continue section
@@ -360,6 +363,8 @@ struct MainMenuView: View {
         // H-2: combined label with progress context
         .accessibilityLabel("\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete")
         .accessibilityHint("Tap to continue this level")
+        // Faz I-2: UITest primary play/continue CTA identifier
+        .accessibilityIdentifier("mainmenu.play_cta")
     }
 }
 

@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: brew install xcodegen swiftlint
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: SwiftLint (strict)
+        run: swiftlint --strict
+
+      - name: Swift package tests
+        run: swift test
+
+      - name: xcodebuild (no signing)
+        run: |
+          xcodebuild \
+            -scheme SnugloApp \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build \
+            CODE_SIGNING_ALLOWED=NO

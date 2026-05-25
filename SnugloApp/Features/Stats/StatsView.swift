@@ -19,10 +19,10 @@ struct StatsView: View {
     @State private var store: ProgressStore = ProgressStore.shared
 
     private let packs: [PackStat] = [
-        PackStat(id: "cozy-beginnings",  rawKey: "pack.cozyBeginnings",  color: AppColors.blockLavender, icon: "leaf.fill"),
-        PackStat(id: "spice-route",      rawKey: "pack.spiceRoute",      color: AppColors.blockPeach,   icon: "cup.and.saucer.fill"),
-        PackStat(id: "mambo-nights",     rawKey: "pack.mamboNights",     color: AppColors.blockBlush,   icon: "moon.stars.fill"),
-        PackStat(id: "woodland-retreat", rawKey: "pack.woodlandRetreat", color: AppColors.blockSage,    icon: "tree.fill")
+        PackStat(id: "cozy-beginnings", rawKey: "pack.cozyBeginnings", color: AppColors.blockLavender, icon: "leaf.fill"),
+        PackStat(id: "spice-route", rawKey: "pack.spiceRoute", color: AppColors.blockPeach, icon: "cup.and.saucer.fill"),
+        PackStat(id: "mambo-nights", rawKey: "pack.mamboNights", color: AppColors.blockBlush, icon: "moon.stars.fill"),
+        PackStat(id: "woodland-retreat", rawKey: "pack.woodlandRetreat", color: AppColors.blockSage, icon: "tree.fill")
     ]
 
     var body: some View {
@@ -41,6 +41,7 @@ struct StatsView: View {
         .background(AppColors.background.ignoresSafeArea())
         .navigationTitle("stats.title")
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("screen.stats")
     }
 
     // MARK: — Header

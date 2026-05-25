@@ -23,6 +23,7 @@ targets:
           - "project.yml"
           - "*.xcodeproj"
           - "Resources/Sounds"
+          - "SnugloAppUITests"   # Faz I-2: exclude UITest bundle from app sources
     resources:
       - path: Resources/Sounds
         buildPhase: resources
@@ -69,3 +70,48 @@ targets:
         SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
         GENERATE_INFOPLIST_FILE: YES
+
+  # Faz I-2: XCUITest smoke suite
+  SnugloAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: SnugloAppUITests
+    dependencies:
+      - target: SnugloApp
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        SWIFT_STRICT_CONCURRENCY: minimal
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: SnugloApp
+
+# Faz I-2: Explicit scheme — fixes "Supported platforms … is empty" IDERunDestination error.
+# Also adds SnugloAppUITests to the test action so -only-testing:SnugloAppUITests works.
+schemes:
+  SnugloApp:
+    build:
+      targets:
+        SnugloApp: all
+        SnugloAppTests: [test]
+        SnugloAppUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - name: SnugloAppTests
+          parallelizable: true
+          randomExecutionOrder: false
+        - name: SnugloAppUITests
+          parallelizable: false
+          randomExecutionOrder: false
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

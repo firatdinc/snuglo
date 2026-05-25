@@ -69,6 +69,7 @@ struct GameView: View {
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
         .navigationBarHidden(true)
+        .accessibilityIdentifier("screen.game")
         // H-2: Constrain Dynamic Type — grid cells overflow at AX5 sizes
         .dynamicTypeSize(.medium ... .xxxLarge)
         .sheet(isPresented: $showPause) {
@@ -134,6 +135,8 @@ struct GameView: View {
             } action: { frame in
                 gridFrame = frame
             }
+            // Faz I-2: UITest identifier for the puzzle grid container
+            .accessibilityIdentifier("game.grid")
 
             Spacer(minLength: 0)
             trayView
@@ -156,6 +159,8 @@ struct GameView: View {
             .buttonStyle(.plain)
             .accessibilityLabel("Back")
             .accessibilityHint("Returns to the previous screen")
+            // Faz I-2: UITest identifier
+            .accessibilityIdentifier("game.back")
 
             Spacer()
 
@@ -170,6 +175,8 @@ struct GameView: View {
             }
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("\(levelDisplayName), elapsed time \(formattedTimer)")
+            // Faz I-2: UITest identifier for timer display
+            .accessibilityIdentifier("game.timer")
 
             Spacer()
 
@@ -184,6 +191,8 @@ struct GameView: View {
             .buttonStyle(.plain)
             .accessibilityLabel("Pause")
             .accessibilityHint("Pauses the timer and shows pause options")
+            // Faz I-2: UITest identifier
+            .accessibilityIdentifier("game.pause")
         }
         .padding(.horizontal, AppSpacing.lg)
     }

@@ -38,6 +38,7 @@ struct PackDetailView: View {
         .background(AppColors.background.ignoresSafeArea())
         .navigationTitle(packName)
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("screen.packDetail")
     }
 
     // MARK: — Hero banner

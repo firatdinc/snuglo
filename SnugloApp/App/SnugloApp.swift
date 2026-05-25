@@ -13,6 +13,12 @@ struct SnugloApp: App {
         // Delegate must be assigned before any notifications arrive.
         // NotificationService.shared is the UNUserNotificationCenterDelegate.
         UNUserNotificationCenter.current().delegate = NotificationService.shared
+        // I-2: Reset state for UI automation tests
+        if ProcessInfo.processInfo.arguments.contains("-uitest-reset-progress") {
+            ProgressStore.shared.reset()
+            UserDefaults.standard.removeObject(forKey: "hasOnboarded")
+            UserDefaults.standard.removeObject(forKey: "snuglo.language.override")
+        }
     }
 
     var body: some Scene {
