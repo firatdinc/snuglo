@@ -21,6 +21,10 @@ targets:
         excludes:
           - "project.yml"
           - "*.xcodeproj"
+          - "Resources/Sounds"
+    resources:
+      - path: Resources/Sounds
+        buildPhase: resources
     dependencies:
       - package: SnugloEngine
         product: SnugloEngine

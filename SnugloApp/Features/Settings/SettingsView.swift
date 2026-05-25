@@ -7,33 +7,29 @@ import SwiftUI
 
 struct SettingsView: View {
 
-    // MARK: — Manager bindings (Faz F)
-    // @Bindable wraps @Observable singletons so we can use $ syntax in Toggles.
+    // MARK: — Audio settings  (Faz F: @AppStorage keys match SoundService)
+    @AppStorage("musicEnabled")          private var musicEnabled         = true
+    @AppStorage("sfxEnabled")            private var sfxEnabled           = true
 
-    @Bindable private var audio   = AudioManager.shared
-    @Bindable private var haptics = HapticsManager.shared
-    @Bindable private var notif   = NotificationScheduler.shared
+    // MARK: — Haptics (Faz F: key matches HapticService)
+    @AppStorage("hapticsEnabled")        private var hapticsEnabled       = true
+
+    // MARK: — Daily reminder (Faz F: NotificationService.reschedule called on change)
+    @AppStorage("dailyReminderEnabled")  private var dailyReminderEnabled = false
+    /// Stored as TimeInterval since reference date; default 19:00.
+    @AppStorage("dailyReminderTime")     private var dailyReminderTimeInterval: Double = 19 * 3600
 
     // MARK: — Local UI state
 
     @State private var showResetAlert        = false
     @State private var showNotifDeniedAlert  = false
 
-    // MARK: — Computed: Date ↔ (hour, minute) bridge for DatePicker
+    // MARK: — Computed: Date ↔ TimeInterval bridge for DatePicker
 
     private var reminderDate: Binding<Date> {
         Binding(
-            get: {
-                var dc = DateComponents()
-                dc.hour   = notif.reminderHour
-                dc.minute = notif.reminderMinute
-                return Calendar.current.date(from: dc) ?? Date()
-            },
-            set: { date in
-                let dc = Calendar.current.dateComponents([.hour, .minute], from: date)
-                notif.reminderHour   = dc.hour   ?? 19
-                notif.reminderMinute = dc.minute  ?? 0
-            }
+            get: { Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval) },
+            set: { dailyReminderTimeInterval = $0.timeIntervalSinceReferenceDate }
         )
     }
 
@@ -41,21 +37,20 @@ struct SettingsView: View {
 
     private var reminderToggle: Binding<Bool> {
         Binding(
-            get: { notif.reminderEnabled },
+            get: { dailyReminderEnabled },
             set: { newValue in
                 if newValue {
                     Task { @MainActor in
-                        let granted = await notif.requestAuthorization()
-                        if granted {
-                            notif.reminderEnabled = true
-                        } else {
-                            // Keep off + show alert
-                            notif.reminderEnabled = false
-                            showNotifDeniedAlert  = true
-                        }
+                        await NotificationService.shared.requestAuthorization()
+                        dailyReminderEnabled = true
+                        NotificationService.shared.reschedule(
+                            enabled: true,
+                            at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
+                        )
                     }
                 } else {
-                    notif.reminderEnabled = false
+                    dailyReminderEnabled = false
+                    NotificationService.shared.reschedule(enabled: false, at: Date())
                 }
             }
         )
@@ -71,19 +66,19 @@ struct SettingsView: View {
                     icon: "music.note",
                     iconColor: AppColors.primaryContainer,
                     label: "Music",
-                    isOn: $audio.musicEnabled
+                    isOn: $musicEnabled
                 )
                 toggleRow(
                     icon: "speaker.wave.2.fill",
                     iconColor: AppColors.secondaryContainer,
                     label: "Sound Effects",
-                    isOn: $audio.soundEnabled
+                    isOn: $sfxEnabled
                 )
                 toggleRow(
                     icon: "hand.tap.fill",
                     iconColor: AppColors.tertiaryContainer,
                     label: "Haptics",
-                    isOn: $haptics.enabled
+                    isOn: $hapticsEnabled
                 )
             } header: {
                 sectionHeader("Sound & Feel")
@@ -122,7 +117,7 @@ struct SettingsView: View {
                     isOn: reminderToggle
                 )
 
-                if notif.reminderEnabled {
+                if dailyReminderEnabled {
                     HStack {
                         iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
                         Text("Reminder Time")
@@ -136,12 +131,19 @@ struct SettingsView: View {
                         )
                         .labelsHidden()
                         .tint(AppColors.primary)
+                        .onChange(of: dailyReminderTimeInterval) { _, _ in
+                            // Reschedule via NotificationService when time changes
+                            NotificationService.shared.reschedule(
+                                enabled: dailyReminderEnabled,
+                                at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
+                            )
+                        }
                     }
                 }
             } header: {
                 sectionHeader("Notifications")
             } footer: {
-                if notif.reminderEnabled {
+                if dailyReminderEnabled {
                     Text("Daily reminder set for \(formattedReminderTime)")
                         .font(AppTypography.labelSmall)
                         .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
@@ -222,10 +224,12 @@ struct SettingsView: View {
     // MARK: — Helpers
 
     private var formattedReminderTime: String {
-        let h = notif.reminderHour
-        let m = notif.reminderMinute
-        let ampm = h >= 12 ? "PM" : "AM"
-        let h12  = h % 12 == 0 ? 12 : h % 12
+        let date  = Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
+        let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
+        let h     = comps.hour   ?? 19
+        let m     = comps.minute ?? 0
+        let ampm  = h >= 12 ? "PM" : "AM"
+        let h12   = h % 12 == 0 ? 12 : h % 12
         return String(format: "%d:%02d %@", h12, m, ampm)
     }
 
