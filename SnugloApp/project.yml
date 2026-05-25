@@ -21,13 +21,18 @@ targets:
       - path: .
         excludes:
           - "project.yml"
+          - "Info.plist"         # Processed via INFOPLIST_FILE build setting — must not be in Copy Bundle Resources
           - "*.xcodeproj"
           - "Resources/Sounds"
+          - "Resources/Fonts"    # Fonts are resources, not sources
           - "SnugloAppUITests"   # Faz I-2: exclude UITest bundle from app sources
     resources:
       - path: Resources/Sounds
         buildPhase: resources
       - path: Resources/Assets.xcassets
+        buildPhase: resources
+      # v1.1: Custom fonts (Plus Jakarta Sans, Be Vietnam Pro, Space Grotesk) — BLOCKER-07
+      - path: Resources/Fonts
         buildPhase: resources
     dependencies:
       - package: SnugloEngine
@@ -36,23 +41,15 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.felabs.snuglo
         SWIFT_VERSION: "5.9"
-        GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "2"
-        # H-2: Launch screen background color (from Assets.xcassets/LaunchBackground.colorset)
-        # UILaunchScreen dict is generated; UIColorName sub-key references the colorset.
+        # v1.1: Switched to custom Info.plist — fixes BLOCKER-01 (UILaunchScreen) + BLOCKER-07 (UIAppFonts).
+        # GENERATE_INFOPLIST_FILE removed; all keys now in SnugloApp/Info.plist.
+        INFOPLIST_FILE: $(SRCROOT)/Info.plist
+        MARKETING_VERSION: "1.1.0"
+        CURRENT_PROJECT_VERSION: "3"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
-        # Faz G-2: Required for ATTrackingManager / IDFA (App Tracking Transparency)
-        INFOPLIST_KEY_NSUserTrackingUsageDescription: "To deliver personalized ads. You can opt out anytime in Settings."
-        # H-1: Localization support — EN (dev), TR, ES
-        INFOPLIST_KEY_CFBundleDevelopmentRegion: en
-        INFOPLIST_KEY_CFBundleLocalizations: "en tr es"
 
   SnugloAppTests:
     type: bundle.unit-test
