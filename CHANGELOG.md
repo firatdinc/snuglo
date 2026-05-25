@@ -94,6 +94,8 @@
 
 ### Settings (F5)
 - **`SnugloApp/Features/Settings/SettingsView.swift`** — `@AppStorage("sfxEnabled")` + `@AppStorage("hapticsEnabled")` (SoundService/HapticService anahtarlarıyla aynı). Daily Reminder toggle → `NotificationService.shared.requestAuthorization()` + `reschedule()`. DatePicker onChange → reschedule.
+  - Appearance section: `@AppStorage("appTheme") Int` (0=System/1=Light/2=Dark) + functional `Picker("", selection: $appThemeRaw)` — "coming soon" placeholder kaldırıldı.
+- **`SnugloApp/App/RootView.swift`** — `@AppStorage("appTheme")` okur; `preferredScheme: ColorScheme?` computed; `.preferredColorScheme(preferredScheme)` modifier — tüm NavigationStack'e uygulanır.
 
 ### GameView (F6)
 - **`SnugloApp/Features/Game/GameView.swift`** — AudioManager/HapticsManager → SoundService/HapticService:
