@@ -23,6 +23,20 @@ struct Pack: Identifiable, Hashable {
     var progressFraction: CGFloat {
         levelCount > 0 ? CGFloat(completedCount) / CGFloat(levelCount) : 0
     }
+
+    // MARK: — H-1 Localization keys (used by ShopView)
+
+    /// Raw String key for NSLocalizedString calls (a11y labels).
+    /// e.g. "pack.cozy_beginnings.title"
+    var rawTitleKey: String {
+        "pack.\(id.replacingOccurrences(of: "-", with: "_")).title"
+    }
+    /// LocalizedStringKey variant — used in SwiftUI Text(pack.titleKey).
+    var titleKey: LocalizedStringKey { LocalizedStringKey(rawTitleKey) }
+    /// LocalizedStringKey for the grid-size badge, e.g. "pack.grid_label.5".
+    var gridLabelKey: LocalizedStringKey {
+        LocalizedStringKey("pack.grid_label.\(gridSize)")
+    }
 }
 
 struct LevelItem: Identifiable, Hashable {
