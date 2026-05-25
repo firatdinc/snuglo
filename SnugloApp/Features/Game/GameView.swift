@@ -67,10 +67,10 @@ struct GameView: View {
         .navigationBarHidden(true)
         .sheet(isPresented: $showPause) {
             PauseSheet(
-                elapsedSeconds: elapsedSeconds,
                 onResume: { startTimer() },
                 onRestart: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() },
-                onQuit: { router.pop() }
+                onQuit: { router.pop() },
+                elapsedSeconds: elapsedSeconds
             )
             .environment(router)
         }
