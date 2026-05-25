@@ -2,6 +2,69 @@
 
 ---
 
+## [v1.0-G2] — Ads Placeholder + Frequency Cap (2026-05-25)
+
+### Core/Ads (G2-1 — AdsManager)
+- **`SnugloApp/Core/Ads/AdsManager.swift`** *(new)* — `@Observable final class AdsManager`.
+  - Singleton `shared` + testable `init(sessionStart: Date)` (internal).
+  - **Frequency cap**: interstitial every 3 level completions (`interstitialFrequencyLevels = 3`).
+  - **Warmup guard**: no interstitials in first 30 s of session (`warmupSeconds = 30`).
+  - **Session cap**: max 5 interstitials per session (`maxInterstitialsPerSession = 5`).
+  - `adsRemovedProvider: () -> Bool` closure — injectable for tests; defaults to `StoreManager.shared.adsRemoved`.
+  - `showInterstitial(reason:)` async — 1.5 s placeholder sleep; resets `levelsCompletedSinceLastInterstitial = 0`.
+  - `showRewarded(onReward:)` — immediate reward callback (placeholder; FAZ-J: GADRewardedAd).
+  - `shouldShowBanner` — computed; `!adsRemovedProvider()`.
+  - Consent: `setConsent(_ Bool)` + `loadConsentFlags()` → `UserDefaults("snuglo.ads.consent")`.
+  - **FAZ-J swap points** documented inline: `showInterstitial`, `showRewarded`, `resetOnAdsRemoved`, `setConsent`.
+
+### Core/Components (G2-2 — Overlay + Banner)
+- **`SnugloApp/Core/Components/AdInterstitialOverlay.swift`** *(new)* — full-window dimmed ZStack.
+  - Shows when `AdsManager.shared.isShowingInterstitial == true`.
+  - `ProgressView` + placeholder text; `transition(.opacity)`.
+  - FAZ-J: remove entirely (GADInterstitialAd presents its own UIViewController).
+- **`SnugloApp/Core/Components/BannerAdView.swift`** *(new)* — 50 pt bottom banner.
+  - Hidden when `AdsManager.shared.shouldShowBanner == false`.
+  - FAZ-J: replace body with `UIViewRepresentable(GADBannerView)`.
+
+### App Layer (G2-3 — Lifecycle hooks)
+- **`SnugloApp/App/RootView.swift`** — `.overlay(AdInterstitialOverlay())` above NavigationStack.
+- **`SnugloApp/Features/Game/GameView.swift`** — `AdsManager.shared.onLevelCompleted()` in `onChange(of: viewModel.isSolved)`, fires before `fullScreenCover` presentation.
+
+### Settings (G2-4 — Privacy section)
+- **`SnugloApp/Features/Settings/SettingsView.swift`** — new PRIVACY section (between NOTIFICATIONS and ACCOUNT).
+  - "Personalized Ads" toggle → `ATTrackingManager.requestTrackingAuthorization` on enable.
+  - Revoking → `AdsManager.shared.setConsent(false)` immediately.
+  - `import AppTrackingTransparency` added.
+
+### Info.plist (G2-5 — ATT)
+- **`SnugloApp/project.yml`** — `INFOPLIST_KEY_NSUserTrackingUsageDescription` added to SnugloApp target.
+  - Value: `"To deliver personalized ads. You can opt out anytime in Settings."`
+  - Required for iOS 14.5+ ATT / IDFA (min deployment: 18.0).
+
+### Tests (G2-6 — AdsManagerTests)
+- **`Tests/SnugloAppTests/AdsManagerTests.swift`** *(new)* — 12 tests, all passing.
+  - `testFrequencyCapPerLevel_firstTwoLevels_noInterstitial`
+  - `testFrequencyCapPerLevel_thirdLevel_triggersInterstitial` (async, 2 s)
+  - `testMaxPerSessionCap_noPresentationAfterCap` + `_guardBranch`
+  - `testRemoveAdsDisablesAll_onLevelCompleted_isNoop` + `_shouldShowBannerFalse`
+  - `testWarmupBlocks_interstitialNotTriggered` + `_pastWarmup_counterBuildsContinuously`
+  - `testFrequencyResetAfterInterstitial`
+  - `testConsentPersistence_roundTrip`
+  - `testShouldShowBanner_adsNotRemoved_true` + `_adsRemoved_false`
+
+### RemoveAds integration
+- `StoreManager.adsRemoved` (Faz G-1) → `AdsManager.adsRemovedProvider` gate on every path.
+- `@Observable` propagation: UI auto-hides banner + skips interstitials immediately on purchase.
+
+### Faz J bridge: RealAdsAdapter swap
+- Replace `AdsManager.showInterstitial` body with `GADInterstitialAd.load(...) + present(...)`.
+- Replace `BannerAdView` body with `UIViewRepresentable(GADBannerView)`.
+- Remove `AdInterstitialOverlay` (no longer needed — SDK owns the window).
+- Add SPM: `google-mobile-ads-sdk` package.
+- Forward consent to UMP SDK in `AdsManager.setConsent`.
+
+---
+
 ## [v1.0-F] — Audio + Haptics + Daily Reminder BLOCKER fix (2026-05-25)
 
 ### Services (F1 — SoundService)
