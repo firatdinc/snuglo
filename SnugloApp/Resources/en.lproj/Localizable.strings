@@ -1,0 +1,161 @@
+/* ============================================================
+   Snuglo — Localizable.strings (English)
+   Faz H-1: Initial AI translation — native review: Faz J
+   ============================================================ */
+
+// MARK: — Common
+"common.continue" = "Continue";
+"common.cancel"   = "Cancel";
+"common.back"     = "Back";
+"common.next"     = "Next";
+"common.done"     = "Done";
+"common.skip"     = "Skip";
+"common.restart"  = "Restart";
+"common.quit"     = "Quit";
+"common.retry"    = "Retry";
+"common.ok"       = "OK";
+"common.error"    = "Error";
+
+// MARK: — App
+"app.name"    = "Snuglo";
+"app.tagline" = "Cozy block-logic puzzles";
+
+// MARK: — Onboarding
+"onboarding.page1.title" = "Welcome to Snuglo";
+"onboarding.page1.body"  = "A cozy puzzle to fit your day";
+"onboarding.page2.title" = "Fill the Grid";
+"onboarding.page2.body"  = "Drag and drop pieces to fill every cell. No overlaps, no gaps.";
+"onboarding.page3.title" = "Cozy Every Day";
+"onboarding.page3.body"  = "Daily puzzles, streaks, and four themed packs to explore at your pace.";
+"onboarding.getStarted"  = "Get Started";
+
+// MARK: — Main Menu
+"menu.dailyPuzzle" = "Daily Puzzle";
+"menu.continue"    = "Continue";
+"menu.viewAll"     = "View All";
+"menu.startFirst"  = "Start your first level";
+"menu.refresh"     = "Refresh in %@";
+
+// MARK: — Tabs (BottomTabBar)
+"tab.play"   = "Play";
+"tab.levels" = "Levels";
+"tab.stats"  = "Stats";
+"tab.shop"   = "Shop";
+
+// MARK: — Levels list
+"levels.title"    = "Levels";
+"levels.subtitle" = "Pick a pack";
+
+// MARK: — Pack
+"pack.cozyBeginnings"  = "Cozy Beginnings";
+"pack.spiceRoute"      = "Spice Route";
+"pack.mamboNights"     = "Mambo Nights";
+"pack.woodlandRetreat" = "Woodland Retreat";
+"pack.locked"          = "Locked";
+"pack.progress"        = "Progress";
+
+// MARK: — Alert: unlock pack
+"alert.unlockPack.title"    = "Unlock Pack";
+"alert.unlockPack.message"  = "%@ is locked. Visit the Shop to unlock it.";
+"alert.unlockPack.goToShop" = "Go to Shop";
+
+// MARK: — Pause
+"pause.title"   = "Paused";
+"pause.resume"  = "Resume";
+"pause.restart" = "Restart";
+"pause.home"    = "Home";
+"pause.sound"   = "Sound";
+"pause.haptics" = "Haptics";
+
+// MARK: — Level Complete
+"complete.puzzleSolved" = "Level complete!";
+"complete.next"         = "Next Level";
+"complete.replay"       = "Replay";
+"complete.home"         = "Home";
+"complete.time"         = "Time";
+"complete.stars"        = "Stars";
+"complete.hints"        = "Hints";
+
+// MARK: — Stats
+"stats.title"           = "Stats";
+"stats.header"          = "Your Stats";
+"stats.streakActive"    = "🔥 %d-day streak — keep it going!";
+"stats.streakEmpty"     = "Play today's daily puzzle to start a streak 🧩";
+"stats.levelsCompleted" = "Levels";
+"stats.streak"          = "Streak";
+"stats.avgTime"         = "Avg Time";
+"stats.dailySolved"     = "Daily Solved";
+"stats.packProgress"    = "Pack Progress";
+"stats.last7Days"       = "Solves per day";
+"stats.chartSolved"     = "Solved";
+"stats.chartMissed"     = "Missed";
+"stats.hintUsage"       = "Hint usage";
+"stats.noHints"         = "No hints";
+"stats.hints1to2"       = "1–2 hints";
+"stats.hints3plus"      = "3+ hints";
+
+// MARK: — Shop
+"shop.title"           = "Shop";
+"shop.enhance"         = "Enhance your cozy experience";
+"shop.packUnlocks"     = "Puzzle Packs";
+"shop.hintsSection"    = "Hints";
+"shop.oneTime"         = "One-Time Purchases";
+"shop.hintsRemaining"  = "You have %d remaining";
+"shop.hintsAvailable"  = "%d hints available";
+"shop.restore"         = "Restore Purchases";
+"shop.owned"           = "Owned";
+
+"sku.hintsSmall.title"      = "10 Hints";
+"sku.hintsSmall.body"       = "Get unstuck when puzzles get tricky";
+"sku.removeAds.title"       = "Remove Ads";
+"sku.removeAds.body"        = "One-time · No more interruptions";
+"sku.spiceRoute.title"      = "Spice Route Pack";
+"sku.spiceRoute.body"       = "Unlock 60 levels of 6×6 puzzles";
+"sku.mamboNights.title"     = "Mambo Nights Pack";
+"sku.mamboNights.body"      = "Unlock 60 levels of 7×7 puzzles";
+"sku.woodlandRetreat.title" = "Woodland Retreat Pack";
+"sku.woodlandRetreat.body"  = "Unlock 60 levels of 8×8 puzzles";
+
+// MARK: — Settings
+"settings.title"                   = "Settings";
+"settings.sound.title"             = "Sound & Feel";
+"settings.sound.music"             = "Music";
+"settings.sound.effects"           = "Sound Effects";
+"settings.haptics.enable"          = "Haptics";
+"settings.appearance.title"        = "Appearance";
+"settings.appearance.theme"        = "Theme";
+"settings.appearance.system"       = "System";
+"settings.appearance.light"        = "Light";
+"settings.appearance.dark"         = "Dark";
+"settings.notifications.title"     = "Notifications";
+"settings.notifications.reminder"  = "Daily Reminder";
+"settings.notifications.time"      = "Reminder Time";
+"settings.notifications.reminderSet" = "Daily reminder set for %@";
+"settings.language.title"          = "Language";
+"settings.language.label"          = "Language";
+"settings.language.footer"         = "You can also change the language in iOS Settings → Snuglo.";
+"settings.language.system"         = "System";
+"settings.language.en"             = "English";
+"settings.language.tr"             = "Türkçe";
+"settings.language.es"             = "Español";
+"settings.language.restartTitle"   = "Restart Required";
+"settings.language.restartMessage" = "Language changes take effect after you restart Snuglo.";
+"settings.privacy.title"           = "Privacy";
+"settings.privacy.personalizedAds" = "Personalized Ads";
+"settings.privacy.adsFooter"       = "Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.";
+"settings.account.title"           = "Account";
+"settings.account.restore"         = "Restore Purchases";
+"settings.account.privacy"         = "Privacy Policy";
+"settings.account.terms"           = "Terms of Service";
+"settings.account.reset"           = "Reset Progress";
+"settings.account.resetTitle"      = "Reset All Progress?";
+"settings.account.resetMessage"    = "This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.";
+"settings.account.resetAction"     = "Reset";
+"settings.about.title"             = "About";
+"settings.about.version"           = "Version";
+"settings.about.credits"           = "Made with ♥ and cozy vibes";
+
+// MARK: — Notifications alert
+"notif.disabled.title"   = "Notifications Disabled";
+"notif.disabled.message" = "To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.";
+"notif.openSettings"     = "Open Settings";

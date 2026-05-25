@@ -1,0 +1,161 @@
+/* ============================================================
+   Snuglo — Localizable.strings (Türkçe)
+   Faz H-1: İlk AI çevirisi — anadil incelemesi: Faz J
+   ============================================================ */
+
+// MARK: — Ortak
+"common.continue" = "Devam";
+"common.cancel"   = "İptal";
+"common.back"     = "Geri";
+"common.next"     = "İleri";
+"common.done"     = "Tamam";
+"common.skip"     = "Geç";
+"common.restart"  = "Yeniden Başlat";
+"common.quit"     = "Çık";
+"common.retry"    = "Tekrar Dene";
+"common.ok"       = "Tamam";
+"common.error"    = "Hata";
+
+// MARK: — Uygulama
+"app.name"    = "Snuglo";
+"app.tagline" = "Sıcacık blok-mantık bulmacaları";
+
+// MARK: — Karşılama
+"onboarding.page1.title" = "Snuglo'ya Hoş Geldin";
+"onboarding.page1.body"  = "Güne uygun sıcacık bir bulmaca";
+"onboarding.page2.title" = "Izgarayı Doldur";
+"onboarding.page2.body"  = "Parçaları sürükle ve bırak, her hücreyi doldur. Bindirme yok, boşluk yok.";
+"onboarding.page3.title" = "Her Gün Sıcacık";
+"onboarding.page3.body"  = "Günlük bulmacalar, seriler ve kendi temponda keşfedebileceğin dört tema.";
+"onboarding.getStarted"  = "Başla";
+
+// MARK: — Ana Menü
+"menu.dailyPuzzle" = "Günün Bulmacası";
+"menu.continue"    = "Devam Et";
+"menu.viewAll"     = "Tümünü Gör";
+"menu.startFirst"  = "İlk seviyene başla";
+"menu.refresh"     = "%@ içinde yenilenir";
+
+// MARK: — Sekmeler (BottomTabBar)
+"tab.play"   = "Oyna";
+"tab.levels" = "Seviyeler";
+"tab.stats"  = "İstatistik";
+"tab.shop"   = "Mağaza";
+
+// MARK: — Seviyeler listesi
+"levels.title"    = "Seviyeler";
+"levels.subtitle" = "Bir paket seç";
+
+// MARK: — Paket
+"pack.cozyBeginnings"  = "Sıcak Başlangıç";
+"pack.spiceRoute"      = "Baharat Yolu";
+"pack.mamboNights"     = "Mambo Geceleri";
+"pack.woodlandRetreat" = "Orman Sığınağı";
+"pack.locked"          = "Kilitli";
+"pack.progress"        = "İlerleme";
+
+// MARK: — Uyarı: paket kilidi
+"alert.unlockPack.title"    = "Paketi Kilitsiz Aç";
+"alert.unlockPack.message"  = "%@ kilitli. Kilidi açmak için Mağaza'ya git.";
+"alert.unlockPack.goToShop" = "Mağazaya Git";
+
+// MARK: — Duraklatma
+"pause.title"   = "Durakladı";
+"pause.resume"  = "Devam Et";
+"pause.restart" = "Yeniden Başlat";
+"pause.home"    = "Ana Sayfa";
+"pause.sound"   = "Ses";
+"pause.haptics" = "Titreşim";
+
+// MARK: — Seviye Tamamlandı
+"complete.puzzleSolved" = "Seviye Tamamlandı!";
+"complete.next"         = "Sonraki Seviye";
+"complete.replay"       = "Tekrar Oyna";
+"complete.home"         = "Ana Sayfa";
+"complete.time"         = "Süre";
+"complete.stars"        = "Yıldız";
+"complete.hints"        = "İpucu";
+
+// MARK: — İstatistikler
+"stats.title"           = "İstatistik";
+"stats.header"          = "İstatistiklerin";
+"stats.streakActive"    = "🔥 %d günlük seri — devam et!";
+"stats.streakEmpty"     = "Seri başlatmak için bugünkü bulmacayı çöz 🧩";
+"stats.levelsCompleted" = "Seviye";
+"stats.streak"          = "Seri";
+"stats.avgTime"         = "Ort. Süre";
+"stats.dailySolved"     = "Günlük Çözüm";
+"stats.packProgress"    = "Paket İlerlemesi";
+"stats.last7Days"       = "Günlük çözümler";
+"stats.chartSolved"     = "Çözüldü";
+"stats.chartMissed"     = "Kaçırıldı";
+"stats.hintUsage"       = "İpucu kullanımı";
+"stats.noHints"         = "İpucu yok";
+"stats.hints1to2"       = "1–2 ipucu";
+"stats.hints3plus"      = "3+ ipucu";
+
+// MARK: — Mağaza
+"shop.title"          = "Mağaza";
+"shop.enhance"        = "Sıcacık deneyimini geliştir";
+"shop.packUnlocks"    = "Bulmaca Paketleri";
+"shop.hintsSection"   = "İpuçları";
+"shop.oneTime"        = "Tek Seferlik Satın Almalar";
+"shop.hintsRemaining" = "%d ipucunuz kaldı";
+"shop.hintsAvailable" = "%d ipucu mevcut";
+"shop.restore"        = "Satın Almaları Geri Yükle";
+"shop.owned"          = "Sahip Olundu";
+
+"sku.hintsSmall.title"      = "10 İpucu";
+"sku.hintsSmall.body"       = "Bulmacalar zorlaştığında yardım al";
+"sku.removeAds.title"       = "Reklamları Kaldır";
+"sku.removeAds.body"        = "Tek seferlik · Kesintisiz oyna";
+"sku.spiceRoute.title"      = "Baharat Yolu Paketi";
+"sku.spiceRoute.body"       = "6×6 bulmacalardan 60 seviyenin kilidini aç";
+"sku.mamboNights.title"     = "Mambo Geceleri Paketi";
+"sku.mamboNights.body"      = "7×7 bulmacalardan 60 seviyenin kilidini aç";
+"sku.woodlandRetreat.title" = "Orman Sığınağı Paketi";
+"sku.woodlandRetreat.body"  = "8×8 bulmacalardan 60 seviyenin kilidini aç";
+
+// MARK: — Ayarlar
+"settings.title"                   = "Ayarlar";
+"settings.sound.title"             = "Ses & Hissiyat";
+"settings.sound.music"             = "Müzik";
+"settings.sound.effects"           = "Ses Efektleri";
+"settings.haptics.enable"          = "Titreşim";
+"settings.appearance.title"        = "Görünüm";
+"settings.appearance.theme"        = "Tema";
+"settings.appearance.system"       = "Sistem";
+"settings.appearance.light"        = "Açık";
+"settings.appearance.dark"         = "Koyu";
+"settings.notifications.title"     = "Bildirimler";
+"settings.notifications.reminder"  = "Günlük Hatırlatıcı";
+"settings.notifications.time"      = "Hatırlatma Saati";
+"settings.notifications.reminderSet" = "%@ için günlük hatırlatıcı ayarlandı";
+"settings.language.title"          = "Dil";
+"settings.language.label"          = "Dil";
+"settings.language.footer"         = "Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz.";
+"settings.language.system"         = "Sistem";
+"settings.language.en"             = "English";
+"settings.language.tr"             = "Türkçe";
+"settings.language.es"             = "Español";
+"settings.language.restartTitle"   = "Yeniden Başlatma Gerekli";
+"settings.language.restartMessage" = "Dil değişikliği Snuglo'yu yeniden başlattıktan sonra geçerli olur.";
+"settings.privacy.title"           = "Gizlilik";
+"settings.privacy.personalizedAds" = "Kişiselleştirilmiş Reklamlar";
+"settings.privacy.adsFooter"       = "Snuglo'nun Apple reklam kimliğini kullanarak ilgi alanlarınıza göre reklamlar göstermesine izin verir. iOS Ayarlar → Gizlilik → İzleme bölümünden değiştirebilirsiniz.";
+"settings.account.title"           = "Hesap";
+"settings.account.restore"         = "Satın Almaları Geri Yükle";
+"settings.account.privacy"         = "Gizlilik Politikası";
+"settings.account.terms"           = "Kullanım Koşulları";
+"settings.account.reset"           = "İlerlemeyi Sıfırla";
+"settings.account.resetTitle"      = "Tüm İlerleme Sıfırlansın mı?";
+"settings.account.resetMessage"    = "Tamamlanan tüm seviyeler, yıldızlar, seriler ve günlük bulmaca geçmişi kalıcı olarak silinecek. Bu işlem geri alınamaz.";
+"settings.account.resetAction"     = "Sıfırla";
+"settings.about.title"             = "Hakkında";
+"settings.about.version"           = "Sürüm";
+"settings.about.credits"           = "♥ ve sıcaklıkla yapıldı";
+
+// MARK: — Bildirim uyarısı
+"notif.disabled.title"   = "Bildirimler Devre Dışı";
+"notif.disabled.message" = "Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git.";
+"notif.openSettings"     = "Ayarları Aç";

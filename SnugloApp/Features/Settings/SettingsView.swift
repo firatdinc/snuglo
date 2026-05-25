@@ -1,11 +1,12 @@
 import SwiftUI
 import AppTrackingTransparency
 
-// MARK: — SettingsView
+// MARK: — SettingsView (H-1: Localized)
 // Ref: Designs/html/11-settings.html
-// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / PRIVACY / ACCOUNT / ABOUT
+// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / LANGUAGE / PRIVACY / ACCOUNT / ABOUT
 // Faz F: @Bindable wrappers → AudioManager, HapticsManager, NotificationScheduler.
 // Faz G-2: PRIVACY section — ATT consent toggle for personalized ads.
+// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
 
 struct SettingsView: View {
 
@@ -24,11 +25,16 @@ struct SettingsView: View {
     /// Stored as TimeInterval since reference date; default 19:00.
     @AppStorage("dailyReminderTime")     private var dailyReminderTimeInterval: Double = 19 * 3600
 
+    // MARK: — Language override (H-1)
+    /// "system" = follow device locale; "en" / "tr" / "es" = explicit override.
+    @AppStorage("snuglo.language.override") private var languageOverride: String = "system"
+
     // MARK: — Local UI state
 
-    @State private var showResetAlert        = false
-    @State private var showNotifDeniedAlert  = false
-    @State private var ads                   = AdsManager.shared
+    @State private var showResetAlert            = false
+    @State private var showNotifDeniedAlert      = false
+    @State private var showLanguageRestartAlert  = false
+    @State private var ads                       = AdsManager.shared
 
     // MARK: — Computed: Date ↔ TimeInterval bridge for DatePicker
 
@@ -72,7 +78,6 @@ struct SettingsView: View {
             get: { ads.hasConsented },
             set: { newValue in
                 if newValue {
-                    // Request ATTrackingManager authorization (iOS 14.5+)
                     ATTrackingManager.requestTrackingAuthorization { status in
                         let granted = status == .authorized
                         DispatchQueue.main.async {
@@ -86,6 +91,14 @@ struct SettingsView: View {
         )
     }
 
+    // MARK: — Computed: app version
+
+    private var appVersion: String {
+        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        return "\(v) (\(b))"
+    }
+
     // MARK: — Body
 
     var body: some View {
@@ -95,43 +108,43 @@ struct SettingsView: View {
                 toggleRow(
                     icon: "music.note",
                     iconColor: AppColors.primaryContainer,
-                    label: "Music",
+                    labelKey: "settings.sound.music",
                     isOn: $musicEnabled
                 )
                 toggleRow(
                     icon: "speaker.wave.2.fill",
                     iconColor: AppColors.secondaryContainer,
-                    label: "Sound Effects",
+                    labelKey: "settings.sound.effects",
                     isOn: $sfxEnabled
                 )
                 toggleRow(
                     icon: "hand.tap.fill",
                     iconColor: AppColors.tertiaryContainer,
-                    label: "Haptics",
+                    labelKey: "settings.haptics.enable",
                     isOn: $hapticsEnabled
                 )
             } header: {
-                sectionHeader("Sound & Feel")
+                sectionHeader("settings.sound.title")
             }
 
             // — APPEARANCE —
             Section {
                 HStack {
                     iconBadge("paintpalette.fill", color: AppColors.blockBlush.opacity(0.5))
-                    Text("Theme")
+                    Text("settings.appearance.theme")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurface)
                     Spacer()
                     Picker("", selection: $appThemeRaw) {
-                        Text("System").tag(0)
-                        Text("Light").tag(1)
-                        Text("Dark").tag(2)
+                        Text("settings.appearance.system").tag(0)
+                        Text("settings.appearance.light").tag(1)
+                        Text("settings.appearance.dark").tag(2)
                     }
                     .labelsHidden()
                     .tint(AppColors.primary)
                 }
             } header: {
-                sectionHeader("Appearance")
+                sectionHeader("settings.appearance.title")
             }
 
             // — NOTIFICATIONS —
@@ -139,14 +152,14 @@ struct SettingsView: View {
                 toggleRow(
                     icon: "bell.fill",
                     iconColor: AppColors.blockCream.opacity(0.8),
-                    label: "Daily Reminder",
+                    labelKey: "settings.notifications.reminder",
                     isOn: reminderToggle
                 )
 
                 if dailyReminderEnabled {
                     HStack {
                         iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
-                        Text("Reminder Time")
+                        Text("settings.notifications.time")
                             .font(AppTypography.bodyMedium)
                             .foregroundStyle(AppColors.onSurface)
                         Spacer()
@@ -158,7 +171,6 @@ struct SettingsView: View {
                         .labelsHidden()
                         .tint(AppColors.primary)
                         .onChange(of: dailyReminderTimeInterval) { _, _ in
-                            // Reschedule via NotificationService when time changes
                             NotificationService.shared.reschedule(
                                 enabled: dailyReminderEnabled,
                                 at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
@@ -167,23 +179,56 @@ struct SettingsView: View {
                     }
                 }
             } header: {
-                sectionHeader("Notifications")
+                sectionHeader("settings.notifications.title")
             } footer: {
                 if dailyReminderEnabled {
-                    Text("Daily reminder set for \(formattedReminderTime)")
-                        .font(AppTypography.labelSmall)
-                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                    Text(verbatim: String(
+                        format: NSLocalizedString("settings.notifications.reminderSet", comment: ""),
+                        formattedReminderTime
+                    ))
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
                 }
+            }
+
+            // — LANGUAGE (H-1) —
+            Section {
+                HStack {
+                    iconBadge("globe", color: AppColors.blockLavender.opacity(0.5))
+                    Text("settings.language.label")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Spacer()
+                    Picker("", selection: $languageOverride) {
+                        Text("settings.language.system").tag("system")
+                        Text("settings.language.en").tag("en")
+                        Text("settings.language.tr").tag("tr")
+                        Text("settings.language.es").tag("es")
+                    }
+                    .labelsHidden()
+                    .tint(AppColors.primary)
+                    .onChange(of: languageOverride) { _, newValue in
+                        if newValue == "system" {
+                            UserDefaults.standard.removeObject(forKey: "AppleLanguages")
+                        } else {
+                            UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
+                        }
+                        showLanguageRestartAlert = true
+                    }
+                }
+            } header: {
+                sectionHeader("settings.language.title")
+            } footer: {
+                Text("settings.language.footer")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
             }
 
             // — PRIVACY —
             Section {
-                // Personalized Ads consent (ATT / IDFA — iOS 14.5+)
-                // Toggling ON triggers ATTrackingManager.requestTrackingAuthorization.
-                // Toggling OFF revokes consent in AdsManager (SDK-side opt-out).
                 HStack {
                     iconBadge("hand.raised.fill", color: AppColors.primaryContainer.opacity(0.6))
-                    Text("Personalized Ads")
+                    Text("settings.privacy.personalizedAds")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurface)
                     Spacer()
@@ -192,18 +237,18 @@ struct SettingsView: View {
                         .tint(AppColors.primary)
                 }
             } header: {
-                sectionHeader("Privacy")
+                sectionHeader("settings.privacy.title")
             } footer: {
-                Text("Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.")
+                Text("settings.privacy.adsFooter")
                     .font(AppTypography.labelSmall)
                     .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
             }
 
             // — ACCOUNT —
             Section {
-                disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, label: "Restore Purchases")
-                disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, label: "Privacy Policy")
-                disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, label: "Terms of Service")
+                disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.restore")
+                disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.privacy")
+                disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.terms")
 
                 // Reset Progress — destructive, confirm alert
                 Button {
@@ -211,40 +256,32 @@ struct SettingsView: View {
                 } label: {
                     HStack {
                         iconBadge("trash.fill", color: Color(UIColor.systemRed).opacity(0.15))
-                        Text("Reset Progress")
+                        Text("settings.account.reset")
                             .font(AppTypography.bodyMedium)
                             .foregroundStyle(.red)
                         Spacer()
                     }
                 }
                 .buttonStyle(.plain)
-                .alert("Reset All Progress?", isPresented: $showResetAlert) {
-                    Button("Cancel", role: .cancel) {}
-                    Button("Reset", role: .destructive) {
-                        ProgressStore.shared.reset()
-                    }
-                } message: {
-                    Text("This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.")
-                }
             } header: {
-                sectionHeader("Account")
+                sectionHeader("settings.account.title")
             }
 
             // — ABOUT —
             Section {
                 HStack {
-                    Text("Version")
+                    Text("settings.about.version")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurface)
                     Spacer()
-                    Text("1.0.0")
+                    Text(verbatim: appVersion)
                         .font(.system(size: 15, weight: .medium, design: .monospaced))
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
             } header: {
-                sectionHeader("About")
+                sectionHeader("settings.about.title")
             } footer: {
-                Text("SNUGLO V1.0.0 — Made with ♥ and cozy vibes")
+                Text("settings.about.credits")
                     .font(AppTypography.labelSmall)
                     .tracking(0.3)
                     .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
@@ -255,18 +292,33 @@ struct SettingsView: View {
         .listStyle(.insetGrouped)
         .background(AppColors.background.ignoresSafeArea())
         .scrollContentBackground(.hidden)
-        .navigationTitle("Settings")
+        .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
-        // Notifications denied alert
-        .alert("Notifications Disabled", isPresented: $showNotifDeniedAlert) {
-            Button("Open Settings") {
+        // — Notifications denied alert —
+        .alert("notif.disabled.title", isPresented: $showNotifDeniedAlert) {
+            Button("notif.openSettings") {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
             }
-            Button("Cancel", role: .cancel) {}
+            Button("common.cancel", role: .cancel) {}
         } message: {
-            Text("To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.")
+            Text("notif.disabled.message")
+        }
+        // — Language restart alert —
+        .alert("settings.language.restartTitle", isPresented: $showLanguageRestartAlert) {
+            Button("common.ok", role: .cancel) {}
+        } message: {
+            Text("settings.language.restartMessage")
+        }
+        // — Reset progress alert —
+        .alert("settings.account.resetTitle", isPresented: $showResetAlert) {
+            Button("common.cancel", role: .cancel) {}
+            Button("settings.account.resetAction", role: .destructive) {
+                ProgressStore.shared.reset()
+            }
+        } message: {
+            Text("settings.account.resetMessage")
         }
     }
 
@@ -284,18 +336,19 @@ struct SettingsView: View {
 
     // MARK: — Sub-views
 
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
+    /// H-1: LocalizedStringKey so callers pass translation keys directly.
+    private func sectionHeader(_ key: LocalizedStringKey) -> some View {
+        Text(key)
             .font(AppTypography.labelSmall)
             .tracking(0.6)
             .textCase(.uppercase)
             .foregroundStyle(AppColors.onSurfaceVariant)
     }
 
-    private func toggleRow(icon: String, iconColor: Color, label: String, isOn: Binding<Bool>) -> some View {
+    private func toggleRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey, isOn: Binding<Bool>) -> some View {
         HStack {
             iconBadge(icon, color: iconColor)
-            Text(label)
+            Text(labelKey)
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurface)
             Spacer()
@@ -305,11 +358,11 @@ struct SettingsView: View {
         }
     }
 
-    private func disclosureRow(icon: String, iconColor: Color, label: String) -> some View {
+    private func disclosureRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey) -> some View {
         Button {} label: {
             HStack {
                 iconBadge(icon, color: iconColor)
-                Text(label)
+                Text(labelKey)
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurface)
                 Spacer()

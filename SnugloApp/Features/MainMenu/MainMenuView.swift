@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: — MainMenuView (Screen 03)
+// MARK: — MainMenuView (Screen 03 · H-1: Localized)
 // Design reference: Designs/html/03-main-menu.html
 //
 // Structure:
@@ -45,7 +45,7 @@ struct MainMenuView: View {
 
             Spacer()
 
-            Text("Snuglo")
+            Text("app.name")
                 .font(AppTypography.headlineMedium)
                 .foregroundStyle(AppColors.primary)
                 .tracking(-0.4)
@@ -89,11 +89,11 @@ struct MainMenuView: View {
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
 
-            Text("Level 12")
+            Text(verbatim: "Level 12")
                 .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.onSurface)
             +
-            Text(" / 240")
+            Text(verbatim: " / 240")
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
         }
@@ -141,7 +141,7 @@ struct MainMenuView: View {
                         .frame(height: 140)
 
                     // Date badge — dynamic
-                    Text(dailyDateBadge)
+                    Text(verbatim: dailyDateBadge)
                         .font(AppTypography.labelSmall)
                         .tracking(0.6)
                         .textCase(.uppercase)
@@ -153,7 +153,7 @@ struct MainMenuView: View {
                         .padding(AppSpacing.md)
 
                     // GridSize indicator — from engine
-                    Text("\(dailyGridSize)×\(dailyGridSize)")
+                    Text(verbatim: "\(dailyGridSize)×\(dailyGridSize)")
                         .font(AppTypography.labelSmall)
                         .tracking(0.4)
                         .foregroundStyle(AppColors.primary)
@@ -168,7 +168,7 @@ struct MainMenuView: View {
                 // Card content
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                        Text("Daily Puzzle")
+                        Text("menu.dailyPuzzle")
                             .font(AppTypography.headlineLarge)
                             .foregroundStyle(AppColors.onSurface)
                             .tracking(-0.6)
@@ -176,7 +176,7 @@ struct MainMenuView: View {
                         HStack(spacing: AppSpacing.xs) {
                             Image(systemName: "clock")
                                 .font(.system(size: 14))
-                            Text("Refresh in 4h 12m")
+                            Text(verbatim: "Refresh in 4h 12m")  // Faz I: real countdown
                                 .font(AppTypography.bodyMedium)
                         }
                         .foregroundStyle(AppColors.onSurfaceVariant)
@@ -220,19 +220,21 @@ struct MainMenuView: View {
     private var continueSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             HStack {
-                Text("Continue")
+                Text("menu.continue")
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
 
                 Spacer()
 
-                Button("View All") {
+                Button {
                     router.selectTab(.levels)
+                } label: {
+                    Text("menu.viewAll")
+                        .font(AppTypography.labelSmall)
+                        .tracking(0.6)
+                        .textCase(.uppercase)
+                        .foregroundStyle(AppColors.primary)
                 }
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
-                .foregroundStyle(AppColors.primary)
             }
             .padding(.horizontal, AppSpacing.xs)
 
@@ -244,7 +246,7 @@ struct MainMenuView: View {
                     router.selectTab(.levels)
                 } label: {
                     HStack {
-                        Text("Start your first level")
+                        Text("menu.startFirst")
                             .font(AppTypography.bodyLarge)
                             .foregroundStyle(AppColors.primary)
                         Spacer()
@@ -283,12 +285,12 @@ struct MainMenuView: View {
                 // Info
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
                     VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                        Text(pack.title)
+                        Text(verbatim: pack.title)
                             .font(AppTypography.headlineMedium)
                             .foregroundStyle(AppColors.onSurface)
                             .lineLimit(1)
 
-                        Text("Level \(level.number)")
+                        Text(verbatim: "Level \(level.number)")
                             .font(AppTypography.bodyMedium)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
@@ -308,7 +310,7 @@ struct MainMenuView: View {
                         }
                         .frame(height: 10)
 
-                        Text("\(Int(pack.progressFraction * 100))%")
+                        Text(verbatim: "\(Int(pack.progressFraction * 100))%")
                             .font(AppTypography.labelSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }

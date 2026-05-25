@@ -1,0 +1,3 @@
+/* Snuglo — InfoPlist.strings (Türkçe) */
+CFBundleDisplayName = "Snuglo";
+NSUserTrackingUsageDescription = "Bu tanımlayıcıyı size ilgili reklamları göstermek ve etkinliklerini ölçmek için kullanıyoruz.";

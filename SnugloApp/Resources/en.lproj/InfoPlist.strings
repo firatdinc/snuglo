@@ -1,0 +1,3 @@
+/* Snuglo — InfoPlist.strings (English) */
+CFBundleDisplayName = "Snuglo";
+NSUserTrackingUsageDescription = "We use this identifier to show you relevant ads and measure their effectiveness.";
