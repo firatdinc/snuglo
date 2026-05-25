@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: — LevelCompleteSheet
+// MARK: — LevelCompleteSheet (H-1: Localized)
 // Ref: Designs/html/08-level-complete.html
 // Full-screen cover shown when puzzle is solved.
 // Star count, time display, confetti placeholder, Next/Replay/Home buttons.
@@ -48,7 +48,7 @@ struct LevelCompleteSheet: View {
                 }
 
                 // — Headline —
-                Text("Level complete!")
+                Text("complete.puzzleSolved")
                     .font(AppTypography.headlineLarge)
                     .tracking(-0.6)
                     .foregroundStyle(AppColors.onSurface)
@@ -64,11 +64,11 @@ struct LevelCompleteSheet: View {
 
                 // — Stats row —
                 HStack(spacing: 0) {
-                    statCell(value: formattedTime, label: "TIME")
+                    statCell(value: formattedTime, labelKey: "complete.time")
                     Divider().frame(height: 40)
-                    statCell(value: "\(stars)", label: "STARS")
+                    statCell(value: "\(stars)", labelKey: "complete.stars")
                     Divider().frame(height: 40)
-                    statCell(value: "\(hintsUsed)", label: "HINTS")
+                    statCell(value: "\(hintsUsed)", labelKey: "complete.hints")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppSpacing.md)
@@ -86,7 +86,7 @@ struct LevelCompleteSheet: View {
                         onNext()
                         dismiss()
                     } label: {
-                        Label("Next Level", systemImage: "arrow.right")
+                        Label("complete.next", systemImage: "arrow.right")
                             .font(AppTypography.headlineSmall)
                             .foregroundStyle(AppColors.onPrimary)
                             .frame(maxWidth: .infinity)
@@ -101,7 +101,7 @@ struct LevelCompleteSheet: View {
                             onReplay()
                             dismiss()
                         } label: {
-                            Text("Replay")
+                            Text("complete.replay")
                                 .font(AppTypography.bodyMedium)
                                 .foregroundStyle(AppColors.primary)
                                 .frame(maxWidth: .infinity)
@@ -117,7 +117,7 @@ struct LevelCompleteSheet: View {
                             dismiss()
                             router.popToRoot()
                         } label: {
-                            Text("Home")
+                            Text("complete.home")
                                 .font(AppTypography.bodyMedium)
                                 .foregroundStyle(AppColors.secondary)
                                 .frame(maxWidth: .infinity)
@@ -156,12 +156,12 @@ struct LevelCompleteSheet: View {
 
     // MARK: — Stat cell
 
-    private func statCell(value: String, label: String) -> some View {
+    private func statCell(value: String, labelKey: LocalizedStringKey) -> some View {
         VStack(spacing: AppSpacing.xs) {
             Text(value)
                 .font(.system(size: 20, weight: .medium, design: .monospaced))
                 .foregroundStyle(AppColors.onSurface)
-            Text(label)
+            Text(labelKey)
                 .font(AppTypography.labelSmall)
                 .tracking(0.6)
                 .textCase(.uppercase)

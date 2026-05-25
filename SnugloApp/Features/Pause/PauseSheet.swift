@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: — PauseSheet
+// MARK: — PauseSheet (H-1: Localized)
 // Ref: Designs/html/07-pause-overlay.html
 // Sheet content — dimmed overlay with Resume/Restart/Quit buttons.
 // Faz F: Sound + Haptics inline toggles bound to AudioManager + HapticsManager singletons.
@@ -29,7 +29,7 @@ struct PauseSheet: View {
                 .padding(.top, AppSpacing.sm)
 
             // — Title —
-            Text("Paused")
+            Text("pause.title")
                 .font(AppTypography.headlineLarge)
                 .tracking(-0.6)
                 .foregroundStyle(AppColors.onSurface)
@@ -45,7 +45,7 @@ struct PauseSheet: View {
                     onResume()
                     dismiss()
                 } label: {
-                    Text("Resume")
+                    Text("pause.resume")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onPrimary)
                         .frame(maxWidth: .infinity)
@@ -58,7 +58,7 @@ struct PauseSheet: View {
                     onRestart()
                     dismiss()
                 } label: {
-                    Text("Restart")
+                    Text("pause.restart")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.primary)
                         .frame(maxWidth: .infinity)
@@ -74,7 +74,7 @@ struct PauseSheet: View {
                     onQuit()
                     dismiss()
                 } label: {
-                    Text("Home")
+                    Text("pause.home")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.secondary)
                         .frame(maxWidth: .infinity)
@@ -94,8 +94,8 @@ struct PauseSheet: View {
             // Bound to the same singletons as SettingsView — changes are
             // instantly reflected everywhere and persisted to UserDefaults.
             HStack(spacing: AppSpacing.xl) {
-                togglePill(label: "Sound",   isOn: $audio.soundEnabled,  icon: "speaker.wave.2.fill")
-                togglePill(label: "Haptics", isOn: $haptics.enabled,     icon: "hand.tap.fill")
+                togglePill(labelKey: "pause.sound",   isOn: $audio.soundEnabled,  icon: "speaker.wave.2.fill")
+                togglePill(labelKey: "pause.haptics", isOn: $haptics.enabled,     icon: "hand.tap.fill")
             }
 
             Spacer(minLength: 0)
@@ -114,12 +114,12 @@ struct PauseSheet: View {
         return String(format: "%02d:%02d", m, s)
     }
 
-    private func togglePill(label: String, isOn: Binding<Bool>, icon: String) -> some View {
+    private func togglePill(labelKey: LocalizedStringKey, isOn: Binding<Bool>, icon: String) -> some View {
         VStack(spacing: AppSpacing.xs) {
             Toggle("", isOn: isOn)
                 .labelsHidden()
                 .tint(AppColors.primary)
-            Label(label, systemImage: icon)
+            Label(labelKey, systemImage: icon)
                 .font(AppTypography.labelSmall)
                 .tracking(0.3)
                 .foregroundStyle(AppColors.onSurfaceVariant)

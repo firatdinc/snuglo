@@ -1,11 +1,12 @@
 import SwiftUI
 
-// MARK: — StatsView
+// MARK: — StatsView (H-1: Localized)
 // Ref: Designs/html/09-stats.html
 // STATS tab: 2×2 KPI grid (real data), pack progress donuts (real data),
 // 7-day bar chart (real data), hint donut (static — real data: Faz G).
 //
 // Faz E: All KPI + chart data sourced from ProgressStore.shared.
+// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
 
 struct StatsView: View {
 
@@ -43,7 +44,7 @@ struct StatsView: View {
             .padding(.bottom, AppSpacing.xl)
         }
         .background(AppColors.background.ignoresSafeArea())
-        .navigationTitle("Stats")
+        .navigationTitle("stats.title")
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -51,7 +52,7 @@ struct StatsView: View {
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
-            Text("Your Stats")
+            Text("stats.header")
                 .font(AppTypography.headlineLarge)
                 .tracking(-0.6)
                 .foregroundStyle(AppColors.onSurface)
@@ -61,11 +62,12 @@ struct StatsView: View {
         }
     }
 
+    // H-1: NSLocalizedString for formatted/conditional strings.
     private var streakSubtitle: String {
         if store.currentStreak > 0 {
-            return "🔥 \(store.currentStreak)-day streak — keep it going!"
+            return String(format: NSLocalizedString("stats.streakActive", comment: ""), store.currentStreak)
         }
-        return "Play today's daily puzzle to start a streak 🧩"
+        return NSLocalizedString("stats.streakEmpty", comment: "")
     }
 
     // MARK: — KPI Grid
@@ -73,24 +75,16 @@ struct StatsView: View {
     private var kpiGridSection: some View {
         let kpiCols = Array(repeating: GridItem(.flexible(), spacing: AppSpacing.sm), count: 2)
         return LazyVGrid(columns: kpiCols, spacing: AppSpacing.sm) {
-            kpiCard(
-                value: levelsCompletedLabel,
-                label: "LEVELS",
-                icon: "checkmark.circle.fill"
-            )
+            kpiCard(value: levelsCompletedLabel, labelKey: "stats.levelsCompleted", icon: "checkmark.circle.fill")
             kpiCard(
                 value: store.currentStreak > 0 ? "\(store.currentStreak)d" : "—",
-                label: "STREAK",
+                labelKey: "stats.streak",
                 icon: "flame.fill"
             )
-            kpiCard(
-                value: store.averageTimeFormatted,
-                label: "AVG TIME",
-                icon: "clock.fill"
-            )
+            kpiCard(value: store.averageTimeFormatted, labelKey: "stats.avgTime",    icon: "clock.fill")
             kpiCard(
                 value: "\(store.dailyResults.filter(\.solved).count)",
-                label: "DAILY SOLVED",
+                labelKey: "stats.dailySolved",
                 icon: "calendar.badge.checkmark"
             )
         }
@@ -100,7 +94,7 @@ struct StatsView: View {
         "\(store.totalLevelsCompleted())/240"
     }
 
-    private func kpiCard(value: String, label: String, icon: String) -> some View {
+    private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Image(systemName: icon)
                 .font(.system(size: 20))
@@ -112,7 +106,7 @@ struct StatsView: View {
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
 
-            Text(label)
+            Text(labelKey)
                 .font(AppTypography.labelSmall)
                 .tracking(0.6)
                 .textCase(.uppercase)
@@ -132,7 +126,7 @@ struct StatsView: View {
 
     private var packProgressSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            Text("Pack Progress")
+            Text("stats.packProgress")
                 .font(AppTypography.headlineSmall)
                 .foregroundStyle(AppColors.onSurface)
 
@@ -178,7 +172,7 @@ struct StatsView: View {
                     .foregroundStyle(fraction > 0 ? pack.color : AppColors.onSurfaceVariant.opacity(0.4))
             }
 
-            Text(pack.title)
+            Text(verbatim: pack.title)
                 .font(AppTypography.labelSmall)
                 .tracking(0.3)
                 .foregroundStyle(AppColors.onSurfaceVariant)
@@ -196,7 +190,7 @@ struct StatsView: View {
 
     private var chartSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            Text("Solves per day")
+            Text("stats.last7Days")
                 .font(AppTypography.headlineSmall)
                 .foregroundStyle(AppColors.onSurface)
 
@@ -223,8 +217,8 @@ struct StatsView: View {
 
             // Legend
             HStack(spacing: AppSpacing.md) {
-                legendDot(color: AppColors.primary, label: "Solved")
-                legendDot(color: AppColors.blockBlush.opacity(0.4), label: "Missed")
+                legendDot(color: AppColors.primary,                labelKey: "stats.chartSolved")
+                legendDot(color: AppColors.blockBlush.opacity(0.4), labelKey: "stats.chartMissed")
             }
         }
         .padding(AppSpacing.md)
@@ -245,10 +239,10 @@ struct StatsView: View {
         solved ? 80 : 12
     }
 
-    private func legendDot(color: Color, label: String) -> some View {
+    private func legendDot(color: Color, labelKey: LocalizedStringKey) -> some View {
         HStack(spacing: 4) {
             Circle().fill(color).frame(width: 8, height: 8)
-            Text(label)
+            Text(labelKey)
                 .font(AppTypography.labelSmall)
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
@@ -259,11 +253,11 @@ struct StatsView: View {
     private var donutSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
             HStack {
-                Text("Hint usage")
+                Text("stats.hintUsage")
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
                 Spacer()
-                Text("Coming in Faz G")
+                Text(verbatim: "Coming in Faz G")
                     .font(AppTypography.labelSmall)
                     .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
             }
@@ -301,9 +295,9 @@ struct StatsView: View {
 
                 // Legend
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                    legendRow(color: AppColors.surfaceContainerHigh, label: "No hints",  value: "—")
-                    legendRow(color: AppColors.primaryContainer,     label: "1–2 hints", value: "—")
-                    legendRow(color: AppColors.primary,              label: "3+ hints",  value: "—")
+                    legendRow(color: AppColors.surfaceContainerHigh, labelKey: "stats.noHints",  value: "—")
+                    legendRow(color: AppColors.primaryContainer,     labelKey: "stats.hints1to2", value: "—")
+                    legendRow(color: AppColors.primary,              labelKey: "stats.hints3plus", value: "—")
                 }
             }
         }
@@ -316,10 +310,10 @@ struct StatsView: View {
         .shadowL1()
     }
 
-    private func legendRow(color: Color, label: String, value: String) -> some View {
+    private func legendRow(color: Color, labelKey: LocalizedStringKey, value: String) -> some View {
         HStack(spacing: AppSpacing.sm) {
             Circle().fill(color).frame(width: 10, height: 10)
-            Text(label)
+            Text(labelKey)
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurface)
             Spacer()

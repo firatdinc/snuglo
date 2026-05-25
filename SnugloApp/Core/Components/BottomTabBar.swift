@@ -1,12 +1,13 @@
 import SwiftUI
 
-// MARK: — BottomTabBar
+// MARK: — BottomTabBar (H-1: Localized)
 // Ref: Designs/html/03-main-menu.html (nav section)
 // 4-tab custom bottom bar: Play · Levels · Stats · Shop
 // Active tab: lavender pill background + filled icon.
 //
 // Reads and writes router.selectedTab via @Environment so call sites
 // need no @Binding passthrough — just BottomTabBar() with no args.
+// H-1: Tab labels use LocalizedStringKey (keys: tab.play, tab.levels, etc.)
 
 struct BottomTabBar: View {
 
@@ -14,16 +15,16 @@ struct BottomTabBar: View {
 
     private struct TabItem {
         let tab: AppTab
-        let label: String
+        let labelKey: LocalizedStringKey
         let icon: String
         let activeIcon: String
     }
 
     private let items: [TabItem] = [
-        .init(tab: .play,   label: "Play",   icon: "puzzlepiece",       activeIcon: "puzzlepiece.fill"),
-        .init(tab: .levels, label: "Levels", icon: "square.grid.2x2",   activeIcon: "square.grid.2x2.fill"),
-        .init(tab: .stats,  label: "Stats",  icon: "chart.bar",         activeIcon: "chart.bar.fill"),
-        .init(tab: .shop,   label: "Shop",   icon: "bag",               activeIcon: "bag.fill")
+        .init(tab: .play,   labelKey: "tab.play",   icon: "puzzlepiece",     activeIcon: "puzzlepiece.fill"),
+        .init(tab: .levels, labelKey: "tab.levels", icon: "square.grid.2x2", activeIcon: "square.grid.2x2.fill"),
+        .init(tab: .stats,  labelKey: "tab.stats",  icon: "chart.bar",       activeIcon: "chart.bar.fill"),
+        .init(tab: .shop,   labelKey: "tab.shop",   icon: "bag",             activeIcon: "bag.fill")
     ]
 
     var body: some View {
@@ -37,7 +38,7 @@ struct BottomTabBar: View {
                             .font(.system(size: 22))
                             .foregroundStyle(router.selectedTab == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
 
-                        Text(item.label)
+                        Text(item.labelKey)
                             .font(AppTypography.labelSmall)
                             .tracking(0.4)
                             .textCase(.uppercase)

@@ -1,33 +1,34 @@
 import SwiftUI
 
-// MARK: — OnboardingView
+// MARK: — OnboardingView (H-1: Localized)
 // Ref: Designs/html/02-onboarding.html
 // 3-page intro with page-dot indicator.
 // "Skip" top-right → goes to mainMenu.
 // "Get Started" on last page → sets hasOnboarded + pushes mainMenu.
+// H-1: headline/body fields changed to LocalizedStringKey for i18n.
 
 private struct OnboardingPage: Identifiable {
     let id: Int
-    let headline: String
-    let body: String
+    let headline: LocalizedStringKey
+    let body: LocalizedStringKey
     let symbol: String
     let accentColor: Color
 }
 
 private let pages: [OnboardingPage] = [
     .init(id: 0,
-          headline: "Welcome to Snuglo",
-          body: "A cozy puzzle to fit your day",
+          headline: "onboarding.page1.title",
+          body: "onboarding.page1.body",
           symbol: "puzzlepiece.fill",
           accentColor: AppColors.primaryContainer),
     .init(id: 1,
-          headline: "Fill the Grid",
-          body: "Drag and drop pieces to fill every cell. No overlaps, no gaps.",
+          headline: "onboarding.page2.title",
+          body: "onboarding.page2.body",
           symbol: "rectangle.split.3x3.fill",
           accentColor: AppColors.secondaryContainer),
     .init(id: 2,
-          headline: "Cozy Every Day",
-          body: "Daily puzzles, streaks, and four themed packs to explore at your pace.",
+          headline: "onboarding.page3.title",
+          body: "onboarding.page3.body",
           symbol: "calendar.badge.clock",
           accentColor: AppColors.tertiaryContainer)
 ]
@@ -37,6 +38,11 @@ struct OnboardingView: View {
     @Environment(AppRouter.self) private var router
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var currentPage = 0
+
+    // H-1: Computed key for the primary action button.
+    private var nextButtonKey: LocalizedStringKey {
+        currentPage == pages.count - 1 ? "onboarding.getStarted" : "common.next"
+    }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -55,14 +61,16 @@ struct OnboardingView: View {
                 // — Skip button —
                 HStack {
                     Spacer()
-                    Button("Skip") {
+                    Button {
                         finish()
+                    } label: {
+                        Text("common.skip")
+                            .font(AppTypography.labelSmall)
+                            .tracking(0.3)
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .padding(.horizontal, AppSpacing.md)
+                            .padding(.vertical, AppSpacing.sm)
                     }
-                    .font(AppTypography.labelSmall)
-                    .tracking(0.3)
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .padding(.horizontal, AppSpacing.md)
-                    .padding(.vertical, AppSpacing.sm)
                     .contentShape(Rectangle())
                 }
                 .padding(.horizontal, AppSpacing.lg)
@@ -95,7 +103,7 @@ struct OnboardingView: View {
 
                 // — Action button —
                 Button(action: handleNext) {
-                    Text(currentPage == pages.count - 1 ? "Get Started" : "Next")
+                    Text(nextButtonKey)
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onPrimary)
                         .frame(maxWidth: .infinity)

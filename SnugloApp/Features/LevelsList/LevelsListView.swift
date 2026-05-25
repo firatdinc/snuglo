@@ -1,11 +1,12 @@
 import SwiftUI
 
-// MARK: — LevelsListView (Screen 04)
+// MARK: — LevelsListView (Screen 04 · H-1: Localized)
 // Design reference: Designs/html/04-levels-list.html
 //
 // "LEVELS" tab — shows pack cards: Cozy Beginnings / Spice Route / Mambo Nights / Woodland Retreat
 // Tapping an unlocked pack → .packDetail(packId:)
 // Faz G-1: IAP-locked packs are tappable and show unlock-prompt alert → Shop
+// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
 
 struct LevelsListView: View {
 
@@ -30,14 +31,14 @@ struct LevelsListView: View {
         }
         .navigationBarHidden(true)
         .onAppear { router.selectedTab = .levels }
-        // Faz G-1: Kilitli pack alert
-        .alert("Unlock Pack", isPresented: $showLockedAlert) {
-            Button("Go to Shop") {
+        // Faz G-1: Kilitli pack alert — H-1: localized
+        .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
+            Button("alert.unlockPack.goToShop") {
                 router.selectTab(.shop)
             }
-            Button("Cancel", role: .cancel) {}
+            Button("common.cancel", role: .cancel) {}
         } message: {
-            Text("\(lockedPackTitle) is locked. Visit the Shop to unlock it.")
+            Text(verbatim: String(format: NSLocalizedString("alert.unlockPack.message", comment: ""), lockedPackTitle))
         }
     }
 
@@ -56,7 +57,7 @@ struct LevelsListView: View {
 
             Spacer()
 
-            Text("Snuglo")
+            Text("app.name")
                 .font(AppTypography.headlineMedium)
                 .foregroundStyle(AppColors.primary)
                 .tracking(-0.4)
@@ -84,12 +85,12 @@ struct LevelsListView: View {
             VStack(alignment: .leading, spacing: AppSpacing.md) {
                 // Header
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                    Text("Levels")
+                    Text("levels.title")
                         .font(AppTypography.headlineLarge)
                         .foregroundStyle(AppColors.onSurface)
                         .tracking(-0.6)
 
-                    Text("Pick a pack")
+                    Text("levels.subtitle")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
@@ -137,7 +138,7 @@ struct LevelsListView: View {
             // Header row
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                    Text(pack.title)
+                    Text(verbatim: pack.title)
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
 
@@ -145,7 +146,7 @@ struct LevelsListView: View {
                     HStack(spacing: AppSpacing.xs) {
                         Image(systemName: "square.grid.3x3")
                             .font(.system(size: 12))
-                        Text(pack.gridLabel)
+                        Text(verbatim: pack.gridLabel)
                             .font(AppTypography.labelSmall)
                     }
                     .foregroundStyle(AppColors.onSurfaceVariant)
@@ -178,7 +179,7 @@ struct LevelsListView: View {
             // Progress row
             VStack(alignment: .leading, spacing: AppSpacing.xs) {
                 HStack {
-                    Text(pack.isLocked ? "LOCKED" : "PROGRESS")
+                    Text(pack.isLocked ? "pack.locked" : "pack.progress")
                         .font(AppTypography.labelSmall)
                         .tracking(0.6)
                         .textCase(.uppercase)

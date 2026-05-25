@@ -1,9 +1,10 @@
 import SwiftUI
 import StoreKit
 
-// MARK: — ShopView (Screen 10)
+// MARK: — ShopView (Screen 10 · H-1: Localized)
 // Design reference: Designs/html/10-shop.html
 // Faz G-1: Canlı StoreKit 2 IAP — 5 SKU.
+// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
 //
 // Sections:
 //   1. Pack Unlocks   (spice-route / mambo-nights / woodland-retreat)
@@ -37,19 +38,19 @@ struct ShopView: View {
             .padding(.bottom, AppSpacing.xl + 32)
         }
         .background(AppColors.background.ignoresSafeArea())
-        .navigationTitle("Shop")
+        .navigationTitle("shop.title")
         .navigationBarTitleDisplayMode(.inline)
         .task { await store.loadProducts() }
         .overlay {
             if store.isLoading || isPurchasing { loadingOverlay }
         }
-        .alert("Error", isPresented: Binding(
+        .alert("common.error", isPresented: Binding(
             get: { errorMessage != nil },
             set: { if !$0 { errorMessage = nil } }
         )) {
-            Button("OK", role: .cancel) { errorMessage = nil }
+            Button("common.ok", role: .cancel) { errorMessage = nil }
         } message: {
-            Text(errorMessage ?? "")
+            Text(verbatim: errorMessage ?? "")
         }
         .onChange(of: store.lastError) { _, newValue in
             if let e = newValue { errorMessage = e }
@@ -60,11 +61,11 @@ struct ShopView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
-            Text("Shop")
+            Text("shop.title")
                 .font(AppTypography.headlineLarge)
                 .tracking(-0.6)
                 .foregroundStyle(AppColors.onSurface)
-            Text("Enhance your cozy experience")
+            Text("shop.enhance")
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
@@ -74,7 +75,7 @@ struct ShopView: View {
 
     private var packUnlocksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("Puzzle Packs")
+            sectionTitle("shop.packUnlocks")
             packCard(packId: "spice-route",      productID: .packSpice,    icon: "cup.and.saucer.fill", accent: AppColors.blockPeach)
             packCard(packId: "mambo-nights",     productID: .packMambo,    icon: "moon.stars.fill",     accent: AppColors.blockBlush)
             packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill",           accent: AppColors.blockSage)
@@ -95,10 +96,10 @@ struct ShopView: View {
             iconTile(systemName: icon, accent: owned ? accent : AppColors.surfaceContainerHigh, tint: owned ? AppColors.primary : AppColors.onSurfaceVariant)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(pack?.title ?? packId)
+                Text(verbatim: pack?.title ?? packId)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text(pack?.subtitle ?? "")
+                Text(verbatim: pack?.subtitle ?? "")
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
@@ -117,7 +118,7 @@ struct ShopView: View {
 
     private var hintsSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("Hints")
+            sectionTitle("shop.hintsSection")
 
             let product = store.product(for: .hintsSmall)
 
@@ -125,10 +126,10 @@ struct ShopView: View {
                 iconTile(systemName: "lightbulb.fill", accent: AppColors.tertiary.opacity(0.15), tint: AppColors.tertiary)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("10 Hints")
+                    Text("sku.hintsSmall.title")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
-                    Text("You have \(progress.hintCount) remaining")
+                    Text(verbatim: String(format: NSLocalizedString("shop.hintsRemaining", comment: ""), progress.hintCount))
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
@@ -152,7 +153,7 @@ struct ShopView: View {
         let product = store.product(for: .removeAds)
 
         return VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("One-Time Purchases")
+            sectionTitle("shop.oneTime")
 
             HStack(spacing: AppSpacing.md) {
                 iconTile(
@@ -162,10 +163,10 @@ struct ShopView: View {
                 )
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Remove Ads")
+                    Text("sku.removeAds.title")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
-                    Text("One-time · No more interruptions")
+                    Text("sku.removeAds.body")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
@@ -187,7 +188,7 @@ struct ShopView: View {
         Button {
             Task { await store.restorePurchases() }
         } label: {
-            Text("Restore Purchases")
+            Text("shop.restore")
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurfaceVariant)
                 .frame(maxWidth: .infinity)
@@ -203,7 +204,7 @@ struct ShopView: View {
             Image(systemName: "lightbulb.fill")
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
-            Text("\(progress.hintCount) hints available")
+            Text(verbatim: String(format: NSLocalizedString("shop.hintsAvailable", comment: ""), progress.hintCount))
                 .font(AppTypography.labelSmall)
                 .tracking(0.3)
                 .foregroundStyle(AppColors.onSurfaceVariant)
@@ -241,13 +242,13 @@ struct ShopView: View {
     ) -> some View {
         Button { Task { await action() } } label: {
             if isOwned {
-                Label("Owned", systemImage: "checkmark")
+                Label("shop.owned", systemImage: "checkmark")
                     .font(AppTypography.bodyMedium.weight(.semibold))
                     .foregroundStyle(AppColors.primary)
                     .padding(.horizontal, AppSpacing.sm + 2)
                     .padding(.vertical, AppSpacing.sm)
             } else {
-                Text(label ?? "—")
+                Text(verbatim: label ?? "—")
                     .font(AppTypography.bodyMedium.weight(.semibold))
                     .foregroundStyle(AppColors.primary)
                     .padding(.horizontal, AppSpacing.sm + 2)
@@ -262,8 +263,9 @@ struct ShopView: View {
         .disabled(isOwned || isPurchasing)
     }
 
-    private func sectionTitle(_ text: String) -> some View {
-        Text(text)
+    /// H-1: Accepts LocalizedStringKey so callers pass translation keys directly.
+    private func sectionTitle(_ key: LocalizedStringKey) -> some View {
+        Text(key)
             .font(AppTypography.headlineSmall)
             .foregroundStyle(AppColors.onSurface)
             .padding(.horizontal, AppSpacing.xs)
