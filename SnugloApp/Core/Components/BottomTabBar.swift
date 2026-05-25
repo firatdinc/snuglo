@@ -4,11 +4,13 @@ import SwiftUI
 // Ref: Designs/html/03-main-menu.html (nav section)
 // 4-tab custom bottom bar: Play · Levels · Stats · Shop
 // Active tab: lavender pill background + filled icon.
-// Used as overlay inside MainMenuView if needed; primary tabs via native TabView.
+//
+// Reads and writes router.selectedTab via @Environment so call sites
+// need no @Binding passthrough — just BottomTabBar() with no args.
 
 struct BottomTabBar: View {
 
-    @Binding var selected: AppTab
+    @Environment(AppRouter.self) private var router
 
     private struct TabItem {
         let tab: AppTab
@@ -28,23 +30,23 @@ struct BottomTabBar: View {
         HStack(spacing: 0) {
             ForEach(items, id: \.tab) { item in
                 Button {
-                    selected = item.tab
+                    router.selectTab(item.tab)
                 } label: {
                     VStack(spacing: AppSpacing.xs - 2) {
-                        Image(systemName: selected == item.tab ? item.activeIcon : item.icon)
+                        Image(systemName: router.selectedTab == item.tab ? item.activeIcon : item.icon)
                             .font(.system(size: 22))
-                            .foregroundStyle(selected == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
+                            .foregroundStyle(router.selectedTab == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
 
                         Text(item.label)
                             .font(AppTypography.labelSmall)
                             .tracking(0.4)
                             .textCase(.uppercase)
-                            .foregroundStyle(selected == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
+                            .foregroundStyle(router.selectedTab == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
                     }
                     .padding(.vertical, AppSpacing.sm)
                     .padding(.horizontal, AppSpacing.md)
                     .background(
-                        selected == item.tab
+                        router.selectedTab == item.tab
                             ? AppColors.primaryContainer
                             : Color.clear,
                         in: RoundedRectangle(cornerRadius: AppRadius.block + 2, style: .continuous)
@@ -53,7 +55,7 @@ struct BottomTabBar: View {
                 }
                 .buttonStyle(.plain)
                 .frame(maxWidth: .infinity)
-                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: selected)
+                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: router.selectedTab)
             }
         }
         .padding(.horizontal, AppSpacing.sm)
@@ -72,10 +74,10 @@ struct BottomTabBar: View {
 }
 
 #Preview {
-    @Previewable @State var tab = AppTab.play
     VStack {
         Spacer()
-        BottomTabBar(selected: $tab)
+        BottomTabBar()
     }
     .background(AppColors.background)
+    .environment(AppRouter())
 }

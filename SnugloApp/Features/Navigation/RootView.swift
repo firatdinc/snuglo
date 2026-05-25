@@ -33,8 +33,11 @@ struct RootView: View {
         case .game(let levelID):
             GameView(levelId: levelID)
                 .navigationBarBackButtonHidden()
-        case .packDetail(let packName):
-            PackDetailView(packName: packName)
+        case .gamePlay(let levelId):
+            GameView(levelId: levelId)
+                .navigationBarBackButtonHidden()
+        case .packDetail(let packId):
+            PackDetailView(packName: packId)
         case .settings:
             SettingsView()
         case .shop:

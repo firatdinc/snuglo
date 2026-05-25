@@ -9,7 +9,10 @@ enum Route: Hashable {
     case onboarding
     case mainMenu
     case game(levelID: String)
-    case packDetail(packName: String)
+    // gamePlay is a semantic alias used by daily-puzzle / continue-card call sites.
+    // Both route to the same GameView; kept separate so call-site intent is readable.
+    case gamePlay(levelId: String)
+    case packDetail(packId: String)
     case settings
     case shop
 }
