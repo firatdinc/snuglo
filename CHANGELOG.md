@@ -2,6 +2,80 @@
 
 ---
 
+## [v1.0-G1] — StoreKit 2 IAP — 5 SKU (2026-05-25)
+
+### Yeni: `SnugloApp/Core/Store/StoreManager.swift`
+
+- **`StoreManager.swift`** *(new)* — `@Observable` singleton, StoreKit 2 tam entegrasyon.
+  - `ProductID` enum: 5 SKU — `packSpice`, `packMambo`, `packWoodland`, `removeAds`, `hintsSmall`.
+  - `loadProducts()` — async, Product.products(for:) ile fetch, fiyata göre sıralı.
+  - `purchase(_ product:)` — satın alma, verification, consumable/non-consumable ayrımı.
+  - `restorePurchases()` — AppStore.sync() + entitlement refresh.
+  - `isPackUnlocked(_ packId:)` — cozy-beginnings daima true; diğerleri satın alım kontrolü.
+  - `adsRemoved: Bool` — Faz G-2 AdMob hook'u için computed property.
+  - `product(forPackId:)` / `productID(forPackId:)` — pack ID → StoreKit Product köprüsü.
+  - Transaction listener (Task.detached) — refund / revoke için arka planda dinler.
+  - UserDefaults cache (key: `snuglo.purchased.v1`) — offline non-consumable okuma.
+  - **Disambiguity fix:** `private typealias SKTransaction = StoreKit.Transaction`
+    (SwiftUI kendi `Transaction` tipine sahip; iOS 26.2 SDK'da ambiguity hatası → tam qualifier ile çözüldü).
+
+### Yeni: `SnugloApp/Resources/Snuglo.storekit`
+
+- StoreKit Configuration File (JSON, Xcode 13+ formatı).
+- 5 ürün tanımlı: 4 Non-Consumable + 1 Consumable.
+- Localization: `en_US`, `tr_TR`, `es_ES` — displayName + description.
+- Fiyatlar: $0.99 / $2.99 / $3.99 / $4.99 / $4.99.
+- Sandbox simulator testi için scheme'e bağlanması yeterli (bkz. README-StoreKit.md).
+
+### Yeni: `SnugloApp/Resources/README-StoreKit.md`
+
+- Xcode scheme ayarı, sandbox testing, App Store Connect SKU kurulum kılavuzu.
+- Faz G-2 AdMob köprü notu: `StoreManager.shared.adsRemoved`.
+
+### Güncellendi: `SnugloApp/Features/Shop/ShopView.swift`
+
+- `StoreManager.shared` live bağlantı — `store.product(for:)` ile StoreKit Product fetch.
+- Pack Unlocks section: spice-route / mambo-nights / woodland-retreat kartları.
+- Hints section: consumable 10-hint satın alma, `progress.hintCount` badge.
+- Remove Ads section: one-time non-consumable.
+- Restore Purchases butonu.
+- Loading overlay + error alert.
+- `purchaseButton(label:isOwned:action:)` — Owned / Buy state.
+- `itemCard(owned:)` — owned borderlı kart modifier.
+
+### Güncellendi: `SnugloApp/MockData/PackProvider.swift`
+
+- `allPacks()` — `StoreManager.shared.isPackUnlocked(pack.id)` ile `isLocked` belirlenir.
+- Faz E'deki ProgressStore-only lock yerine StoreKit entitlement tabanlı.
+
+### Güncellendi: `SnugloApp/Features/LevelsList/LevelsListView.swift`
+
+- Kilitli pack tıklandığında alert: "Unlock Pack" → "Go to Shop" / "Cancel".
+- `router.selectTab(.shop)` yönlendirme.
+- Pack card: kilitli → `lock.fill` icon, `%55 opacity`, "LOCKED" progress label.
+
+### Güncellendi: `SnugloApp/Core/Persistence/ProgressStore.swift`
+
+- `hintCount: Int` — default 0, UserDefaults persist.
+- `addHints(_ count:)` — consumable IAP sonrası StoreManager tarafından çağrılır (+10).
+- `useHint() -> Bool` — Faz H GameView hook için hazır.
+- `Snapshot.hintCount` — eski snapshot uyumu için default 0.
+
+### Testler: `Tests/SnugloAppTests/StoreManagerTests.swift`
+
+- `testIsPackUnlockedFreePackAlwaysTrue` — cozy-beginnings her zaman açık.
+- `testIsPackUnlockedUnknownPackFalse` — bilinmeyen pack false.
+- `testProductIDAllCasesCount` — tam 5 SKU.
+- `testProductIDRawValues` — 5 string ID doğrulaması.
+- `testIsPurchasedReturnsFalseByDefault` — crash-free smoke test.
+- `testAdsRemovedEqualsIsPurchasedRemoveAds` — consistency check.
+- `testProductIDForPackIdMapping` — packId → ProductID mapping.
+- `testProductForPackIdNilWhenNotLoaded` — crash-free nil guard.
+- `ProgressStoreHintsTests`: hintCount default / addHints / useHint / persist / reset (5 test).
+- **Toplam yeni test: 13** | **Çalıştırılan: 46** | **StoreKit testleri: 13/13 ✅** | **Pre-existing ColorsTests fail: 1** (base branch'ta 2 vardı).
+
+---
+
 ## [v1.0-F] — Audio + Haptics + Daily Reminder (2026-05-25)
 
 ### Yeni: `SnugloApp/Core/Audio/AudioManager.swift`
