@@ -515,7 +515,7 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_9C291A99-00D2-4BBD-A8EE-29F283AA3D67" /* . */ = {
+		"TEMP_6BAFB897-6BAA-441A-AC61-33330824B9F1" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
