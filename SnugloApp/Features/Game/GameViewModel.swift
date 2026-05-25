@@ -17,8 +17,12 @@ final class GameViewModel {
     private(set) var placements: [PieceID: Placement] = [:]
     /// Pieces whose last tryPlace was rejected (overlap / OOB).
     private(set) var invalidPieceIDs: Set<PieceID> = []
-    /// True once all pieces are placed without overlap/OOB (prints "Solved!").
+    /// True once all pieces are placed without overlap/OOB.
     private(set) var isSolved: Bool = false
+
+    // MARK: - Timer tracking
+    /// Wall-clock time when this session started. Reset on restart.
+    private(set) var startTime: Date = Date()
 
     // MARK: - Private
     private let checker = SolutionChecker()
@@ -27,6 +31,7 @@ final class GameViewModel {
 
     init(level: Level) {
         self.level = level
+        self.startTime = Date()
     }
 
     /// Load from SnugloEngine bundle. Throws LevelLoader.LoaderError on failure.
@@ -73,7 +78,7 @@ final class GameViewModel {
     ///
     /// - Accepts if the resulting set of placements has no overlap / OOB.
     /// - Rejects (adds to `invalidPieceIDs`) on overlap, out-of-bounds, or unknown piece.
-    /// - Sets `isSolved = true` and prints "Solved!" when all pieces fit exactly.
+    /// - Sets `isSolved = true` when all pieces fit exactly, then persists progress.
     func tryPlace(pieceID: PieceID, at coord: Coord) {
         let newPlacement = Placement(pieceId: pieceID, origin: coord)
 
@@ -90,6 +95,7 @@ final class GameViewModel {
             invalidPieceIDs.remove(pieceID)
             isSolved = true
             print("Solved!")
+            persistProgress()
 
         case .incompleteCoverage:
             // This placement is fine; more pieces still needed
@@ -117,6 +123,7 @@ final class GameViewModel {
         if checker.check(level: level, placements: all) == .valid {
             isSolved = true
             print("Solved!")
+            persistProgress()
         }
     }
 
@@ -125,5 +132,38 @@ final class GameViewModel {
         placements.removeValue(forKey: pieceID)
         invalidPieceIDs.remove(pieceID)
         isSolved = false
+    }
+
+    // MARK: - Persistence
+
+    /// Called on solve. Writes level + daily progress to ProgressStore.
+    private func persistProgress() {
+        let timeTaken = Date().timeIntervalSince(startTime)
+        let stars = computeStars(seconds: timeTaken, gridSize: level.width)
+        ProgressStore.shared.markCompleted(levelId: level.id, stars: stars, time: timeTaken)
+        // Daily puzzle has id format "daily-0"
+        if level.id.hasPrefix("daily") {
+            ProgressStore.shared.markDailySolved(date: Date(), time: timeTaken)
+        }
+    }
+
+    // MARK: - Star Calculation
+
+    /// Stars based on solve time relative to grid complexity.
+    ///
+    /// Thresholds (gridSize → base):
+    ///   5×5 → 30 s   |  3 stars: ≤30s  2: ≤60s  1: else
+    ///   6×6 → 60 s   |  3 stars: ≤60s  2: ≤120s 1: else
+    ///   7×7 → 90 s   |  3 stars: ≤90s  2: ≤180s 1: else
+    ///   8×8 → 120 s  |  3 stars: ≤120s 2: ≤240s 1: else
+    static func computeStars(seconds: TimeInterval, gridSize: Int) -> Int {
+        let base = Double(max(gridSize - 4, 1)) * 30.0   // 30, 60, 90, 120 for 5-8
+        if seconds <= base       { return 3 }
+        if seconds <= base * 2.0 { return 2 }
+        return 1
+    }
+
+    private func computeStars(seconds: TimeInterval, gridSize: Int) -> Int {
+        GameViewModel.computeStars(seconds: seconds, gridSize: gridSize)
     }
 }

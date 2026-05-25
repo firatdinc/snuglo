@@ -17,12 +17,14 @@
 		3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFCBE768527FBA636F28AAC /* PauseSheet.swift */; };
 		3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */; };
 		4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */; };
+		44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F090D7130F37BBDD451D8 /* ProgressStore.swift */; };
 		4749283EBBBBBB741384B951 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019EC211A8ED76E9C4687A0 /* Shadow.swift */; };
 		4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A09BB21B2EEF8E2743976A /* MockData.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
 		530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */; };
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
 		56F4A71C2354DD0A66026405 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A30FA9DC3EFE7135C328D /* MainMenuView.swift */; };
+		64639133E78C3684B2D5F5C8 /* ProgressStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E8C465B2441C411A96691F /* ProgressStoreTests.swift */; };
 		6DD60010AA6AF89DF48BEA12 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA13FC12B31478959E864E28 /* SplashView.swift */; };
 		70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */; };
 		754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */; };
@@ -74,6 +76,8 @@
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		923F090D7130F37BBDD451D8 /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
+		93E8C465B2441C411A96691F /* ProgressStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStoreTests.swift; sourceTree = "<group>"; };
 		9C00CEC5196A0D5872A0987F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockColorTests.swift; sourceTree = "<group>"; };
 		A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculatorTests.swift; sourceTree = "<group>"; };
@@ -151,6 +155,14 @@
 			path = ExplicitPrecompiledModules;
 			sourceTree = "<group>";
 		};
+		2D8BFEE3E83DF1152E7FBC22 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				923F090D7130F37BBDD451D8 /* ProgressStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		360562F81B5DA39774190494 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +210,7 @@
 				9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */,
 				1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */,
 				D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */,
+				93E8C465B2441C411A96691F /* ProgressStoreTests.swift */,
 				A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */,
 			);
 			path = SnugloAppTests;
@@ -288,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				44E4BF646D4293E17EC9B777 /* Components */,
+				2D8BFEE3E83DF1152E7FBC22 /* Persistence */,
 				E61ECDF1E7283589003957A1 /* Theme */,
 			);
 			path = Core;
@@ -377,7 +391,7 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_E0C38EDD-D06C-482F-9217-EA39089C3E01" /* . */ = {
+		"TEMP_898C197B-4BD8-4C5D-9F89-7D16557C9FBE" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
@@ -499,6 +513,7 @@
 				9CE833B028557F0558472ACE /* PackProvider.swift in Sources */,
 				3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */,
 				3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */,
+				44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */,
 				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
 				DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */,
 				10623549868FE8396ECC486F /* SettingsView.swift in Sources */,
@@ -520,6 +535,7 @@
 				70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */,
 				20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */,
 				530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */,
+				64639133E78C3684B2D5F5C8 /* ProgressStoreTests.swift in Sources */,
 				754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

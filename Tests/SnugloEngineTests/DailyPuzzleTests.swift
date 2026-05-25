@@ -135,4 +135,62 @@ final class DailyPuzzleTests: XCTestCase {
         let level = DailyPuzzle.forDate(date, timezone: tz)
         XCTAssertEqual(level.id, "daily-0")
     }
+
+    // MARK: - UTC Enforcement (BLOCKER D2 fix)
+
+    /// UTC zorunluluk testi: aynı Date, farklı timezone parametresi → özdeş Level.
+    ///
+    /// 2026-01-01T22:00:00Z noktasında:
+    ///   - UTC  → hâlâ 1 Ocak  (weekday: Thu → 8×8, seed: 20260101)
+    ///   - UTC+3 Istanbul → 2 Ocak (weekday: Fri → 5×5, seed: 20260102 olurdu)
+    ///
+    /// DailyPuzzle UTC kullandığından, timezone parametresi ne olursa olsun
+    /// UTC 1 Ocak puzzle'ı (8×8) döner. Bu test UTC enforcement'ı kilitler.
+    func testUTCEnforced_sameDate_differentTimezoneParam_samePuzzle() {
+        // 2026-01-01 22:00 UTC — Türkiye'de artık 2 Ocak 01:00
+        var utcCal = Calendar(identifier: .gregorian)
+        utcCal.timeZone = TimeZone(identifier: "UTC")!
+        var comps = DateComponents()
+        comps.year = 2026; comps.month = 1; comps.day = 1; comps.hour = 22
+        let date22UTC = utcCal.date(from: comps)!
+
+        let istanbulTZ = TimeZone(identifier: "Europe/Istanbul")!  // UTC+3
+
+        // Her iki çağrı da UTC 1 Ocak bulmacası (Thu → 8×8) döndürmeli
+        let levelUTC      = DailyPuzzle.forDate(date22UTC)
+        let levelIstanbul = DailyPuzzle.forDate(date22UTC, timezone: istanbulTZ)
+
+        XCTAssertEqual(levelUTC.id,    levelIstanbul.id,
+                       "UTC enforcement: timezone parametresi sonucu değiştirmemeli")
+        XCTAssertEqual(levelUTC.width, levelIstanbul.width,
+                       "Aynı gridSize (UTC 8×8 Thu) timezone'dan bağımsız")
+        XCTAssertEqual(levelUTC.width, 8,
+                       "UTC 2026-01-01 Thu → gridSize=8")
+
+        // Seed de UTC baz almalı
+        let seedUTC      = DailyPuzzle.seed(for: date22UTC)
+        let seedIstanbul = DailyPuzzle.seed(for: date22UTC, timezone: istanbulTZ)
+        XCTAssertEqual(seedUTC, seedIstanbul,
+                       "Seed her zaman UTC'den hesaplanmalı")
+        XCTAssertEqual(seedUTC, 20_260_101,
+                       "2026-01-01 UTC → seed=20260101")
+
+        // gridSize(for:) de UTC baz almalı
+        let gUTC      = DailyPuzzle.gridSize(for: date22UTC)
+        XCTAssertEqual(gUTC, 8, "gridSize(for:) UTC 2026-01-01 Thu → 8")
+    }
+
+    /// SolutionChecker doğrulaması: her daily puzzle'ın solution'ı geçerli olmalı.
+    func testDailyPuzzleSolutionIsValid() {
+        let checker = SolutionChecker()
+        let utc = TimeZone(identifier: "UTC")!
+        // Haftanın 7 günü için ayrı ayrı doğrula
+        let dates = (1...7).map { makeDate(year: 2026, month: 1, day: $0, timezone: utc) }
+        for date in dates {
+            let level = DailyPuzzle.forDate(date)
+            let result = checker.check(level: level, placements: level.solution)
+            XCTAssertEqual(result, .valid,
+                           "daily-\(date) solution geçerli değil: \(result)")
+        }
+    }
 }
