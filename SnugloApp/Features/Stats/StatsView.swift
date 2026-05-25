@@ -111,7 +111,7 @@ struct StatsView: View {
                 .accessibilityHidden(true)
 
             Text(value)
-                .font(.system(size: 26, weight: .semibold, design: .monospaced))
+                .font(AppTypography.numericLarge)
                 .foregroundStyle(AppColors.onSurface)
                 .minimumScaleFactor(0.7)
                 .lineLimit(1)
@@ -190,7 +190,7 @@ struct StatsView: View {
                 .minimumScaleFactor(0.8)
 
             Text("\(completed)/60")
-                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                .font(AppTypography.numericSmall)
                 .foregroundStyle(fraction > 0 ? AppColors.onSurface : AppColors.onSurfaceVariant.opacity(0.5))
         }
         .frame(maxWidth: .infinity)
@@ -298,10 +298,10 @@ struct StatsView: View {
 
                     VStack(spacing: 0) {
                         Text("—")
-                            .font(.system(size: 18, weight: .semibold, design: .monospaced))
+                            .font(AppTypography.numericLabel)
                             .foregroundStyle(AppColors.onSurface)
                         Text("per game")
-                            .font(.system(size: 9, weight: .medium))
+                            .font(AppTypography.labelSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
                 }
@@ -331,7 +331,7 @@ struct StatsView: View {
                 .foregroundStyle(AppColors.onSurface)
             Spacer()
             Text(value)
-                .font(.system(size: 13, weight: .medium, design: .monospaced))
+                .font(AppTypography.numericSmall)
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
     }

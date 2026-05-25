@@ -2,6 +2,33 @@
 
 ---
 
+## [v1.1.0] - 2026-05-25
+### Bug Fixes
+- **AppRouter.selectTab() unwinds NavigationStack to Splash** (BLOCKER): `selectTab()` was calling `popToRoot()` — tab switching now only changes `selectedTab`, NavigationStack untouched.
+- **GameView viewModel re-init on onAppear** (IMPORTANT): ViewModel now initialized correctly in `init(levelId:)` so the correct level loads without a transient flash.
+- **MainMenuView hardcoded "Level 12"** (IMPORTANT): Progress pill reads `ProgressStore.shared.totalLevelsCompleted()` at render time. `dailyGridSize` computed once via `DailyPuzzle.gridSize(for:)` instead of running the full level generator on every render.
+- **PauseSheet swipe-to-dismiss timer leak** (IMPORTANT): Timer now restarted via `onDismiss:` callback on `.sheet(...)`. Swipe-dismiss previously left timer permanently cancelled.
+- **SplashView task leak** (IMPORTANT): Async splash timer stored in `@State` and cancelled on `.onDisappear` to prevent leak when view is popped early.
+- **SettingsView notification denial silent** (IMPORTANT): `reminderToggle` now inspects `UNAuthorizationStatus` after `requestAuthorization()` and triggers `showNotifDeniedAlert` when denied. Previously the toggle was set true even on denial.
+- **NotificationSchedulerTests compile failure** (pre-existing): `NotificationScheduler` was renamed to `NotificationService` in Faz F; old test file caused build failure in xcodebuild test. Stub + comment pointing to `NotificationServiceTests`.
+- **HUD timer hardcoded system font** (NITPICK): Now uses `AppTypography.numericLabel` (Space Grotesk).
+- **Info.plist duplicate copy** (build): `Info.plist` excluded from source wildcard scan — was copied both by INFOPLIST_FILE build setting and Copy Bundle Resources, causing "Multiple commands produce" build error.
+
+### Design Refactor — Stitch Nordic Hearth Alignment
+- **Font registration** (BLOCKER-07 closed): Plus Jakarta Sans (variable wght 200–800), Be Vietnam Pro Regular/Medium, Space Grotesk (variable wght 300–700) bundled in `Resources/Fonts/`. Custom `Info.plist` with `UIAppFonts` array.
+- **Custom Info.plist** (BLOCKER-01 closed): `GENERATE_INFOPLIST_FILE=YES` removed. `UILaunchScreen.UIColorName: LaunchBackground` now works.
+- **Colors.swift**: 5 new Stitch tokens — `gameBoardBackground` (#F2EBE0), `gridLine` (#E5DCC8), `blushAccent` (#F5E6E0), `divider` (#EDE6DA), `softCocoa` (#3A332D) — all with dark-mode variants.
+- **Typography.swift**: 3-font variable-axis strategy. `headlineLarge/Medium/Small` → Plus Jakarta Sans SemiBold; `bodyLarge/Medium` → Be Vietnam Pro Regular; `numericLarge/numericLabel/numericSmall` → Space Grotesk Medium; `labelSmall` → Be Vietnam Pro Medium.
+- **Reusable components**: `PrimaryButton` (lavender, scale press), `SecondaryButton` (white+divider border), `CardSurface` (ViewModifier, radius 20+shadow), `RowDivider` (1px divider).
+- **GridView**: Board background `#F2EBE0`, grid lines `#E5DCC8` @ 1.5 pt, block radius 10.
+- **LevelCompleteSheet**: Success circle uses `blushAccent` (was `primaryContainer`). Stat cells use Space Grotesk `numericLabel`.
+- **PauseSheet**: Full redesign — lavender primary CTA, secondary buttons with divider border / softCocoa text, Space Grotesk timer.
+- **Stats / PackDetail / Settings**: All monospaced system fonts replaced with `numericLarge/numericLabel/numericSmall` Space Grotesk tokens.
+- **StitchTokenTests.swift**: 22 new tests verifying all v1.1 color, typography, spacing, and radius tokens.
+- **project.yml**: `MARKETING_VERSION: 1.1.0`, Fonts resource phase, custom Info.plist switch.
+
+---
+
 ## [v1.0.0] - 2026-05-25
 ### Release
 Production-ready cozy block-logic puzzle game.

@@ -4,15 +4,44 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ---
 
-## v1.1 Backlog (Faz J — 2026-05-25)
+## v1.1 — Bug Fix + Stitch Design Refactor (2026-05-25) ✅ KAPANDI
 
-Aşağıdaki maddeler v1.0.0 scope'u dışında bırakılmış; v1.1'de ele alınacak:
+### Bug fixes resolved in v1.1:
+| # | Bug | Severity | Resolution |
+|---|-----|----------|------------|
+| 1 | AppRouter.selectTab() unwinds stack | BLOCKER | ✅ selectTab() no longer calls popToRoot() |
+| 2 | GameView viewModel re-init flash | IMPORTANT | ✅ init(levelId:) initializes viewModel upfront |
+| 3 | MainMenuView hardcoded progress | IMPORTANT | ✅ reads ProgressStore.shared.totalLevelsCompleted() |
+| 4 | SplashView task leak | IMPORTANT | ✅ splashTask stored + cancelled onDisappear |
+| 5 | PauseSheet swipe-dismiss timer leak | IMPORTANT | ✅ onDismiss: always calls startTimer() |
+| 6 | SettingsView notif denial silent | IMPORTANT | ✅ checks UNAuthorizationStatus after request |
+| 7 | BLOCKER-07 custom fonts not registered | IMPORTANT | ✅ Resources/Fonts/ + UIAppFonts in Info.plist |
+| 8 | BLOCKER-01 UILaunchScreen.UIColorName | IMPORTANT | ✅ custom Info.plist replaces GENERATE_INFOPLIST |
+| 9 | NotificationSchedulerTests compile fail | IMPORTANT | ✅ stub redirects to NotificationServiceTests |
+| 10 | HUD timer hardcoded system font | NITPICK | ✅ AppTypography.numericLabel (Space Grotesk) |
+| 11 | Info.plist duplicate copy build error | BUILD | ✅ excluded from sources wildcard in project.yml |
 
+### Design refactor resolved in v1.1:
+- ✅ Colors.swift: gameBoardBackground, gridLine, blushAccent, divider, softCocoa tokens
+- ✅ Typography.swift: 3-font variable-axis (Plus Jakarta Sans / Be Vietnam Pro / Space Grotesk)
+- ✅ Reusable components: PrimaryButton, SecondaryButton, CardSurface, RowDivider
+- ✅ GridView, LevelCompleteSheet, PauseSheet, Stats, PackDetail, Settings: token alignment
+- ✅ StitchTokenTests: 22 new tests for v1.1 tokens
+
+### v1.2 Backlog (items deferred from v1.1 original backlog):
 - XCUITest target setup (defer to CI bootstrap)
 - Real app icon art (1024×1024 + variants)
 - Real audio assets (5 SFX wav + bgm_cozy.mp3)
 - Real AdMob SDK integration (replace placeholder)
 - Native speaker review of TR/ES translations
+
+### v1.2 Backlog (new — from whiteboard analysis):
+- Game Center Leaderboard screen
+- Profile tab
+- Separate Tutorial screen / flow
+- Fail state (distinct popup from LevelCompleteSheet)
+- Daily Puzzle as separate nav entry point
+- PlusJakartaSans-SemiBold.ttf / SpaceGrotesk-Medium.ttf explicit files (currently using variable axis — works but non-standard for App Store font audits)
 
 ---
 

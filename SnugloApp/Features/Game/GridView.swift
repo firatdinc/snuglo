@@ -4,10 +4,10 @@ import SnugloEngine
 // MARK: — GridView
 // Renders the puzzle grid using SwiftUI Canvas for high performance.
 //
-// Faz B palette (Nordic Hearth):
-//   Board background: AppColors.surfaceContainerLow   (#F8F2F5)
-//   Grid lines:       AppColors.outlineVariant        (#CBC4CE, 1 pt)
-//   Placed pieces:    AppColors.blockColor(for:)      (deterministic pastel)
+// v1.1 palette (Stitch Nordic Hearth alignment):
+//   Board background: AppColors.gameBoardBackground  (#F2EBE0 warm parchment)
+//   Grid lines:       AppColors.gridLine             (#E5DCC8, 1.5 pt — Stitch spec)
+//   Placed pieces:    AppColors.blockColor(for:)     (deterministic pastel)
 //   Snap ghost:       block color @ 35% opacity
 //   Invalid fill:     AppColors.error @ 50% opacity + error stroke
 
@@ -29,7 +29,7 @@ struct GridView: View {
             }
         }
         .aspectRatio(CGFloat(level.width) / CGFloat(level.height), contentMode: .fit)
-        .background(AppColors.surfaceContainerLow)
+        .background(AppColors.gameBoardBackground)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
         .shadowL1()
     }
@@ -40,25 +40,26 @@ struct GridView: View {
         context.fill(
             Path(roundedRect: CGRect(origin: .zero, size: size),
                  cornerRadius: AppRadius.card),
-            with: .color(AppColors.surfaceContainerLow)
+            with: .color(AppColors.gameBoardBackground)
         )
     }
 
     private func drawGridLines(context: GraphicsContext, size: CGSize, cs: CGFloat) {
-        let lineColor = AppColors.outlineVariant
+        // v1.1: Stitch spec — #E5DCC8 at 1.5 pt (was outlineVariant 1 pt)
+        let lineColor = AppColors.gridLine
         for col in 0...level.width {
             let x = CGFloat(col) * cs
             var p = Path()
             p.move(to: CGPoint(x: x, y: 0))
             p.addLine(to: CGPoint(x: x, y: size.height))
-            context.stroke(p, with: .color(lineColor), lineWidth: 1)
+            context.stroke(p, with: .color(lineColor), lineWidth: 1.5)
         }
         for row in 0...level.height {
             let y = CGFloat(row) * cs
             var p = Path()
             p.move(to: CGPoint(x: 0, y: y))
             p.addLine(to: CGPoint(x: size.width, y: y))
-            context.stroke(p, with: .color(lineColor), lineWidth: 1)
+            context.stroke(p, with: .color(lineColor), lineWidth: 1.5)
         }
     }
 

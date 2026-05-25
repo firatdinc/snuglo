@@ -47,7 +47,9 @@ final class AppRouter {
     }
 
     func selectTab(_ tab: AppTab) {
+        // Tab switching is a state-only change — MainMenuView swaps its
+        // content based on selectedTab. Don't pop the NavigationStack;
+        // doing so would unwind back to Splash and re-trigger its animation.
         selectedTab = tab
-        popToRoot()
     }
 }

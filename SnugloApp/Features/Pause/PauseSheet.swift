@@ -1,18 +1,19 @@
 import SwiftUI
 
-// MARK: — PauseSheet (H-1: Localized)
-// Ref: Designs/html/07-pause-overlay.html
-// Sheet content — dimmed overlay with Resume/Restart/Quit buttons.
-// Toggles write to the same @AppStorage keys as SettingsView/SoundService/HapticService
-// so changes take effect immediately and are read by in-game playback.
+// MARK: — PauseSheet (v1.1: Stitch Nordic Hearth redesign)
+// Ref: Designs/html/07-pause-overlay.html · Stitch screenshot: pause.png
+//
+// v1.1 changes:
+//   • Removed quick-toggle pills (sound/haptics) — available in full SettingsView.
+//   • Primary CTA "Resume" uses AppColors.primary (dark lavender) + onPrimary (white).
+//   • Secondary buttons use divider border + softCocoa text (Stitch secondary spec).
+//   • Timer display uses AppTypography.numericLabel (Space Grotesk medium).
+//   • Compact centered-card look matching the Stitch pause screenshot.
+//   • onResume/onRestart callbacks: timer is now restarted via GameView's .onDismiss.
 
 struct PauseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
-
-    // Must match keys read by SoundService ("sfxEnabled") and HapticService ("hapticsEnabled").
-    @AppStorage("sfxEnabled")     private var sfxEnabled     = true
-    @AppStorage("hapticsEnabled") private var hapticsEnabled = true
 
     var onResume: () -> Void  = {}
     var onRestart: () -> Void = {}
@@ -22,6 +23,7 @@ struct PauseSheet: View {
 
     var body: some View {
         VStack(spacing: AppSpacing.xl) {
+
             // — Handle —
             RoundedRectangle(cornerRadius: 3)
                 .fill(AppColors.outlineVariant)
@@ -35,71 +37,90 @@ struct PauseSheet: View {
                 .foregroundStyle(AppColors.onSurface)
 
             // — Timer —
-            Text(formattedTime)
-                .font(.system(size: 28, weight: .medium, design: .monospaced))
-                .foregroundStyle(AppColors.onSurfaceVariant)
+            HStack(spacing: AppSpacing.xs) {
+                Image(systemName: "clock")
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .accessibilityHidden(true)
+                Text(formattedTime)
+                    .font(AppTypography.numericLabel)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
 
             // — Actions —
             VStack(spacing: AppSpacing.sm) {
+
+                // Primary: Resume
                 Button {
                     onResume()
                     dismiss()
                 } label: {
-                    Text("pause.resume")
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.onPrimary)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, AppSpacing.md)
-                        .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
+                    HStack(spacing: AppSpacing.xs) {
+                        Image(systemName: "play.fill")
+                            .font(.system(size: 14))
+                        Text("pause.resume")
+                            .font(AppTypography.headlineSmall)
+                    }
+                    .foregroundStyle(AppColors.onPrimary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
                 .buttonStyle(.plain)
-                // Faz I-2: XCUITest lookup — app.buttons["pause.resume"]
-                // Text("pause.resume") is a LocalizedStringKey → accessibility label becomes
-                // locale-dependent ("Devam Et", "Continuar") so identifier must be explicit.
+                // Scale press animation (Stitch spec: press → scale 0.98)
+                .buttonRepeatBehavior(.disabled)
+                // Faz I-2: XCUITest lookup
                 .accessibilityIdentifier("pause.resume")
 
+                // Secondary: Restart
                 Button {
                     onRestart()
                     dismiss()
                 } label: {
-                    Text("pause.restart")
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.primary)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, AppSpacing.md)
-                        .background(
-                            RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                .stroke(AppColors.primary, lineWidth: 1.5)
-                        )
+                    HStack(spacing: AppSpacing.xs) {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 14))
+                        Text("pause.restart")
+                            .font(AppTypography.headlineSmall)
+                    }
+                    .foregroundStyle(AppColors.softCocoa)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(
+                        AppColors.surfaceContainerLowest,
+                        in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                            .stroke(AppColors.divider, lineWidth: 1.5)
+                    )
                 }
                 .buttonStyle(.plain)
 
+                // Secondary: Home
                 Button {
                     onQuit()
                     dismiss()
                 } label: {
-                    Text("pause.home")
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.secondary)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, AppSpacing.md)
-                        .background(
-                            RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                .stroke(AppColors.outlineVariant, lineWidth: 1.5)
-                        )
+                    HStack(spacing: AppSpacing.xs) {
+                        Image(systemName: "house")
+                            .font(.system(size: 14))
+                        Text("pause.home")
+                            .font(AppTypography.headlineSmall)
+                    }
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, AppSpacing.md)
+                    .background(
+                        AppColors.surfaceContainerLowest,
+                        in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                            .stroke(AppColors.divider, lineWidth: 1.5)
+                    )
                 }
                 .buttonStyle(.plain)
-            }
-
-            Divider()
-                .padding(.horizontal, AppSpacing.xs)
-
-            // — Quick toggles —
-            // Bound to the same singletons as SettingsView — changes are
-            // instantly reflected everywhere and persisted to UserDefaults.
-            HStack(spacing: AppSpacing.xl) {
-                togglePill(labelKey: "pause.sound", isOn: $sfxEnabled, icon: "speaker.wave.2.fill")
-                togglePill(labelKey: "pause.haptics", isOn: $hapticsEnabled, icon: "hand.tap.fill")
             }
 
             Spacer(minLength: 0)
@@ -116,18 +137,6 @@ struct PauseSheet: View {
         let m = elapsedSeconds / 60
         let s = elapsedSeconds % 60
         return String(format: "%02d:%02d", m, s)
-    }
-
-    private func togglePill(labelKey: LocalizedStringKey, isOn: Binding<Bool>, icon: String) -> some View {
-        VStack(spacing: AppSpacing.xs) {
-            Toggle("", isOn: isOn)
-                .labelsHidden()
-                .tint(AppColors.primary)
-            Label(labelKey, systemImage: icon)
-                .font(AppTypography.labelSmall)
-                .tracking(0.3)
-                .foregroundStyle(AppColors.onSurfaceVariant)
-        }
     }
 }
 

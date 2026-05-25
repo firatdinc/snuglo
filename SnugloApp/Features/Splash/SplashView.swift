@@ -12,6 +12,9 @@ struct SplashView: View {
     @AppStorage("hasOnboarded") private var hasOnboarded = false
     @State private var visible = false
     @State private var scale: CGFloat = 0.92
+    /// v1.1 bug fix: store task so it can be cancelled on disappear (prevents leak if
+    /// SplashView is popped by a test or back-navigation before the delay completes).
+    @State private var splashTask: Task<Void, Never>?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -80,14 +83,20 @@ struct SplashView: View {
             let isUITest = UserDefaults.standard.bool(forKey: "snuglo.uitestmode")
             let delayMs  = isUITest ? 0 : 1200
 
-            Task {
+            // v1.1 bug fix: store task so onDisappear can cancel it.
+            splashTask = Task {
                 if delayMs > 0 {
                     try? await Task.sleep(for: .milliseconds(delayMs))
                 }
+                guard !Task.isCancelled else { return }
                 await MainActor.run {
                     router.push(hasOnboarded ? .mainMenu : .onboarding)
                 }
             }
+        }
+        .onDisappear {
+            // Cancel the splash timer if the view is dismissed early (e.g. test back-nav).
+            splashTask?.cancel()
         }
     }
 }

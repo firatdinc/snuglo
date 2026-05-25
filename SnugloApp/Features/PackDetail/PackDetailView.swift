@@ -91,7 +91,7 @@ struct PackDetailView: View {
                         .frame(height: 10)
 
                         Text("\(p.completedCount)/\(p.levelCount)")
-                            .font(.system(size: 13, weight: .medium, design: .monospaced))
+                            .font(AppTypography.numericSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
                     .accessibilityElement(children: .ignore)
@@ -127,7 +127,7 @@ struct PackDetailView: View {
                 } else if level.isCompleted {
                     VStack(spacing: 2) {
                         Text("\(level.index)")
-                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .font(AppTypography.numericSmall)
                             .foregroundStyle(AppColors.primary)
                         HStack(spacing: 1) {
                             ForEach(0..<3, id: \.self) { i in
@@ -140,7 +140,7 @@ struct PackDetailView: View {
                     .accessibilityHidden(true) // conveyed by button label
                 } else {
                     Text("\(level.index)")
-                        .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                        .font(AppTypography.numericLabel)
                         .foregroundStyle(AppColors.onSurface)
                         .accessibilityHidden(true) // conveyed by button label
                 }

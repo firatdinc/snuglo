@@ -1,4 +1,5 @@
 import SwiftUI
+import SnugloEngine
 
 // MARK: — MainMenuView (Screen 03 · H-1: Localized)
 // Design reference: Designs/html/03-main-menu.html
@@ -14,14 +15,27 @@ struct MainMenuView: View {
 
             VStack(spacing: 0) {
                 topBar
-                scrollContent
+                tabContent
             }
 
             BottomTabBar()
         }
         .navigationBarHidden(true)
         .accessibilityIdentifier("screen.mainMenu")
-        .onAppear { router.selectedTab = .play }
+    }
+
+    @ViewBuilder
+    private var tabContent: some View {
+        switch router.selectedTab {
+        case .play:
+            scrollContent
+        case .levels:
+            LevelsListView(packId: "")
+        case .stats:
+            StatsView()
+        case .shop:
+            ShopView()
+        }
     }
 
     // MARK: — Top bar
@@ -83,17 +97,19 @@ struct MainMenuView: View {
     // MARK: — Progress pill
 
     private var progressPill: some View {
-        HStack(spacing: AppSpacing.sm) {
+        let completed = ProgressStore.shared.totalLevelsCompleted()
+        let total = 240
+        return HStack(spacing: AppSpacing.sm) {
             Image(systemName: "star.fill")
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
                 .accessibilityHidden(true)
 
-            Text(verbatim: "Level 12")
+            Text(verbatim: "Level \(completed)")
                 .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.onSurface)
             +
-            Text(verbatim: " / 240")
+            Text(verbatim: " / \(total)")
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
         }
@@ -108,12 +124,15 @@ struct MainMenuView: View {
         .shadowL1()
         // H-2: combined element for VoiceOver
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Level 12 of 240 completed")
+        .accessibilityLabel("Level \(completed) of \(total) completed")
     }
 
     // MARK: — Daily Puzzle card
 
-    private var dailyGridSize: Int { PackProvider.dailyPuzzle().width }
+    /// Avoid running the full level generator on every body render — only
+    /// the gridSize is needed for the badge, which we can derive cheaply
+    /// from DailyPuzzle's weekday rotation.
+    private var dailyGridSize: Int { DailyPuzzle.gridSize(for: Date()) }
 
     /// H-1 BLOCKER 2: real locale-aware countdown to next midnight.
     private var refreshCountdownString: String {

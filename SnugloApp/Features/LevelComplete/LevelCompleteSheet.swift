@@ -1,8 +1,13 @@
 import SwiftUI
 
-// MARK: — LevelCompleteSheet (H-1: Localized)
+// MARK: — LevelCompleteSheet (v1.1: Stitch Nordic Hearth redesign · H-1: Localized)
 // Ref: Designs/html/08-level-complete.html
 // H-2: VoiceOver — stars row labelled, time formatted for speech, confetti hidden.
+//
+// v1.1 changes:
+//   • Success circle background: blushAccent (#F5E6E0) — was primaryContainer
+//   • Stat cell values: numericLabel (Space Grotesk 20pt) — was monospaced system
+//   • Secondary buttons: softCocoa/secondary text + divider border (Stitch spec)
 
 struct LevelCompleteSheet: View {
 
@@ -30,13 +35,15 @@ struct LevelCompleteSheet: View {
 
                 // — Check badge — (decorative; headline below conveys success)
                 ZStack {
+                    // Outer glow ring — blushAccent (#F5E6E0, Stitch Nordic Hearth)
                     Circle()
-                        .fill(AppColors.primaryContainer.opacity(0.4))
+                        .fill(AppColors.blushAccent.opacity(0.6))
                         .frame(width: 112, height: 112)
                         .blur(radius: 8)
 
+                    // Inner filled circle — blushAccent
                     Circle()
-                        .fill(AppColors.primaryContainer)
+                        .fill(AppColors.blushAccent)
                         .frame(width: 88, height: 88)
                         .overlay(
                             Circle()
@@ -174,7 +181,7 @@ struct LevelCompleteSheet: View {
     private func statCell(value: String, labelKey: LocalizedStringKey, a11yValue: String) -> some View {
         VStack(spacing: AppSpacing.xs) {
             Text(value)
-                .font(.system(size: 20, weight: .medium, design: .monospaced))
+                .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.onSurface)
             Text(labelKey)
                 .font(AppTypography.labelSmall)

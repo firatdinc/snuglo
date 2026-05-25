@@ -18,11 +18,20 @@ struct GameView: View {
     @Environment(AppRouter.self) private var router
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    var levelId: String = "level_5x5"
+    let levelId: String
 
     // MARK: — ViewModel
 
-    @State private var viewModel: GameViewModel = GameViewModel.makeOrFallback()
+    @State private var viewModel: GameViewModel
+
+    init(levelId: String = "level_5x5") {
+        self.levelId = levelId
+        // Initialize the view-model with the correct level up-front. This avoids
+        // a transient render where the screen briefly shows the bundled
+        // `level_5x5` (or worse, the 1×1 fallback when that bundle resource
+        // isn't shipped in the app target) before .onAppear swaps it.
+        self._viewModel = State(initialValue: GameViewModel.makeFromPackProvider(levelId: levelId))
+    }
 
     // MARK: — Drag state
 
@@ -72,19 +81,22 @@ struct GameView: View {
         .accessibilityIdentifier("screen.game")
         // H-2: Constrain Dynamic Type — grid cells overflow at AX5 sizes
         .dynamicTypeSize(.medium ... .xxxLarge)
-        .sheet(isPresented: $showPause) {
+        // v1.1 bug fix: onDismiss fires when sheet is dismissed by ANY means (button OR swipe).
+        // Without this, swiping the sheet down leaves the timer cancelled permanently.
+        // Note: multiple_closures_with_trailing_closure — content closure is NOT trailing here.
+        .sheet(isPresented: $showPause, onDismiss: { startTimer() }, content: {
             PauseSheet(
-                onResume: { startTimer() },
+                onResume: {},      // startTimer() is called via onDismiss above
                 onRestart: {
                     viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
                     elapsedSeconds = 0
-                    startTimer()
+                    // startTimer() is called via onDismiss after sheet dismisses
                 },
                 onQuit: { router.pop() },
                 elapsedSeconds: elapsedSeconds
             )
             .environment(router)
-        }
+        })
         .fullScreenCover(isPresented: $showComplete) {
             LevelCompleteSheet(
                 stars: 3,
@@ -100,8 +112,7 @@ struct GameView: View {
             .environment(router)
         }
         .onAppear {
-            let engineVM = GameViewModel.makeFromPackProvider(levelId: levelId)
-            viewModel = engineVM
+            // viewModel is initialized correctly in init(levelId:) — only start the timer here.
             startTimer()
         }
         .onDisappear { timerTask?.cancel() }
@@ -167,13 +178,13 @@ struct GameView: View {
 
             Spacer()
 
-            // Level title + timer
+            // Level title + timer (v1.1: timer uses numericLabel = Space Grotesk)
             VStack(spacing: 2) {
                 Text(levelDisplayName)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
                 Text(formattedTimer)
-                    .font(.system(size: 14, weight: .medium, design: .monospaced))
+                    .font(AppTypography.numericLabel)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
             .accessibilityElement(children: .ignore)
