@@ -2,6 +2,69 @@
 
 ---
 
+## [v1.0-C] — Navigation Iskelesi + 11 SwiftUI Ekranı (2026-05-25)
+
+Navigation iskelesi ve 11 ekran tamamlandı. MockData ile 4 pack, NavigationStack path routing,
+Splash → Onboarding → MainMenu akışı ve tüm tab/sheet geçişleri çalışıyor.
+
+### C1 — Navigation Root
+
+- **`AppRouter.swift`** *(yeni)* — `@Observable @MainActor class AppRouter`:
+  - `enum Route: Hashable` — `onboarding / mainMenu / levelsList(packId:) / packDetail(packId:) / gamePlay(levelId:) / stats / shop / settings`
+  - `path: [Route]` — NavigationStack'i yöneten tek kaynak
+  - `push(_:) / pop() / popToRoot() / present(_:) / selectTab(_:)` — navigation API
+  - `enum AppTab: CaseIterable` — `Play / Levels / Stats / Shop` (sf simgeler dahil)
+  - `struct LevelStats: Hashable` — LevelCompleteSheet'e iletilen oyun sonucu (süresi / yıldız / ipucu)
+- **`SnugloApp.swift`** *(güncellendi)* — `NavigationStack(path: $router.path)` root;
+  `SplashView` kalıcı temel; `.navigationDestination(for: Route.self)` route mapping; `@Observable` router `.environment(router)` ile tüm ağaca enjekte edildi.
+- **`BottomTabBar.swift`** *(yeni)* — 4 sekmeli alt tab barı; aktif sekme lavanta pill; `AppRouter.selectTab(_:)` üzerinden geçiş; Play/Levels/Stats/Shop sekmeleri.
+
+### C2 — MockData
+
+- **`MockData.swift`** *(yeni)* — `SnugloApp/MockData/` klasörü:
+  - `struct Pack: Identifiable` — `id / title / subtitle / gridSize / levelCount / completedCount / accentColor / iconSymbol / isLocked / progressFraction / gridLabel`
+  - `struct LevelItem: Identifiable` — `id / packId / number / stars / isLocked / isCompleted / isCurrent`
+  - 4 pack: `Cozy Beginnings 5×5 (60 lvl, 12 tamamlandı)` / `Spice Route 6×6 (60 lvl, 4 tamamlandı)` / `Mambo Nights 7×7 (60 lvl, kilitli)` / `Woodland Retreat 8×8 (60 lvl, kilitli)`
+  - `MockData.levels(for:)` — completed / current / locked tier'larını deterministic hesaplar
+  - `MockData.continuePack` / `continueLevel` — MainMenu Continue kartı için
+  - Stats sabitleri: `statSolved=142 / statTimeHours=48 / statFastest="1:12" / statStreak=14`
+  - `weeklyBar` — haftalık bar chart (M-S, bugün işaretli)
+
+### C3 — 11 SwiftUI Ekranı
+
+| # | Dosya | Açıklama |
+|---|-------|---------|
+| 01 | `Features/Splash/SplashView.swift` | 3×3 pastel blok logosu + "Snuglo" wordmark; 1.2 s sonra `hasOnboarded` durumuna göre `.mainMenu` veya `.onboarding` push'lar |
+| 02 | `Features/Onboarding/OnboardingView.swift` | 3 sayfalı swipe onboarding (TabView .page); Skip / Next / Get Started; `hasOnboarded=true` set edip `.mainMenu`'ya gider |
+| 03 | `Features/MainMenu/MainMenuView.swift` | Daily Puzzle hero kartı (tarih damgası + geri sayım + ▶); Continue kartı (pack banner, level, progress bar 65%); alt tab barı |
+| 04 | `Features/LevelsList/LevelsListView.swift` | 4 pack kartı; kilit / progress badge; tıklayınca `.packDetail(packId:)` push |
+| 05 | `Features/PackDetail/PackDetailView.swift` | Hero banner (pack rengi + grid deseni); 3 sütunlu level tile grid — tamamlandı (⭐), aktif (lavanta kenarlık), kilitli (🔒) |
+| 06 | `Features/Game/GameView.swift` | HUD (geri + level adı + ⏱ + duraklatma); drag-drop Faz B'den korundu; PauseSheet + LevelCompleteSheet; `levelId` param ile AppRouter entegrasyonu |
+| 07 | `Features/Pause/PauseSheet.swift` | `.sheet` overlay — Resume (primary) / Restart (outlined) / Quit to Menu; Sound + Haptics toggle (Faz F placeholder) |
+| 08 | `Features/LevelComplete/LevelCompleteSheet.swift` | `.fullScreenCover` — konfeti partikülleri; ✓ badge; TIME/STARS/HINTS stat satırı; Next Level / Replay / Home |
+| 09 | `Features/Stats/StatsView.swift` | 2×2 KPI grid (SOLVED/TIME/FASTEST/STREAK); haftalık bar chart; hint kullanım donut placeholder (Faz E'de gerçek Chart) |
+| 10 | `Features/Shop/ShopView.swift` | Snuglo Plus öne çıkan kart (lavanta); 3 hint row; Remove Ads satırı; tüm CTA'lar disabled (Faz G StoreKit) |
+| 11 | `Features/Settings/SettingsView.swift` | SOUND & FEEL / APPEARANCE / NOTIFICATIONS / ACCOUNT bölümleri; Daily Reminder DatePicker; "SNUGLO V1.0.4" footer |
+
+### C4 — UI Kural Uyumu
+
+- Tüm ekranlar `AppColors.*` / `AppTypography.*` / `AppSpacing.*` / `AppRadius.*` / `.shadowL1()` kullanıyor
+- Hardcoded renk/spacing/radius YOK
+- `.navigationBarHidden(true)` ile native nav bar gizli; custom HUD/nav bar her ekranda manuel
+
+### C5 — Build & Test
+
+- `swift build` ✅ — 0 uyarı
+- `swift test` ✅ — 23 engine testi, 0 hata
+
+### Faz D Plug-in Noktaları
+
+- `GameView.levelName(from:)` → `LevelLoader.load(id: levelId)` ile değiştirilecek
+- `MockData.allPacks` → `LevelLoader.loadAllPacks()` ile değiştirilecek
+- `MockData.levels(for:)` → `LevelLoader.loadLevels(packId:)` ile değiştirilecek
+
+---
+
 ## [v1.0-B fix] — Tokens & Tracking (2026-05-25)
 
 ### FIX 1 — Stable piece coloring hash
