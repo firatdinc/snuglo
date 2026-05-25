@@ -37,11 +37,11 @@ final class SoundServiceTests: XCTestCase {
 
     func test_soundEnum_containsRequiredCases() {
         let rawValues = Set(SoundService.Sound.allCases.map(\.rawValue))
-        XCTAssertTrue(rawValues.contains("click"),  "Missing .click case")
-        XCTAssertTrue(rawValues.contains("place"),  "Missing .place case")
-        XCTAssertTrue(rawValues.contains("snap"),   "Missing .snap case")
-        XCTAssertTrue(rawValues.contains("solve"),  "Missing .solve case")
-        XCTAssertTrue(rawValues.contains("error"),  "Missing .error case")
+        XCTAssertTrue(rawValues.contains("click"), "Missing .click case")
+        XCTAssertTrue(rawValues.contains("place"), "Missing .place case")
+        XCTAssertTrue(rawValues.contains("snap"), "Missing .snap case")
+        XCTAssertTrue(rawValues.contains("solve"), "Missing .solve case")
+        XCTAssertTrue(rawValues.contains("error"), "Missing .error case")
     }
 
     // MARK: - Test 3: play() with sfxEnabled=false must not crash

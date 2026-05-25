@@ -170,10 +170,10 @@ final class ProgressStore {
     private func save() {
         let snap = Snapshot(
             levelProgress: levelProgress,
-            dailyResults:  dailyResults,
+            dailyResults: dailyResults,
             currentStreak: currentStreak,
             longestStreak: longestStreak,
-            hintCount:     hintCount
+            hintCount: hintCount
         )
         if let data = try? JSONEncoder().encode(snap) {
             defaults.set(data, forKey: key)

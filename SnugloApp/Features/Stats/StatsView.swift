@@ -4,15 +4,25 @@ import SwiftUI
 // Ref: Designs/html/09-stats.html
 // H-2: VoiceOver — KPI cards combined elements, pack donuts labelled.
 
+// I: Replaces anonymous 4-member tuple — large_tuple lint fix.
+// H-1: rawKey drives Text(pack.titleKey) for localized display.
+private struct PackStat {
+    let id: String
+    let rawKey: String    // e.g. "pack.cozyBeginnings"
+    let color: Color
+    let icon: String
+    var titleKey: LocalizedStringKey { LocalizedStringKey(rawKey) }
+}
+
 struct StatsView: View {
 
     @State private var store: ProgressStore = ProgressStore.shared
 
-    private let packs: [(id: String, title: String, color: Color, icon: String)] = [
-        ("cozy-beginnings", "Cozy",    AppColors.blockLavender, "leaf.fill"),
-        ("spice-route",     "Spice",   AppColors.blockPeach,    "cup.and.saucer.fill"),
-        ("mambo-nights",    "Mambo",   AppColors.blockBlush,    "moon.stars.fill"),
-        ("woodland-retreat","Woodland",AppColors.blockSage,     "tree.fill")
+    private let packs: [PackStat] = [
+        PackStat(id: "cozy-beginnings",  rawKey: "pack.cozyBeginnings",  color: AppColors.blockLavender, icon: "leaf.fill"),
+        PackStat(id: "spice-route",      rawKey: "pack.spiceRoute",      color: AppColors.blockPeach,   icon: "cup.and.saucer.fill"),
+        PackStat(id: "mambo-nights",     rawKey: "pack.mamboNights",     color: AppColors.blockBlush,   icon: "moon.stars.fill"),
+        PackStat(id: "woodland-retreat", rawKey: "pack.woodlandRetreat", color: AppColors.blockSage,    icon: "tree.fill")
     ]
 
     var body: some View {
@@ -147,7 +157,7 @@ struct StatsView: View {
         .shadowL1()
     }
 
-    private func packDonut(pack: (id: String, title: String, color: Color, icon: String)) -> some View {
+    private func packDonut(pack: PackStat) -> some View {
         let completed = store.packCompletionCount(pack.id)
         let fraction  = CGFloat(completed) / 60.0
         return VStack(spacing: AppSpacing.xs) {
@@ -171,7 +181,7 @@ struct StatsView: View {
                     .foregroundStyle(fraction > 0 ? pack.color : AppColors.onSurfaceVariant.opacity(0.4))
             }
 
-            Text(verbatim: pack.title)
+            Text(pack.titleKey)               // H-1 BLOCKER 1: localized pack name
                 .font(AppTypography.labelSmall)
                 .tracking(0.3)
                 .foregroundStyle(AppColors.onSurfaceVariant)
@@ -185,7 +195,7 @@ struct StatsView: View {
         .frame(maxWidth: .infinity)
         // H-2: VoiceOver donut label
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(pack.title) pack: \(completed) of 60 levels completed")
+        .accessibilityLabel("\(NSLocalizedString(pack.rawKey, comment: "")) pack: \(completed) of 60 levels completed")
     }
 
     // MARK: — 7-day Bar Chart
@@ -219,7 +229,7 @@ struct StatsView: View {
             .frame(height: 100)
 
             HStack(spacing: AppSpacing.md) {
-                legendDot(color: AppColors.primary,                labelKey: "stats.chartSolved")
+                legendDot(color: AppColors.primary, labelKey: "stats.chartSolved")
                 legendDot(color: AppColors.blockBlush.opacity(0.4), labelKey: "stats.chartMissed")
             }
             .accessibilityHidden(true) // legend is decorative; bars already labelled
@@ -297,9 +307,9 @@ struct StatsView: View {
                 .accessibilityHidden(true) // static placeholder; real data in Faz G
 
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                    legendRow(color: AppColors.surfaceContainerHigh, labelKey: "stats.noHints",  value: "—")
-                    legendRow(color: AppColors.primaryContainer,     labelKey: "stats.hints1to2", value: "—")
-                    legendRow(color: AppColors.primary,              labelKey: "stats.hints3plus", value: "—")
+                    legendRow(color: AppColors.surfaceContainerHigh, labelKey: "stats.noHints", value: "—")
+                    legendRow(color: AppColors.primaryContainer, labelKey: "stats.hints1to2", value: "—")
+                    legendRow(color: AppColors.primary, labelKey: "stats.hints3plus", value: "—")
                 }
             }
         }

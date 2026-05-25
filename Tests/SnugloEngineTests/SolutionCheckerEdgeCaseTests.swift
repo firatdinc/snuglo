@@ -26,7 +26,7 @@ final class SolutionCheckerEdgeCaseTests: XCTestCase {
             Placement(pieceId: "a", origin: Coord(x: 0, y: 0)),
             Placement(pieceId: "b", origin: Coord(x: 1, y: 0)),
             Placement(pieceId: "c", origin: Coord(x: 0, y: 1)),
-            Placement(pieceId: "d", origin: Coord(x: 1, y: 1)),
+            Placement(pieceId: "d", origin: Coord(x: 1, y: 1))
         ]
         let level = Level(id: "tiny", width: 2, height: 2, pieces: pieces, solution: placements)
         XCTAssertEqual(checker.check(level: level, placements: placements), .valid)
@@ -41,14 +41,14 @@ final class SolutionCheckerEdgeCaseTests: XCTestCase {
         let lPiece = Piece(id: "L", cells: [
             Coord(x: 0, y: 0), Coord(x: 1, y: 0),
             Coord(x: 0, y: 1),
-            Coord(x: 0, y: 2),
+            Coord(x: 0, y: 2)
         ])
         let rightCol = Piece(id: "R", cells: [
-            Coord(x: 0, y: 0), Coord(x: 0, y: 1),
+            Coord(x: 0, y: 0), Coord(x: 0, y: 1)
         ])
         let placements = [
             Placement(pieceId: "L", origin: Coord(x: 0, y: 0)),
-            Placement(pieceId: "R", origin: Coord(x: 1, y: 1)),
+            Placement(pieceId: "R", origin: Coord(x: 1, y: 1))
         ]
         let level = Level(
             id: "L23", width: 2, height: 3,
@@ -73,7 +73,7 @@ final class SolutionCheckerEdgeCaseTests: XCTestCase {
         let level = Level(id: "ovlp", width: 2, height: 2, pieces: [piece], solution: [])
         let placements = [
             Placement(pieceId: "h2", origin: Coord(x: 0, y: 0)),
-            Placement(pieceId: "h2", origin: Coord(x: 0, y: 0)), // ikinci → (0,0) zaten dolu
+            Placement(pieceId: "h2", origin: Coord(x: 0, y: 0)) // ikinci → (0,0) zaten dolu
         ]
         XCTAssertEqual(
             checker.check(level: level, placements: placements),
@@ -86,12 +86,12 @@ final class SolutionCheckerEdgeCaseTests: XCTestCase {
     /// "h2" origin (0,0) → (0,0),(1,0) kaplar.
     /// "dot" origin (1,0) → (1,0) tekrar → overlap(1,0).
     func testOverlapTwoDifferentPieces() {
-        let h2  = Piece(id: "h2",  cells: [Coord(x: 0, y: 0), Coord(x: 1, y: 0)])
+        let h2  = Piece(id: "h2", cells: [Coord(x: 0, y: 0), Coord(x: 1, y: 0)])
         let dot = Piece(id: "dot", cells: [Coord(x: 0, y: 0)])
         let level = Level(id: "ovlp2", width: 2, height: 2, pieces: [h2, dot], solution: [])
         let placements = [
-            Placement(pieceId: "h2",  origin: Coord(x: 0, y: 0)),
-            Placement(pieceId: "dot", origin: Coord(x: 1, y: 0)),  // (1,0) → çakışır
+            Placement(pieceId: "h2", origin: Coord(x: 0, y: 0)),
+            Placement(pieceId: "dot", origin: Coord(x: 1, y: 0))  // (1,0) → çakışır
         ]
         XCTAssertEqual(
             checker.check(level: level, placements: placements),

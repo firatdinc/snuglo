@@ -35,7 +35,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 1, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  8, "Thu → 8×8")
+        XCTAssertEqual(level.width, 8, "Thu → 8×8")
         XCTAssertEqual(level.height, 8, "Thu → 8×8")
     }
 
@@ -44,7 +44,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 5, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  5, "Mon → 5×5")
+        XCTAssertEqual(level.width, 5, "Mon → 5×5")
         XCTAssertEqual(level.height, 5, "Mon → 5×5")
     }
 
@@ -53,7 +53,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 6, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  6, "Tue → 6×6")
+        XCTAssertEqual(level.width, 6, "Tue → 6×6")
         XCTAssertEqual(level.height, 6, "Tue → 6×6")
     }
 
@@ -62,7 +62,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 7, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  7, "Wed → 7×7")
+        XCTAssertEqual(level.width, 7, "Wed → 7×7")
         XCTAssertEqual(level.height, 7, "Wed → 7×7")
     }
 
@@ -71,7 +71,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 9, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  5, "Fri → 5×5")
+        XCTAssertEqual(level.width, 5, "Fri → 5×5")
     }
 
     /// 2026-01-10 Cumartesi → gridSize == 6
@@ -79,7 +79,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 10, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  6, "Sat → 6×6")
+        XCTAssertEqual(level.width, 6, "Sat → 6×6")
     }
 
     /// 2026-01-11 Pazar → gridSize == 7
@@ -87,7 +87,7 @@ final class DailyPuzzleTests: XCTestCase {
         let tz = TimeZone(identifier: "UTC")!
         let date = makeDate(year: 2026, month: 1, day: 11, timezone: tz)
         let level = DailyPuzzle.forDate(date, timezone: tz)
-        XCTAssertEqual(level.width,  7, "Sun → 7×7")
+        XCTAssertEqual(level.width, 7, "Sun → 7×7")
     }
 
     /// Farklı tarih → farklı Level (seed farklı → farklı piece konfigürasyonu)
@@ -160,7 +160,7 @@ final class DailyPuzzleTests: XCTestCase {
         let levelUTC      = DailyPuzzle.forDate(date22UTC)
         let levelIstanbul = DailyPuzzle.forDate(date22UTC, timezone: istanbulTZ)
 
-        XCTAssertEqual(levelUTC.id,    levelIstanbul.id,
+        XCTAssertEqual(levelUTC.id, levelIstanbul.id,
                        "UTC enforcement: timezone parametresi sonucu değiştirmemeli")
         XCTAssertEqual(levelUTC.width, levelIstanbul.width,
                        "Aynı gridSize (UTC 8×8 Thu) timezone'dan bağımsız")

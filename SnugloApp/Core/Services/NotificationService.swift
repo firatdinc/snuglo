@@ -58,8 +58,8 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: true)
         let request = UNNotificationRequest(
             identifier: Self.dailyIdentifier,
-            content:    content,
-            trigger:    trigger
+            content: content,
+            trigger: trigger
         )
 
         center.add(request) { error in

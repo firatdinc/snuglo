@@ -69,9 +69,9 @@ struct LevelCompleteSheet: View {
 
                 // — Stats row — (H-2: each cell gets speech-friendly label)
                 HStack(spacing: 0) {
-                    statCell(value: formattedTime,  labelKey: "complete.time",  a11yValue: formattedTimeSpeech)
+                    statCell(value: formattedTime, labelKey: "complete.time", a11yValue: formattedTimeSpeech)
                     Divider().frame(height: 40)
-                    statCell(value: "\(stars)",     labelKey: "complete.stars", a11yValue: "\(stars) stars")
+                    statCell(value: "\(stars)", labelKey: "complete.stars", a11yValue: "\(stars) stars")
                     Divider().frame(height: 40)
                     statCell(value: "\(hintsUsed)", labelKey: "complete.hints", a11yValue: "\(hintsUsed) hints used")
                 }

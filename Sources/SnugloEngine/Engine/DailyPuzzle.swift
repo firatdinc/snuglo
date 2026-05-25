@@ -57,10 +57,10 @@ public enum DailyPuzzle {
 
         let gen = LevelGenerator()
         return gen.generate(
-            packId:     "daily",
+            packId: "daily",
             levelIndex: 0,
-            gridSize:   gs,
-            seedBase:   s
+            gridSize: gs,
+            seedBase: s
         )
     }
 

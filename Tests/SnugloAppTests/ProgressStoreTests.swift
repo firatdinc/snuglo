@@ -156,7 +156,7 @@ final class ProgressStoreTests: XCTestCase {
         store.markCompleted(levelId: "cozy-beginnings-1", stars: 1, time: 60)
         store.markCompleted(levelId: "cozy-beginnings-2", stars: 2, time: 50)
         store.markCompleted(levelId: "cozy-beginnings-3", stars: 3, time: 30)
-        store.markCompleted(levelId: "spice-route-1",     stars: 1, time: 80)
+        store.markCompleted(levelId: "spice-route-1", stars: 1, time: 80)
 
         XCTAssertEqual(store.packCompletionCount("cozy-beginnings"), 3)
         XCTAssertEqual(store.packCompletionCount("spice-route"), 1)

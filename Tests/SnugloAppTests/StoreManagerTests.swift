@@ -57,8 +57,8 @@ final class StoreManagerTests: XCTestCase {
         // Test cihazında temiz bir state garantisi yok, ama
         // shared instance'ın UserDefaults cache'i boşsa false döner.
         // Bu test ProductID enum erişimini doğrular.
-        let _ = StoreManager.shared.isPurchased(.packSpice)    // crash olmadan çalışmalı
-        let _ = StoreManager.shared.isPurchased(.removeAds)
+        _ = StoreManager.shared.isPurchased(.packSpice)    // crash olmadan çalışmalı
+        _ = StoreManager.shared.isPurchased(.removeAds)
         // Assertion: no crash — enum erişimi doğru
     }
 
@@ -73,8 +73,8 @@ final class StoreManagerTests: XCTestCase {
     // MARK: - 6. productID(forPackId:) mapping
 
     func testProductIDForPackIdMapping() {
-        XCTAssertEqual(StoreManager.shared.productID(forPackId: "spice-route"),      .packSpice)
-        XCTAssertEqual(StoreManager.shared.productID(forPackId: "mambo-nights"),     .packMambo)
+        XCTAssertEqual(StoreManager.shared.productID(forPackId: "spice-route"), .packSpice)
+        XCTAssertEqual(StoreManager.shared.productID(forPackId: "mambo-nights"), .packMambo)
         XCTAssertEqual(StoreManager.shared.productID(forPackId: "woodland-retreat"), .packWoodland)
         XCTAssertNil(StoreManager.shared.productID(forPackId: "cozy-beginnings"))
         XCTAssertNil(StoreManager.shared.productID(forPackId: "unknown"))

@@ -222,8 +222,8 @@ struct SettingsView: View {
             // — ACCOUNT —
             Section {
                 disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.restore")
-                disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.privacy")
-                disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.terms")
+                disclosureRow(icon: "hand.raised.fill", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.privacy")
+                disclosureRow(icon: "doc.text.fill", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.terms")
 
                 // H-2: Reset Progress — explicit destructive accessibility role
                 Button {

@@ -48,9 +48,9 @@ public struct LevelLoader: Sendable {
     public static func gridSize(for packId: String) -> Int {
         switch packId {
         case "cozy-beginnings", "cozy":     return 5
-        case "spice-route",     "spice":    return 6
-        case "mambo-nights",    "mambo":    return 7
-        case "woodland-retreat","woodland": return 8
+        case "spice-route", "spice":    return 6
+        case "mambo-nights", "mambo":    return 7
+        case "woodland-retreat", "woodland": return 8
         default:                            return 5
         }
     }
@@ -72,10 +72,10 @@ public struct LevelLoader: Sendable {
     ) throws -> Level {
         let size = LevelLoader.gridSize(for: packId)
         return LevelGenerator().generate(
-            packId:     packId,
+            packId: packId,
             levelIndex: levelIndex,
-            gridSize:   size,
-            seedBase:   seedBase
+            gridSize: size,
+            seedBase: seedBase
         )
         // NOTE: never actually throws — LevelGenerator.generate is infallible
     }

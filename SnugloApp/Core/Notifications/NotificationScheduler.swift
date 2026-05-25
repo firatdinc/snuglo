@@ -29,7 +29,7 @@ final class NotificationScheduler {
     var reminderEnabled: Bool {
         didSet {
             defaults.set(reminderEnabled, forKey: Keys.enabled)
-            reminderEnabled ? scheduleDaily() : cancelDaily()
+            if reminderEnabled { scheduleDaily() } else { cancelDaily() }
         }
     }
 

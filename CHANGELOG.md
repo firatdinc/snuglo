@@ -2,6 +2,24 @@
 
 ---
 
+## [v1.0-I1] — SwiftLint 0 Warning (2026-05-25)
+
+### SwiftLint Configuration (I1-1)
+- **`.swiftlint.yml`** — New config at workspace root. Disabled noisy rules (`trailing_whitespace`, `line_length`, `file_length`, `type_body_length`, `function_body_length`, `cyclomatic_complexity`, `large_tuple`). Opt-in: `empty_count`, `explicit_init`, `first_where`, `last_where`. Excluded `SnugloApp/build`, `.build`, `DerivedData`. Short identifier allowlist: `id, x, y, r, g, b, p, s, w, h, dx, dy`. Nesting type_level: 3.
+- SwiftLint **0.63.2** (Homebrew).
+
+### Lint Fixes (I1-2)
+- **Initial scan:** 117 warnings across 67 files.
+- **Autofix (`swiftlint --fix`):** Corrected `comma` (in DailyPuzzleTests, LevelGeneratorTests, SolutionCheckerEdgeCaseTests) + `trailing_comma` (SolutionCheckerEdgeCaseTests). Also auto-corrected `opening_brace`, `colon`, `implicit_optional_initialization`, `redundant_discardable_let` across GameView, GameViewModel, BlockView, StatsView, StoreManagerTests, NotificationServiceTests, SoundServiceTests, ProgressStoreTests.
+- **Manual fixes (3 remaining):**
+  - `Sources/SnugloEngine/Engine/SolutionChecker.swift:73` — `for_where`: inner `if` → `where` clause on `for x` loop.
+  - `SnugloApp/Core/Audio/AudioManager.swift:47` — `void_function_in_ternary`: ternary `musicEnabled ? startBGM() : stopBGM()` → `if/else`.
+  - `SnugloApp/Core/Notifications/NotificationScheduler.swift:32` — `void_function_in_ternary`: ternary `reminderEnabled ? scheduleDaily() : cancelDaily()` → `if/else`.
+- **Final:** `swiftlint lint --strict` → **0 violations, 0 serious**, exit 0.
+- Build: `swift build` ✅ (complete 1.4s). Tests: 66 passed, 0 failed.
+
+---
+
 ## [v1.0-H2] — Accessibility + Dark Mode + Launch (2026-05-25)
 
 ### Dark Mode (H2-1)

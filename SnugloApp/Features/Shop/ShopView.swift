@@ -14,7 +14,7 @@ struct ShopView: View {
     private let progress = ProgressStore.shared
 
     @State private var isPurchasing: Bool    = false
-    @State private var errorMessage: String? = nil
+    @State private var errorMessage: String?
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -70,9 +70,9 @@ struct ShopView: View {
     private var packUnlocksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             sectionTitle("shop.packUnlocks")
-            packCard(packId: "spice-route",      productID: .packSpice,    icon: "cup.and.saucer.fill", accent: AppColors.blockPeach)
-            packCard(packId: "mambo-nights",     productID: .packMambo,    icon: "moon.stars.fill",     accent: AppColors.blockBlush)
-            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill",           accent: AppColors.blockSage)
+            packCard(packId: "spice-route", productID: .packSpice, icon: "cup.and.saucer.fill", accent: AppColors.blockPeach)
+            packCard(packId: "mambo-nights", productID: .packMambo, icon: "moon.stars.fill", accent: AppColors.blockBlush)
+            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill", accent: AppColors.blockSage)
         }
     }
 
@@ -82,21 +82,24 @@ struct ShopView: View {
         icon: String,
         accent: Color
     ) -> some View {
-        let pack    = MockData.allPacks.first(where: { $0.id == packId })
-        let product = store.product(for: productID)
-        let owned   = store.isPurchased(productID)
+        let pack     = MockData.allPacks.first(where: { $0.id == packId })
+        let product  = store.product(for: productID)
+        let owned    = store.isPurchased(productID)
         let priceStr = product?.displayPrice ?? "—"
-        let packTitle = pack?.title ?? packId
+        // H-1: localized title for String contexts (a11y label)
+        let localizedTitle = pack.map { NSLocalizedString($0.rawTitleKey, comment: "") } ?? packId
 
         return HStack(spacing: AppSpacing.md) {
             iconTile(systemName: icon, accent: owned ? accent : AppColors.surfaceContainerHigh, tint: owned ? AppColors.primary : AppColors.onSurfaceVariant)
                 .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: packTitle)
+                // H-1 BLOCKER 1: localized pack name
+                Text(pack?.titleKey ?? LocalizedStringKey(packId))
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text(verbatim: pack?.subtitle ?? "")
+                // H-1 BLOCKER 1: localized grid size label (replaces subtitle)
+                Text(pack?.gridLabelKey ?? "")
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
@@ -109,8 +112,8 @@ struct ShopView: View {
             }
             // H-2: SKU button label e.g. "Spice Route Pack. $2.99. Tap to purchase"
             .accessibilityLabel(owned
-                ? "\(packTitle). Owned"
-                : "\(packTitle). \(priceStr). Tap to purchase")
+                ? "\(localizedTitle). Owned"
+                : "\(localizedTitle). \(priceStr). Tap to purchase")
         }
         .itemCard(owned: owned)
         // H-2: combine card into one element

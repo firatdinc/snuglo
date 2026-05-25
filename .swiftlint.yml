@@ -1,0 +1,29 @@
+disabled_rules:
+  - trailing_whitespace
+  - line_length
+  - file_length
+  - type_body_length
+  - function_body_length
+  - cyclomatic_complexity
+  - large_tuple
+opt_in_rules:
+  - empty_count
+  - explicit_init
+  - first_where
+  - last_where
+included:
+  - Sources
+  - SnugloApp
+  - Tests
+excluded:
+  - .build
+  - DerivedData
+  - SnugloApp.xcodeproj
+  - Designs
+  - Resources
+  - SnugloApp/build
+identifier_name:
+  min_length: 1
+  excluded: [id, x, y, r, g, b, p, s, w, h, dx, dy]
+nesting:
+  type_level: 3

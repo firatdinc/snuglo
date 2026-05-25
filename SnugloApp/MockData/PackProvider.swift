@@ -66,9 +66,9 @@ enum PackProvider {
             return generator.generate(packId: packId, levelIndex: levelIndex, gridSize: 5)
         }
         return generator.generate(
-            packId:     packId,
+            packId: packId,
             levelIndex: levelIndex,
-            gridSize:   pack.gridSize
+            gridSize: pack.gridSize
         )
     }
 

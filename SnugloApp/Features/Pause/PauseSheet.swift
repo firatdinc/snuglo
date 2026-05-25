@@ -94,8 +94,8 @@ struct PauseSheet: View {
             // Bound to the same singletons as SettingsView — changes are
             // instantly reflected everywhere and persisted to UserDefaults.
             HStack(spacing: AppSpacing.xl) {
-                togglePill(labelKey: "pause.sound",   isOn: $audio.soundEnabled,  icon: "speaker.wave.2.fill")
-                togglePill(labelKey: "pause.haptics", isOn: $haptics.enabled,     icon: "hand.tap.fill")
+                togglePill(labelKey: "pause.sound", isOn: $audio.soundEnabled, icon: "speaker.wave.2.fill")
+                togglePill(labelKey: "pause.haptics", isOn: $haptics.enabled, icon: "hand.tap.fill")
             }
 
             Spacer(minLength: 0)

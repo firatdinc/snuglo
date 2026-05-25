@@ -44,7 +44,7 @@ final class AudioManager {
     var musicEnabled: Bool {
         didSet {
             defaults.set(musicEnabled, forKey: Keys.music)
-            musicEnabled ? startBGM() : stopBGM()
+            if musicEnabled { startBGM() } else { stopBGM() }
         }
     }
 

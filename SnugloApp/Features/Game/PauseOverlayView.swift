@@ -8,9 +8,9 @@ import SwiftUI
 struct PauseOverlayView: View {
 
     let elapsedSeconds: Int
-    let onResume:  () -> Void
+    let onResume: () -> Void
     let onRestart: () -> Void
-    let onHome:    () -> Void
+    let onHome: () -> Void
 
     var body: some View {
         ZStack {
@@ -128,9 +128,9 @@ struct PauseOverlayView: View {
         AppColors.background.ignoresSafeArea()
         PauseOverlayView(
             elapsedSeconds: 73,
-            onResume:  {},
+            onResume: {},
             onRestart: {},
-            onHome:    {}
+            onHome: {}
         )
     }
 }
