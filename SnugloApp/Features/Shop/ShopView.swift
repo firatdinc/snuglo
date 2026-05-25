@@ -4,13 +4,7 @@ import StoreKit
 // MARK: — ShopView (Screen 10 · H-1: Localized)
 // Design reference: Designs/html/10-shop.html
 // Faz G-1: Canlı StoreKit 2 IAP — 5 SKU.
-// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
-//
-// Sections:
-//   1. Pack Unlocks   (spice-route / mambo-nights / woodland-retreat)
-//   2. Hints          (com.snuglo.hints.small — consumable, +10)
-//   3. Remove Ads     (com.snuglo.removeads — non-consumable)
-//   4. Restore Purchases
+// H-2: VoiceOver — SKU cards labelled with title, price, and state.
 
 struct ShopView: View {
 
@@ -91,12 +85,15 @@ struct ShopView: View {
         let pack    = MockData.allPacks.first(where: { $0.id == packId })
         let product = store.product(for: productID)
         let owned   = store.isPurchased(productID)
+        let priceStr = product?.displayPrice ?? "—"
+        let packTitle = pack?.title ?? packId
 
         return HStack(spacing: AppSpacing.md) {
             iconTile(systemName: icon, accent: owned ? accent : AppColors.surfaceContainerHigh, tint: owned ? AppColors.primary : AppColors.onSurfaceVariant)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: pack?.title ?? packId)
+                Text(verbatim: packTitle)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
                 Text(verbatim: pack?.subtitle ?? "")
@@ -106,12 +103,18 @@ struct ShopView: View {
 
             Spacer()
 
-            purchaseButton(label: owned ? nil : (product?.displayPrice ?? "—"), isOwned: owned) {
+            purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
                 guard let product else { return }
                 await performPurchase(product)
             }
+            // H-2: SKU button label e.g. "Spice Route Pack. $2.99. Tap to purchase"
+            .accessibilityLabel(owned
+                ? "\(packTitle). Owned"
+                : "\(packTitle). \(priceStr). Tap to purchase")
         }
         .itemCard(owned: owned)
+        // H-2: combine card into one element
+        .accessibilityElement(children: .contain)
     }
 
     // MARK: — Hints
@@ -121,9 +124,11 @@ struct ShopView: View {
             sectionTitle("shop.hintsSection")
 
             let product = store.product(for: .hintsSmall)
+            let priceStr = product?.displayPrice ?? "—"
 
             HStack(spacing: AppSpacing.md) {
                 iconTile(systemName: "lightbulb.fill", accent: AppColors.tertiary.opacity(0.15), tint: AppColors.tertiary)
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("sku.hintsSmall.title")
@@ -136,11 +141,11 @@ struct ShopView: View {
 
                 Spacer()
 
-                // Consumable: always buyable
-                purchaseButton(label: product?.displayPrice ?? "—", isOwned: false) {
+                purchaseButton(label: priceStr, isOwned: false) {
                     guard let product else { return }
                     await performPurchase(product)
                 }
+                .accessibilityLabel("10 Hints. \(priceStr). Tap to purchase")
             }
             .itemCard(owned: false)
         }
@@ -151,6 +156,7 @@ struct ShopView: View {
     private var removeAdsSection: some View {
         let owned   = store.adsRemoved
         let product = store.product(for: .removeAds)
+        let priceStr = product?.displayPrice ?? "—"
 
         return VStack(alignment: .leading, spacing: AppSpacing.sm) {
             sectionTitle("shop.oneTime")
@@ -161,6 +167,7 @@ struct ShopView: View {
                     accent: owned ? AppColors.primaryContainer.opacity(0.5) : AppColors.surfaceContainerHigh,
                     tint: owned ? AppColors.primary : AppColors.onSurfaceVariant
                 )
+                .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("sku.removeAds.title")
@@ -173,10 +180,13 @@ struct ShopView: View {
 
                 Spacer()
 
-                purchaseButton(label: owned ? nil : (product?.displayPrice ?? "—"), isOwned: owned) {
+                purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
                     guard let product else { return }
                     await performPurchase(product)
                 }
+                .accessibilityLabel(owned
+                    ? "Remove Ads. Owned"
+                    : "Remove Ads. \(priceStr). Tap to purchase")
             }
             .itemCard(owned: owned)
         }
@@ -195,6 +205,7 @@ struct ShopView: View {
         }
         .buttonStyle(.plain)
         .disabled(store.isLoading || isPurchasing)
+        .accessibilityHint("Restores any previously purchased items")
     }
 
     // MARK: — Hint count
@@ -204,6 +215,7 @@ struct ShopView: View {
             Image(systemName: "lightbulb.fill")
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
+                .accessibilityHidden(true)
             Text(verbatim: String(format: NSLocalizedString("shop.hintsAvailable", comment: ""), progress.hintCount))
                 .font(AppTypography.labelSmall)
                 .tracking(0.3)
@@ -220,6 +232,7 @@ struct ShopView: View {
             AppColors.background.opacity(0.6).ignoresSafeArea()
             ProgressView().tint(AppColors.primary).scaleEffect(1.4)
         }
+        .accessibilityLabel("Loading")
     }
 
     // MARK: — Shared components
@@ -263,7 +276,6 @@ struct ShopView: View {
         .disabled(isOwned || isPurchasing)
     }
 
-    /// H-1: Accepts LocalizedStringKey so callers pass translation keys directly.
     private func sectionTitle(_ key: LocalizedStringKey) -> some View {
         Text(key)
             .font(AppTypography.headlineSmall)

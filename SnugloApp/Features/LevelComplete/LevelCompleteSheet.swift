@@ -2,13 +2,13 @@ import SwiftUI
 
 // MARK: — LevelCompleteSheet (H-1: Localized)
 // Ref: Designs/html/08-level-complete.html
-// Full-screen cover shown when puzzle is solved.
-// Star count, time display, confetti placeholder, Next/Replay/Home buttons.
+// H-2: VoiceOver — stars row labelled, time formatted for speech, confetti hidden.
 
 struct LevelCompleteSheet: View {
 
     @Environment(AppRouter.self) private var router
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var stars: Int = 3
     var elapsedSeconds: Int = 165
@@ -20,13 +20,15 @@ struct LevelCompleteSheet: View {
         ZStack {
             AppColors.background.ignoresSafeArea()
 
-            // — Confetti placeholder —
-            confettiLayer
+            // — Confetti placeholder — (hidden from VoiceOver; decorative)
+            if !reduceMotion {
+                confettiLayer
+            }
 
             VStack(spacing: AppSpacing.xl) {
                 Spacer()
 
-                // — Check badge —
+                // — Check badge — (decorative; headline below conveys success)
                 ZStack {
                     Circle()
                         .fill(AppColors.primaryContainer.opacity(0.4))
@@ -46,6 +48,7 @@ struct LevelCompleteSheet: View {
                         .font(.system(size: 40, weight: .semibold))
                         .foregroundStyle(AppColors.primary)
                 }
+                .accessibilityHidden(true)
 
                 // — Headline —
                 Text("complete.puzzleSolved")
@@ -53,7 +56,7 @@ struct LevelCompleteSheet: View {
                     .tracking(-0.6)
                     .foregroundStyle(AppColors.onSurface)
 
-                // — Stars —
+                // — Stars — (H-2: combined label "2 of 3 stars earned")
                 HStack(spacing: AppSpacing.sm) {
                     ForEach(0..<3, id: \.self) { i in
                         Image(systemName: i < stars ? "star.fill" : "star")
@@ -61,14 +64,16 @@ struct LevelCompleteSheet: View {
                             .foregroundStyle(i < stars ? AppColors.tertiary : AppColors.outlineVariant)
                     }
                 }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(stars) of 3 stars earned")
 
-                // — Stats row —
+                // — Stats row — (H-2: each cell gets speech-friendly label)
                 HStack(spacing: 0) {
-                    statCell(value: formattedTime, labelKey: "complete.time")
+                    statCell(value: formattedTime,  labelKey: "complete.time",  a11yValue: formattedTimeSpeech)
                     Divider().frame(height: 40)
-                    statCell(value: "\(stars)", labelKey: "complete.stars")
+                    statCell(value: "\(stars)",     labelKey: "complete.stars", a11yValue: "\(stars) stars")
                     Divider().frame(height: 40)
-                    statCell(value: "\(hintsUsed)", labelKey: "complete.hints")
+                    statCell(value: "\(hintsUsed)", labelKey: "complete.hints", a11yValue: "\(hintsUsed) hints used")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppSpacing.md)
@@ -77,6 +82,9 @@ struct LevelCompleteSheet: View {
                     in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
                 )
                 .padding(.horizontal, AppSpacing.lg)
+                // H-2: combine stats row into one VoiceOver read
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Solved in \(formattedTimeSpeech). \(stars) stars. \(hintsUsed) hints used.")
 
                 Spacer()
 
@@ -95,6 +103,7 @@ struct LevelCompleteSheet: View {
                     }
                     .buttonStyle(.plain)
                     .padding(.horizontal, AppSpacing.lg)
+                    .accessibilityHint("Proceeds to the next level")
 
                     HStack(spacing: AppSpacing.sm) {
                         Button {
@@ -112,6 +121,7 @@ struct LevelCompleteSheet: View {
                                 )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityHint("Restarts this same level")
 
                         Button {
                             dismiss()
@@ -128,16 +138,16 @@ struct LevelCompleteSheet: View {
                                 )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityHint("Returns to the main menu")
                     }
                     .padding(.horizontal, AppSpacing.lg)
                 }
-
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
             }
         }
     }
 
-    // MARK: — Confetti placeholder
+    // MARK: — Confetti placeholder (hidden from VoiceOver)
 
     private var confettiLayer: some View {
         ZStack {
@@ -152,11 +162,12 @@ struct LevelCompleteSheet: View {
             }
         }
         .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 
     // MARK: — Stat cell
 
-    private func statCell(value: String, labelKey: LocalizedStringKey) -> some View {
+    private func statCell(value: String, labelKey: LocalizedStringKey, a11yValue: String) -> some View {
         VStack(spacing: AppSpacing.xs) {
             Text(value)
                 .font(.system(size: 20, weight: .medium, design: .monospaced))
@@ -176,6 +187,16 @@ struct LevelCompleteSheet: View {
         let m = elapsedSeconds / 60
         let s = elapsedSeconds % 60
         return String(format: "%d:%02d", m, s)
+    }
+
+    /// H-2: Speech-friendly time string e.g. "1 minute 23 seconds"
+    private var formattedTimeSpeech: String {
+        let m = elapsedSeconds / 60
+        let s = elapsedSeconds % 60
+        if m > 0 {
+            return "\(m) minute\(m == 1 ? "" : "s") \(s) second\(s == 1 ? "" : "s")"
+        }
+        return "\(s) second\(s == 1 ? "" : "s")"
     }
 }
 

@@ -2,8 +2,7 @@ import SwiftUI
 
 // MARK: — PackDetailView
 // Ref: Designs/html/05-pack-detail.html
-// Hero banner with pack info + progress, then 3-column 60-tile level grid.
-// Tapping an unlocked tile → router.push(.game(levelID:))
+// H-2: VoiceOver — each level tile has a full label (number, stars, status).
 
 struct PackDetailView: View {
 
@@ -14,7 +13,6 @@ struct PackDetailView: View {
         MockData.allPacks.first { $0.title == packName || $0.id == packName }
     }
 
-    // Faz D-2: PackProvider → engine-generated 60 LevelItem (deterministic).
     private var levels: [LevelItem] {
         guard let p = pack else { return [] }
         return PackProvider.levelItems(in: p.id)
@@ -46,7 +44,6 @@ struct PackDetailView: View {
 
     private var heroBanner: some View {
         ZStack(alignment: .bottomLeading) {
-            // Background gradient
             LinearGradient(
                 colors: [
                     (pack?.accentColor ?? AppColors.primaryContainer).opacity(0.4),
@@ -56,6 +53,7 @@ struct PackDetailView: View {
                 endPoint: .bottom
             )
             .frame(height: 180)
+            .accessibilityHidden(true) // Decorative gradient
 
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
                 if let p = pack {
@@ -67,6 +65,7 @@ struct PackDetailView: View {
                         .padding(.horizontal, AppSpacing.sm + 4)
                         .padding(.vertical, AppSpacing.xs)
                         .background(AppColors.primaryContainer.opacity(0.4), in: Capsule())
+                        .accessibilityHidden(true) // decorative badge
 
                     Text(p.title)
                         .font(AppTypography.headlineLarge)
@@ -94,6 +93,8 @@ struct PackDetailView: View {
                             .font(.system(size: 13, weight: .medium, design: .monospaced))
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(p.completedCount) of \(p.levelCount) levels completed")
                 }
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -121,6 +122,7 @@ struct PackDetailView: View {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 18))
                         .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
+                        .accessibilityHidden(true)
                 } else if level.isCompleted {
                     VStack(spacing: 2) {
                         Text("\(level.index)")
@@ -134,16 +136,32 @@ struct PackDetailView: View {
                             }
                         }
                     }
+                    .accessibilityHidden(true) // conveyed by button label
                 } else {
                     Text("\(level.index)")
                         .font(.system(size: 16, weight: .semibold, design: .monospaced))
                         .foregroundStyle(AppColors.onSurface)
+                        .accessibilityHidden(true) // conveyed by button label
                 }
             }
             .frame(height: 64)
         }
         .buttonStyle(.plain)
         .disabled(level.isLocked)
+        // H-2: descriptive label per tile
+        .accessibilityLabel(levelTileA11yLabel(level))
+        .accessibilityHint(level.isLocked ? "" : "Tap to play this level")
+    }
+
+    /// H-2: "Level 12, 3 stars, completed" / "Level 5, in progress" / "Level 8, locked"
+    private func levelTileA11yLabel(_ level: LevelItem) -> String {
+        if level.isLocked {
+            return "Level \(level.index), locked"
+        } else if level.isCompleted {
+            return "Level \(level.index), \(level.stars) of 3 stars, completed"
+        } else {
+            return "Level \(level.index)"
+        }
     }
 
     private func tileBackground(_ level: LevelItem) -> Color {

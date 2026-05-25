@@ -2,17 +2,12 @@ import SwiftUI
 
 // MARK: — StatsView (H-1: Localized)
 // Ref: Designs/html/09-stats.html
-// STATS tab: 2×2 KPI grid (real data), pack progress donuts (real data),
-// 7-day bar chart (real data), hint donut (static — real data: Faz G).
-//
-// Faz E: All KPI + chart data sourced from ProgressStore.shared.
-// H-1: All user-visible strings → LocalizedStringKey / NSLocalizedString.
+// H-2: VoiceOver — KPI cards combined elements, pack donuts labelled.
 
 struct StatsView: View {
 
     @State private var store: ProgressStore = ProgressStore.shared
 
-    // Pack definitions for donut section
     private let packs: [(id: String, title: String, color: Color, icon: String)] = [
         ("cozy-beginnings", "Cozy",    AppColors.blockLavender, "leaf.fill"),
         ("spice-route",     "Spice",   AppColors.blockPeach,    "cup.and.saucer.fill"),
@@ -23,20 +18,10 @@ struct StatsView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
-
-                // — Header —
                 headerSection
-
-                // — 2×2 KPI grid (real data) —
                 kpiGridSection
-
-                // — Pack progress donuts (real data) —
                 packProgressSection
-
-                // — 7-day bar chart (real data) —
                 chartSection
-
-                // — Hint usage donut (static; real data: Faz G) —
                 donutSection
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -62,7 +47,6 @@ struct StatsView: View {
         }
     }
 
-    // H-1: NSLocalizedString for formatted/conditional strings.
     private var streakSubtitle: String {
         if store.currentStreak > 0 {
             return String(format: NSLocalizedString("stats.streakActive", comment: ""), store.currentStreak)
@@ -70,22 +54,36 @@ struct StatsView: View {
         return NSLocalizedString("stats.streakEmpty", comment: "")
     }
 
-    // MARK: — KPI Grid
+    // MARK: — KPI Grid (H-2: each card combined + labelled)
 
     private var kpiGridSection: some View {
         let kpiCols = Array(repeating: GridItem(.flexible(), spacing: AppSpacing.sm), count: 2)
         return LazyVGrid(columns: kpiCols, spacing: AppSpacing.sm) {
-            kpiCard(value: levelsCompletedLabel, labelKey: "stats.levelsCompleted", icon: "checkmark.circle.fill")
+            kpiCard(
+                value: levelsCompletedLabel,
+                labelKey: "stats.levelsCompleted",
+                icon: "checkmark.circle.fill",
+                a11yLabel: "Levels completed: \(store.totalLevelsCompleted()) of 240"
+            )
             kpiCard(
                 value: store.currentStreak > 0 ? "\(store.currentStreak)d" : "—",
                 labelKey: "stats.streak",
-                icon: "flame.fill"
+                icon: "flame.fill",
+                a11yLabel: store.currentStreak > 0
+                    ? "Current streak: \(store.currentStreak) days"
+                    : "No active streak"
             )
-            kpiCard(value: store.averageTimeFormatted, labelKey: "stats.avgTime",    icon: "clock.fill")
+            kpiCard(
+                value: store.averageTimeFormatted,
+                labelKey: "stats.avgTime",
+                icon: "clock.fill",
+                a11yLabel: "Average solve time: \(store.averageTimeFormatted)"
+            )
             kpiCard(
                 value: "\(store.dailyResults.filter(\.solved).count)",
                 labelKey: "stats.dailySolved",
-                icon: "calendar.badge.checkmark"
+                icon: "calendar.badge.checkmark",
+                a11yLabel: "Daily puzzles solved: \(store.dailyResults.filter(\.solved).count)"
             )
         }
     }
@@ -94,11 +92,12 @@ struct StatsView: View {
         "\(store.totalLevelsCompleted())/240"
     }
 
-    private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String) -> some View {
+    private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String, a11yLabel: String) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundStyle(AppColors.primary)
+                .accessibilityHidden(true)
 
             Text(value)
                 .font(.system(size: 26, weight: .semibold, design: .monospaced))
@@ -120,6 +119,9 @@ struct StatsView: View {
                 .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
         )
         .shadowL1()
+        // H-2: combine entire card into one VoiceOver element
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(a11yLabel)
     }
 
     // MARK: — Pack Progress Donuts
@@ -150,12 +152,10 @@ struct StatsView: View {
         let fraction  = CGFloat(completed) / 60.0
         return VStack(spacing: AppSpacing.xs) {
             ZStack {
-                // Track
                 Circle()
                     .stroke(AppColors.surfaceContainerHigh, lineWidth: 7)
                     .frame(width: 56, height: 56)
 
-                // Fill
                 Circle()
                     .trim(from: 0, to: min(fraction, 1))
                     .stroke(
@@ -166,7 +166,6 @@ struct StatsView: View {
                     .frame(width: 56, height: 56)
                     .animation(.easeOut(duration: 0.6), value: fraction)
 
-                // Icon
                 Image(systemName: pack.icon)
                     .font(.system(size: 14))
                     .foregroundStyle(fraction > 0 ? pack.color : AppColors.onSurfaceVariant.opacity(0.4))
@@ -184,9 +183,12 @@ struct StatsView: View {
                 .foregroundStyle(fraction > 0 ? AppColors.onSurface : AppColors.onSurfaceVariant.opacity(0.5))
         }
         .frame(maxWidth: .infinity)
+        // H-2: VoiceOver donut label
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(pack.title) pack: \(completed) of 60 levels completed")
     }
 
-    // MARK: — 7-day Bar Chart (real daily data)
+    // MARK: — 7-day Bar Chart
 
     private var chartSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
@@ -199,27 +201,28 @@ struct StatsView: View {
             HStack(alignment: .bottom, spacing: AppSpacing.sm) {
                 ForEach(Array(days.enumerated()), id: \.offset) { _, day in
                     VStack(spacing: AppSpacing.xs) {
-                        // Bar
                         RoundedRectangle(cornerRadius: 6, style: .continuous)
                             .fill(barColor(solved: day.solved, isToday: day.isToday))
                             .frame(height: barHeight(solved: day.solved))
                             .frame(maxWidth: .infinity)
                             .animation(.easeOut(duration: 0.4), value: day.solved)
 
-                        // Day label
                         Text(day.label)
                             .font(AppTypography.labelSmall)
                             .foregroundStyle(day.isToday ? AppColors.primary : AppColors.onSurfaceVariant)
                     }
+                    // H-2: each bar reads as "Mon: solved" / "Tue: missed"
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(day.label): \(day.solved ? "solved" : "missed")\(day.isToday ? ", today" : "")")
                 }
             }
             .frame(height: 100)
 
-            // Legend
             HStack(spacing: AppSpacing.md) {
                 legendDot(color: AppColors.primary,                labelKey: "stats.chartSolved")
                 legendDot(color: AppColors.blockBlush.opacity(0.4), labelKey: "stats.chartMissed")
             }
+            .accessibilityHidden(true) // legend is decorative; bars already labelled
         }
         .padding(AppSpacing.md)
         .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
@@ -248,7 +251,7 @@ struct StatsView: View {
         }
     }
 
-    // MARK: — Hint Usage Donut (static; real data: Faz G)
+    // MARK: — Hint Usage Donut
 
     private var donutSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
@@ -263,7 +266,6 @@ struct StatsView: View {
             }
 
             HStack(spacing: AppSpacing.xl) {
-                // Donut
                 ZStack {
                     Circle()
                         .stroke(AppColors.surfaceContainerHigh, lineWidth: 16)
@@ -292,8 +294,8 @@ struct StatsView: View {
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
                 }
+                .accessibilityHidden(true) // static placeholder; real data in Faz G
 
-                // Legend
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
                     legendRow(color: AppColors.surfaceContainerHigh, labelKey: "stats.noHints",  value: "—")
                     legendRow(color: AppColors.primaryContainer,     labelKey: "stats.hints1to2", value: "—")
