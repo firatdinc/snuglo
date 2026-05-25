@@ -18,13 +18,14 @@ struct BottomTabBar: View {
         let labelKey: LocalizedStringKey
         let icon: String
         let activeIcon: String
+        let a11yId: String
     }
 
     private let items: [TabItem] = [
-        .init(tab: .play, labelKey: "tab.play", icon: "puzzlepiece", activeIcon: "puzzlepiece.fill"),
-        .init(tab: .levels, labelKey: "tab.levels", icon: "square.grid.2x2", activeIcon: "square.grid.2x2.fill"),
-        .init(tab: .stats, labelKey: "tab.stats", icon: "chart.bar", activeIcon: "chart.bar.fill"),
-        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill")
+        .init(tab: .play, labelKey: "tab.play", icon: "puzzlepiece", activeIcon: "puzzlepiece.fill", a11yId: "tab.play"),
+        .init(tab: .levels, labelKey: "tab.levels", icon: "square.grid.2x2", activeIcon: "square.grid.2x2.fill", a11yId: "tab.levels"),
+        .init(tab: .stats, labelKey: "tab.stats", icon: "chart.bar", activeIcon: "chart.bar.fill", a11yId: "tab.stats"),
+        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop")
     ]
 
     var body: some View {
@@ -57,6 +58,7 @@ struct BottomTabBar: View {
                 .buttonStyle(.plain)
                 .frame(maxWidth: .infinity)
                 .animation(.spring(response: 0.3, dampingFraction: 0.7), value: router.selectedTab)
+                .accessibilityIdentifier(item.a11yId)
             }
         }
         .padding(.horizontal, AppSpacing.sm)

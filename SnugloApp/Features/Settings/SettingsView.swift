@@ -273,6 +273,7 @@ struct SettingsView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
+        .accessibilityIdentifier("screen.settings")
         .alert("notif.disabled.title", isPresented: $showNotifDeniedAlert) {
             Button("notif.openSettings") {
                 if let url = URL(string: UIApplication.openSettingsURLString) {

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    # macos-15 ships Xcode 16 which supports the iOS 18 deployment target and iPhone 16 simulator.
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: brew install xcodegen swiftlint
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: SwiftLint (strict)
+        run: swiftlint --strict
+
+      - name: Swift package tests
+        run: swift test
+
+      - name: xcodebuild (no signing)
+        run: |
+          xcodebuild \
+            -scheme SnugloApp \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            build \
+            CODE_SIGNING_ALLOWED=NO

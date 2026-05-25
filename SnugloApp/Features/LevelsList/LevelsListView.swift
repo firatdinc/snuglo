@@ -25,6 +25,7 @@ struct LevelsListView: View {
             BottomTabBar()
         }
         .navigationBarHidden(true)
+        .accessibilityIdentifier("screen.levels")
         .onAppear { router.selectedTab = .levels }
         .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
             Button("alert.unlockPack.goToShop") {
