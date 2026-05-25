@@ -46,6 +46,20 @@ final class GameViewModel {
         return GameViewModel(level: fallback)
     }
 
+    /// Faz D-2: PackProvider üzerinden engine Level ile başlat.
+    /// levelId == "daily" → bugünün DailyPuzzle'ı
+    /// levelId == "packId-index" → PackProvider.loadLevel(id:)
+    @MainActor
+    static func makeFromPackProvider(levelId: String) -> GameViewModel {
+        let level: Level
+        if levelId == "daily" {
+            level = PackProvider.dailyPuzzle()
+        } else {
+            level = PackProvider.loadLevel(id: levelId) ?? PackProvider.dailyPuzzle()
+        }
+        return GameViewModel(level: level)
+    }
+
     // MARK: - Computed helpers
 
     /// Pieces not yet successfully placed on the grid.

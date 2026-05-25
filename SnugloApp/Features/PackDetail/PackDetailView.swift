@@ -14,9 +14,10 @@ struct PackDetailView: View {
         MockData.allPacks.first { $0.title == packName || $0.id == packName }
     }
 
+    // Faz D-2: PackProvider → engine-generated 60 LevelItem (deterministic).
     private var levels: [LevelItem] {
         guard let p = pack else { return [] }
-        return MockData.levels(in: p.id)
+        return PackProvider.levelItems(in: p.id)
     }
 
     private let gridColumns = Array(repeating: GridItem(.flexible(), spacing: AppSpacing.sm), count: 3)

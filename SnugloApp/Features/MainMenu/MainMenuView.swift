@@ -110,9 +110,19 @@ struct MainMenuView: View {
 
     // MARK: — Daily Puzzle card
 
+    // Faz D-2: PackProvider.dailyPuzzle() ile gerçek gridSize badge.
+    private var dailyGridSize: Int { PackProvider.dailyPuzzle().width }
+
+    private var dailyDateBadge: String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MMM d"
+        return fmt.string(from: Date())
+    }
+
     private var dailyPuzzleCard: some View {
         Button {
-            router.push(.gamePlay(levelId: "level_5x5"))
+            // Faz D-2: "daily" levelId → GameView'de PackProvider.dailyPuzzle()
+            router.push(.gamePlay(levelId: "daily"))
         } label: {
             VStack(alignment: .leading, spacing: 0) {
                 // Hero image placeholder
@@ -130,8 +140,8 @@ struct MainMenuView: View {
                         )
                         .frame(height: 140)
 
-                    // Date badge
-                    Text("May 25")
+                    // Date badge — dynamic
+                    Text(dailyDateBadge)
                         .font(AppTypography.labelSmall)
                         .tracking(0.6)
                         .textCase(.uppercase)
@@ -141,6 +151,18 @@ struct MainMenuView: View {
                         .background(AppColors.background.opacity(0.9))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                         .padding(AppSpacing.md)
+
+                    // GridSize indicator — from engine
+                    Text("\(dailyGridSize)×\(dailyGridSize)")
+                        .font(AppTypography.labelSmall)
+                        .tracking(0.4)
+                        .foregroundStyle(AppColors.primary)
+                        .padding(.horizontal, AppSpacing.sm + 4)
+                        .padding(.vertical, AppSpacing.xs)
+                        .background(AppColors.primaryContainer.opacity(0.8))
+                        .clipShape(Capsule())
+                        .padding(AppSpacing.md)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
 
                 // Card content
