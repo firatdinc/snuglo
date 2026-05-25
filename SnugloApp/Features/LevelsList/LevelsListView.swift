@@ -5,13 +5,17 @@ import SwiftUI
 //
 // "LEVELS" tab — shows pack cards: Cozy Beginnings / Spice Route / Mambo Nights / Woodland Retreat
 // Tapping an unlocked pack → .packDetail(packId:)
-// Locked packs are grayed out (opacity 0.4), non-interactive
+// Faz G-1: IAP-locked packs are tappable and show unlock-prompt alert → Shop
 
 struct LevelsListView: View {
 
     let packId: String  // "" = all packs (the tab view)
 
     @Environment(AppRouter.self) private var router
+
+    /// Kilitli pack dokunumu için alert state
+    @State private var lockedPackTitle: String = ""
+    @State private var showLockedAlert: Bool   = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -26,6 +30,15 @@ struct LevelsListView: View {
         }
         .navigationBarHidden(true)
         .onAppear { router.selectedTab = .levels }
+        // Faz G-1: Kilitli pack alert
+        .alert("Unlock Pack", isPresented: $showLockedAlert) {
+            Button("Go to Shop") {
+                router.selectTab(.shop)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("\(lockedPackTitle) is locked. Visit the Shop to unlock it.")
+        }
     }
 
     // MARK: — Top bar
@@ -100,9 +113,15 @@ struct LevelsListView: View {
         let content = packCardContent(pack)
 
         if pack.isLocked {
-            content
-                .opacity(0.4)
-                .allowsHitTesting(false)
+            // Faz G-1: Kilitli packlar tıklanabilir → shop yönlendirme alertı
+            Button {
+                lockedPackTitle = pack.title
+                showLockedAlert = true
+            } label: {
+                content
+                    .opacity(0.55)
+            }
+            .buttonStyle(.plain)
         } else {
             Button {
                 router.push(.packDetail(packId: pack.id))
