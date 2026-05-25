@@ -1,18 +1,12 @@
 import SwiftUI
 
-// MARK: — RootView
-// Faz C — Navigation skeleton
-// Single NavigationStack rooted at SplashView.
-// All route destinations registered here.
-// Bottom tab-bar lives inside MainMenuView (native TabView).
-
 struct RootView: View {
-
     @State private var router = AppRouter()
 
     var body: some View {
         NavigationStack(path: $router.path) {
             SplashView()
+                .navigationBarBackButtonHidden()
                 .navigationDestination(for: Route.self) { route in
                     destination(for: route)
                 }
@@ -20,15 +14,14 @@ struct RootView: View {
         .environment(router)
     }
 
-    // MARK: — Destination map
-
     @ViewBuilder
     private func destination(for route: Route) -> some View {
         switch route {
-        case .onboarding:
-            OnboardingView()
         case .mainMenu:
             MainMenuView()
+                .navigationBarBackButtonHidden()
+        case .onboarding:
+            OnboardingView()
                 .navigationBarBackButtonHidden()
         case .game(let levelID):
             GameView(levelId: levelID)
@@ -45,8 +38,6 @@ struct RootView: View {
         }
     }
 }
-
-// MARK: — Preview
 
 #Preview {
     RootView()

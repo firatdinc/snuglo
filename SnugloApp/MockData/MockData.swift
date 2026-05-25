@@ -14,6 +14,15 @@ struct Pack: Identifiable, Hashable {
     let isLocked: Bool
     let accentColor: Color
     let iconName: String
+
+    /// Alias for iconName — used by views that reference pack.iconSymbol.
+    var iconSymbol: String { iconName }
+    /// Alias for subtitle — displayed as a grid-size badge, e.g. "5×5 grid".
+    var gridLabel: String { subtitle }
+    /// Completed fraction 0.0–1.0 for progress bars.
+    var progressFraction: CGFloat {
+        levelCount > 0 ? CGFloat(completedCount) / CGFloat(levelCount) : 0
+    }
 }
 
 struct LevelItem: Identifiable, Hashable {
@@ -22,6 +31,9 @@ struct LevelItem: Identifiable, Hashable {
     let isCompleted: Bool
     let isLocked: Bool
     let stars: Int          // 0..3
+
+    /// Alias for index — used by views that reference level.number.
+    var number: Int { index }
 }
 
 enum MockData {
@@ -72,6 +84,26 @@ enum MockData {
             iconName: "tree.fill"
         )
     ]
+
+    // MARK: — Continue helpers (used by MainMenuView)
+
+    /// First unlocked pack that has at least one completed level.
+    static var continuePack: Pack? {
+        allPacks.first { !$0.isLocked && $0.completedCount > 0 }
+    }
+
+    /// The next unplayed level in continuePack.
+    static var continueLevel: LevelItem? {
+        guard let pack = continuePack else { return nil }
+        let nextIndex = pack.completedCount + 1
+        return LevelItem(
+            id: "\(pack.id)-\(nextIndex)",
+            index: nextIndex,
+            isCompleted: false,
+            isLocked: false,
+            stars: 0
+        )
+    }
 
     static func levels(in packId: String) -> [LevelItem] {
         let completedUpTo: Int
