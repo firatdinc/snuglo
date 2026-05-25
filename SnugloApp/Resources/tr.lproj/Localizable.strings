@@ -132,6 +132,8 @@
 "settings.notifications.time"      = "Hatırlatma Saati";
 "settings.notifications.reminderSet" = "%@ için günlük hatırlatıcı ayarlandı";
 "settings.language.title"          = "Dil";
+"settings.language.label"          = "Dil";
+"settings.language.footer"         = "Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz.";
 "settings.language.system"         = "Sistem";
 "settings.language.en"             = "English";
 "settings.language.tr"             = "Türkçe";
