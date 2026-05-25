@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0308FE1ACA1FDFF8C0C8A186 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05896F5D94E674527F3A45A2 /* HapticsManager.swift */; };
 		03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */; };
 		0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E553228972F7FFB0F8EF868 /* PackDetailView.swift */; };
 		10623549868FE8396ECC486F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */; };
@@ -16,6 +17,7 @@
 		33112FEC53B3501D7EFA14D2 /* LevelsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F5BACB29FA770A810C3ABA /* LevelsListView.swift */; };
 		3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFCBE768527FBA636F28AAC /* PauseSheet.swift */; };
 		3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */; };
+		41B02F3120C34DED8A80E0D0 /* HapticsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3B870B5C4DA70337A2D476 /* HapticsManagerTests.swift */; };
 		4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */; };
 		44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F090D7130F37BBDD451D8 /* ProgressStore.swift */; };
 		4749283EBBBBBB741384B951 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019EC211A8ED76E9C4687A0 /* Shadow.swift */; };
@@ -25,11 +27,14 @@
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
 		56F4A71C2354DD0A66026405 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A30FA9DC3EFE7135C328D /* MainMenuView.swift */; };
 		64639133E78C3684B2D5F5C8 /* ProgressStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E8C465B2441C411A96691F /* ProgressStoreTests.swift */; };
+		670809C997E19585C06ED0A4 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1764A619B318EAE91D8E9525 /* AudioManager.swift */; };
+		6D5A15BEC4D154BEEFC66E67 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15113BC008FC88512BFF4298 /* README.md */; };
 		6DD60010AA6AF89DF48BEA12 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA13FC12B31478959E864E28 /* SplashView.swift */; };
 		70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */; };
 		754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
 		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
+		8FB78FFC38391E046745247E /* NotificationScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B8841C7CDA8DE1FDE87650 /* NotificationScheduler.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
 		9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */; };
 		9838478E2A8975B130C8C64E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D61C90179BE05FFF34656B /* StatsView.swift */; };
@@ -41,6 +46,7 @@
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		D7574A18719733E0B493964F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818EF1009A596F19A02F3237 /* OnboardingView.swift */; };
 		DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B165E71825BFEA8ABE02AC /* RootView.swift */; };
+		E1BD39DC756DE12000EFAF5D /* AudioManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4AC1CD1A9429FC63C2F349 /* AudioManagerTests.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
 		F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C5711F1CFFED37058BD01 /* BottomTabBar.swift */; };
 /* End PBXBuildFile section */
@@ -58,9 +64,12 @@
 /* Begin PBXFileReference section */
 		00B165E71825BFEA8ABE02AC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		02900C8FA9C484E97BDE5D58 /* SnugloAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05896F5D94E674527F3A45A2 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCompleteSheet.swift; sourceTree = "<group>"; };
 		071C5711F1CFFED37058BD01 /* BottomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabBar.swift; sourceTree = "<group>"; };
+		15113BC008FC88512BFF4298 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "snuglo--AnsD1"; path = ..; sourceTree = SOURCE_ROOT; };
+		1764A619B318EAE91D8E9525 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTests.swift; sourceTree = "<group>"; };
 		34D61C90179BE05FFF34656B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		354A30FA9DC3EFE7135C328D /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
@@ -70,8 +79,10 @@
 		60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloApp.swift; sourceTree = "<group>"; };
 		645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		650F634142598BE8F4F9EF2E /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		67B8841C7CDA8DE1FDE87650 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		6AFCBE768527FBA636F28AAC /* PauseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSheet.swift; sourceTree = "<group>"; };
 		6B377C02F73E5F9D8712B20B /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
+		6C4AC1CD1A9429FC63C2F349 /* AudioManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManagerTests.swift; sourceTree = "<group>"; };
 		71A09BB21B2EEF8E2743976A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -93,6 +104,7 @@
 		EA13FC12B31478959E864E28 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 		FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseOverlayView.swift; sourceTree = "<group>"; };
+		FF3B870B5C4DA70337A2D476 /* HapticsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManagerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +135,14 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
+		0ECC00EF1EB59A580CE2A61E /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				67B8841C7CDA8DE1FDE87650 /* NotificationScheduler.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		122EC1EB173FCBD7030C10E8 /* build */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +166,14 @@
 				15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		19066E581C5FC13E9E0B132B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				1764A619B318EAE91D8E9525 /* AudioManager.swift */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		210E672C1BAD2C6455D3BA57 /* ExplicitPrecompiledModules */ = {
@@ -207,9 +235,11 @@
 		4BAC45F5A50B2C4A143423A6 /* SnugloAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				6C4AC1CD1A9429FC63C2F349 /* AudioManagerTests.swift */,
 				9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */,
 				1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */,
 				D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */,
+				FF3B870B5C4DA70337A2D476 /* HapticsManagerTests.swift */,
 				93E8C465B2441C411A96691F /* ProgressStoreTests.swift */,
 				A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */,
 			);
@@ -257,6 +287,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		BC7307459FDAF53F3EE06A9F /* Haptics */ = {
+			isa = PBXGroup;
+			children = (
+				05896F5D94E674527F3A45A2 /* HapticsManager.swift */,
+			);
+			path = Haptics;
+			sourceTree = "<group>";
+		};
 		BC8CA339462A1B3DBB39AC35 = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +304,7 @@
 				BDF0424E12B0048C1ED49C5C /* Features */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				1767C811E499CE379D978EA8 /* Packages */,
+				F0773894B86C553977137FB7 /* Resources */,
 				3E6F161CD2F8B824209000B5 /* snuglo--AnsD1 */,
 				56CD682D8D86026C7C6B6A0F /* Products */,
 			);
@@ -300,7 +339,10 @@
 		CA3FFCE8583420473DAB2C0F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				19066E581C5FC13E9E0B132B /* Audio */,
 				44E4BF646D4293E17EC9B777 /* Components */,
+				BC7307459FDAF53F3EE06A9F /* Haptics */,
+				0ECC00EF1EB59A580CE2A61E /* Notifications */,
 				2D8BFEE3E83DF1152E7FBC22 /* Persistence */,
 				E61ECDF1E7283589003957A1 /* Theme */,
 			);
@@ -313,6 +355,14 @@
 				354A30FA9DC3EFE7135C328D /* MainMenuView.swift */,
 			);
 			path = MainMenu;
+			sourceTree = "<group>";
+		};
+		D2BE267534231C6B9E10D87F /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				15113BC008FC88512BFF4298 /* README.md */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		E61ECDF1E7283589003957A1 /* Theme */ = {
@@ -353,6 +403,14 @@
 			path = LevelsList;
 			sourceTree = "<group>";
 		};
+		F0773894B86C553977137FB7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D2BE267534231C6B9E10D87F /* Audio */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F12EAE5AF34AECC4ED01FA3B /* Stats */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,12 +449,13 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_898C197B-4BD8-4C5D-9F89-7D16557C9FBE" /* . */ = {
+		"TEMP_373DB2EF-68D9-4904-8A9A-CFF4F8233A94" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
+				F0773894B86C553977137FB7 /* Resources */,
 				BDF0424E12B0048C1ED49C5C /* Features */,
 				122EC1EB173FCBD7030C10E8 /* build */,
 			);
@@ -486,6 +545,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D5A15BEC4D154BEEFC66E67 /* README.md in Resources */,
 				157AC88994E4677AD86AED84 /* SnugloApp.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,16 +558,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */,
+				670809C997E19585C06ED0A4 /* AudioManager.swift in Sources */,
 				91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */,
 				F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
+				0308FE1ACA1FDFF8C0C8A186 /* HapticsManager.swift in Sources */,
 				4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */,
 				33112FEC53B3501D7EFA14D2 /* LevelsListView.swift in Sources */,
 				56F4A71C2354DD0A66026405 /* MainMenuView.swift in Sources */,
 				4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */,
+				8FB78FFC38391E046745247E /* NotificationScheduler.swift in Sources */,
 				D7574A18719733E0B493964F /* OnboardingView.swift in Sources */,
 				0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */,
 				9CE833B028557F0558472ACE /* PackProvider.swift in Sources */,
@@ -532,9 +595,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1BD39DC756DE12000EFAF5D /* AudioManagerTests.swift in Sources */,
 				70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */,
 				20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */,
 				530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */,
+				41B02F3120C34DED8A80E0D0 /* HapticsManagerTests.swift in Sources */,
 				64639133E78C3684B2D5F5C8 /* ProgressStoreTests.swift in Sources */,
 				754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */,
 			);

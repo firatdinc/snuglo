@@ -2,6 +2,84 @@
 
 ---
 
+## [v1.0-F] — Audio + Haptics + Daily Reminder (2026-05-25)
+
+### Yeni: `SnugloApp/Core/Audio/AudioManager.swift`
+
+- **`AudioManager.swift`** *(new)* — `@Observable` singleton, AVFoundation tabanlı SFX + BGM yöneticisi.
+  - `Sfx` enum: `pickup`, `drop`, `snap`, `levelComplete`, `error` (5 case, CaseIterable).
+  - `soundEnabled` / `musicEnabled` — `UserDefaults` ile persist, `@Observable` reactive.
+  - `play(_ sfx:)` — soundEnabled=false veya dosya yoksa silent no-op.
+  - `startBGM(track:)` / `stopBGM()` / `pauseBGM()` / `resumeBGM()` — BGM scaffold.
+  - AVAudioSession: `.ambient` kategori (Spotify ile mix, silent switch'e saygı duyar).
+  - `init(defaults:)` — test isolation için injectable UserDefaults.
+  - **Ses dosyaları:** Gerçek asset YOK (Faz J'de sound-designer teslim edecek). Dosya yoksa player=nil → tüm `play()` çağrısı noop.
+  - **Faz G köprüsü:** `startBGM(track:)` parametre alır → `StoreManager.isPurchased(.premiumMusic)` kontrolü ile premium track unlock.
+
+### Yeni: `SnugloApp/Core/Haptics/HapticsManager.swift`
+
+- **`HapticsManager.swift`** *(new)* — `@Observable` singleton, UIKit haptic wrapper.
+  - `Feedback` enum: `light`, `medium`, `heavy`, `success`, `warning`, `error`, `selection`.
+  - `enabled` — `UserDefaults` ile persist.
+  - `play(_ feedback:)` — enabled=false ise no-op.
+  - Generator'lar `init`'de `prepare()` ile pre-warm edilir (ilk tetiklemede latency yok).
+  - `init(defaults:)` — test isolation.
+
+### Yeni: `SnugloApp/Core/Notifications/NotificationScheduler.swift`
+
+- **`NotificationScheduler.swift`** *(new)* — `@Observable` singleton, UNUserNotificationCenter wrapper.
+  - `reminderEnabled` / `reminderHour` / `reminderMinute` — persist + auto-reschedule.
+  - `requestAuthorization() async -> Bool` — system permission dialog.
+  - `authorizationStatus() async -> UNAuthorizationStatus` — non-prompting status check.
+  - `scheduleDaily()` — stale request remove + UNCalendarNotificationTrigger repeat.
+  - `cancelDaily()` — pending notification temizle.
+  - Info.plist: UNUserNotificationCenter için plist key GEREKMİYOR.
+  - UIBackgroundModes "audio" İNTENSIONEL olarak eklenmedi (BGM sadece in-game).
+
+### Yeni: `SnugloApp/Resources/Audio/README.md`
+
+- Ses asset placeholder — beklenen dosya listesi (pickup/drop/snap/levelComplete/error + bgm_cozy).
+- Sound design brief (Nordic Hearth tone, `.ambient` session category, 44.1kHz/16-bit).
+- Faz G hook notu: premium track unlock entegrasyonu.
+
+### Güncellenen: `SnugloApp/Features/Game/GameView.swift`
+
+- **Drag gesture hooks (Faz F):**
+  - Pickup (first `onChanged`): `AudioManager.play(.pickup)` + `HapticsManager.play(.light)`
+  - Drop (onEnded, no snap): `AudioManager.play(.drop)` + `HapticsManager.play(.medium)`
+  - Snap (onEnded, valid partial): `AudioManager.play(.snap)` + `HapticsManager.play(.selection)`
+  - Error (onEnded, invalid): `AudioManager.play(.error)` + `HapticsManager.play(.error)`
+  - Level complete (`onChange(of: isSolved)`): `AudioManager.play(.levelComplete)` + `HapticsManager.play(.success)`
+
+### Güncellenen: `SnugloApp/Features/Settings/SettingsView.swift`
+
+- `@AppStorage` satırları kaldırıldı → `@Bindable var audio = AudioManager.shared` / `haptics` / `notif`.
+- SOUND & FEEL: Music toggle → `$audio.musicEnabled`, SFX → `$audio.soundEnabled`, Haptics → `$haptics.enabled`.
+- NOTIFICATIONS: Daily Reminder toggle → `requestAuthorization()` await + denied alert + Settings deeplink.
+- Reminder Time: `DatePicker(.hourAndMinute)` with `Date ↔ (hour, minute)` computed binding.
+- Footer: Aktif hatırlatıcı saatini gösterir.
+
+### Güncellenen: `SnugloApp/Features/Pause/PauseSheet.swift`
+
+- `@AppStorage` → `@Bindable var audio` / `haptics` — aynı singleton'lara bind.
+- Inline Sound / Haptics togglelar artık SettingsView ile senkron.
+
+### Test: `Tests/SnugloAppTests/AudioManagerTests.swift`
+
+- 7/7 PASSED — defaults, toggle persist, no-op guard, sfx enum count.
+
+### Test: `Tests/SnugloAppTests/HapticsManagerTests.swift`
+
+- 4/4 PASSED — defaults, toggle persist, no-op guard, no-crash.
+
+### Build
+
+- `swift build` → **Build complete!** ✅
+- `xcodebuild -scheme SnugloApp build` (iPhone 17 Sim, OS 26.2) → **BUILD SUCCEEDED** ✅
+- Faz F yeni testler: **11/11 PASSED** ✅
+
+---
+
 ## [v1.0-E] — Persistence + Stats Real Data (2026-05-25)
 
 ### Yeni: `SnugloApp/Core/Persistence/ProgressStore.swift`

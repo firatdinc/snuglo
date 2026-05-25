@@ -3,18 +3,65 @@ import SwiftUI
 // MARK: — SettingsView
 // Ref: Designs/html/11-settings.html
 // Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / ACCOUNT / ABOUT
+// Faz F: @Bindable wrappers → AudioManager, HapticsManager, NotificationScheduler.
 
 struct SettingsView: View {
 
-    @AppStorage("soundEnabled")         private var soundEnabled         = true
-    @AppStorage("sfxEnabled")           private var sfxEnabled           = true
-    @AppStorage("hapticsEnabled")       private var hapticsEnabled       = true
-    @AppStorage("dailyReminderEnabled") private var dailyReminderEnabled = false
-    @AppStorage("reminderHour")         private var reminderHour         = 20
-    @AppStorage("reminderMinute")       private var reminderMinute       = 0
+    // MARK: — Manager bindings (Faz F)
+    // @Bindable wraps @Observable singletons so we can use $ syntax in Toggles.
 
-    // Reset progress confirmation
-    @State private var showResetAlert = false
+    @Bindable private var audio   = AudioManager.shared
+    @Bindable private var haptics = HapticsManager.shared
+    @Bindable private var notif   = NotificationScheduler.shared
+
+    // MARK: — Local UI state
+
+    @State private var showResetAlert        = false
+    @State private var showNotifDeniedAlert  = false
+
+    // MARK: — Computed: Date ↔ (hour, minute) bridge for DatePicker
+
+    private var reminderDate: Binding<Date> {
+        Binding(
+            get: {
+                var dc = DateComponents()
+                dc.hour   = notif.reminderHour
+                dc.minute = notif.reminderMinute
+                return Calendar.current.date(from: dc) ?? Date()
+            },
+            set: { date in
+                let dc = Calendar.current.dateComponents([.hour, .minute], from: date)
+                notif.reminderHour   = dc.hour   ?? 19
+                notif.reminderMinute = dc.minute  ?? 0
+            }
+        )
+    }
+
+    // MARK: — Notification toggle binding (requests authorization if needed)
+
+    private var reminderToggle: Binding<Bool> {
+        Binding(
+            get: { notif.reminderEnabled },
+            set: { newValue in
+                if newValue {
+                    Task { @MainActor in
+                        let granted = await notif.requestAuthorization()
+                        if granted {
+                            notif.reminderEnabled = true
+                        } else {
+                            // Keep off + show alert
+                            notif.reminderEnabled = false
+                            showNotifDeniedAlert  = true
+                        }
+                    }
+                } else {
+                    notif.reminderEnabled = false
+                }
+            }
+        )
+    }
+
+    // MARK: — Body
 
     var body: some View {
         List {
@@ -24,19 +71,19 @@ struct SettingsView: View {
                     icon: "music.note",
                     iconColor: AppColors.primaryContainer,
                     label: "Music",
-                    isOn: $soundEnabled
+                    isOn: $audio.musicEnabled
                 )
                 toggleRow(
                     icon: "speaker.wave.2.fill",
                     iconColor: AppColors.secondaryContainer,
                     label: "Sound Effects",
-                    isOn: $sfxEnabled
+                    isOn: $audio.soundEnabled
                 )
                 toggleRow(
                     icon: "hand.tap.fill",
                     iconColor: AppColors.tertiaryContainer,
                     label: "Haptics",
-                    isOn: $hapticsEnabled
+                    isOn: $haptics.enabled
                 )
             } header: {
                 sectionHeader("Sound & Feel")
@@ -72,26 +119,33 @@ struct SettingsView: View {
                     icon: "bell.fill",
                     iconColor: AppColors.blockCream.opacity(0.8),
                     label: "Daily Reminder",
-                    isOn: $dailyReminderEnabled
+                    isOn: reminderToggle
                 )
 
-                if dailyReminderEnabled {
+                if notif.reminderEnabled {
                     HStack {
                         iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
                         Text("Reminder Time")
                             .font(AppTypography.bodyMedium)
                             .foregroundStyle(AppColors.onSurface)
                         Spacer()
-                        Text(String(format: "%d:%02d %@",
-                                    reminderHour % 12 == 0 ? 12 : reminderHour % 12,
-                                    reminderMinute,
-                                    reminderHour >= 12 ? "PM" : "AM"))
-                            .font(.system(size: 15, weight: .medium, design: .monospaced))
-                            .foregroundStyle(AppColors.onSurfaceVariant)
+                        DatePicker(
+                            "",
+                            selection: reminderDate,
+                            displayedComponents: .hourAndMinute
+                        )
+                        .labelsHidden()
+                        .tint(AppColors.primary)
                     }
                 }
             } header: {
                 sectionHeader("Notifications")
+            } footer: {
+                if notif.reminderEnabled {
+                    Text("Daily reminder set for \(formattedReminderTime)")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                }
             }
 
             // — ACCOUNT —
@@ -152,6 +206,27 @@ struct SettingsView: View {
         .scrollContentBackground(.hidden)
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
+        // Notifications denied alert
+        .alert("Notifications Disabled", isPresented: $showNotifDeniedAlert) {
+            Button("Open Settings") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.")
+        }
+    }
+
+    // MARK: — Helpers
+
+    private var formattedReminderTime: String {
+        let h = notif.reminderHour
+        let m = notif.reminderMinute
+        let ampm = h >= 12 ? "PM" : "AM"
+        let h12  = h % 12 == 0 ? 12 : h % 12
+        return String(format: "%d:%02d %@", h12, m, ampm)
     }
 
     // MARK: — Sub-views

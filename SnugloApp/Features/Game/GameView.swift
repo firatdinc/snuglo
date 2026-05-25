@@ -8,6 +8,7 @@ import SnugloEngine
 //
 // Faz B palette (Nordic Hearth) preserved. Faz C adds: levelId param, HUD buttons,
 // pause sheet integration, level-complete cover.
+// Faz F adds: AudioManager + HapticsManager hooks on drag events.
 
 struct GameView: View {
 
@@ -105,6 +106,9 @@ struct GameView: View {
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
+                // Faz F: Level complete audio + haptic
+                AudioManager.shared.play(.levelComplete)
+                HapticsManager.shared.play(.success)
                 showComplete = true
             }
         }
@@ -204,11 +208,22 @@ struct GameView: View {
     }
 
     // MARK: — Drag gesture
+    // Faz F audio+haptic hooks:
+    //   pickup  → first onChanged frame (draggingPiece was nil)
+    //   drop    → onEnded with no snap target
+    //   snap    → onEnded with valid placement (not yet solved)
+    //   error   → onEnded with invalid placement
+    //   levelComplete → onChange(of: isSolved) above
 
     private func dragGesture(for piece: Piece) -> some Gesture {
         DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
             .onChanged { value in
-                if draggingPiece == nil { draggingPiece = piece }
+                if draggingPiece == nil {
+                    draggingPiece = piece
+                    // Pickup feedback
+                    AudioManager.shared.play(.pickup)
+                    HapticsManager.shared.play(.light)
+                }
                 dragPosition = value.location
                 snapCoord = SnapCalculator.snap(
                     at: value.location,
@@ -224,11 +239,23 @@ struct GameView: View {
                         viewModel.tryPlace(pieceID: piece.id, at: coord)
                     }
                     if viewModel.invalidPieceIDs.contains(piece.id) {
+                        // Invalid placement — error feedback
+                        AudioManager.shared.play(.error)
+                        HapticsManager.shared.play(.error)
                         Task { @MainActor in
                             try? await Task.sleep(for: .milliseconds(400))
                             viewModel.clearInvalid(pieceID: piece.id)
                         }
+                    } else if !viewModel.isSolved {
+                        // Valid partial placement — snap feedback
+                        // (if isSolved, onChange fires levelComplete instead)
+                        AudioManager.shared.play(.snap)
+                        HapticsManager.shared.play(.selection)
                     }
+                } else {
+                    // No snap target — drop feedback
+                    AudioManager.shared.play(.drop)
+                    HapticsManager.shared.play(.medium)
                 }
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
                     draggingPiece = nil
