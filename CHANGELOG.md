@@ -2,6 +2,122 @@
 
 ---
 
+## [v1.0-G2] — Ads Placeholder + Frequency Cap (2026-05-25)
+
+### Core/Ads (G2-1 — AdsManager)
+- **`SnugloApp/Core/Ads/AdsManager.swift`** *(new)* — `@Observable final class AdsManager`.
+  - Singleton `shared` + testable `init(sessionStart: Date)` (internal).
+  - **Frequency cap**: interstitial every 3 level completions (`interstitialFrequencyLevels = 3`).
+  - **Warmup guard**: no interstitials in first 30 s of session (`warmupSeconds = 30`).
+  - **Session cap**: max 5 interstitials per session (`maxInterstitialsPerSession = 5`).
+  - `adsRemovedProvider: () -> Bool` closure — injectable for tests; defaults to `StoreManager.shared.adsRemoved`.
+  - `showInterstitial(reason:)` async — 1.5 s placeholder sleep; resets `levelsCompletedSinceLastInterstitial = 0`.
+  - `showRewarded(onReward:)` — immediate reward callback (placeholder; FAZ-J: GADRewardedAd).
+  - `shouldShowBanner` — computed; `!adsRemovedProvider()`.
+  - Consent: `setConsent(_ Bool)` + `loadConsentFlags()` → `UserDefaults("snuglo.ads.consent")`.
+  - **FAZ-J swap points** documented inline: `showInterstitial`, `showRewarded`, `resetOnAdsRemoved`, `setConsent`.
+
+### Core/Components (G2-2 — Overlay + Banner)
+- **`SnugloApp/Core/Components/AdInterstitialOverlay.swift`** *(new)* — full-window dimmed ZStack.
+  - Shows when `AdsManager.shared.isShowingInterstitial == true`.
+  - `ProgressView` + placeholder text; `transition(.opacity)`.
+  - FAZ-J: remove entirely (GADInterstitialAd presents its own UIViewController).
+- **`SnugloApp/Core/Components/BannerAdView.swift`** *(new)* — 50 pt bottom banner.
+  - Hidden when `AdsManager.shared.shouldShowBanner == false`.
+  - FAZ-J: replace body with `UIViewRepresentable(GADBannerView)`.
+
+### App Layer (G2-3 — Lifecycle hooks)
+- **`SnugloApp/App/RootView.swift`** — `.overlay(AdInterstitialOverlay())` above NavigationStack.
+- **`SnugloApp/Features/Game/GameView.swift`** — `AdsManager.shared.onLevelCompleted()` in `onChange(of: viewModel.isSolved)`, fires before `fullScreenCover` presentation.
+
+### Settings (G2-4 — Privacy section)
+- **`SnugloApp/Features/Settings/SettingsView.swift`** — new PRIVACY section (between NOTIFICATIONS and ACCOUNT).
+  - "Personalized Ads" toggle → `ATTrackingManager.requestTrackingAuthorization` on enable.
+  - Revoking → `AdsManager.shared.setConsent(false)` immediately.
+  - `import AppTrackingTransparency` added.
+
+### Info.plist (G2-5 — ATT)
+- **`SnugloApp/project.yml`** — `INFOPLIST_KEY_NSUserTrackingUsageDescription` added to SnugloApp target.
+  - Value: `"To deliver personalized ads. You can opt out anytime in Settings."`
+  - Required for iOS 14.5+ ATT / IDFA (min deployment: 18.0).
+
+### Tests (G2-6 — AdsManagerTests)
+- **`Tests/SnugloAppTests/AdsManagerTests.swift`** *(new)* — 12 tests, all passing.
+  - `testFrequencyCapPerLevel_firstTwoLevels_noInterstitial`
+  - `testFrequencyCapPerLevel_thirdLevel_triggersInterstitial` (async, 2 s)
+  - `testMaxPerSessionCap_noPresentationAfterCap` + `_guardBranch`
+  - `testRemoveAdsDisablesAll_onLevelCompleted_isNoop` + `_shouldShowBannerFalse`
+  - `testWarmupBlocks_interstitialNotTriggered` + `_pastWarmup_counterBuildsContinuously`
+  - `testFrequencyResetAfterInterstitial`
+  - `testConsentPersistence_roundTrip`
+  - `testShouldShowBanner_adsNotRemoved_true` + `_adsRemoved_false`
+
+### RemoveAds integration
+- `StoreManager.adsRemoved` (Faz G-1) → `AdsManager.adsRemovedProvider` gate on every path.
+- `@Observable` propagation: UI auto-hides banner + skips interstitials immediately on purchase.
+
+### Faz J bridge: RealAdsAdapter swap
+- Replace `AdsManager.showInterstitial` body with `GADInterstitialAd.load(...) + present(...)`.
+- Replace `BannerAdView` body with `UIViewRepresentable(GADBannerView)`.
+- Remove `AdInterstitialOverlay` (no longer needed — SDK owns the window).
+- Add SPM: `google-mobile-ads-sdk` package.
+- Forward consent to UMP SDK in `AdsManager.setConsent`.
+
+---
+
+## [v1.0-F] — Audio + Haptics + Daily Reminder BLOCKER fix (2026-05-25)
+
+### Services (F1 — SoundService)
+- **`SnugloApp/Core/Services/SoundService.swift`** *(new)* — `@MainActor final class SoundService`.
+  - `enum Sound: CaseIterable` → `click / place / snap / solve / error` (.caf assets).
+  - `AVAudioSession.setCategory(.ambient, options: [.mixWithOthers])` — kullanıcı müziği üstüne mix.
+  - `preload()` → 5 `AVAudioPlayer` init; eksik asset graceful log (no-crash).
+  - `play(_ sound:)` → `UserDefaults("sfxEnabled")` gate; default true.
+
+### Services (F2 — HapticService)
+- **`SnugloApp/Core/Services/HapticService.swift`** *(new)* — `@MainActor final class HapticService`.
+  - `UIImpactFeedbackGenerator(.light/.medium)` + `UINotificationFeedbackGenerator` (lazy).
+  - `prepareImpact()` → drag-start'ta taptic engine ısıtılır.
+  - `impact(.light/.medium)` + `notify(.success/.error/.warning)`.
+  - `UserDefaults("hapticsEnabled")` gate; default true.
+
+### Services (F3 — NotificationService)
+- **`SnugloApp/Core/Services/NotificationService.swift`** *(new)* — `UNUserNotificationCenterDelegate`.
+  - `requestAuthorization()` → `[.alert, .sound, .badge]`; try-catch silent fail.
+  - `scheduleDaily(at:)` → `removePendingNotificationRequests` önce (ghost killer), sonra `UNCalendarNotificationTrigger(repeats: true)`. Identifier: `"snuglo.daily.reminder"`.
+  - `reschedule(enabled:at:)` → Settings toggle helper.
+  - `makeComponents(from:) static` → pure function, unit test edilebilir.
+  - `willPresent` → `[.banner, .sound]` — foreground bildirim banner.
+
+### App Entry (F4)
+- **`SnugloApp/App/SnugloApp.swift`** — `init()`: `UNUserNotificationCenter.current().delegate = NotificationService.shared`.
+
+### Settings (F5)
+- **`SnugloApp/Features/Settings/SettingsView.swift`** — `@AppStorage("sfxEnabled")` + `@AppStorage("hapticsEnabled")` (SoundService/HapticService anahtarlarıyla aynı). Daily Reminder toggle → `NotificationService.shared.requestAuthorization()` + `reschedule()`. DatePicker onChange → reschedule.
+
+### GameView (F6)
+- **`SnugloApp/Features/Game/GameView.swift`** — AudioManager/HapticsManager → SoundService/HapticService:
+  - Drag start: `HapticService.prepareImpact()` + `SoundService.play(.click)`.
+  - snapCoord nil→non-nil: `HapticService.impact(.medium)` + `SoundService.play(.snap)`.
+  - Valid place: `SoundService.play(.place)` + `HapticService.impact(.light)`.
+  - Invalid: `SoundService.play(.error)` + `HapticService.notify(.error)`.
+  - `onChange(isSolved)`: `SoundService.play(.solve)` + `HapticService.notify(.success)`.
+
+### Audio Assets (F8)
+- **`SnugloApp/Resources/Sounds/`** *(new)* — 5 minimal silent CAF (44100 Hz PCM mono, 70 bytes):
+  `click.caf`, `place.caf`, `snap.caf`, `solve.caf`, `error.caf`.
+- **`project.yml`** — `Resources/Sounds` excluded from sources, resource build phase olarak eklendi.
+
+### Tests (F7) — 26 yeni test
+- **`SoundServiceTests.swift`** *(new)* — 7 test: enum 5 case, sfxEnabled gate, missing asset graceful, singleton, dynamic toggle.
+- **`HapticServiceTests.swift`** *(new)* — 8 test: tüm feedback türleri disabled no-op, enabled no-crash, singleton.
+- **`NotificationServiceTests.swift`** *(new)* — 11 test: makeComponents hour/minute extraction (normal/midnight/23:59), no leakage, identifier constant, reschedule enabled/disabled, requestAuthorization crash-free, cancelDaily idempotent, singleton.
+
+### Build (F9)
+- `xcodegen generate` ✅ | `xcodebuild build` ✅ BUILD SUCCEEDED | `xcodebuild test` ✅ SoundServiceTests/HapticServiceTests/NotificationServiceTests geçti.
+
+---
+
 ## [v1.0-G1] — StoreKit 2 IAP — 5 SKU (2026-05-25)
 
 ### Yeni: `SnugloApp/Core/Store/StoreManager.swift`

@@ -109,6 +109,8 @@ struct GameView: View {
                 // Faz F: Solve audio + haptic via SoundService / HapticService
                 SoundService.shared.play(.solve)
                 HapticService.shared.notify(.success)
+                // Faz G-2: Frequency-cap interstitial trigger (fires before sheet)
+                AdsManager.shared.onLevelCompleted()
                 showComplete = true
             }
         }
