@@ -2,6 +2,24 @@
 
 ---
 
+## [v1.0.0] - 2026-05-25
+### Release
+Production-ready cozy block-logic puzzle game.
+Aggregates phases A through J:
+- Faz A: Stabilization (SnapCalculator refactor, build green)
+- Faz B: Nordic Hearth theme tokens + BlockView
+- Faz C: 11 SwiftUI screens + AppRouter NavigationStack
+- Faz D: 240 deterministic levels + Daily Puzzle
+- Faz E: ProgressStore persistence + Stats real data
+- Faz F: AudioManager + HapticsManager + NotificationScheduler
+- Faz G: StoreKit 2 (5 SKU) + Ads placeholder with frequency cap
+- Faz H: Localization (en/tr/es) + Dark mode + Launch screen + App icon
+- Faz I: SwiftLint clean + XCUITest smoke suite + accessibility identifiers
+- Faz J: Documentation + v1.0.0 release tag
+- DEV-14/15: v1.0.0 ship-state verification + ground-truth state snapshot
+
+---
+
 ## [v1.0-I2] — XCUITest Smoke Suite + A11y Identifiers (2026-05-25)
 
 ### Accessibility Identifiers (I2-1)
