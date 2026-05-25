@@ -8,20 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */; };
+		0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E553228972F7FFB0F8EF868 /* PackDetailView.swift */; };
+		10623549868FE8396ECC486F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */; };
 		273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C00CEC5196A0D5872A0987F /* GridView.swift */; };
+		3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFCBE768527FBA636F28AAC /* PauseSheet.swift */; };
+		3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */; };
+		4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */; };
+		444F7CB06012B558C55FAB4E /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F81B0BF6C5026D4F9FC3A79 /* RootView.swift */; };
 		4749283EBBBBBB741384B951 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019EC211A8ED76E9C4687A0 /* Shadow.swift */; };
+		4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A09BB21B2EEF8E2743976A /* MockData.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
 		530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */; };
 		55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 43AB9381ED7582889EB0EEBB /* SnugloEngine */; };
+		671380526D8771553DAB020C /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B3058ED0483F23D8F2EE68 /* MainMenuView.swift */; };
+		6DD60010AA6AF89DF48BEA12 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA13FC12B31478959E864E28 /* SplashView.swift */; };
 		754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
 		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
 		9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */; };
+		9838478E2A8975B130C8C64E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D61C90179BE05FFF34656B /* StatsView.swift */; };
+		9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB0452088EF7C80E88FA92 /* ShopView.swift */; };
+		AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650F634142598BE8F4F9EF2E /* AppRouter.swift */; };
+		B5E79EF3B2CF3C19DD61D17D /* LevelsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9108A42E5610C41AE40E940 /* LevelsListView.swift */; };
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
+		D7574A18719733E0B493964F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818EF1009A596F19A02F3237 /* OnboardingView.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
+		F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C5711F1CFFED37058BD01 /* BottomTabBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,21 +51,36 @@
 
 /* Begin PBXFileReference section */
 		02900C8FA9C484E97BDE5D58 /* SnugloAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCompleteSheet.swift; sourceTree = "<group>"; };
+		071C5711F1CFFED37058BD01 /* BottomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabBar.swift; sourceTree = "<group>"; };
 		15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "snuglo--AnsD1"; path = ..; sourceTree = SOURCE_ROOT; };
+		34D61C90179BE05FFF34656B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		38668694A881387CCF58C9CA /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		5E553228972F7FFB0F8EF868 /* PackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackDetailView.swift; sourceTree = "<group>"; };
 		60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloApp.swift; sourceTree = "<group>"; };
 		645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
+		650F634142598BE8F4F9EF2E /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		6AFCBE768527FBA636F28AAC /* PauseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSheet.swift; sourceTree = "<group>"; };
 		6B377C02F73E5F9D8712B20B /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
+		71A09BB21B2EEF8E2743976A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		8F81B0BF6C5026D4F9FC3A79 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		9C00CEC5196A0D5872A0987F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculatorTests.swift; sourceTree = "<group>"; };
 		A702C36C13CE76BA82748DED /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculator.swift; sourceTree = "<group>"; };
+		B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		D9108A42E5610C41AE40E940 /* LevelsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsListView.swift; sourceTree = "<group>"; };
+		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
+		EA13FC12B31478959E864E28 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
+		F4B3058ED0483F23D8F2EE68 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,12 +103,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E6C2C9312A1B273156E3540 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				818EF1009A596F19A02F3237 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		1767C811E499CE379D978EA8 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
 				15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		1AF4CAA7EEBCCECA243FE673 /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				D9108A42E5610C41AE40E940 /* LevelsListView.swift */,
+			);
+			path = Levels;
+			sourceTree = "<group>";
+		};
+		360562F81B5DA39774190494 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				DBAB0452088EF7C80E88FA92 /* ShopView.swift */,
+			);
+			path = Shop;
 			sourceTree = "<group>";
 		};
 		3E6F161CD2F8B824209000B5 /* snuglo--AnsD1 */ = {
@@ -88,6 +142,30 @@
 			);
 			name = "snuglo--AnsD1";
 			path = ..;
+			sourceTree = "<group>";
+		};
+		443DC6ACA1481644D9AB2B7B /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				EA13FC12B31478959E864E28 /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		44E4BF646D4293E17EC9B777 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				071C5711F1CFFED37058BD01 /* BottomTabBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		47E33B1C09C7312E06CE1CE3 /* PackDetail */ = {
+			isa = PBXGroup;
+			children = (
+				5E553228972F7FFB0F8EF868 /* PackDetailView.swift */,
+			);
+			path = PackDetail;
 			sourceTree = "<group>";
 		};
 		4BAC45F5A50B2C4A143423A6 /* SnugloAppTests */ = {
@@ -108,12 +186,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6BA2BD1DFAA0BBB648F22DA9 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				71A09BB21B2EEF8E2743976A /* MockData.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		A205DEB565F160DB0EB17E6B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		BC8CA339462A1B3DBB39AC35 = {
 			isa = PBXGroup;
 			children = (
 				E704AF9A2C4909919E8EFB76 /* App */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				BDF0424E12B0048C1ED49C5C /* Features */,
+				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				1767C811E499CE379D978EA8 /* Packages */,
 				3E6F161CD2F8B824209000B5 /* snuglo--AnsD1 */,
 				56CD682D8D86026C7C6B6A0F /* Products */,
@@ -124,16 +219,52 @@
 			isa = PBXGroup;
 			children = (
 				F7CBB66B0B72A55E65EBB05D /* Game */,
+				C85B97EDA463D5E44D03BF34 /* LevelComplete */,
+				1AF4CAA7EEBCCECA243FE673 /* Levels */,
+				C79BE83DC9ADDC83CDBB318D /* Menu */,
+				D1E4B123B09AD8135875637C /* Navigation */,
+				0E6C2C9312A1B273156E3540 /* Onboarding */,
+				47E33B1C09C7312E06CE1CE3 /* PackDetail */,
+				F64E4C4226861CE2C7AB1050 /* Pause */,
+				A205DEB565F160DB0EB17E6B /* Settings */,
+				360562F81B5DA39774190494 /* Shop */,
+				443DC6ACA1481644D9AB2B7B /* Splash */,
+				F12EAE5AF34AECC4ED01FA3B /* Stats */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		C79BE83DC9ADDC83CDBB318D /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				F4B3058ED0483F23D8F2EE68 /* MainMenuView.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		C85B97EDA463D5E44D03BF34 /* LevelComplete */ = {
+			isa = PBXGroup;
+			children = (
+				05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */,
+			);
+			path = LevelComplete;
 			sourceTree = "<group>";
 		};
 		CA3FFCE8583420473DAB2C0F /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				44E4BF646D4293E17EC9B777 /* Components */,
 				E61ECDF1E7283589003957A1 /* Theme */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		D1E4B123B09AD8135875637C /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				8F81B0BF6C5026D4F9FC3A79 /* RootView.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		E61ECDF1E7283589003957A1 /* Theme */ = {
@@ -151,6 +282,7 @@
 		E704AF9A2C4909919E8EFB76 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				650F634142598BE8F4F9EF2E /* AppRouter.swift */,
 				60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */,
 			);
 			path = App;
@@ -164,6 +296,22 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		F12EAE5AF34AECC4ED01FA3B /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				34D61C90179BE05FFF34656B /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		F64E4C4226861CE2C7AB1050 /* Pause */ = {
+			isa = PBXGroup;
+			children = (
+				6AFCBE768527FBA636F28AAC /* PauseSheet.swift */,
+			);
+			path = Pause;
+			sourceTree = "<group>";
+		};
 		F7CBB66B0B72A55E65EBB05D /* Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,14 +319,16 @@
 				38668694A881387CCF58C9CA /* GameView.swift */,
 				D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */,
 				9C00CEC5196A0D5872A0987F /* GridView.swift */,
+				FD0E2882D4179DA7A73B6477 /* PauseOverlayView.swift */,
 				B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_09DDB21E-A535-4C0E-BCB4-8A501690862F" /* . */ = {
+		"TEMP_FD62A6BA-D3A1-4CA5-8B74-3C8FA030C1AD" /* . */ = {
 			isa = PBXGroup;
 			children = (
+				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
 				BDF0424E12B0048C1ED49C5C /* Features */,
@@ -268,16 +418,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */,
 				91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */,
+				F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
+				4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */,
+				B5E79EF3B2CF3C19DD61D17D /* LevelsListView.swift in Sources */,
+				671380526D8771553DAB020C /* MainMenuView.swift in Sources */,
+				4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */,
+				D7574A18719733E0B493964F /* OnboardingView.swift in Sources */,
+				0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */,
+				3A69CE6071AD1654EA085B06 /* PauseOverlayView.swift in Sources */,
+				3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */,
 				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
+				444F7CB06012B558C55FAB4E /* RootView.swift in Sources */,
+				10623549868FE8396ECC486F /* SettingsView.swift in Sources */,
 				4749283EBBBBBB741384B951 /* Shadow.swift in Sources */,
+				9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */,
 				9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */,
 				C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */,
 				D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */,
+				6DD60010AA6AF89DF48BEA12 /* SplashView.swift in Sources */,
+				9838478E2A8975B130C8C64E /* StatsView.swift in Sources */,
 				4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
