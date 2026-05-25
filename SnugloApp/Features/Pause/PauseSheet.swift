@@ -1,181 +1,130 @@
 import SwiftUI
 
-// MARK: — PauseSheet (Screen 07)
-// Design reference: Designs/html/07-pause-overlay.html
-//
-// Presented as .sheet over GameView.
-// Resume / Restart / Quit to main menu.
-// Shows frozen elapsed time.
+// MARK: — PauseSheet
+// Ref: Designs/html/07-pause-overlay.html
+// Sheet content — dimmed overlay with Resume/Restart/Quit buttons.
+// Sound/Haptics inline toggles via AppStorage.
 
 struct PauseSheet: View {
 
-    let elapsedSeconds: Int
-    let onResume: () -> Void
-    let onRestart: () -> Void
-    let onQuit: () -> Void
+    @Environment(\.dismiss) private var dismiss
+    @AppStorage("soundEnabled")   private var soundEnabled   = true
+    @AppStorage("hapticsEnabled") private var hapticsEnabled = true
 
-    // Settings toggles (UI placeholder — actual implementation Faz F)
-    @State private var soundEnabled = true
-    @State private var hapticsEnabled = true
+    var onResume: () -> Void  = {}
+    var onRestart: () -> Void = {}
+    var onQuit: () -> Void    = {}
+
+    var elapsedSeconds: Int = 73   // placeholder
 
     var body: some View {
-        ZStack {
-            AppColors.background.ignoresSafeArea()
+        VStack(spacing: AppSpacing.xl) {
+            // — Handle —
+            RoundedRectangle(cornerRadius: 3)
+                .fill(AppColors.outlineVariant)
+                .frame(width: 40, height: 5)
+                .padding(.top, AppSpacing.sm)
 
-            VStack(spacing: AppSpacing.xl) {
-                handle
+            // — Title —
+            Text("Paused")
+                .font(AppTypography.headlineLarge)
+                .tracking(-0.6)
+                .foregroundStyle(AppColors.onSurface)
 
-                // Title & time
-                VStack(spacing: AppSpacing.sm) {
-                    Text("Paused")
-                        .font(AppTypography.headlineLarge)
-                        .foregroundStyle(AppColors.onSurface)
-                        .tracking(-0.6)
+            // — Timer —
+            Text(formattedTime)
+                .font(.system(size: 28, weight: .medium, design: .monospaced))
+                .foregroundStyle(AppColors.onSurfaceVariant)
 
-                    HStack(spacing: AppSpacing.xs) {
-                        Image(systemName: "timer")
-                            .font(.system(size: 18))
-                            .foregroundStyle(AppColors.onSurfaceVariant)
-
-                        Text(formatTime(elapsedSeconds))
-                            .font(AppTypography.numericLabel)
-                            .foregroundStyle(AppColors.onSurfaceVariant)
-                    }
+            // — Actions —
+            VStack(spacing: AppSpacing.sm) {
+                Button {
+                    onResume()
+                    dismiss()
+                } label: {
+                    Text("Resume")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.onPrimary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, AppSpacing.md)
+                        .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
+                .buttonStyle(.plain)
 
-                Divider()
-                    .padding(.horizontal, AppSpacing.lg)
-
-                // Action buttons
-                VStack(spacing: AppSpacing.sm) {
-                    // Resume — primary
-                    Button(action: onResume) {
-                        Text("Resume")
-                            .font(AppTypography.bodyLarge)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(AppColors.onPrimary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, AppSpacing.md)
-                            .background(AppColors.primary)
-                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
-                    }
-                    .buttonStyle(.plain)
-                    .shadowL1()
-
-                    // Restart — outlined
-                    Button(action: onRestart) {
-                        Text("Restart")
-                            .font(AppTypography.bodyLarge)
-                            .foregroundStyle(AppColors.onSurface)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, AppSpacing.md)
-                            .background(AppColors.surfaceContainerLow)
-                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                    .stroke(AppColors.outlineVariant, lineWidth: 1)
-                            )
-                    }
-                    .buttonStyle(.plain)
-
-                    // Quit — outlined / destructive tint
-                    Button(action: onQuit) {
-                        Text("Quit to Menu")
-                            .font(AppTypography.bodyLarge)
-                            .foregroundStyle(AppColors.secondary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, AppSpacing.md)
-                            .background(AppColors.surfaceContainerLow)
-                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                    .stroke(AppColors.outlineVariant, lineWidth: 1)
-                            )
-                    }
-                    .buttonStyle(.plain)
-                }
-                .padding(.horizontal, AppSpacing.lg)
-
-                Divider()
-                    .padding(.horizontal, AppSpacing.lg)
-
-                // Quick settings
-                VStack(spacing: AppSpacing.sm) {
-                    settingsRow(
-                        title: "Sound",
-                        symbol: soundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill",
-                        isOn: $soundEnabled
-                    )
-                    settingsRow(
-                        title: "Haptics",
-                        symbol: hapticsEnabled ? "waveform" : "waveform.slash",
-                        isOn: $hapticsEnabled
-                    )
-                }
-                .padding(.horizontal, AppSpacing.lg)
-
-                Spacer()
-            }
-            .padding(.top, AppSpacing.sm)
-        }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-        .presentationCornerRadius(AppRadius.card)
-    }
-
-    // MARK: — Sub-views
-
-    private var handle: some View {
-        Capsule()
-            .fill(AppColors.outlineVariant)
-            .frame(width: 36, height: 4)
-    }
-
-    private func settingsRow(title: String, symbol: String, isOn: Binding<Bool>) -> some View {
-        HStack {
-            HStack(spacing: AppSpacing.sm) {
-                ZStack {
-                    Circle()
-                        .fill(AppColors.surfaceContainerHigh)
-                        .frame(width: 36, height: 36)
-                    Image(systemName: symbol)
-                        .font(.system(size: 16))
+                Button {
+                    onRestart()
+                    dismiss()
+                } label: {
+                    Text("Restart")
+                        .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.primary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, AppSpacing.md)
+                        .background(
+                            RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                                .stroke(AppColors.primary, lineWidth: 1.5)
+                        )
                 }
+                .buttonStyle(.plain)
 
-                Text(title)
-                    .font(AppTypography.bodyLarge)
-                    .foregroundStyle(AppColors.onSurface)
+                Button {
+                    onQuit()
+                    dismiss()
+                } label: {
+                    Text("Home")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.secondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, AppSpacing.md)
+                        .background(
+                            RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                                .stroke(AppColors.outlineVariant, lineWidth: 1.5)
+                        )
+                }
+                .buttonStyle(.plain)
             }
 
-            Spacer()
+            Divider()
+                .padding(.horizontal, AppSpacing.xs)
 
-            Toggle("", isOn: isOn)
-                .labelsHidden()
-                .tint(AppColors.primary)
+            // — Quick toggles —
+            HStack(spacing: AppSpacing.xl) {
+                togglePill(label: "Sound", isOn: $soundEnabled,   icon: "speaker.wave.2.fill")
+                togglePill(label: "Haptics", isOn: $hapticsEnabled, icon: "hand.tap.fill")
+            }
+
+            Spacer(minLength: 0)
         }
+        .padding(.horizontal, AppSpacing.lg)
+        .background(AppColors.surface)
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.hidden)
     }
 
     // MARK: — Helpers
 
-    private func formatTime(_ seconds: Int) -> String {
-        let m = seconds / 60
-        let s = seconds % 60
+    private var formattedTime: String {
+        let m = elapsedSeconds / 60
+        let s = elapsedSeconds % 60
         return String(format: "%02d:%02d", m, s)
+    }
+
+    private func togglePill(label: String, isOn: Binding<Bool>, icon: String) -> some View {
+        VStack(spacing: AppSpacing.xs) {
+            Toggle("", isOn: isOn)
+                .labelsHidden()
+                .tint(AppColors.primary)
+            Label(label, systemImage: icon)
+                .font(AppTypography.labelSmall)
+                .tracking(0.3)
+                .foregroundStyle(AppColors.onSurfaceVariant)
+        }
     }
 }
 
-// MARK: — Preview
-
 #Preview {
-    Color.gray.opacity(0.3)
-        .ignoresSafeArea()
+    Text("Game underneath")
         .sheet(isPresented: .constant(true)) {
-            PauseSheet(
-                elapsedSeconds: 73,
-                onResume: {},
-                onRestart: {},
-                onQuit: {}
-            )
+            PauseSheet(elapsedSeconds: 73)
         }
 }

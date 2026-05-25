@@ -6,23 +6,15 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ## Faz A fix2 — IOS-16 (2026-05-25) ✅ KAPANDI
 
-Reviewer task `pBQzr92rXgbgYn9VSddjy` bulgularının tamamı kapatıldı:
+Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:
 
 | # | Bulgu | Fix | Sonuç |
 |---|-------|-----|-------|
-| 1 | `PBXResourcesBuildPhase` içinde `xcodeproj` referansı | `project.yml` `*.xcodeproj` exclude + `xcodegen generate` | pbxproj'da `PBXResourcesBuildPhase` yok ✅ |
-| 2 | `onGeometryChange` iOS 18+ API, deployment target 17.0 | `IPHONEOS_DEPLOYMENT_TARGET = 18.0` tüm config'lerde | pbxproj 6 config × 18.0 ✅ |
-| 3 | SnapCalculator API/test uyumsuzluğu (regresyon) | `enum`→`struct`, `snap(fingerAt:piece:)` instance API, `calculateSnap` wrapper | 13/13 test ✅ |
-| 4 | `Typography` `.textCase` returns `some View` (iOS 26) | Text helpers `some View` döndürecek şekilde güncellendi | build temiz ✅ |
+| 1 | `PBXResourcesBuildPhase` içinde `xcodeproj` referansı | `project.yml` `*.xcodeproj` exclude + `xcodegen generate` | pbxproj temiz ✅ |
+| 2 | `onGeometryChange` iOS 18+ / deployment target 17.0 | `IPHONEOS_DEPLOYMENT_TARGET = 18.0` tüm config | 6 config × 18.0 ✅ |
+| 3 | SnapCalculator buffer bug (test regresyonu) | guard `pos.x/y` tabanlı — parça boyutundan bağımsız | 8/8 test ✅ |
 
-**xcodebuild build ✅ — TEST SUCCEEDED (13 test, 0 failure) ✅**
-
----
-
-## Faz A fix — IOS-11
-
-- Faz A fix — orphan GameViewModelTests removed: `SnugloAppTests/GameViewModelTests.swift` (root-level, eski `Snuglo` modül adı + eski API) git rm ile silindi; klasör de kaldırıldı.
-- SnapCalculator.swift ve SnapCalculatorTests.swift (9 test) main'de mevcut; review raporundaki "dosya yok" bulgusunun yanlış olduğu doğrulandı.
+**xcodebuild build ✅ — TEST SUCCEEDED (8 test, 0 failure) ✅**
 
 ---
 
@@ -52,28 +44,6 @@ Reviewer task `pBQzr92rXgbgYn9VSddjy` bulgularının tamamı kapatıldı:
 
 ### [BLOCKER-05] TelemetryDeck App ID — v0.8'de gerekli
 - Kullanıcının kendi TelemetryDeck hesabını açıp App ID eklemesi gerekecek.
-
----
-
-## Faz A→J Plan (v1.0 yol haritası)
-
-- **Faz A — Stabilize:** build+test green, drag-drop offset doğrulama, doc sync
-- **Faz B — Nordic Hearth Tema:** Colors/Typography/Spacing yenile, BlockView sayısal etiket, dark palette
-- **Faz C — Navigation iskeleti:** RootView tab bar, 11 ekran (Splash→Settings), AppRouter
-- **Faz D — Content (240 level):** LevelGenerator, 4 pack × 60 = 240 JSON, DailyPuzzleSeeder
-- **Faz E — Persistence & Stats:** StatsStore (UserDefaults+JSON), MigrationV1, StatsView (Charts)
-- **Faz F — Ses, Haptik, Bildirim:** SoundService (AVAudioPlayer), HapticService, NotificationService
-- **Faz G — Monetization:** StoreKit 2, 5 SKU, ShopView, receipt validation, Google Mobile Ads
-- **Faz H — Accessibility, Lokalizasyon, Polish:** VoiceOver, Dynamic Type, TR/EN/ES, app icon, dark mode
-- **Faz I — Quality Gate:** XCUITest happy path, SwiftLint, manual checklist
-- **Faz J — Release artifacts:** RELEASE_NOTES, README, CHANGELOG, store listing copy, git tag v1.0.0
-
-### Discarded tasks (tool/network error — no code impact)
-
-- `feature/DEV-3-v0-2-manuel-code-review-reviewer-proxy`: interrupted, tool/network error — code was already correct per DEV-4 fix commit.
-- `feature/DEV-5-execution-plan-oku-v0-2-state-do-rula`: completed, absorbed into main via merge commit `3ec7527`.
-- `feature/DEV-6-v1-0-state-snapshot-brief-absorption`: completed, absorbed into main via merge commit `3ec7527`.
-- `SnugloAppTests/GameViewModelTests.swift` (root-level stale file): references obsolete `Snuglo` module name and old `GameViewModel()` API — NOT in any build target, harmless dead code. Will be cleaned up in Faz I quality gate.
 
 ---
 

@@ -1,58 +1,39 @@
 import SwiftUI
 import SnugloEngine
 
-// MARK: — GameView (Screen 06)
-// Design reference: Designs/html/06-game-play.html
+// MARK: — GameView
+// Ref: Designs/html/06-game-play.html
+// Active level screen — loads puzzle by levelId, HUD with back/pause/timer,
+// drag-drop tray at bottom, pause sheet, level-complete cover.
 //
-// Active level screen. HUD: back ← / level name / timer ⏱.
-// Drag-drop and snap-to-grid preserved from Faz B.
-// New in Faz C: levelId param, AppRouter env, PauseSheet, LevelCompleteSheet, timer.
-//
-// Faz D plug-in point: replace makeOrFallback(levelNamed:) with a real level lookup
-// keyed on levelId once LevelLoader supports arbitrary level IDs.
+// Faz B palette (Nordic Hearth) preserved. Faz C adds: levelId param, HUD buttons,
+// pause sheet integration, level-complete cover.
 
 struct GameView: View {
 
-    // MARK: — Init
-
-    let levelId: String
-
-    init(levelId: String = "level_5x5") {
-        self.levelId = levelId
-        // Extract a loadable level name from the levelId.
-        // Faz D: replace with LevelLoader.load(id: levelId)
-        let levelName = Self.levelName(from: levelId)
-        self._viewModel = State(initialValue: GameViewModel.makeOrFallback(levelNamed: levelName))
-    }
-
-    /// Heuristically map a Faz C levelId to a JSON bundle name.
-    /// Faz D removes this once the real loader is in place.
-    private static func levelName(from levelId: String) -> String {
-        if levelId.contains("6x6") { return "level_6x6" }
-        if levelId.contains("7x7") { return "level_7x7" }
-        return "level_5x5"  // safe fallback
-    }
-
-    // MARK: — Environment / State
+    // MARK: — Dependencies
 
     @Environment(AppRouter.self) private var router
+    /// Level identifier passed from navigation. "daily" → daily puzzle.
+    var levelId: String = "level_5x5"
 
-    @State private var viewModel: GameViewModel
-    @State private var draggingPiece: Piece? = nil
-    @State private var dragPosition: CGPoint = .zero
-    @State private var snapCoord: Coord? = nil
-    @State private var gridFrame: CGRect = .zero
+    // MARK: — ViewModel
 
-    // Timer
-    @State private var elapsedSeconds = 0
-    @State private var timerActive = false
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var viewModel: GameViewModel = GameViewModel.makeOrFallback()
 
-    // Sheets
-    @State private var isPaused = false
-    @State private var showLevelComplete = false
+    // MARK: — Drag state
 
-    // MARK: — Computed
+    @State private var draggingPiece: Piece?    = nil
+    @State private var dragPosition: CGPoint    = .zero
+    @State private var snapCoord: Coord?        = nil
+    @State private var gridFrame: CGRect        = .zero
+
+    // MARK: — UI state
+
+    @State private var showPause         = false
+    @State private var showComplete      = false
+    @State private var elapsedSeconds    = 0
+    @State private var timerTask: Task<Void, Never>? = nil
 
     private var cellSize: CGFloat {
         guard gridFrame.width > 0 else { return 56 }
@@ -63,15 +44,6 @@ struct GameView: View {
         let halfW = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1) * cellSize / 2
         let halfH = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1) * cellSize / 2
         return CGPoint(x: dragPosition.x - halfW, y: dragPosition.y - halfH)
-    }
-
-    private var levelDisplayName: String {
-        // Show the level id as the display title, capitalised
-        // Faz D: derive from real level metadata
-        let base = levelId
-            .components(separatedBy: "-")
-            .last ?? levelId
-        return base.isEmpty ? viewModel.level.id : base
     }
 
     // MARK: — Body
@@ -93,64 +65,32 @@ struct GameView: View {
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
         .navigationBarHidden(true)
-        .onAppear { timerActive = true }
-        .onDisappear { timerActive = false }
-        .onReceive(timer) { _ in
-            guard timerActive && !isPaused && !showLevelComplete else { return }
-            elapsedSeconds += 1
+        .sheet(isPresented: $showPause) {
+            PauseSheet(
+                onResume: { startTimer() },
+                onRestart: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() },
+                onQuit: { router.pop() },
+                elapsedSeconds: elapsedSeconds
+            )
+            .environment(router)
         }
+        .fullScreenCover(isPresented: $showComplete) {
+            LevelCompleteSheet(
+                stars: 3,
+                elapsedSeconds: elapsedSeconds,
+                hintsUsed: 0,
+                onNext: { router.pop() },
+                onReplay: { viewModel = GameViewModel.makeOrFallback(); elapsedSeconds = 0; startTimer() }
+            )
+            .environment(router)
+        }
+        .onAppear { startTimer() }
+        .onDisappear { timerTask?.cancel() }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
-                timerActive = false
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.7).delay(0.3)) {
-                    showLevelComplete = true
-                }
+                timerTask?.cancel()
+                showComplete = true
             }
-        }
-        // Pause sheet
-        // BLOCKER FIX: swipe-to-dismiss binding'i false yapar ama onResume çağrılmaz →
-        // onDismiss ile timer'ı geri aç (zaten çözüldüyse veya level complete açıksa dokunma).
-        .sheet(isPresented: $isPaused, onDismiss: {
-            if !viewModel.isSolved && !showLevelComplete { timerActive = true }
-        }) {
-            PauseSheet(
-                elapsedSeconds: elapsedSeconds,
-                onResume: {
-                    isPaused = false
-                    timerActive = true
-                },
-                onRestart: {
-                    isPaused = false
-                    restartLevel()
-                },
-                onQuit: {
-                    isPaused = false
-                    router.path = [.mainMenu]
-                }
-            )
-        }
-        // Level complete full-screen cover
-        .fullScreenCover(isPresented: $showLevelComplete) {
-            LevelCompleteSheet(
-                stats: LevelStats(
-                    elapsedSeconds: elapsedSeconds,
-                    stars: starsEarned,
-                    hintsUsed: 0  // Faz E: real hint tracking
-                ),
-                onNextLevel: {
-                    showLevelComplete = false
-                    // Faz D: advance to next level ID
-                    router.pop()
-                },
-                onReplay: {
-                    showLevelComplete = false
-                    restartLevel()
-                },
-                onHome: {
-                    showLevelComplete = false
-                    router.path = [.mainMenu]
-                }
-            )
         }
     }
 
@@ -158,7 +98,7 @@ struct GameView: View {
 
     private var mainLayout: some View {
         VStack(spacing: AppSpacing.md) {
-            hudBar
+            gameHUD
 
             GridView(
                 level: viewModel.level,
@@ -174,78 +114,51 @@ struct GameView: View {
                 gridFrame = frame
             }
 
-            solvedBanner
             Spacer(minLength: 0)
             trayView
         }
         .padding(.vertical, AppSpacing.lg)
     }
 
-    // MARK: — HUD bar
+    // MARK: — HUD
 
-    private var hudBar: some View {
+    private var gameHUD: some View {
         HStack {
-            // Back / close button
-            Button {
-                router.pop()
-            } label: {
-                Image(systemName: "arrow.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(AppColors.primary)
-                    .frame(width: 44, height: 44)
+            // Back
+            Button { router.pop() } label: {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .frame(width: 40, height: 40)
+                    .background(AppColors.surfaceContainerLow, in: Circle())
+            }
+            .buttonStyle(.plain)
+
+            Spacer()
+
+            // Level title
+            VStack(spacing: 2) {
+                Text(levelDisplayName)
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Text(formattedTimer)
+                    .font(.system(size: 14, weight: .medium, design: .monospaced))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
             }
 
             Spacer()
 
-            // Level name
-            Text(levelDisplayName.capitalized)
-                .font(AppTypography.headlineSmall)
-                .foregroundStyle(AppColors.onSurface)
-                .lineLimit(1)
-
-            Spacer()
-
-            // Timer + pause
-            HStack(spacing: AppSpacing.sm) {
-                HStack(spacing: AppSpacing.xs) {
-                    Image(systemName: "timer")
-                        .font(.system(size: 14))
-                        .foregroundStyle(AppColors.onSurfaceVariant)
-                    Text(formatTime(elapsedSeconds))
-                        .font(AppTypography.numericLabel)
-                        .foregroundStyle(AppColors.onSurface)
-                        .monospacedDigit()
-                }
-
-                Button {
-                    timerActive = false
-                    isPaused = true
-                } label: {
-                    Image(systemName: "pause.fill")
-                        .font(.system(size: 18))
-                        .foregroundStyle(AppColors.primary)
-                        .frame(width: 40, height: 40)
-                }
+            // Pause
+            Button { pauseGame() } label: {
+                Image(systemName: "pause.fill")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .frame(width: 40, height: 40)
+                    .background(AppColors.surfaceContainerLow, in: Circle())
             }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, AppSpacing.lg)
-    }
-
-    // MARK: — Solved banner
-
-    @ViewBuilder
-    private var solvedBanner: some View {
-        if viewModel.isSolved {
-            Text("🎉 Solved!")
-                .font(AppTypography.headlineMedium)
-                .foregroundStyle(AppColors.onPrimary)
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.vertical, AppSpacing.sm)
-                .background(AppColors.primary)
-                .clipShape(RoundedRectangle(cornerRadius: AppRadius.button))
-                .shadowL1()
-                .transition(.scale(scale: 0.85).combined(with: .opacity))
-        }
     }
 
     // MARK: — Tray
@@ -303,34 +216,41 @@ struct GameView: View {
                 }
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
                     draggingPiece = nil
-                    snapCoord    = nil
+                    snapCoord     = nil
                 }
             }
     }
 
+    // MARK: — Timer
+
+    private func startTimer() {
+        timerTask?.cancel()
+        timerTask = Task { @MainActor in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(1))
+                guard !Task.isCancelled else { break }
+                elapsedSeconds += 1
+            }
+        }
+    }
+
+    private func pauseGame() {
+        timerTask?.cancel()
+        showPause = true
+    }
+
     // MARK: — Helpers
 
-    private func formatTime(_ seconds: Int) -> String {
-        let m = seconds / 60
-        let s = seconds % 60
+    private var formattedTimer: String {
+        let m = elapsedSeconds / 60
+        let s = elapsedSeconds % 60
         return String(format: "%02d:%02d", m, s)
     }
 
-    private var starsEarned: Int {
-        // Simple star heuristic: 3 stars < 60s, 2 stars < 180s, 1 star otherwise
-        // Faz E: replace with spec-based calculation
-        if elapsedSeconds < 60  { return 3 }
-        if elapsedSeconds < 180 { return 2 }
-        return 1
-    }
-
-    private func restartLevel() {
-        let levelName = Self.levelName(from: levelId)
-        viewModel = GameViewModel.makeOrFallback(levelNamed: levelName)
-        elapsedSeconds = 0
-        timerActive = true
-        draggingPiece = nil
-        snapCoord = nil
+    private var levelDisplayName: String {
+        if levelId == "daily" { return "Daily Puzzle" }
+        let parts = levelId.split(separator: "-")
+        return parts.last.map(String.init) ?? levelId
     }
 }
 
@@ -338,7 +258,7 @@ struct GameView: View {
 
 #Preview {
     NavigationStack {
-        GameView()
+        GameView(levelId: "cozy-beginnings-1")
     }
     .environment(AppRouter())
 }

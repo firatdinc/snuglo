@@ -1,292 +1,190 @@
 import SwiftUI
 
-// MARK: — StatsView (Screen 09)
-// Design reference: Designs/html/09-stats.html
-//
-// STATS tab. 2×2 KPI cards + weekly bar chart placeholder + donut placeholder.
-// Charts will be real in Faz E — use RoundedRectangle placeholders now.
+// MARK: — StatsView
+// Ref: Designs/html/09-stats.html
+// STATS tab: 2×2 KPI grid, weekly bar chart placeholder, hint donut placeholder.
 
 struct StatsView: View {
 
-    @Environment(AppRouter.self) private var router
+    // Mock data — replace with persistence in Faz E
+    private let kpis: [(value: String, label: String, icon: String)] = [
+        ("142",  "SOLVED",  "checkmark.circle.fill"),
+        ("48h",  "TIME",    "clock.fill"),
+        ("1:12", "FASTEST", "bolt.fill"),
+        ("14d",  "STREAK",  "flame.fill")
+    ]
+
+    private let weekdays = ["M", "T", "W", "T", "F", "S", "S"]
+    private let barHeights: [CGFloat] = [0.5, 0.7, 0.4, 0.9, 0.6, 0.3, 1.0]
+    private let todayIndex = 6  // Sunday (last bar)
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            AppColors.background.ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                topBar
-                scrollContent
-            }
-
-            BottomTabBar()
-        }
-        .navigationBarHidden(true)
-        .onAppear { router.selectedTab = .stats }
-    }
-
-    // MARK: — Top bar
-
-    private var topBar: some View {
-        HStack {
-            Button {
-                router.push(.settings)
-            } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 22))
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .frame(width: 44, height: 44)
-            }
-
-            Spacer()
-
-            Text("Snuglo")
-                .font(AppTypography.headlineMedium)
-                .foregroundStyle(AppColors.primary)
-                .tracking(-0.4)
-
-            Spacer()
-
-            // Balance spacer
-            Color.clear.frame(width: 44, height: 44)
-        }
-        .padding(.horizontal, AppSpacing.lg)
-        .frame(height: 56)
-        .background(AppColors.background)
-    }
-
-    // MARK: — Scroll content
-
-    private var scrollContent: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
-                // Header
+                // — Header —
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
                     Text("Your Stats")
                         .font(AppTypography.headlineLarge)
-                        .foregroundStyle(AppColors.onSurface)
                         .tracking(-0.6)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text("Keep the streak going 🔥")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
                 }
 
-                // 2×2 KPI grid
-                kpiGrid
-
-                // Weekly bar chart section
-                chartSection(title: "Solves Per Day", subtitle: "This week") {
-                    weeklyBarChart
+                // — 2×2 KPI grid —
+                let kpiCols = Array(repeating: GridItem(.flexible(), spacing: AppSpacing.sm), count: 2)
+                LazyVGrid(columns: kpiCols, spacing: AppSpacing.sm) {
+                    ForEach(Array(kpis.enumerated()), id: \.offset) { _, kpi in
+                        kpiCard(kpi)
+                    }
                 }
 
-                // Hint usage donut section
-                chartSection(title: "Hint Usage", subtitle: "1.2 per game") {
-                    hintDonutPlaceholder
-                }
+                // — Solves per day chart —
+                chartCard
 
-                Spacer(minLength: 80)
+                // — Hint usage donut —
+                donutCard
             }
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.md)
+            .padding(.bottom, AppSpacing.xl)
         }
+        .background(AppColors.background.ignoresSafeArea())
+        .navigationTitle("Stats")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
-    // MARK: — KPI grid
+    // MARK: — KPI card
 
-    private var kpiGrid: some View {
-        LazyVGrid(
-            columns: [GridItem(.flexible(), spacing: AppSpacing.sm), GridItem(.flexible(), spacing: AppSpacing.sm)],
-            spacing: AppSpacing.sm
-        ) {
-            kpiCard(
-                label: "SOLVED",
-                value: "\(MockData.statSolved)",
-                symbol: "checkmark.seal.fill",
-                color: AppColors.blockLavender
-            )
-            kpiCard(
-                label: "TIME",
-                value: "\(MockData.statTimeHours)h",
-                symbol: "clock.fill",
-                color: AppColors.blockSage
-            )
-            kpiCard(
-                label: "FASTEST",
-                value: MockData.statFastest,
-                symbol: "bolt.fill",
-                color: AppColors.blockPeach
-            )
-            kpiCard(
-                label: "STREAK",
-                value: "\(MockData.statStreak)d",
-                symbol: "flame.fill",
-                color: AppColors.blockBlush
-            )
-        }
-    }
-
-    private func kpiCard(label: String, value: String, symbol: String, color: Color) -> some View {
+    private func kpiCard(_ kpi: (value: String, label: String, icon: String)) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            // Icon
-            ZStack {
-                Circle()
-                    .fill(color.opacity(0.4))
-                    .frame(width: 36, height: 36)
-                Image(systemName: symbol)
-                    .font(.system(size: 16))
-                    .foregroundStyle(AppColors.primary)
-            }
+            Image(systemName: kpi.icon)
+                .font(.system(size: 20))
+                .foregroundStyle(AppColors.primary)
 
-            Spacer()
-
-            // Value
-            Text(value)
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
+            Text(kpi.value)
+                .font(.system(size: 28, weight: .semibold, design: .monospaced))
                 .foregroundStyle(AppColors.onSurface)
-                .tracking(-0.5)
 
-            // Label
-            Text(label)
+            Text(kpi.label)
                 .font(AppTypography.labelSmall)
                 .tracking(0.6)
                 .textCase(.uppercase)
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
-        .padding(AppSpacing.md)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(height: 120)
-        .background(AppColors.background)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .padding(AppSpacing.md)
+        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
+        )
         .shadowL1()
     }
 
-    // MARK: — Chart section wrapper
+    // MARK: — Weekly bar chart
 
-    private func chartSection<Content: View>(
-        title: String,
-        subtitle: String,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
+    private var chartCard: some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
-            VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                Text(title)
-                    .font(AppTypography.headlineSmall)
-                    .foregroundStyle(AppColors.onSurface)
+            Text("Solves per day")
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
 
-                Text(subtitle)
-                    .font(AppTypography.bodyMedium)
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-            }
-
-            content()
-        }
-    }
-
-    // MARK: — Weekly bar chart (Faz E: real Chart; Faz C: bar view)
-
-    private var weeklyBarChart: some View {
-        VStack(spacing: AppSpacing.md) {
-            // Bars
             HStack(alignment: .bottom, spacing: AppSpacing.sm) {
-                ForEach(MockData.weeklyBar, id: \.day) { item in
+                ForEach(Array(zip(weekdays, barHeights).enumerated()), id: \.offset) { i, pair in
                     VStack(spacing: AppSpacing.xs) {
-                        let maxCount = MockData.weeklyBar.map(\.count).max() ?? 1
-                        let fraction = maxCount > 0 ? Double(item.count) / Double(maxCount) : 0
-
-                        Spacer()
-
                         RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(item.isToday ? AppColors.primary : AppColors.primaryContainer.opacity(0.5))
-                            .frame(height: max(4, CGFloat(fraction) * 90))
-                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: fraction)
+                            .fill(i == todayIndex ? AppColors.primary : AppColors.blockBlush.opacity(0.7))
+                            .frame(height: 80 * pair.1)
+                            .frame(maxWidth: .infinity)
 
-                        Text(item.day)
+                        Text(pair.0)
                             .font(AppTypography.labelSmall)
-                            .foregroundStyle(item.isToday ? AppColors.primary : AppColors.onSurfaceVariant)
+                            .foregroundStyle(i == todayIndex ? AppColors.primary : AppColors.onSurfaceVariant)
                     }
-                    .frame(maxWidth: .infinity)
                 }
             }
-            .frame(height: 110)
-            .padding(AppSpacing.md)
-            .background(AppColors.surfaceContainerLow)
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .shadowL1()
-
-            Text("Full chart · Faz E")
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
-                .foregroundStyle(AppColors.outlineVariant)
-                .frame(maxWidth: .infinity, alignment: .center)
+            .frame(height: 100)
         }
+        .padding(AppSpacing.md)
+        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
+        )
+        .shadowL1()
     }
 
-    // MARK: — Hint donut placeholder
+    // MARK: — Hint usage donut
 
-    private var hintDonutPlaceholder: some View {
-        VStack(spacing: AppSpacing.md) {
-            ZStack {
-                AppColors.surfaceContainerLow
-                    .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-                    .shadowL1()
+    private var donutCard: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("Hint usage")
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
 
-                HStack(spacing: AppSpacing.xl) {
-                    // Donut outline placeholder
-                    ZStack {
-                        Circle()
-                            .stroke(AppColors.surfaceContainerHighest, lineWidth: 18)
-                            .frame(width: 90, height: 90)
+            HStack(spacing: AppSpacing.xl) {
+                // Donut placeholder
+                ZStack {
+                    Circle()
+                        .stroke(AppColors.surfaceContainerHigh, lineWidth: 16)
+                        .frame(width: 100, height: 100)
 
-                        Circle()
-                            .trim(from: 0, to: 0.55)
-                            .stroke(AppColors.primaryContainer, style: StrokeStyle(lineWidth: 18, lineCap: .round))
-                            .frame(width: 90, height: 90)
-                            .rotationEffect(.degrees(-90))
+                    Circle()
+                        .trim(from: 0, to: 0.55)
+                        .stroke(AppColors.primary, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 100, height: 100)
 
-                        Circle()
-                            .trim(from: 0.55, to: 0.8)
-                            .stroke(AppColors.blockSage, style: StrokeStyle(lineWidth: 18, lineCap: .round))
-                            .frame(width: 90, height: 90)
-                            .rotationEffect(.degrees(-90))
+                    Circle()
+                        .trim(from: 0.55, to: 0.85)
+                        .stroke(AppColors.primaryContainer, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                        .frame(width: 100, height: 100)
+
+                    VStack(spacing: 0) {
+                        Text("1.2")
+                            .font(.system(size: 18, weight: .semibold, design: .monospaced))
+                            .foregroundStyle(AppColors.onSurface)
+                        Text("per game")
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundStyle(AppColors.onSurfaceVariant)
                     }
-
-                    // Legend
-                    VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                        legendItem(color: AppColors.primaryContainer, label: "No hints")
-                        legendItem(color: AppColors.blockSage, label: "1–2 hints")
-                        legendItem(color: AppColors.surfaceContainerHighest, label: "3+ hints")
-                    }
-
-                    Spacer()
                 }
-                .padding(AppSpacing.md)
-            }
-            .frame(height: 130)
 
-            Text("Full donut chart · Faz E")
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
-                .foregroundStyle(AppColors.outlineVariant)
-                .frame(maxWidth: .infinity, alignment: .center)
+                // Legend
+                VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                    legendRow(color: AppColors.surfaceContainerHigh, label: "No hints", value: "55%")
+                    legendRow(color: AppColors.primaryContainer,    label: "1–2 hints",  value: "30%")
+                    legendRow(color: AppColors.primary,             label: "3+ hints",   value: "15%")
+                }
+            }
         }
+        .padding(AppSpacing.md)
+        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
+        )
+        .shadowL1()
     }
 
-    private func legendItem(color: Color, label: String) -> some View {
+    private func legendRow(color: Color, label: String, value: String) -> some View {
         HStack(spacing: AppSpacing.sm) {
-            Circle()
-                .fill(color)
-                .frame(width: 10, height: 10)
+            Circle().fill(color).frame(width: 10, height: 10)
             Text(label)
                 .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurface)
+            Spacer()
+            Text(value)
+                .font(.system(size: 13, weight: .medium, design: .monospaced))
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
     }
 }
 
-// MARK: — Preview
-
 #Preview {
-    NavigationStack {
-        StatsView()
-    }
-    .environment(AppRouter())
+    NavigationStack { StatsView() }
+        .environment(AppRouter())
 }

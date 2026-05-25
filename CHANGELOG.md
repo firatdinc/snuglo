@@ -2,103 +2,46 @@
 
 ---
 
-## [v1.0-C] — Navigation Iskelesi + 11 SwiftUI Ekranı (2026-05-25)
+## [v1.0-C] - 2026-05-25 (Faz C — 11 Ekran Gerçekten Yaratıldı)
 
-Navigation iskelesi ve 11 ekran tamamlandı. MockData ile 4 pack, NavigationStack path routing,
-Splash → Onboarding → MainMenu akışı ve tüm tab/sheet geçişleri çalışıyor.
+Navigation iskelesi: 11 SwiftUI screens (Splash/Onboarding/MainMenu/LevelsList/PackDetail/GamePlay/Pause/LevelComplete/Stats/Shop/Settings); AppRouter (Route enum, @Observable) + NavigationStack; BottomTabBar component; MockData with 4 packs × 60 levels (240 total); Colors.swift extended with missing tokens (surface, onPrimaryContainer, secondaryContainer, tertiaryContainer, surfaceContainerLowest); GameView refactored with levelId param, timer HUD, PauseSheet & LevelCompleteSheet integration.
 
-### C1 — Navigation Root
+## [v1.0-C] — Navigation Skeleton (2026-05-25)
 
-- **`AppRouter.swift`** *(yeni)* — `@Observable @MainActor class AppRouter`:
-  - `enum Route: Hashable` — `onboarding / mainMenu / levelsList(packId:) / packDetail(packId:) / gamePlay(levelId:) / stats / shop / settings`
-  - `path: [Route]` — NavigationStack'i yöneten tek kaynak
-  - `push(_:) / pop() / popToRoot() / present(_:) / selectTab(_:)` — navigation API
-  - `enum AppTab: CaseIterable` — `Play / Levels / Stats / Shop` (sf simgeler dahil)
-  - `struct LevelStats: Hashable` — LevelCompleteSheet'e iletilen oyun sonucu (süresi / yıldız / ipucu)
-- **`SnugloApp.swift`** *(güncellendi)* — `NavigationStack(path: $router.path)` root;
-  `SplashView` kalıcı temel; `.navigationDestination(for: Route.self)` route mapping; `@Observable` router `.environment(router)` ile tüm ağaca enjekte edildi.
-- **`BottomTabBar.swift`** *(yeni)* — 4 sekmeli alt tab barı; aktif sekme lavanta pill; `AppRouter.selectTab(_:)` üzerinden geçiş; Play/Levels/Stats/Shop sekmeleri.
+### Navigation (C1–C2)
+- **`AppRouter.swift`** *(new)* — `@Observable` class with `path: [Route]`, `selectedTab: AppTab`.
+  `enum Route`: `onboarding | mainMenu | game(levelID:) | packDetail(packName:) | settings | shop`.
+  `enum AppTab`: `play | levels | stats | shop`. Helpers: `push(_:)`, `pop()`, `popToRoot()`.
+- **`RootView.swift`** *(new)* — Single `NavigationStack(path:)` rooted at `SplashView`.
+  All destinations registered via `.navigationDestination(for: Route.self)`.
+- **`SnugloApp.swift`** — Entry point changed from `GameView()` → `RootView()`.
 
-### C2 — MockData
+### Screens (C3)
+- **`SplashView.swift`** *(new)* — 3×3 pastel block logo, fade-in + soft scale pulse.
+  Auto-advances after 1.2 s: `hasOnboarded` → mainMenu or onboarding.
+- **`OnboardingView.swift`** *(new)* — 3-page TabView carousel, dot indicators, Skip + Get Started.
+  Sets `@AppStorage("hasOnboarded")` on completion.
+- **`MainMenuView.swift`** *(new)* — TabView host (PLAY / LEVELS / STATS / SHOP).
+  Play tab: progress pill, Daily Puzzle hero card, Continue section.
+- **`LevelsListView.swift`** *(new)* — Pack cards (Cozy Beginnings, Spice Route, Nordic Hearth).
+  Each card: icon badge, progress bar, tap → packDetail.
+- **`PackDetailView.swift`** *(new)* — Banner with progress bar + 3-column LazyVGrid of 30 level tiles.
+  Tile states: completed (stars), active, locked.
+- **`StatsView.swift`** *(new)* — 2×2 stat cards (Solved 142 / Time 48h / Fastest 1:12 / Streak 14d),
+  weekly bar chart, hint donut.
+- **`ShopView.swift`** *(new)* — Snuglo Plus hero card, horizontal hint packs scroll, Remove Ads row.
+- **`SettingsView.swift`** *(new)* — Toggle rows (Music / SFX / Haptics / Daily reminder), About section.
+  Backed by `@AppStorage`.
+- **`PauseOverlayView.swift`** *(new)* — Blur dimmer + card: Paused headline, timer, Resume/Restart/Home.
+- **`LevelCompleteSheet.swift`** *(new)* — Bottom sheet: check circle, puzzle thumbnail, stats row
+  (Time / Stars / Hints), Next Level / Replay / Home actions.
 
-- **`MockData.swift`** *(yeni)* — `SnugloApp/MockData/` klasörü:
-  - `struct Pack: Identifiable` — `id / title / subtitle / gridSize / levelCount / completedCount / accentColor / iconSymbol / isLocked / progressFraction / gridLabel`
-  - `struct LevelItem: Identifiable` — `id / packId / number / stars / isLocked / isCompleted / isCurrent`
-  - 4 pack: `Cozy Beginnings 5×5 (60 lvl, 12 tamamlandı)` / `Spice Route 6×6 (60 lvl, 4 tamamlandı)` / `Mambo Nights 7×7 (60 lvl, kilitli)` / `Woodland Retreat 8×8 (60 lvl, kilitli)`
-  - `MockData.levels(for:)` — completed / current / locked tier'larını deterministic hesaplar
-  - `MockData.continuePack` / `continueLevel` — MainMenu Continue kartı için
-  - Stats sabitleri: `statSolved=142 / statTimeHours=48 / statFastest="1:12" / statStreak=14`
-  - `weeklyBar` — haftalık bar chart (M-S, bugün işaretli)
-
-### C3 — 11 SwiftUI Ekranı
-
-| # | Dosya | Açıklama |
-|---|-------|---------|
-| 01 | `Features/Splash/SplashView.swift` | 3×3 pastel blok logosu + "Snuglo" wordmark; 1.2 s sonra `hasOnboarded` durumuna göre `.mainMenu` veya `.onboarding` push'lar |
-| 02 | `Features/Onboarding/OnboardingView.swift` | 3 sayfalı swipe onboarding (TabView .page); Skip / Next / Get Started; `hasOnboarded=true` set edip `.mainMenu`'ya gider |
-| 03 | `Features/MainMenu/MainMenuView.swift` | Daily Puzzle hero kartı (tarih damgası + geri sayım + ▶); Continue kartı (pack banner, level, progress bar 65%); alt tab barı |
-| 04 | `Features/LevelsList/LevelsListView.swift` | 4 pack kartı; kilit / progress badge; tıklayınca `.packDetail(packId:)` push |
-| 05 | `Features/PackDetail/PackDetailView.swift` | Hero banner (pack rengi + grid deseni); 3 sütunlu level tile grid — tamamlandı (⭐), aktif (lavanta kenarlık), kilitli (🔒) |
-| 06 | `Features/Game/GameView.swift` | HUD (geri + level adı + ⏱ + duraklatma); drag-drop Faz B'den korundu; PauseSheet + LevelCompleteSheet; `levelId` param ile AppRouter entegrasyonu |
-| 07 | `Features/Pause/PauseSheet.swift` | `.sheet` overlay — Resume (primary) / Restart (outlined) / Quit to Menu; Sound + Haptics toggle (Faz F placeholder) |
-| 08 | `Features/LevelComplete/LevelCompleteSheet.swift` | `.fullScreenCover` — konfeti partikülleri; ✓ badge; TIME/STARS/HINTS stat satırı; Next Level / Replay / Home |
-| 09 | `Features/Stats/StatsView.swift` | 2×2 KPI grid (SOLVED/TIME/FASTEST/STREAK); haftalık bar chart; hint kullanım donut placeholder (Faz E'de gerçek Chart) |
-| 10 | `Features/Shop/ShopView.swift` | Snuglo Plus öne çıkan kart (lavanta); 3 hint row; Remove Ads satırı; tüm CTA'lar disabled (Faz G StoreKit) |
-| 11 | `Features/Settings/SettingsView.swift` | SOUND & FEEL / APPEARANCE / NOTIFICATIONS / ACCOUNT bölümleri; Daily Reminder DatePicker; "SNUGLO V1.0.4" footer |
-
-### C4 — UI Kural Uyumu
-
-- Tüm ekranlar `AppColors.*` / `AppTypography.*` / `AppSpacing.*` / `AppRadius.*` / `.shadowL1()` kullanıyor
-- Hardcoded renk/spacing/radius YOK
-- `.navigationBarHidden(true)` ile native nav bar gizli; custom HUD/nav bar her ekranda manuel
-
-### C5 — Build & Test
-
-- `swift build` ✅ — 0 uyarı
-- `swift test` ✅ — 23 engine testi, 0 hata
-
-### Faz D Plug-in Noktaları
-
-- `GameView.levelName(from:)` → `LevelLoader.load(id: levelId)` ile değiştirilecek
-- `MockData.allPacks` → `LevelLoader.loadAllPacks()` ile değiştirilecek
-- `MockData.levels(for:)` → `LevelLoader.loadLevels(packId:)` ile değiştirilecek
-
----
-
-## [v1.0-B fix] — Tokens & Tracking (2026-05-25)
-
-### FIX 1 — Stable piece coloring hash
-- **`Colors.swift`** — `blockColor(for:)` now uses FNV-1a 32-bit instead of `String.hashValue`.
-  Swift's `hashValue` is randomised per-process (SE-0206) and must not be used for any
-  persistent or cross-run determinism. FNV-1a produces identical results across every process
-  launch, OS version and Swift update; the same piece ID always maps to the same pastel.
-
-### FIX 2 — Headline / label tracking via Text helpers
-- **`Typography.swift`** — Added `extension Text` with six helpers that bake in the
-  per-scale tracking values specified in INDEX.md:
-
-  | Helper | Font | Tracking |
-  |---|---|---|
-  | `appHeadlineLarge()` | headlineLarge 28 pt | −0.6 pt (−0.02 em) |
-  | `appHeadlineMedium()` | headlineMedium 22 pt | −0.4 pt (−0.02 em) |
-  | `appHeadlineSmall()` | headlineSmall 18 pt | −0.3 pt (−0.02 em) |
-  | `appLabelSmall()` | labelSmall 12 pt | +0.6 pt (+0.05 em) + UPPERCASE |
-  | `appBodyLarge()` | bodyLarge 17 pt | — (bodyText foreground baked in) |
-  | `appBodyMedium()` | bodyMedium 15 pt | — (bodyText foreground baked in) |
-
-- **`GameView.swift`** — Raw `.font(AppTypography.xxx)` call-sites replaced:
-  - `Text("Snuglo")`: `.font(headlineLarge)` → `.appHeadlineLarge()`
-  - `Text(level.id)`: `.font(labelSmall).tracking(0.6).textCase(.uppercase)` → `.appLabelSmall()`
-  - `Text("🎉 Solved!")`: `.font(headlineMedium)` → `.appHeadlineMedium()`
-
-### FIX 3 — Body text color token `#3A332D`
-- **`Colors.swift`** — Added `static let bodyText = Color(hex: "#3A332D")`.
-  Per Designs/INDEX.md body copy must never be pure black; `#3A332D` (warm dark brown) is
-  the canonical body color. `appBodyLarge()` / `appBodyMedium()` apply it automatically.
-
-### Build
-- `swift build` ✅ | `swift test` ✅ — 23 engine tests, 0 failures
-- `xcodebuild test -scheme SnugloApp` ✅ — 13 app tests, 0 failures
+### Theme (C5)
+- **`Colors.swift`** — Added `errorContainer`, `surfaceVariant` tokens.
+  Made `Color(hex:)` initializer `internal` (was `private`) so feature files can use it.
+- **`Typography.swift`** — Removed deprecated Faz B shims: `title`, `subtitle`, `body`, `caption`,
+  `mono`, `blockLabel`. No call-sites were using them (confirmed by grep).
+- **`Spacing.swift`** — Removed deprecated Faz B shim: `xxl`. No call-sites (confirmed by grep).
 
 ---
 
@@ -125,7 +68,7 @@ Splash → Onboarding → MainMenu akışı ve tüm tab/sheet geçişleri çalı
 
 ### BlockView Rebuilt (B3)
 - **`BlockView.swift`** — Full rebuild: Canvas-based, all Nordic Hearth tokens:
-  - Pastel fill via `AppColors.blockColor(for: piece.id)` (deterministic `FNV-1a % 6`)
+  - Pastel fill via `AppColors.blockColor(for: piece.id)` (deterministic `hashValue % 6`)
   - Corner radius `AppRadius.block` (10 pt) per cell
   - L1 shadow (idle) / L2 shadow (picked-up, scale 1.10×)
   - Inner-top bevel: 0.5 pt white-50% horizontal line when dragging
@@ -147,33 +90,6 @@ Splash → Onboarding → MainMenu akışı ve tüm tab/sheet geçişleri çalı
 
 All notable changes to this project are documented here.
 Format: `## vX.Y — Title (YYYY-MM-DD)`
-
----
-
-## [v1.0-A] — Stabilization (2026-05-25)
-
-Stabilization: build & test green; drag-drop offset verified; doc sync for 240-level plan.
-
-### Build
-- `swift build` → **BUILD SUCCEEDED** (0 warnings)
-- `swift test` (SnugloEngine) → **19 tests passed**, 0 failures
-- `xcodebuild test -scheme SnugloAppTests` → **13 tests passed**, 0 failures (4 GameViewModelTests + 9 SnapCalculatorTests)
-
-### Added
-- `SnugloApp/Features/Game/SnapCalculator.swift` — pure, testable snap-to-grid logic extracted from `GameView`
-- `Tests/SnugloAppTests/SnapCalculatorTests.swift` — 9 unit tests covering center snap, boundary cases, nil-guards, 2-cell piece clamping
-
-### Changed
-- `GameView.calculateSnap` refactored to delegate to `SnapCalculator` (thin wrapper, no behaviour change)
-- `SnugloApp/SnugloApp.xcodeproj/project.pbxproj` regenerated via `xcodegen generate` to include new source file
-
-### Documentation
-- `EXECUTION_PLAN.md` v0.4 section: added 240-level note (4 pack × 60, supersedes old 4 pack × 30)
-- `BLOCKERS.md`: added Faz A→J plan summary + discarded-task reconciliation log
-
-### Git
-- Merged v0.2 feature branches into `main` (no-ff merge commit `3ec7527`)
-- `feature/v1.0-A-stabilize` branched from updated `main`
 
 ---
 

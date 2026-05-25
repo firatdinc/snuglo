@@ -1,72 +1,81 @@
 import SwiftUI
 
 // MARK: — BottomTabBar
-// Shared bottom navigation bar — appears on Play/Levels/Stats/Shop screens.
-// Design reference: 03-main-menu.html, 04-levels-list.html bottom nav.
-//
-// Active tab: lavender pill background + filled icon
-// Inactive tab: secondary color + outline icon
+// Ref: Designs/html/03-main-menu.html (nav section)
+// 4-tab custom bottom bar: Play · Levels · Stats · Shop
+// Active tab: lavender pill background + filled icon.
+// Used as overlay inside MainMenuView if needed; primary tabs via native TabView.
 
 struct BottomTabBar: View {
 
-    @Environment(AppRouter.self) private var router
+    @Binding var selected: AppTab
+
+    private struct TabItem {
+        let tab: AppTab
+        let label: String
+        let icon: String
+        let activeIcon: String
+    }
+
+    private let items: [TabItem] = [
+        .init(tab: .play,   label: "Play",   icon: "puzzlepiece",       activeIcon: "puzzlepiece.fill"),
+        .init(tab: .levels, label: "Levels", icon: "square.grid.2x2",   activeIcon: "square.grid.2x2.fill"),
+        .init(tab: .stats,  label: "Stats",  icon: "chart.bar",         activeIcon: "chart.bar.fill"),
+        .init(tab: .shop,   label: "Shop",   icon: "bag",               activeIcon: "bag.fill")
+    ]
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(AppTab.allCases, id: \.self) { tab in
-                tabButton(tab)
+            ForEach(items, id: \.tab) { item in
+                Button {
+                    selected = item.tab
+                } label: {
+                    VStack(spacing: AppSpacing.xs - 2) {
+                        Image(systemName: selected == item.tab ? item.activeIcon : item.icon)
+                            .font(.system(size: 22))
+                            .foregroundStyle(selected == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
+
+                        Text(item.label)
+                            .font(AppTypography.labelSmall)
+                            .tracking(0.4)
+                            .textCase(.uppercase)
+                            .foregroundStyle(selected == item.tab ? AppColors.onPrimaryContainer : AppColors.secondary)
+                    }
+                    .padding(.vertical, AppSpacing.sm)
+                    .padding(.horizontal, AppSpacing.md)
+                    .background(
+                        selected == item.tab
+                            ? AppColors.primaryContainer
+                            : Color.clear,
+                        in: RoundedRectangle(cornerRadius: AppRadius.block + 2, style: .continuous)
+                    )
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity)
+                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: selected)
             }
         }
         .padding(.horizontal, AppSpacing.sm)
         .padding(.top, AppSpacing.sm)
-        .padding(.bottom, AppSpacing.md)       // above safe area
-        .background(AppColors.surfaceContainerLow)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous).inset(by: -1))
-        .shadow(color: AppColors.shadowAmbient.opacity(0.06), radius: 12, x: 0, y: -4)
-    }
-
-    // MARK: — Individual tab button
-
-    private func tabButton(_ tab: AppTab) -> some View {
-        let isActive = router.selectedTab == tab
-
-        return Button {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                router.selectTab(tab)
-            }
-        } label: {
-            VStack(spacing: AppSpacing.xs) {
-                Image(systemName: tab.sfSymbol)
-                    .font(.system(size: 22))
-                    .symbolRenderingMode(.monochrome)
-
-                Text(tab.rawValue)
-                    .font(AppTypography.labelSmall)
-                    .tracking(0.6)
-                    .textCase(.uppercase)
-            }
-            .foregroundStyle(isActive ? AppColors.primary : AppColors.secondary)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, AppSpacing.sm)
-            .background(
-                isActive
-                    ? AppColors.primaryContainer.opacity(0.5)
-                    : Color.clear
-            )
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
-        }
-        .buttonStyle(.plain)
+        .padding(.bottom, AppSpacing.md)
+        .background(
+            AppColors.surface
+                .overlay(alignment: .top) {
+                    Rectangle()
+                        .fill(AppColors.outlineVariant.opacity(0.2))
+                        .frame(height: 0.5)
+                }
+        )
+        .shadowL1()
     }
 }
 
-// MARK: — Preview
-
 #Preview {
-    let router = AppRouter()
-    return VStack {
+    @Previewable @State var tab = AppTab.play
+    VStack {
         Spacer()
-        BottomTabBar()
+        BottomTabBar(selected: $tab)
     }
-    .environment(router)
     .background(AppColors.background)
 }

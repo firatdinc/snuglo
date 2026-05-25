@@ -1,297 +1,187 @@
 import SwiftUI
 
-// MARK: — SettingsView (Screen 11)
-// Design reference: Designs/html/11-settings.html
-//
-// Push screen from gear icon. Sections:
-//   SOUND & FEEL — Music / Sound Effects / Haptics toggles
-//   APPEARANCE   — Theme disclosure (placeholder)
-//   NOTIFICATIONS — Daily Reminder toggle + Reminder Time row
-//   ACCOUNT       — Restore Purchases / Privacy Policy / Terms of Service
-// Footer: "SNUGLO V1.0.4"
-//
-// Sound/haptics implementation: Faz F
-// Notifications:                Faz F
-// Restore Purchases:            Faz G
+// MARK: — SettingsView
+// Ref: Designs/html/11-settings.html
+// Sections: SOUND & FEEL / APPEARANCE / NOTIFICATIONS / ACCOUNT / ABOUT
 
 struct SettingsView: View {
 
-    @Environment(AppRouter.self) private var router
-
-    // SOUND & FEEL
-    @AppStorage("settings.musicEnabled")    private var musicEnabled    = true
-    @AppStorage("settings.sfxEnabled")      private var sfxEnabled      = true
-    @AppStorage("settings.hapticsEnabled")  private var hapticsEnabled  = true
-
-    // NOTIFICATIONS
-    @AppStorage("settings.dailyReminder")   private var dailyReminder   = false
-    @State private var reminderTime = Date()
+    @AppStorage("soundEnabled")         private var soundEnabled         = true
+    @AppStorage("sfxEnabled")           private var sfxEnabled           = true
+    @AppStorage("hapticsEnabled")       private var hapticsEnabled       = true
+    @AppStorage("dailyReminderEnabled") private var dailyReminderEnabled = false
+    @AppStorage("reminderHour")         private var reminderHour         = 20
+    @AppStorage("reminderMinute")       private var reminderMinute       = 0
 
     var body: some View {
-        ZStack {
-            AppColors.background.ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                navBar
-
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: AppSpacing.xl) {
-                        soundSection
-                        appearanceSection
-                        notificationsSection
-                        accountSection
-                        footer
-                        Spacer(minLength: AppSpacing.xl)
-                    }
-                    .padding(.horizontal, AppSpacing.lg)
-                    .padding(.top, AppSpacing.md)
-                }
-            }
-        }
-        .navigationBarHidden(true)
-    }
-
-    // MARK: — Nav bar
-
-    private var navBar: some View {
-        HStack {
-            Button {
-                router.pop()
-            } label: {
-                Image(systemName: "arrow.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(AppColors.primary)
-                    .frame(width: 44, height: 44)
+        List {
+            // — SOUND & FEEL —
+            Section {
+                toggleRow(
+                    icon: "music.note",
+                    iconColor: AppColors.primaryContainer,
+                    label: "Music",
+                    isOn: $soundEnabled
+                )
+                toggleRow(
+                    icon: "speaker.wave.2.fill",
+                    iconColor: AppColors.secondaryContainer,
+                    label: "Sound Effects",
+                    isOn: $sfxEnabled
+                )
+                toggleRow(
+                    icon: "hand.tap.fill",
+                    iconColor: AppColors.tertiaryContainer,
+                    label: "Haptics",
+                    isOn: $hapticsEnabled
+                )
+            } header: {
+                sectionHeader("Sound & Feel")
             }
 
-            Spacer()
-
-            Text("Settings")
-                .font(AppTypography.headlineSmall)
-                .foregroundStyle(AppColors.onSurface)
-
-            Spacer()
-
-            Color.clear.frame(width: 44, height: 44) // balance
-        }
-        .padding(.horizontal, AppSpacing.lg)
-        .frame(height: 56)
-        .background(AppColors.background)
-        .shadowL1()
-    }
-
-    // MARK: — Sound & Feel
-
-    private var soundSection: some View {
-        settingsGroup(header: "SOUND & FEEL") {
-            settingsToggle(
-                title: "Music",
-                symbol: "music.note",
-                symbolColor: AppColors.blockPeach,
-                isOn: $musicEnabled
-            )
-            Divider().padding(.horizontal, AppSpacing.md)
-            settingsToggle(
-                title: "Sound Effects",
-                symbol: "speaker.wave.2.fill",
-                symbolColor: AppColors.blockSage,
-                isOn: $sfxEnabled
-            )
-            Divider().padding(.horizontal, AppSpacing.md)
-            settingsToggle(
-                title: "Haptics",
-                symbol: "waveform",
-                symbolColor: AppColors.blockLavender,
-                isOn: $hapticsEnabled
-            )
-        }
-    }
-
-    // MARK: — Appearance
-
-    private var appearanceSection: some View {
-        settingsGroup(header: "APPEARANCE") {
-            settingsDisclosure(
-                title: "Theme",
-                value: "System Default",
-                symbol: "paintpalette.fill",
-                symbolColor: AppColors.blockCream
-            )
-        }
-    }
-
-    // MARK: — Notifications
-
-    private var notificationsSection: some View {
-        settingsGroup(header: "NOTIFICATIONS") {
-            settingsToggle(
-                title: "Daily Reminder",
-                symbol: "bell.fill",
-                symbolColor: AppColors.blockPeach,
-                isOn: $dailyReminder
-            )
-
-            if dailyReminder {
-                Divider().padding(.horizontal, AppSpacing.md)
-
+            // — APPEARANCE —
+            Section {
                 HStack {
-                    HStack(spacing: AppSpacing.sm) {
-                        iconBadge("clock.fill", color: AppColors.blockSage)
-                        Text("Reminder Time")
-                            .font(AppTypography.bodyLarge)
-                            .foregroundStyle(AppColors.onSurface)
-                    }
+                    iconBadge("paintpalette.fill", color: AppColors.blockBlush.opacity(0.5))
+                    Text("Theme")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurface)
                     Spacer()
-                    DatePicker("", selection: $reminderTime, displayedComponents: .hourAndMinute)
-                        .labelsHidden()
-                        .tint(AppColors.primary)
+                    Text("System Default")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(AppColors.outlineVariant)
                 }
-                .padding(AppSpacing.md)
+                .opacity(0.6)  // disabled — Faz H
+            } header: {
+                sectionHeader("Appearance")
+            } footer: {
+                Text("Dark mode & custom themes: coming soon")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+            }
+
+            // — NOTIFICATIONS —
+            Section {
+                toggleRow(
+                    icon: "bell.fill",
+                    iconColor: AppColors.blockCream.opacity(0.8),
+                    label: "Daily Reminder",
+                    isOn: $dailyReminderEnabled
+                )
+
+                if dailyReminderEnabled {
+                    HStack {
+                        iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
+                        Text("Reminder Time")
+                            .font(AppTypography.bodyMedium)
+                            .foregroundStyle(AppColors.onSurface)
+                        Spacer()
+                        Text(String(format: "%d:%02d %@",
+                                    reminderHour % 12 == 0 ? 12 : reminderHour % 12,
+                                    reminderMinute,
+                                    reminderHour >= 12 ? "PM" : "AM"))
+                            .font(.system(size: 15, weight: .medium, design: .monospaced))
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                    }
+                }
+            } header: {
+                sectionHeader("Notifications")
+            }
+
+            // — ACCOUNT —
+            Section {
+                disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, label: "Restore Purchases")
+                disclosureRow(icon: "hand.raised.fill",       iconColor: AppColors.surfaceContainerHigh, label: "Privacy Policy")
+                disclosureRow(icon: "doc.text.fill",          iconColor: AppColors.surfaceContainerHigh, label: "Terms of Service")
+            } header: {
+                sectionHeader("Account")
+            }
+
+            // — ABOUT —
+            Section {
+                HStack {
+                    Text("Version")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Spacer()
+                    Text("1.0.0")
+                        .font(.system(size: 15, weight: .medium, design: .monospaced))
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+            } header: {
+                sectionHeader("About")
+            } footer: {
+                Text("SNUGLO V1.0.0 — Made with ♥ and cozy vibes")
+                    .font(AppTypography.labelSmall)
+                    .tracking(0.3)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top, AppSpacing.xl)
             }
         }
+        .listStyle(.insetGrouped)
+        .background(AppColors.background.ignoresSafeArea())
+        .scrollContentBackground(.hidden)
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
-    // MARK: — Account
+    // MARK: — Sub-views
 
-    private var accountSection: some View {
-        settingsGroup(header: "ACCOUNT") {
-            settingsLink(title: "Restore Purchases", symbol: "arrow.clockwise", action: {
-                // Faz G: StoreKit restore
-            })
-
-            Divider().padding(.horizontal, AppSpacing.md)
-
-            settingsLink(title: "Privacy Policy", symbol: "hand.raised.fill", action: {
-                // Open URL in Faz H
-            })
-
-            Divider().padding(.horizontal, AppSpacing.md)
-
-            settingsLink(title: "Terms of Service", symbol: "doc.text.fill", action: {
-                // Open URL in Faz H
-            })
-        }
-    }
-
-    // MARK: — Footer
-
-    private var footer: some View {
-        Text("SNUGLO V1.0.4")
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title)
             .font(AppTypography.labelSmall)
             .tracking(0.6)
             .textCase(.uppercase)
-            .foregroundStyle(AppColors.outlineVariant)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .padding(.top, AppSpacing.sm)
+            .foregroundStyle(AppColors.onSurfaceVariant)
     }
 
-    // MARK: — Reusable section components
-
-    private func settingsGroup<Content: View>(
-        header: String,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            Text(header)
-                .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
-                .foregroundStyle(AppColors.onSurfaceVariant)
-                .padding(.horizontal, AppSpacing.xs)
-
-            VStack(spacing: 0) {
-                content()
-            }
-            .background(AppColors.background)
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .shadowL1()
-        }
-    }
-
-    private func settingsToggle(
-        title: String,
-        symbol: String,
-        symbolColor: Color,
-        isOn: Binding<Bool>
-    ) -> some View {
+    private func toggleRow(icon: String, iconColor: Color, label: String, isOn: Binding<Bool>) -> some View {
         HStack {
-            HStack(spacing: AppSpacing.sm) {
-                iconBadge(symbol, color: symbolColor)
-                Text(title)
-                    .font(AppTypography.bodyLarge)
-                    .foregroundStyle(AppColors.onSurface)
-            }
+            iconBadge(icon, color: iconColor)
+            Text(label)
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurface)
             Spacer()
             Toggle("", isOn: isOn)
                 .labelsHidden()
                 .tint(AppColors.primary)
         }
-        .padding(AppSpacing.md)
     }
 
-    private func settingsDisclosure(
-        title: String,
-        value: String,
-        symbol: String,
-        symbolColor: Color
-    ) -> some View {
-        HStack {
-            HStack(spacing: AppSpacing.sm) {
-                iconBadge(symbol, color: symbolColor)
-                Text(title)
-                    .font(AppTypography.bodyLarge)
-                    .foregroundStyle(AppColors.onSurface)
-            }
-            Spacer()
-            Text(value)
-                .font(AppTypography.bodyMedium)
-                .foregroundStyle(AppColors.onSurfaceVariant)
-            Image(systemName: "chevron.right")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(AppColors.outlineVariant)
-        }
-        .padding(AppSpacing.md)
-    }
-
-    private func settingsLink(title: String, symbol: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
+    private func disclosureRow(icon: String, iconColor: Color, label: String) -> some View {
+        Button {} label: {
             HStack {
-                HStack(spacing: AppSpacing.sm) {
-                    Image(systemName: symbol)
-                        .font(.system(size: 16))
-                        .foregroundStyle(AppColors.primary)
-                        .frame(width: 30)
-                    Text(title)
-                        .font(AppTypography.bodyLarge)
-                        .foregroundStyle(AppColors.onSurface)
-                }
+                iconBadge(icon, color: iconColor)
+                Text(label)
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurface)
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 12, weight: .medium))
                     .foregroundStyle(AppColors.outlineVariant)
             }
-            .padding(AppSpacing.md)
         }
         .buttonStyle(.plain)
+        .disabled(true)
+        .opacity(0.6)
     }
 
-    private func iconBadge(_ symbol: String, color: Color) -> some View {
+    private func iconBadge(_ name: String, color: Color) -> some View {
         ZStack {
-            Circle()
-                .fill(color.opacity(0.4))
-                .frame(width: 36, height: 36)
-            Image(systemName: symbol)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(color)
+                .frame(width: 32, height: 32)
+            Image(systemName: name)
                 .font(.system(size: 16))
-                .foregroundStyle(AppColors.primary)
+                .foregroundStyle(AppColors.onSurface.opacity(0.7))
         }
     }
 }
 
-// MARK: — Preview
-
 #Preview {
-    NavigationStack {
-        SettingsView()
-    }
-    .environment(AppRouter())
+    NavigationStack { SettingsView() }
 }
