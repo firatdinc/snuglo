@@ -33,7 +33,54 @@ public struct LevelLoader: Sendable {
         }
     }
 
-    // MARK: - Public API
+    // MARK: - Public API (D3 — LevelGenerator entegrasyonu)
+
+    /// Pack ID'den grid boyutunu döner (BLOCKER D3).
+    ///
+    /// | Pack ID             | Size |
+    /// |---------------------|------|
+    /// | "cozy-beginnings"   | 5    |
+    /// | "spice-route"       | 6    |
+    /// | "mambo-nights"      | 7    |
+    /// | "woodland-retreat"  | 8    |
+    ///
+    /// Kısa form ("cozy", "spice", "mambo", "woodland") de desteklenir.
+    public static func gridSize(for packId: String) -> Int {
+        switch packId {
+        case "cozy-beginnings", "cozy":     return 5
+        case "spice-route",     "spice":    return 6
+        case "mambo-nights",    "mambo":    return 7
+        case "woodland-retreat","woodland": return 8
+        default:                            return 5
+        }
+    }
+
+    /// Deterministik LevelGenerator üzerinden Level yükler (BLOCKER D3).
+    ///
+    /// `LevelGenerator.generate` hiçbir zaman throw etmez; imza BLOCKER D3 spec'i için
+    /// `throws` olarak tanımlanmıştır (gelecekte disk/network kaynakları için).
+    ///
+    /// - Parameters:
+    ///   - packId:     Pack tanımlayıcısı (örn. "cozy-beginnings").
+    ///   - levelIndex: 1-tabanlı level numarası.
+    ///   - seedBase:   Override seed (varsayılan: `LevelGenerator.defaultSeedBase`).
+    /// - Returns: Deterministik `Level`.
+    public func loadGenerated(
+        packId: String,
+        levelIndex: Int,
+        seedBase: UInt64 = LevelGenerator.defaultSeedBase
+    ) throws -> Level {
+        let size = LevelLoader.gridSize(for: packId)
+        return LevelGenerator().generate(
+            packId:     packId,
+            levelIndex: levelIndex,
+            gridSize:   size,
+            seedBase:   seedBase
+        )
+        // NOTE: never actually throws — LevelGenerator.generate is infallible
+    }
+
+    // MARK: - Public API (JSON bundles)
 
     /// SPM module bundle'ından `<name>.json` yükler.
     ///

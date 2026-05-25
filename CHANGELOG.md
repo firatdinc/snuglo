@@ -7,12 +7,17 @@
 ### Yeni: `Sources/SnugloEngine/Engine/DailyPuzzle.swift`
 
 - **`DailyPuzzle.swift`** *(new)* — Tarih-tabanlı deterministik bulmaca üretici.
-  - `today(timezone:) → Level` — device timezone ile bugünün bulmacası.
+  - `today(timezone:) → Level` — bugünün bulmacası (UTC baz).
   - `forDate(_:timezone:) → Level` — belirli tarih için level üretir.
   - `seed(for:timezone:) → UInt64` — debug/test amacıyla raw seed değeri.
+  - `gridSize(for:) → Int` — UTC weekday'e göre grid boyutu.
   - Seed: `year×10000 + month×100 + day` (örn. 2026-01-01 → 20260101).
   - Haftalık gridSize rotasyonu: Mon/Fri→5×5, Tue/Sat→6×6, Wed/Sun→7×7, Thu→8×8.
   - Aynı tarih → deterministik aynı Level (id: `"daily-0"`).
+  - **UTC ENFORCEMENT (BLOCKER fix):** `timezone` parametresi API uyumluluğu için kabul
+    edilir ancak tüm DateComponents hesaplamaları `TimeZone(identifier: "UTC")!` ile
+    yapılır. Farklı timezone'lardaki cihazlar her zaman aynı günlük bulmacayı görür.
+    Regression lock: 2026-01-01 Perşembe → seed=20260101, gridSize=8. ✓
 
 ### Yeni: `SnugloApp/MockData/PackProvider.swift`
 
@@ -43,15 +48,16 @@
 ### Test Sonuçları
 
 ```
-DailyPuzzleTests     12/12 ✅
+DailyPuzzleTests     14/14 ✅  (+2: UTC enforcement + SolutionChecker validity)
 LevelGeneratorTests  19/19 ✅
 SeededRandomTests    10/10 ✅
 LevelLoaderTests      5/5  ✅
 PieceCellCountTests   4/4  ✅
 SolutionCheckerEdge  13/13 ✅
 SolutionCheckerSanity 1/1  ✅
-─────────────────────────────
-Toplam               64/64 ✅
+──────────────────────────────────────────────────────────────
+Toplam               66/66 ✅  (swift test 2026-05-25)
+xcodebuild           ✅ BUILD SUCCEEDED (iOS 26.2 Simulator, 0 hata)
 ```
 
 ### Faz E Köprüsü
@@ -80,6 +86,10 @@ Faz E'de `@AppStorage("progress_\(packId)")` veya `CoreData` entegrasyonu için:
     (5×5: 4→5, 6×6: 5→6→7, 7×7: 6→7→8, 8×8: 8→10→12 parça).
   - Her üretilen Level'in `solution`'ı `SolutionChecker.check → .valid` garantili.
   - `defaultSeedBase = 0x534E55474C4F3131` ("SNUGLO11" ASCII).
+
+- **`LevelLoader.swift`** *(D3 ekleme — BLOCKER fix)* — `loadGenerated` ve `gridSize` eklendi:
+  - `static func gridSize(for packId:) → Int` — cozy-beginnings→5, spice-route→6, mambo-nights→7, woodland-retreat→8 (kısa form "cozy"/"spice"/"mambo"/"woodland" de desteklenir).
+  - `func loadGenerated(packId:levelIndex:seedBase:) throws → Level` — `LevelGenerator.generate` wrapper; infallible (hiçbir zaman throw etmez, `throws` gelecekteki kaynak türleri için).
 
 ### Yeni Testler
 
