@@ -95,10 +95,25 @@ enum AppColors {
     static let invalidRed = error
     static let success    = primary
 
-    // MARK: — GridView aliases
+    // MARK: — Game Board (Stitch Nordic Hearth — v1.1)
 
-    static let gridBackground = surfaceContainerLow
-    static let gridLines      = outlineVariant
+    /// Warm parchment board background — Stitch spec: #F2EBE0
+    static let gameBoardBackground = Color(light: "#F2EBE0", dark: "#2A2419")
+    /// Warm dividing grid lines — Stitch spec: #E5DCC8 @ 1.5 px
+    static let gridLine            = Color(light: "#E5DCC8", dark: "#3A3228")
+    /// Blush accent circle behind success illustration — Stitch spec: #F5E6E0
+    static let blushAccent         = Color(light: "#F5E6E0", dark: "#3D2E28")
+    /// Row divider / secondary-button border — Stitch spec: #EDE6DA
+    static let divider             = Color(light: "#EDE6DA", dark: "#2E2923")
+    /// Soft cocoa text — never pure black; used for secondary button labels — Stitch: #3A332D
+    static let softCocoa           = Color(light: "#3A332D", dark: "#D5CFC8")
+
+    // MARK: — GridView aliases (updated v1.1 → Stitch warm board colors)
+
+    /// Alias: game board background (was surfaceContainerLow)
+    static let gridBackground = gameBoardBackground
+    /// Alias: grid lines (was outlineVariant)
+    static let gridLines      = gridLine
 
     // MARK: — Helpers
 
