@@ -3,6 +3,17 @@ import SwiftUI
 struct RootView: View {
     @State private var router = AppRouter()
 
+    // Faz F: Theme picker (0=System, 1=Light, 2=Dark) — mirrors SettingsView key.
+    @AppStorage("appTheme") private var appThemeRaw: Int = 0
+
+    private var preferredScheme: ColorScheme? {
+        switch appThemeRaw {
+        case 1: return .light
+        case 2: return .dark
+        default: return nil   // System — follow device setting
+        }
+    }
+
     var body: some View {
         NavigationStack(path: $router.path) {
             SplashView()
@@ -12,6 +23,7 @@ struct RootView: View {
                 }
         }
         .environment(router)
+        .preferredColorScheme(preferredScheme)
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
         // FAZ-J: Remove once GADInterstitialAd handles its own UIViewController.
         .overlay(AdInterstitialOverlay())
