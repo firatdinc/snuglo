@@ -2,6 +2,49 @@
 
 ---
 
+## [v1.0-D1] — LevelGenerator Engine (2026-05-25)
+
+### Yeni: `Sources/SnugloEngine/Engine/`
+
+- **`SeededRandom.swift`** *(new)* — `SplitMix64` algoritması ile `RandomNumberGenerator` uyumlu,
+  cross-run deterministik PRNG. `SeededRandom(seed:)` + `SeedHash.fnv1a(_:)` (FNV-1a 64-bit,
+  Swift `hashValue`'nin aksine run'dan run'a kararlı).
+
+- **`LevelGenerator.swift`** *(new)* — Seeded Voronoi BFS partitioning ile deterministic level üreteci.
+  - `generate(packId:levelIndex:gridSize:seedBase:) → Level` — tek level.
+  - `generateAll(packId:gridSize:count:) → [Level]` — batch üretim (1…count).
+  - `difficultyPieceCount(gridSize:levelIndex:) → Int` — difficulty curve tablosu
+    (5×5: 4→5, 6×6: 5→6→7, 7×7: 6→7→8, 8×8: 8→10→12 parça).
+  - Her üretilen Level'in `solution`'ı `SolutionChecker.check → .valid` garantili.
+  - `defaultSeedBase = 0x534E55474C4F3131` ("SNUGLO11" ASCII).
+
+### Yeni Testler
+
+- **`SeededRandomTests.swift`** — 10 test: determinizm, farklı seed, sıfır-seed güvenliği,
+  stdlib entegrasyonu, FNV1a sabit değer (`0x89CF91E4E692ADC1`), boş string, idempotency.
+- **`LevelGeneratorTests.swift`** — 19 test: determinizm, geçerli solution (tüm grid boyutları),
+  `generateAll` 60 distinct level, grid boyutu koruması, difficulty curve değerleri,
+  piece count aralıkları, yapısal bütünlük (toplam hücre = width×height).
+
+### Test Sonuçları
+
+```
+LevelGeneratorTests  19/19 ✅
+SeededRandomTests    10/10 ✅
+LevelLoaderTests      5/5  ✅
+PieceCellCountTests   4/4  ✅
+SolutionCheckerEdge  13/13 ✅
+SolutionCheckerSanity 1/1  ✅
+─────────────────────────────
+Toplam               52/52 ✅
+```
+
+### UI Değişikliği
+
+Yok. PackProvider / MockData bağlantısı Faz D-2'de yapılacak.
+
+---
+
 ## [v1.0-C] - 2026-05-25 (Faz C — 11 Ekran Gerçekten Yaratıldı)
 
 Navigation iskelesi: 11 SwiftUI screens (Splash/Onboarding/MainMenu/LevelsList/PackDetail/GamePlay/Pause/LevelComplete/Stats/Shop/Settings); AppRouter (Route enum, @Observable) + NavigationStack; BottomTabBar component; MockData with 4 packs × 60 levels (240 total); Colors.swift extended with missing tokens (surface, onPrimaryContainer, secondaryContainer, tertiaryContainer, surfaceContainerLowest); GameView refactored with levelId param, timer HUD, PauseSheet & LevelCompleteSheet integration.
