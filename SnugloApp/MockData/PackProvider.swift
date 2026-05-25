@@ -17,9 +17,11 @@ enum PackProvider {
     // MARK: - Pack API
 
     /// 4 pack'in tümünü döndürür.
-    /// completedCount Faz E'de ProgressStore.shared'dan gerçek sayı.
+    /// completedCount ProgressStore.shared'dan gerçek sayı.
+    /// isLocked → Faz G-1: StoreManager.shared.isPackUnlocked ile belirlenir.
     static func allPacks() -> [Pack] {
-        let store = ProgressStore.shared
+        let progress = ProgressStore.shared
+        let sk       = StoreManager.shared
         return MockData.allPacks.map { pack in
             Pack(
                 id: pack.id,
@@ -27,8 +29,8 @@ enum PackProvider {
                 subtitle: pack.subtitle,
                 gridSize: pack.gridSize,
                 levelCount: pack.levelCount,
-                completedCount: store.packCompletionCount(pack.id),
-                isLocked: pack.isLocked,
+                completedCount: progress.packCompletionCount(pack.id),
+                isLocked: !sk.isPackUnlocked(pack.id),
                 accentColor: pack.accentColor,
                 iconName: pack.iconName
             )

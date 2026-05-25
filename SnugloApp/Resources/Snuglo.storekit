@@ -1,0 +1,144 @@
+{
+  "identifier" : "A3F2D8E1-4B6C-4D9F-8E2A-1C7F3B5E9D2A",
+  "nonConsumableProducts" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "E1A2B3C4-D5E6-F7A8-B9C0-D1E2F3A4B5C6",
+      "introductoryOffer" : null,
+      "localizations" : [
+        {
+          "description" : "Unlock 60 handcrafted 6×6 grid puzzles inspired by global spice markets.",
+          "displayName" : "Spice Route Pack",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Küresel baharat pazarlarından ilham alınan 60 el yapımı 6×6 bulmaca kilidini açın.",
+          "displayName" : "Baharat Yolu Paketi",
+          "locale" : "tr_TR"
+        },
+        {
+          "description" : "Desbloquea 60 puzles artesanales de cuadrícula 6×6 inspirados en los mercados de especias.",
+          "displayName" : "Paquete Ruta de las Especias",
+          "locale" : "es_ES"
+        }
+      ],
+      "productID" : "com.snuglo.pack.spice_route",
+      "referenceName" : "Spice Route Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "F2B3C4D5-E6F7-A8B9-C0D1-E2F3A4B5C6D7",
+      "introductoryOffer" : null,
+      "localizations" : [
+        {
+          "description" : "Unlock 60 atmospheric 7×7 grid puzzles set to the rhythm of tropical nights.",
+          "displayName" : "Mambo Nights Pack",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Tropikal geceler ritmiyle 60 atmosferik 7×7 bulmaca kilidini açın.",
+          "displayName" : "Mambo Geceleri Paketi",
+          "locale" : "tr_TR"
+        },
+        {
+          "description" : "Desbloquea 60 puzles atmosféricos de cuadrícula 7×7 al ritmo de las noches tropicales.",
+          "displayName" : "Paquete Noches de Mambo",
+          "locale" : "es_ES"
+        }
+      ],
+      "productID" : "com.snuglo.pack.mambo_nights",
+      "referenceName" : "Mambo Nights Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "A3C4D5E6-F7A8-B9C0-D1E2-F3A4B5C6D7E8",
+      "introductoryOffer" : null,
+      "localizations" : [
+        {
+          "description" : "Unlock 60 serene 8×8 grid puzzles inspired by forest cabins and woodland trails.",
+          "displayName" : "Woodland Retreat Pack",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Orman kulübeleri ve patikalardan ilham alınan 60 huzurlu 8×8 bulmaca kilidini açın.",
+          "displayName" : "Orman Kaçamağı Paketi",
+          "locale" : "tr_TR"
+        },
+        {
+          "description" : "Desbloquea 60 puzles serenos de cuadrícula 8×8 inspirados en cabañas y senderos forestales.",
+          "displayName" : "Paquete Retiro Forestal",
+          "locale" : "es_ES"
+        }
+      ],
+      "productID" : "com.snuglo.pack.woodland_retreat",
+      "referenceName" : "Woodland Retreat Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "B4D5E6F7-A8B9-C0D1-E2F3-A4B5C6D7E8F9",
+      "introductoryOffer" : null,
+      "localizations" : [
+        {
+          "description" : "Remove all ads for a calm, uninterrupted puzzle experience. One-time purchase.",
+          "displayName" : "Remove Ads",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Tüm reklamları kaldırarak kesintisiz bir bulmaca deneyimi yaşayın. Tek seferlik satın alım.",
+          "displayName" : "Reklamları Kaldır",
+          "locale" : "tr_TR"
+        },
+        {
+          "description" : "Elimina todos los anuncios para una experiencia de puzle tranquila e ininterrumpida. Compra única.",
+          "displayName" : "Eliminar Anuncios",
+          "locale" : "es_ES"
+        }
+      ],
+      "productID" : "com.snuglo.removeads",
+      "referenceName" : "Remove Ads",
+      "type" : "NonConsumable"
+    }
+  ],
+  "consumableProducts" : [
+    {
+      "displayPrice" : "0.99",
+      "internalID" : "C5E6F7A8-B9C0-D1E2-F3A4-B5C6D7E8F9A0",
+      "localizations" : [
+        {
+          "description" : "Get 10 hints to help you when you're stuck. Each hint highlights a valid piece placement.",
+          "displayName" : "10 Hints",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Takıldığınızda yardım için 10 ipucu alın. Her ipucu geçerli bir parça yerleşimini vurgular.",
+          "displayName" : "10 İpucu",
+          "locale" : "tr_TR"
+        },
+        {
+          "description" : "Obtén 10 pistas cuando estés atascado. Cada pista resalta una colocación válida de pieza.",
+          "displayName" : "10 Pistas",
+          "locale" : "es_ES"
+        }
+      ],
+      "productID" : "com.snuglo.hints.small",
+      "referenceName" : "Hints Small (10)",
+      "type" : "Consumable"
+    }
+  ],
+  "subscriptionGroups" : [],
+  "settings" : {
+    "_applicationUsername" : ""
+  },
+  "version" : {
+    "major" : 2,
+    "minor" : 0,
+    "patch" : 0
+  }
+}

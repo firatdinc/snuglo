@@ -106,9 +106,9 @@ struct GameView: View {
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
-                // Faz F: Level complete audio + haptic
-                AudioManager.shared.play(.levelComplete)
-                HapticsManager.shared.play(.success)
+                // Faz F: Solve audio + haptic via SoundService / HapticService
+                SoundService.shared.play(.solve)
+                HapticService.shared.notify(.success)
                 showComplete = true
             }
         }
@@ -220,18 +220,24 @@ struct GameView: View {
             .onChanged { value in
                 if draggingPiece == nil {
                     draggingPiece = piece
-                    // Pickup feedback
-                    AudioManager.shared.play(.pickup)
-                    HapticsManager.shared.play(.light)
+                    // Pickup: pre-warm taptic engine for low-latency snap feedback
+                    HapticService.shared.prepareImpact()
+                    SoundService.shared.play(.click)
                 }
                 dragPosition = value.location
-                snapCoord = SnapCalculator.snap(
+                let newSnap = SnapCalculator.snap(
                     at: value.location,
                     piece: piece,
                     gridFrame: gridFrame,
                     cellSize: cellSize,
                     gridSize: (width: viewModel.level.width, height: viewModel.level.height)
                 )
+                // BLOCKER-6 (1): fire snap feedback the first time snapCoord becomes non-nil
+                if newSnap != nil && snapCoord == nil {
+                    HapticService.shared.impact(.medium)
+                    SoundService.shared.play(.snap)
+                }
+                snapCoord = newSnap
             }
             .onEnded { _ in
                 if let coord = snapCoord {
@@ -239,23 +245,19 @@ struct GameView: View {
                         viewModel.tryPlace(pieceID: piece.id, at: coord)
                     }
                     if viewModel.invalidPieceIDs.contains(piece.id) {
-                        // Invalid placement — error feedback
-                        AudioManager.shared.play(.error)
-                        HapticsManager.shared.play(.error)
+                        // BLOCKER-6 (3): invalid placement
+                        SoundService.shared.play(.error)
+                        HapticService.shared.notify(.error)
                         Task { @MainActor in
                             try? await Task.sleep(for: .milliseconds(400))
                             viewModel.clearInvalid(pieceID: piece.id)
                         }
                     } else if !viewModel.isSolved {
-                        // Valid partial placement — snap feedback
-                        // (if isSolved, onChange fires levelComplete instead)
-                        AudioManager.shared.play(.snap)
-                        HapticsManager.shared.play(.selection)
+                        // BLOCKER-6 (2): valid partial placement
+                        // (solved path fires through onChange(of: isSolved))
+                        SoundService.shared.play(.place)
+                        HapticService.shared.impact(.light)
                     }
-                } else {
-                    // No snap target — drop feedback
-                    AudioManager.shared.play(.drop)
-                    HapticsManager.shared.play(.medium)
                 }
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
                     draggingPiece = nil

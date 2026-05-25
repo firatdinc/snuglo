@@ -35,6 +35,9 @@ final class ProgressStore {
     private(set) var dailyResults: [DailyPuzzleResult] = []
     private(set) var currentStreak: Int = 0
     private(set) var longestStreak: Int = 0
+    /// Kalan hint sayısı. Consumable IAP (com.snuglo.hints.small) satın alındığında +10.
+    /// Faz G-1: persist edilir; GameView'da hint kullanımı Faz H'de hook'lanır.
+    private(set) var hintCount: Int = 0
 
     // MARK: - Private
 
@@ -148,6 +151,8 @@ final class ProgressStore {
         var dailyResults: [DailyPuzzleResult]
         var currentStreak: Int
         var longestStreak: Int
+        /// hintCount Faz G-1'de eklendi; eski snapshot'larda yoksa 0 kullan.
+        var hintCount: Int = 0
     }
 
     private func load() {
@@ -155,6 +160,7 @@ final class ProgressStore {
               let snap = try? JSONDecoder().decode(Snapshot.self, from: data) else { return }
         levelProgress = snap.levelProgress
         dailyResults  = snap.dailyResults
+        hintCount     = snap.hintCount
         // Restore longestStreak from disk; currentStreak is always recalculated
         // so stale/ghost streaks (e.g. user missed a day) are corrected on every launch.
         longestStreak = snap.longestStreak
@@ -166,7 +172,8 @@ final class ProgressStore {
             levelProgress: levelProgress,
             dailyResults:  dailyResults,
             currentStreak: currentStreak,
-            longestStreak: longestStreak
+            longestStreak: longestStreak,
+            hintCount:     hintCount
         )
         if let data = try? JSONEncoder().encode(snap) {
             defaults.set(data, forKey: key)
@@ -188,6 +195,24 @@ final class ProgressStore {
 
     private func makeDayFormatter() -> DateFormatter { ProgressStore.makeDayFormatter() }
 
+    // MARK: - Hints (Faz G-1)
+
+    /// Consumable IAP satın alımı sonrası çağrılır (StoreManager tarafından).
+    func addHints(_ count: Int) {
+        hintCount += count
+        save()
+    }
+
+    /// Hint kullanımı — Faz H'de GameView'da hook'lanır.
+    /// false döndürürse hint yoktur.
+    @discardableResult
+    func useHint() -> Bool {
+        guard hintCount > 0 else { return false }
+        hintCount -= 1
+        save()
+        return true
+    }
+
     // MARK: - Reset (test / settings)
 
     func reset() {
@@ -195,6 +220,7 @@ final class ProgressStore {
         dailyResults  = []
         currentStreak = 0
         longestStreak = 0
+        hintCount     = 0
         save()
     }
 }
