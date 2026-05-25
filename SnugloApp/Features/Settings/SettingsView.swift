@@ -16,6 +16,9 @@ struct SettingsView: View {
     // MARK: — Haptics (Faz F: key matches HapticService)
     @AppStorage("hapticsEnabled")        private var hapticsEnabled       = true
 
+    // MARK: — Appearance theme (Faz F: 0=System, 1=Light, 2=Dark)
+    @AppStorage("appTheme")               private var appThemeRaw: Int     = 0
+
     // MARK: — Daily reminder (Faz F: NotificationService.reschedule called on change)
     @AppStorage("dailyReminderEnabled")  private var dailyReminderEnabled = false
     /// Stored as TimeInterval since reference date; default 19:00.
@@ -119,20 +122,16 @@ struct SettingsView: View {
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurface)
                     Spacer()
-                    Text("System Default")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurfaceVariant)
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundStyle(AppColors.outlineVariant)
+                    Picker("", selection: $appThemeRaw) {
+                        Text("System").tag(0)
+                        Text("Light").tag(1)
+                        Text("Dark").tag(2)
+                    }
+                    .labelsHidden()
+                    .tint(AppColors.primary)
                 }
-                .opacity(0.6)  // disabled — Faz H
             } header: {
                 sectionHeader("Appearance")
-            } footer: {
-                Text("Dark mode & custom themes: coming soon")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
             }
 
             // — NOTIFICATIONS —
