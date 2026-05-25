@@ -2,6 +2,51 @@
 
 ---
 
+## [v1.0-I2] — XCUITest Smoke Suite + A11y Identifiers (2026-05-25)
+
+### Accessibility Identifiers (I2-1)
+Added `.accessibilityIdentifier(...)` to 11 screens, the tab bar, and pause sheet for XCUITest/automation targeting:
+
+| Identifier | Konum |
+|---|---|
+| `screen.splash` | `SplashView` root ZStack |
+| `screen.onboarding` | `OnboardingView` root ZStack |
+| `button.onboarding.skip` | OnboardingView Skip button |
+| `button.onboarding.getStarted` | OnboardingView primary CTA |
+| `screen.mainMenu` | `MainMenuView` root ZStack |
+| `mainmenu.daily_card` | MainMenuView Daily Puzzle card |
+| `mainmenu.play_cta` | MainMenuView Continue/Play CTA |
+| `screen.levels` | `LevelsListView` root ZStack |
+| `screen.packDetail` | `PackDetailView` ScrollView |
+| `screen.game` | `GameView` root ZStack |
+| `game.pause` | GameView Pause button |
+| `game.back` | GameView Back button |
+| `game.grid` | GameView grid container |
+| `game.timer` | GameView timer label |
+| `pause.resume` | PauseSheet Resume button |
+| `screen.stats` | `StatsView` ScrollView |
+| `screen.shop` | `ShopView` ScrollView |
+| `screen.settings` | `SettingsView` List |
+| `tab.home` | BottomTabBar play tab |
+| `tab.levels` | BottomTabBar levels tab |
+| `tab.stats` | BottomTabBar stats tab |
+| `tab.shop` | BottomTabBar shop tab |
+
+- `BottomTabBar.TabItem` extended with `a11yId: String` property.
+- `Text("pause.resume")` is a `LocalizedStringKey` → accessibility label changes per locale; explicit identifier required for stable XCUITest lookup.
+
+### XCUITest Target (I2-2)
+- **`SnugloApp/SnugloAppUITests/`** — New UI test target (3 dosya, 5 test):
+  - `SnugloAppUITestsBase.swift` — `XCTestCase` base class; `-UITestMode` launch arg, `waitForElement` helper.
+  - `HomeFlowUITests.swift` — `testRootTabsExist`, `testMainMenuShowsPlayCTA`, `testTapPlayLaunchesGame` (3 test).
+  - `GameFlowUITests.swift` — `testPauseAndResume`, `testBackToMenu` (2 test).
+- **`project.yml`** — `SnugloAppUITests` target (bundle.ui-testing); scheme `test` action'a eklendi; `SnugloApp` sources'ta `SnugloAppUITests` klasörü exclude edildi.
+
+### Launch Arg Reset (I2-3)
+- **`SnugloApp.init()`** — `-uitest-reset-progress` launch argument gelirse `ProgressStore.shared.reset()` + `hasOnboarded` / `snuglo.language.override` temizliği. Test isolation için.
+
+---
+
 ## [v1.0-I1] — SwiftLint 0 Warning (2026-05-25)
 
 ### SwiftLint Configuration (I1-1)

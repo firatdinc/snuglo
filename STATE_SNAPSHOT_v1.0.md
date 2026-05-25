@@ -2,7 +2,7 @@
 
 > **Tarih:** 2026-05-25  
 > **Branch:** feature/DEV-12-v1-0-ground-truth-state-snapshot  
-> **HEAD:** 60db363 (Faz I-1 SwiftLint 0 warning)  
+> **HEAD:** 400b359 (DEV-13: Fix BLOCKERs — v1.0 ground-truth state snapshot)  
 > **Doküman amacı:** v1.0 öncesi gerçek durum — tamamlanan fazlar, kod yapısı, test sayıları, açık blocker'lar, Faz J için kalan işler.
 
 ---
@@ -13,7 +13,8 @@
 |-------|-------|-----|
 | `swift build` | ✅ 0 error, 0 warning | ~1.4 s (clean build) |
 | `swift test` (SnugloEngine) | ✅ 7 test dosyası, tüm testler geçti | DailyPuzzle, LevelGenerator, LevelLoader, PieceCellCount, SeededRandom, SolutionCheckerEdgeCase, SolutionCheckerSanity |
-| `xcodebuild test -scheme SnugloApp` | ✅ **66 test passed, 0 failed** | SnugloAppTests (12 dosya) + SnugloEngineTests (7 dosya) |
+| `xcodebuild test -scheme SnugloApp` (unit) | ✅ **66 test passed, 0 failed** | SnugloAppTests (12 dosya) + SnugloEngineTests (7 dosya) |
+| `xcodebuild test -scheme SnugloApp -only-testing:SnugloAppUITests` (UI smoke) | ✅ **5 test passed, 0 failed** (Faz I-2) | SnugloAppUITests — `HomeFlowUITests` (3) + `GameFlowUITests` (2) — simulator gerektirir |
 | `swiftlint lint --strict` | ✅ **0 violation, 0 serious** | exit 0 — Faz I-1 sonrası |
 
 **Deployment Target:** iOS 18.0  
@@ -38,8 +39,9 @@
 | H-1 | Localization TR/EN/ES — 112 key, 3 dil + InfoPlist.strings | — | ✅ |
 | H-2 | Accessibility + Dark Mode + Launch — 25 token adaptive, VoiceOver, Dynamic Type, Reduce Motion, LaunchScreen | — | ✅ |
 | I-1 | SwiftLint — 117 → 0 violation, `.swiftlint.yml` config, 3 manuel fix | `41dd12d` | ✅ |
+| I-2 | XCUITest smoke suite — `SnugloAppUITests` target (5 test), a11y identifier'lar (`screen.*`/`tab.*`/`game.*`/`mainmenu.*`/`pause.resume`), project.yml scheme ayrımı | `aaea856` | ✅ |
 
-**Toplam tamamlanan faz:** 11 (A → I-1)
+**Toplam tamamlanan faz:** 12 (A → I-2)
 
 ---
 
@@ -97,7 +99,8 @@ SnugloApp/
     Levels/                  pack_1/ … pack_4/ — 4 × 60 = 240 level JSON
     Localization/            en.lproj, tr.lproj, es.lproj (112 key × 3 dil)
     Assets.xcassets/         AppIcon (placeholder), AccentColor, LaunchBackground
-    Audio/                   .wav placeholder'lar (sessiz — BLOCKER-03)
+    Audio/                   README.md (sound design brief)
+    Sounds/                  .caf placeholders (5 file: click/error/place/snap/solve.caf, sessiz — BLOCKER-03)
 ```
 
 **Ekran sayısı:** 11  
@@ -131,7 +134,9 @@ SnugloApp/
 | SnugloApp | `SoundServiceTests` | Sound play/stop no-crash |
 | SnugloApp | `StoreManagerTests` | SKU listesi, lock state (13 test) |
 
-**Toplam (Faz I-1 sonrası):** **66 test passed, 0 failed**
+**Unit test toplam (Faz I-1 sonrası):** **66 test passed, 0 failed**  
+**UI smoke toplam (Faz I-2 sonrası):** **5 test passed, 0 failed**  
+**Genel toplam: 71 test, 0 failed**
 
 ---
 
@@ -144,7 +149,7 @@ SnugloApp/
 | BLOCKER-01 | **AppIcon:** 1024×1024 placeholder var; gerçek Snuglo logosu yok. `ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon` ayarlı. | Faz J |
 | BLOCKER-01b | **LaunchScreen UIColorName:** `GENERATE_INFOPLIST_FILE=YES` ile `UILaunchScreen.UIColorName` sub-key set edilemiyor. Custom `Info.plist`'e geçiş gerekli. | Faz J |
 | BLOCKER-02 | **Piece color:** `Piece` modeli `color` field'ı içermiyor; UI index-tabanlı renk atıyor. Level JSON'a ekleme Faz J kararı. | Faz J / sonrası |
-| BLOCKER-03 | **Ses dosyaları:** `pickup.wav, tock.wav, thud.wav, complete.wav, shimmer.wav, click.wav` placeholder — sessiz çalışıyor. | Faz J |
+| BLOCKER-03 | **Ses dosyaları:** `click/error/place/snap/solve.caf` (5 dosya, `Resources/Sounds/`) — sessiz placeholder. Gerçek ses Faz J'de. | Faz J |
 | BLOCKER-04 | **ASC IAP ürünleri:** Product ID'ler kodda tanımlı; App Store Connect'te manuel oluşturulmalı. | Manuel |
 | BLOCKER-05 | **TelemetryDeck App ID:** Kullanıcının kendi hesabından alması gerekiyor. | Manuel |
 | BLOCKER-07 | **Custom fontlar:** Plus Jakarta Sans / Be Vietnam Pro / Space Grotesk bundle'a eklenmedi; sistem fontu fallback kullanılıyor. | Faz J |
@@ -165,7 +170,7 @@ SnugloApp/
 | J-6 | Release build config — Release scheme, dSYM on, bitcode off | `project.yml` release config |
 | J-7 | Pre-submission checklist | `pre-submission-checklist.md` |
 | J-8 | Custom font dosyaları — `.ttf/.otf` bundle'a ekle, `UIAppFonts` array, `Typography.swift` güncelle | `Resources/Fonts/` |
-| J-9 | Ses dosyaları gerçek asset'lere geçiş | `Resources/Audio/*.wav` |
+| J-9 | Ses dosyaları gerçek asset'lere geçiş | `Resources/Sounds/*.caf` (placeholder'ların üzerine yaz) |
 
 **Manuel (kullanıcı yapacak):**
 - Apple Developer Program kaydı + sertifika

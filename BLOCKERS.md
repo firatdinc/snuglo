@@ -52,8 +52,8 @@ Reviewer task `pBQzr92rXgbgYn9VSddjy` — tüm bulgular kapatıldı:
 ## Gelecek Version'lar (placeholder)
 
 ### [BLOCKER-03] Ses dosyaları — v0.5'te gerekli
-- `pickup.wav`, `tock.wav`, `thud.wav`, `complete.wav`, `shimmer.wav`, `click.wav`
-- `SoundService.swift` placeholder'larla şimdilik sessiz çalışacak.
+- `click.caf`, `error.caf`, `place.caf`, `snap.caf`, `solve.caf` (5 dosya, `Resources/Sounds/`)
+- Faz F'de `.caf` formatına geçildi; placeholder'lar sessiz (44100 Hz PCM, 70 byte). Gerçek ses Faz J'de.
 
 ### [BLOCKER-04] App Store Connect IAP ürünleri — v0.7'de gerekli
 - Product ID'leri kod tarafında tanımlanacak; ASC'de kullanıcı tarafından oluşturulmalı.

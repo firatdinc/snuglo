@@ -53,6 +53,10 @@ struct PauseSheet: View {
                         .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
                 .buttonStyle(.plain)
+                // Faz I-2: XCUITest lookup — app.buttons["pause.resume"]
+                // Text("pause.resume") is a LocalizedStringKey → accessibility label becomes
+                // locale-dependent ("Devam Et", "Continuar") so identifier must be explicit.
+                .accessibilityIdentifier("pause.resume")
 
                 Button {
                     onRestart()
