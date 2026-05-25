@@ -2,6 +2,46 @@
 
 ---
 
+## [v1.0-H2] — Accessibility + Dark Mode + Launch (2026-05-25)
+
+### Dark Mode (H2-1)
+- **`Core/Theme/Colors.swift`** — Every `AppColors` token now has adaptive light + dark variants via `Color(light:dark:)` → `UIColor { traitCollection }` bridge.
+  - `Color(light:dark:)` extension on `Color`; `UIColor(hex:)` extension on `UIColor`.
+  - 25 tokens updated (background, surface*, primary, secondary, tertiary, on*, outline*, error*, block*).
+  - Block palette softened for dark backgrounds (e.g. `blockLavender` → `#7A6D8C` dark).
+  - `surfaceContainerLowest` → `#141316` dark (deepest elevation).
+  - BLOCKER-06 CLOSED.
+
+### Accessibility — VoiceOver + Hints (H2-2)
+- **`SplashView.swift`** — 3×3 logo grid → `.accessibilityElement(children: .ignore)` `.accessibilityLabel("Snuglo")`; wordmark hidden.
+- **`OnboardingView.swift`** — Page dots → "Page N of 3"; Skip button hint; action button adaptive hint per page.
+- **`MainMenuView.swift`** — Daily Puzzle card label from `LocalizedStringKey`; progress pill combined "Level 12 of 240 completed"; continue card label with progress %.
+- **`LevelsListView.swift`** — `packA11yLabel()`: "Cozy Beginnings, 12 of 60 levels completed, 20 percent" / "…locked. Tap to unlock."
+- **`PackDetailView.swift`** — `levelTileA11yLabel()`: "Level 12, 3 of 3 stars, completed" / locked / plain.
+- **`LevelCompleteSheet.swift`** — Stars: "2 of 3 stars earned"; stats row combined "Solved in 2 minutes 45 seconds. 3 stars. 0 hints used."; `formattedTimeSpeech` helper.
+- **`StatsView.swift`** — KPI cards combined + speech-friendly; pack donuts "Cozy pack: 12 of 60 levels completed"; chart bars "Mon: solved, today".
+- **`ShopView.swift`** — SKU buttons "Spice Route Pack. $2.99. Tap to purchase" / "Owned"; loading overlay labelled.
+- **`SettingsView.swift`** — Reset Progress: `.accessibilityLabel("Reset all progress")` + `.accessibilityHint("Permanently deletes all your game data.")`, `isButton` trait; toggle rows `.accessibilityElement(children: .combine)`.
+- All decorative icons/images → `.accessibilityHidden(true)` across all screens.
+
+### Dynamic Type + Reduce Motion (H2-3)
+- **`GameView.swift`** — `.dynamicTypeSize(.medium ... .xxxLarge)` prevents grid overflow at AX5 sizes.
+- **`BlockView.swift`** — `@Environment(\.accessibilityReduceMotion)` guards scale/spring animations.
+- **`GameView.swift`** — `withAnimation(reduceMotion ? nil : .spring(...))` in drag onEnded.
+- **`SplashView.swift`** — Breathe animation skipped when reduceMotion; entrance fade disabled.
+- **`OnboardingView.swift`** — Tab swipe + dot animation nil when reduceMotion.
+- **`LevelCompleteSheet.swift`** — Confetti layer entirely skipped when reduceMotion.
+
+### LaunchScreen + AppIcon (H2-4)
+- **`Resources/Assets.xcassets/`** (new catalog):
+  - `LaunchBackground.colorset` — light `#FDF8FB` / dark `#1B1A1D` (matches `AppColors.background`).
+  - `AccentColor.colorset` — light `#65587A` / dark `#C5B5DC` (matches `AppColors.primary`).
+  - `AppIcon.appiconset` — 1024×1024 lavender placeholder PNG; real icon in Faz J.
+- **`project.yml`** — `ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon`; `ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor`; `MARKETING_VERSION: 1.0.0`.
+- ⚠️ `UILaunchScreen.UIColorName` sub-key cannot be set via `INFOPLIST_KEY_*` build settings with `GENERATE_INFOPLIST_FILE=YES`. Colorset is ready; migration to custom Info.plist in Faz J.
+
+---
+
 ## [v1.0-H1] — Localization TR/EN/ES (2026-05-25)
 
 ### Resources/Localization (H1-1 — .lproj strings)
