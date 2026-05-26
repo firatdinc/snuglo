@@ -75,7 +75,7 @@ struct SplashView: View {
             .animation(reduceMotion ? .none : .easeOut(duration: 0.8), value: visible)
         }
         .accessibilityIdentifier("screen.splash")  // Faz I-2
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             visible = true
             if !reduceMotion { scale = 1.0 }

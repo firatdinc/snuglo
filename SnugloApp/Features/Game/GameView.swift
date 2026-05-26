@@ -26,10 +26,6 @@ struct GameView: View {
 
     init(levelId: String = "level_5x5") {
         self.levelId = levelId
-        // Initialize the view-model with the correct level up-front. This avoids
-        // a transient render where the screen briefly shows the bundled
-        // `level_5x5` (or worse, the 1×1 fallback when that bundle resource
-        // isn't shipped in the app target) before .onAppear swaps it.
         self._viewModel = State(initialValue: GameViewModel.makeFromPackProvider(levelId: levelId))
     }
 
@@ -47,9 +43,19 @@ struct GameView: View {
     @State private var elapsedSeconds    = 0
     @State private var timerTask: Task<Void, Never>?
 
+    /// v1.1.1 critical fix: cellSize used to read live `gridFrame`, but
+    /// `trayView` also rendered BlockViews using that value. As gridFrame
+    /// changed, tray heights changed, which changed available height for
+    /// the grid, which changed gridFrame — infinite layout loop (>30k
+    /// body renders/sec → navigation push could never visually complete).
+    ///
+    /// Stable estimate: derive grid width from the SCREEN width minus the
+    /// horizontal padding the grid actually has. This value never reads
+    /// `gridFrame`, so updating it doesn't trigger more layouts.
     private var cellSize: CGFloat {
-        guard gridFrame.width > 0 else { return 56 }
-        return gridFrame.width / CGFloat(viewModel.level.width)
+        let screenW = UIScreen.main.bounds.width
+        let estimatedGridWidth = max(0, screenW - AppSpacing.lg * 2)
+        return estimatedGridWidth / CGFloat(viewModel.level.width)
     }
 
     private func overlayOffset(for piece: Piece) -> CGPoint {
@@ -77,7 +83,8 @@ struct GameView: View {
         }
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
-        .navigationBarHidden(true)
+        // iOS 17+ replacement for deprecated .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.game")
         // H-2: Constrain Dynamic Type — grid cells overflow at AX5 sizes
         .dynamicTypeSize(.medium ... .xxxLarge)
@@ -129,7 +136,6 @@ struct GameView: View {
             .environment(router)
         }
         .onAppear {
-            // viewModel is initialized correctly in init(levelId:) — only start the timer here.
             startTimer()
         }
         .onDisappear { timerTask?.cancel() }
@@ -158,10 +164,23 @@ struct GameView: View {
                 draggingPieceID: draggingPiece?.id
             )
             .padding(.horizontal, AppSpacing.lg)
+            // v1.1.1 critical fix: floating-point oscillation in the geometry
+            // value caused 30k+ body re-renders/second → main thread block,
+            // navigation push never completed, app appeared frozen.
+            // Round to nearest integer pt before triggering @State update,
+            // and skip no-op updates entirely.
             .onGeometryChange(for: CGRect.self) { proxy in
                 proxy.frame(in: .named("gameLayout"))
             } action: { frame in
-                gridFrame = frame
+                let rounded = CGRect(
+                    x: frame.origin.x.rounded(),
+                    y: frame.origin.y.rounded(),
+                    width: frame.width.rounded(),
+                    height: frame.height.rounded()
+                )
+                if rounded != gridFrame {
+                    gridFrame = rounded
+                }
             }
             // Faz I-2: UITest identifier for the puzzle grid container.
             // .accessibilityElement(children: .contain) is required so Canvas-based

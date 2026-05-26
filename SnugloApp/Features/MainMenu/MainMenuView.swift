@@ -20,7 +20,7 @@ struct MainMenuView: View {
 
             BottomTabBar()
         }
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.mainMenu")
     }
 
@@ -164,7 +164,16 @@ struct MainMenuView: View {
         Button {
             router.push(.gamePlay(levelId: "daily"))
         } label: {
-            VStack(alignment: .leading, spacing: 0) {
+            dailyPuzzleCardLabel
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("menu.dailyPuzzle"))
+        .accessibilityHint("Tap to play today's puzzle")
+        .accessibilityIdentifier("button.menu.dailyPuzzle")
+    }
+
+    private var dailyPuzzleCardLabel: some View {
+        VStack(alignment: .leading, spacing: 0) {
                 // Hero image placeholder (decorative gradient)
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 0, style: .continuous)
@@ -253,20 +262,9 @@ struct MainMenuView: View {
                 .padding(AppSpacing.md + 4)
                 .background(AppColors.background)
             }
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .cardSurface()
-            // v1.1 bug fix: ensure entire card is hit-testable. Without this
-            // SwiftUI may miss taps over the inner ZStack regions that have
-            // .frame(maxWidth: .infinity, maxHeight: .infinity) overlays.
-            .contentShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-        }
-        .buttonStyle(.plain)
-        .scaleEffect(1.0)
-        // H-2: meaningful label for VoiceOver
-        .accessibilityLabel(Text("menu.dailyPuzzle"))
-        .accessibilityHint("Tap to play today's puzzle")
-        // Faz I-2: UITest smoke identifier (updated spec)
-        .accessibilityIdentifier("button.menu.dailyPuzzle")
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .cardSurface()
+        .contentShape(Rectangle())
     }
 
     // MARK: — Continue section
@@ -325,9 +323,19 @@ struct MainMenuView: View {
 
     private func continueCard(pack: Pack, level: LevelItem) -> some View {
         Button {
-            router.push(.gamePlay(levelId: level.id))
+            router.push(.game(levelID: level.id))
         } label: {
-            HStack(spacing: AppSpacing.md) {
+            continueCardLabel(pack: pack, level: level)
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete")
+        .accessibilityHint("Tap to continue this level")
+        .accessibilityIdentifier("button.menu.continue")
+    }
+
+    private func continueCardLabel(pack: Pack, level: LevelItem) -> some View {
+        HStack(spacing: AppSpacing.md) {
                 // Pack thumbnail (decorative — label conveys pack info)
                 ZStack {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -380,17 +388,11 @@ struct MainMenuView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .padding(AppSpacing.md)
-            .background(AppColors.background)
-            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .cardSurface()
-        }
-        .buttonStyle(.plain)
-        // H-2: combined label with progress context
-        .accessibilityLabel("\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete")
-        .accessibilityHint("Tap to continue this level")
-        // Faz I-2: UITest continue CTA identifier (updated spec)
-        .accessibilityIdentifier("button.menu.continue")
+        .padding(AppSpacing.md)
+        .background(AppColors.background)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .cardSurface()
+        .contentShape(Rectangle())
     }
 }
 

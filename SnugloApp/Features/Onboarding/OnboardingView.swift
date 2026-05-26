@@ -127,7 +127,7 @@ struct OnboardingView: View {
         }
         .background(AppColors.background.ignoresSafeArea())
         .accessibilityIdentifier("screen.onboarding")  // Faz I-2
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: — Page layout

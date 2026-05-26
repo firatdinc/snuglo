@@ -15,7 +15,11 @@ struct RootView: View {
     }
 
     var body: some View {
-        NavigationStack(path: $router.path) {
+        // iOS 17+ pattern: @Bindable for NavigationStack(path:) binding from
+        // an @Observable router. Without it the binding sometimes failed to
+        // observe nested mutations.
+        @Bindable var bindableRouter = router
+        NavigationStack(path: $bindableRouter.path) {
             SplashView()
                 .navigationBarBackButtonHidden()
                 .navigationDestination(for: Route.self) { route in
