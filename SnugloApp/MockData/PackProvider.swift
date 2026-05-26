@@ -90,4 +90,49 @@ enum PackProvider {
     static func dailyPuzzle() -> Level {
         DailyPuzzle.today()
     }
+
+    // MARK: - Continue helpers (v1.1 bug fix — read from ProgressStore, not MockData)
+
+    /// First unlocked pack that has a "next playable" level.
+    /// Falls back to the first unlocked pack if no progress yet.
+    static func continuePack() -> Pack? {
+        let packs = allPacks()
+        // Prefer the pack the user has progress in.
+        if let inProgress = packs.first(where: { !$0.isLocked && $0.completedCount > 0 && $0.completedCount < $0.levelCount }) {
+            return inProgress
+        }
+        // Otherwise the first unlocked pack so Level 1 is always reachable.
+        return packs.first { !$0.isLocked }
+    }
+
+    /// The next playable level in `continuePack()`. For a brand-new player
+    /// this is Level 1 of the first unlocked pack.
+    static func continueLevel() -> LevelItem? {
+        guard let pack = continuePack() else { return nil }
+        let nextIndex = pack.completedCount + 1
+        guard nextIndex <= pack.levelCount else { return nil }
+        return LevelItem(
+            id: "\(pack.id)-\(nextIndex)",
+            index: nextIndex,
+            isCompleted: false,
+            isLocked: false,
+            stars: 0
+        )
+    }
+
+    // MARK: - Next-level helper (v1.1 bug fix — LevelCompleteSheet "Next Level")
+
+    /// Returns the levelId immediately after `currentId` in the same pack.
+    /// Returns `nil` if `currentId` is malformed or this was the last level
+    /// in the pack (caller should fall through to pack-complete UX).
+    static func nextLevelId(after currentId: String) -> String? {
+        guard let dashIdx = currentId.lastIndex(of: "-") else { return nil }
+        let packId   = String(currentId[..<dashIdx])
+        let indexStr = String(currentId[currentId.index(after: dashIdx)...])
+        guard let index = Int(indexStr),
+              let pack = MockData.allPacks.first(where: { $0.id == packId }),
+              index + 1 <= pack.levelCount
+        else { return nil }
+        return "\(packId)-\(index + 1)"
+    }
 }

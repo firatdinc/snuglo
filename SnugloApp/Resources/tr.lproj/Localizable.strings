@@ -37,10 +37,14 @@
 "menu.refresh"     = "%@ içinde yenilenir";
 
 // MARK: — Sekmeler (BottomTabBar)
-"tab.play"   = "Oyna";
-"tab.levels" = "Seviyeler";
-"tab.stats"  = "İstatistik";
-"tab.shop"   = "Mağaza";
+// Faz I-2 aktif set: home / stats / shop / settings
+"tab.home"     = "Ana";
+"tab.stats"    = "İstatistik";
+"tab.shop"     = "Mağaza";
+"tab.settings" = "Ayarlar";
+// Eski anahtarlar
+"tab.play"     = "Oyna";
+"tab.levels"   = "Seviyeler";
 
 // MARK: — Seviyeler listesi
 "levels.title"    = "Seviyeler";

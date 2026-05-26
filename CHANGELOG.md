@@ -2,6 +2,28 @@
 
 ---
 
+## [v1.1.1] - 2026-05-26
+### Functional bug fixes (post v1.1.0 manual QA)
+- **Tab bar labels rendered as raw keys** (`TAB.HOME`, `TAB.SETTINGS`): Faz I-2 renamed the tabs from play/levels → home/settings but never added the new keys to `Localizable.strings`. Added `tab.home` + `tab.settings` to en/tr/es. Legacy `tab.play` / `tab.levels` retained as no-ops.
+- **Continue card showed "Cozy Beginnings Level 13" for fresh players**: the MainMenu Continue card was reading `MockData.continuePack` / `continueLevel`, both of which were hardcoded to a partial-progress state from the Faz C scaffold. Added `PackProvider.continuePack()` / `continueLevel()` which read real progress from `ProgressStore` and surface the first unlocked + playable level. Fresh player now sees "Cozy Beginnings Level 1, 0%".
+- **"Next Level" CTA on LevelCompleteSheet didn't advance**: `onNext: { router.pop() }` only popped the GameView, returning the user to PackDetail. Replaced with `PackProvider.nextLevelId(after:)` which computes the next id and pushes a fresh `.game(levelID:)` on the NavigationStack (replacing the current entry so back-button still returns to PackDetail). Falls through to `pop()` at pack-end / daily puzzle.
+- **Daily Puzzle card occasionally didn't register taps**: added explicit `.contentShape(RoundedRectangle(...))` to the Button label. The nested `.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)` for the grid-size badge could swallow taps over the top-right region.
+- **Progress pill read "Level 0 / 240"** for fresh players: pill now shows `min(completed + 1, total)` — interpreted as the *next* level the user will play, matching the Stitch design ("Level 12 / 240" with 11 done).
+
+### Tests
+- `PackProviderContinueTests` (8 new): coverage for `nextLevelId(after:)` (next index, pack-id dashes, pack-end, malformed input, unknown pack) + `continuePack/continueLevel` (fresh-player Level 1).
+
+### Build & tests
+- `swift test` → 66/66
+- `xcodebuild test -only-testing:PackProviderContinueTests` → 8/8
+- `xcodebuild build` (iPhone 17, iOS 26.3.1) → BUILD SUCCEEDED
+
+### Manual verification needed (user)
+- Daily Puzzle card tap → GameView with today's puzzle (couldn't reliably simulate tap programmatically — macOS Accessibility permission on Terminal blocks `Quartz.CGEventPost` to Simulator).
+- Level 1 complete → "Next Level" → Level 2 loads.
+
+---
+
 ## [v1.1.0] - 2026-05-26
 ### Reusable Component Rollout (Faz K + L, IOS-54)
 - **Audit**: every feature screen scanned for Stitch alignment. `AUDIT_v1.1.md` documents per-screen status, dead code (`PauseOverlayView` unreferenced), and refactor order-of-attack.

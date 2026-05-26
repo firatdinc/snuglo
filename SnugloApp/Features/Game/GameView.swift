@@ -102,7 +102,24 @@ struct GameView: View {
                 stars: 3,
                 elapsedSeconds: elapsedSeconds,
                 hintsUsed: 0,
-                onNext: { router.pop() },
+                // v1.1 bug fix: Next Level now actually advances to the next
+                // level in the pack instead of popping back to PackDetail.
+                // Falls back to pop() when this was the last level in the
+                // pack (or for the daily puzzle, which has no successor).
+                onNext: {
+                    showComplete = false
+                    if let nextId = PackProvider.nextLevelId(after: levelId) {
+                        // Replace the current GameView on the NavigationStack
+                        // so back-button returns to PackDetail/MainMenu, not
+                        // the previous level.
+                        if !router.path.isEmpty {
+                            router.path.removeLast()
+                        }
+                        router.push(.game(levelID: nextId))
+                    } else {
+                        router.pop()
+                    }
+                },
                 onReplay: {
                     viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
                     elapsedSeconds = 0

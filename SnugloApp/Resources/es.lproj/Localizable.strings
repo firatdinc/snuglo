@@ -37,10 +37,14 @@
 "menu.refresh"     = "Se renueva en %@";
 
 // MARK: — Pestañas (BottomTabBar)
-"tab.play"   = "Jugar";
-"tab.levels" = "Niveles";
-"tab.stats"  = "Estadísticas";
-"tab.shop"   = "Tienda";
+// Faz I-2 conjunto activo: home / stats / shop / settings
+"tab.home"     = "Inicio";
+"tab.stats"    = "Estadísticas";
+"tab.shop"     = "Tienda";
+"tab.settings" = "Ajustes";
+// Claves heredadas
+"tab.play"     = "Jugar";
+"tab.levels"   = "Niveles";
 
 // MARK: — Lista de niveles
 "levels.title"    = "Niveles";

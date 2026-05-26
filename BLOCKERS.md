@@ -45,8 +45,12 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 
 ### v1.2 Backlog (new — from v1.1.0 IOS-54 audit):
 - Delete `SnugloApp/Features/Game/PauseOverlayView.swift` (dead code — not referenced anywhere; superseded by `PauseSheet`). Left in place for v1.1.0 to keep this release purely additive.
-- Tab bar labels render as raw localization keys (`TAB.HOME`, `TAB.SETTINGS`) — `tab.home` / `tab.stats` / `tab.shop` / `tab.settings` keys missing from `Localizable.strings` (en/tr/es). Visible in v1.1.0 main menu screenshot.
+- ~~Tab bar labels render as raw localization keys~~ — ✅ fixed in v1.1.1
 - `xcuserdata/` + `.swiftpm/xcode/xcuserdata/` accidentally committed in IOS-54 wrap-up commit — add to `.gitignore` and `git rm --cached` in v1.2.
+
+### v1.2 Backlog (new — from v1.1.1 hotfix):
+- Tab label "İSTATİSTİK" still wraps in Turkish locale (renders as two lines "İSTATİSTİ\nK"). Either truncate / use shorter label ("İSTATS"?) or reduce font size at smallest tab widths. Cosmetic; doesn't block release.
+- Continue card refresh when returning from GameView: currently `continuePack/continueLevel` are computed at MainMenu render time, but if the user completes a level and the view is cached, the card may not refresh. Add `.id(ProgressStore.shared.totalLevelsCompleted())` or observe ProgressStore to invalidate.
 
 ---
 

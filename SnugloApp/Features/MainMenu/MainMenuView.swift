@@ -101,13 +101,17 @@ struct MainMenuView: View {
     private var progressPill: some View {
         let completed = ProgressStore.shared.totalLevelsCompleted()
         let total = 240
+        // v1.1.1: pill reads as "Level X / Total" where X is the next level the
+        // player will play, matching the Stitch design ("Level 12 / 240" when
+        // 11 are done). Was showing "Level 0 / 240" for fresh players.
+        let current = min(completed + 1, total)
         return HStack(spacing: AppSpacing.sm) {
             Image(systemName: "star.fill")
                 .font(.system(size: 14))
                 .foregroundStyle(AppColors.tertiary)
                 .accessibilityHidden(true)
 
-            Text(verbatim: "Level \(completed)")
+            Text(verbatim: "Level \(current)")
                 .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.onSurface)
             +
@@ -126,7 +130,7 @@ struct MainMenuView: View {
         .shadowL1()
         // H-2: combined element for VoiceOver
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Level \(completed) of \(total) completed")
+        .accessibilityLabel("On level \(current) of \(total). \(completed) completed.")
     }
 
     // MARK: — Daily Puzzle card
@@ -251,6 +255,10 @@ struct MainMenuView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
             .cardSurface()
+            // v1.1 bug fix: ensure entire card is hit-testable. Without this
+            // SwiftUI may miss taps over the inner ZStack regions that have
+            // .frame(maxWidth: .infinity, maxHeight: .infinity) overlays.
+            .contentShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
         }
         .buttonStyle(.plain)
         .scaleEffect(1.0)
@@ -286,7 +294,10 @@ struct MainMenuView: View {
             }
             .padding(.horizontal, AppSpacing.xs)
 
-            if let pack = MockData.continuePack, let level = MockData.continueLevel {
+            // v1.1 bug fix: pull live progress from PackProvider/ProgressStore,
+            // not hardcoded MockData (was showing "Cozy Beginnings Level 13"
+            // for a fresh player with zero progress).
+            if let pack = PackProvider.continuePack(), let level = PackProvider.continueLevel() {
                 continueCard(pack: pack, level: level)
             } else {
                 // Faz I-2: push .levelsList route (levels tab removed)

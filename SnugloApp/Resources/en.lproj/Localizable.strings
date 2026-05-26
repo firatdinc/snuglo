@@ -37,10 +37,14 @@
 "menu.refresh"     = "Refresh in %@";
 
 // MARK: — Tabs (BottomTabBar)
-"tab.play"   = "Play";
-"tab.levels" = "Levels";
-"tab.stats"  = "Stats";
-"tab.shop"   = "Shop";
+// Faz I-2 active set: home / stats / shop / settings
+"tab.home"     = "Home";
+"tab.stats"    = "Stats";
+"tab.shop"     = "Shop";
+"tab.settings" = "Settings";
+// Legacy keys retained for any old call sites
+"tab.play"     = "Play";
+"tab.levels"   = "Levels";
 
 // MARK: — Levels list
 "levels.title"    = "Levels";
