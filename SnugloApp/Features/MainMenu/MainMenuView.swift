@@ -24,17 +24,18 @@ struct MainMenuView: View {
         .accessibilityIdentifier("screen.mainMenu")
     }
 
+    // Faz I-2: tabs are now home / stats / shop / settings
     @ViewBuilder
     private var tabContent: some View {
         switch router.selectedTab {
-        case .play:
+        case .home:
             scrollContent
-        case .levels:
-            LevelsListView(packId: "")
         case .stats:
             StatsView()
         case .shop:
             ShopView()
+        case .settings:
+            SettingsView()
         }
     }
 
@@ -42,8 +43,9 @@ struct MainMenuView: View {
 
     private var topBar: some View {
         HStack {
+            // Faz I-2: settings is now a tab, not a pushed route
             Button {
-                router.push(.settings)
+                router.selectTab(.settings)
             } label: {
                 Image(systemName: "gearshape.fill")
                     .font(.system(size: 22))
@@ -259,8 +261,8 @@ struct MainMenuView: View {
         // H-2: meaningful label for VoiceOver
         .accessibilityLabel(Text("menu.dailyPuzzle"))
         .accessibilityHint("Tap to play today's puzzle")
-        // Faz I-2: UITest smoke identifier
-        .accessibilityIdentifier("mainmenu.daily_card")
+        // Faz I-2: UITest smoke identifier (updated spec)
+        .accessibilityIdentifier("button.menu.dailyPuzzle")
     }
 
     // MARK: — Continue section
@@ -274,8 +276,9 @@ struct MainMenuView: View {
 
                 Spacer()
 
+                // Faz I-2: levels is no longer a tab; push .levelsList route
                 Button {
-                    router.selectTab(.levels)
+                    router.push(.levelsList)
                 } label: {
                     Text("menu.viewAll")
                         .font(AppTypography.labelSmall)
@@ -290,8 +293,9 @@ struct MainMenuView: View {
             if let pack = MockData.continuePack, let level = MockData.continueLevel {
                 continueCard(pack: pack, level: level)
             } else {
+                // Faz I-2: push .levelsList route (levels tab removed)
                 Button {
-                    router.selectTab(.levels)
+                    router.push(.levelsList)
                 } label: {
                     HStack {
                         Text("menu.startFirst")
@@ -382,8 +386,8 @@ struct MainMenuView: View {
         // H-2: combined label with progress context
         .accessibilityLabel("\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete")
         .accessibilityHint("Tap to continue this level")
-        // Faz I-2: UITest primary play/continue CTA identifier
-        .accessibilityIdentifier("mainmenu.play_cta")
+        // Faz I-2: UITest continue CTA identifier (updated spec)
+        .accessibilityIdentifier("button.menu.continue")
     }
 }
 

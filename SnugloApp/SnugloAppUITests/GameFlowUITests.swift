@@ -2,25 +2,26 @@ import XCTest
 
 // MARK: — GameFlowUITests
 // Smoke tests for in-game pause/resume and back-to-menu navigation.
+// Faz I-2: button.game.pause (was game.pause), button.menu.dailyPuzzle (was mainmenu.play_cta)
 
 final class GameFlowUITests: SnugloAppUITestsBase {
 
     // MARK: — Private Helpers
 
-    /// Navigates from the main menu to the game screen via the play CTA.
+    /// Navigates from the main menu to the game screen via the daily puzzle card.
     /// Fails the test immediately if any expected element is missing.
     private func launchGame(file: StaticString = #file, line: UInt = #line) {
-        let playCTA = app.buttons["mainmenu.play_cta"]
+        let dailyCard = app.buttons["button.menu.dailyPuzzle"]
         XCTAssertTrue(
-            playCTA.waitForExistence(timeout: 6),
-            "mainmenu.play_cta not found",
+            dailyCard.waitForExistence(timeout: 6),
+            "button.menu.dailyPuzzle not found",
             file: file, line: line
         )
-        playCTA.tap()
+        dailyCard.tap()
 
         XCTAssertTrue(
             app.otherElements["game.grid"].waitForExistence(timeout: 5),
-            "game.grid not visible after tapping play CTA",
+            "game.grid not visible after tapping daily puzzle card",
             file: file, line: line
         )
     }
@@ -32,10 +33,10 @@ final class GameFlowUITests: SnugloAppUITestsBase {
     func testPauseAndResume() throws {
         launchGame()
 
-        let pauseButton = app.buttons["game.pause"]
+        let pauseButton = app.buttons["button.game.pause"]
         XCTAssertTrue(
             waitForElement(pauseButton, timeout: 3),
-            "game.pause button not found in HUD"
+            "button.game.pause not found in HUD"
         )
         pauseButton.tap()
 
@@ -55,7 +56,7 @@ final class GameFlowUITests: SnugloAppUITestsBase {
 
     // MARK: — testBackToMenu
     // Enters the game, taps the back button, and verifies that the
-    // main menu play CTA reappears.
+    // main menu daily puzzle card reappears.
 
     func testBackToMenu() throws {
         launchGame()
@@ -63,14 +64,14 @@ final class GameFlowUITests: SnugloAppUITestsBase {
         let backButton = app.buttons["game.back"]
         XCTAssertTrue(
             waitForElement(backButton, timeout: 3),
-            "game.back button not found in HUD"
+            "game.back not found in HUD"
         )
         backButton.tap()
 
-        let playCTA = app.buttons["mainmenu.play_cta"]
+        let dailyCard = app.buttons["button.menu.dailyPuzzle"]
         XCTAssertTrue(
-            waitForElement(playCTA, timeout: 5),
-            "mainmenu.play_cta not visible after tapping game.back"
+            waitForElement(dailyCard, timeout: 5),
+            "button.menu.dailyPuzzle not visible after tapping game.back"
         )
     }
 }

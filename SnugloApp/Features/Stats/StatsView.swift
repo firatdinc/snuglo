@@ -74,7 +74,8 @@ struct StatsView: View {
                 value: levelsCompletedLabel,
                 labelKey: "stats.levelsCompleted",
                 icon: "checkmark.circle.fill",
-                a11yLabel: "Levels completed: \(store.totalLevelsCompleted()) of 240"
+                a11yLabel: "Levels completed: \(store.totalLevelsCompleted()) of 240",
+                a11yId: "stats.total_completed"  // Faz I-2: UITest identifier
             )
             kpiCard(
                 value: store.currentStreak > 0 ? "\(store.currentStreak)d" : "—",
@@ -103,7 +104,7 @@ struct StatsView: View {
         "\(store.totalLevelsCompleted())/240"
     }
 
-    private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String, a11yLabel: String) -> some View {
+    private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String, a11yLabel: String, a11yId: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             Image(systemName: icon)
                 .font(.system(size: 20))
@@ -133,6 +134,8 @@ struct StatsView: View {
         // H-2: combine entire card into one VoiceOver element
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(a11yLabel)
+        // Faz I-2: optional UITest identifier
+        .accessibilityIdentifier(a11yId ?? "")
     }
 
     // MARK: — Pack Progress Donuts

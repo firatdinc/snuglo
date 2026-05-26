@@ -205,8 +205,8 @@ struct GameView: View {
             .buttonStyle(.plain)
             .accessibilityLabel("Pause")
             .accessibilityHint("Pauses the timer and shows pause options")
-            // Faz I-2: UITest identifier
-            .accessibilityIdentifier("game.pause")
+            // Faz I-2: updated identifier spec
+            .accessibilityIdentifier("button.game.pause")
         }
         .padding(.horizontal, AppSpacing.lg)
     }

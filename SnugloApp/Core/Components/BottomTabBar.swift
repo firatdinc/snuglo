@@ -1,13 +1,13 @@
 import SwiftUI
 
-// MARK: — BottomTabBar (H-1: Localized)
+// MARK: — BottomTabBar (H-1: Localized · Faz I-2: updated tabs & identifiers)
 // Ref: Designs/html/03-main-menu.html (nav section)
-// 4-tab custom bottom bar: Play · Levels · Stats · Shop
+// Faz I-2: 4 tabs — Home · Stats · Shop · Settings
+//          Identifiers: tab.home / tab.stats / tab.shop / tab.settings
 // Active tab: lavender pill background + filled icon.
 //
 // Reads and writes router.selectedTab via @Environment so call sites
 // need no @Binding passthrough — just BottomTabBar() with no args.
-// H-1: Tab labels use LocalizedStringKey (keys: tab.play, tab.levels, etc.)
 
 struct BottomTabBar: View {
 
@@ -22,10 +22,10 @@ struct BottomTabBar: View {
     }
 
     private let items: [TabItem] = [
-        .init(tab: .play, labelKey: "tab.play", icon: "puzzlepiece", activeIcon: "puzzlepiece.fill", a11yId: "tab.play"),
-        .init(tab: .levels, labelKey: "tab.levels", icon: "square.grid.2x2", activeIcon: "square.grid.2x2.fill", a11yId: "tab.levels"),
+        .init(tab: .home, labelKey: "tab.home", icon: "house", activeIcon: "house.fill", a11yId: "tab.home"),
         .init(tab: .stats, labelKey: "tab.stats", icon: "chart.bar", activeIcon: "chart.bar.fill", a11yId: "tab.stats"),
-        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop")
+        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop"),
+        .init(tab: .settings, labelKey: "tab.settings", icon: "gearshape", activeIcon: "gearshape.fill", a11yId: "tab.settings")
     ]
 
     var body: some View {

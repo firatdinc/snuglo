@@ -121,6 +121,8 @@ struct PauseSheet: View {
                     )
                 }
                 .buttonStyle(.plain)
+                // Faz I-2: XCUITest identifier
+                .accessibilityIdentifier("pause.quit")
             }
 
             Spacer(minLength: 0)

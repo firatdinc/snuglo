@@ -4,6 +4,7 @@ import Observation
 // MARK: — Route enum
 // Navigation destinations for the entire app.
 // Faz C: 11-screen navigation skeleton.
+// Faz I-2: added .levelsList for levels-list pushed from home tab.
 
 enum Route: Hashable {
     case onboarding
@@ -13,15 +14,17 @@ enum Route: Hashable {
     // Both route to the same GameView; kept separate so call-site intent is readable.
     case gamePlay(levelId: String)
     case packDetail(packId: String)
+    case levelsList          // Faz I-2: levels list (was a tab; now pushed from home)
     case settings
     case shop
 }
 
 // MARK: — AppTab
-// 4 bottom-nav tabs inside MainMenuView's TabView.
+// Faz I-2: Tabs updated to home / stats / shop / settings.
+// Levels are now accessed via the home tab (push → levelsList route).
 
 enum AppTab: Hashable, CaseIterable {
-    case play, levels, stats, shop
+    case home, stats, shop, settings
 }
 
 // MARK: — AppRouter
@@ -31,7 +34,7 @@ enum AppTab: Hashable, CaseIterable {
 final class AppRouter {
 
     var path: [Route] = []
-    var selectedTab: AppTab = .play
+    var selectedTab: AppTab = .home
 
     func push(_ route: Route) {
         path.append(route)

@@ -1,0 +1,106 @@
+import XCTest
+
+// MARK: — SmokeUITests (Faz I-2)
+// 6 smoke tests that verify screen reachability via accessibility identifiers.
+// Launched with -uitest-reset-progress so every run starts from first-launch state.
+
+final class SmokeUITests: XCTestCase {
+
+    var app: XCUIApplication!
+
+    override func setUp() {
+        super.setUp()
+        continueAfterFailure = false
+        app = XCUIApplication()
+        app.launchArguments += ["-uitest-reset-progress"]
+        app.launch()
+    }
+
+    // MARK: — Test 1: splash → onboarding on first launch
+
+    func test_splashReachesOnboarding_onFirstLaunch() {
+        // First launch: progress reset → onboarding shown after ~1.2 s splash
+        let getStarted = app.buttons["button.onboarding.getStarted"]
+        XCTAssertTrue(
+            getStarted.waitForExistence(timeout: 5),
+            "button.onboarding.getStarted not found — onboarding may not have appeared"
+        )
+    }
+
+    // MARK: — Test 2: complete onboarding → main menu
+
+    func test_completeOnboardingToMainMenu() {
+        let getStarted = app.buttons["button.onboarding.getStarted"]
+        if getStarted.waitForExistence(timeout: 5) {
+            // Tap the primary action button (works on any page: "Next" or "Get Started")
+            getStarted.tap()
+        }
+        let mainMenu = app.otherElements["screen.mainMenu"]
+        XCTAssertTrue(
+            mainMenu.waitForExistence(timeout: 4),
+            "screen.mainMenu not found after tapping onboarding getStarted"
+        )
+    }
+
+    // MARK: — Test 3: navigate to Shop tab
+
+    func test_navigateToShop() {
+        skipOnboardingIfPresent()
+        app.buttons["tab.shop"].firstMatch.tap()
+        let shopScreen = app.otherElements["screen.shop"]
+        XCTAssertTrue(
+            shopScreen.waitForExistence(timeout: 3),
+            "screen.shop not found after tapping tab.shop"
+        )
+    }
+
+    // MARK: — Test 4: navigate to Stats tab
+
+    func test_navigateToStats() {
+        skipOnboardingIfPresent()
+        app.buttons["tab.stats"].firstMatch.tap()
+        let stats = app.otherElements["screen.stats"]
+        XCTAssertTrue(
+            stats.waitForExistence(timeout: 3),
+            "screen.stats not found after tapping tab.stats"
+        )
+    }
+
+    // MARK: — Test 5: navigate to Settings tab
+
+    func test_navigateToSettings() {
+        skipOnboardingIfPresent()
+        app.buttons["tab.settings"].firstMatch.tap()
+        let settings = app.otherElements["screen.settings"]
+        XCTAssertTrue(
+            settings.waitForExistence(timeout: 3),
+            "screen.settings not found after tapping tab.settings"
+        )
+    }
+
+    // MARK: — Test 6: open daily puzzle → game screen
+
+    func test_openDailyPuzzle() {
+        skipOnboardingIfPresent()
+        // Ensure home tab is active (daily puzzle card lives on the home tab)
+        app.buttons["tab.home"].firstMatch.tap()
+        app.buttons["button.menu.dailyPuzzle"].firstMatch.tap()
+        let game = app.otherElements["screen.game"]
+        XCTAssertTrue(
+            game.waitForExistence(timeout: 5),
+            "screen.game not found after tapping button.menu.dailyPuzzle"
+        )
+    }
+
+    // MARK: — Helpers
+
+    /// Taps getStarted if onboarding is shown; navigates to main menu.
+    private func skipOnboardingIfPresent() {
+        let getStarted = app.buttons["button.onboarding.getStarted"]
+        if getStarted.waitForExistence(timeout: 4) {
+            getStarted.tap()
+        }
+        // Wait for main menu to settle before each test
+        _ = app.otherElements["screen.mainMenu"].waitForExistence(timeout: 3)
+    }
+}

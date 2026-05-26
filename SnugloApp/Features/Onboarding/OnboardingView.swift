@@ -79,6 +79,7 @@ struct OnboardingView: View {
                     .contentShape(Rectangle())
                     .accessibilityLabel("Skip onboarding")
                     .accessibilityHint("Goes directly to the main menu")
+                    .accessibilityIdentifier("button.onboarding.skip")  // Faz I-2
                 }
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.top, AppSpacing.lg)
@@ -127,9 +128,12 @@ struct OnboardingView: View {
                 .accessibilityHint(currentPage == pages.count - 1
                     ? "Completes onboarding and opens the main menu"
                     : "Advances to the next onboarding page")
+                // Faz I-2: identifier matches the last-page "Get Started" label
+                .accessibilityIdentifier("button.onboarding.getStarted")
             }
         }
         .background(AppColors.background.ignoresSafeArea())
+        .accessibilityIdentifier("screen.onboarding")  // Faz I-2
         .navigationBarHidden(true)
     }
 

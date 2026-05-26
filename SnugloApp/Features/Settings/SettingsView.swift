@@ -89,13 +89,25 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            // Faz I-2: inline title (visible when SettingsView is a tab, not pushed)
+            Section {
+                Text("settings.title")
+                    .font(AppTypography.headlineLarge)
+                    .tracking(-0.6)
+                    .foregroundStyle(AppColors.onSurface)
+                    .accessibilityIdentifier("title.settings")
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
+            }
+
             // — SOUND & FEEL —
             Section {
                 toggleRow(
                     icon: "music.note",
                     iconColor: AppColors.primaryContainer,
                     labelKey: "settings.sound.music",
-                    isOn: $musicEnabled
+                    isOn: $musicEnabled,
+                    a11yId: "settings.sound_toggle"   // Faz I-2: primary sound toggle identifier
                 )
                 toggleRow(
                     icon: "speaker.wave.2.fill",
@@ -334,7 +346,13 @@ struct SettingsView: View {
             .foregroundStyle(AppColors.onSurfaceVariant)
     }
 
-    private func toggleRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey, isOn: Binding<Bool>) -> some View {
+    private func toggleRow(
+        icon: String,
+        iconColor: Color,
+        labelKey: LocalizedStringKey,
+        isOn: Binding<Bool>,
+        a11yId: String? = nil
+    ) -> some View {
         HStack {
             iconBadge(icon, color: iconColor)
                 .accessibilityHidden(true)
@@ -348,6 +366,8 @@ struct SettingsView: View {
         }
         // SwiftUI Toggle is auto-accessible; combine row for cleaner VO navigation
         .accessibilityElement(children: .combine)
+        // Faz I-2: optional UITest identifier
+        .accessibilityIdentifier(a11yId ?? "")
     }
 
     private func disclosureRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey) -> some View {

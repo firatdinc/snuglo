@@ -22,6 +22,7 @@ struct RootView: View {
                     destination(for: route)
                 }
         }
+        .accessibilityIdentifier("screen.root")   // Faz I-2
         .environment(router)
         .preferredColorScheme(preferredScheme)
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
@@ -46,6 +47,8 @@ struct RootView: View {
                 .navigationBarBackButtonHidden()
         case .packDetail(let packId):
             PackDetailView(packName: packId)
+        case .levelsList:                          // Faz I-2: levels list pushed from home tab
+            LevelsListView(packId: "")
         case .settings:
             SettingsView()
         case .shop:

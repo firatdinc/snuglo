@@ -26,7 +26,8 @@ struct LevelsListView: View {
         }
         .navigationBarHidden(true)
         .accessibilityIdentifier("screen.levels")
-        .onAppear { router.selectedTab = .levels }
+        // Faz I-2: .levels tab removed; highlight home tab when levels list is pushed
+        .onAppear { router.selectedTab = .home }
         .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
             Button("alert.unlockPack.goToShop") {
                 router.selectTab(.shop)
@@ -41,8 +42,10 @@ struct LevelsListView: View {
 
     private var topBar: some View {
         HStack {
+            // Faz I-2: settings is now a tab in MainMenuView; pop and switch tab
             Button {
-                router.push(.settings)
+                router.pop()
+                router.selectTab(.settings)
             } label: {
                 Image(systemName: "gearshape.fill")
                     .font(.system(size: 22))

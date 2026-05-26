@@ -74,6 +74,7 @@ struct SplashView: View {
             .offset(y: visible ? 0 : 10)
             .animation(reduceMotion ? .none : .easeOut(duration: 0.8), value: visible)
         }
+        .accessibilityIdentifier("screen.splash")  // Faz I-2
         .navigationBarHidden(true)
         .onAppear {
             visible = true

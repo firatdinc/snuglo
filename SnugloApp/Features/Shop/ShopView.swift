@@ -60,6 +60,7 @@ struct ShopView: View {
                 .font(AppTypography.headlineLarge)
                 .tracking(-0.6)
                 .foregroundStyle(AppColors.onSurface)
+                .accessibilityIdentifier("title.shop")  // Faz I-2
             Text("shop.enhance")
                 .font(AppTypography.bodyMedium)
                 .foregroundStyle(AppColors.onSurfaceVariant)
@@ -71,9 +72,9 @@ struct ShopView: View {
     private var packUnlocksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             sectionTitle("shop.packUnlocks")
-            packCard(packId: "spice-route", productID: .packSpice, icon: "cup.and.saucer.fill", accent: AppColors.blockPeach)
-            packCard(packId: "mambo-nights", productID: .packMambo, icon: "moon.stars.fill", accent: AppColors.blockBlush)
-            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill", accent: AppColors.blockSage)
+            packCard(packId: "spice-route", productID: .packSpice, icon: "cup.and.saucer.fill", accent: AppColors.blockPeach, itemIndex: 0)
+            packCard(packId: "mambo-nights", productID: .packMambo, icon: "moon.stars.fill", accent: AppColors.blockBlush, itemIndex: 1)
+            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill", accent: AppColors.blockSage, itemIndex: 2)
         }
     }
 
@@ -81,7 +82,8 @@ struct ShopView: View {
         packId: String,
         productID: StoreManager.ProductID,
         icon: String,
-        accent: Color
+        accent: Color,
+        itemIndex: Int
     ) -> some View {
         let pack     = MockData.allPacks.first(where: { $0.id == packId })
         let product  = store.product(for: productID)
@@ -119,6 +121,8 @@ struct ShopView: View {
         .itemCard(owned: owned)
         // H-2: combine card into one element
         .accessibilityElement(children: .contain)
+        // Faz I-2: UITest identifier — e.g. shop.pack_item.0 for the first pack
+        .accessibilityIdentifier("shop.pack_item.\(itemIndex)")
     }
 
     // MARK: — Hints
