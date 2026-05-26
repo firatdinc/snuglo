@@ -250,11 +250,7 @@ struct MainMenuView: View {
                 .background(AppColors.background)
             }
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                    .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-            )
-            .shadowL1()
+            .cardSurface()
         }
         .buttonStyle(.plain)
         .scaleEffect(1.0)
@@ -376,11 +372,7 @@ struct MainMenuView: View {
             .padding(AppSpacing.md)
             .background(AppColors.background)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                    .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-            )
-            .shadowL1()
+            .cardSurface()
         }
         .buttonStyle(.plain)
         // H-2: combined label with progress context

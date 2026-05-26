@@ -125,12 +125,7 @@ struct StatsView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(AppSpacing.md)
-        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-        )
-        .shadowL1()
+        .cardSurface()
         // H-2: combine entire card into one VoiceOver element
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(a11yLabel)
@@ -153,12 +148,7 @@ struct StatsView: View {
             }
         }
         .padding(AppSpacing.md)
-        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-        )
-        .shadowL1()
+        .cardSurface()
     }
 
     private func packDonut(pack: PackStat) -> some View {
@@ -239,12 +229,7 @@ struct StatsView: View {
             .accessibilityHidden(true) // legend is decorative; bars already labelled
         }
         .padding(AppSpacing.md)
-        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-        )
-        .shadowL1()
+        .cardSurface()
     }
 
     private func barColor(solved: Bool, isToday: Bool) -> Color {
@@ -318,12 +303,7 @@ struct StatsView: View {
             }
         }
         .padding(AppSpacing.md)
-        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
-        )
-        .shadowL1()
+        .cardSurface()
     }
 
     private func legendRow(color: Color, labelKey: LocalizedStringKey, value: String) -> some View {

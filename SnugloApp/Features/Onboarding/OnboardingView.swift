@@ -112,17 +112,10 @@ struct OnboardingView: View {
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
 
-                // — Action button —
-                Button(action: handleNext) {
-                    Text(nextButtonKey)
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.onPrimary)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, AppSpacing.md)
-                        .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
-                        .shadowL1()
-                }
-                .padding(.horizontal, AppSpacing.lg)
+                // — Action button — (v1.1: PrimaryButton reusable component)
+                PrimaryButton(nextButtonKey, action: handleNext)
+                    .padding(.horizontal, AppSpacing.lg)
+                    .shadowL1()
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
                 // H-2: hint changes based on page
                 .accessibilityHint(currentPage == pages.count - 1

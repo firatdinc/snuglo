@@ -95,23 +95,14 @@ struct LevelCompleteSheet: View {
 
                 Spacer()
 
-                // — Buttons —
+                // — Buttons — (v1.1: PrimaryButton reusable component)
                 VStack(spacing: AppSpacing.sm) {
-                    Button {
+                    PrimaryButton("complete.next", systemImage: "arrow.right") {
                         onNext()
                         dismiss()
-                    } label: {
-                        Label("complete.next", systemImage: "arrow.right")
-                            .font(AppTypography.headlineSmall)
-                            .foregroundStyle(AppColors.onPrimary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, AppSpacing.md)
-                            .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                     }
-                    .buttonStyle(.plain)
                     .padding(.horizontal, AppSpacing.lg)
                     .accessibilityHint("Proceeds to the next level")
-                    // Faz I-2: XCUITest identifier
                     .accessibilityIdentifier("complete.next")
 
                     HStack(spacing: AppSpacing.sm) {

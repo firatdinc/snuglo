@@ -47,81 +47,24 @@ struct PauseSheet: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
 
-            // — Actions —
+            // — Actions — (v1.1: reusable PrimaryButton / SecondaryButton)
             VStack(spacing: AppSpacing.sm) {
 
-                // Primary: Resume
-                Button {
+                PrimaryButton("pause.resume", systemImage: "play.fill") {
                     onResume()
                     dismiss()
-                } label: {
-                    HStack(spacing: AppSpacing.xs) {
-                        Image(systemName: "play.fill")
-                            .font(.system(size: 14))
-                        Text("pause.resume")
-                            .font(AppTypography.headlineSmall)
-                    }
-                    .foregroundStyle(AppColors.onPrimary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, AppSpacing.md)
-                    .background(AppColors.primary, in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
-                .buttonStyle(.plain)
-                // Scale press animation (Stitch spec: press → scale 0.98)
-                .buttonRepeatBehavior(.disabled)
-                // Faz I-2: XCUITest lookup
                 .accessibilityIdentifier("pause.resume")
 
-                // Secondary: Restart
-                Button {
+                SecondaryButton("pause.restart", systemImage: "arrow.counterclockwise") {
                     onRestart()
                     dismiss()
-                } label: {
-                    HStack(spacing: AppSpacing.xs) {
-                        Image(systemName: "arrow.counterclockwise")
-                            .font(.system(size: 14))
-                        Text("pause.restart")
-                            .font(AppTypography.headlineSmall)
-                    }
-                    .foregroundStyle(AppColors.softCocoa)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, AppSpacing.md)
-                    .background(
-                        AppColors.surfaceContainerLowest,
-                        in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                            .stroke(AppColors.divider, lineWidth: 1.5)
-                    )
                 }
-                .buttonStyle(.plain)
 
-                // Secondary: Home
-                Button {
+                SecondaryButton("pause.home", systemImage: "house") {
                     onQuit()
                     dismiss()
-                } label: {
-                    HStack(spacing: AppSpacing.xs) {
-                        Image(systemName: "house")
-                            .font(.system(size: 14))
-                        Text("pause.home")
-                            .font(AppTypography.headlineSmall)
-                    }
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, AppSpacing.md)
-                    .background(
-                        AppColors.surfaceContainerLowest,
-                        in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                            .stroke(AppColors.divider, lineWidth: 1.5)
-                    )
                 }
-                .buttonStyle(.plain)
-                // Faz I-2: XCUITest identifier
                 .accessibilityIdentifier("pause.quit")
             }
 
