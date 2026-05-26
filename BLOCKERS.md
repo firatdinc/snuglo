@@ -43,6 +43,11 @@ Bu dosya, agent'ların takıldığı veya ilerideki version'lara bırakılan mad
 - Daily Puzzle as separate nav entry point
 - PlusJakartaSans-SemiBold.ttf / SpaceGrotesk-Medium.ttf explicit files (currently using variable axis — works but non-standard for App Store font audits)
 
+### v1.2 Backlog (new — from v1.1.0 IOS-54 audit):
+- Delete `SnugloApp/Features/Game/PauseOverlayView.swift` (dead code — not referenced anywhere; superseded by `PauseSheet`). Left in place for v1.1.0 to keep this release purely additive.
+- Tab bar labels render as raw localization keys (`TAB.HOME`, `TAB.SETTINGS`) — `tab.home` / `tab.stats` / `tab.shop` / `tab.settings` keys missing from `Localizable.strings` (en/tr/es). Visible in v1.1.0 main menu screenshot.
+- `xcuserdata/` + `.swiftpm/xcode/xcuserdata/` accidentally committed in IOS-54 wrap-up commit — add to `.gitignore` and `git rm --cached` in v1.2.
+
 ---
 
 ## Faz E — Persistence + Stats (2026-05-25) ✅ KAPANDI

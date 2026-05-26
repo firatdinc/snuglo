@@ -2,8 +2,19 @@
 
 ---
 
-## [v1.1.0] - 2026-05-25
-### Bug Fixes
+## [v1.1.0] - 2026-05-26
+### Reusable Component Rollout (Faz K + L, IOS-54)
+- **Audit**: every feature screen scanned for Stitch alignment. `AUDIT_v1.1.md` documents per-screen status, dead code (`PauseOverlayView` unreferenced), and refactor order-of-attack.
+- **PrimaryButton / SecondaryButton adoption** (DoD #3 closed):
+  - `PauseSheet` — 3 inline button stacks → `PrimaryButton(Resume)` + `SecondaryButton(Restart)` + `SecondaryButton(Home)`. 50 LOC of duplicated styling removed.
+  - `LevelCompleteSheet` — inline `Next` CTA → `PrimaryButton`. Replay / Home intentionally kept as smaller outlined lavender per Stitch spec.
+  - `OnboardingView` — inline `Next / Get Started` CTA → `PrimaryButton`. Polymorphic title key preserved.
+- **CardSurface modifier adoption**:
+  - `StatsView` — all 4 sections (KPI grid, pack progress, 7-day chart, hint donut) switched to `.cardSurface()`.
+  - `MainMenuView` — `dailyPuzzleCard` + `continueCard` switched to `.cardSurface()`.
+- **Pragmatic ruling on `.system(size:)`**: 35 remaining usages in feature code are all on `Image(systemName:)` (SF Symbol icon sizing) — idiomatic SwiftUI and matches `PrimaryButton`'s own implementation. Typography token enforcement applies to `Text` views only.
+
+### Bug Fixes (IOS-53)
 - **AppRouter.selectTab() unwinds NavigationStack to Splash** (BLOCKER): `selectTab()` was calling `popToRoot()` — tab switching now only changes `selectedTab`, NavigationStack untouched.
 - **GameView viewModel re-init on onAppear** (IMPORTANT): ViewModel now initialized correctly in `init(levelId:)` so the correct level loads without a transient flash.
 - **MainMenuView hardcoded "Level 12"** (IMPORTANT): Progress pill reads `ProgressStore.shared.totalLevelsCompleted()` at render time. `dailyGridSize` computed once via `DailyPuzzle.gridSize(for:)` instead of running the full level generator on every render.
