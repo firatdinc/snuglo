@@ -1,7 +1,8 @@
 import SwiftUI
 
-// MARK: — LevelsListView (Screen 04 · H-1: Localized)
-// Design reference: Designs/html/04-levels-list.html
+// MARK: — LevelsListView (Screen 04 · Faz 3a: Vibrant Play restyle · H-1: Localized)
+// Design reference: Designs/VibrantPlay/levels-list.png
+// Pack cards use CardSurface (white, 20pt radius, L1 shadow). Real pack/level data only.
 // H-2: VoiceOver — pack cards with progress/locked status, top-bar buttons labelled.
 
 struct LevelsListView: View {
@@ -230,13 +231,7 @@ struct LevelsListView: View {
             }
         }
         .padding(AppSpacing.md)
-        .background(AppColors.background)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .stroke(Color.white.opacity(0.5), lineWidth: 1)
-        )
-        .shadowL1()
+        .cardSurface()
     }
 }
 
