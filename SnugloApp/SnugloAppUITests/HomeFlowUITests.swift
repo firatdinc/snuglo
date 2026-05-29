@@ -2,10 +2,10 @@ import XCTest
 
 // MARK: — HomeFlowUITests
 // Smoke tests for the main-menu tab bar and the primary play CTA flow.
-// Faz I-2: identifiers updated to match new tab spec:
-//   tab.home / tab.stats / tab.shop / tab.settings
-//   button.menu.continue (was mainmenu.play_cta)
-//   button.menu.dailyPuzzle (was mainmenu.daily_card)
+// Faz 2: identifiers updated to match Vibrant Play tab spec:
+//   tab.play / tab.levels / tab.stats / tab.shop
+//   button.menu.continue (unchanged)
+//   button.menu.dailyPuzzle (unchanged)
 
 final class HomeFlowUITests: SnugloAppUITestsBase {
 
@@ -15,12 +15,16 @@ final class HomeFlowUITests: SnugloAppUITestsBase {
 
     func testRootTabsExist() throws {
         // UITestMode skips splash delay; tab bar should appear almost immediately.
-        let homeTab = app.buttons["tab.home"]
+        let playTab = app.buttons["tab.play"]
         XCTAssertTrue(
-            waitForElement(homeTab, timeout: 6),
-            "tab.home not found — BottomTabBar may not have appeared after Splash"
+            waitForElement(playTab, timeout: 6),
+            "tab.play not found — BottomTabBar may not have appeared after Splash"
         )
 
+        XCTAssertTrue(
+            app.buttons["tab.levels"].waitForExistence(timeout: 2),
+            "tab.levels not found"
+        )
         XCTAssertTrue(
             app.buttons["tab.stats"].waitForExistence(timeout: 2),
             "tab.stats not found"
@@ -29,14 +33,10 @@ final class HomeFlowUITests: SnugloAppUITestsBase {
             app.buttons["tab.shop"].waitForExistence(timeout: 2),
             "tab.shop not found"
         )
-        XCTAssertTrue(
-            app.buttons["tab.settings"].waitForExistence(timeout: 2),
-            "tab.settings not found"
-        )
     }
 
     // MARK: — testMainMenuShowsDailyPuzzle
-    // Verifies that the daily puzzle card is visible on the main menu home tab.
+    // Verifies that the daily puzzle card is visible on the main menu play tab.
 
     func testMainMenuShowsDailyPuzzle() throws {
         let dailyCard = app.buttons["button.menu.dailyPuzzle"]

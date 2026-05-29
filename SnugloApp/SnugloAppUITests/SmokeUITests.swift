@@ -1,8 +1,11 @@
 import XCTest
 
-// MARK: — SmokeUITests (Faz I-2)
+// MARK: — SmokeUITests (Faz I-2 · updated Faz 2)
 // 6 smoke tests that verify screen reachability via accessibility identifiers.
 // Launched with -uitest-reset-progress so every run starts from first-launch state.
+// Faz 2 changes:
+//   tab.home → tab.play
+//   test_navigateToSettings → uses button.menu.settings (gear icon in top bar)
 
 final class SmokeUITests: XCTestCase {
 
@@ -32,7 +35,6 @@ final class SmokeUITests: XCTestCase {
     func test_completeOnboardingToMainMenu() {
         let getStarted = app.buttons["button.onboarding.getStarted"]
         if getStarted.waitForExistence(timeout: 5) {
-            // Tap the primary action button (works on any page: "Next" or "Get Started")
             getStarted.tap()
         }
         let mainMenu = app.otherElements["screen.mainMenu"]
@@ -66,15 +68,17 @@ final class SmokeUITests: XCTestCase {
         )
     }
 
-    // MARK: — Test 5: navigate to Settings tab
+    // MARK: — Test 5: navigate to Settings via gear icon
 
     func test_navigateToSettings() {
         skipOnboardingIfPresent()
-        app.buttons["tab.settings"].firstMatch.tap()
+        // Settings is no longer a tab (Faz 2: Play/Levels/Stats/Shop).
+        // Access via gear icon (button.menu.settings) in the Play tab top bar.
+        app.buttons["button.menu.settings"].firstMatch.tap()
         let settings = app.otherElements["screen.settings"]
         XCTAssertTrue(
             settings.waitForExistence(timeout: 3),
-            "screen.settings not found after tapping tab.settings"
+            "screen.settings not found after tapping button.menu.settings"
         )
     }
 
@@ -82,8 +86,8 @@ final class SmokeUITests: XCTestCase {
 
     func test_openDailyPuzzle() {
         skipOnboardingIfPresent()
-        // Ensure home tab is active (daily puzzle card lives on the home tab)
-        app.buttons["tab.home"].firstMatch.tap()
+        // Ensure play tab is active (daily puzzle card lives on the play tab)
+        app.buttons["tab.play"].firstMatch.tap()
         app.buttons["button.menu.dailyPuzzle"].firstMatch.tap()
         let game = app.otherElements["screen.game"]
         XCTAssertTrue(

@@ -14,17 +14,29 @@ enum Route: Hashable {
     // Both route to the same GameView; kept separate so call-site intent is readable.
     case gamePlay(levelId: String)
     case packDetail(packId: String)
-    case levelsList          // Faz I-2: levels list (was a tab; now pushed from home)
+    case levelsList
     case settings
     case shop
 }
 
 // MARK: — AppTab
-// Faz I-2: Tabs updated to home / stats / shop / settings.
-// Levels are now accessed via the home tab (push → levelsList route).
+// Faz 2: Vibrant Play — 4 visible tabs: Play · Levels · Stats · Shop
+//   .play    — primary "Play" tab (main menu / home scroll content)
+//   .levels  — tapping pushes .levelsList route (BottomTabBar handles the push)
+//   .stats   — Stats screen
+//   .shop    — Shop screen
+// Backward-compat cases (not shown in tab bar, kept so existing call sites compile):
+//   .home     — LevelsListView sets router.selectedTab = .home on appear
+//   .settings — LevelsListView calls router.selectTab(.settings); MainMenuView
+//               tabContent still renders SettingsView for this case
 
-enum AppTab: Hashable, CaseIterable {
-    case home, stats, shop, settings
+enum AppTab: Hashable {
+    case play
+    case home       // backward compat — maps to play content in tabContent switch
+    case levels     // Levels tab — BottomTabBar pushes .levelsList route on tap
+    case stats
+    case shop
+    case settings   // backward compat — no longer in tab bar; shows inline settings
 }
 
 // MARK: — AppRouter
@@ -34,7 +46,7 @@ enum AppTab: Hashable, CaseIterable {
 final class AppRouter {
 
     var path: [Route] = []
-    var selectedTab: AppTab = .home
+    var selectedTab: AppTab = .play
 
     func push(_ route: Route) {
         path.append(route)
@@ -50,9 +62,6 @@ final class AppRouter {
     }
 
     func selectTab(_ tab: AppTab) {
-        // Tab switching is a state-only change — MainMenuView swaps its
-        // content based on selectedTab. Don't pop the NavigationStack;
-        // doing so would unwind back to Splash and re-trigger its animation.
         selectedTab = tab
     }
 }

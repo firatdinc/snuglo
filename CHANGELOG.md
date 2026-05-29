@@ -3,6 +3,13 @@
 ---
 
 ## [Unreleased]
+### Vibrant Play restyle — Faz 2: bottom tab bar + MainMenu (IOS-61)
+- **AppTab enum**: added `.play` (primary Play tab) and `.levels` (Levels tab). `.home` and `.settings` retained as backward-compat cases so LevelsListView call sites compile unchanged.
+- **BottomTabBar**: redesigned for Vibrant Play — 4 tabs: Play (`tab.play`) / Levels (`tab.levels`) / Stats (`tab.stats`) / Shop (`tab.shop`). Active tab shows `AppColors.primary` blue icon + label (no pill background). Settings removed from tab bar. Levels tab pushes `.levelsList` route instead of switching tab state; active state detected via `router.path.contains(.levelsList)`.
+- **MainMenuView**: `tabContent` switch handles all 6 AppTab cases. Daily puzzle hero area upgraded: `Image("hero-splash")` replaces the gradient placeholder; `Image("mascot-hippo")` appears in the hero corner. Gear icon gets `button.menu.settings` accessibility identifier. Language-lesson content from Stitch mockup intentionally omitted — Snuglo is a block puzzle, not a language app.
+- **UITests updated** (tab identifier sync): `HomeFlowUITests` — `tab.home` → `tab.play`, checks `tab.levels` instead of `tab.settings`. `SmokeUITests` — `tab.home` → `tab.play`; `test_navigateToSettings` now taps `button.menu.settings` gear icon instead of the removed `tab.settings`.
+- **Assets used**: `hero-splash.png`, `mascot-hippo.png` (both already in Assets.xcassets). Missing assets for future phases: `mascot-sloth`, `mascot-rabbit`, `mascot-tiger` (in catalog but not yet placed on screens — Faz 3).
+
 ### Vibrant Play restyle — Faz 1: theme tokens + components (IOS-60)
 - **Colors**: all token values remapped to Vibrant Play palette (names unchanged). Background `#f4faff`, primary `#30A7E7`, gold accent `#FFB800`, text `#141d21`, border `#dbe4ea`, error container `#ffdad6`. New `primaryPressed` token `#2589C1` for button pressed state. Block palette updated to vivid Material Design set. Shadows now blue-tinted from SPEC `#006591`.
 - **Typography**: all tokens unified to Plus Jakarta Sans (variable wght 200–800). Body/label tokens migrated from Be Vietnam Pro; numeric tokens migrated from Space Grotesk. `spaceGrotesk()` helper removed.
