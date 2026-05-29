@@ -3,6 +3,13 @@
 ---
 
 ## [Unreleased]
+### LevelComplete: move count + best time summary (IOS-59)
+- **Move counter**: `GameViewModel.moveCount` increments on every successful placement (tray drop, re-drag, hint). Resets automatically when a new session starts. Invalid/OOB drops and rollbacks do not count.
+- **Best time in summary**: reads `ProgressStore.levelProgress[id].bestTime` (already persisted by `markCompleted`) — no new store API needed. Shows updated best time (this session included) formatted as `m:ss`; falls back to `"—"` until first completion.
+- **LevelCompleteSheet**: two new stat cells (`complete.moves`, `complete.bestTime`) added in a second row below the existing Time / Stars / Hints row. Uses the existing `statCell` helper and `surfaceContainer` background.
+- **Localization**: `complete.moves` / `complete.bestTime` added to en, tr, es.
+- **Tests**: 3 new `GameViewModelTests` — `test_moveCount_isZeroOnInit`, `test_moveCount_incrementsOnEachSuccessfulPlacement`, `test_moveCount_doesNotIncrementOnInvalidPlacement`.
+
 ### Hint system wired to game screen (IOS-58)
 - **HUD hint button**: lightbulb icon with remaining-count badge added next to pause button. Disabled (0.4 opacity) when `hintCount == 0`. Tapping places the first unplaced piece at its `level.solution` coordinate via the existing `tryPlace` flow (sound + haptic included). Accessibility label localised (`game.hint`).
 - **Real hints-used in LevelCompleteSheet**: `hintsUsed: 0` hardcoded replaced with `viewModel.hintsUsed`.

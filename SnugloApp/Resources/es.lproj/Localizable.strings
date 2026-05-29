@@ -87,6 +87,8 @@
 "complete.time"         = "Tiempo";
 "complete.stars"        = "Estrellas";
 "complete.hints"        = "Pistas";
+"complete.moves"        = "Movimientos";
+"complete.bestTime"     = "Mejor Tiempo";
 
 // MARK: — Estadísticas
 "stats.title"           = "Estadísticas";

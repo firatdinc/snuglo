@@ -87,6 +87,8 @@
 "complete.time"         = "Time";
 "complete.stars"        = "Stars";
 "complete.hints"        = "Hints";
+"complete.moves"        = "Moves";
+"complete.bestTime"     = "Best Time";
 
 // MARK: — Stats
 "stats.title"           = "Stats";

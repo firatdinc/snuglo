@@ -39,6 +39,11 @@ final class GameViewModel {
     /// Number of hints consumed in this session. Passed to LevelCompleteSheet.
     private(set) var hintsUsed: Int = 0
 
+    // MARK: - Move tracking
+
+    /// Count of successful placements this session (tray drops, re-drags, hints).
+    private(set) var moveCount: Int = 0
+
     // MARK: - Private
     private let checker = SolutionChecker()
 
@@ -115,6 +120,7 @@ final class GameViewModel {
             // All pieces placed, no conflicts → solved!
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
+            moveCount += 1
             isSolved = true
             NSLog("[Snuglo][tryPlace] SOLVED ✓")
             persistProgress()
@@ -123,6 +129,7 @@ final class GameViewModel {
             // This placement is fine; more pieces still needed
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
+            moveCount += 1
             if missing.count <= 6 {
                 NSLog("[Snuglo][tryPlace] missing cells: \(missing.map { "(\($0.x),\($0.y))" }.joined(separator: ","))")
             }

@@ -87,6 +87,8 @@
 "complete.time"         = "Süre";
 "complete.stars"        = "Yıldız";
 "complete.hints"        = "İpucu";
+"complete.moves"        = "Hamle";
+"complete.bestTime"     = "En İyi Süre";
 
 // MARK: — İstatistikler
 "stats.title"           = "İstatistik";

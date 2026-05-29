@@ -18,6 +18,8 @@ struct LevelCompleteSheet: View {
     var stars: Int = 3
     var elapsedSeconds: Int = 165
     var hintsUsed: Int = 0
+    var moveCount: Int = 0
+    var bestTimeSeconds: Int?
     var onNext: () -> Void   = {}
     var onReplay: () -> Void = {}
 
@@ -74,13 +76,24 @@ struct LevelCompleteSheet: View {
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("\(stars) of 3 stars earned")
 
-                // — Stats row — (H-2: each cell gets speech-friendly label)
-                HStack(spacing: 0) {
-                    statCell(value: formattedTime, labelKey: "complete.time", a11yValue: formattedTimeSpeech)
-                    Divider().frame(height: 40)
-                    statCell(value: "\(stars)", labelKey: "complete.stars", a11yValue: "\(stars) stars")
-                    Divider().frame(height: 40)
-                    statCell(value: "\(hintsUsed)", labelKey: "complete.hints", a11yValue: "\(hintsUsed) hints used")
+                // — Stats rows — (H-2: each cell gets speech-friendly label)
+                VStack(spacing: 0) {
+                    HStack(spacing: 0) {
+                        statCell(value: formattedTime, labelKey: "complete.time", a11yValue: formattedTimeSpeech)
+                        Divider().frame(height: 40)
+                        statCell(value: "\(stars)", labelKey: "complete.stars", a11yValue: "\(stars) stars")
+                        Divider().frame(height: 40)
+                        statCell(value: "\(hintsUsed)", labelKey: "complete.hints",
+                                 a11yValue: "\(hintsUsed) hints used")
+                    }
+                    Divider()
+                    HStack(spacing: 0) {
+                        statCell(value: "\(moveCount)", labelKey: "complete.moves",
+                                 a11yValue: "\(moveCount) moves")
+                        Divider().frame(height: 40)
+                        statCell(value: formattedBestTime, labelKey: "complete.bestTime",
+                                 a11yValue: "best time \(formattedBestTime)")
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, AppSpacing.md)
@@ -89,9 +102,12 @@ struct LevelCompleteSheet: View {
                     in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
                 )
                 .padding(.horizontal, AppSpacing.lg)
-                // H-2: combine stats row into one VoiceOver read
+                // H-2: combine stats into one VoiceOver read
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Solved in \(formattedTimeSpeech). \(stars) stars. \(hintsUsed) hints used.")
+                .accessibilityLabel(
+                    "Solved in \(formattedTimeSpeech). \(stars) stars. \(hintsUsed) hints used." +
+                    " \(moveCount) moves. Best time \(formattedBestTime)."
+                )
 
                 Spacer()
 
@@ -191,6 +207,13 @@ struct LevelCompleteSheet: View {
         return String(format: "%d:%02d", m, s)
     }
 
+    private var formattedBestTime: String {
+        guard let secs = bestTimeSeconds else { return "—" }
+        let mins = secs / 60
+        let rem = secs % 60
+        return String(format: "%d:%02d", mins, rem)
+    }
+
     /// H-2: Speech-friendly time string e.g. "1 minute 23 seconds"
     private var formattedTimeSpeech: String {
         let m = elapsedSeconds / 60
@@ -203,6 +226,6 @@ struct LevelCompleteSheet: View {
 }
 
 #Preview {
-    LevelCompleteSheet(stars: 3, elapsedSeconds: 165, hintsUsed: 0)
+    LevelCompleteSheet(stars: 3, elapsedSeconds: 165, hintsUsed: 0, moveCount: 12, bestTimeSeconds: 143)
         .environment(AppRouter())
 }

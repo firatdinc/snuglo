@@ -139,6 +139,8 @@ struct GameView: View {
                 stars: 3,
                 elapsedSeconds: elapsedSeconds,
                 hintsUsed: viewModel.hintsUsed,
+                moveCount: viewModel.moveCount,
+                bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
                 // v1.1.3: Next Level resolution
                 //   • Pack levels  → next index in the same pack
                 //   • Daily puzzle → user's current continue level (so

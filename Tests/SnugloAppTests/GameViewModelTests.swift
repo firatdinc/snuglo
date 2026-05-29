@@ -2,7 +2,7 @@ import XCTest
 import SnugloEngine
 @testable import SnugloApp
 
-/// GameViewModel unit tests — 4 original + 3 IOS-57 liftPiece tests + 2 IOS-58 hint tests.
+/// GameViewModel unit tests — 4 original + 3 IOS-57 liftPiece tests + 2 IOS-58 hint tests + 3 IOS-59 moveCount tests.
 @MainActor
 final class GameViewModelTests: XCTestCase {
 
@@ -178,5 +178,42 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(result, "applyHint should return false when no hints remain")
         XCTAssertEqual(vm.hintsUsed, 0, "hintsUsed must stay 0 when no hint was consumed")
         XCTAssertTrue(vm.placements.isEmpty, "No piece should be placed when hint is unavailable")
+    }
+
+    // MARK: - Test 10 (IOS-59): moveCount starts at zero on new session
+
+    func test_moveCount_isZeroOnInit() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        XCTAssertEqual(vm.moveCount, 0, "New session should start with moveCount = 0")
+    }
+
+    // MARK: - Test 11 (IOS-59): moveCount increments on each successful placement
+
+    func test_moveCount_incrementsOnEachSuccessfulPlacement() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        XCTAssertEqual(vm.moveCount, 1, "First valid placement should set moveCount to 1")
+
+        vm.tryPlace(pieceID: "p2", at: Coord(x: 1, y: 0))
+        XCTAssertEqual(vm.moveCount, 2, "Second valid placement should set moveCount to 2")
+    }
+
+    // MARK: - Test 12 (IOS-59): moveCount does not increment on invalid or OOB placement
+
+    func test_moveCount_doesNotIncrementOnInvalidPlacement() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        let countAfterFirst = vm.moveCount  // == 1
+
+        // Overlap: p2 on same cell as p1
+        vm.tryPlace(pieceID: "p2", at: Coord(x: 0, y: 0))
+        XCTAssertEqual(vm.moveCount, countAfterFirst,
+                       "Overlapping placement must not increment moveCount")
+
+        // Out-of-bounds
+        vm.tryPlace(pieceID: "p2", at: Coord(x: 99, y: 99))
+        XCTAssertEqual(vm.moveCount, countAfterFirst,
+                       "OOB placement must not increment moveCount")
     }
 }
