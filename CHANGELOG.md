@@ -3,6 +3,12 @@
 ---
 
 ## [Unreleased]
+### Vibrant Play restyle — Faz 3c: Stats / Shop / Settings (IOS-65)
+- **StatsView**: `headerSection` replaced by `statsHeroCard` — blue gradient card (`primary` → `primaryPressed`) with `Image("mascot-sloth")` on right and streak subtitle. KPI card icons now in `RoundedRectangle` color badge (`primaryContainer` 60% tint, 36×36 pt). All data from `ProgressStore` unchanged.
+- **ShopView**: `header` upgraded to hero banner card (same blue gradient, mascot-sloth). Plain `Divider` between sections removed. `sectionTitle` bumped to `headlineMedium`. All `StoreManager` IAP logic unchanged.
+- **SettingsView**: Converted from `List { Section }` to `ScrollView + VStack` with custom `settingsSection` helper using `cardSurface()` per section group. `RowDivider` between rows inside cards. All toggle/picker/alert/binding logic preserved verbatim. `accessibilityIdentifier` values preserved: `screen.settings`, `title.settings`, `settings.sound_toggle`.
+- **Missing asset note**: `Image("mascot-sloth")` used in StatsView hero and ShopView hero — already in asset catalog from Faz 3b (GameView). No new assets required.
+
 ### Vibrant Play restyle — Faz 3b: Game + LevelComplete (IOS-64)
 - **GameView** (HUD): back button and pause button redesigned as white circle buttons with `shadowL1`. Timer moved to a blue capsule pill (`clock.fill` icon + elapsed time, white text) with `game.timer` identifier. Pack name + `Level N` subtitle in center VStack. Hint button removed from HUD — moved to tray.
 - **GameView** (progress bar): new `progressRow` shows "PROGRESS X%" label + blue-to-secondary gradient `Capsule` bar below HUD. Driven by `placedFraction` (pieces placed / total pieces).

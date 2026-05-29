@@ -23,7 +23,6 @@ struct ShopView: View {
                 packUnlocksSection
                 hintsSection
                 removeAdsSection
-                Divider().padding(.vertical, AppSpacing.xs)
                 restoreButton
                 hintCountBadge
             }
@@ -55,16 +54,33 @@ struct ShopView: View {
     // MARK: — Header
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.xs) {
-            Text("shop.title")
-                .font(AppTypography.headlineLarge)
-                .tracking(-0.6)
-                .foregroundStyle(AppColors.onSurface)
-                .accessibilityIdentifier("title.shop")  // Faz I-2
-            Text("shop.enhance")
-                .font(AppTypography.bodyMedium)
-                .foregroundStyle(AppColors.onSurfaceVariant)
+        HStack(alignment: .center, spacing: AppSpacing.md) {
+            VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                Text("shop.title")
+                    .font(AppTypography.headlineLarge)
+                    .tracking(-0.6)
+                    .foregroundStyle(.white)
+                    .accessibilityIdentifier("title.shop")
+                Text("shop.enhance")
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(.white.opacity(0.85))
+            }
+            Spacer()
+            Image("mascot-sloth")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 88, height: 88)
         }
+        .padding(AppSpacing.md)
+        .background(
+            LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryPressed],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+        )
+        .shadowL1()
     }
 
     // MARK: — Pack Unlocks
@@ -286,7 +302,7 @@ struct ShopView: View {
 
     private func sectionTitle(_ key: LocalizedStringKey) -> some View {
         Text(key)
-            .font(AppTypography.headlineSmall)
+            .font(AppTypography.headlineMedium)
             .foregroundStyle(AppColors.onSurface)
             .padding(.horizontal, AppSpacing.xs)
     }

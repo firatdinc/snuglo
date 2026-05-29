@@ -28,7 +28,7 @@ struct StatsView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
-                headerSection
+                statsHeroCard
                 kpiGridSection
                 packProgressSection
                 chartSection
@@ -44,18 +44,37 @@ struct StatsView: View {
         .accessibilityIdentifier("screen.stats")
     }
 
-    // MARK: — Header
+    // MARK: — Hero Card
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.xs) {
-            Text("stats.header")
-                .font(AppTypography.headlineLarge)
-                .tracking(-0.6)
-                .foregroundStyle(AppColors.onSurface)
-            Text(streakSubtitle)
-                .font(AppTypography.bodyMedium)
-                .foregroundStyle(AppColors.onSurfaceVariant)
+    private var statsHeroCard: some View {
+        HStack(alignment: .center, spacing: AppSpacing.md) {
+            VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                Text("stats.header")
+                    .font(AppTypography.headlineLarge)
+                    .tracking(-0.6)
+                    .foregroundStyle(.white)
+                Text(streakSubtitle)
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer()
+            Image("mascot-sloth")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 88, height: 88)
         }
+        .padding(AppSpacing.md)
+        .background(
+            LinearGradient(
+                colors: [AppColors.primary, AppColors.primaryPressed],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            ),
+            in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+        )
+        .shadowL1()
     }
 
     private var streakSubtitle: String {
@@ -106,10 +125,15 @@ struct StatsView: View {
 
     private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String, a11yLabel: String, a11yId: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            Image(systemName: icon)
-                .font(.system(size: 20))
-                .foregroundStyle(AppColors.primary)
-                .accessibilityHidden(true)
+            ZStack {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(AppColors.primaryContainer.opacity(0.6))
+                    .frame(width: 36, height: 36)
+                Image(systemName: icon)
+                    .font(.system(size: 16))
+                    .foregroundStyle(AppColors.primary)
+            }
+            .accessibilityHidden(true)
 
             Text(value)
                 .font(AppTypography.numericLarge)

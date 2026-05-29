@@ -3,8 +3,10 @@ import AppTrackingTransparency
 import UserNotifications
 
 // MARK: — SettingsView (H-1: Localized)
-// Ref: Designs/html/11-settings.html
+// Ref: Designs/VibrantPlay/SPEC.md
+// Faz 3c: Vibrant Play restyle — List → ScrollView + cardSurface sections.
 // H-2: VoiceOver — Reset Progress button explicit destructive role; top-level a11y hints.
+// All logic (bindings, alerts, AppStorage) is unchanged.
 
 struct SettingsView: View {
 
@@ -80,222 +82,232 @@ struct SettingsView: View {
     }
 
     private var appVersion: String {
-        let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-        let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-        return "\(v) (\(b))"
+        let ver = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+        let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        return "\(ver) (\(build))"
     }
 
     // MARK: — Body
 
     var body: some View {
-        List {
-            // Faz I-2: inline title (visible when SettingsView is a tab, not pushed)
-            Section {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: AppSpacing.xl) {
+
                 Text("settings.title")
                     .font(AppTypography.headlineLarge)
                     .tracking(-0.6)
                     .foregroundStyle(AppColors.onSurface)
                     .accessibilityIdentifier("title.settings")
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 0))
-            }
 
-            // — SOUND & FEEL —
-            Section {
-                toggleRow(
-                    icon: "music.note",
-                    iconColor: AppColors.primaryContainer,
-                    labelKey: "settings.sound.music",
-                    isOn: $musicEnabled,
-                    a11yId: "settings.sound_toggle"   // Faz I-2: primary sound toggle identifier
-                )
-                toggleRow(
-                    icon: "speaker.wave.2.fill",
-                    iconColor: AppColors.secondaryContainer,
-                    labelKey: "settings.sound.effects",
-                    isOn: $sfxEnabled
-                )
-                toggleRow(
-                    icon: "hand.tap.fill",
-                    iconColor: AppColors.tertiaryContainer,
-                    labelKey: "settings.haptics.enable",
-                    isOn: $hapticsEnabled
-                )
-            } header: {
-                sectionHeader("settings.sound.title")
-            }
-
-            // — APPEARANCE —
-            Section {
-                HStack {
-                    iconBadge("paintpalette.fill", color: AppColors.blockBlush.opacity(0.5))
-                    Text("settings.appearance.theme")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurface)
-                    Spacer()
-                    Picker("", selection: $appThemeRaw) {
-                        Text("settings.appearance.system").tag(0)
-                        Text("settings.appearance.light").tag(1)
-                        Text("settings.appearance.dark").tag(2)
-                    }
-                    .labelsHidden()
-                    .tint(AppColors.primary)
-                    // H-2: Picker is auto-accessible via SwiftUI, no custom label needed
+                // — SOUND & FEEL —
+                settingsSection("settings.sound.title") {
+                    toggleRow(
+                        icon: "music.note",
+                        iconColor: AppColors.primaryContainer,
+                        labelKey: "settings.sound.music",
+                        isOn: $musicEnabled,
+                        a11yId: "settings.sound_toggle"
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    toggleRow(
+                        icon: "speaker.wave.2.fill",
+                        iconColor: AppColors.secondaryContainer,
+                        labelKey: "settings.sound.effects",
+                        isOn: $sfxEnabled
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    toggleRow(
+                        icon: "hand.tap.fill",
+                        iconColor: AppColors.tertiaryContainer,
+                        labelKey: "settings.haptics.enable",
+                        isOn: $hapticsEnabled
+                    )
                 }
-                .accessibilityElement(children: .contain)
-            } header: {
-                sectionHeader("settings.appearance.title")
-            }
 
-            // — NOTIFICATIONS —
-            Section {
-                toggleRow(
-                    icon: "bell.fill",
-                    iconColor: AppColors.blockCream.opacity(0.8),
-                    labelKey: "settings.notifications.reminder",
-                    isOn: reminderToggle
-                )
-
-                if dailyReminderEnabled {
+                // — APPEARANCE —
+                settingsSection("settings.appearance.title") {
                     HStack {
-                        iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
-                        Text("settings.notifications.time")
+                        iconBadge("paintpalette.fill", color: AppColors.blockBlush.opacity(0.5))
+                        Text("settings.appearance.theme")
                             .font(AppTypography.bodyMedium)
                             .foregroundStyle(AppColors.onSurface)
                         Spacer()
-                        DatePicker(
-                            "",
-                            selection: reminderDate,
-                            displayedComponents: .hourAndMinute
+                        Picker("", selection: $appThemeRaw) {
+                            Text("settings.appearance.system").tag(0)
+                            Text("settings.appearance.light").tag(1)
+                            Text("settings.appearance.dark").tag(2)
+                        }
+                        .labelsHidden()
+                        .tint(AppColors.primary)
+                    }
+                    .accessibilityElement(children: .contain)
+                    .padding(AppSpacing.md)
+                }
+
+                // — NOTIFICATIONS —
+                VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                    settingsSection("settings.notifications.title") {
+                        toggleRow(
+                            icon: "bell.fill",
+                            iconColor: AppColors.blockCream.opacity(0.8),
+                            labelKey: "settings.notifications.reminder",
+                            isOn: reminderToggle
                         )
-                        .labelsHidden()
-                        .tint(AppColors.primary)
-                        .onChange(of: dailyReminderTimeInterval) { _, _ in
-                            NotificationService.shared.reschedule(
-                                enabled: dailyReminderEnabled,
-                                at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
-                            )
+                        if dailyReminderEnabled {
+                            RowDivider().padding(.horizontal, AppSpacing.md)
+                            HStack {
+                                iconBadge("clock.fill", color: AppColors.blockCream.opacity(0.5))
+                                Text("settings.notifications.time")
+                                    .font(AppTypography.bodyMedium)
+                                    .foregroundStyle(AppColors.onSurface)
+                                Spacer()
+                                DatePicker(
+                                    "",
+                                    selection: reminderDate,
+                                    displayedComponents: .hourAndMinute
+                                )
+                                .labelsHidden()
+                                .tint(AppColors.primary)
+                                .onChange(of: dailyReminderTimeInterval) { _, _ in
+                                    NotificationService.shared.reschedule(
+                                        enabled: dailyReminderEnabled,
+                                        at: Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
+                                    )
+                                }
+                            }
+                            .padding(AppSpacing.md)
                         }
                     }
-                }
-            } header: {
-                sectionHeader("settings.notifications.title")
-            } footer: {
-                if dailyReminderEnabled {
-                    Text(verbatim: String(
-                        format: NSLocalizedString("settings.notifications.reminderSet", comment: ""),
-                        formattedReminderTime
-                    ))
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
-                }
-            }
-
-            // — LANGUAGE (H-1) —
-            Section {
-                HStack {
-                    iconBadge("globe", color: AppColors.blockLavender.opacity(0.5))
-                    Text("settings.language.label")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurface)
-                    Spacer()
-                    Picker("", selection: $languageOverride) {
-                        Text("settings.language.system").tag("system")
-                        Text("settings.language.en").tag("en")
-                        Text("settings.language.tr").tag("tr")
-                        Text("settings.language.es").tag("es")
+                    if dailyReminderEnabled {
+                        Text(verbatim: String(
+                            format: NSLocalizedString("settings.notifications.reminderSet", comment: ""),
+                            formattedReminderTime
+                        ))
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                        .padding(.horizontal, AppSpacing.sm)
                     }
-                    .labelsHidden()
-                    .tint(AppColors.primary)
-                    .onChange(of: languageOverride) { _, newValue in
-                        if newValue == "system" {
-                            UserDefaults.standard.removeObject(forKey: "AppleLanguages")
-                        } else {
-                            UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
+                }
+
+                // — LANGUAGE (H-1) —
+                VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                    settingsSection("settings.language.title") {
+                        HStack {
+                            iconBadge("globe", color: AppColors.blockLavender.opacity(0.5))
+                            Text("settings.language.label")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurface)
+                            Spacer()
+                            Picker("", selection: $languageOverride) {
+                                Text("settings.language.system").tag("system")
+                                Text("settings.language.en").tag("en")
+                                Text("settings.language.tr").tag("tr")
+                                Text("settings.language.es").tag("es")
+                            }
+                            .labelsHidden()
+                            .tint(AppColors.primary)
+                            .onChange(of: languageOverride) { _, newValue in
+                                if newValue == "system" {
+                                    UserDefaults.standard.removeObject(forKey: "AppleLanguages")
+                                } else {
+                                    UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
+                                }
+                                showLanguageRestartAlert = true
+                            }
                         }
-                        showLanguageRestartAlert = true
+                        .padding(AppSpacing.md)
                     }
+                    Text("settings.language.footer")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                        .padding(.horizontal, AppSpacing.sm)
                 }
-            } header: {
-                sectionHeader("settings.language.title")
-            } footer: {
-                Text("settings.language.footer")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
-            }
 
-            // — PRIVACY —
-            Section {
-                HStack {
-                    iconBadge("hand.raised.fill", color: AppColors.primaryContainer.opacity(0.6))
-                    Text("settings.privacy.personalizedAds")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurface)
-                    Spacer()
-                    Toggle("", isOn: adsConsentToggle)
-                        .labelsHidden()
-                        .tint(AppColors.primary)
+                // — PRIVACY —
+                VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                    settingsSection("settings.privacy.title") {
+                        HStack {
+                            iconBadge("hand.raised.fill", color: AppColors.primaryContainer.opacity(0.6))
+                            Text("settings.privacy.personalizedAds")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurface)
+                            Spacer()
+                            Toggle("", isOn: adsConsentToggle)
+                                .labelsHidden()
+                                .tint(AppColors.primary)
+                        }
+                        .padding(AppSpacing.md)
+                    }
+                    Text("settings.privacy.adsFooter")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                        .padding(.horizontal, AppSpacing.sm)
                 }
-            } header: {
-                sectionHeader("settings.privacy.title")
-            } footer: {
-                Text("settings.privacy.adsFooter")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
-            }
 
-            // — ACCOUNT —
-            Section {
-                disclosureRow(icon: "arrow.counterclockwise", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.restore")
-                disclosureRow(icon: "hand.raised.fill", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.privacy")
-                disclosureRow(icon: "doc.text.fill", iconColor: AppColors.surfaceContainerHigh, labelKey: "settings.account.terms")
+                // — ACCOUNT —
+                settingsSection("settings.account.title") {
+                    disclosureRow(
+                        icon: "arrow.counterclockwise",
+                        iconColor: AppColors.surfaceContainerHigh,
+                        labelKey: "settings.account.restore"
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    disclosureRow(
+                        icon: "hand.raised.fill",
+                        iconColor: AppColors.surfaceContainerHigh,
+                        labelKey: "settings.account.privacy"
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    disclosureRow(
+                        icon: "doc.text.fill",
+                        iconColor: AppColors.surfaceContainerHigh,
+                        labelKey: "settings.account.terms"
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    Button {
+                        showResetAlert = true
+                    } label: {
+                        HStack {
+                            iconBadge("trash.fill", color: Color(UIColor.systemRed).opacity(0.15))
+                            Text("settings.account.reset")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(.red)
+                            Spacer()
+                        }
+                        .padding(AppSpacing.md)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Reset all progress")
+                    .accessibilityHint("Permanently deletes all your game data. This cannot be undone.")
+                    .accessibilityAddTraits(.isButton)
+                }
 
-                // H-2: Reset Progress — explicit destructive accessibility role
-                Button {
-                    showResetAlert = true
-                } label: {
+                // — ABOUT —
+                settingsSection("settings.about.title") {
                     HStack {
-                        iconBadge("trash.fill", color: Color(UIColor.systemRed).opacity(0.15))
-                        Text("settings.account.reset")
+                        Text("settings.about.version")
                             .font(AppTypography.bodyMedium)
-                            .foregroundStyle(.red)
+                            .foregroundStyle(AppColors.onSurface)
                         Spacer()
+                        Text(verbatim: appVersion)
+                            .font(AppTypography.numericSmall)
+                            .foregroundStyle(AppColors.onSurfaceVariant)
                     }
+                    .padding(AppSpacing.md)
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Reset all progress")
-                .accessibilityHint("Permanently deletes all your game data. This cannot be undone.")
-                // H-2: mark as destructive so VoiceOver adds the "delete" tone
-                .accessibilityAddTraits(.isButton)
-            } header: {
-                sectionHeader("settings.account.title")
-            }
 
-            // — ABOUT —
-            Section {
-                HStack {
-                    Text("settings.about.version")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurface)
-                    Spacer()
-                    Text(verbatim: appVersion)
-                        .font(AppTypography.numericSmall)
-                        .foregroundStyle(AppColors.onSurfaceVariant)
-                }
-            } header: {
-                sectionHeader("settings.about.title")
-            } footer: {
                 Text("settings.about.credits")
                     .font(AppTypography.labelSmall)
                     .tracking(0.3)
                     .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.top, AppSpacing.xl)
+                    .padding(.top, AppSpacing.sm)
             }
+            .padding(.horizontal, AppSpacing.lg)
+            .padding(.top, AppSpacing.md)
+            .padding(.bottom, AppSpacing.xl)
         }
-        .listStyle(.insetGrouped)
         .background(AppColors.background.ignoresSafeArea())
-        .scrollContentBackground(.hidden)
         .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
         .accessibilityIdentifier("screen.settings")
@@ -329,22 +341,35 @@ struct SettingsView: View {
     private var formattedReminderTime: String {
         let date  = Date(timeIntervalSinceReferenceDate: dailyReminderTimeInterval)
         let comps = Calendar.current.dateComponents([.hour, .minute], from: date)
-        let h     = comps.hour   ?? 19
-        let m     = comps.minute ?? 0
-        let ampm  = h >= 12 ? "PM" : "AM"
-        let h12   = h % 12 == 0 ? 12 : h % 12
-        return String(format: "%d:%02d %@", h12, m, ampm)
+        let hr    = comps.hour   ?? 19
+        let min   = comps.minute ?? 0
+        let ampm  = hr >= 12 ? "PM" : "AM"
+        let h12   = hr % 12 == 0 ? 12 : hr % 12
+        return String(format: "%d:%02d %@", h12, min, ampm)
     }
 
-    // MARK: — Sub-views
+    // MARK: — Section Layout
 
-    private func sectionHeader(_ key: LocalizedStringKey) -> some View {
-        Text(key)
-            .font(AppTypography.labelSmall)
-            .tracking(0.6)
-            .textCase(.uppercase)
-            .foregroundStyle(AppColors.onSurfaceVariant)
+    @ViewBuilder
+    private func settingsSection<Content: View>(
+        _ titleKey: LocalizedStringKey,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            Text(titleKey)
+                .font(AppTypography.labelSmall)
+                .tracking(0.6)
+                .textCase(.uppercase)
+                .foregroundStyle(AppColors.onSurfaceVariant)
+                .padding(.horizontal, AppSpacing.xs)
+            VStack(spacing: 0) {
+                content()
+            }
+            .cardSurface()
+        }
     }
+
+    // MARK: — Row Sub-views
 
     private func toggleRow(
         icon: String,
@@ -364,9 +389,8 @@ struct SettingsView: View {
                 .labelsHidden()
                 .tint(AppColors.primary)
         }
-        // SwiftUI Toggle is auto-accessible; combine row for cleaner VO navigation
+        .padding(AppSpacing.md)
         .accessibilityElement(children: .combine)
-        // Faz I-2: optional UITest identifier
         .accessibilityIdentifier(a11yId ?? "")
     }
 
@@ -384,6 +408,7 @@ struct SettingsView: View {
                     .foregroundStyle(AppColors.outlineVariant)
                     .accessibilityHidden(true)
             }
+            .padding(AppSpacing.md)
         }
         .buttonStyle(.plain)
         .disabled(true)
