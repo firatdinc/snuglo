@@ -215,6 +215,29 @@ final class ProgressStoreTests: XCTestCase {
         XCTAssertEqual(store2.currentStreak, 1)
     }
 
+    // MARK: - testUseHint (IOS-58)
+
+    func testUseHint_decrementsCountAndReturnsTrue() {
+        let store = makeStore()
+        store.addHints(1)
+        XCTAssertEqual(store.hintCount, 1, "precondition: 1 hint added")
+
+        let result = store.useHint()
+
+        XCTAssertTrue(result, "useHint should return true when hints remain")
+        XCTAssertEqual(store.hintCount, 0, "hintCount should decrement to 0")
+    }
+
+    func testUseHint_returnsFalseWhenEmpty() {
+        let store = makeStore()
+        XCTAssertEqual(store.hintCount, 0, "precondition: no hints")
+
+        let result = store.useHint()
+
+        XCTAssertFalse(result, "useHint should return false when hintCount is 0")
+        XCTAssertEqual(store.hintCount, 0, "hintCount must stay 0")
+    }
+
     // MARK: - testComputeStars
 
     func testComputeStars_5x5() {

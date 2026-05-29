@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "¿Salir del puzle?";
 "game.quitConfirm.message"  = "Tu progreso en este nivel no se guardará.";
 "game.quitConfirm.confirm"  = "Salir";
+"game.hint"                 = "Pista";
 
 // MARK: — Pestañas (BottomTabBar)
 // Faz I-2 conjunto activo: home / stats / shop / settings

@@ -3,6 +3,12 @@
 ---
 
 ## [Unreleased]
+### Hint system wired to game screen (IOS-58)
+- **HUD hint button**: lightbulb icon with remaining-count badge added next to pause button. Disabled (0.4 opacity) when `hintCount == 0`. Tapping places the first unplaced piece at its `level.solution` coordinate via the existing `tryPlace` flow (sound + haptic included). Accessibility label localised (`game.hint`).
+- **Real hints-used in LevelCompleteSheet**: `hintsUsed: 0` hardcoded replaced with `viewModel.hintsUsed`.
+- **Localization**: `game.hint` key added to en (`"Hint"`), tr (`"İpucu"`), es (`"Pista"`).
+- **Tests**: 4 new — `test_applyHint_placesPieceAtSolutionOriginAndIncrementsCounter`, `test_applyHint_returnsFalseWhenNoHints` (GameViewModelTests); `testUseHint_decrementsCountAndReturnsTrue`, `testUseHint_returnsFalseWhenEmpty` (ProgressStoreTests).
+
 ### Game screen — 3-way improvement (IOS-57)
 - **Tray clipping fix**: `TrayLayout` pure helper (CoreGraphics + SnugloEngine, no SwiftUI) computes cell size from both piece width AND height. Tray height is now dynamic — tall multi-row pieces are never clipped. Multi-row flow layout activates automatically when pieces would be too small in a single row.
 - **Re-drag placed pieces**: `GameViewModel.liftPiece(pieceID:)` removes a board piece and snapshots its placement. Transparent overlay handles on GridView initiate re-drag via `reliftGesture`. Invalid or off-grid drops trigger `rollbackLift()` — piece returns to original position with spring animation + error haptic/sound. Tray-drag haptic/sound pattern preserved exactly.

@@ -2,7 +2,7 @@ import XCTest
 import SnugloEngine
 @testable import SnugloApp
 
-/// GameViewModel unit tests — 4 original + 3 IOS-57 liftPiece tests.
+/// GameViewModel unit tests — 4 original + 3 IOS-57 liftPiece tests + 2 IOS-58 hint tests.
 @MainActor
 final class GameViewModelTests: XCTestCase {
 
@@ -141,5 +141,42 @@ final class GameViewModelTests: XCTestCase {
 
         XCTAssertNil(vm.liftSnapshot,
                      "commitLift should clear the snapshot")
+    }
+
+    // MARK: - Test 8 (IOS-58): applyHint places piece at solution coord and increments counter
+
+    func test_applyHint_placesPieceAtSolutionOriginAndIncrementsCounter() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        let suite = "test.hint.apply.\(UUID().uuidString)"
+        let ud = UserDefaults(suiteName: suite)!
+        let store = ProgressStore(defaults: ud, key: suite)
+        store.addHints(1)
+
+        let result = vm.applyHint(store: store)
+
+        XCTAssertTrue(result, "applyHint should return true when a hint is available")
+        XCTAssertEqual(vm.hintsUsed, 1, "hintsUsed should increment by 1")
+        XCTAssertNotNil(vm.placements["p1"],
+                        "First unplaced piece should be placed after hint")
+        XCTAssertEqual(vm.placements["p1"]?.origin.x, 0,
+                       "Piece should be placed at its solution x origin")
+        XCTAssertEqual(vm.placements["p1"]?.origin.y, 0,
+                       "Piece should be placed at its solution y origin")
+    }
+
+    // MARK: - Test 9 (IOS-58): applyHint returns false and places nothing when hintCount == 0
+
+    func test_applyHint_returnsFalseWhenNoHints() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        let suite = "test.hint.empty.\(UUID().uuidString)"
+        let ud = UserDefaults(suiteName: suite)!
+        let store = ProgressStore(defaults: ud, key: suite)
+        // store.hintCount == 0 by default
+
+        let result = vm.applyHint(store: store)
+
+        XCTAssertFalse(result, "applyHint should return false when no hints remain")
+        XCTAssertEqual(vm.hintsUsed, 0, "hintsUsed must stay 0 when no hint was consumed")
+        XCTAssertTrue(vm.placements.isEmpty, "No piece should be placed when hint is unavailable")
     }
 }

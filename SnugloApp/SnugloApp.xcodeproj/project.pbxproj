@@ -117,7 +117,7 @@
 		368E88C62BE50B885BCF1DF7 /* HapticServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticServiceTests.swift; sourceTree = "<group>"; };
 		38668694A881387CCF58C9CA /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		4F7015B7FB288C8F5DA0BB75 /* NotificationSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSchedulerTests.swift; sourceTree = "<group>"; };
-		539529195837BF1CED55E54E /* 17EB674D-5F36-4612-AF37-2D98BF5A1C87.xcactivitylog */ = {isa = PBXFileReference; path = "17EB674D-5F36-4612-AF37-2D98BF5A1C87.xcactivitylog"; sourceTree = "<group>"; };
+		539529195837BF1CED55E54E /* 17EB674D-5F36-4612-AF37-2D98BF5A1C87.xcactivitylog */ = {isa = PBXFileReference; lastKnownFileType = file; path = "17EB674D-5F36-4612-AF37-2D98BF5A1C87.xcactivitylog"; sourceTree = "<group>"; };
 		5796E5AF79FD89610638C7BD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5E177BF53BC6C92D779D51C2 /* CardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSurface.swift; sourceTree = "<group>"; };
 		5E553228972F7FFB0F8EF868 /* PackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackDetailView.swift; sourceTree = "<group>"; };
@@ -137,7 +137,7 @@
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		81BCAA3BC56EB6FA503E20FA /* StitchTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchTokenTests.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; path = Snuglo.storekit; sourceTree = "<group>"; };
+		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snuglo.storekit; sourceTree = "<group>"; };
 		8B4758DD6FAC3569A870F3EC /* RowDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowDivider.swift; sourceTree = "<group>"; };
 		8DD307251780186223CCBBE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
@@ -153,7 +153,7 @@
 		C280DEA922815D79D52035E1 /* SmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeUITests.swift; sourceTree = "<group>"; };
 		C2F5BACB29FA770A810C3ABA /* LevelsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsListView.swift; sourceTree = "<group>"; };
 		C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrayLayout.swift; sourceTree = "<group>"; };
-		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 		EC77EA692FE5B20CEA9F3A5E /* PackProviderContinueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProviderContinueTests.swift; sourceTree = "<group>"; };
 		EE9B107DD2F0F4C37A55615C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
-		FCB001DEC3D0DA3B2D4E97A1 /* 17FC92E9-8663-48EE-8354-154BEB602AE2.xcactivitylog */ = {isa = PBXFileReference; path = "17FC92E9-8663-48EE-8354-154BEB602AE2.xcactivitylog"; sourceTree = "<group>"; };
+		FCB001DEC3D0DA3B2D4E97A1 /* 17FC92E9-8663-48EE-8354-154BEB602AE2.xcactivitylog */ = {isa = PBXFileReference; lastKnownFileType = file; path = "17FC92E9-8663-48EE-8354-154BEB602AE2.xcactivitylog"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -564,20 +564,6 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		"TEMP_8E5B188B-7B3C-43C7-8BE6-56DC5F04542D" /* . */ = {
-			isa = PBXGroup;
-			children = (
-				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
-				CA3FFCE8583420473DAB2C0F /* Core */,
-				E704AF9A2C4909919E8EFB76 /* App */,
-				F0773894B86C553977137FB7 /* Resources */,
-				BDF0424E12B0048C1ED49C5C /* Features */,
-				122EC1EB173FCBD7030C10E8 /* build */,
-			);
-			name = .;
-			path = .;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -883,6 +869,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -925,6 +912,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -34,6 +34,11 @@ final class GameViewModel {
     }
     private(set) var liftSnapshot: LiftSnapshot?
 
+    // MARK: - Hint support
+
+    /// Number of hints consumed in this session. Passed to LevelCompleteSheet.
+    private(set) var hintsUsed: Int = 0
+
     // MARK: - Private
     private let checker = SolutionChecker()
 
@@ -178,6 +183,25 @@ final class GameViewModel {
     /// Discard the snapshot after a successful re-placement.
     func commitLift() {
         liftSnapshot = nil
+    }
+
+    // MARK: - Hint API
+
+    /// Use one hint to place the next unplaced piece at its correct solution position.
+    ///
+    /// Reuses `tryPlace` so win detection, logging, and persistence are unchanged.
+    /// - Parameter store: ProgressStore instance; injectable for unit testing (default: `.shared`).
+    /// - Returns: `true` if a hint was consumed and a piece was placed.
+    @discardableResult
+    func applyHint(store: ProgressStore = .shared) -> Bool {
+        guard let piece = unplacedPieces.first(where: { p in
+            level.solution.contains(where: { $0.pieceId == p.id })
+        }) else { return false }
+        guard let solutionPlacement = level.solution.first(where: { $0.pieceId == piece.id }) else { return false }
+        guard store.useHint() else { return false }
+        hintsUsed += 1
+        tryPlace(pieceID: piece.id, at: solutionPlacement.origin)
+        return true
     }
 
     /// Returns true if placing `pieceID` at `coord` would overlap an existing piece

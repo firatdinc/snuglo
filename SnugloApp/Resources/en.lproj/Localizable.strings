@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "Quit the puzzle?";
 "game.quitConfirm.message"  = "Your current progress in this level won't be saved.";
 "game.quitConfirm.confirm"  = "Quit";
+"game.hint"                 = "Hint";
 
 // MARK: — Tabs (BottomTabBar)
 // Faz I-2 active set: home / stats / shop / settings

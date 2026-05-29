@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "Çıkmak istediğine emin misin?";
 "game.quitConfirm.message"  = "Bu bölümdeki ilerlemen kaydedilmeyecek.";
 "game.quitConfirm.confirm"  = "Çık";
+"game.hint"                 = "İpucu";
 
 // MARK: — Sekmeler (BottomTabBar)
 // Faz I-2 aktif set: home / stats / shop / settings

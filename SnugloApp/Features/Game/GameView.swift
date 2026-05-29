@@ -138,7 +138,7 @@ struct GameView: View {
             LevelCompleteSheet(
                 stars: 3,
                 elapsedSeconds: elapsedSeconds,
-                hintsUsed: 0,
+                hintsUsed: viewModel.hintsUsed,
                 // v1.1.3: Next Level resolution
                 //   • Pack levels  → next index in the same pack
                 //   • Daily puzzle → user's current continue level (so
@@ -295,20 +295,55 @@ struct GameView: View {
 
             Spacer()
 
-            // Pause
-            Button { pauseGame() } label: {
-                Image(systemName: "pause.fill")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .frame(width: 40, height: 40)
-                    .background(AppColors.surfaceContainerLow, in: Circle())
-                    .shadowL1()
+            // Hint + Pause group
+            HStack(spacing: AppSpacing.sm) {
+                // Hint
+                let hintCount = ProgressStore.shared.hintCount
+                Button {
+                    withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)) {
+                        _ = viewModel.applyHint()
+                    }
+                    SoundService.shared.play(.place)
+                    HapticService.shared.impact(.light)
+                } label: {
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: "lightbulb.fill")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .frame(width: 40, height: 40)
+                            .background(AppColors.surfaceContainerLow, in: Circle())
+                            .shadowL1()
+                        if hintCount > 0 {
+                            Text("\(hintCount)")
+                                .font(AppTypography.labelSmall)
+                                .foregroundStyle(AppColors.onPrimary)
+                                .padding(.horizontal, 4)
+                                .background(AppColors.primary, in: Capsule())
+                                .offset(x: 6, y: -6)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+                .disabled(hintCount == 0)
+                .opacity(hintCount == 0 ? 0.4 : 1.0)
+                .accessibilityLabel(LocalizedStringKey("game.hint"))
+                .accessibilityIdentifier("button.game.hint")
+
+                // Pause
+                Button { pauseGame() } label: {
+                    Image(systemName: "pause.fill")
+                        .font(.system(size: 18, weight: .medium))
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                        .frame(width: 40, height: 40)
+                        .background(AppColors.surfaceContainerLow, in: Circle())
+                        .shadowL1()
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Pause")
+                .accessibilityHint("Pauses the timer and shows pause options")
+                // Faz I-2: updated identifier spec
+                .accessibilityIdentifier("button.game.pause")
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Pause")
-            .accessibilityHint("Pauses the timer and shows pause options")
-            // Faz I-2: updated identifier spec
-            .accessibilityIdentifier("button.game.pause")
         }
         .padding(.horizontal, AppSpacing.lg)
     }
