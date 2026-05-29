@@ -1,4 +1,6 @@
 .build/
+build/
+SnugloApp/build/
 *.xcuserdata/
 *.xcworkspace/xcuserdata/
 DerivedData/
