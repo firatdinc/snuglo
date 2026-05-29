@@ -53,6 +53,11 @@
 // Legacy keys retained for any old call sites
 "tab.play"     = "Play";
 "tab.levels"   = "Levels";
+"tab.profile"  = "Profile";
+
+// MARK: — Profile tab (Stats embedded inside)
+"profile.title"    = "Profile";
+"profile.subtitle" = "Your puzzle journey";
 
 // MARK: — Levels list
 "levels.title"    = "Levels";
@@ -173,3 +178,12 @@
 "notif.disabled.title"   = "Notifications Disabled";
 "notif.disabled.message" = "To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.";
 "notif.openSettings"     = "Open Settings";
+
+// MARK: — Currency
+"currency.coin"   = "Coin";
+"currency.gem"    = "Gem";
+"currency.ticket" = "Ticket";
+"currency.cup"    = "Trophy";
+
+// MARK: — Level Complete reward
+"levelcomplete.reward" = "You earned";

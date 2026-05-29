@@ -53,6 +53,11 @@
 // Eski anahtarlar
 "tab.play"     = "Oyna";
 "tab.levels"   = "Seviyeler";
+"tab.profile"  = "Profil";
+
+// MARK: — Profil sekmesi (İstatistik içeride)
+"profile.title"    = "Profil";
+"profile.subtitle" = "Bulmaca yolculuğun";
 
 // MARK: — Seviyeler listesi
 "levels.title"    = "Seviyeler";
@@ -173,3 +178,12 @@
 "notif.disabled.title"   = "Bildirimler Devre Dışı";
 "notif.disabled.message" = "Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git.";
 "notif.openSettings"     = "Ayarları Aç";
+
+// MARK: — Para birimleri
+"currency.coin"   = "Coin";
+"currency.gem"    = "Mücevher";
+"currency.ticket" = "Jeton";
+"currency.cup"    = "Kupa";
+
+// MARK: — Seviye tamamlama ödülü
+"levelcomplete.reward" = "Kazandın";

@@ -45,6 +45,8 @@ struct GameView: View {
     @State private var showComplete      = false
     @State private var elapsedSeconds    = 0
     @State private var timerTask: Task<Void, Never>?
+    @State private var rewardGranted     = false
+    @State private var earnedReward: [Currency: Int] = [:]
     /// v1.1.3 UX fix: back button now asks for confirmation before quitting
     /// so the player doesn't lose timer state accidentally.
     @State private var showQuitConfirmation = false
@@ -155,6 +157,7 @@ struct GameView: View {
                 hintsUsed: viewModel.hintsUsed,
                 moveCount: viewModel.moveCount,
                 bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
+                earnedReward: earnedReward,
                 // v1.1.3: Next Level resolution
                 //   • Pack levels  → next index in the same pack
                 //   • Daily puzzle → user's current continue level (so
@@ -184,6 +187,8 @@ struct GameView: View {
                 onReplay: {
                     viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
                     elapsedSeconds = 0
+                    rewardGranted = false
+                    earnedReward = [:]
                     startTimer()
                 }
             )
@@ -212,6 +217,17 @@ struct GameView: View {
                 SoundService.shared.play(.solve)
                 HapticService.shared.notify(.success)
                 AdsManager.shared.onLevelCompleted()
+                if !rewardGranted {
+                    rewardGranted = true
+                    let prevBest = ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) }
+                    let reward = CurrencyReward.forLevelComplete(
+                        stars: 3,
+                        elapsedSeconds: elapsedSeconds,
+                        previousBestSeconds: prevBest
+                    )
+                    earnedReward = reward
+                    for (currency, amount) in reward { WalletStore.shared.earn(currency, amount: amount) }
+                }
                 showComplete = true
             }
         }

@@ -53,6 +53,11 @@
 // Claves heredadas
 "tab.play"     = "Jugar";
 "tab.levels"   = "Niveles";
+"tab.profile"  = "Perfil";
+
+// MARK: — Pestaña Perfil (Estadísticas dentro)
+"profile.title"    = "Perfil";
+"profile.subtitle" = "Tu viaje de puzles";
 
 // MARK: — Lista de niveles
 "levels.title"    = "Niveles";
@@ -173,3 +178,12 @@
 "notif.disabled.title"   = "Notificaciones desactivadas";
 "notif.disabled.message" = "Para activar los recordatorios diarios, permite que Snuglo envíe notificaciones en Ajustes → Snuglo → Notificaciones.";
 "notif.openSettings"     = "Abrir ajustes";
+
+// MARK: — Moneda
+"currency.coin"   = "Moneda";
+"currency.gem"    = "Gema";
+"currency.ticket" = "Boleto";
+"currency.cup"    = "Trofeo";
+
+// MARK: — Recompensa al completar nivel
+"levelcomplete.reward" = "Ganaste";

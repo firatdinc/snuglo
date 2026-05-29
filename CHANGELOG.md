@@ -3,6 +3,15 @@
 ---
 
 ## [Unreleased]
+### Faz 0: WalletStore + 4 cüzdan + LevelComplete reward (IOS-73)
+- **Currency.swift**: `enum Currency` (coin / gem / ticket / cup) with `isSpendable`, `sfSymbol`, `tint` (existing AppColors only), `CurrencyRate { coinPerGem=100; gemPerTicket=50 }`.
+- **WalletStore.swift**: `@Observable @MainActor` singleton with `earn`, `spend`, `canAfford`, `exchange` API. UserDefaults JSON persistence via `Snapshot: Codable` with `decodeIfPresent ?? 0` for forward compatibility. Test-isolated via `init(defaults:key:)`.
+- **CurrencyReward.swift**: pure static `forLevelComplete(stars:elapsedSeconds:previousBestSeconds:)` — coin = stars×10 + (elapsed<60 ? 5 : 0); gem = (personalBest ? 1 : 0) + (stars==3 ? 1 : 0).
+- **GameView**: `rewardGranted` + `earnedReward` state; idempotent reward grant in `.onChange(of: viewModel.isSolved)`; reset on replay. Passes `earnedReward` to `LevelCompleteSheet`.
+- **LevelCompleteSheet**: `earnedReward` parameter + `rewardRow` card below stat pills showing `+N` per currency in their tint color.
+- **Localizable.strings** (en/tr/es): `currency.coin/gem/ticket/cup`, `levelcomplete.reward`.
+- **Tests**: `WalletStoreTests` (18 cases) + `CurrencyRewardTests` (14 cases).
+
 ### Vibrant Play restyle — Faz 3c: Stats / Shop / Settings (IOS-65)
 - **StatsView**: `headerSection` replaced by `statsHeroCard` — blue gradient card (`primary` → `primaryPressed`) with `Image("mascot-sloth")` on right and streak subtitle. KPI card icons now in `RoundedRectangle` color badge (`primaryContainer` 60% tint, 36×36 pt). All data from `ProgressStore` unchanged.
 - **ShopView**: `header` upgraded to hero banner card (same blue gradient, mascot-sloth). Plain `Divider` between sections removed. `sectionTitle` bumped to `headlineMedium`. All `StoreManager` IAP logic unchanged.

@@ -20,6 +20,7 @@ struct LevelCompleteSheet: View {
     var hintsUsed: Int = 0
     var moveCount: Int = 0
     var bestTimeSeconds: Int?
+    var earnedReward: [Currency: Int] = [:]
     var onNext: () -> Void   = {}
     var onReplay: () -> Void = {}
 
@@ -74,6 +75,8 @@ struct LevelCompleteSheet: View {
                     " \(moveCount) moves. Best time \(formattedBestTime)."
                 )
 
+                rewardRow
+
                 Spacer()
 
                 VStack(spacing: AppSpacing.sm) {
@@ -125,6 +128,52 @@ struct LevelCompleteSheet: View {
                 }
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
             }
+        }
+    }
+
+    // MARK: — Reward row
+
+    @ViewBuilder
+    private var rewardRow: some View {
+        if !earnedReward.isEmpty {
+            HStack(spacing: AppSpacing.md) {
+                Image(systemName: "sparkles")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(AppColors.tertiary)
+                    .accessibilityHidden(true)
+                Text("levelcomplete.reward")
+                    .font(AppTypography.labelSmall)
+                    .tracking(0.6)
+                    .textCase(.uppercase)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                Spacer()
+                HStack(spacing: AppSpacing.sm) {
+                    ForEach(Currency.allCases.filter { earnedReward[$0] != nil }) { currency in
+                        if let amount = earnedReward[currency] {
+                            HStack(spacing: 3) {
+                                Image(systemName: currency.sfSymbol)
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundStyle(currency.tint)
+                                    .accessibilityHidden(true)
+                                Text("+\(amount)")
+                                    .font(AppTypography.numericSmall)
+                                    .foregroundStyle(currency.tint)
+                            }
+                        }
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, AppSpacing.sm + 2)
+            .padding(.horizontal, AppSpacing.md)
+            .background(AppColors.surfaceContainerLowest)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                    .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 1)
+            )
+            .shadowL1()
+            .padding(.horizontal, AppSpacing.lg)
         }
     }
 
