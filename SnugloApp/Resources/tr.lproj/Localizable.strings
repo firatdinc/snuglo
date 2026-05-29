@@ -44,16 +44,17 @@
 "game.quitConfirm.confirm"  = "Çık";
 "game.hint"                 = "İpucu";
 
-// MARK: — Sekmeler (BottomTabBar)
-// Faz I-2 aktif set: home / stats / shop / settings
+// MARK: — Sekmeler (Faz 1: 5-sekme bar)
+// Görünür: levels / shop / play / leaderboard / profile
+"tab.levels"      = "Bölümler";
+"tab.shop"        = "Mağaza";
+"tab.play"        = "Oyna";
+"tab.leaderboard" = "Liderlik";
+"tab.profile"     = "Profil";
+// Eski anahtarlar (geriye uyum)
 "tab.home"     = "Ana";
 "tab.stats"    = "İstatistik";
-"tab.shop"     = "Mağaza";
 "tab.settings" = "Ayarlar";
-// Eski anahtarlar
-"tab.play"     = "Oyna";
-"tab.levels"   = "Seviyeler";
-"tab.profile"  = "Profil";
 
 // MARK: — Profil sekmesi (İstatistik içeride)
 "profile.title"    = "Profil";
@@ -187,3 +188,8 @@
 
 // MARK: — Seviye tamamlama ödülü
 "levelcomplete.reward" = "Kazandın";
+
+// MARK: — Liderlik tablosu (Faz 1: yer tutucu)
+"leaderboard.title"             = "Liderlik";
+"leaderboard.placeholder.title" = "Faz 5'te Geliyor";
+"leaderboard.placeholder.body"  = "Sıralamalar ve başarılar çok yakında!";

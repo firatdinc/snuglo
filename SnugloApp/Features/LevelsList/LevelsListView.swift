@@ -23,12 +23,9 @@ struct LevelsListView: View {
                 packList
             }
 
-            BottomTabBar()
         }
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.levels")
-        // Faz I-2: .levels tab removed; highlight home tab when levels list is pushed
-        .onAppear { router.selectedTab = .home }
         .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
             Button("alert.unlockPack.goToShop") {
                 router.selectTab(.shop)

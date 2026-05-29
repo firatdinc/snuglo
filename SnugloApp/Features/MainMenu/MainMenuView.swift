@@ -25,7 +25,6 @@ struct MainMenuView: View {
                 tabContent
             }
 
-            BottomTabBar()
         }
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.mainMenu")
@@ -34,7 +33,7 @@ struct MainMenuView: View {
     @ViewBuilder
     private var tabContent: some View {
         switch router.selectedTab {
-        case .play, .home, .levels:
+        case .play, .home, .levels, .leaderboard:
             scrollContent
         case .stats:
             StatsView()

@@ -56,15 +56,15 @@ final class SmokeUITests: XCTestCase {
         )
     }
 
-    // MARK: — Test 4: navigate to Stats tab
+    // MARK: — Test 4: navigate to Profile tab
 
-    func test_navigateToStats() {
+    func test_navigateToProfile() {
         skipOnboardingIfPresent()
-        app.buttons["tab.stats"].firstMatch.tap()
-        let stats = app.otherElements["screen.stats"]
+        app.buttons["tab.profile"].firstMatch.tap()
+        let profile = app.otherElements["screen.profile"]
         XCTAssertTrue(
-            stats.waitForExistence(timeout: 3),
-            "screen.stats not found after tapping tab.stats"
+            profile.waitForExistence(timeout: 3),
+            "screen.profile not found after tapping tab.profile"
         )
     }
 

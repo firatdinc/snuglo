@@ -2,16 +2,12 @@ import SwiftUI
 import Observation
 
 // MARK: — Route enum
-// Navigation destinations for the entire app.
-// Faz C: 11-screen navigation skeleton.
-// Faz I-2: added .levelsList for levels-list pushed from home tab.
 
 enum Route: Hashable {
     case onboarding
     case mainMenu
     case game(levelID: String)
-    // gamePlay is a semantic alias used by daily-puzzle / continue-card call sites.
-    // Both route to the same GameView; kept separate so call-site intent is readable.
+    // gamePlay is a semantic alias — both route to GameView; kept for call-site readability.
     case gamePlay(levelId: String)
     case packDetail(packId: String)
     case levelsList
@@ -20,24 +16,23 @@ enum Route: Hashable {
 }
 
 // MARK: — AppTab
-// Faz 2: Vibrant Play — 4 visible tabs: Play · Levels · Stats · Shop
-//   .play    — primary "Play" tab (main menu / home scroll content)
-//   .levels  — tapping pushes .levelsList route (BottomTabBar handles the push)
-//   .stats   — Stats screen
-//   .shop    — Shop screen
-// Backward-compat cases (not shown in tab bar, kept so existing call sites compile):
-//   .home     — LevelsListView sets router.selectedTab = .home on appear
-//   .settings — LevelsListView calls router.selectTab(.settings); MainMenuView
-//               tabContent still renders SettingsView for this case
+
+// 5 visible tabs: levels · shop · play (center, elevated) · leaderboard · profile
+// Backward-compat cases kept so existing call sites compile unchanged:
+//   .home     → .play
+//   .stats    → .profile
+//   .settings → push .settings into playPath + switch to .play tab
 
 enum AppTab: Hashable {
-    case play
-    case home       // backward compat — maps to play content in tabContent switch
-    case levels     // Levels tab — BottomTabBar pushes .levelsList route on tap
-    case stats      // backward compat — Stats now lives INSIDE the Profile tab
+    case levels
     case shop
-    case profile    // rightmost tab — profile screen that contains Stats
-    case settings   // backward compat — no longer in tab bar; shows inline settings
+    case play
+    case leaderboard
+    case profile
+    // backward compat
+    case home
+    case stats
+    case settings
 }
 
 // MARK: — AppRouter
@@ -46,23 +41,99 @@ enum AppTab: Hashable {
 @Observable
 final class AppRouter {
 
+    /// Outer stack — splash / onboarding flow only (.mainMenu, .onboarding).
     var path: [Route] = []
     var selectedTab: AppTab = .play
 
+    // Per-tab NavigationStack paths (Faz 1)
+    var levelsPath: [Route] = []
+    var shopPath: [Route] = []
+    var playPath: [Route] = []
+    var leaderboardPath: [Route] = []
+    var profilePath: [Route] = []
+
+    // MARK: — Push
+
     func push(_ route: Route) {
-        path.append(route)
+        switch route {
+        case .mainMenu, .onboarding:
+            path.append(route)
+        case .levelsList:
+            // .levelsList is the Levels tab root — switch tab instead of pushing
+            selectedTab = .levels
+        default:
+            appendToCurrentTab(route)
+        }
     }
 
+    // MARK: — Pop
+
     func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
+        guard !currentTabPath.isEmpty else { return }
+        switch resolvedTab {
+        case .levels:      levelsPath.removeLast()
+        case .shop:        shopPath.removeLast()
+        case .leaderboard: leaderboardPath.removeLast()
+        case .profile:     profilePath.removeLast()
+        default:           playPath.removeLast()
+        }
     }
 
     func popToRoot() {
-        path.removeAll()
+        switch resolvedTab {
+        case .levels:      levelsPath.removeAll()
+        case .shop:        shopPath.removeAll()
+        case .leaderboard: leaderboardPath.removeAll()
+        case .profile:     profilePath.removeAll()
+        default:           playPath.removeAll()
+        }
     }
 
+    // MARK: — Select tab (with backward-compat normalization)
+
     func selectTab(_ tab: AppTab) {
-        selectedTab = tab
+        switch tab {
+        case .home:
+            selectedTab = .play
+        case .stats:
+            selectedTab = .profile
+        case .settings:
+            // .settings has no dedicated tab — push settings route into play tab
+            playPath.append(.settings)
+            selectedTab = .play
+        default:
+            selectedTab = tab
+        }
+    }
+
+    // MARK: — Private helpers
+
+    /// Resolves backward-compat tab values to their canonical equivalents.
+    private var resolvedTab: AppTab {
+        switch selectedTab {
+        case .home, .settings: return .play
+        case .stats:           return .profile
+        default:               return selectedTab
+        }
+    }
+
+    private var currentTabPath: [Route] {
+        switch resolvedTab {
+        case .levels:      return levelsPath
+        case .shop:        return shopPath
+        case .leaderboard: return leaderboardPath
+        case .profile:     return profilePath
+        default:           return playPath
+        }
+    }
+
+    private func appendToCurrentTab(_ route: Route) {
+        switch resolvedTab {
+        case .levels:      levelsPath.append(route)
+        case .shop:        shopPath.append(route)
+        case .leaderboard: leaderboardPath.append(route)
+        case .profile:     profilePath.append(route)
+        default:           playPath.append(route)
+        }
     }
 }

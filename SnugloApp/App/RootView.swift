@@ -38,7 +38,7 @@ struct RootView: View {
     private func destination(for route: Route) -> some View {
         switch route {
         case .mainMenu:
-            MainMenuView()
+            RootTabView()
                 .navigationBarBackButtonHidden()
         case .onboarding:
             OnboardingView()

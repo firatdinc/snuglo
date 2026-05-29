@@ -3,6 +3,17 @@
 ---
 
 ## [Unreleased]
+### Faz 1: 5 sekmeli özel tab bar + per-tab nav + hideBar overlay (IOS-75)
+- **AppTab enum** yeniden yapılandırıldı: 5 görünür sekme (`.levels` · `.shop` · `.play` orta yükseltilmiş · `.leaderboard` · `.profile`) + 3 backward-compat case (`.home → .play`, `.stats → .profile`, `.settings → playPath push + .play tab`). `selectTab(_:)` normalize eder; mevcut call-site'lar sıfır değişiklikle derlenir.
+- **AppRouter** per-tab tipli path dizileri: `levelsPath / shopPath / playPath / leaderboardPath / profilePath: [Route]`. `push(_:)` aktif tab'a yönlendirir; `.levelsList` → tab switch eder; `pop/popToRoot` current-tab scope'u temizler. Outer `path` yalnızca splash/onboarding flow için korundu.
+- **RootTabView** (`Core/Components/BottomTabBar.swift` tam yeniden yazımı): `TabView(selection:)` + `.tabViewStyle(.page(indexDisplayMode: .never))` carousel swipe. 5 tab, her biri kendi `NavigationStack(path:)` ile (iOS 26 observation fix için tipli dizi). Shared `tabDestination(_:)` handler.
+- **CustomTabBar overlay**: `UnevenRoundedRectangle(topLeadingRadius: 22)` arka plan (`surfaceContainerLowest`, `outlineVariant` border). Sol 2 sekme + sağ 2 sekme + ortada yükseltilmiş Play butonu (64×64 daire, `primary` fill, `onPrimary` ikon, `offset(y: -18)`). Tap → `HapticService.shared.impact(.light)`.
+- **hideBar animasyonu**: `@State hideBar` + `computeShouldHide()` + per-path `.onChange` (iOS 26 ilk push güvenilirliği). `.spring(response: 0.35, dampingFraction: 0.85)`. `accessibilityReduceMotion` desteği.
+- **LeaderboardView** placeholder: `trophy.fill` + `cardSurface()`, 3 dil. `screen.leaderboard` identifier.
+- **MainMenuView** L28 `BottomTabBar()` kaldırıldı. **LevelsListView** L26 `BottomTabBar()` + L31 `.onAppear { router.selectedTab = .home }` kaldırıldı.
+- **Localizable.strings** (en/tr/es): `tab.leaderboard`, `leaderboard.title/placeholder.title/placeholder.body` eklendi.
+- **UITests**: `SmokeUITests.test_navigateToStats → test_navigateToProfile`. `HomeFlowUITests.testRootTabsExist` 5 tab doğrulaması (tab.leaderboard + tab.profile eklendi, tab.stats kaldırıldı).
+
 ### Faz 0: WalletStore + 4 cüzdan + LevelComplete reward (IOS-73)
 - **Currency.swift**: `enum Currency` (coin / gem / ticket / cup) with `isSpendable`, `sfSymbol`, `tint` (existing AppColors only), `CurrencyRate { coinPerGem=100; gemPerTicket=50 }`.
 - **WalletStore.swift**: `@Observable @MainActor` singleton with `earn`, `spend`, `canAfford`, `exchange` API. UserDefaults JSON persistence via `Snapshot: Codable` with `decodeIfPresent ?? 0` for forward compatibility. Test-isolated via `init(defaults:key:)`.

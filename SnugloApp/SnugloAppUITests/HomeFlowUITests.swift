@@ -2,8 +2,8 @@ import XCTest
 
 // MARK: — HomeFlowUITests
 // Smoke tests for the main-menu tab bar and the primary play CTA flow.
-// Faz 2: identifiers updated to match Vibrant Play tab spec:
-//   tab.play / tab.levels / tab.stats / tab.shop
+// Faz 1: identifiers updated to match 5-tab bar spec:
+//   tab.play / tab.levels / tab.shop / tab.leaderboard / tab.profile
 //   button.menu.continue (unchanged)
 //   button.menu.dailyPuzzle (unchanged)
 
@@ -26,12 +26,16 @@ final class HomeFlowUITests: SnugloAppUITestsBase {
             "tab.levels not found"
         )
         XCTAssertTrue(
-            app.buttons["tab.stats"].waitForExistence(timeout: 2),
-            "tab.stats not found"
-        )
-        XCTAssertTrue(
             app.buttons["tab.shop"].waitForExistence(timeout: 2),
             "tab.shop not found"
+        )
+        XCTAssertTrue(
+            app.buttons["tab.leaderboard"].waitForExistence(timeout: 2),
+            "tab.leaderboard not found"
+        )
+        XCTAssertTrue(
+            app.buttons["tab.profile"].waitForExistence(timeout: 2),
+            "tab.profile not found"
         )
     }
 

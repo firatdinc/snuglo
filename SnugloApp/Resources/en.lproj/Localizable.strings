@@ -44,16 +44,17 @@
 "game.quitConfirm.confirm"  = "Quit";
 "game.hint"                 = "Hint";
 
-// MARK: — Tabs (BottomTabBar)
-// Faz I-2 active set: home / stats / shop / settings
+// MARK: — Tabs (Faz 1: 5-tab bar)
+// Visible: levels / shop / play / leaderboard / profile
+"tab.levels"      = "Levels";
+"tab.shop"        = "Shop";
+"tab.play"        = "Play";
+"tab.leaderboard" = "Leaderboard";
+"tab.profile"     = "Profile";
+// Legacy keys retained for backward-compat call sites
 "tab.home"     = "Home";
 "tab.stats"    = "Stats";
-"tab.shop"     = "Shop";
 "tab.settings" = "Settings";
-// Legacy keys retained for any old call sites
-"tab.play"     = "Play";
-"tab.levels"   = "Levels";
-"tab.profile"  = "Profile";
 
 // MARK: — Profile tab (Stats embedded inside)
 "profile.title"    = "Profile";
@@ -187,3 +188,8 @@
 
 // MARK: — Level Complete reward
 "levelcomplete.reward" = "You earned";
+
+// MARK: — Leaderboard (Faz 1: placeholder)
+"leaderboard.title"             = "Leaderboard";
+"leaderboard.placeholder.title" = "Coming in Phase 5";
+"leaderboard.placeholder.body"  = "Rankings and achievements are on their way!";

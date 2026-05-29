@@ -44,16 +44,17 @@
 "game.quitConfirm.confirm"  = "Salir";
 "game.hint"                 = "Pista";
 
-// MARK: — Pestañas (BottomTabBar)
-// Faz I-2 conjunto activo: home / stats / shop / settings
+// MARK: — Pestañas (Faz 1: barra de 5 pestañas)
+// Visibles: levels / shop / play / leaderboard / profile
+"tab.levels"      = "Niveles";
+"tab.shop"        = "Tienda";
+"tab.play"        = "Jugar";
+"tab.leaderboard" = "Clasificación";
+"tab.profile"     = "Perfil";
+// Claves heredadas (compatibilidad)
 "tab.home"     = "Inicio";
 "tab.stats"    = "Estadísticas";
-"tab.shop"     = "Tienda";
 "tab.settings" = "Ajustes";
-// Claves heredadas
-"tab.play"     = "Jugar";
-"tab.levels"   = "Niveles";
-"tab.profile"  = "Perfil";
 
 // MARK: — Pestaña Perfil (Estadísticas dentro)
 "profile.title"    = "Perfil";
@@ -187,3 +188,8 @@
 
 // MARK: — Recompensa al completar nivel
 "levelcomplete.reward" = "Ganaste";
+
+// MARK: — Clasificación (Faz 1: marcador de posición)
+"leaderboard.title"             = "Clasificación";
+"leaderboard.placeholder.title" = "Próximamente en la Fase 5";
+"leaderboard.placeholder.body"  = "¡Las clasificaciones y logros están en camino!";
