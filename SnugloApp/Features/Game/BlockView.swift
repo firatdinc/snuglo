@@ -112,7 +112,7 @@ struct BlockView: View {
         let label = context.resolve(
             Text("\(piece.cellCount)")
                 .font(.system(size: badgeFontSize, weight: .semibold, design: .rounded))
-                .foregroundStyle(AppColors.onSurface.opacity(0.55))
+                .foregroundStyle(Color.white.opacity(0.80))
         )
         let labelSize = label.measure(in: CGSize(width: cellSize, height: cellSize))
 

@@ -147,8 +147,15 @@ enum AppColors {
     // MARK: — Helpers
 
     /// Deterministic, index-stable block color for a piece, keyed by piece ID.
+    /// Uses a polynomial hash (multiplier 31) — NOT String.hashValue which is
+    /// randomised per-process since Swift 4.2 and would produce different colors
+    /// each launch.
     static func blockColor(for pieceID: String) -> Color {
-        blockPalette[abs(pieceID.hashValue) % blockPalette.count]
+        var hash = 0
+        for scalar in pieceID.unicodeScalars {
+            hash = hash &* 31 &+ Int(scalar.value)
+        }
+        return blockPalette[abs(hash) % blockPalette.count]
     }
 }
 

@@ -94,6 +94,20 @@ struct GameView: View {
         return CGPoint(x: dragPosition.x - halfW, y: dragPosition.y - halfH)
     }
 
+    /// Pack display name for HUD title (derived from PackProvider lookup, not stored).
+    private var packDisplayName: String {
+        PackProvider.allPacks().first { pack in
+            PackProvider.levelItems(in: pack.id).contains { item in item.id == levelId }
+        }?.title ?? ""
+    }
+
+    /// Fraction of pieces placed (0...1) — drives progress bar.
+    private var placedFraction: CGFloat {
+        let total = viewModel.level.pieces.count
+        guard total > 0 else { return 0 }
+        return CGFloat(total - viewModel.unplacedPieces.count) / CGFloat(total)
+    }
+
     // MARK: — Body
 
     var body: some View {
@@ -208,46 +222,69 @@ struct GameView: View {
     private var mainLayout: some View {
         VStack(spacing: AppSpacing.md) {
             gameHUD
+            progressRow
 
-            ZStack(alignment: .topLeading) {
-                GridView(
-                    level: viewModel.level,
-                    placements: viewModel.placements,
-                    invalidPieceIDs: viewModel.invalidPieceIDs,
-                    snapCoord: snapCoord,
-                    snapIsInvalid: snapIsInvalid,
-                    draggingPieceID: draggingPiece?.id
-                )
-                // v1.1.1 critical fix: round frame before triggering @State update.
-                .onGeometryChange(for: CGRect.self) { proxy in
-                    proxy.frame(in: .named("gameLayout"))
-                } action: { frame in
-                    let rounded = CGRect(
-                        x: frame.origin.x.rounded(),
-                        y: frame.origin.y.rounded(),
-                        width: frame.width.rounded(),
-                        height: frame.height.rounded()
-                    )
-                    if rounded != gridFrame {
-                        gridFrame = rounded
-                    }
+            VStack(spacing: AppSpacing.sm) {
+                // Mascot badge — sloth floating above the puzzle grid
+                HStack {
+                    Spacer()
+                    Image("mascot-sloth")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 72, height: 72)
+                        .background(
+                            AppColors.surfaceContainerLowest,
+                            in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 0.5)
+                        )
+                        .shadowL1()
+                        .accessibilityHidden(true)
+                    Spacer()
                 }
-                // Faz I-2: UITest identifier for the puzzle grid container.
-                .accessibilityElement(children: .contain)
-                .accessibilityIdentifier("game.grid")
 
-                // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
-                // GeometryReader gets the exact same proposed size as GridView (same ZStack),
-                // so geo.size.width / level.width matches GridView's internal cell size exactly.
-                // NOTE: must NOT be gated on `draggingPiece == nil` — removing the handle
-                // container mid-drag destroys the active gesture's host view so .onEnded
-                // never fires (the re-drag would freeze). Keep it mounted throughout.
-                if !viewModel.placements.isEmpty {
-                    GeometryReader { geo in
-                        let cs = geo.size.width / CGFloat(viewModel.level.width)
-                        ForEach(viewModel.level.pieces, id: \.id) { piece in
-                            if let placement = viewModel.placements[piece.id] {
-                                placedPieceHandle(piece: piece, placement: placement, cs: cs)
+                ZStack(alignment: .topLeading) {
+                    GridView(
+                        level: viewModel.level,
+                        placements: viewModel.placements,
+                        invalidPieceIDs: viewModel.invalidPieceIDs,
+                        snapCoord: snapCoord,
+                        snapIsInvalid: snapIsInvalid,
+                        draggingPieceID: draggingPiece?.id
+                    )
+                    // v1.1.1 critical fix: round frame before triggering @State update.
+                    .onGeometryChange(for: CGRect.self) { proxy in
+                        proxy.frame(in: .named("gameLayout"))
+                    } action: { frame in
+                        let rounded = CGRect(
+                            x: frame.origin.x.rounded(),
+                            y: frame.origin.y.rounded(),
+                            width: frame.width.rounded(),
+                            height: frame.height.rounded()
+                        )
+                        if rounded != gridFrame {
+                            gridFrame = rounded
+                        }
+                    }
+                    // Faz I-2: UITest identifier for the puzzle grid container.
+                    .accessibilityElement(children: .contain)
+                    .accessibilityIdentifier("game.grid")
+
+                    // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
+                    // GeometryReader gets the exact same proposed size as GridView (same ZStack),
+                    // so geo.size.width / level.width matches GridView's internal cell size exactly.
+                    // NOTE: must NOT be gated on `draggingPiece == nil` — removing the handle
+                    // container mid-drag destroys the active gesture's host view so .onEnded
+                    // never fires (the re-drag would freeze). Keep it mounted throughout.
+                    if !viewModel.placements.isEmpty {
+                        GeometryReader { geo in
+                            let cs = geo.size.width / CGFloat(viewModel.level.width)
+                            ForEach(viewModel.level.pieces, id: \.id) { piece in
+                                if let placement = viewModel.placements[piece.id] {
+                                    placedPieceHandle(piece: piece, placement: placement, cs: cs)
+                                }
                             }
                         }
                     }
@@ -261,17 +298,17 @@ struct GameView: View {
         .padding(.vertical, AppSpacing.lg)
     }
 
-    // MARK: — HUD
+    // MARK: — HUD (Faz 3b: Vibrant Play — pack name + level subtitle, timer pill, white circle buttons)
 
     private var gameHUD: some View {
-        HStack {
+        HStack(spacing: AppSpacing.sm) {
             // Back (v1.1.3: asks for confirmation to prevent accidental quit)
             Button { showQuitConfirmation = true } label: {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 40, height: 40)
-                    .background(AppColors.surfaceContainerLow, in: Circle())
+                    .background(AppColors.surfaceContainerLowest, in: Circle())
                     .shadowL1()
             }
             .buttonStyle(.plain)
@@ -281,63 +318,46 @@ struct GameView: View {
 
             Spacer()
 
-            // Level title + timer (v1.1: timer uses numericLabel = Space Grotesk)
-            VStack(spacing: AppSpacing.xs) {
-                Text(levelDisplayNameKey)
+            // Pack name + "Level N" subtitle
+            VStack(spacing: 2) {
+                Text(verbatim: packDisplayName)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text(formattedTimer)
-                    .font(AppTypography.numericLabel)
+                    .lineLimit(1)
+                Text(levelDisplayNameKey)
+                    .font(AppTypography.labelSmall)
+                    .tracking(0.4)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("\(levelDisplayName), elapsed time \(formattedTimer)")
-            // Faz I-2: UITest identifier for timer display
-            .accessibilityIdentifier("game.timer")
+            .accessibilityHidden(true)
 
             Spacer()
 
-            // Hint + Pause group
             HStack(spacing: AppSpacing.sm) {
-                // Hint
-                let hintCount = ProgressStore.shared.hintCount
-                Button {
-                    withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)) {
-                        _ = viewModel.applyHint()
-                    }
-                    SoundService.shared.play(.place)
-                    HapticService.shared.impact(.light)
-                } label: {
-                    ZStack(alignment: .topTrailing) {
-                        Image(systemName: "lightbulb.fill")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundStyle(AppColors.onSurfaceVariant)
-                            .frame(width: 40, height: 40)
-                            .background(AppColors.surfaceContainerLow, in: Circle())
-                            .shadowL1()
-                        if hintCount > 0 {
-                            Text("\(hintCount)")
-                                .font(AppTypography.labelSmall)
-                                .foregroundStyle(AppColors.onPrimary)
-                                .padding(.horizontal, 4)
-                                .background(AppColors.primary, in: Capsule())
-                                .offset(x: 6, y: -6)
-                        }
-                    }
+                // Timer — blue capsule pill with clock icon
+                HStack(spacing: 4) {
+                    Image(systemName: "clock.fill")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.white)
+                    Text(formattedTimer)
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(.white)
                 }
-                .buttonStyle(.plain)
-                .disabled(hintCount == 0)
-                .opacity(hintCount == 0 ? 0.4 : 1.0)
-                .accessibilityLabel(LocalizedStringKey("game.hint"))
-                .accessibilityIdentifier("button.game.hint")
+                .padding(.horizontal, AppSpacing.sm + 2)
+                .padding(.vertical, AppSpacing.xs + 2)
+                .background(AppColors.primary, in: Capsule())
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("\(levelDisplayName), elapsed time \(formattedTimer)")
+                // Faz I-2: UITest identifier for timer display
+                .accessibilityIdentifier("game.timer")
 
                 // Pause
                 Button { pauseGame() } label: {
                     Image(systemName: "pause.fill")
-                        .font(.system(size: 18, weight: .medium))
+                        .font(.system(size: 16, weight: .medium))
                         .foregroundStyle(AppColors.onSurfaceVariant)
                         .frame(width: 40, height: 40)
-                        .background(AppColors.surfaceContainerLow, in: Circle())
+                        .background(AppColors.surfaceContainerLowest, in: Circle())
                         .shadowL1()
                 }
                 .buttonStyle(.plain)
@@ -350,6 +370,45 @@ struct GameView: View {
         .padding(.horizontal, AppSpacing.lg)
     }
 
+    // MARK: — Progress bar (piece placement progress)
+
+    private var progressRow: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            HStack {
+                Text("pack.progress")
+                    .font(AppTypography.labelSmall)
+                    .tracking(0.6)
+                    .textCase(.uppercase)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                Spacer()
+                Text("\(Int(placedFraction * 100))%")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.primary)
+            }
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(AppColors.surfaceContainerHigh)
+                        .frame(height: 8)
+                    if placedFraction > 0 {
+                        Capsule()
+                            .fill(
+                                LinearGradient(
+                                    colors: [AppColors.primary, AppColors.secondary],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .frame(width: geo.size.width * placedFraction, height: 8)
+                    }
+                }
+            }
+            .frame(height: 8)
+        }
+        .padding(.horizontal, AppSpacing.lg)
+        .accessibilityHidden(true)
+    }
+
     // MARK: — Tray
 
     /// IOS-57: trayView now uses TrayLayout for accurate cell-size computation that
@@ -360,37 +419,78 @@ struct GameView: View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
             trayHeader
 
-            GeometryReader { geo in
-                let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
-                let layout = TrayLayout.compute(
-                    pieces: viewModel.unplacedPieces,
-                    availableWidth: innerWidth,
-                    preferredCellSize: cellSize * 0.6,
-                    itemSpacing: AppSpacing.md
-                )
-                VStack(alignment: .center, spacing: AppSpacing.md) {
-                    ForEach(Array(layout.rows.enumerated()), id: \.offset) { _, row in
-                        HStack(alignment: .center, spacing: AppSpacing.md) {
-                            ForEach(row, id: \.id) { piece in
-                                BlockView(
-                                    piece: piece,
-                                    cellSize: layout.cellSize,
-                                    isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                                    isDragging: false
-                                )
-                                .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                                .gesture(dragGesture(for: piece))
+            VStack(spacing: 0) {
+                GeometryReader { geo in
+                    let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
+                    let layout = TrayLayout.compute(
+                        pieces: viewModel.unplacedPieces,
+                        availableWidth: innerWidth,
+                        preferredCellSize: cellSize * 0.6,
+                        itemSpacing: AppSpacing.md
+                    )
+                    VStack(alignment: .center, spacing: AppSpacing.md) {
+                        ForEach(Array(layout.rows.enumerated()), id: \.offset) { _, row in
+                            HStack(alignment: .center, spacing: AppSpacing.md) {
+                                ForEach(row, id: \.id) { piece in
+                                    BlockView(
+                                        piece: piece,
+                                        cellSize: layout.cellSize,
+                                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                                        isDragging: false
+                                    )
+                                    .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                                    .gesture(dragGesture(for: piece))
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                    }
+                    .padding(.horizontal, AppSpacing.lg)
+                    .padding(.vertical, AppSpacing.sm)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                }
+                .frame(height: trayContentHeight)
+
+                // Hint pill — full-width blue capsule button
+                let hintCount = ProgressStore.shared.hintCount
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)) {
+                            _ = viewModel.applyHint()
+                        }
+                        SoundService.shared.play(.place)
+                        HapticService.shared.impact(.light)
+                    } label: {
+                        HStack(spacing: AppSpacing.sm) {
+                            Image(systemName: "lightbulb.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                            Text(LocalizedStringKey("game.hint"))
+                                .font(AppTypography.labelSmall)
+                            if hintCount > 0 {
+                                Text("×\(hintCount)")
+                                    .font(AppTypography.labelSmall)
+                                    .opacity(0.8)
                             }
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, AppSpacing.xl)
+                        .padding(.vertical, AppSpacing.sm + 2)
+                        .frame(maxWidth: .infinity)
+                        .background(AppColors.primary, in: Capsule())
+                        .shadowL1()
                     }
+                    .buttonStyle(.plain)
+                    .disabled(hintCount == 0)
+                    .opacity(hintCount == 0 ? 0.45 : 1.0)
+                    .accessibilityLabel(LocalizedStringKey("game.hint"))
+                    .accessibilityIdentifier("button.game.hint")
+                    Spacer()
                 }
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.vertical, AppSpacing.sm)
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
-            .frame(height: trayContentHeight)
-            .background(AppColors.surfaceContainerHigh)
+            .background(AppColors.surfaceContainerLowest)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
             .shadowL1()
         }

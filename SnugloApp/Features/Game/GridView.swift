@@ -31,7 +31,7 @@ struct GridView: View {
             }
         }
         .aspectRatio(CGFloat(level.width) / CGFloat(level.height), contentMode: .fit)
-        .background(AppColors.gameBoardBackground)
+        .background(AppColors.surfaceContainerLowest)
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
         .shadowL1()
     }
@@ -42,7 +42,7 @@ struct GridView: View {
         context.fill(
             Path(roundedRect: CGRect(origin: .zero, size: size),
                  cornerRadius: AppRadius.card),
-            with: .color(AppColors.gameBoardBackground)
+            with: .color(AppColors.surfaceContainerLowest)
         )
     }
 

@@ -3,6 +3,15 @@
 ---
 
 ## [Unreleased]
+### Vibrant Play restyle — Faz 3b: Game + LevelComplete (IOS-64)
+- **GameView** (HUD): back button and pause button redesigned as white circle buttons with `shadowL1`. Timer moved to a blue capsule pill (`clock.fill` icon + elapsed time, white text) with `game.timer` identifier. Pack name + `Level N` subtitle in center VStack. Hint button removed from HUD — moved to tray.
+- **GameView** (progress bar): new `progressRow` shows "PROGRESS X%" label + blue-to-secondary gradient `Capsule` bar below HUD. Driven by `placedFraction` (pieces placed / total pieces).
+- **GameView** (mascot): `Image("mascot-sloth")` in 72×72 white rounded card floats above the puzzle grid.
+- **GameView** (tray): tray card background changed from `surfaceContainerHigh` to `surfaceContainerLowest` (white). Hint pill button (blue `Capsule`, `button.game.hint` identifier) added at the bottom of the tray card with `×N` hint count badge.
+- **GridView**: board background changed from `gameBoardBackground` to `surfaceContainerLowest` (white) — both `.background()` modifier and `drawBackground` Canvas fill updated.
+- **BlockView**: cell-count badge label color changed from `AppColors.onSurface.opacity(0.55)` to `Color.white.opacity(0.80)` for contrast on vivid Vibrant Play block palette.
+- **LevelCompleteSheet**: hero replaced — `Image("mascot-tiger")` in gold gradient ring (`AppColors.tertiary`) + `Image("badge-trophy")` overlay. Divider stat grid replaced with pill-style `statPill()` cards (`surfaceContainerLowest` + `shadowL1`). Stars row preserved. All accessibility identifiers unchanged (`complete.next`, `complete.continue`).
+
 ### Vibrant Play restyle — Faz 2: bottom tab bar + MainMenu (IOS-61)
 - **AppTab enum**: added `.play` (primary Play tab) and `.levels` (Levels tab). `.home` and `.settings` retained as backward-compat cases so LevelsListView call sites compile unchanged.
 - **BottomTabBar**: redesigned for Vibrant Play — 4 tabs: Play (`tab.play`) / Levels (`tab.levels`) / Stats (`tab.stats`) / Shop (`tab.shop`). Active tab shows `AppColors.primary` blue icon + label (no pill background). Settings removed from tab bar. Levels tab pushes `.levelsList` route instead of switching tab state; active state detected via `router.path.contains(.levelsList)`.

@@ -1,13 +1,13 @@
 import SwiftUI
 
-// MARK: — LevelCompleteSheet (v1.1: Stitch Nordic Hearth redesign · H-1: Localized)
-// Ref: Designs/html/08-level-complete.html
-// H-2: VoiceOver — stars row labelled, time formatted for speech, confetti hidden.
+// MARK: — LevelCompleteSheet (Faz 3b: Vibrant Play restyle)
+// Ref: Designs/VibrantPlay/level-complete.png
+// H-2: VoiceOver — stats container has combined label; confetti hidden; mascot hidden.
 //
-// v1.1 changes:
-//   • Success circle background: blushAccent (#F5E6E0) — was primaryContainer
-//   • Stat cell values: numericLabel (Space Grotesk 20pt) — was monospaced system
-//   • Secondary buttons: softCocoa/secondary text + divider border (Stitch spec)
+// Faz 3b changes:
+//   • Hero: mascot-tiger in gold gradient ring + badge-trophy overlay (was SF Symbol check)
+//   • Stats: pill cards (surfaceContainerLowest + shadowL1) replacing divider grid
+//   • Buttons: PrimaryButton next + outline replay/home (identifiers preserved verbatim)
 
 struct LevelCompleteSheet: View {
 
@@ -27,7 +27,7 @@ struct LevelCompleteSheet: View {
         ZStack {
             AppColors.background.ignoresSafeArea()
 
-            // — Confetti placeholder — (hidden from VoiceOver; decorative)
+            // Confetti — decorative; hidden from VoiceOver
             if !reduceMotion {
                 confettiLayer
             }
@@ -35,74 +35,39 @@ struct LevelCompleteSheet: View {
             VStack(spacing: AppSpacing.xl) {
                 Spacer()
 
-                // — Check badge — (decorative; headline below conveys success)
-                ZStack {
-                    // Outer glow ring — blushAccent (#F5E6E0, Stitch Nordic Hearth)
-                    Circle()
-                        .fill(AppColors.blushAccent.opacity(0.6))
-                        .frame(width: 112, height: 112)
-                        .blur(radius: 8)
+                heroView
 
-                    // Inner filled circle — blushAccent
-                    Circle()
-                        .fill(AppColors.blushAccent)
-                        .frame(width: 88, height: 88)
-                        .overlay(
-                            Circle()
-                                .stroke(.white.opacity(0.5), lineWidth: 1.5)
-                        )
-                        .shadowL1()
+                VStack(spacing: AppSpacing.sm) {
+                    Text("complete.puzzleSolved")
+                        .font(AppTypography.headlineLarge)
+                        .tracking(-0.6)
+                        .foregroundStyle(AppColors.onSurface)
 
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 40, weight: .semibold))
-                        .foregroundStyle(AppColors.primary)
+                    // Stars row — H-2: combined label
+                    HStack(spacing: AppSpacing.sm) {
+                        ForEach(0..<3, id: \.self) { starIdx in
+                            Image(systemName: starIdx < stars ? "star.fill" : "star")
+                                .font(.system(size: 28))
+                                .foregroundStyle(starIdx < stars ? AppColors.tertiary : AppColors.outlineVariant)
+                        }
+                    }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("\(stars) of 3 stars earned")
                 }
-                .accessibilityHidden(true)
 
-                // — Headline —
-                Text("complete.puzzleSolved")
-                    .font(AppTypography.headlineLarge)
-                    .tracking(-0.6)
-                    .foregroundStyle(AppColors.onSurface)
-
-                // — Stars — (H-2: combined label "2 of 3 stars earned")
-                HStack(spacing: AppSpacing.sm) {
-                    ForEach(0..<3, id: \.self) { i in
-                        Image(systemName: i < stars ? "star.fill" : "star")
-                            .font(.system(size: 32))
-                            .foregroundStyle(i < stars ? AppColors.tertiary : AppColors.outlineVariant)
+                // Stat pills — H-2: combined label on container
+                VStack(spacing: AppSpacing.sm) {
+                    HStack(spacing: AppSpacing.sm) {
+                        statPill(value: formattedTime, labelKey: "complete.time")
+                        statPill(value: "\(stars)/3", labelKey: "complete.stars")
+                        statPill(value: "\(hintsUsed)", labelKey: "complete.hints")
+                    }
+                    HStack(spacing: AppSpacing.sm) {
+                        statPill(value: "\(moveCount)", labelKey: "complete.moves")
+                        statPill(value: formattedBestTime, labelKey: "complete.bestTime")
                     }
                 }
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(stars) of 3 stars earned")
-
-                // — Stats rows — (H-2: each cell gets speech-friendly label)
-                VStack(spacing: 0) {
-                    HStack(spacing: 0) {
-                        statCell(value: formattedTime, labelKey: "complete.time", a11yValue: formattedTimeSpeech)
-                        Divider().frame(height: 40)
-                        statCell(value: "\(stars)", labelKey: "complete.stars", a11yValue: "\(stars) stars")
-                        Divider().frame(height: 40)
-                        statCell(value: "\(hintsUsed)", labelKey: "complete.hints",
-                                 a11yValue: "\(hintsUsed) hints used")
-                    }
-                    Divider()
-                    HStack(spacing: 0) {
-                        statCell(value: "\(moveCount)", labelKey: "complete.moves",
-                                 a11yValue: "\(moveCount) moves")
-                        Divider().frame(height: 40)
-                        statCell(value: formattedBestTime, labelKey: "complete.bestTime",
-                                 a11yValue: "best time \(formattedBestTime)")
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, AppSpacing.md)
-                .background(
-                    AppColors.surfaceContainer,
-                    in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                )
                 .padding(.horizontal, AppSpacing.lg)
-                // H-2: combine stats into one VoiceOver read
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(
                     "Solved in \(formattedTimeSpeech). \(stars) stars. \(hintsUsed) hints used." +
@@ -111,7 +76,6 @@ struct LevelCompleteSheet: View {
 
                 Spacer()
 
-                // — Buttons — (v1.1: PrimaryButton reusable component)
                 VStack(spacing: AppSpacing.sm) {
                     PrimaryButton("complete.next", systemImage: "arrow.right") {
                         onNext()
@@ -138,7 +102,6 @@ struct LevelCompleteSheet: View {
                         }
                         .buttonStyle(.plain)
                         .accessibilityHint("Restarts this same level")
-                        // Faz I-2: XCUITest identifier
                         .accessibilityIdentifier("complete.continue")
 
                         Button {
@@ -165,13 +128,58 @@ struct LevelCompleteSheet: View {
         }
     }
 
-    // MARK: — Confetti placeholder (hidden from VoiceOver)
+    // MARK: — Hero (mascot-tiger in gold ring + badge-trophy overlay)
+
+    private var heroView: some View {
+        ZStack(alignment: .bottomTrailing) {
+            ZStack {
+                // Radial gold glow behind the ring
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [AppColors.tertiary.opacity(0.45), AppColors.tertiary.opacity(0)],
+                            center: .center,
+                            startRadius: 44,
+                            endRadius: 80
+                        )
+                    )
+                    .frame(width: 160, height: 160)
+
+                // Gold stroke ring
+                Circle()
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [AppColors.tertiary, AppColors.tertiary.opacity(0.55)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 3
+                    )
+                    .frame(width: 116, height: 116)
+
+                Image("mascot-tiger")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 96, height: 96)
+                    .clipShape(Circle())
+            }
+
+            Image("badge-trophy")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 40, height: 40)
+                .offset(x: -10, y: -6)
+        }
+        .accessibilityHidden(true)
+    }
+
+    // MARK: — Confetti placeholder (decorative)
 
     private var confettiLayer: some View {
         ZStack {
-            ForEach(0..<12, id: \.self) { i in
+            ForEach(0..<12, id: \.self) { confettiIdx in
                 Circle()
-                    .fill(AppColors.blockPalette[i % AppColors.blockPalette.count].opacity(0.7))
+                    .fill(AppColors.blockPalette[confettiIdx % AppColors.blockPalette.count].opacity(0.7))
                     .frame(width: CGFloat.random(in: 6...14))
                     .offset(
                         x: CGFloat.random(in: -160...160),
@@ -183,13 +191,13 @@ struct LevelCompleteSheet: View {
         .accessibilityHidden(true)
     }
 
-    // MARK: — Stat cell
+    // MARK: — Stat pill
 
-    private func statCell(value: String, labelKey: LocalizedStringKey, a11yValue: String) -> some View {
+    private func statPill(value: String, labelKey: LocalizedStringKey) -> some View {
         VStack(spacing: AppSpacing.xs) {
             Text(value)
                 .font(AppTypography.numericLabel)
-                .foregroundStyle(AppColors.onSurface)
+                .foregroundStyle(AppColors.primary)
             Text(labelKey)
                 .font(AppTypography.labelSmall)
                 .tracking(0.6)
@@ -197,31 +205,39 @@ struct LevelCompleteSheet: View {
                 .foregroundStyle(AppColors.onSurfaceVariant)
         }
         .frame(maxWidth: .infinity)
+        .padding(.vertical, AppSpacing.md)
+        .background(AppColors.surfaceContainerLowest)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 1)
+        )
+        .shadowL1()
     }
 
     // MARK: — Helpers
 
     private var formattedTime: String {
-        let m = elapsedSeconds / 60
-        let s = elapsedSeconds % 60
-        return String(format: "%d:%02d", m, s)
+        let mins = elapsedSeconds / 60
+        let secs = elapsedSeconds % 60
+        return String(format: "%d:%02d", mins, secs)
     }
 
     private var formattedBestTime: String {
-        guard let secs = bestTimeSeconds else { return "—" }
-        let mins = secs / 60
-        let rem = secs % 60
-        return String(format: "%d:%02d", mins, rem)
+        guard let totalSecs = bestTimeSeconds else { return "—" }
+        let mins = totalSecs / 60
+        let secs = totalSecs % 60
+        return String(format: "%d:%02d", mins, secs)
     }
 
     /// H-2: Speech-friendly time string e.g. "1 minute 23 seconds"
     private var formattedTimeSpeech: String {
-        let m = elapsedSeconds / 60
-        let s = elapsedSeconds % 60
-        if m > 0 {
-            return "\(m) minute\(m == 1 ? "" : "s") \(s) second\(s == 1 ? "" : "s")"
+        let mins = elapsedSeconds / 60
+        let secs = elapsedSeconds % 60
+        if mins > 0 {
+            return "\(mins) minute\(mins == 1 ? "" : "s") \(secs) second\(secs == 1 ? "" : "s")"
         }
-        return "\(s) second\(s == 1 ? "" : "s")"
+        return "\(secs) second\(secs == 1 ? "" : "s")"
     }
 }
 

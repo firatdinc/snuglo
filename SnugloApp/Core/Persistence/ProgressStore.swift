@@ -152,7 +152,28 @@ final class ProgressStore {
         var currentStreak: Int
         var longestStreak: Int
         /// hintCount Faz G-1'de eklendi; eski snapshot'larda yoksa 0 kullan.
-        var hintCount: Int = 0
+        var hintCount: Int
+
+        // Explicit memberwise init (custom init(from:) suppresses synthesis).
+        init(levelProgress: [String: LevelProgress], dailyResults: [DailyPuzzleResult],
+             currentStreak: Int, longestStreak: Int, hintCount: Int) {
+            self.levelProgress = levelProgress
+            self.dailyResults  = dailyResults
+            self.currentStreak = currentStreak
+            self.longestStreak = longestStreak
+            self.hintCount     = hintCount
+        }
+
+        // Custom decoder: hintCount is optional in persisted JSON (added Faz G-1;
+        // absent in snapshots written by earlier builds).
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            levelProgress = try container.decode([String: LevelProgress].self, forKey: .levelProgress)
+            dailyResults  = try container.decode([DailyPuzzleResult].self, forKey: .dailyResults)
+            currentStreak = try container.decode(Int.self, forKey: .currentStreak)
+            longestStreak = try container.decode(Int.self, forKey: .longestStreak)
+            hintCount     = try container.decodeIfPresent(Int.self, forKey: .hintCount) ?? 0
+        }
     }
 
     private func load() {

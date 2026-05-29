@@ -117,8 +117,8 @@ final class StitchTokenTests: XCTestCase {
         XCTAssertEqual(AppRadius.card, 20, "Card radius must be 20 pt (Stitch spec)")
     }
 
-    func test_radius_button_is14() {
-        XCTAssertEqual(AppRadius.button, 14, "Button radius must be 14 pt (Stitch spec)")
+    func test_radius_button_is100() {
+        XCTAssertEqual(AppRadius.button, 100, "Button radius must be 100 pt (Vibrant Play pill spec — updated IOS-60)")
     }
 
     func test_radius_block_is10() {
