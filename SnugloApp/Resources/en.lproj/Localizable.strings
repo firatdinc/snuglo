@@ -36,6 +36,13 @@
 "menu.startFirst"  = "Start your first level";
 "menu.refresh"     = "Refresh in %@";
 
+// MARK: — Game (v1.1.3)
+"game.title.daily"          = "Daily Puzzle";
+"game.tray.remaining"       = "Remaining";
+"game.quitConfirm.title"    = "Quit the puzzle?";
+"game.quitConfirm.message"  = "Your current progress in this level won't be saved.";
+"game.quitConfirm.confirm"  = "Quit";
+
 // MARK: — Tabs (BottomTabBar)
 // Faz I-2 active set: home / stats / shop / settings
 "tab.home"     = "Home";

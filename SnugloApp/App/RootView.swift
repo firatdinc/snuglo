@@ -44,10 +44,17 @@ struct RootView: View {
             OnboardingView()
                 .navigationBarBackButtonHidden()
         case .game(let levelID):
+            // .id(levelID) forces SwiftUI to recreate GameView (and its
+            // @State viewModel/placements/timer) when the route's level ID
+            // changes. Without this, "Sonraki seviye" reused the previous
+            // GameView's state — title updated but grid stayed filled with
+            // the prior level's pieces.
             GameView(levelId: levelID)
+                .id(levelID)
                 .navigationBarBackButtonHidden()
         case .gamePlay(let levelId):
             GameView(levelId: levelId)
+                .id(levelId)
                 .navigationBarBackButtonHidden()
         case .packDetail(let packId):
             PackDetailView(packName: packId)

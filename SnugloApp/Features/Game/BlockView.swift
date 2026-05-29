@@ -49,8 +49,9 @@ struct BlockView: View {
             width: CGFloat(pieceWidth)  * cellSize,
             height: CGFloat(pieceHeight) * cellSize
         )
-        // H-2: Reduce Motion — skip scale animation; keep scale value for dragging state
-        .scaleEffect(isDragging ? 1.10 : 1.0)
+        // v1.1.3 UX fix: drag scale reduced 1.10 → 1.05 — users reported
+        // the picked-up block growing too large and obscuring the grid.
+        .scaleEffect(isDragging ? 1.05 : 1.0)
         .shadow(
             color: AppColors.shadowAmbient.opacity(isDragging ? 0.12 : 0.06),
             radius: isDragging ? 16 : 12,
@@ -99,26 +100,29 @@ struct BlockView: View {
         }
     }
 
-    /// Draws the cell-count label centered on the piece's bounding box.
+    /// v1.1.3 UX fix: the cell-count label used to be a 20pt number centered
+    /// over the piece, which obscured the SHAPE — users couldn't see the
+    /// actual cell layout to plan placements. Now it's a small badge in the
+    /// last cell of the piece (scaled to ~40% of cell height), legible but
+    /// no longer dominating the visual.
     private func renderCellCountLabel(in context: GraphicsContext) {
-        let midX = CGFloat(pieceWidth)  * cellSize / 2
-        let midY = CGFloat(pieceHeight) * cellSize / 2
+        guard let anchorCell = piece.cells.last else { return }
 
+        let badgeFontSize = max(8, cellSize * 0.36)
         let label = context.resolve(
             Text("\(piece.cellCount)")
-                .font(AppTypography.numericLabel)
-                .foregroundStyle(AppColors.onSurface)
+                .font(.system(size: badgeFontSize, weight: .semibold, design: .rounded))
+                .foregroundStyle(AppColors.onSurface.opacity(0.55))
         )
-        let labelSize = label.measure(in: CGSize(
-            width: CGFloat(pieceWidth)  * cellSize,
-            height: CGFloat(pieceHeight) * cellSize
-        ))
-        context.draw(
-            label,
-            at: CGPoint(x: midX - labelSize.width  / 2,
-                        y: midY - labelSize.height / 2),
-            anchor: .topLeading
-        )
+        let labelSize = label.measure(in: CGSize(width: cellSize, height: cellSize))
+
+        // Center the badge inside the anchor cell.
+        let cellX = CGFloat(anchorCell.x) * cellSize
+        let cellY = CGFloat(anchorCell.y) * cellSize
+        let originX = cellX + (cellSize - labelSize.width)  / 2
+        let originY = cellY + (cellSize - labelSize.height) / 2
+
+        context.draw(label, at: CGPoint(x: originX, y: originY), anchor: .topLeading)
     }
 }
 

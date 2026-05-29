@@ -2,6 +2,12 @@
 
 ---
 
+## [Unreleased]
+### Removed
+- **PauseOverlayView** (dead code): file deleted — fully superseded by `PauseSheet`. No external call sites existed; identified in `AUDIT_v1.1.md`.
+
+---
+
 ## [v1.1.1] - 2026-05-26
 ### Functional bug fixes (post v1.1.0 manual QA)
 - **Tab bar labels rendered as raw keys** (`TAB.HOME`, `TAB.SETTINGS`): Faz I-2 renamed the tabs from play/levels → home/settings but never added the new keys to `Localizable.strings`. Added `tab.home` + `tab.settings` to en/tr/es. Legacy `tab.play` / `tab.levels` retained as no-ops.

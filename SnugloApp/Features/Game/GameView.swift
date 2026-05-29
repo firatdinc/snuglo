@@ -42,6 +42,9 @@ struct GameView: View {
     @State private var showComplete      = false
     @State private var elapsedSeconds    = 0
     @State private var timerTask: Task<Void, Never>?
+    /// v1.1.3 UX fix: back button now asks for confirmation before quitting
+    /// so the player doesn't lose timer state accidentally.
+    @State private var showQuitConfirmation = false
 
     /// v1.1.1 critical fix: cellSize used to read live `gridFrame`, but
     /// `trayView` also rendered BlockViews using that value. As gridFrame
@@ -109,20 +112,28 @@ struct GameView: View {
                 stars: 3,
                 elapsedSeconds: elapsedSeconds,
                 hintsUsed: 0,
-                // v1.1 bug fix: Next Level now actually advances to the next
-                // level in the pack instead of popping back to PackDetail.
-                // Falls back to pop() when this was the last level in the
-                // pack (or for the daily puzzle, which has no successor).
+                // v1.1.3: Next Level resolution
+                //   • Pack levels  → next index in the same pack
+                //   • Daily puzzle → user's current continue level (so
+                //     "Sonraki seviye" always leads to *something* to play)
+                //   • Pack end / no continue → pop back to PackDetail/MainMenu
                 onNext: {
                     showComplete = false
-                    if let nextId = PackProvider.nextLevelId(after: levelId) {
-                        // Replace the current GameView on the NavigationStack
-                        // so back-button returns to PackDetail/MainMenu, not
-                        // the previous level.
-                        if !router.path.isEmpty {
-                            router.path.removeLast()
-                        }
-                        router.push(.game(levelID: nextId))
+                    let resolvedNextId: String?
+                    if levelId == "daily" {
+                        resolvedNextId = PackProvider.continueLevel()?.id
+                    } else {
+                        resolvedNextId = PackProvider.nextLevelId(after: levelId)
+                    }
+                    if let nextId = resolvedNextId {
+                        // Atomic path mutation: replace the top entry so the
+                        // back button still returns to PackDetail/MainMenu,
+                        // not the prior level. Done in one assignment to avoid
+                        // a transient empty-stack frame during the animation.
+                        var newPath = router.path
+                        if !newPath.isEmpty { newPath.removeLast() }
+                        newPath.append(.game(levelID: nextId))
+                        router.path = newPath
                     } else {
                         router.pop()
                     }
@@ -139,6 +150,19 @@ struct GameView: View {
             startTimer()
         }
         .onDisappear { timerTask?.cancel() }
+        // v1.1.3: confirmation before quitting — preserves in-progress puzzle
+        .confirmationDialog(
+            "game.quitConfirm.title",
+            isPresented: $showQuitConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("game.quitConfirm.confirm", role: .destructive) {
+                router.pop()
+            }
+            Button("common.cancel", role: .cancel) {}
+        } message: {
+            Text("game.quitConfirm.message")
+        }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
@@ -198,8 +222,8 @@ struct GameView: View {
 
     private var gameHUD: some View {
         HStack {
-            // Back
-            Button { router.pop() } label: {
+            // Back (v1.1.3: asks for confirmation to prevent accidental quit)
+            Button { showQuitConfirmation = true } label: {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(AppColors.onSurfaceVariant)
@@ -209,14 +233,13 @@ struct GameView: View {
             .buttonStyle(.plain)
             .accessibilityLabel("Back")
             .accessibilityHint("Returns to the previous screen")
-            // Faz I-2: UITest identifier
             .accessibilityIdentifier("game.back")
 
             Spacer()
 
             // Level title + timer (v1.1: timer uses numericLabel = Space Grotesk)
             VStack(spacing: 2) {
-                Text(levelDisplayName)
+                Text(levelDisplayNameKey)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
                 Text(formattedTimer)
@@ -249,29 +272,74 @@ struct GameView: View {
 
     // MARK: — Tray
 
-    private var trayView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: AppSpacing.md) {
-                ForEach(viewModel.unplacedPieces, id: \.id) { piece in
-                    BlockView(
-                        piece: piece,
-                        cellSize: cellSize,
-                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                        isDragging: false
-                    )
-                    .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                    .gesture(dragGesture(for: piece))
-                }
-            }
-            .padding(.horizontal, AppSpacing.lg)
-            .padding(.vertical, AppSpacing.md)
+    /// v1.1.3 UX fix: tray cellSize is now computed to FIT all remaining
+    /// pieces within the available width — no more horizontal scrolling or
+    /// pieces getting cut off at the right edge. Defaults to 60% of grid
+    /// cellSize and shrinks if the sum of piece widths + spacing exceeds
+    /// what the screen can show.
+    private func trayCellSize(for pieces: [Piece], availableWidth: CGFloat) -> CGFloat {
+        let defaultCellSize = cellSize * 0.6
+        guard !pieces.isEmpty else { return defaultCellSize }
+
+        let totalCellsAcross = pieces.reduce(0) { acc, piece in
+            acc + ((piece.cells.map(\.x).max() ?? 0) + 1)
         }
-        .frame(maxWidth: .infinity)
-        .background(AppColors.surfaceContainerHigh)
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
-        .shadowL1()
+        let totalSpacing = CGFloat(max(0, pieces.count - 1)) * AppSpacing.md
+        let widthForCells = availableWidth - totalSpacing
+        guard totalCellsAcross > 0, widthForCells > 0 else { return defaultCellSize }
+        let maxCellSizeToFit = widthForCells / CGFloat(totalCellsAcross)
+        return min(defaultCellSize, maxCellSizeToFit)
+    }
+
+    private var trayView: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            trayHeader
+
+            GeometryReader { geo in
+                let pieces = viewModel.unplacedPieces
+                // Available width inside the tray = geo.size.width minus the
+                // tray's inner horizontal padding (AppSpacing.lg × 2).
+                let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
+                let cs = trayCellSize(for: pieces, availableWidth: innerWidth)
+                HStack(alignment: .center, spacing: AppSpacing.md) {
+                    ForEach(pieces, id: \.id) { piece in
+                        BlockView(
+                            piece: piece,
+                            cellSize: cs,
+                            isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                            isDragging: false
+                        )
+                        .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                        .gesture(dragGesture(for: piece))
+                    }
+                }
+                .padding(.horizontal, AppSpacing.lg)
+                .padding(.vertical, AppSpacing.md)
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .frame(height: 120)
+            .background(AppColors.surfaceContainerHigh)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
+            .shadowL1()
+        }
         .padding(.horizontal, AppSpacing.lg)
+        .accessibilityElement(children: .contain)
         .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
+    }
+
+    private var trayHeader: some View {
+        HStack(spacing: AppSpacing.xs) {
+            Text("game.tray.remaining")
+                .font(AppTypography.labelSmall)
+                .tracking(0.6)
+                .textCase(.uppercase)
+                .foregroundStyle(AppColors.onSurfaceVariant)
+            Text(verbatim: "\(viewModel.unplacedPieces.count)")
+                .font(AppTypography.numericLabel)
+                .foregroundStyle(AppColors.primary)
+            Spacer()
+        }
+        .padding(.horizontal, AppSpacing.md)
     }
 
     // MARK: — Drag gesture
@@ -354,10 +422,22 @@ struct GameView: View {
         return String(format: "%02d:%02d", m, s)
     }
 
-    private var levelDisplayName: String {
-        if levelId == "daily" { return "Daily Puzzle" }
+    /// v1.1.3: localized display name for the HUD title. Daily puzzle gets
+    /// its own localization key; pack levels show "Level N" formatted from
+    /// the trailing integer in the id.
+    private var levelDisplayNameKey: LocalizedStringKey {
+        if levelId == "daily" { return "game.title.daily" }
         let parts = levelId.split(separator: "-")
-        return parts.last.map(String.init) ?? levelId
+        let n = parts.last.flatMap { Int($0) } ?? 0
+        return LocalizedStringKey("Level \(n)")
+    }
+
+    /// Plain-string fallback for accessibility labels and analytics.
+    private var levelDisplayName: String {
+        if levelId == "daily" { return NSLocalizedString("game.title.daily", comment: "") }
+        let parts = levelId.split(separator: "-")
+        let n = parts.last.flatMap { Int($0) } ?? 0
+        return "Level \(n)"
     }
 }
 

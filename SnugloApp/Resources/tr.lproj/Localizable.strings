@@ -36,6 +36,13 @@
 "menu.startFirst"  = "İlk seviyene başla";
 "menu.refresh"     = "%@ içinde yenilenir";
 
+// MARK: — Oyun (v1.1.3)
+"game.title.daily"          = "Günün Bulmacası";
+"game.tray.remaining"       = "Kalan";
+"game.quitConfirm.title"    = "Çıkmak istediğine emin misin?";
+"game.quitConfirm.message"  = "Bu bölümdeki ilerlemen kaydedilmeyecek.";
+"game.quitConfirm.confirm"  = "Çık";
+
 // MARK: — Sekmeler (BottomTabBar)
 // Faz I-2 aktif set: home / stats / shop / settings
 "tab.home"     = "Ana";

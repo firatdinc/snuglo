@@ -88,19 +88,29 @@ final class GameViewModel {
 
         let result = checker.check(level: level, placements: candidates)
 
+        // v1.1.3 debug: instrumented to investigate "KALAN 0 but not solved" report.
+        let totalPieceCells = level.pieces.reduce(0) { $0 + $1.cells.count }
+        let placedCellsAfter = candidates.reduce(0) { acc, p in
+            acc + (level.pieces.first(where: { $0.id == p.pieceId })?.cells.count ?? 0)
+        }
+        NSLog("[Snuglo][tryPlace] level=\(level.id) pieceID=\(pieceID) placedSoFar=\(candidates.count)/\(level.pieces.count) cellsPlaced=\(placedCellsAfter)/\(totalPieceCells) gridArea=\(level.width * level.height) result=\(result)")
+
         switch result {
         case .valid:
             // All pieces placed, no conflicts → solved!
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             isSolved = true
-            print("Solved!")
+            NSLog("[Snuglo][tryPlace] SOLVED ✓")
             persistProgress()
 
-        case .incompleteCoverage:
+        case .incompleteCoverage(let missing):
             // This placement is fine; more pieces still needed
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
+            if missing.count <= 6 {
+                NSLog("[Snuglo][tryPlace] missing cells: \(missing.map { "(\($0.x),\($0.y))" }.joined(separator: ","))")
+            }
 
         case .overlap, .outOfBounds, .unknownPiece:
             // Reject — caller should animate the block back

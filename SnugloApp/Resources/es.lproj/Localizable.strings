@@ -36,6 +36,13 @@
 "menu.startFirst"  = "Empieza tu primer nivel";
 "menu.refresh"     = "Se renueva en %@";
 
+// MARK: — Juego (v1.1.3)
+"game.title.daily"          = "Puzle del día";
+"game.tray.remaining"       = "Quedan";
+"game.quitConfirm.title"    = "¿Salir del puzle?";
+"game.quitConfirm.message"  = "Tu progreso en este nivel no se guardará.";
+"game.quitConfirm.confirm"  = "Salir";
+
 // MARK: — Pestañas (BottomTabBar)
 // Faz I-2 conjunto activo: home / stats / shop / settings
 "tab.home"     = "Inicio";
