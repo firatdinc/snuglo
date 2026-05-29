@@ -3,6 +3,11 @@
 ---
 
 ## [Unreleased]
+### Game screen — 3-way improvement (IOS-57)
+- **Tray clipping fix**: `TrayLayout` pure helper (CoreGraphics + SnugloEngine, no SwiftUI) computes cell size from both piece width AND height. Tray height is now dynamic — tall multi-row pieces are never clipped. Multi-row flow layout activates automatically when pieces would be too small in a single row.
+- **Re-drag placed pieces**: `GameViewModel.liftPiece(pieceID:)` removes a board piece and snapshots its placement. Transparent overlay handles on GridView initiate re-drag via `reliftGesture`. Invalid or off-grid drops trigger `rollbackLift()` — piece returns to original position with spring animation + error haptic/sound. Tray-drag haptic/sound pattern preserved exactly.
+- **Visual polish**: snap ghost now shows piece color (valid) or error red (invalid) with distinct stroke — computed from `wouldOverlapOrOOB` during drag. Spring animation tuned to response 0.30–0.35 / dampingFraction 0.75–0.80. HUD buttons have `shadowL1()` elevation. All changes use only existing AppColors / AppSpacing / AppRadius / AppShadow tokens.
+
 ### Removed
 - **PauseOverlayView** (dead code): file deleted — fully superseded by `PauseSheet`. No external call sites existed; identified in `AUDIT_v1.1.md`.
 

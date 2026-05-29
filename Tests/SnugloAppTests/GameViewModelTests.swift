@@ -2,7 +2,7 @@ import XCTest
 import SnugloEngine
 @testable import SnugloApp
 
-/// GameViewModel unit tests — 4 test cases covering BLOCKER spec requirements.
+/// GameViewModel unit tests — 4 original + 3 IOS-57 liftPiece tests.
 @MainActor
 final class GameViewModelTests: XCTestCase {
 
@@ -91,5 +91,55 @@ final class GameViewModelTests: XCTestCase {
                       "After placing all pieces correctly, isSolved should be true")
         XCTAssertTrue(vm.invalidPieceIDs.isEmpty,
                       "No pieces should be invalid in solved state")
+    }
+
+    // MARK: - Test 5 (IOS-57): liftPiece removes from placements and stores snapshot
+
+    func test_liftPiece_removesFromPlacementsAndStoresSnapshot() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        XCTAssertNotNil(vm.placements["p1"])
+
+        vm.liftPiece(pieceID: "p1")
+
+        XCTAssertNil(vm.placements["p1"],
+                     "liftPiece should remove the piece from placements")
+        XCTAssertNotNil(vm.liftSnapshot,
+                        "liftPiece should store a snapshot for rollback")
+        XCTAssertEqual(vm.liftSnapshot?.pieceID, "p1")
+        XCTAssertEqual(vm.liftSnapshot?.placement.origin.x, 0)
+        XCTAssertFalse(vm.isSolved,
+                       "isSolved must be false after lifting a piece")
+    }
+
+    // MARK: - Test 6 (IOS-57): rollbackLift restores original placement
+
+    func test_rollbackLift_restoresPlacement() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        vm.liftPiece(pieceID: "p1")
+        XCTAssertNil(vm.placements["p1"], "precondition: piece is off the board")
+
+        vm.rollbackLift()
+
+        XCTAssertNotNil(vm.placements["p1"],
+                        "rollbackLift should restore piece to original position")
+        XCTAssertEqual(vm.placements["p1"]?.origin.x, 0)
+        XCTAssertNil(vm.liftSnapshot,
+                     "rollbackLift should clear the snapshot")
+    }
+
+    // MARK: - Test 7 (IOS-57): commitLift clears snapshot after successful re-placement
+
+    func test_commitLift_clearsSnapshot() {
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        vm.liftPiece(pieceID: "p1")
+        XCTAssertNotNil(vm.liftSnapshot, "precondition: snapshot exists after lift")
+
+        vm.commitLift()
+
+        XCTAssertNil(vm.liftSnapshot,
+                     "commitLift should clear the snapshot")
     }
 }

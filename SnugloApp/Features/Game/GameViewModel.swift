@@ -24,6 +24,16 @@ final class GameViewModel {
     /// Wall-clock time when this session started. Reset on restart.
     private(set) var startTime: Date = Date()
 
+    // MARK: - Re-drag support
+
+    /// Snapshot stored when a placed piece is lifted for re-dragging.
+    /// Cleared on successful re-placement (commitLift) or restored on failure (rollbackLift).
+    struct LiftSnapshot {
+        let pieceID: PieceID
+        let placement: Placement
+    }
+    private(set) var liftSnapshot: LiftSnapshot?
+
     // MARK: - Private
     private let checker = SolutionChecker()
 
@@ -142,6 +152,44 @@ final class GameViewModel {
         placements.removeValue(forKey: pieceID)
         invalidPieceIDs.remove(pieceID)
         isSolved = false
+    }
+
+    // MARK: - Re-drag API
+
+    /// Lift a placed piece off the board for re-dragging.
+    /// Snapshots current placement so `rollbackLift()` can restore it on failed drop.
+    func liftPiece(pieceID: PieceID) {
+        guard let existing = placements[pieceID] else { return }
+        liftSnapshot = LiftSnapshot(pieceID: pieceID, placement: existing)
+        placements.removeValue(forKey: pieceID)
+        invalidPieceIDs.remove(pieceID)
+        isSolved = false
+    }
+
+    /// Restore the lifted piece to its original board position.
+    /// Called when drop is invalid or finger released outside the grid.
+    func rollbackLift() {
+        guard let snapshot = liftSnapshot else { return }
+        placements[snapshot.pieceID] = snapshot.placement
+        invalidPieceIDs.remove(snapshot.pieceID)
+        liftSnapshot = nil
+    }
+
+    /// Discard the snapshot after a successful re-placement.
+    func commitLift() {
+        liftSnapshot = nil
+    }
+
+    /// Returns true if placing `pieceID` at `coord` would overlap an existing piece
+    /// or land out-of-bounds. Used for real-time snap ghost validity feedback.
+    func wouldOverlapOrOOB(pieceID: PieceID, at coord: Coord) -> Bool {
+        let newPlacement = Placement(pieceId: pieceID, origin: coord)
+        var candidates = Array(placements.values).filter { $0.pieceId != pieceID }
+        candidates.append(newPlacement)
+        switch checker.check(level: level, placements: candidates) {
+        case .overlap, .outOfBounds, .unknownPiece: return true
+        default: return false
+        }
     }
 
     // MARK: - Persistence

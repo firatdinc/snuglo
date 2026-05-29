@@ -8,7 +8,8 @@ import SnugloEngine
 //   Board background: AppColors.gameBoardBackground  (#F2EBE0 warm parchment)
 //   Grid lines:       AppColors.gridLine             (#E5DCC8, 1.5 pt — Stitch spec)
 //   Placed pieces:    AppColors.blockColor(for:)     (deterministic pastel)
-//   Snap ghost:       block color @ 35% opacity
+//   Snap ghost valid:   block color @ 45% opacity + thin stroke
+//   Snap ghost invalid: error color @ 40% opacity + error stroke
 //   Invalid fill:     AppColors.error @ 50% opacity + error stroke
 
 struct GridView: View {
@@ -16,6 +17,7 @@ struct GridView: View {
     let placements: [PieceID: Placement]
     let invalidPieceIDs: Set<PieceID>
     let snapCoord: Coord?
+    let snapIsInvalid: Bool
     let draggingPieceID: PieceID?
 
     var body: some View {
@@ -86,7 +88,20 @@ struct GridView: View {
         guard let coord = snapCoord,
               let pid   = draggingPieceID,
               let piece = level.pieces.first(where: { $0.id == pid }) else { return }
-        let ghostColor = AppColors.blockColor(for: pid).opacity(0.35)
+
+        let ghostFill: Color
+        let ghostStroke: Color
+        let strokeWidth: CGFloat
+        if snapIsInvalid {
+            ghostFill   = AppColors.error.opacity(0.35)
+            ghostStroke = AppColors.error.opacity(0.75)
+            strokeWidth = 1.5
+        } else {
+            ghostFill   = AppColors.blockColor(for: pid).opacity(0.45)
+            ghostStroke = AppColors.blockColor(for: pid).opacity(0.65)
+            strokeWidth = 1.0
+        }
+
         for cell in piece.cells {
             let ax = CGFloat(cell.x + coord.x)
             let ay = CGFloat(cell.y + coord.y)
@@ -94,10 +109,9 @@ struct GridView: View {
                   Int(ay) >= 0, Int(ay) < level.height else { continue }
             let rect = CGRect(x: ax * cs + 2, y: ay * cs + 2,
                               width: cs - 4, height: cs - 4)
-            context.fill(
-                Path(roundedRect: rect, cornerRadius: AppRadius.block),
-                with: .color(ghostColor)
-            )
+            let path = Path(roundedRect: rect, cornerRadius: AppRadius.block)
+            context.fill(path, with: .color(ghostFill))
+            context.stroke(path, with: .color(ghostStroke), lineWidth: strokeWidth)
         }
     }
 }

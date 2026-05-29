@@ -10,6 +10,9 @@ import SnugloEngine
 // H-2: Dynamic Type constrained (.medium ... .xxxLarge) — grid must not overflow.
 //       Reduce Motion — drag spring animations skipped.
 //       VoiceOver — HUD buttons labelled; tray blocks labelled.
+// IOS-57: Tray clipping fix (TrayLayout, dynamic height, multi-row flow).
+//         Re-drag placed pieces (liftPiece + rollback overlay).
+//         Visual polish: snap ghost valid/invalid colours, spring tuning.
 
 struct GameView: View {
 
@@ -59,6 +62,30 @@ struct GameView: View {
         let screenW = UIScreen.main.bounds.width
         let estimatedGridWidth = max(0, screenW - AppSpacing.lg * 2)
         return estimatedGridWidth / CGFloat(viewModel.level.width)
+    }
+
+    /// True when the current snap position would result in overlap or OOB.
+    /// Drives snap ghost colour in GridView — computed from viewModel, no extra state.
+    private var snapIsInvalid: Bool {
+        guard let coord = snapCoord, let piece = draggingPiece else { return false }
+        return viewModel.wouldOverlapOrOOB(pieceID: piece.id, at: coord)
+    }
+
+    /// Dynamic tray content height based on the tallest row at the computed cell size.
+    /// Uses a screen-width estimate (same stable approach as cellSize) to avoid layout loops.
+    private var trayContentHeight: CGFloat {
+        let pieces = viewModel.unplacedPieces
+        guard !pieces.isEmpty else { return AppSpacing.sm * 2 + 44 }
+        let screenW = UIScreen.main.bounds.width
+        // screen margin (lg × 2) + tray horizontal padding (lg × 2)
+        let availableW = max(0, screenW - AppSpacing.lg * 4)
+        let layout = TrayLayout.compute(
+            pieces: pieces,
+            availableWidth: availableW,
+            preferredCellSize: cellSize * 0.6,
+            itemSpacing: AppSpacing.md
+        )
+        return layout.contentHeight + AppSpacing.sm * 2
     }
 
     private func overlayOffset(for piece: Piece) -> CGPoint {
@@ -180,37 +207,48 @@ struct GameView: View {
         VStack(spacing: AppSpacing.md) {
             gameHUD
 
-            GridView(
-                level: viewModel.level,
-                placements: viewModel.placements,
-                invalidPieceIDs: viewModel.invalidPieceIDs,
-                snapCoord: snapCoord,
-                draggingPieceID: draggingPiece?.id
-            )
-            .padding(.horizontal, AppSpacing.lg)
-            // v1.1.1 critical fix: floating-point oscillation in the geometry
-            // value caused 30k+ body re-renders/second → main thread block,
-            // navigation push never completed, app appeared frozen.
-            // Round to nearest integer pt before triggering @State update,
-            // and skip no-op updates entirely.
-            .onGeometryChange(for: CGRect.self) { proxy in
-                proxy.frame(in: .named("gameLayout"))
-            } action: { frame in
-                let rounded = CGRect(
-                    x: frame.origin.x.rounded(),
-                    y: frame.origin.y.rounded(),
-                    width: frame.width.rounded(),
-                    height: frame.height.rounded()
+            ZStack(alignment: .topLeading) {
+                GridView(
+                    level: viewModel.level,
+                    placements: viewModel.placements,
+                    invalidPieceIDs: viewModel.invalidPieceIDs,
+                    snapCoord: snapCoord,
+                    snapIsInvalid: snapIsInvalid,
+                    draggingPieceID: draggingPiece?.id
                 )
-                if rounded != gridFrame {
-                    gridFrame = rounded
+                // v1.1.1 critical fix: round frame before triggering @State update.
+                .onGeometryChange(for: CGRect.self) { proxy in
+                    proxy.frame(in: .named("gameLayout"))
+                } action: { frame in
+                    let rounded = CGRect(
+                        x: frame.origin.x.rounded(),
+                        y: frame.origin.y.rounded(),
+                        width: frame.width.rounded(),
+                        height: frame.height.rounded()
+                    )
+                    if rounded != gridFrame {
+                        gridFrame = rounded
+                    }
+                }
+                // Faz I-2: UITest identifier for the puzzle grid container.
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("game.grid")
+
+                // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
+                // GeometryReader gets the exact same proposed size as GridView (same ZStack),
+                // so geo.size.width / level.width matches GridView's internal cell size exactly.
+                if draggingPiece == nil && !viewModel.placements.isEmpty {
+                    GeometryReader { geo in
+                        let cs = geo.size.width / CGFloat(viewModel.level.width)
+                        ForEach(viewModel.level.pieces, id: \.id) { piece in
+                            if let placement = viewModel.placements[piece.id] {
+                                placedPieceHandle(piece: piece, placement: placement, cs: cs)
+                            }
+                        }
+                    }
                 }
             }
-            // Faz I-2: UITest identifier for the puzzle grid container.
-            // .accessibilityElement(children: .contain) is required so Canvas-based
-            // GridView is visible as otherElements["game.grid"] in XCUITest.
-            .accessibilityElement(children: .contain)
-            .accessibilityIdentifier("game.grid")
+            .padding(.horizontal, AppSpacing.lg)
 
             Spacer(minLength: 0)
             trayView
@@ -229,6 +267,7 @@ struct GameView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 40, height: 40)
                     .background(AppColors.surfaceContainerLow, in: Circle())
+                    .shadowL1()
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Back")
@@ -238,7 +277,7 @@ struct GameView: View {
             Spacer()
 
             // Level title + timer (v1.1: timer uses numericLabel = Space Grotesk)
-            VStack(spacing: 2) {
+            VStack(spacing: AppSpacing.xs) {
                 Text(levelDisplayNameKey)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
@@ -260,6 +299,7 @@ struct GameView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 40, height: 40)
                     .background(AppColors.surfaceContainerLow, in: Circle())
+                    .shadowL1()
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Pause")
@@ -272,52 +312,44 @@ struct GameView: View {
 
     // MARK: — Tray
 
-    /// v1.1.3 UX fix: tray cellSize is now computed to FIT all remaining
-    /// pieces within the available width — no more horizontal scrolling or
-    /// pieces getting cut off at the right edge. Defaults to 60% of grid
-    /// cellSize and shrinks if the sum of piece widths + spacing exceeds
-    /// what the screen can show.
-    private func trayCellSize(for pieces: [Piece], availableWidth: CGFloat) -> CGFloat {
-        let defaultCellSize = cellSize * 0.6
-        guard !pieces.isEmpty else { return defaultCellSize }
-
-        let totalCellsAcross = pieces.reduce(0) { acc, piece in
-            acc + ((piece.cells.map(\.x).max() ?? 0) + 1)
-        }
-        let totalSpacing = CGFloat(max(0, pieces.count - 1)) * AppSpacing.md
-        let widthForCells = availableWidth - totalSpacing
-        guard totalCellsAcross > 0, widthForCells > 0 else { return defaultCellSize }
-        let maxCellSizeToFit = widthForCells / CGFloat(totalCellsAcross)
-        return min(defaultCellSize, maxCellSizeToFit)
-    }
-
+    /// IOS-57: trayView now uses TrayLayout for accurate cell-size computation that
+    /// accounts for BOTH piece width AND height. Tray height is dynamic so tall pieces
+    /// (e.g. 3-row shapes) are never clipped. Multi-row flow layout activates when
+    /// pieces can't fit at minCellSize in a single row.
     private var trayView: some View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
             trayHeader
 
             GeometryReader { geo in
-                let pieces = viewModel.unplacedPieces
-                // Available width inside the tray = geo.size.width minus the
-                // tray's inner horizontal padding (AppSpacing.lg × 2).
                 let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
-                let cs = trayCellSize(for: pieces, availableWidth: innerWidth)
-                HStack(alignment: .center, spacing: AppSpacing.md) {
-                    ForEach(pieces, id: \.id) { piece in
-                        BlockView(
-                            piece: piece,
-                            cellSize: cs,
-                            isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                            isDragging: false
-                        )
-                        .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                        .gesture(dragGesture(for: piece))
+                let layout = TrayLayout.compute(
+                    pieces: viewModel.unplacedPieces,
+                    availableWidth: innerWidth,
+                    preferredCellSize: cellSize * 0.6,
+                    itemSpacing: AppSpacing.md
+                )
+                VStack(alignment: .center, spacing: AppSpacing.md) {
+                    ForEach(Array(layout.rows.enumerated()), id: \.offset) { _, row in
+                        HStack(alignment: .center, spacing: AppSpacing.md) {
+                            ForEach(row, id: \.id) { piece in
+                                BlockView(
+                                    piece: piece,
+                                    cellSize: layout.cellSize,
+                                    isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                                    isDragging: false
+                                )
+                                .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                                .gesture(dragGesture(for: piece))
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
                 .padding(.horizontal, AppSpacing.lg)
-                .padding(.vertical, AppSpacing.md)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, AppSpacing.sm)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
-            .frame(height: 120)
+            .frame(height: trayContentHeight)
             .background(AppColors.surfaceContainerHigh)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
             .shadowL1()
@@ -342,7 +374,21 @@ struct GameView: View {
         .padding(.horizontal, AppSpacing.md)
     }
 
-    // MARK: — Drag gesture
+    // MARK: — Placed-piece drag handle
+
+    /// Transparent hit area placed over a board piece. Initiates relift on drag.
+    private func placedPieceHandle(piece: Piece, placement: Placement, cs: CGFloat) -> some View {
+        let pw = CGFloat(TrayLayout.pieceWidth(piece))
+        let ph = CGFloat(TrayLayout.pieceHeight(piece))
+        return Color.clear
+            .contentShape(Rectangle())
+            .frame(width: pw * cs, height: ph * cs)
+            .offset(x: CGFloat(placement.origin.x) * cs,
+                    y: CGFloat(placement.origin.y) * cs)
+            .gesture(reliftGesture(for: piece))
+    }
+
+    // MARK: — Tray drag gesture
     // H-2: Reduce Motion — replace .spring with .none for all placement animations.
 
     private func dragGesture(for piece: Piece) -> some Gesture {
@@ -369,7 +415,7 @@ struct GameView: View {
             }
             .onEnded { _ in
                 if let coord = snapCoord {
-                    let animation: Animation? = reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.7)
+                    let animation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
                     withAnimation(animation) {
                         viewModel.tryPlace(pieceID: piece.id, at: coord)
                     }
@@ -385,7 +431,71 @@ struct GameView: View {
                         HapticService.shared.impact(.light)
                     }
                 }
-                let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
+                withAnimation(resetAnimation) {
+                    draggingPiece = nil
+                    snapCoord     = nil
+                }
+            }
+    }
+
+    // MARK: — Re-drag gesture (placed-piece → relift → drop or rollback)
+
+    private func reliftGesture(for piece: Piece) -> some Gesture {
+        DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
+            .onChanged { value in
+                if draggingPiece == nil {
+                    draggingPiece = piece
+                    viewModel.liftPiece(pieceID: piece.id)
+                    HapticService.shared.prepareImpact()
+                    SoundService.shared.play(.click)
+                }
+                dragPosition = value.location
+                let newSnap = SnapCalculator.snap(
+                    at: value.location,
+                    piece: piece,
+                    gridFrame: gridFrame,
+                    cellSize: cellSize,
+                    gridSize: (width: viewModel.level.width, height: viewModel.level.height)
+                )
+                if newSnap != nil && snapCoord == nil {
+                    HapticService.shared.impact(.medium)
+                    SoundService.shared.play(.snap)
+                }
+                snapCoord = newSnap
+            }
+            .onEnded { _ in
+                if let coord = snapCoord {
+                    let dropAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                    withAnimation(dropAnimation) {
+                        viewModel.tryPlace(pieceID: piece.id, at: coord)
+                    }
+                    if viewModel.invalidPieceIDs.contains(piece.id) {
+                        // Invalid drop: restore piece to original board position
+                        SoundService.shared.play(.error)
+                        HapticService.shared.notify(.error)
+                        let rollbackAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                        withAnimation(rollbackAnimation) {
+                            viewModel.rollbackLift()
+                            viewModel.clearInvalid(pieceID: piece.id)
+                        }
+                    } else if !viewModel.isSolved {
+                        viewModel.commitLift()
+                        SoundService.shared.play(.place)
+                        HapticService.shared.impact(.light)
+                    } else {
+                        viewModel.commitLift()
+                    }
+                } else {
+                    // Released outside grid: rollback to original position
+                    let rollbackAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
+                    withAnimation(rollbackAnimation) {
+                        viewModel.rollbackLift()
+                    }
+                    HapticService.shared.notify(.error)
+                    SoundService.shared.play(.error)
+                }
+                let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
                 withAnimation(resetAnimation) {
                     draggingPiece = nil
                     snapCoord     = nil
