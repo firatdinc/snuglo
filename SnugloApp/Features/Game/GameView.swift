@@ -237,7 +237,10 @@ struct GameView: View {
                 // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
                 // GeometryReader gets the exact same proposed size as GridView (same ZStack),
                 // so geo.size.width / level.width matches GridView's internal cell size exactly.
-                if draggingPiece == nil && !viewModel.placements.isEmpty {
+                // NOTE: must NOT be gated on `draggingPiece == nil` — removing the handle
+                // container mid-drag destroys the active gesture's host view so .onEnded
+                // never fires (the re-drag would freeze). Keep it mounted throughout.
+                if !viewModel.placements.isEmpty {
                     GeometryReader { geo in
                         let cs = geo.size.width / CGFloat(viewModel.level.width)
                         ForEach(viewModel.level.pieces, id: \.id) { piece in
@@ -445,8 +448,12 @@ struct GameView: View {
         DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
             .onChanged { value in
                 if draggingPiece == nil {
+                    // Note: do NOT lift (remove placement) here — that would
+                    // destroy this gesture's host view mid-drag and onEnded
+                    // would never fire (frozen overlay bug). The piece is
+                    // hidden via GridView's draggingPieceID; the actual lift
+                    // happens in onEnded once the gesture has settled.
                     draggingPiece = piece
-                    viewModel.liftPiece(pieceID: piece.id)
                     HapticService.shared.prepareImpact()
                     SoundService.shared.play(.click)
                 }
@@ -465,6 +472,10 @@ struct GameView: View {
                 snapCoord = newSnap
             }
             .onEnded { _ in
+                // Lift now (remove + snapshot) so re-placement validity ignores
+                // the piece's own original cells; safe here because the gesture
+                // has already ended.
+                viewModel.liftPiece(pieceID: piece.id)
                 if let coord = snapCoord {
                     let dropAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
                     withAnimation(dropAnimation) {

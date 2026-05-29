@@ -67,6 +67,10 @@ struct GridView: View {
 
     private func drawPlacements(context: GraphicsContext, cs: CGFloat) {
         for (pieceID, placement) in placements {
+            // Hide the piece currently being re-dragged — it's drawn as the
+            // floating overlay instead. The placement stays in the model so the
+            // re-drag gesture's host view isn't destroyed mid-drag.
+            if pieceID == draggingPieceID { continue }
             guard let piece = level.pieces.first(where: { $0.id == pieceID }) else { continue }
             let isInvalid = invalidPieceIDs.contains(pieceID)
             let color = AppColors.blockColor(for: pieceID)
