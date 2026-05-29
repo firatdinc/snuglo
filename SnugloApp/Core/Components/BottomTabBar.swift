@@ -1,13 +1,15 @@
 import SwiftUI
 
-// MARK: — BottomTabBar (Faz 2: Vibrant Play — Play · Levels · Stats · Shop)
+// MARK: — BottomTabBar (Vibrant Play — Play · Levels · Shop · Profile)
 // Source: Designs/VibrantPlay/SPEC.md + main-menu.html
-//   Play   → selectTab(.play)   — icon: gamecontroller      — id: tab.play
-//   Levels → push(.levelsList)  — icon: map                 — id: tab.levels
-//   Stats  → selectTab(.stats)  — icon: chart.bar           — id: tab.stats
-//   Shop   → selectTab(.shop)   — icon: bag                 — id: tab.shop
+//   Play    → selectTab(.play)    — icon: gamecontroller      — id: tab.play
+//   Levels  → push(.levelsList)   — icon: map                 — id: tab.levels
+//   Shop    → selectTab(.shop)    — icon: bag                 — id: tab.shop
+//   Profile → selectTab(.profile) — icon: person.crop.circle  — id: tab.profile
+// Stats lives INSIDE the Profile tab (not a top-level tab anymore).
+// Tab switches are non-animated (no NavigationStack push/pop slide) so moving
+// between any two tabs feels consistent — fixes the reverse-slide on Levels↔X.
 // Active state: AppColors.primary (blue) + filled icon.
-// Settings removed from tab bar — accessible via gear icon in each screen's top bar.
 
 struct BottomTabBar: View {
 
@@ -25,8 +27,8 @@ struct BottomTabBar: View {
     private let items: [TabItem] = [
         .init(tab: .play, labelKey: "tab.play", icon: "gamecontroller", activeIcon: "gamecontroller.fill", a11yId: "tab.play"),
         .init(tab: .levels, labelKey: "tab.levels", icon: "map", activeIcon: "map.fill", a11yId: "tab.levels"),
-        .init(tab: .stats, labelKey: "tab.stats", icon: "chart.bar", activeIcon: "chart.bar.fill", a11yId: "tab.stats"),
-        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop")
+        .init(tab: .shop, labelKey: "tab.shop", icon: "bag", activeIcon: "bag.fill", a11yId: "tab.shop"),
+        .init(tab: .profile, labelKey: "tab.profile", icon: "person.crop.circle", activeIcon: "person.crop.circle.fill", a11yId: "tab.profile")
     ]
 
     var body: some View {
@@ -63,13 +65,19 @@ struct BottomTabBar: View {
     // MARK: — Tap handler
 
     private func handleTap(_ tab: AppTab) {
-        if tab == .levels {
-            // Guard against double-push if LevelsListView is already on stack
-            guard !router.path.contains(.levelsList) else { return }
-            router.push(.levelsList)
-        } else {
-            if router.path.contains(.levelsList) { router.pop() }
-            router.selectTab(tab)
+        // Disable the NavigationStack push/pop animation so switching to/from the
+        // Levels tab is instant — same feel as the in-place tab switches. Without
+        // this, Levels↔X slid in one direction and popped the other (reverse-slide).
+        var tx = Transaction()
+        tx.disablesAnimations = true
+        withTransaction(tx) {
+            if tab == .levels {
+                guard !router.path.contains(.levelsList) else { return }
+                router.push(.levelsList)
+            } else {
+                if router.path.contains(.levelsList) { router.pop() }
+                router.selectTab(tab)
+            }
         }
     }
 
@@ -82,10 +90,10 @@ struct BottomTabBar: View {
             return onPlayContent && !router.path.contains(.levelsList)
         case .levels:
             return router.path.contains(.levelsList)
-        case .stats:
-            return router.selectedTab == .stats && !router.path.contains(.levelsList)
         case .shop:
             return router.selectedTab == .shop && !router.path.contains(.levelsList)
+        case .profile:
+            return router.selectedTab == .profile && !router.path.contains(.levelsList)
         default:
             return false
         }

@@ -40,6 +40,8 @@ struct MainMenuView: View {
             StatsView()
         case .shop:
             ShopView()
+        case .profile:
+            ProfileView()
         case .settings:
             SettingsView()
         }

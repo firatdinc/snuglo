@@ -34,8 +34,9 @@ enum AppTab: Hashable {
     case play
     case home       // backward compat — maps to play content in tabContent switch
     case levels     // Levels tab — BottomTabBar pushes .levelsList route on tap
-    case stats
+    case stats      // backward compat — Stats now lives INSIDE the Profile tab
     case shop
+    case profile    // rightmost tab — profile screen that contains Stats
     case settings   // backward compat — no longer in tab bar; shows inline settings
 }
 
