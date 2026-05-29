@@ -68,6 +68,7 @@ struct BottomTabBar: View {
             guard !router.path.contains(.levelsList) else { return }
             router.push(.levelsList)
         } else {
+            if router.path.contains(.levelsList) { router.pop() }
             router.selectTab(tab)
         }
     }
