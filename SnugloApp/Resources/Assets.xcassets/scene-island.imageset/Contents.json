@@ -1,0 +1,15 @@
+{
+  "images": [
+    {
+      "filename": "scene-island.png",
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "asset-gen",
+    "version": 1
+  },
+  "properties": {
+    "template-rendering-intent": "original"
+  }
+}

@@ -1,11 +1,11 @@
 import SwiftUI
 
 // MARK: — PrimaryButton
-// Stitch Nordic Hearth spec:
-//   bg: AppColors.primary (lavender #65587A)
+// Vibrant Play spec:
+//   bg: AppColors.primary (#30A7E7 blue)
 //   fg: AppColors.onPrimary (white)
-//   radius: AppRadius.button (14 pt)
-//   press: scale 0.98 + bg darkens slightly via opacity
+//   radius: AppRadius.button (100 pt — pill)
+//   press: scale 0.98 + bg → AppColors.primaryPressed (#2589C1)
 
 struct PrimaryButton: View {
 
@@ -14,6 +14,7 @@ struct PrimaryButton: View {
     var action: () -> Void
 
     @State private var isPressed = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(_ titleKey: LocalizedStringKey, systemImage: String? = nil, action: @escaping () -> Void) {
         self.titleKey = titleKey
@@ -35,11 +36,11 @@ struct PrimaryButton: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, AppSpacing.md)
             .background(
-                AppColors.primary.opacity(isPressed ? 0.85 : 1.0),
+                isPressed ? AppColors.primaryPressed : AppColors.primary,
                 in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(.easeInOut(duration: 0.12), value: isPressed)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.12), value: isPressed)
         }
         .buttonStyle(.plain)
         ._onButtonGesture(pressing: { isPressed = $0 }, perform: {})

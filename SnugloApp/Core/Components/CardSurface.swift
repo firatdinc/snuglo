@@ -1,10 +1,10 @@
 import SwiftUI
 
 // MARK: — CardSurface
-// Stitch Nordic Hearth spec:
+// Vibrant Play spec:
 //   bg: white (surfaceContainerLowest)
 //   radius: 20 pt (AppRadius.card)
-//   elevation: L1 ambient shadow rgba(58,51,45,0.06) r=12 y=4
+//   elevation: L1 blue-tinted ambient shadow rgba(0,101,145,0.06) r=12 y=4
 
 struct CardSurface: ViewModifier {
 

@@ -1,8 +1,8 @@
 import SwiftUI
 
 // MARK: — RowDivider
-// Stitch Nordic Hearth spec:
-//   color: AppColors.divider (#EDE6DA)
+// Vibrant Play spec:
+//   color: AppColors.divider (#dbe4ea)
 //   thickness: 1 pt
 //   horizontal padding: AppSpacing.lg (24 pt) built-in via inset modifier at call site
 

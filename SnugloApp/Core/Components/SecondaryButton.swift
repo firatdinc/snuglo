@@ -1,11 +1,11 @@
 import SwiftUI
 
 // MARK: — SecondaryButton
-// Stitch Nordic Hearth spec:
-//   bg: white (surfaceContainerLowest)
-//   border: 1.5px AppColors.divider (#EDE6DA)
-//   fg: AppColors.softCocoa (#3A332D)
-//   radius: AppRadius.button (14 pt)
+// Vibrant Play spec:
+//   bg: AppColors.surfaceContainerLowest (white)
+//   border: 1.5px AppColors.divider (#dbe4ea)
+//   fg: AppColors.softCocoa (#141d21)
+//   radius: AppRadius.button (100 pt — pill)
 
 struct SecondaryButton: View {
 
@@ -14,6 +14,7 @@ struct SecondaryButton: View {
     var action: () -> Void
 
     @State private var isPressed = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(_ titleKey: LocalizedStringKey, systemImage: String? = nil, action: @escaping () -> Void) {
         self.titleKey = titleKey
@@ -43,7 +44,7 @@ struct SecondaryButton: View {
                     .stroke(AppColors.divider, lineWidth: 1.5)
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(.easeInOut(duration: 0.12), value: isPressed)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.12), value: isPressed)
         }
         .buttonStyle(.plain)
         ._onButtonGesture(pressing: { isPressed = $0 }, perform: {})

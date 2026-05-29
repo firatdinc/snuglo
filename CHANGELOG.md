@@ -3,6 +3,14 @@
 ---
 
 ## [Unreleased]
+### Vibrant Play restyle — Faz 1: theme tokens + components (IOS-60)
+- **Colors**: all token values remapped to Vibrant Play palette (names unchanged). Background `#f4faff`, primary `#30A7E7`, gold accent `#FFB800`, text `#141d21`, border `#dbe4ea`, error container `#ffdad6`. New `primaryPressed` token `#2589C1` for button pressed state. Block palette updated to vivid Material Design set. Shadows now blue-tinted from SPEC `#006591`.
+- **Typography**: all tokens unified to Plus Jakarta Sans (variable wght 200–800). Body/label tokens migrated from Be Vietnam Pro; numeric tokens migrated from Space Grotesk. `spaceGrotesk()` helper removed.
+- **Radius**: `AppRadius.button` → 100 pt (pill-shaped). Card/block radii unchanged (20/10).
+- **PrimaryButton**: pressed background → `AppColors.primaryPressed`; `@Environment(\.accessibilityReduceMotion)` guard added — animation skipped when reduce motion is on.
+- **SecondaryButton**: `@Environment(\.accessibilityReduceMotion)` guard added — animation skipped when reduce motion is on.
+- **No feature views touched** — only `Core/Theme/` and `Core/Components/`.
+
 ### LevelComplete: move count + best time summary (IOS-59)
 - **Move counter**: `GameViewModel.moveCount` increments on every successful placement (tray drop, re-drag, hint). Resets automatically when a new session starts. Invalid/OOB drops and rollbacks do not count.
 - **Best time in summary**: reads `ProgressStore.levelProgress[id].bestTime` (already persisted by `markCompleted`) — no new store API needed. Shows updated best time (this session included) formatted as `m:ss`; falls back to `"—"` until first completion.

@@ -1,0 +1,34 @@
+[
+  {
+    "name": "mascot-hippo",
+    "prompt": "A cheerful cartoon hippo hero wearing a white-and-blue astronaut/robot suit, giving a thumbs up, holding a small gadget. Bright blue and white palette."
+  },
+  {
+    "name": "mascot-sloth",
+    "prompt": "A cute relaxed sloth character hugging a tree branch, soft brown fur, friendly smile, pastel sky behind it."
+  },
+  {
+    "name": "mascot-rabbit",
+    "prompt": "A brave cartoon rabbit hero in a blue-and-white mecha/robot suit, confident pose, big friendly eyes."
+  },
+  {
+    "name": "mascot-tiger",
+    "prompt": "A playful cartoon tiger cub hero in a red-and-white sporty suit, energetic pose."
+  },
+  {
+    "name": "hero-splash",
+    "prompt": "A hero group splash illustration: a friendly hippo astronaut mascot front and center with two small companion creatures, celebratory, bright blue sky background with soft clouds."
+  },
+  {
+    "name": "scene-island",
+    "prompt": "A small floating green grassy island with a winding dirt path, a few trees, flowers and rocks, bright blue sky, isometric soft 3D game-map style."
+  },
+  {
+    "name": "badge-trophy",
+    "prompt": "A glossy golden trophy badge inside a soft circular glow, celebratory, for a level-complete screen."
+  },
+  {
+    "name": "illustration-celebrate",
+    "prompt": "A joyful confetti celebration burst with stars and sparkles in blue and gold, for a level-complete reward screen."
+  }
+]
