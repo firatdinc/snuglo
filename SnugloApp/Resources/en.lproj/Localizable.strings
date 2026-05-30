@@ -193,3 +193,7 @@
 "leaderboard.title"             = "Leaderboard";
 "leaderboard.placeholder.title" = "Coming in Phase 5";
 "leaderboard.placeholder.body"  = "Rankings and achievements are on their way!";
+
+// MARK: — Faz 2: Component kit
+"common.viewAll"       = "View All";
+"announcement.dismiss" = "Dismiss";

@@ -14,6 +14,19 @@
 - **Localizable.strings** (en/tr/es): `tab.leaderboard`, `leaderboard.title/placeholder.title/placeholder.body` eklendi.
 - **UITests**: `SmokeUITests.test_navigateToStats → test_navigateToProfile`. `HomeFlowUITests.testRootTabsExist` 5 tab doğrulaması (tab.leaderboard + tab.profile eklendi, tab.stats kaldırıldı).
 
+### Faz 2: Vibrant Play bileşen kiti (IOS-87)
+- **GameButtonStyle.swift** (yeni): `ButtonStyle` protokolü. `Variant.primary` (mavi dolgu + `primaryPressed` alt slab) ve `Variant.secondary` (beyaz yüzey + `outlineVariant` slab + `divider` border). 3D slab efekti: ZStack arka plan (alt slab Y=+4pt offset, üst yüzey), press anında content Y=+depth kayar, `.spring(response: 0.18, dampingFraction: 0.7)` animasyon. `@Environment(\.accessibilityReduceMotion)` → offset=0, animation=nil. `AppRadius.button (100pt)` pill şekli.
+- **PrimaryButton.swift** (refactor): Manuel `isPressed` state ve `_onButtonGesture` kaldırıldı → `GameButtonStyle(variant: .primary)`. Public API (`titleKey`, `systemImage`, `accessibilityID`, `action`) değişmedi; tüm call-site'lar sıfır değişiklikle derlenir.
+- **SecondaryButton.swift** (refactor): Aynı şekilde `GameButtonStyle(variant: .secondary)` kullanacak şekilde basitleştirildi. Foreground `AppColors.softCocoa` korundu.
+- **CurrencyIcon.swift** (yeni): `Currency` enum + `size: CGFloat = 24` parametreli SF Symbol ikonu. `currency.tint` rengi, `currency.displayNameKey` erişilebilirlik etiketi.
+- **BalanceChip.swift** (yeni): `CurrencyIcon(size: 18)` + miktar metni (`monospacedDigit`, `numericSmall`). `cardSurface()` arka plan, `accessibilityElement(children: .combine)`.
+- **SectionHeader.swift** (yeni): Başlık (`headlineSmall` + `onSurface`) + isteğe bağlı aksiyon butonu (`bodyMedium`, `AppColors.primary`, `.plain`). `firstTextBaseline` hizalaması.
+- **ItemBadge.swift** (yeni): 0–3 yıldız satırı (`star.fill`/`star`, `tertiary`/`outlineVariant`), ortalanmış SF Symbol ikonu, isteğe bağlı sayı rozeti (`Capsule`, `AppColors.primary`). `clampedStars(_:)` pure static fn — init zamanında clamp, `ComponentHelperTests` ile birim test edildi.
+- **ProgressPill.swift** (yeni): Kapsül pill — etiket metni + isteğe bağlı dolum çubuğu (0…1, `GeometryReader` tabanlı, `AppColors.primary` fill). Progress yoksa saf durum chip'i. `surfaceContainerLowest` arka plan + `outlineVariant` border + `shadowL1()`.
+- **AnnouncementBanner.swift** (yeni): `cardSurface()` kart, 4pt `AppColors.primary` sol kenar şeridi, başlık/mesaj/dismiss(`×`) + isteğe bağlı `PrimaryButton` CTA. Tüm metinler `LocalizedStringKey`.
+- **Localizable.strings** (en/tr/es): `common.viewAll` ("View All" / "Tümünü gör" / "Ver todo") ve `announcement.dismiss` ("Dismiss" / "Kapat" / "Cerrar") eklendi.
+- **Testler**: `ComponentHelperTests.swift` — `ItemBadge.clampedStars` için 3 test metodu (aralık altı/içi/üstü). Toplam 127/127 test geçiyor.
+
 ### Faz 0: WalletStore + 4 cüzdan + LevelComplete reward (IOS-73)
 - **Currency.swift**: `enum Currency` (coin / gem / ticket / cup) with `isSpendable`, `sfSymbol`, `tint` (existing AppColors only), `CurrencyRate { coinPerGem=100; gemPerTicket=50 }`.
 - **WalletStore.swift**: `@Observable @MainActor` singleton with `earn`, `spend`, `canAfford`, `exchange` API. UserDefaults JSON persistence via `Snapshot: Codable` with `decodeIfPresent ?? 0` for forward compatibility. Test-isolated via `init(defaults:key:)`.

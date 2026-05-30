@@ -42,16 +42,22 @@
 		6D5A15BEC4D154BEEFC66E67 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15113BC008FC88512BFF4298 /* README.md */; };
 		6DD60010AA6AF89DF48BEA12 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA13FC12B31478959E864E28 /* SplashView.swift */; };
 		70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */; };
+		738938E6021F13B256807D12 /* ItemBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */; };
 		74A5C5E17058FDB558A4F7C1 /* WalletStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C10C7B6CB21E1B41D1316F /* WalletStore.swift */; };
 		754A0878D0F302CB44712201 /* SnapCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E2D079DE6C107285082B06 /* SnapCalculatorTests.swift */; };
+		759401B422EE6D688C76C426 /* ComponentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED74D16C2119C93F355FF2A6 /* ComponentHelperTests.swift */; };
 		76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38668694A881387CCF58C9CA /* GameView.swift */; };
+		783DBDD9FCB16ECAACC112F0 /* AnnouncementBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DC4F900617E37644A9709B /* AnnouncementBanner.swift */; };
 		7F7979F2FDB91A33A94532B2 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */; };
 		810594074D30D57231B4B68D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D66967344E696920FB09670 /* ProfileView.swift */; };
 		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
 		870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E177BF53BC6C92D779D51C2 /* CardSurface.swift */; };
+		9033A279823B9EA9D07CD7DB /* BalanceChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12380D07D6CC9B797EA56560 /* BalanceChip.swift */; };
+		90EA2EDDA06BA4AB50C8038E /* ProgressPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
 		9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */; };
 		9838478E2A8975B130C8C64E /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D61C90179BE05FFF34656B /* StatsView.swift */; };
+		9A7C6B590FAD5B739D17DD58 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B94E9A14F759CEFABF051FC /* SectionHeader.swift */; };
 		9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB0452088EF7C80E88FA92 /* ShopView.swift */; };
 		9CE833B028557F0558472ACE /* PackProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E47062C883114A0CD6A84B /* PackProvider.swift */; };
 		9DB94EFD98FB4B3F6A695F33 /* SoundServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB118F924AFF73AC7906940 /* SoundServiceTests.swift */; };
@@ -59,6 +65,7 @@
 		9F21D7D9C8ACA10E91DCE3D0 /* CurrencyRewardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E96D362B5C561B76A4E6A /* CurrencyRewardTests.swift */; };
 		A4921D0A0CF269191A4B9C72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 250C6435062F4891539078FC /* InfoPlist.strings */; };
 		A6B1D2446CBBE6167482C84A /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D137F780D77A0ECBDF59147 /* LeaderboardView.swift */; };
+		AAACB186E0BD520F1FC8CA09 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */; };
 		AB3EEF5267EB0CCBC1CD337D /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344B16BC30C943EF404EB1F5 /* SoundService.swift */; };
 		AB96220B99E950B9181671AF /* NotificationSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7015B7FB288C8F5DA0BB75 /* NotificationSchedulerTests.swift */; };
 		AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650F634142598BE8F4F9EF2E /* AppRouter.swift */; };
@@ -75,6 +82,7 @@
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
 		E895BC67E13B46899A8AE42F /* TrayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */; };
 		EE0EBF8EDFF4DBBF2FEB6E55 /* StitchTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCAA3BC56EB6FA503E20FA /* StitchTokenTests.swift */; };
+		EFE6275557E1D2C4A668201D /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */; };
 		F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 071C5711F1CFFED37058BD01 /* BottomTabBar.swift */; };
 		F8313EE5C4D761217E1FC65E /* SmokeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C280DEA922815D79D52035E1 /* SmokeUITests.swift */; };
 		FBBEF1BDEFEC12CE81949594 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF82F8FCC4C6001A6909E998 /* HapticService.swift */; };
@@ -106,11 +114,13 @@
 		071C5711F1CFFED37058BD01 /* BottomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomTabBar.swift; sourceTree = "<group>"; };
 		0B820B9ACBC5CEC4F1B83D9A /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		0EA74ECF4F2A0BBC5A19F5D7 /* CurrencyReward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyReward.swift; sourceTree = "<group>"; };
+		12380D07D6CC9B797EA56560 /* BalanceChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceChip.swift; sourceTree = "<group>"; };
 		125B30D67DEEC160EDBC670E /* README-StoreKit.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-StoreKit.md"; sourceTree = "<group>"; };
 		15113BC008FC88512BFF4298 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "snuglo--AnsD1"; path = ..; sourceTree = SOURCE_ROOT; };
 		16B7A0ABBF0B3545C32F1412 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1A4F8A6CB07D25367BD321D8 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyIcon.swift; sourceTree = "<group>"; };
 		1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTests.swift; sourceTree = "<group>"; };
 		24C8AB441978A3E56D85CFF4 /* SnugloAppUITestsBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloAppUITestsBase.swift; sourceTree = "<group>"; };
 		320DEC836D769FE0FD1AB45A /* SnugloAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +133,7 @@
 		3D66967344E696920FB09670 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4F7015B7FB288C8F5DA0BB75 /* NotificationSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSchedulerTests.swift; sourceTree = "<group>"; };
 		5796E5AF79FD89610638C7BD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5B94E9A14F759CEFABF051FC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		5E177BF53BC6C92D779D51C2 /* CardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSurface.swift; sourceTree = "<group>"; };
 		5E553228972F7FFB0F8EF868 /* PackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackDetailView.swift; sourceTree = "<group>"; };
 		5EF2DDE7B28FE5B3DA308C50 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -142,6 +153,7 @@
 		81BCAA3BC56EB6FA503E20FA /* StitchTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchTokenTests.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; path = Snuglo.storekit; sourceTree = "<group>"; };
+		89DC4F900617E37644A9709B /* AnnouncementBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementBanner.swift; sourceTree = "<group>"; };
 		8B4758DD6FAC3569A870F3EC /* RowDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowDivider.swift; sourceTree = "<group>"; };
 		8DD307251780186223CCBBE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
@@ -155,10 +167,13 @@
 		AE1A1E6FF249929AF911E182 /* GameFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFlowUITests.swift; sourceTree = "<group>"; };
 		B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculator.swift; sourceTree = "<group>"; };
 		B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
 		C280DEA922815D79D52035E1 /* SmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeUITests.swift; sourceTree = "<group>"; };
 		C2F5BACB29FA770A810C3ABA /* LevelsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsListView.swift; sourceTree = "<group>"; };
 		C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrayLayout.swift; sourceTree = "<group>"; };
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBadge.swift; sourceTree = "<group>"; };
+		CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPill.swift; sourceTree = "<group>"; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -171,6 +186,7 @@
 		E759453C2C2587B65FB5C244 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA13FC12B31478959E864E28 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EC77EA692FE5B20CEA9F3A5E /* PackProviderContinueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProviderContinueTests.swift; sourceTree = "<group>"; };
+		ED74D16C2119C93F355FF2A6 /* ComponentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHelperTests.swift; sourceTree = "<group>"; };
 		EE9B107DD2F0F4C37A55615C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 		F9C10C7B6CB21E1B41D1316F /* WalletStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletStore.swift; sourceTree = "<group>"; };
@@ -251,12 +267,19 @@
 			isa = PBXGroup;
 			children = (
 				D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */,
+				89DC4F900617E37644A9709B /* AnnouncementBanner.swift */,
+				12380D07D6CC9B797EA56560 /* BalanceChip.swift */,
 				7C3C5E6AE355B623F247316C /* BannerAdView.swift */,
 				071C5711F1CFFED37058BD01 /* BottomTabBar.swift */,
 				5E177BF53BC6C92D779D51C2 /* CardSurface.swift */,
+				1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */,
+				B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */,
+				CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */,
 				D3E8F3C0267F5E448BE9F1FD /* PrimaryButton.swift */,
+				CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */,
 				8B4758DD6FAC3569A870F3EC /* RowDivider.swift */,
 				D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */,
+				5B94E9A14F759CEFABF051FC /* SectionHeader.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -275,6 +298,7 @@
 				D388AFA74CDD2F268A95A894 /* AdsManagerTests.swift */,
 				9D6BB243B769539EEF718CD3 /* BlockColorTests.swift */,
 				1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */,
+				ED74D16C2119C93F355FF2A6 /* ComponentHelperTests.swift */,
 				3C9E96D362B5C561B76A4E6A /* CurrencyRewardTests.swift */,
 				D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */,
 				368E88C62BE50B885BCF1DF7 /* HapticServiceTests.swift */,
@@ -533,7 +557,7 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_EDB8F26B-75AA-4E03-92A4-CEDBE7205647" /* . */ = {
+		"TEMP_D73377D6-70E5-4A52-B54D-FDCDF9499BFD" /* . */ = {
 			isa = PBXGroup;
 			children = (
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
@@ -670,18 +694,23 @@
 			files = (
 				42A713FCCF31C5AD71C0374B /* AdInterstitialOverlay.swift in Sources */,
 				CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */,
+				783DBDD9FCB16ECAACC112F0 /* AnnouncementBanner.swift in Sources */,
 				AE42BD147A051CF60F775F10 /* AppRouter.swift in Sources */,
+				9033A279823B9EA9D07CD7DB /* BalanceChip.swift in Sources */,
 				1D27807043DBA93196C5E710 /* BannerAdView.swift in Sources */,
 				91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */,
 				F6C45F1C7F71F67B168BD48F /* BottomTabBar.swift in Sources */,
 				870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
 				09B0B5EAF1D49AC381CA4D83 /* Currency.swift in Sources */,
+				EFE6275557E1D2C4A668201D /* CurrencyIcon.swift in Sources */,
 				B53408EFB76F17C7E9396E54 /* CurrencyReward.swift in Sources */,
+				AAACB186E0BD520F1FC8CA09 /* GameButtonStyle.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
 				FBBEF1BDEFEC12CE81949594 /* HapticService.swift in Sources */,
+				738938E6021F13B256807D12 /* ItemBadge.swift in Sources */,
 				A6B1D2446CBBE6167482C84A /* LeaderboardView.swift in Sources */,
 				4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */,
 				33112FEC53B3501D7EFA14D2 /* LevelsListView.swift in Sources */,
@@ -694,11 +723,13 @@
 				3922552F1B06C1C3D736AB66 /* PauseSheet.swift in Sources */,
 				3CBBEA8BF5421CE5D339D5E1 /* PrimaryButton.swift in Sources */,
 				810594074D30D57231B4B68D /* ProfileView.swift in Sources */,
+				90EA2EDDA06BA4AB50C8038E /* ProgressPill.swift in Sources */,
 				44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */,
 				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
 				DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */,
 				9E6FD2504B15C754A3A467A1 /* RowDivider.swift in Sources */,
 				7F7979F2FDB91A33A94532B2 /* SecondaryButton.swift in Sources */,
+				9A7C6B590FAD5B739D17DD58 /* SectionHeader.swift in Sources */,
 				10623549868FE8396ECC486F /* SettingsView.swift in Sources */,
 				4749283EBBBBBB741384B951 /* Shadow.swift in Sources */,
 				9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */,
@@ -733,6 +764,7 @@
 				644AD815EA9200CA26D84026 /* AdsManagerTests.swift in Sources */,
 				70F51AE1D5CAEBAC21C9E0A1 /* BlockColorTests.swift in Sources */,
 				20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */,
+				759401B422EE6D688C76C426 /* ComponentHelperTests.swift in Sources */,
 				9F21D7D9C8ACA10E91DCE3D0 /* CurrencyRewardTests.swift in Sources */,
 				530C2E26ADFAFA0391AA200F /* GameViewModelTests.swift in Sources */,
 				4B2D146C4B8FC685A1C5D9E6 /* HapticServiceTests.swift in Sources */,

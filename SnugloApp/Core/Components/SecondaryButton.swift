@@ -6,15 +6,13 @@ import SwiftUI
 //   border: 1.5px AppColors.divider (#dbe4ea)
 //   fg: AppColors.softCocoa (#141d21)
 //   radius: AppRadius.button (100 pt — pill)
+//   press: GameButtonStyle 3D slab (outlineVariant as bottom depth layer)
 
 struct SecondaryButton: View {
 
     let titleKey: LocalizedStringKey
     let systemImage: String?
     var action: () -> Void
-
-    @State private var isPressed = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     init(_ titleKey: LocalizedStringKey, systemImage: String? = nil, action: @escaping () -> Void) {
         self.titleKey = titleKey
@@ -34,20 +32,8 @@ struct SecondaryButton: View {
             }
             .foregroundStyle(AppColors.softCocoa)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, AppSpacing.md)
-            .background(
-                AppColors.surfaceContainerLowest,
-                in: RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                    .stroke(AppColors.divider, lineWidth: 1.5)
-            )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(reduceMotion ? nil : .easeInOut(duration: 0.12), value: isPressed)
         }
-        .buttonStyle(.plain)
-        ._onButtonGesture(pressing: { isPressed = $0 }, perform: {})
+        .buttonStyle(GameButtonStyle(variant: .secondary))
     }
 }
 

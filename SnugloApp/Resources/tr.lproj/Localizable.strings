@@ -193,3 +193,7 @@
 "leaderboard.title"             = "Liderlik";
 "leaderboard.placeholder.title" = "Faz 5'te Geliyor";
 "leaderboard.placeholder.body"  = "Sıralamalar ve başarılar çok yakında!";
+
+// MARK: — Faz 2: Bileşen kiti
+"common.viewAll"       = "Tümünü gör";
+"announcement.dismiss" = "Kapat";

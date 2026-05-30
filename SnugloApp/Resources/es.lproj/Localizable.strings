@@ -193,3 +193,7 @@
 "leaderboard.title"             = "Clasificación";
 "leaderboard.placeholder.title" = "Próximamente en la Fase 5";
 "leaderboard.placeholder.body"  = "¡Las clasificaciones y logros están en camino!";
+
+// MARK: — Faz 2: Kit de componentes
+"common.viewAll"       = "Ver todo";
+"announcement.dismiss" = "Cerrar";
