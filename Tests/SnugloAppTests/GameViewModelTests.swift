@@ -312,6 +312,60 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(wallet.balance(of: .gem), 10, "Wallet must be untouched")
     }
 
+    // MARK: - Faz 3 BLOCKER fix: hint atomicity
+    // Edge case: unplacedPieces.count > 0 (canApply passes) but none of the
+    // remaining pieces have a solution entry → placeHintPiece() returns false.
+    // This is a defensive guard for malformed-level data.
+
+    /// Level with p1 in solution but p2 absent — so once p1 is placed,
+    /// p2 is unplaced and canApply(.hint) is true, yet placeHintPiece() finds nothing.
+    private func makeLevelWithPartialSolution() -> Level {
+        Level(
+            id: "test_partial_solution",
+            width: 2,
+            height: 1,
+            pieces: [
+                Piece(id: "p1", cells: [Coord(x: 0, y: 0)]),
+                Piece(id: "p2", cells: [Coord(x: 0, y: 0)])
+            ],
+            solution: [
+                Placement(pieceId: "p1", origin: Coord(x: 0, y: 0))
+                // p2 intentionally absent from solution
+            ]
+        )
+    }
+
+    func test_powerUpHint_refunds_hintToken_whenPlacementImpossible() {
+        let progress = makeProgress()
+        progress.addHints(1)
+        let wallet = makeWallet(gems: 0)
+        let vm = GameViewModel(level: makeLevelWithPartialSolution())
+        // Place p1 — p2 remains unplaced but has no solution entry
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        XCTAssertEqual(vm.unplacedPieces.count, 1, "precondition: p2 unplaced, canApply = true")
+
+        let result = vm.applyPowerUp(.hint, wallet: wallet, progress: progress)
+
+        XCTAssertEqual(result, .notApplicable)
+        XCTAssertEqual(progress.hintCount, 1, "Hint token must be refunded when placeHintPiece fails")
+        XCTAssertEqual(vm.hintsUsed, 0, "hintsUsed must not increment when no piece was placed")
+    }
+
+    func test_powerUpHint_refunds_gem_whenPlacementImpossible() {
+        let progress = makeProgress()
+        // hintCount == 0 → forces gem path
+        let wallet = makeWallet(gems: 50)
+        let vm = GameViewModel(level: makeLevelWithPartialSolution())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        XCTAssertEqual(vm.unplacedPieces.count, 1, "precondition: p2 unplaced, canApply = true")
+
+        let result = vm.applyPowerUp(.hint, wallet: wallet, progress: progress)
+
+        XCTAssertEqual(result, .notApplicable)
+        XCTAssertEqual(wallet.balance(of: .gem), 50, "Gems must be fully refunded when placeHintPiece fails")
+        XCTAssertEqual(vm.hintsUsed, 0, "hintsUsed must not increment when no piece was placed")
+    }
+
     // MARK: - Helpers
 
     private func makeWallet(gems: Int) -> WalletStore {

@@ -261,16 +261,26 @@ final class GameViewModel {
 
         switch pu {
         case .hint:
-            // Try free inventory first; fall back to gem purchase.
+            // Free inventory path.
             if progress.useHint() {
+                if placeHintPiece() {
+                    hintsUsed += 1
+                    return .success
+                }
+                // Placement impossible despite passing canApply — refund the token.
+                progress.addHints(1)
+                return .notApplicable
+            }
+            // Gem fallback path.
+            guard wallet.canAfford(.gem, amount: pu.gemCost) else { return .insufficientGem }
+            guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
+            if placeHintPiece() {
                 hintsUsed += 1
-                placeHintPiece()
                 return .success
             }
-            guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
-            hintsUsed += 1
-            placeHintPiece()
-            return .success
+            // Placement impossible — refund the gem spend.
+            wallet.earn(.gem, amount: pu.gemCost)
+            return .notApplicable
 
         case .undo:
             guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
