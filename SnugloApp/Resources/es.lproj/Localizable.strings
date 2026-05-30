@@ -205,3 +205,33 @@
 "powerup.insufficient.gem.title"   = "Gemas insuficientes";
 "powerup.insufficient.gem.message" = "Puedes conseguir más en la Tienda.";
 "powerup.insufficient.gem.cta"     = "Ir a la tienda";
+
+// MARK: — Faz 4: Renovación de Tienda
+"shop.deal.section"   = "Oferta del Día";
+"shop.deal.claim"     = "Reclamar";
+
+"shop.deal.gems.title"         = "Refuerzo de Gemas";
+"shop.deal.gems.message"       = "Mira un anuncio y gana 20 gemas gratis.";
+"shop.deal.coins.title"        = "Lluvia de Monedas";
+"shop.deal.coins.message"      = "Mira un anuncio y gana 150 monedas.";
+"shop.deal.ticket.title"       = "Entrada Gratis";
+"shop.deal.ticket.message"     = "Mira un anuncio y obtén un boleto de juego.";
+"shop.deal.exchange.title"     = "Oferta de Gemas";
+"shop.deal.exchange.message"   = "Gasta 300 monedas y obtén 5 gemas.";
+"shop.deal.ticket.gems.title"  = "Oferta de Boleto";
+"shop.deal.ticket.gems.message" = "Gasta 80 gemas y obtén 2 boletos.";
+
+"shop.packs.section"  = "Paquetes de Monedas";
+"shop.pack.watch.ad"  = "Ver Anuncio";
+"shop.pack.coins.sm"  = "Paquete Pequeño";
+"shop.pack.coins.md"  = "Paquete Mediano";
+"shop.pack.gems.sm"   = "Bolsa de Gemas";
+"shop.pack.ticket"    = "Boleto de Juego";
+
+"shop.exchange.section" = "Intercambio";
+"shop.exchange.confirm" = "Intercambiar";
+
+"shop.debug.section"      = "Controles Debug";
+"shop.debug.add.coins"    = "Añadir 500 Monedas";
+"shop.debug.add.gems"     = "Añadir 100 Gemas";
+"shop.debug.add.tickets"  = "Añadir 5 Boletos";

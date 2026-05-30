@@ -1,30 +1,29 @@
 import SwiftUI
 import StoreKit
 
-// MARK: — ShopView (Screen 10 · H-1: Localized)
+// MARK: — ShopView (Screen 10 · Faz 4: Shop Yenileme)
 // Design reference: Designs/html/10-shop.html
-// Faz G-1: Canlı StoreKit 2 IAP — 5 SKU.
-// H-2: VoiceOver — SKU cards labelled with title, price, and state.
+// Sections: BalanceHeader (sticky) · Daily Deal · Coin Packs · Exchange · Bundle IAPs · #if DEBUG
 
 struct ShopView: View {
 
     @Environment(AppRouter.self) private var router
 
-    private let store    = StoreManager.shared
-    private let progress = ProgressStore.shared
-
-    @State private var isPurchasing: Bool    = false
-    @State private var errorMessage: String?
+    @State private var viewModel = ShopViewModel()
+    private let store = StoreManager.shared
+    private let ads   = AdsManager.shared
 
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
-                header
-                packUnlocksSection
-                hintsSection
-                removeAdsSection
+                dailyDealSection
+                coinPacksSection
+                exchangeSection
+                bundleSection
+                #if DEBUG
+                debugSection
+                #endif
                 restoreButton
-                hintCountBadge
             }
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.md)
@@ -35,186 +34,65 @@ struct ShopView: View {
         .navigationBarTitleDisplayMode(.inline)
         .accessibilityIdentifier("screen.shop")
         .task { await store.loadProducts() }
-        .overlay {
-            if store.isLoading || isPurchasing { loadingOverlay }
+        .safeAreaInset(edge: .top) {
+            BalanceHeader()
         }
-        .alert("common.error", isPresented: Binding(
-            get: { errorMessage != nil },
-            set: { if !$0 { errorMessage = nil } }
-        )) {
-            Button("common.ok", role: .cancel) { errorMessage = nil }
-        } message: {
-            Text(verbatim: errorMessage ?? "")
-        }
-        .onChange(of: store.lastError) { _, newValue in
-            if let e = newValue { errorMessage = e }
-        }
-    }
-
-    // MARK: — Header
-
-    private var header: some View {
-        HStack(alignment: .center, spacing: AppSpacing.md) {
-            VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                Text("shop.title")
-                    .font(AppTypography.headlineLarge)
-                    .tracking(-0.6)
-                    .foregroundStyle(.white)
-                    .accessibilityIdentifier("title.shop")
-                Text("shop.enhance")
-                    .font(AppTypography.bodyMedium)
-                    .foregroundStyle(.white.opacity(0.85))
+        .overlay(alignment: .top) {
+            if viewModel.showClaimedBanner {
+                claimedBanner
+                    .padding(.horizontal, AppSpacing.lg)
+                    .padding(.top, AppSpacing.md)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2_500_000_000)
+                            viewModel.dismissBanner()
+                        }
+                    }
             }
-            Spacer()
-            Image("mascot-sloth")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 88, height: 88)
         }
-        .padding(AppSpacing.md)
-        .background(
-            LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryPressed],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            ),
-            in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-        )
-        .shadowL1()
+        .animation(.easeInOut(duration: 0.3), value: viewModel.showClaimedBanner)
     }
 
-    // MARK: — Pack Unlocks
+    // MARK: — Sections
 
-    private var packUnlocksSection: some View {
+    private var dailyDealSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.packUnlocks")
-            packCard(packId: "spice-route", productID: .packSpice, icon: "cup.and.saucer.fill", accent: AppColors.blockPeach, itemIndex: 0)
-            packCard(packId: "mambo-nights", productID: .packMambo, icon: "moon.stars.fill", accent: AppColors.blockBlush, itemIndex: 1)
-            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill", accent: AppColors.blockSage, itemIndex: 2)
+            sectionTitle("shop.deal.section")
+            DailyDealCard(deal: viewModel.currentDeal, onClaim: viewModel.claimDeal)
         }
     }
 
-    private func packCard(
-        packId: String,
-        productID: StoreManager.ProductID,
-        icon: String,
-        accent: Color,
-        itemIndex: Int
-    ) -> some View {
-        let pack     = MockData.allPacks.first(where: { $0.id == packId })
-        let product  = store.product(for: productID)
-        let owned    = store.isPurchased(productID)
-        let priceStr = product?.displayPrice ?? "—"
-        // H-1: localized title for String contexts (a11y label)
-        let localizedTitle = pack.map { NSLocalizedString($0.rawTitleKey, comment: "") } ?? packId
-
-        return HStack(spacing: AppSpacing.md) {
-            iconTile(systemName: icon, accent: owned ? accent : AppColors.surfaceContainerHigh, tint: owned ? AppColors.primary : AppColors.onSurfaceVariant)
-                .accessibilityHidden(true)
-
-            VStack(alignment: .leading, spacing: 2) {
-                // H-1 BLOCKER 1: localized pack name
-                Text(pack?.titleKey ?? LocalizedStringKey(packId))
-                    .font(AppTypography.headlineSmall)
-                    .foregroundStyle(AppColors.onSurface)
-                // H-1 BLOCKER 1: localized grid size label (replaces subtitle)
-                Text(pack?.gridLabelKey ?? "")
-                    .font(AppTypography.bodyMedium)
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-            }
-
-            Spacer()
-
-            purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
-                guard let product else { return }
-                await performPurchase(product)
-            }
-            // H-2: SKU button label e.g. "Spice Route Pack. $2.99. Tap to purchase"
-            .accessibilityLabel(owned
-                ? "\(localizedTitle). Owned"
-                : "\(localizedTitle). \(priceStr). Tap to purchase")
-        }
-        .itemCard(owned: owned)
-        // H-2: combine card into one element
-        .accessibilityElement(children: .contain)
-        // Faz I-2: UITest identifier — e.g. shop.pack_item.0 for the first pack
-        .accessibilityIdentifier("shop.pack_item.\(itemIndex)")
-    }
-
-    // MARK: — Hints
-
-    private var hintsSection: some View {
+    private var coinPacksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.hintsSection")
-
-            let product = store.product(for: .hintsSmall)
-            let priceStr = product?.displayPrice ?? "—"
-
-            HStack(spacing: AppSpacing.md) {
-                iconTile(systemName: "lightbulb.fill", accent: AppColors.tertiary.opacity(0.15), tint: AppColors.tertiary)
-                    .accessibilityHidden(true)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("sku.hintsSmall.title")
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.onSurface)
-                    Text(verbatim: String(format: NSLocalizedString("shop.hintsRemaining", comment: ""), progress.hintCount))
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurfaceVariant)
-                }
-
-                Spacer()
-
-                purchaseButton(label: priceStr, isOwned: false) {
-                    guard let product else { return }
-                    await performPurchase(product)
-                }
-                .accessibilityLabel("10 Hints. \(priceStr). Tap to purchase")
-            }
-            .itemCard(owned: false)
+            sectionTitle("shop.packs.section")
+            CurrencyPackGrid(
+                packs: CurrencyPack.allPacks,
+                onWatch: viewModel.watchAdForPack,
+                adsAvailable: ads.rewardedAvailable
+            )
         }
     }
 
-    // MARK: — Remove Ads
-
-    private var removeAdsSection: some View {
-        let owned   = store.adsRemoved
-        let product = store.product(for: .removeAds)
-        let priceStr = product?.displayPrice ?? "—"
-
-        return VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.oneTime")
-
-            HStack(spacing: AppSpacing.md) {
-                iconTile(
-                    systemName: owned ? "checkmark.shield.fill" : "xmark.circle.fill",
-                    accent: owned ? AppColors.primaryContainer.opacity(0.5) : AppColors.surfaceContainerHigh,
-                    tint: owned ? AppColors.primary : AppColors.onSurfaceVariant
-                )
-                .accessibilityHidden(true)
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("sku.removeAds.title")
-                        .font(AppTypography.headlineSmall)
-                        .foregroundStyle(AppColors.onSurface)
-                    Text("sku.removeAds.body")
-                        .font(AppTypography.bodyMedium)
-                        .foregroundStyle(AppColors.onSurfaceVariant)
-                }
-
-                Spacer()
-
-                purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
-                    guard let product else { return }
-                    await performPurchase(product)
-                }
-                .accessibilityLabel(owned
-                    ? "Remove Ads. Owned"
-                    : "Remove Ads. \(priceStr). Tap to purchase")
-            }
-            .itemCard(owned: owned)
+    private var exchangeSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            sectionTitle("shop.exchange.section")
+            ExchangePanel(viewModel: viewModel)
         }
     }
+
+    private var bundleSection: some View {
+        BundleSection(store: store, progress: ProgressStore.shared)
+    }
+
+    #if DEBUG
+    private var debugSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            sectionTitle("shop.debug.section")
+            DebugSection()
+        }
+    }
+    #endif
 
     // MARK: — Restore
 
@@ -228,110 +106,46 @@ struct ShopView: View {
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
-        .disabled(store.isLoading || isPurchasing)
         .accessibilityHint("Restores any previously purchased items")
     }
 
-    // MARK: — Hint count
+    // MARK: — Claimed banner
 
-    private var hintCountBadge: some View {
-        HStack(spacing: AppSpacing.xs) {
-            Image(systemName: "lightbulb.fill")
-                .font(.system(size: 14))
-                .foregroundStyle(AppColors.tertiary)
-                .accessibilityHidden(true)
-            Text(verbatim: String(format: NSLocalizedString("shop.hintsAvailable", comment: ""), progress.hintCount))
-                .font(AppTypography.labelSmall)
-                .tracking(0.3)
-                .foregroundStyle(AppColors.onSurfaceVariant)
-        }
-        .frame(maxWidth: .infinity, alignment: .center)
-        .padding(.bottom, AppSpacing.sm)
-    }
-
-    // MARK: — Loading overlay
-
-    private var loadingOverlay: some View {
-        ZStack {
-            AppColors.background.opacity(0.6).ignoresSafeArea()
-            ProgressView().tint(AppColors.primary).scaleEffect(1.4)
-        }
-        .accessibilityLabel("Loading")
-    }
-
-    // MARK: — Shared components
-
-    private func iconTile(systemName: String, accent: Color, tint: Color) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(accent)
-                .frame(width: 48, height: 48)
-            Image(systemName: systemName)
-                .font(.system(size: 20))
-                .foregroundStyle(tint)
-        }
-    }
-
-    private func purchaseButton(
-        label: String?,
-        isOwned: Bool,
-        action: @escaping () async -> Void
-    ) -> some View {
-        Button { Task { await action() } } label: {
-            if isOwned {
-                Label("shop.owned", systemImage: "checkmark")
-                    .font(AppTypography.bodyMedium.weight(.semibold))
-                    .foregroundStyle(AppColors.primary)
-                    .padding(.horizontal, AppSpacing.sm + 2)
-                    .padding(.vertical, AppSpacing.sm)
-            } else {
-                Text(verbatim: label ?? "—")
-                    .font(AppTypography.bodyMedium.weight(.semibold))
-                    .foregroundStyle(AppColors.primary)
-                    .padding(.horizontal, AppSpacing.sm + 2)
-                    .padding(.vertical, AppSpacing.sm)
-                    .background(
-                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                            .stroke(AppColors.primary, lineWidth: 1.5)
-                    )
+    private var claimedBanner: some View {
+        HStack(spacing: AppSpacing.sm) {
+            if let currency = viewModel.claimedCurrency {
+                CurrencyIcon(currency: currency, size: 20)
+                    .accessibilityHidden(true)
             }
+            Text(verbatim: "+\(viewModel.claimedAmount)")
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
+                .monospacedDigit()
+            Spacer(minLength: 0)
+            Button { viewModel.dismissBanner() } label: {
+                Image(systemName: "xmark")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Dismiss")
         }
-        .buttonStyle(.plain)
-        .disabled(isOwned || isPurchasing)
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm)
+        .background(
+            AppColors.surfaceContainerLowest,
+            in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+        )
+        .shadowL1()
     }
+
+    // MARK: — Helpers
 
     private func sectionTitle(_ key: LocalizedStringKey) -> some View {
         Text(key)
             .font(AppTypography.headlineMedium)
             .foregroundStyle(AppColors.onSurface)
             .padding(.horizontal, AppSpacing.xs)
-    }
-
-    private func performPurchase(_ product: Product) async {
-        isPurchasing = true
-        defer { isPurchasing = false }
-        _ = await store.purchase(product)
-    }
-}
-
-// MARK: — View modifier helpers
-
-private extension View {
-    func itemCard(owned: Bool) -> some View {
-        self
-            .padding(AppSpacing.md)
-            .background(
-                AppColors.surfaceContainerLowest,
-                in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                    .stroke(
-                        owned ? AppColors.primary.opacity(0.3) : AppColors.outlineVariant.opacity(0.3),
-                        lineWidth: 0.5
-                    )
-            )
-            .shadowL1()
     }
 }
 

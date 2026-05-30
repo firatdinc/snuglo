@@ -205,3 +205,33 @@
 "powerup.insufficient.gem.title"   = "Not Enough Gems";
 "powerup.insufficient.gem.message" = "You can get more from the Shop.";
 "powerup.insufficient.gem.cta"     = "Go to Shop";
+
+// MARK: — Faz 4: Shop Yenileme
+"shop.deal.section"   = "Today's Deal";
+"shop.deal.claim"     = "Claim";
+
+"shop.deal.gems.title"         = "Gem Boost";
+"shop.deal.gems.message"       = "Watch an ad and earn 20 free gems.";
+"shop.deal.coins.title"        = "Coin Rain";
+"shop.deal.coins.message"      = "Watch an ad to earn 150 coins.";
+"shop.deal.ticket.title"       = "Free Ticket";
+"shop.deal.ticket.message"     = "Watch an ad and get a game ticket.";
+"shop.deal.exchange.title"     = "Gem Deal";
+"shop.deal.exchange.message"   = "Spend 300 coins and get 5 gems.";
+"shop.deal.ticket.gems.title"  = "Ticket Deal";
+"shop.deal.ticket.gems.message" = "Spend 80 gems and get 2 tickets.";
+
+"shop.packs.section"  = "Coin Packs";
+"shop.pack.watch.ad"  = "Watch Ad";
+"shop.pack.coins.sm"  = "Small Pack";
+"shop.pack.coins.md"  = "Coin Bundle";
+"shop.pack.gems.sm"   = "Gem Pouch";
+"shop.pack.ticket"    = "Game Ticket";
+
+"shop.exchange.section" = "Exchange";
+"shop.exchange.confirm" = "Exchange";
+
+"shop.debug.section"      = "Debug Controls";
+"shop.debug.add.coins"    = "Add 500 Coins";
+"shop.debug.add.gems"     = "Add 100 Gems";
+"shop.debug.add.tickets"  = "Add 5 Tickets";

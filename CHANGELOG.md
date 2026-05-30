@@ -3,6 +3,21 @@
 ---
 
 ## [Unreleased]
+### Faz 4: Shop yenileme (IOS-91)
+- **StoreOffer.swift** (yeni — `Core/Shop/`): `enum DealAction` (`.watchAd(earn:amount:)` / `.spend(from:cost:earn:amount:)`), `struct DailyDeal: Identifiable` (id/titleKey/messageKey/sfSymbol/action), `struct CurrencyPack: Identifiable`. 5 hardcoded daily deal + 4 ad-reward currency pack.
+- **DailyDealRotator.swift** (yeni — `Core/Shop/`): Pure `struct` — `static func deal(forDate:calendar:offers:) -> DailyDeal?`. Deterministik hash: `abs(year×366 + month×31 + day) % offers.count`. Aynı calendar day → aynı deal.
+- **ShopViewModel.swift** (yeni — `Features/Shop/`): `@Observable @MainActor`. `WalletStore` init injection (test edilebilirlik). `currentDeal`, `showClaimedBanner/claimedCurrency/claimedAmount`, `coinToGemAmount/gemToTicketAmount`. `claimDeal()` (watchAd: `AdsManager.showRewarded`; spend: `wallet.spend+earn`), `watchAdForPack(_:)`, `exchangeCoinToGem/Ticket()`, `dismissBanner()`.
+- **BalanceHeader.swift** (yeni): `HStack 3× BalanceChip` (coin/gem/ticket). `.regularMaterial` arka plan. `.safeAreaInset(edge: .top)` sticky. Cup hariç (prestige-only).
+- **DailyDealCard.swift** (yeni): SF Symbol + title/message + "Claim" CTA (`AppColors.primary` capsule).
+- **CurrencyPackGrid.swift** (yeni): `LazyVGrid` 2 sütun. Ad-reward "Watch Ad" butonları. `adsAvailable: Bool` ile disabled yönetimi.
+- **ExchangePanel.swift** (yeni): `@Bindable` viewModel. Coin→Gem (1–10 Stepper) + Gem→Ticket (1–5 Stepper). Aktif/disabled confirm butonları.
+- **BundleSection.swift** (yeni): Tüm 5 IAP SKU taşındı (3 pack + hintsSmall + removeAds). Self-contained loading/error state.
+- **DebugSection.swift** (yeni — `#if DEBUG` only): Wallet manipulation butonları.
+- **ShopView.swift** (yeniden yapılandırıldı): Eski hero banner → BalanceHeader sticky. 5+1 section. Claimed banner (auto-dismiss 2.5 s).
+- **Localizable.strings** (en/tr/es): 24 yeni anahtar — `shop.deal.*`, `shop.packs.*`, `shop.exchange.*`, `shop.debug.*`.
+- **Testler**: `DailyDealRotatorTests.swift` (5 test). `ShopViewModelTests.swift` (14 test). Toplam ~161 test, 0 SwiftLint violation.
+- YENİ IAP SKU EKLENMEZ. `StoreManager/AdsManager/WalletStore/ProgressStore` iç davranışları DOKUNULMAZ.
+
 ### Faz 1: 5 sekmeli özel tab bar + per-tab nav + hideBar overlay (IOS-75)
 - **AppTab enum** yeniden yapılandırıldı: 5 görünür sekme (`.levels` · `.shop` · `.play` orta yükseltilmiş · `.leaderboard` · `.profile`) + 3 backward-compat case (`.home → .play`, `.stats → .profile`, `.settings → playPath push + .play tab`). `selectTab(_:)` normalize eder; mevcut call-site'lar sıfır değişiklikle derlenir.
 - **AppRouter** per-tab tipli path dizileri: `levelsPath / shopPath / playPath / leaderboardPath / profilePath: [Route]`. `push(_:)` aktif tab'a yönlendirir; `.levelsList` → tab switch eder; `pop/popToRoot` current-tab scope'u temizler. Outer `path` yalnızca splash/onboarding flow için korundu.

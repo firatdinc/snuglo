@@ -205,3 +205,33 @@
 "powerup.insufficient.gem.title"   = "Yetersiz Mücevher";
 "powerup.insufficient.gem.message" = "Mağaza'dan daha fazlasını alabilirsin.";
 "powerup.insufficient.gem.cta"     = "Mağazaya Git";
+
+// MARK: — Faz 4: Mağaza Yenileme
+"shop.deal.section"   = "Bugünün Fırsatı";
+"shop.deal.claim"     = "Al";
+
+"shop.deal.gems.title"         = "Mücevher Desteği";
+"shop.deal.gems.message"       = "Reklam izle ve 20 ücretsiz mücevher kazan.";
+"shop.deal.coins.title"        = "Altın Yağmuru";
+"shop.deal.coins.message"      = "Reklam izle ve 150 altın kazan.";
+"shop.deal.ticket.title"       = "Ücretsiz Bilet";
+"shop.deal.ticket.message"     = "Reklam izle ve bir oyun bileti kazan.";
+"shop.deal.exchange.title"     = "Mücevher Fırsatı";
+"shop.deal.exchange.message"   = "300 altın harca ve 5 mücevher al.";
+"shop.deal.ticket.gems.title"  = "Bilet Fırsatı";
+"shop.deal.ticket.gems.message" = "80 mücevher harca ve 2 bilet al.";
+
+"shop.packs.section"  = "Altın Paketleri";
+"shop.pack.watch.ad"  = "Reklam İzle";
+"shop.pack.coins.sm"  = "Küçük Paket";
+"shop.pack.coins.md"  = "Altın Demeti";
+"shop.pack.gems.sm"   = "Mücevher Kesesi";
+"shop.pack.ticket"    = "Oyun Bileti";
+
+"shop.exchange.section" = "Dönüştür";
+"shop.exchange.confirm" = "Dönüştür";
+
+"shop.debug.section"      = "Hata Ayıklama";
+"shop.debug.add.coins"    = "500 Altın Ekle";
+"shop.debug.add.gems"     = "100 Mücevher Ekle";
+"shop.debug.add.tickets"  = "5 Bilet Ekle";
