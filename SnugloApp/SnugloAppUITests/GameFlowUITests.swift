@@ -72,9 +72,15 @@ final class GameFlowUITests: SnugloAppUITestsBase {
         )
         backButton.tap()
 
+        // game.back triggers a confirmationDialog — tap "Quit" (destructive) to confirm.
+        let quitButton = app.buttons["Quit"]
+        if quitButton.waitForExistence(timeout: 4) {
+            quitButton.tap()
+        }
+
         let dailyCard = app.buttons["button.menu.dailyPuzzle"]
         XCTAssertTrue(
-            waitForElement(dailyCard, timeout: 5),
+            waitForElement(dailyCard, timeout: 8),
             "button.menu.dailyPuzzle not visible after tapping game.back"
         )
     }

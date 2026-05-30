@@ -74,6 +74,7 @@ struct OnboardingView: View {
                             .padding(.horizontal, AppSpacing.md)
                             .padding(.vertical, AppSpacing.sm)
                     }
+                    .buttonStyle(.plain)
                     .contentShape(Rectangle())
                     .accessibilityLabel("Skip onboarding")
                     .accessibilityHint("Goes directly to the main menu")
@@ -113,16 +114,20 @@ struct OnboardingView: View {
                 .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
 
                 // — Action button —
+                // iOS 26: external .accessibilityHint applied to a wrapper around a
+                // view with .accessibilityElement(children: .ignore) can shadow the
+                // identifier in the accessibility tree. Hint is omitted here; the
+                // button's label already communicates the action.
                 PrimaryButton(nextButtonKey, accessibilityID: "button.onboarding.getStarted", action: handleNext)
                     .padding(.horizontal, AppSpacing.lg)
                     .shadowL1()
                     .padding(.bottom, AppSpacing.xl + AppSpacing.md)
-                    .accessibilityHint(currentPage == pages.count - 1
-                        ? "Completes onboarding and opens the main menu"
-                        : "Advances to the next onboarding page")
             }
         }
         .background(AppColors.background.ignoresSafeArea())
+        // iOS 26: .contain ensures children (buttons, PrimaryButton) remain
+        // independently queryable by XCTest even inside an identified container.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("screen.onboarding")
         .toolbar(.hidden, for: .navigationBar)
     }

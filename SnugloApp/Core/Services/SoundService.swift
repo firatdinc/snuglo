@@ -29,12 +29,29 @@ final class SoundService: NSObject {
     // MARK: — Init (private — use .shared)
     private override init() {
         super.init()
-        configureSession()
-        preload()
+        // Perf fix: configure the session and build players OFF the main thread.
+        // `AVAudioSession.setActive(true)` and `AVAudioPlayer` construction can
+        // block for SECONDS on first use, and this singleton is lazily created
+        // by the FIRST drag gesture — that main-thread stall was freezing the
+        // first drag ("System gesture gate timed out"). play() is a safe no-op
+        // until the players have loaded in the background.
+        Task.detached(priority: .userInitiated) { [weak self] in
+            Self.configureSession()
+            let loaded = Self.buildPlayers()
+            await self?.store(players: loaded)
+        }
     }
 
-    // MARK: — AVAudioSession
-    private func configureSession() {
+    /// Touch `.shared` ahead of the first gesture so the background setup above
+    /// has already started. Idempotent — see GameView.onAppear.
+    func warmUp() {}
+
+    private func store(players: [Sound: AVAudioPlayer]) {
+        self.players = players
+    }
+
+    // MARK: — AVAudioSession (runs off-main)
+    nonisolated private static func configureSession() {
         do {
             try AVAudioSession.sharedInstance()
                 .setCategory(.ambient, options: [.mixWithOthers])
@@ -44,8 +61,9 @@ final class SoundService: NSObject {
         }
     }
 
-    // MARK: — Preload
-    private func preload() {
+    // MARK: — Preload (runs off-main)
+    nonisolated private static func buildPlayers() -> [Sound: AVAudioPlayer] {
+        var result: [Sound: AVAudioPlayer] = [:]
         for sound in Sound.allCases {
             guard let url = Bundle.main.url(forResource: sound.rawValue, withExtension: "caf") else {
                 print("[SoundService] Missing asset: \(sound.rawValue).caf")
@@ -54,11 +72,12 @@ final class SoundService: NSObject {
             do {
                 let player = try AVAudioPlayer(contentsOf: url)
                 player.prepareToPlay()
-                players[sound] = player
+                result[sound] = player
             } catch {
                 print("[SoundService] Failed to load \(sound.rawValue): \(error)")
             }
         }
+        return result
     }
 
     // MARK: — Public API

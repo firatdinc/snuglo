@@ -88,6 +88,26 @@ final class AppRouter {
         }
     }
 
+    /// Atomically swap the top route of the CURRENT tab's stack. Used by the
+    /// level-complete "Next" flow so Back still returns to the pre-game screen
+    /// (PackDetail / MainMenu) instead of the just-finished level.
+    ///
+    /// Bug fix: the game lives in a per-tab path (e.g. `playPath`), NOT the
+    /// outer `path` (which is only the splash/onboarding stack). Mutating the
+    /// wrong array left the finished board on screen when "Next" was tapped.
+    func replaceTop(with route: Route) {
+        func swap(_ p: inout [Route]) {
+            if p.isEmpty { p.append(route) } else { p[p.count - 1] = route }
+        }
+        switch resolvedTab {
+        case .levels:      swap(&levelsPath)
+        case .shop:        swap(&shopPath)
+        case .leaderboard: swap(&leaderboardPath)
+        case .profile:     swap(&profilePath)
+        default:           swap(&playPath)
+        }
+    }
+
     func popToRoot() {
         switch resolvedTab {
         case .levels:      levelsPath.removeAll()

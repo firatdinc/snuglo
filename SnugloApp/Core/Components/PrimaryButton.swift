@@ -36,6 +36,12 @@ struct PrimaryButton: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(GameButtonStyle(variant: .primary))
+        // iOS 26: custom ButtonStyle can push the identifier into a style-rendered
+        // sub-node that XCTest misses. Explicit leaf node with label + button trait
+        // ensures XCTest can locate the element regardless of internal style structure.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(titleKey)
+        .accessibilityAddTraits(.isButton)
         .accessibilityIdentifier(accessibilityID ?? "")
     }
 }

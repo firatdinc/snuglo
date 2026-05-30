@@ -19,7 +19,9 @@ class SnugloAppUITestsBase: XCTestCase {
         continueAfterFailure = false
 
         app = XCUIApplication()
-        app.launchArguments = ["-UITestMode"]
+        // Force English locale so confirmation-dialog and alert labels match
+        // the en.lproj strings regardless of the device/simulator locale setting.
+        app.launchArguments = ["-UITestMode", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
     }
 

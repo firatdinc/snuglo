@@ -16,6 +16,10 @@ struct GameButtonStyle: ButtonStyle {
     }
 
     var variant: Variant = .primary
+    /// Compact buttons (e.g. the power-up bar) use tighter vertical padding so
+    /// they read as short horizontal pills rather than near-square circles —
+    /// the pill `AppRadius.button` (100) only looks right when width > height.
+    var compact: Bool = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private let depth: CGFloat = 4
@@ -24,7 +28,7 @@ struct GameButtonStyle: ButtonStyle {
         let isPressed = configuration.isPressed
 
         configuration.label
-            .padding(.vertical, AppSpacing.md)
+            .padding(.vertical, compact ? AppSpacing.xs : AppSpacing.md)
             .background(background)
             .offset(y: reduceMotion ? 0 : (isPressed ? depth : 0))
             .padding(.bottom, reduceMotion ? 0 : depth)

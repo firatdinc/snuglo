@@ -22,6 +22,10 @@ struct PowerUpBar: View {
                 powerUpButton(pu)
             }
         }
+        // Cap the row width so the buttons don't stretch into huge slabs on
+        // wide screens (iPad / large iPhones), then centre the capped row.
+        .frame(maxWidth: 440)
+        .frame(maxWidth: .infinity, alignment: .center)
         .padding(.horizontal, AppSpacing.lg)
     }
 
@@ -34,22 +38,23 @@ struct PowerUpBar: View {
             handleTap(pu)
         } label: {
             VStack(spacing: AppSpacing.xs) {
-                Image(systemName: pu.sfSymbol)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(AppColors.onPrimary)
+                HStack(spacing: AppSpacing.xs) {
+                    Image(systemName: pu.sfSymbol)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(AppColors.onPrimary)
 
-                Text(pu.displayNameKey)
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onPrimary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    Text(pu.displayNameKey)
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
 
                 costLabel(pu)
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, AppSpacing.sm)
         }
-        .buttonStyle(GameButtonStyle(variant: .primary))
+        .buttonStyle(GameButtonStyle(variant: .primary, compact: true))
         .disabled(!enabled)
         .opacity(enabled ? 1.0 : 0.4)
         .accessibilityLabel(Text(pu.displayNameKey))

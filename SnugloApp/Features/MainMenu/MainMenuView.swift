@@ -27,6 +27,9 @@ struct MainMenuView: View {
 
         }
         .toolbar(.hidden, for: .navigationBar)
+        // iOS 26: .contain ensures children (topBar buttons, tab content) remain
+        // independently queryable by XCTest inside this identified container.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("screen.mainMenu")
     }
 
@@ -58,6 +61,7 @@ struct MainMenuView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .buttonStyle(.plain)
             .accessibilityLabel("Settings")
             .accessibilityHint("Opens the settings screen")
             .accessibilityIdentifier("button.menu.settings")
@@ -80,12 +84,16 @@ struct MainMenuView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .frame(width: 44, height: 44)
             }
+            .buttonStyle(.plain)
             .accessibilityLabel("Shop")
             .accessibilityHint("Opens the in-app shop")
         }
         .padding(.horizontal, AppSpacing.lg)
         .frame(height: 56)
         .background(AppColors.background)
+        // iOS 26: .contain ensures Settings and Shop buttons remain
+        // independently queryable by XCTest inside this HStack.
+        .accessibilityElement(children: .contain)
     }
 
     // MARK: — Scroll content

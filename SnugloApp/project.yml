@@ -17,23 +17,20 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: "18.0"
+    # v1.1 BLOCKER-07 fix: the font/sound dirs used to be EXCLUDED from this
+    # scan and re-added via `resources:` directory entries — but xcodegen
+    # silently dropped resource files living under a source-excluded dir, so NO
+    # .ttf/.caf ever reached the bundle (FontParser "No such file", SoundService
+    # "Missing asset"). Letting the `.` scan include Resources/ lets xcodegen
+    # auto-classify .xcassets/.ttf/.caf into the Copy Resources phase (flat in
+    # the .app root, where UIAppFonts + Bundle.main.url expect them).
     sources:
       - path: .
         excludes:
           - "project.yml"
           - "Info.plist"         # Processed via INFOPLIST_FILE build setting — must not be in Copy Bundle Resources
           - "*.xcodeproj"
-          - "Resources/Sounds"
-          - "Resources/Fonts"    # Fonts are resources, not sources
           - "SnugloAppUITests"   # Faz I-2: exclude UITest bundle from app sources
-    resources:
-      - path: Resources/Sounds
-        buildPhase: resources
-      - path: Resources/Assets.xcassets
-        buildPhase: resources
-      # v1.1: Custom fonts (Plus Jakarta Sans, Be Vietnam Pro, Space Grotesk) — BLOCKER-07
-      - path: Resources/Fonts
-        buildPhase: resources
     dependencies:
       - package: SnugloEngine
         product: SnugloEngine

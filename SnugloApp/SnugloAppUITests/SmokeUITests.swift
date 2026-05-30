@@ -1,10 +1,13 @@
 import XCTest
 
-// MARK: — SmokeUITests (Faz I-2 · updated Faz 2)
+// MARK: — SmokeUITests (Faz I-2 · updated Faz 2 · IOS-100 a11y fix)
 // 6 smoke tests that verify screen reachability via accessibility identifiers.
 //
 // Launch strategy:
-//   Tests 1 & 2 (onboarding flow): -uitest-reset-progress  → first-launch state
+//   Tests 1 & 2 (onboarding flow): -UITestMode -uitest-reset-progress
+//     → uitestmode=true (0ms splash) AND hasOnboarded=false (onboarding shown).
+//     SnugloApp processes -UITestMode first (sets both keys), then -uitest-reset-progress
+//     removes only hasOnboarded. Net: fast launch + onboarding visible.
 //   Tests 3–6  (main-app nav):     -UITestMode              → skip splash/onboarding
 //
 // This mirrors HomeFlowUITests (which use -UITestMode) and avoids unreliable
@@ -17,10 +20,14 @@ final class SmokeUITests: XCTestCase {
     // MARK: — Helpers: launch modes
 
     /// Launch as first-launch (onboarding visible, progress wiped).
+    /// Uses both -UITestMode (0ms splash delay) and -uitest-reset-progress (clears
+    /// hasOnboarded). SnugloApp processes them in order so uitestmode stays true.
     private func launchFirstLaunch() {
         app = XCUIApplication()
         continueAfterFailure = false
-        app.launchArguments = ["-uitest-reset-progress"]
+        // Force English so button labels match en.lproj regardless of device locale.
+        app.launchArguments = ["-UITestMode", "-uitest-reset-progress",
+                               "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
     }
 
@@ -28,7 +35,8 @@ final class SmokeUITests: XCTestCase {
     private func launchMainApp() {
         app = XCUIApplication()
         continueAfterFailure = false
-        app.launchArguments = ["-UITestMode"]
+        // Force English so button labels match en.lproj regardless of device locale.
+        app.launchArguments = ["-UITestMode", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
     }
 
@@ -60,14 +68,23 @@ final class SmokeUITests: XCTestCase {
 
     func test_completeOnboardingToMainMenu() {
         launchFirstLaunch()
-        let skip = app.buttons["button.onboarding.skip"]
-        if skip.waitForExistence(timeout: 20) {
+        // iOS 26: button without .buttonStyle(.plain) may be type .other, not .button.
+        // Use screenElement() (descendants matching any type) to find it reliably.
+        // Timeout is short since UITestMode gives 0ms splash delay.
+        let skip = screenElement("button.onboarding.skip")
+        if skip.waitForExistence(timeout: 8) {
             skip.tap()
+        }
+        // iOS 26: TabView(.page) may render the play tab lazily until an interaction.
+        // Tap tab.play to force MainMenuView into the accessibility tree.
+        let playTab = app.buttons["tab.play"]
+        if playTab.waitForExistence(timeout: 10) {
+            playTab.tap()
         }
         // Verify main menu by finding a reliable interactive button (not a container identifier).
         let dailyPuzzle = app.buttons["button.menu.dailyPuzzle"]
         XCTAssertTrue(
-            dailyPuzzle.waitForExistence(timeout: 20),
+            dailyPuzzle.waitForExistence(timeout: 15),
             "button.menu.dailyPuzzle not found after tapping onboarding skip — main menu did not load"
         )
     }
@@ -98,11 +115,19 @@ final class SmokeUITests: XCTestCase {
 
     func test_navigateToSettings() {
         launchMainApp()
+        // Wait for MainMenuView to be in the accessibility tree before
+        // querying the top-bar gear button. This avoids a race where the
+        // button query runs before the SplashView→MainMenu transition completes.
+        let playTab = app.buttons["tab.play"]
+        _ = playTab.waitForExistence(timeout: 15)
+        playTab.tap()
         // Settings is no longer a tab (Faz 2: Play/Levels/Stats/Shop).
         // Access via gear icon (button.menu.settings) in the Play tab top bar.
-        let settingsButton = app.buttons["button.menu.settings"]
+        // iOS 26: plain Button with Image label may render as .other not .button;
+        // use descendants(matching: .any) via screenElement() to find any element type.
+        let settingsButton = screenElement("button.menu.settings")
         XCTAssertTrue(
-            settingsButton.waitForExistence(timeout: 15),
+            settingsButton.waitForExistence(timeout: 10),
             "button.menu.settings not found — main menu top bar may not have loaded"
         )
         settingsButton.tap()

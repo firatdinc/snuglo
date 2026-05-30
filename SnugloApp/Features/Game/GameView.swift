@@ -53,19 +53,32 @@ struct GameView: View {
     /// Faz 3: shown when a power-up tap fails due to insufficient gems.
     @State private var showInsufficientGemBanner = false
 
-    /// v1.1.1 critical fix: cellSize used to read live `gridFrame`, but
-    /// `trayView` also rendered BlockViews using that value. As gridFrame
-    /// changed, tray heights changed, which changed available height for
-    /// the grid, which changed gridFrame — infinite layout loop (>30k
-    /// body renders/sec → navigation push could never visually complete).
-    ///
-    /// Stable estimate: derive grid width from the SCREEN width minus the
-    /// horizontal padding the grid actually has. This value never reads
-    /// `gridFrame`, so updating it doesn't trigger more layouts.
+    /// v1.1.4 layout: live cell size of the board, derived from the flexible
+    /// board region (see `boardRegion`). The board is a centred square sized to
+    /// the SMALLER of its available width and height, so it always fits between
+    /// the chrome and the fixed-height tray — and because the tray height is a
+    /// constant (never depends on piece count), this value is stable across the
+    /// whole game (no grow/shrink as pieces are placed). 0 until first layout.
+    @State private var boardCellSize: CGFloat = 0
+    /// Whole-screen size from the root GeometryReader (excludes safe area).
+    /// Stable — only changes on rotation — so reading it never triggers the
+    /// layout loop the old `gridFrame`-based sizing was prone to.
+    @State private var availableSize: CGSize = .zero
+
+    /// Width-based fallback used before `boardCellSize` is measured (first
+    /// frame) or if the board region hasn't reported a size yet. Stable —
+    /// reads only the screen width, never `gridFrame`, so it can't drive the
+    /// layout loop the old sizing was prone to.
+    private var fallbackCell: CGFloat {
+        let screenW = availableSize.width > 0 ? availableSize.width : UIScreen.main.bounds.width
+        return max(1, (screenW - AppSpacing.lg * 2) / CGFloat(viewModel.level.width))
+    }
+
+    /// The effective board cell size used everywhere (grid, drag math, tray
+    /// preferred cell, overlay). Falls back to the width estimate until the
+    /// board region measures itself.
     private var cellSize: CGFloat {
-        let screenW = UIScreen.main.bounds.width
-        let estimatedGridWidth = max(0, screenW - AppSpacing.lg * 2)
-        return estimatedGridWidth / CGFloat(viewModel.level.width)
+        boardCellSize > 0 ? boardCellSize : fallbackCell
     }
 
     /// True when the current snap position would result in overlap or OOB.
@@ -73,23 +86,6 @@ struct GameView: View {
     private var snapIsInvalid: Bool {
         guard let coord = snapCoord, let piece = draggingPiece else { return false }
         return viewModel.wouldOverlapOrOOB(pieceID: piece.id, at: coord)
-    }
-
-    /// Dynamic tray content height based on the tallest row at the computed cell size.
-    /// Uses a screen-width estimate (same stable approach as cellSize) to avoid layout loops.
-    private var trayContentHeight: CGFloat {
-        let pieces = viewModel.unplacedPieces
-        guard !pieces.isEmpty else { return AppSpacing.sm * 2 + 44 }
-        let screenW = UIScreen.main.bounds.width
-        // screen margin (lg × 2) + tray horizontal padding (lg × 2)
-        let availableW = max(0, screenW - AppSpacing.lg * 4)
-        let layout = TrayLayout.compute(
-            pieces: pieces,
-            availableWidth: availableW,
-            preferredCellSize: cellSize * 0.6,
-            itemSpacing: AppSpacing.md
-        )
-        return layout.contentHeight + AppSpacing.sm * 2
     }
 
     private func overlayOffset(for piece: Piece) -> CGPoint {
@@ -115,24 +111,39 @@ struct GameView: View {
     // MARK: — Body
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            mainLayout
-            if let piece = draggingPiece {
-                let off = overlayOffset(for: piece)
-                BlockView(
-                    piece: piece, cellSize: cellSize,
-                    isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                    isDragging: true
-                )
-                .offset(x: off.x, y: off.y)
-                .allowsHitTesting(false)
-                .accessibilityHidden(true) // overlay duplicate; original already labelled
+        GeometryReader { rootGeo in
+            ZStack(alignment: .topLeading) {
+                mainLayout
+                if let piece = draggingPiece {
+                    let off = overlayOffset(for: piece)
+                    BlockView(
+                        piece: piece, cellSize: cellSize,
+                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                        isDragging: true
+                    )
+                    .offset(x: off.x, y: off.y)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true) // overlay duplicate; original already labelled
+                }
+            }
+            .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .top)
+            // Stable: rootGeo.size only changes on rotation, never as pieces are
+            // placed, so storing it can't drive a layout loop.
+            .onChange(of: rootGeo.size) { _, newSize in
+                if newSize != availableSize { availableSize = newSize }
+            }
+            .onAppear {
+                if rootGeo.size != availableSize { availableSize = rootGeo.size }
             }
         }
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
         // iOS 17+ replacement for deprecated .navigationBarHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+        // iOS 26: .contain ensures children (including game.grid) remain visible
+        // to XCTest queries. Without it, the plain identifier may trigger iOS 26's
+        // combine behaviour which absorbs children into the container element.
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("screen.game")
         // H-2: Constrain Dynamic Type — grid cells overflow at AX5 sizes
         .dynamicTypeSize(.medium ... .xxxLarge)
@@ -173,18 +184,22 @@ struct GameView: View {
                     } else {
                         resolvedNextId = PackProvider.nextLevelId(after: levelId)
                     }
-                    if let nextId = resolvedNextId {
-                        // Atomic path mutation: replace the top entry so the
-                        // back button still returns to PackDetail/MainMenu,
-                        // not the prior level. Done in one assignment to avoid
-                        // a transient empty-stack frame during the animation.
-                        var newPath = router.path
-                        if !newPath.isEmpty { newPath.removeLast() }
-                        newPath.append(.game(levelID: nextId))
-                        router.path = newPath
-                    } else {
+                    // v1.1.4 bug fix: only navigate when there's a genuinely
+                    // DIFFERENT next level. Re-pushing the current levelId is a
+                    // no-op path mutation (NavigationStack sees no change), so
+                    // the GameView is never recreated and the just-solved board
+                    // stays on screen looking like the "next" level finished
+                    // instantly. In that case (or no next level) pop back.
+                    guard let nextId = resolvedNextId, nextId != levelId else {
                         router.pop()
+                        return
                     }
+                    // Replace the top of the CURRENT TAB's stack (the game
+                    // lives in e.g. playPath, NOT the outer `router.path`).
+                    // Mutating the wrong array was a no-op, which left the
+                    // just-finished board on screen. Back still returns to
+                    // PackDetail / MainMenu.
+                    router.replaceTop(with: .game(levelID: nextId))
                 },
                 onReplay: {
                     viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
@@ -198,6 +213,11 @@ struct GameView: View {
         }
         .onAppear {
             startTimer()
+            // Pre-warm audio + haptics OFF the gesture path so the first piece
+            // drag is instant (was freezing 3–5s while AVAudioSession activated
+            // on the main thread during the gesture → "gesture gate timed out").
+            SoundService.shared.warmUp()
+            HapticService.shared.prepareImpact()
         }
         .onDisappear { timerTask?.cancel() }
         // v1.1.3: confirmation before quitting — preserves in-progress puzzle
@@ -261,84 +281,160 @@ struct GameView: View {
                 .padding(.horizontal, AppSpacing.lg)
             }
 
-            VStack(spacing: AppSpacing.sm) {
-                // Mascot badge — sloth floating above the puzzle grid
-                HStack {
-                    Spacer()
-                    Image("mascot-sloth")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 72, height: 72)
-                        .background(
-                            AppColors.surfaceContainerLowest,
-                            in: RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 0.5)
-                        )
-                        .shadowL1()
-                        .accessibilityHidden(true)
-                    Spacer()
-                }
+            mascotBadge
 
-                // Faz I-2: ZStack is the accessibility element for the puzzle grid.
-                // Canvas (GridView) is accessibility-opaque, so the identifier lives on this
-                // non-Canvas wrapper ZStack instead — XCTest finds it via otherElements.
-                ZStack(alignment: .topLeading) {
-                    GridView(
-                        level: viewModel.level,
-                        placements: viewModel.placements,
-                        invalidPieceIDs: viewModel.invalidPieceIDs,
-                        snapCoord: snapCoord,
-                        snapIsInvalid: snapIsInvalid,
-                        draggingPieceID: draggingPiece?.id
-                    )
-                    // v1.1.1 critical fix: round frame before triggering @State update.
-                    .onGeometryChange(for: CGRect.self) { proxy in
-                        proxy.frame(in: .named("gameLayout"))
-                    } action: { frame in
-                        let rounded = CGRect(
-                            x: frame.origin.x.rounded(),
-                            y: frame.origin.y.rounded(),
-                            width: frame.width.rounded(),
-                            height: frame.height.rounded()
-                        )
-                        if rounded != gridFrame {
-                            gridFrame = rounded
-                        }
-                    }
-
-                    // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
-                    // GeometryReader gets the exact same proposed size as GridView (same ZStack),
-                    // so geo.size.width / level.width matches GridView's internal cell size exactly.
-                    // NOTE: must NOT be gated on `draggingPiece == nil` — removing the handle
-                    // container mid-drag destroys the active gesture's host view so .onEnded
-                    // never fires (the re-drag would freeze). Keep it mounted throughout.
-                    if !viewModel.placements.isEmpty {
-                        GeometryReader { geo in
-                            let cs = geo.size.width / CGFloat(viewModel.level.width)
-                            ForEach(viewModel.level.pieces, id: \.id) { piece in
-                                if let placement = viewModel.placements[piece.id] {
-                                    placedPieceHandle(piece: piece, placement: placement, cs: cs)
-                                }
-                            }
-                        }
-                    }
-                }
-                // Canvas (GridView) is opaque to the accessibility tree.
-                // .ignore makes this ZStack a standalone leaf node — the only way to guarantee
-                // a stable accessibility element when all children are Canvas-based.
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Puzzle grid")
-                .accessibilityIdentifier("game.grid")
-            }
-            .padding(.horizontal, AppSpacing.lg)
-
-            Spacer(minLength: 0)
-            trayView
+            // Board + tray share ONE measured region and are split
+            // proportionally (board ≥ ~58%, tray ≤ ~42%). No chrome-height
+            // estimate, so it can't starve the board on tall-piece levels, and
+            // the tray pieces shrink-to-fit their share (never clipped).
+            boardAndTrayRegion
         }
         .padding(.vertical, AppSpacing.lg)
+        // Pin to the top of the screen so oversized content can never get
+        // vertically centred (which is what clipped the HUD off the top and
+        // the tray off the bottom). With the board sized to fit, nothing
+        // overflows anyway — this is belt-and-braces.
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    // MARK: — Mascot badge
+
+    /// Sloth badge floating above the puzzle grid.
+    private var mascotBadge: some View {
+        Image("mascot-sloth")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 64, height: 64)
+            .background(
+                AppColors.surfaceContainerLowest,
+                in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 0.5)
+            )
+            .shadowL1()
+            .accessibilityHidden(true)
+    }
+
+    // MARK: — Board + tray region (proportional split)
+
+    /// Measures the whole space below the chrome and splits it between the board
+    /// (a centred square, gets the larger share) and the tray (gets ≤ ~42%).
+    /// The split uses only the MEASURED region — no chrome-height guesswork — so
+    /// the board never collapses on tall-piece levels, and the tray pieces are
+    /// shrink-to-fit into their share (see trayFitCell) and so are never clipped.
+    /// All inputs are stable (region size + the full, constant piece set), so
+    /// nothing grows/shrinks as pieces are placed.
+    private var boardAndTrayRegion: some View {
+        GeometryReader { geo in
+            let split = regionSplit(width: geo.size.width, height: geo.size.height)
+            VStack(spacing: AppSpacing.md) {
+                boardSquare
+                    .frame(width: split.boardW, height: split.boardH)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .onAppear { publishBoardCell(split.cell) }
+                    .onChange(of: split.cell) { _, c in publishBoardCell(c) }
+
+                trayBody(contentHeight: split.trayContentH, cell: split.cell)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        }
+    }
+
+    private struct RegionSplit {
+        var boardW: CGFloat
+        var boardH: CGFloat
+        var cell: CGFloat
+        var trayContentH: CGFloat
+    }
+
+    /// Pure split math (testable shape): board square + tray content height that
+    /// together fit the region, with the board favoured and the tray capped.
+    private func regionSplit(width regionW: CGFloat, height regionH: CGFloat) -> RegionSplit {
+        let w = CGFloat(viewModel.level.width)
+        let h = CGFloat(viewModel.level.height)
+        let spacing = AppSpacing.md
+        let trayHeaderH: CGFloat = 30          // header label + xs gap
+        let boardMaxW = max(0, regionW - AppSpacing.lg * 2)
+
+        // Comfortable tray content needed for ALL pieces at a board-relative cell
+        // (constant per level → stable).
+        let approxCell = boardMaxW / max(1, w)
+        let innerTrayW = max(0, regionW - AppSpacing.lg * 4)
+        let neededContent = TrayLayout.compute(
+            pieces: viewModel.level.pieces,
+            availableWidth: innerTrayW,
+            preferredCellSize: approxCell * 0.6,
+            itemSpacing: spacing
+        ).contentHeight + AppSpacing.sm * 2
+
+        let vBudget = max(0, regionH - spacing - trayHeaderH)
+        // Tray gets what it needs but never more than ~42% of the budget — the
+        // board keeps the majority. Shrink-to-fit handles the capped case.
+        let trayContentH = max(0, min(neededContent, vBudget * 0.42))
+        let boardAvailH = max(0, vBudget - trayContentH)
+
+        let boardW = max(0, min(boardMaxW, boardAvailH * (w / h)))
+        let boardH = boardW * (h / w)
+        let cell = w > 0 ? boardW / w : 0
+        return RegionSplit(boardW: boardW, boardH: boardH, cell: cell, trayContentH: trayContentH)
+    }
+
+    private func publishBoardCell(_ c: CGFloat) {
+        guard c > 0, abs(c - boardCellSize) > 0.5 else { return }
+        boardCellSize = c
+    }
+
+    /// The board itself (grid canvas + transparent re-drag handles).
+    private var boardSquare: some View {
+        ZStack(alignment: .topLeading) {
+            GridView(
+                level: viewModel.level,
+                placements: viewModel.placements,
+                invalidPieceIDs: viewModel.invalidPieceIDs,
+                snapCoord: snapCoord,
+                snapIsInvalid: snapIsInvalid,
+                draggingPieceID: draggingPiece?.id
+            )
+            // v1.1.1 critical fix: round frame before triggering @State update.
+            .onGeometryChange(for: CGRect.self) { proxy in
+                proxy.frame(in: .named("gameLayout"))
+            } action: { frame in
+                let rounded = CGRect(
+                    x: frame.origin.x.rounded(),
+                    y: frame.origin.y.rounded(),
+                    width: frame.width.rounded(),
+                    height: frame.height.rounded()
+                )
+                if rounded != gridFrame {
+                    gridFrame = rounded
+                }
+            }
+
+            // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
+            // GeometryReader gets the exact same proposed size as GridView (same ZStack),
+            // so geo.size.width / level.width matches GridView's internal cell size exactly.
+            // NOTE: must NOT be gated on `draggingPiece == nil` — removing the handle
+            // container mid-drag destroys the active gesture's host view so .onEnded
+            // never fires (the re-drag would freeze). Keep it mounted throughout.
+            if !viewModel.placements.isEmpty {
+                GeometryReader { geo in
+                    let cs = geo.size.width / CGFloat(viewModel.level.width)
+                    ForEach(viewModel.level.pieces, id: \.id) { piece in
+                        if let placement = viewModel.placements[piece.id] {
+                            placedPieceHandle(piece: piece, placement: placement, cs: cs)
+                        }
+                    }
+                }
+            }
+        }
+        // iOS 26: identifier on the ZStack wrapper — Canvas (GridView) is
+        // accessibility-opaque, so the identifier must live on an ancestor
+        // with real visual bounds and .ignore semantics.
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Puzzle grid")
+        .accessibilityIdentifier("game.grid")
     }
 
     // MARK: — HUD (Faz 3b: Vibrant Play — pack name + level subtitle, timer pill, white circle buttons)
@@ -454,21 +550,30 @@ struct GameView: View {
 
     // MARK: — Tray
 
-    /// IOS-57: trayView now uses TrayLayout for accurate cell-size computation that
-    /// accounts for BOTH piece width AND height. Tray height is dynamic so tall pieces
-    /// (e.g. 3-row shapes) are never clipped. Multi-row flow layout activates when
-    /// pieces can't fit at minCellSize in a single row.
-    private var trayView: some View {
+    /// Tray with a caller-provided content height (from the region split). Pieces
+    /// are shrink-to-fit into that height (and width) so they're never clipped,
+    /// for any level or piece shape, with no scrolling.
+    private func trayBody(contentHeight: CGFloat, cell: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
             trayHeader
 
             VStack(spacing: 0) {
                 GeometryReader { geo in
                     let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
+                    let innerHeight = max(0, geo.size.height - AppSpacing.sm * 2)
+                    // Fit cell computed against the FULL (constant) piece set so
+                    // the piece size stays stable all game long; render only the
+                    // unplaced subset, which is therefore guaranteed to fit too.
+                    let fitCell = trayFitCell(
+                        pieces: viewModel.level.pieces,
+                        availableWidth: innerWidth,
+                        availableHeight: innerHeight,
+                        cap: cell * 0.6
+                    )
                     let layout = TrayLayout.compute(
                         pieces: viewModel.unplacedPieces,
                         availableWidth: innerWidth,
-                        preferredCellSize: cellSize * 0.6,
+                        preferredCellSize: fitCell,
                         itemSpacing: AppSpacing.md
                     )
                     VStack(alignment: .center, spacing: AppSpacing.md) {
@@ -492,9 +597,8 @@ struct GameView: View {
                     .padding(.vertical, AppSpacing.sm)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 }
-                .frame(height: trayContentHeight)
-
             }
+            .frame(height: max(44, contentHeight))
             .background(AppColors.surfaceContainerLowest)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
             .shadowL1()
@@ -502,6 +606,37 @@ struct GameView: View {
         .padding(.horizontal, AppSpacing.lg)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
+    }
+
+    /// Largest cell size (≤ `cap`) at which ALL `pieces` fit inside the fixed
+    /// tray — both across its width (TrayLayout wraps to rows) and within its
+    /// height (`contentHeight ≤ availableHeight`). Binary search: content height
+    /// is monotonic in cell size (smaller cell ⇒ more pieces per row ⇒ fewer,
+    /// shorter rows), so this converges to the exact largest fitting cell and
+    /// GUARANTEES no piece is ever clipped, for any level or piece shape.
+    private func trayFitCell(
+        pieces: [Piece],
+        availableWidth: CGFloat,
+        availableHeight: CGFloat,
+        cap: CGFloat
+    ) -> CGFloat {
+        guard !pieces.isEmpty, availableWidth > 0, availableHeight > 0 else { return cap }
+        func contentHeight(_ c: CGFloat) -> CGFloat {
+            TrayLayout.compute(
+                pieces: pieces,
+                availableWidth: availableWidth,
+                preferredCellSize: c,
+                itemSpacing: AppSpacing.md
+            ).contentHeight
+        }
+        if contentHeight(cap) <= availableHeight { return cap }
+        var lo: CGFloat = 4   // floor — any real piece fits a tray at 4pt cells
+        var hi = cap
+        for _ in 0..<24 {
+            let mid = (lo + hi) / 2
+            if contentHeight(mid) <= availableHeight { lo = mid } else { hi = mid }
+        }
+        return lo
     }
 
     private var trayHeader: some View {
