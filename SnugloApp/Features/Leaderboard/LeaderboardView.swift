@@ -168,19 +168,23 @@ private struct LeaderboardRow: View {
 
     @ViewBuilder
     private var rankBadge: some View {
+        let rankLabel = String(format: NSLocalizedString("leaderboard.row.rank", comment: ""), entry.rank)
         switch entry.rank {
         case 1:
             Image(systemName: "trophy.fill")
                 .font(.system(size: 20))
                 .foregroundStyle(AppColors.tertiary)
+                .accessibilityLabel(Text(verbatim: rankLabel))
         case 2:
             Image(systemName: "medal.fill")
                 .font(.system(size: 20))
                 .foregroundStyle(AppColors.outline)
+                .accessibilityLabel(Text(verbatim: rankLabel))
         case 3:
             Image(systemName: "medal.fill")
                 .font(.system(size: 20))
                 .foregroundStyle(AppColors.secondary)
+                .accessibilityLabel(Text(verbatim: rankLabel))
         default:
             Text("\(entry.rank)")
                 .font(AppTypography.numericLabel)

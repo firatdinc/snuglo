@@ -15,6 +15,11 @@ final class GameCenterManager: GameCenterServicing {
 
     private(set) var authState: GameCenterAuthState = .idle
 
+    // Bridges authenticateHandler callback to async/await. @ObservationIgnored because
+    // CheckedContinuation is non-Sendable and must not be tracked by the @Observable macro.
+    @ObservationIgnored
+    private var authContinuation: CheckedContinuation<Void, Never>?
+
     private init() {}
 
     // MARK: — Authentication
@@ -24,18 +29,24 @@ final class GameCenterManager: GameCenterServicing {
         if case .authenticating = authState { return }
         authState = .authenticating
 
-        // authenticateHandler fires once immediately (possibly with vc on first run),
-        // then again after any presented UI is dismissed. We only update state, never
-        // present the vc — iOS 17+ handles Game Center sign-in at the system level.
-        GKLocalPlayer.local.authenticateHandler = { [weak self] _, error in
-            Task { @MainActor in
-                guard let self else { return }
-                if let error {
-                    self.authState = .error(error.localizedDescription)
-                } else if GKLocalPlayer.local.isAuthenticated {
-                    self.authState = .signedIn(displayName: GKLocalPlayer.local.displayName)
-                } else {
-                    self.authState = .notSignedIn
+        await withCheckedContinuation { (cont: CheckedContinuation<Void, Never>) in
+            authContinuation = cont
+            // authenticateHandler fires once immediately (possibly with vc on first run),
+            // then again after any presented UI is dismissed. We only update state, never
+            // present the vc — iOS 17+ handles Game Center sign-in at the system level.
+            GKLocalPlayer.local.authenticateHandler = { [weak self] _, error in
+                Task { @MainActor in
+                    guard let self else { return }
+                    if let error {
+                        self.authState = .error(error.localizedDescription)
+                    } else if GKLocalPlayer.local.isAuthenticated {
+                        self.authState = .signedIn(displayName: GKLocalPlayer.local.displayName)
+                    } else {
+                        self.authState = .notSignedIn
+                    }
+                    // Resume exactly once; nil-out prevents double-resume on subsequent handler fires.
+                    self.authContinuation?.resume()
+                    self.authContinuation = nil
                 }
             }
         }

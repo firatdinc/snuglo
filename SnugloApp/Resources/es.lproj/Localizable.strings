@@ -206,6 +206,7 @@
 "leaderboard.error.title"        = "No se pudo cargar";
 "leaderboard.error.body"         = "Hubo un problema al obtener la clasificación.";
 "leaderboard.sample"             = "(Muestra)";
+"leaderboard.row.rank"           = "Puesto %d";
 
 // MARK: — Faz 2: Kit de componentes
 "common.viewAll"       = "Ver todo";

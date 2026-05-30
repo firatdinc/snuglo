@@ -206,6 +206,7 @@
 "leaderboard.error.title"        = "Yüklenemedi";
 "leaderboard.error.body"         = "Liderlik tablosu alınırken bir sorun oluştu.";
 "leaderboard.sample"             = "(Örnek)";
+"leaderboard.row.rank"           = "Sıra %d";
 
 // MARK: — Faz 2: Bileşen kiti
 "common.viewAll"       = "Tümünü gör";

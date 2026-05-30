@@ -206,6 +206,7 @@
 "leaderboard.error.title"        = "Couldn't Load";
 "leaderboard.error.body"         = "There was a problem fetching the leaderboard.";
 "leaderboard.sample"             = "(Sample)";
+"leaderboard.row.rank"           = "Rank %d";
 
 // MARK: — Faz 2: Component kit
 "common.viewAll"       = "View All";

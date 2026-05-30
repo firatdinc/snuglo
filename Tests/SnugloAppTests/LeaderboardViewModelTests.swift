@@ -139,4 +139,20 @@ struct LeaderboardViewModelTests {
         let fastestScores = vm.fallbackEntries.map(\.score)
         #expect(totalScores != fastestScores)
     }
+
+    @Test func fallbackEntries_totalLevels_scoresSortedDescending() {
+        let vm = LeaderboardViewModel(gameCenter: MockGCForVM(), progress: makeProgress())
+        vm.selectedBoard = LeaderboardID.totalLevels
+        let scores = vm.fallbackEntries.map(\.score)
+        let isSorted = zip(scores, scores.dropFirst()).allSatisfy { $0 >= $1 }
+        #expect(isSorted)
+    }
+
+    @Test func fallbackEntries_bestStreak_scoresSortedDescending() {
+        let vm = LeaderboardViewModel(gameCenter: MockGCForVM(), progress: makeProgress())
+        vm.selectedBoard = LeaderboardID.bestStreak
+        let scores = vm.fallbackEntries.map(\.score)
+        let isSorted = zip(scores, scores.dropFirst()).allSatisfy { $0 >= $1 }
+        #expect(isSorted)
+    }
 }
