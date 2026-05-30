@@ -50,6 +50,7 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+        CODE_SIGN_ENTITLEMENTS: $(SRCROOT)/SnugloApp.entitlements
 
   SnugloAppTests:
     type: bundle.unit-test

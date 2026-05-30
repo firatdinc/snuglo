@@ -3,6 +3,24 @@
 ---
 
 ## [Unreleased]
+
+### Faz 5: Game Center / Liderlik (IOS-93)
+- **GameCenterServicing.swift** (yeni — `Core/GameCenter/`): `enum GameCenterAuthState` (idle/authenticating/signedIn(displayName)/notSignedIn/error), `struct GameCenterEntry: Identifiable, Equatable` (6 alan), `@MainActor protocol GameCenterServicing: AnyObject, Observable` (authenticate/submit/loadEntries).
+- **LeaderboardID.swift** (yeni — `Core/GameCenter/`): 3 statik ID sabiti — `snuglo.total.levels`, `snuglo.fastest.solve`, `snuglo.best.streak`. ASC yapılandırması için `all: [String]` dizisi.
+- **GameCenterScoreMapper.swift** (yeni — `Core/GameCenter/`): Saf mapping fonksiyonları — `totalLevels(completedCount:)`, `fastestSolveMs(fromBestTimes:)`, `bestStreak(_:)`. GameKit importu yok; tam birim test edilebilir.
+- **GameCenterManager.swift** (yeni — `Core/GameCenter/`): `@Observable @MainActor final class`, `GameCenterServicing` uygulaması. `authenticateHandler` callback pattern (async eşdeğeri yok). `GKLeaderboard.submitScore` + `loadEntries` async/await iOS 14+ API. Yerel oyuncu üst aralık dışındaysa ekleniyor.
+- **LeaderboardViewModel.swift** (yeni — `Features/Leaderboard/`): `enum LeaderboardLoadState: Equatable` (5 case). `load()` async: idle ise authenticate, authState'e göre GC veya not-signed-in/error. `fallbackEntries`: 4 simüle oyuncu + yerel oyuncu, board sıralamasına göre sıralı, 1-bazlı yeniden sıralama.
+- **LeaderboardView.swift** (yer tutucu → tam uygulama): Segmented board picker (3 board). 5 durum render: loading (ProgressView), loaded (LazyVStack+LeaderboardRow), empty (CardSurface), notSignedIn (AnnouncementBanner + simülasyon listesi), error (AnnouncementBanner + retry). LeaderboardRow: #1 trophy.fill/tertiary, #2 medal.fill/outline, #3 medal.fill/secondary, 4+ metin badge; isLocalPlayer mavi border; isSimulated "(Sample)" etiketi; fastestSolve mm:ss format. Accessibility ID'ler: `leaderboard.board.picker`, `leaderboard.row.<i>`, `button.leaderboard.signin`, `button.leaderboard.refresh`.
+- **GameViewModel.swift** (genişletme): `gameCenter: any GameCenterServicing = GameCenterManager.shared` DI. `submitScores()` private — `persistProgress()` sonrasında `Task {}` içinde 3 board için `try? await gc.submit(...)`.
+- **SnugloApp.entitlements** (yeni): `com.apple.developer.game-center: true`.
+- **project.yml**: `CODE_SIGN_ENTITLEMENTS: $(SRCROOT)/SnugloApp.entitlements` eklendi.
+- **Localizable.strings** (en/tr/es): 11 yeni anahtar — `leaderboard.board.*`, `leaderboard.empty.*`, `leaderboard.notSignedIn.*`, `leaderboard.error.*`, `leaderboard.sample`.
+- **Testler**: `GameCenterScoreMapperTests` (11 test), `GameCenterManagerTests` (6 test, MockGameCenterService), `LeaderboardViewModelTests` (11 test, MockGCForVM). Toplam ~188 test, 0 SwiftLint violation.
+- **ASC Manual Setup** (App Store Connect — geliştirici tarafından yapılmalı): Leaderboards → New Leaderboard × 3:
+  - ID: `snuglo.total.levels` · Score format: Integer ascending · Score range: 0..∞
+  - ID: `snuglo.fastest.solve` · Score format: Integer ascending (ms) · Lower is better
+  - ID: `snuglo.best.streak` · Score format: Integer ascending · Score range: 0..∞
+
 ### Faz 4: Shop yenileme (IOS-91)
 - **StoreOffer.swift** (yeni — `Core/Shop/`): `enum DealAction` (`.watchAd(earn:amount:)` / `.spend(from:cost:earn:amount:)`), `struct DailyDeal: Identifiable` (id/titleKey/messageKey/sfSymbol/action), `struct CurrencyPack: Identifiable`. 5 hardcoded daily deal + 4 ad-reward currency pack.
 - **DailyDealRotator.swift** (yeni — `Core/Shop/`): Pure `struct` — `static func deal(forDate:calendar:offers:) -> DailyDeal?`. Deterministik hash: `abs(year×366 + month×31 + day) % offers.count`. Aynı calendar day → aynı deal.

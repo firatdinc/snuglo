@@ -194,6 +194,19 @@
 "leaderboard.placeholder.title" = "Próximamente en la Fase 5";
 "leaderboard.placeholder.body"  = "¡Las clasificaciones y logros están en camino!";
 
+// MARK: — Clasificación (Faz 5: implementación completa)
+"leaderboard.board.totalLevels"  = "Total de Niveles";
+"leaderboard.board.fastestSolve" = "Resolución más rápida";
+"leaderboard.board.bestStreak"   = "Mejor racha";
+"leaderboard.empty.title"        = "Aún sin entradas";
+"leaderboard.empty.body"         = "Completa algunos niveles para aparecer en la clasificación.";
+"leaderboard.notSignedIn.title"  = "Se requiere Game Center";
+"leaderboard.notSignedIn.body"   = "Inicia sesión en Game Center en los Ajustes de iOS para ver las clasificaciones globales.";
+"leaderboard.notSignedIn.cta"    = "Abrir ajustes";
+"leaderboard.error.title"        = "No se pudo cargar";
+"leaderboard.error.body"         = "Hubo un problema al obtener la clasificación.";
+"leaderboard.sample"             = "(Muestra)";
+
 // MARK: — Faz 2: Kit de componentes
 "common.viewAll"       = "Ver todo";
 "announcement.dismiss" = "Cerrar";

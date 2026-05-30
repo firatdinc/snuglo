@@ -194,6 +194,19 @@
 "leaderboard.placeholder.title" = "Coming in Phase 5";
 "leaderboard.placeholder.body"  = "Rankings and achievements are on their way!";
 
+// MARK: — Leaderboard (Faz 5: full implementation)
+"leaderboard.board.totalLevels"  = "Total Levels";
+"leaderboard.board.fastestSolve" = "Fastest Solve";
+"leaderboard.board.bestStreak"   = "Best Streak";
+"leaderboard.empty.title"        = "No Entries Yet";
+"leaderboard.empty.body"         = "Complete some levels to appear on the leaderboard.";
+"leaderboard.notSignedIn.title"  = "Game Center Required";
+"leaderboard.notSignedIn.body"   = "Sign in to Game Center in iOS Settings to view global rankings.";
+"leaderboard.notSignedIn.cta"    = "Open Settings";
+"leaderboard.error.title"        = "Couldn't Load";
+"leaderboard.error.body"         = "There was a problem fetching the leaderboard.";
+"leaderboard.sample"             = "(Sample)";
+
 // MARK: — Faz 2: Component kit
 "common.viewAll"       = "View All";
 "announcement.dismiss" = "Dismiss";

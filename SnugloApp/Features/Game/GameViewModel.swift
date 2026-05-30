@@ -61,12 +61,14 @@ final class GameViewModel {
 
     // MARK: - Private
     private let checker = SolutionChecker()
+    private let gameCenter: any GameCenterServicing
 
     // MARK: - Init
 
-    init(level: Level) {
+    init(level: Level, gameCenter: any GameCenterServicing = GameCenterManager.shared) {
         self.level = level
         self.startTime = Date()
+        self.gameCenter = gameCenter
     }
 
     /// Load from SnugloEngine bundle. Throws LevelLoader.LoaderError on failure.
@@ -332,14 +334,33 @@ final class GameViewModel {
 
     // MARK: - Persistence
 
-    /// Called on solve. Writes level + daily progress to ProgressStore.
+    /// Called on solve. Writes level + daily progress to ProgressStore, then submits GC scores.
     private func persistProgress() {
         let timeTaken = Date().timeIntervalSince(startTime)
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
         ProgressStore.shared.markCompleted(levelId: level.id, stars: stars, time: timeTaken)
-        // Daily puzzle has id format "daily-0"
         if level.id.hasPrefix("daily") {
             ProgressStore.shared.markDailySolved(date: Date(), time: timeTaken)
+        }
+        submitScores()
+    }
+
+    private func submitScores() {
+        let gc = gameCenter
+        Task {
+            let progress = ProgressStore.shared
+            let totalLevels = GameCenterScoreMapper.totalLevels(
+                completedCount: progress.totalLevelsCompleted()
+            )
+            let bestTimes = progress.levelProgress.values.compactMap(\.bestTime)
+            let fastestMs = GameCenterScoreMapper.fastestSolveMs(fromBestTimes: bestTimes)
+            let streak = GameCenterScoreMapper.bestStreak(progress.longestStreak)
+
+            try? await gc.submit(score: totalLevels, leaderboardID: LeaderboardID.totalLevels)
+            if let ms = fastestMs {
+                try? await gc.submit(score: ms, leaderboardID: LeaderboardID.fastestSolve)
+            }
+            try? await gc.submit(score: streak, leaderboardID: LeaderboardID.bestStreak)
         }
     }
 

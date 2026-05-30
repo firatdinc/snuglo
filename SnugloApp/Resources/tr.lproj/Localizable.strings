@@ -194,6 +194,19 @@
 "leaderboard.placeholder.title" = "Faz 5'te Geliyor";
 "leaderboard.placeholder.body"  = "Sıralamalar ve başarılar çok yakında!";
 
+// MARK: — Liderlik tablosu (Faz 5: tam uygulama)
+"leaderboard.board.totalLevels"  = "Toplam Seviye";
+"leaderboard.board.fastestSolve" = "En Hızlı Çözüm";
+"leaderboard.board.bestStreak"   = "En İyi Seri";
+"leaderboard.empty.title"        = "Henüz Giriş Yok";
+"leaderboard.empty.body"         = "Liderlik tablosunda görünmek için birkaç seviye tamamla.";
+"leaderboard.notSignedIn.title"  = "Game Center Gerekli";
+"leaderboard.notSignedIn.body"   = "Global sıralamaları görmek için iOS Ayarlar'dan Game Center'a giriş yap.";
+"leaderboard.notSignedIn.cta"    = "Ayarları Aç";
+"leaderboard.error.title"        = "Yüklenemedi";
+"leaderboard.error.body"         = "Liderlik tablosu alınırken bir sorun oluştu.";
+"leaderboard.sample"             = "(Örnek)";
+
 // MARK: — Faz 2: Bileşen kiti
 "common.viewAll"       = "Tümünü gör";
 "announcement.dismiss" = "Kapat";
