@@ -53,6 +53,11 @@ final class GameViewModel {
     /// Count of successful placements this session (tray drops, re-drags, hints).
     private(set) var moveCount: Int = 0
 
+    // MARK: - Achievement tracking
+
+    /// Achievements newly unlocked upon solving this level.
+    private(set) var newlyUnlockedAchievements: [Achievement] = []
+
     // MARK: - PowerUp history
 
     /// Ordered list of successful placements — supports PowerUp.undo.
@@ -334,14 +339,20 @@ final class GameViewModel {
 
     // MARK: - Persistence
 
-    /// Called on solve. Writes level + daily progress to ProgressStore, then submits GC scores.
+    /// Called on solve. Writes level + daily progress to ProgressStore, evaluates achievements,
+    /// then submits GC scores.
     private func persistProgress() {
         let timeTaken = Date().timeIntervalSince(startTime)
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
-        ProgressStore.shared.markCompleted(levelId: level.id, stars: stars, time: timeTaken)
+        let progress = ProgressStore.shared
+        progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
         if level.id.hasPrefix("daily") {
-            ProgressStore.shared.markDailySolved(date: Date(), time: timeTaken)
+            progress.markDailySolved(date: Date(), time: timeTaken)
         }
+        let stats = AchievementStats(from: progress)
+        newlyUnlockedAchievements = AchievementsStore.shared.evaluate(
+            stats: stats, wallet: WalletStore.shared
+        )
         submitScores()
     }
 

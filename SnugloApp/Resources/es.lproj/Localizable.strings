@@ -259,3 +259,52 @@
 "shop.iap.purchase.success.message"  = "Tus artículos han sido añadidos a tu cuenta.";
 
 "shop.ad.unavailable" = "Anuncio no disponible";
+
+// MARK: — Faz 6: Perfil
+"profile.identity.title"           = "Jugador";
+"profile.premium.active"           = "Premium Activo";
+"profile.premium.upgrade.title"    = "Hazte Premium";
+"profile.premium.upgrade.subtitle" = "Elimina los anuncios y desbloquea bonificaciones";
+"profile.link.achievements"        = "Logros";
+"profile.link.bestScores"          = "Mejores Puntuaciones";
+"profile.link.dailyReward"         = "Recompensa Diaria";
+"profile.link.stats"               = "Estadísticas";
+"profile.settings.title"           = "Ajustes";
+"common.upgrade"                   = "Mejorar";
+
+// MARK: — Faz 6: Recompensa Diaria
+"dailyReward.title"            = "Recompensa Diaria";
+"dailyReward.claim.cta"        = "Reclamar Recompensa de Hoy";
+"dailyReward.claim.disabled"   = "Vuelve Mañana";
+"dailyReward.success.title"    = "¡Recompensa Reclamada!";
+"dailyReward.success.subtitle" = "Hasta mañana";
+"dailyReward.day"              = "Día %d";
+"dailyReward.premium.bonus"    = "Bono Premium";
+
+// MARK: — Faz 6: Logros
+"achievements.title"                    = "Logros";
+"achievement.category.levels"           = "Niveles";
+"achievement.category.streak"           = "Rachas";
+"achievement.category.skill"            = "Habilidades";
+"achievement.locked.label"              = "Bloqueado";
+"achievement.unlocked.banner.title"     = "¡Logro Desbloqueado!";
+"achievement.firstSteps.title"          = "Primeros Pasos";
+"achievement.firstSteps.description"    = "Completa tu primer nivel";
+"achievement.levelHunter10.title"       = "Cazador de Niveles";
+"achievement.levelHunter10.description" = "Completa 10 niveles";
+"achievement.levelMaster50.title"       = "Maestro de Niveles";
+"achievement.levelMaster50.description" = "Completa 50 niveles";
+"achievement.perfectionist1.title"          = "Perfeccionista";
+"achievement.perfectionist1.description"    = "Consigue 3 estrellas en un nivel";
+"achievement.perfectionistPro10.title"      = "Perfeccionista Pro";
+"achievement.perfectionistPro10.description" = "Consigue 3 estrellas en 10 niveles";
+"achievement.streak3.title"          = "Racha Ardiente";
+"achievement.streak3.description"    = "Mantén una racha de 3 días";
+"achievement.streak7.title"          = "Maestro de Rachas";
+"achievement.streak7.description"    = "Mantén una racha de 7 días";
+"achievement.streak30.title"         = "Imparable";
+"achievement.streak30.description"   = "Mantén una racha de 30 días";
+"achievement.noHints10.title"        = "Sin Ayuda";
+"achievement.noHints10.description"  = "Completa 10 niveles sin pistas";
+"achievement.speedSolver.title"      = "Solucionador Rápido";
+"achievement.speedSolver.description" = "Resuelve un nivel en menos de 30 segundos";

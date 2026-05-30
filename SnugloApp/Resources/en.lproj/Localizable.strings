@@ -259,3 +259,52 @@
 "shop.iap.purchase.success.message" = "Your items have been added to your account.";
 
 "shop.ad.unavailable" = "Ad not available";
+
+// MARK: — Faz 6: Profile
+"profile.identity.title"          = "Player";
+"profile.premium.active"          = "Premium Active";
+"profile.premium.upgrade.title"   = "Go Premium";
+"profile.premium.upgrade.subtitle" = "Remove ads and unlock bonuses";
+"profile.link.achievements"       = "Achievements";
+"profile.link.bestScores"         = "Best Scores";
+"profile.link.dailyReward"        = "Daily Reward";
+"profile.link.stats"              = "Stats";
+"profile.settings.title"          = "Settings";
+"common.upgrade"                  = "Upgrade";
+
+// MARK: — Faz 6: Daily Reward
+"dailyReward.title"           = "Daily Reward";
+"dailyReward.claim.cta"       = "Claim Today's Reward";
+"dailyReward.claim.disabled"  = "Come Back Tomorrow";
+"dailyReward.success.title"   = "Reward Claimed!";
+"dailyReward.success.subtitle" = "See you tomorrow";
+"dailyReward.day"             = "Day %d";
+"dailyReward.premium.bonus"   = "Premium Bonus";
+
+// MARK: — Faz 6: Achievements
+"achievements.title"                    = "Achievements";
+"achievement.category.levels"           = "Levels";
+"achievement.category.streak"           = "Streaks";
+"achievement.category.skill"            = "Skills";
+"achievement.locked.label"              = "Locked";
+"achievement.unlocked.banner.title"     = "Achievement Unlocked!";
+"achievement.firstSteps.title"          = "First Steps";
+"achievement.firstSteps.description"    = "Complete your first level";
+"achievement.levelHunter10.title"       = "Level Hunter";
+"achievement.levelHunter10.description" = "Complete 10 levels";
+"achievement.levelMaster50.title"       = "Level Master";
+"achievement.levelMaster50.description" = "Complete 50 levels";
+"achievement.perfectionist1.title"          = "Perfectionist";
+"achievement.perfectionist1.description"    = "Earn 3 stars on a level";
+"achievement.perfectionistPro10.title"      = "Perfectionist Pro";
+"achievement.perfectionistPro10.description" = "Earn 3 stars on 10 levels";
+"achievement.streak3.title"          = "Hot Streak";
+"achievement.streak3.description"    = "Maintain a 3-day streak";
+"achievement.streak7.title"          = "Streak Master";
+"achievement.streak7.description"    = "Maintain a 7-day streak";
+"achievement.streak30.title"         = "Unstoppable";
+"achievement.streak30.description"   = "Maintain a 30-day streak";
+"achievement.noHints10.title"        = "No Help Needed";
+"achievement.noHints10.description"  = "Complete 10 levels without hints";
+"achievement.speedSolver.title"      = "Speed Solver";
+"achievement.speedSolver.description" = "Solve a level in under 30 seconds";

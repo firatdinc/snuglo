@@ -77,6 +77,10 @@ struct RootView: View {
             SettingsView()
         case .shop:
             ShopView()
+        case .achievements:
+            AchievementsView()
+        case .dailyReward:
+            DailyRewardView()
         case .mainMenu:
             EmptyView()
         }

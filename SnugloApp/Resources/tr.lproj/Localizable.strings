@@ -259,3 +259,52 @@
 "shop.iap.purchase.success.message"  = "Öğeleriniz hesabınıza eklendi.";
 
 "shop.ad.unavailable" = "Reklam mevcut değil";
+
+// MARK: — Faz 6: Profil
+"profile.identity.title"           = "Oyuncu";
+"profile.premium.active"           = "Premium Aktif";
+"profile.premium.upgrade.title"    = "Premium'a Yükselt";
+"profile.premium.upgrade.subtitle" = "Reklamları kaldır ve bonusların kilidini aç";
+"profile.link.achievements"        = "Başarımlar";
+"profile.link.bestScores"          = "En İyi Skorlar";
+"profile.link.dailyReward"         = "Günlük Ödül";
+"profile.link.stats"               = "İstatistikler";
+"profile.settings.title"           = "Ayarlar";
+"common.upgrade"                   = "Yükselt";
+
+// MARK: — Faz 6: Günlük Ödül
+"dailyReward.title"            = "Günlük Ödül";
+"dailyReward.claim.cta"        = "Bugünün Ödülünü Al";
+"dailyReward.claim.disabled"   = "Yarın Geri Gel";
+"dailyReward.success.title"    = "Ödül Alındı!";
+"dailyReward.success.subtitle" = "Yarın görüşürüz";
+"dailyReward.day"              = "Gün %d";
+"dailyReward.premium.bonus"    = "Premium Bonusu";
+
+// MARK: — Faz 6: Başarımlar
+"achievements.title"                    = "Başarımlar";
+"achievement.category.levels"           = "Seviyeler";
+"achievement.category.streak"           = "Seriler";
+"achievement.category.skill"            = "Beceriler";
+"achievement.locked.label"              = "Kilitli";
+"achievement.unlocked.banner.title"     = "Başarım Açıldı!";
+"achievement.firstSteps.title"          = "İlk Adımlar";
+"achievement.firstSteps.description"    = "İlk seviyeni tamamla";
+"achievement.levelHunter10.title"       = "Seviye Avcısı";
+"achievement.levelHunter10.description" = "10 seviye tamamla";
+"achievement.levelMaster50.title"       = "Seviye Ustası";
+"achievement.levelMaster50.description" = "50 seviye tamamla";
+"achievement.perfectionist1.title"          = "Mükemmeliyetçi";
+"achievement.perfectionist1.description"    = "Bir seviyede 3 yıldız kazan";
+"achievement.perfectionistPro10.title"      = "Mükemmeliyetçi Pro";
+"achievement.perfectionistPro10.description" = "10 seviyede 3 yıldız kazan";
+"achievement.streak3.title"          = "Ateşli Seri";
+"achievement.streak3.description"    = "3 günlük seri kur";
+"achievement.streak7.title"          = "Seri Ustası";
+"achievement.streak7.description"    = "7 günlük seri kur";
+"achievement.streak30.title"         = "Durdurulamaz";
+"achievement.streak30.description"   = "30 günlük seri kur";
+"achievement.noHints10.title"        = "Yardıma Gerek Yok";
+"achievement.noHints10.description"  = "İpucu kullanmadan 10 seviye tamamla";
+"achievement.speedSolver.title"      = "Hız Çözücü";
+"achievement.speedSolver.description" = "Bir seviyeyi 30 saniyenin altında çöz";

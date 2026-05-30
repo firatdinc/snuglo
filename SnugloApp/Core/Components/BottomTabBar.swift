@@ -141,6 +141,10 @@ struct RootTabView: View {
             ShopView()
         case .levelsList:
             LevelsListView(packId: "")
+        case .achievements:
+            AchievementsView()
+        case .dailyReward:
+            DailyRewardView()
         case .mainMenu, .onboarding:
             EmptyView()
         }

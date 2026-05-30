@@ -13,6 +13,8 @@ enum Route: Hashable {
     case levelsList
     case settings
     case shop
+    case achievements
+    case dailyReward
 }
 
 // MARK: — AppTab

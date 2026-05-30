@@ -4,6 +4,24 @@
 
 ## [Unreleased]
 
+### Faz 6: Profil / Günlük Ödül / Başarımlar (IOS-95)
+- **DailyRewardCalculator.swift** (yeni — `Core/Daily/`): Saf `struct`. `reward(forDay:isPremium:) -> [Currency: Int]`. 7 günlük tablo: gün 1 50 coin, gün 3 1 gem, gün 7 5 gem + 1 cup. Premium bonus üstüne eklenir.
+- **ProgressStore.swift** (genişletme — Snapshot v2): `LevelProgress.bestHintsUsed: Int? = nil` (backward-compat Optional). `lastClaimedDate: Date?` + `lastClaimedDay: Int` Snapshot'a eklendi; custom `init(from:)` `decodeIfPresent ?? default` ile geriye dönük uyumlu. `canClaimDailyReward: Bool` (today-check). `claimDailyReward(now:isPremium:wallet:)` (gap > 1 gün → döngü sıfırlama). `markCompleted(hintsUsed: Int = 0)` yeni parametre (varsayılan 0 — mevcut çağrı alanları değişmez).
+- **Achievement.swift** (yeni — `Core/Achievements/`): `enum AchievementCategory` (levels/streak/skill). `enum Achievement: String, CaseIterable, Codable, Identifiable` — 10 case; `sfSymbol`, `reward: [Currency: Int]`, `category`.
+- **AchievementStats.swift** (yeni — `Core/Achievements/`): Pure value type. `currentStreak` ← `longestStreak` (başarım kilidi streak kopsa da kalır). `fastestSolveSeconds: Int?` en kısa `bestTime` alanından.
+- **AchievementRules.swift** (yeni — `Core/Achievements/`): Tamamen saf, yan etkisiz değerlendirici. 10 case switch.
+- **AchievementsStore.swift** (yeni — `Core/Persistence/`): `@Observable @MainActor`. `evaluate(stats:wallet:) -> [Achievement]` idempotent. Kilidi açılan başarımlar için `wallet.earn` çağrısı. JSON Snapshot; `reset()`.
+- **AchievementsViewModel.swift** (yeni — `Features/Achievements/`): `overallProgress`, `unlockedCount`, `totalCount`, `achievements(for:)`.
+- **DailyRewardViewModel.swift** (yeni — `Features/DailyReward/`): `canClaim`, `currentDay`, `lastClaimedReward`, `showBanner`. `claim()` → `progress.claimDailyReward` → `achievements.evaluate` → 2.5 sn sonra banner gizle.
+- **ProfileView.swift** (yeniden yazıldı): Kimlik kartı (GC adı veya yerel fallback + cup chip). Premium durum kartı (`StoreManager.adsRemoved`). Hızlı bağlantılar (Başarımlar/En İyi Skorlar/Günlük Ödül/İstatistikler). Ayarlar satırı (backward-compat `router.selectTab(.settings)` korundu).
+- **DailyRewardView.swift** (yeni — `Features/DailyReward/`): 7 hücreli yatay strip + talep butonu + 2.5 sn otomatik kapanan banner.
+- **AchievementsView.swift** (yeni — `Features/Achievements/`): 2 sütunlu `LazyVGrid`, kategori başlıklarıyla. Kilitli = opacity 0.55 + lock overlay. Sheet detay (açıklama + ödül + ProgressPill).
+- **AppRouter.swift** (genişletme): `Route.achievements` + `Route.dailyReward` eklendi.
+- **BottomTabBar.swift** (genişletme): `tabDestination` switch'e 2 yeni case eklendi.
+- **GameViewModel.swift** (genişletme): `newlyUnlockedAchievements: [Achievement]`. `persistProgress()`: `markCompleted(hintsUsed:)` çağrısı güncellendi + `AchievementsStore.shared.evaluate` hook.
+- **Localizable.strings** (en/tr/es): ~42 yeni anahtar — profil (9), günlük ödül (7), başarımlar (26).
+- **Testler**: `DailyRewardCalculatorTests` (14), `ProgressStoreDailyClaimTests` (4), `AchievementRulesTests` (28), `AchievementsStoreTests` (4). Toplam ~237 test, 0 SwiftLint violation.
+
 ### Faz 5: Game Center / Liderlik (IOS-93)
 - **GameCenterServicing.swift** (yeni — `Core/GameCenter/`): `enum GameCenterAuthState` (idle/authenticating/signedIn(displayName)/notSignedIn/error), `struct GameCenterEntry: Identifiable, Equatable` (6 alan), `@MainActor protocol GameCenterServicing: AnyObject, Observable` (authenticate/submit/loadEntries).
 - **LeaderboardID.swift** (yeni — `Core/GameCenter/`): 3 statik ID sabiti — `snuglo.total.levels`, `snuglo.fastest.solve`, `snuglo.best.streak`. ASC yapılandırması için `all: [String]` dizisi.

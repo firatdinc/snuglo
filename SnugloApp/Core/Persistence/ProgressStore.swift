@@ -21,6 +21,7 @@ final class ProgressStore {
         var stars: Int          // 0..3
         var bestTime: TimeInterval?
         var completedAt: Date?
+        var bestHintsUsed: Int?
     }
 
     struct DailyPuzzleResult: Codable, Hashable {
@@ -38,6 +39,8 @@ final class ProgressStore {
     /// Kalan hint sayısı. Consumable IAP (com.snuglo.hints.small) satın alındığında +10.
     /// Faz G-1: persist edilir; GameView'da hint kullanımı Faz H'de hook'lanır.
     private(set) var hintCount: Int = 0
+    private(set) var lastClaimedDate: Date?
+    private(set) var lastClaimedDay: Int = 0
 
     // MARK: - Private
 
@@ -55,13 +58,14 @@ final class ProgressStore {
 
     // MARK: - Public API
 
-    /// Mark a level as solved. Keeps best stars + best time.
-    func markCompleted(levelId: String, stars: Int, time: TimeInterval) {
+    /// Mark a level as solved. Keeps best stars + best time + best (lowest) hints used.
+    func markCompleted(levelId: String, stars: Int, time: TimeInterval, hintsUsed: Int = 0) {
         var prog = levelProgress[levelId]
             ?? LevelProgress(isCompleted: false, stars: 0, bestTime: nil, completedAt: nil)
         prog.isCompleted = true
         prog.stars = max(prog.stars, stars)
         if prog.bestTime == nil || time < prog.bestTime! { prog.bestTime = time }
+        if prog.bestHintsUsed == nil || hintsUsed < prog.bestHintsUsed! { prog.bestHintsUsed = hintsUsed }
         prog.completedAt = Date()
         levelProgress[levelId] = prog
         save()
@@ -153,35 +157,45 @@ final class ProgressStore {
         var longestStreak: Int
         /// hintCount Faz G-1'de eklendi; eski snapshot'larda yoksa 0 kullan.
         var hintCount: Int
+        /// lastClaimedDate / lastClaimedDay Faz 6'da eklendi; eski snapshot'larda yoksa nil/0.
+        var lastClaimedDate: Date?
+        var lastClaimedDay: Int
 
         // Explicit memberwise init (custom init(from:) suppresses synthesis).
         init(levelProgress: [String: LevelProgress], dailyResults: [DailyPuzzleResult],
-             currentStreak: Int, longestStreak: Int, hintCount: Int) {
-            self.levelProgress = levelProgress
-            self.dailyResults  = dailyResults
-            self.currentStreak = currentStreak
-            self.longestStreak = longestStreak
-            self.hintCount     = hintCount
+             currentStreak: Int, longestStreak: Int, hintCount: Int,
+             lastClaimedDate: Date?, lastClaimedDay: Int) {
+            self.levelProgress   = levelProgress
+            self.dailyResults    = dailyResults
+            self.currentStreak   = currentStreak
+            self.longestStreak   = longestStreak
+            self.hintCount       = hintCount
+            self.lastClaimedDate = lastClaimedDate
+            self.lastClaimedDay  = lastClaimedDay
         }
 
-        // Custom decoder: hintCount is optional in persisted JSON (added Faz G-1;
-        // absent in snapshots written by earlier builds).
+        // Custom decoder: hintCount added Faz G-1; lastClaimedDate/Day added Faz 6.
+        // Both absent in snapshots written by earlier builds → use defaults.
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            levelProgress = try container.decode([String: LevelProgress].self, forKey: .levelProgress)
-            dailyResults  = try container.decode([DailyPuzzleResult].self, forKey: .dailyResults)
-            currentStreak = try container.decode(Int.self, forKey: .currentStreak)
-            longestStreak = try container.decode(Int.self, forKey: .longestStreak)
-            hintCount     = try container.decodeIfPresent(Int.self, forKey: .hintCount) ?? 0
+            levelProgress    = try container.decode([String: LevelProgress].self, forKey: .levelProgress)
+            dailyResults     = try container.decode([DailyPuzzleResult].self, forKey: .dailyResults)
+            currentStreak    = try container.decode(Int.self, forKey: .currentStreak)
+            longestStreak    = try container.decode(Int.self, forKey: .longestStreak)
+            hintCount        = try container.decodeIfPresent(Int.self, forKey: .hintCount) ?? 0
+            lastClaimedDate  = try container.decodeIfPresent(Date.self, forKey: .lastClaimedDate)
+            lastClaimedDay   = try container.decodeIfPresent(Int.self, forKey: .lastClaimedDay) ?? 0
         }
     }
 
     private func load() {
         guard let data = defaults.data(forKey: key),
               let snap = try? JSONDecoder().decode(Snapshot.self, from: data) else { return }
-        levelProgress = snap.levelProgress
-        dailyResults  = snap.dailyResults
-        hintCount     = snap.hintCount
+        levelProgress   = snap.levelProgress
+        dailyResults    = snap.dailyResults
+        hintCount       = snap.hintCount
+        lastClaimedDate = snap.lastClaimedDate
+        lastClaimedDay  = snap.lastClaimedDay
         // Restore longestStreak from disk; currentStreak is always recalculated
         // so stale/ghost streaks (e.g. user missed a day) are corrected on every launch.
         longestStreak = snap.longestStreak
@@ -194,7 +208,9 @@ final class ProgressStore {
             dailyResults: dailyResults,
             currentStreak: currentStreak,
             longestStreak: longestStreak,
-            hintCount: hintCount
+            hintCount: hintCount,
+            lastClaimedDate: lastClaimedDate,
+            lastClaimedDay: lastClaimedDay
         )
         if let data = try? JSONEncoder().encode(snap) {
             defaults.set(data, forKey: key)
@@ -237,12 +253,45 @@ final class ProgressStore {
     // MARK: - Reset (test / settings)
 
     func reset() {
-        levelProgress = [:]
-        dailyResults  = []
-        currentStreak = 0
-        longestStreak = 0
-        hintCount     = 0
+        levelProgress   = [:]
+        dailyResults    = []
+        currentStreak   = 0
+        longestStreak   = 0
+        hintCount       = 0
+        lastClaimedDate = nil
+        lastClaimedDay  = 0
         save()
+    }
+}
+
+// MARK: - Daily Reward (Faz 6)
+
+extension ProgressStore {
+    var canClaimDailyReward: Bool {
+        guard let last = lastClaimedDate else { return true }
+        return !Calendar.current.isDateInToday(last)
+    }
+
+    /// Claims today's daily reward. Returns nil if already claimed today.
+    /// Gap > 1 calendar day resets the 7-day cycle to day 1.
+    @MainActor
+    @discardableResult
+    func claimDailyReward(now: Date = .now, isPremium: Bool, wallet: WalletStore = .shared) -> [Currency: Int]? {
+        guard canClaimDailyReward else { return nil }
+        let cal = Calendar.current
+        if let last = lastClaimedDate {
+            let yesterday = cal.date(byAdding: .day, value: -1, to: cal.startOfDay(for: now))
+            if cal.startOfDay(for: last) != yesterday { lastClaimedDay = 0 }
+        }
+        let nextDay = (lastClaimedDay % 7) + 1
+        let reward = DailyRewardCalculator.reward(forDay: nextDay, isPremium: isPremium)
+        for (currency, amount) in reward {
+            wallet.earn(currency, amount: amount)
+        }
+        lastClaimedDate = now
+        lastClaimedDay  = nextDay
+        save()
+        return reward
     }
 }
 
