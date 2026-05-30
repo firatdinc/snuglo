@@ -17,6 +17,9 @@ final class ShopViewModel {
     var coinToGemAmount: Int = 1
     var gemToTicketAmount: Int = 1
 
+    private(set) var showExchangeBanner: Bool = false
+    private(set) var exchangeInsufficient: Currency?
+
     // MARK: — Private
 
     private let wallet: WalletStore
@@ -75,12 +78,18 @@ final class ShopViewModel {
     }
 
     func exchangeCoinToGem() {
-        _ = wallet.exchange(from: .coin, to: .gem, amount: coinToGemAmount)
+        let success = wallet.exchange(from: .coin, to: .gem, amount: coinToGemAmount)
+        exchangeInsufficient = success ? nil : .coin
+        showExchangeBanner = true
     }
 
     func exchangeGemToTicket() {
-        _ = wallet.exchange(from: .gem, to: .ticket, amount: gemToTicketAmount)
+        let success = wallet.exchange(from: .gem, to: .ticket, amount: gemToTicketAmount)
+        exchangeInsufficient = success ? nil : .gem
+        showExchangeBanner = true
     }
 
     func dismissBanner() { showClaimedBanner = false }
+
+    func dismissExchangeBanner() { showExchangeBanner = false }
 }

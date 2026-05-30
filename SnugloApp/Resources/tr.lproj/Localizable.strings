@@ -235,3 +235,13 @@
 "shop.debug.add.coins"    = "500 Altın Ekle";
 "shop.debug.add.gems"     = "100 Mücevher Ekle";
 "shop.debug.add.tickets"  = "5 Bilet Ekle";
+
+"shop.exchange.success.title"        = "Takas Yapıldı!";
+"shop.exchange.success.message"      = "Bakiyeniz güncellendi.";
+"shop.exchange.insufficient.title"   = "Yetersiz Bakiye";
+"shop.exchange.insufficient.message" = "Bu takas için yeterli bakiyeniz yok.";
+
+"shop.iap.purchase.success"          = "Satın Alma Başarılı";
+"shop.iap.purchase.success.message"  = "Öğeleriniz hesabınıza eklendi.";
+
+"shop.ad.unavailable" = "Reklam mevcut değil";

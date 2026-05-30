@@ -55,6 +55,13 @@ struct CurrencyPackGrid: View {
             .buttonStyle(.plain)
             .disabled(!adsAvailable)
             .accessibilityIdentifier("shop.pack.watch.\(pack.id)")
+
+            if !adsAvailable {
+                Text("shop.ad.unavailable")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .multilineTextAlignment(.center)
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(AppSpacing.md)

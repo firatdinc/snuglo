@@ -12,6 +12,7 @@ struct BundleSection: View {
 
     @State private var isPurchasing: Bool = false
     @State private var errorMessage: String?
+    @State private var showResultBanner: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
@@ -46,6 +47,23 @@ struct BundleSection: View {
         .onChange(of: store.lastError) { _, newValue in
             if let e = newValue { errorMessage = e }
         }
+        .overlay(alignment: .top) {
+            if showResultBanner {
+                AnnouncementBanner(
+                    titleKey: "shop.iap.purchase.success",
+                    messageKey: "shop.iap.purchase.success.message",
+                    onDismiss: { showResultBanner = false }
+                )
+                .transition(.move(edge: .top).combined(with: .opacity))
+                .onAppear {
+                    Task {
+                        try? await Task.sleep(nanoseconds: 2_500_000_000)
+                        showResultBanner = false
+                    }
+                }
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: showResultBanner)
     }
 
     // MARK: — Pack row
@@ -220,7 +238,8 @@ struct BundleSection: View {
     private func performPurchase(_ product: Product) async {
         isPurchasing = true
         defer { isPurchasing = false }
-        _ = await store.purchase(product)
+        let purchased = await store.purchase(product)
+        if purchased { showResultBanner = true }
     }
 }
 

@@ -52,6 +52,21 @@ struct ShopView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: viewModel.showClaimedBanner)
+        .overlay(alignment: .top) {
+            if viewModel.showExchangeBanner {
+                exchangeBanner
+                    .padding(.horizontal, AppSpacing.lg)
+                    .padding(.top, AppSpacing.md)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .onAppear {
+                        Task {
+                            try? await Task.sleep(nanoseconds: 2_500_000_000)
+                            viewModel.dismissExchangeBanner()
+                        }
+                    }
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: viewModel.showExchangeBanner)
     }
 
     // MARK: — Sections
@@ -137,6 +152,17 @@ struct ShopView: View {
             in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
         )
         .shadowL1()
+    }
+
+    // MARK: — Exchange banner
+
+    private var exchangeBanner: some View {
+        let isInsufficient = viewModel.exchangeInsufficient != nil
+        return AnnouncementBanner(
+            titleKey: isInsufficient ? "shop.exchange.insufficient.title" : "shop.exchange.success.title",
+            messageKey: isInsufficient ? "shop.exchange.insufficient.message" : "shop.exchange.success.message",
+            onDismiss: viewModel.dismissExchangeBanner
+        )
     }
 
     // MARK: — Helpers

@@ -127,6 +127,26 @@ struct ShopViewModelTests {
         #expect(wallet.ticket == 0)
     }
 
+    // MARK: — Exchange banner
+
+    @Test func exchangeCoinToGem_success_showsBannerNoInsufficient() {
+        let wallet = makeWallet(coin: 200)
+        let vm = makeVM(wallet: wallet)
+        vm.coinToGemAmount = 2
+        vm.exchangeCoinToGem()
+        #expect(vm.showExchangeBanner == true)
+        #expect(vm.exchangeInsufficient == nil)
+    }
+
+    @Test func exchangeCoinToGem_insufficient_showsBannerWithCoinCurrency() {
+        let wallet = makeWallet(coin: 50)
+        let vm = makeVM(wallet: wallet)
+        vm.coinToGemAmount = 1
+        vm.exchangeCoinToGem()
+        #expect(vm.showExchangeBanner == true)
+        #expect(vm.exchangeInsufficient == .coin)
+    }
+
     // MARK: — claimDeal (spend path)
 
     @Test func claimDeal_spendPath_sufficientBalance_grantsEarn() {

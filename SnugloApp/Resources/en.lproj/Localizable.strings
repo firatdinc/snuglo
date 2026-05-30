@@ -235,3 +235,13 @@
 "shop.debug.add.coins"    = "Add 500 Coins";
 "shop.debug.add.gems"     = "Add 100 Gems";
 "shop.debug.add.tickets"  = "Add 5 Tickets";
+
+"shop.exchange.success.title"       = "Exchanged!";
+"shop.exchange.success.message"     = "Your balance has been updated.";
+"shop.exchange.insufficient.title"   = "Insufficient Balance";
+"shop.exchange.insufficient.message" = "You don't have enough to complete this exchange.";
+
+"shop.iap.purchase.success"         = "Purchase Successful";
+"shop.iap.purchase.success.message" = "Your items have been added to your account.";
+
+"shop.ad.unavailable" = "Ad not available";

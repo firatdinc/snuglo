@@ -235,3 +235,13 @@
 "shop.debug.add.coins"    = "Añadir 500 Monedas";
 "shop.debug.add.gems"     = "Añadir 100 Gemas";
 "shop.debug.add.tickets"  = "Añadir 5 Boletos";
+
+"shop.exchange.success.title"        = "¡Intercambiado!";
+"shop.exchange.success.message"      = "Tu saldo ha sido actualizado.";
+"shop.exchange.insufficient.title"   = "Saldo insuficiente";
+"shop.exchange.insufficient.message" = "No tienes suficiente para completar este intercambio.";
+
+"shop.iap.purchase.success"          = "Compra exitosa";
+"shop.iap.purchase.success.message"  = "Tus artículos han sido añadidos a tu cuenta.";
+
+"shop.ad.unavailable" = "Anuncio no disponible";
