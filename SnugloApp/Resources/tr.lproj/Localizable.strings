@@ -197,3 +197,11 @@
 // MARK: — Faz 2: Bileşen kiti
 "common.viewAll"       = "Tümünü gör";
 "announcement.dismiss" = "Kapat";
+
+// MARK: — Faz 3: Güçlendirme çubuğu
+"powerup.hint"   = "İpucu";
+"powerup.undo"   = "Geri Al";
+"powerup.shuffle" = "Karıştır";
+"powerup.insufficient.gem.title"   = "Yetersiz Mücevher";
+"powerup.insufficient.gem.message" = "Mağaza'dan daha fazlasını alabilirsin.";
+"powerup.insufficient.gem.cta"     = "Mağazaya Git";

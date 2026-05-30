@@ -197,3 +197,11 @@
 // MARK: — Faz 2: Kit de componentes
 "common.viewAll"       = "Ver todo";
 "announcement.dismiss" = "Cerrar";
+
+// MARK: — Faz 3: Barra de mejoras
+"powerup.hint"   = "Pista";
+"powerup.undo"   = "Deshacer";
+"powerup.shuffle" = "Mezclar";
+"powerup.insufficient.gem.title"   = "Gemas insuficientes";
+"powerup.insufficient.gem.message" = "Puedes conseguir más en la Tienda.";
+"powerup.insufficient.gem.cta"     = "Ir a la tienda";

@@ -216,4 +216,113 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(vm.moveCount, countAfterFirst,
                        "OOB placement must not increment moveCount")
     }
+
+    // MARK: - Faz 3: PowerUp tests — undo
+
+    func test_powerUpUndo_revertsLastPlacementAndDeductsGems() {
+        let wallet = makeWallet(gems: 50)
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        XCTAssertEqual(vm.moveHistory.count, 1, "precondition: history has 1 entry")
+
+        let result = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
+
+        XCTAssertEqual(result, .success)
+        XCTAssertNil(vm.placements["p1"], "Placement must be removed after undo")
+        XCTAssertTrue(vm.moveHistory.isEmpty, "History must be empty after undo")
+        XCTAssertEqual(wallet.balance(of: .gem), 30, "Wallet should be deducted 20 gems")
+    }
+
+    func test_powerUpUndo_notApplicable_whenHistoryEmpty() {
+        let wallet = makeWallet(gems: 50)
+        let vm = GameViewModel(level: makeSimpleLevel())
+
+        let result = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
+
+        XCTAssertEqual(result, .notApplicable)
+        XCTAssertEqual(wallet.balance(of: .gem), 50, "Wallet must be untouched when notApplicable")
+    }
+
+    func test_powerUpUndo_insufficientGem_leavesHistoryIntact() {
+        let wallet = makeWallet(gems: 10)
+        let vm = GameViewModel(level: makeSimpleLevel())
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+
+        let result = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
+
+        XCTAssertEqual(result, .insufficientGem)
+        XCTAssertEqual(vm.moveHistory.count, 1, "History must be intact on insufficient gem")
+        XCTAssertNotNil(vm.placements["p1"], "Placement must remain on insufficient gem")
+    }
+
+    // MARK: - Faz 3: PowerUp tests — shuffleTray
+
+    func test_powerUpShuffleTray_deductsGemsAndPreservesPieceSet() {
+        let wallet = makeWallet(gems: 50)
+        let vm = GameViewModel(level: makeSimpleLevel())
+        let originalIDs = Set(vm.unplacedPieces.map(\.id))
+
+        let result = vm.applyPowerUp(.shuffleTray, wallet: wallet, progress: makeProgress())
+
+        XCTAssertEqual(result, .success)
+        XCTAssertEqual(wallet.balance(of: .gem), 35, "Wallet should be deducted 15 gems")
+        XCTAssertEqual(Set(vm.unplacedPieces.map(\.id)), originalIDs,
+                       "Shuffle must preserve the set of piece IDs")
+        XCTAssertEqual(vm.unplacedPieces.count, originalIDs.count, "Piece count must not change")
+    }
+
+    // MARK: - Faz 3: PowerUp tests — hint hybrid
+
+    func test_powerUpHint_freeWhenInventoryAvailable() {
+        let wallet = makeWallet(gems: 100)
+        let progress = makeProgress()
+        progress.addHints(1)
+        let vm = GameViewModel(level: makeSimpleLevel())
+
+        let result = vm.applyPowerUp(.hint, wallet: wallet, progress: progress)
+
+        XCTAssertEqual(result, .success)
+        XCTAssertEqual(wallet.balance(of: .gem), 100, "Free hint must not spend gems")
+        XCTAssertEqual(progress.hintCount, 0, "Hint inventory must be decremented")
+        XCTAssertNotNil(vm.placements["p1"], "Hint must place a piece")
+    }
+
+    func test_powerUpHint_spendsGemsWhenNoInventory() {
+        let wallet = makeWallet(gems: 100)
+        let progress = makeProgress()
+        // hintCount == 0 by default
+        let vm = GameViewModel(level: makeSimpleLevel())
+
+        let result = vm.applyPowerUp(.hint, wallet: wallet, progress: progress)
+
+        XCTAssertEqual(result, .success)
+        XCTAssertEqual(wallet.balance(of: .gem), 70, "Gem hint must deduct 30 gems")
+        XCTAssertNotNil(vm.placements["p1"], "Hint must place a piece")
+    }
+
+    func test_powerUpHint_insufficientGemWhenNoInventoryAndPoorWallet() {
+        let wallet = makeWallet(gems: 10)
+        let progress = makeProgress()
+        let vm = GameViewModel(level: makeSimpleLevel())
+
+        let result = vm.applyPowerUp(.hint, wallet: wallet, progress: progress)
+
+        XCTAssertEqual(result, .insufficientGem)
+        XCTAssertTrue(vm.placements.isEmpty, "No piece must be placed on insufficient gem")
+        XCTAssertEqual(wallet.balance(of: .gem), 10, "Wallet must be untouched")
+    }
+
+    // MARK: - Helpers
+
+    private func makeWallet(gems: Int) -> WalletStore {
+        let suite = "test.wallet.\(UUID().uuidString)"
+        let wallet = WalletStore(defaults: UserDefaults(suiteName: suite)!, key: suite)
+        wallet.earn(.gem, amount: gems)
+        return wallet
+    }
+
+    private func makeProgress() -> ProgressStore {
+        let suite = "test.progress.\(UUID().uuidString)"
+        return ProgressStore(defaults: UserDefaults(suiteName: suite)!, key: suite)
+    }
 }

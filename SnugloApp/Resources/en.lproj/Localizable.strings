@@ -197,3 +197,11 @@
 // MARK: — Faz 2: Component kit
 "common.viewAll"       = "View All";
 "announcement.dismiss" = "Dismiss";
+
+// MARK: — Faz 3: PowerUp bar
+"powerup.hint"   = "Hint";
+"powerup.undo"   = "Undo";
+"powerup.shuffle" = "Shuffle";
+"powerup.insufficient.gem.title"   = "Not Enough Gems";
+"powerup.insufficient.gem.message" = "You can get more from the Shop.";
+"powerup.insufficient.gem.cta"     = "Go to Shop";

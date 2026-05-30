@@ -4,6 +4,15 @@ import SnugloEngine
 
 typealias PieceID = String
 
+// MARK: — MoveSnapshot
+
+/// Records a single successful placement so it can be undone by PowerUp.undo.
+/// Only the pieceID is needed: undo = removePlacement(pieceID) → piece returns to tray.
+/// NOTE: moveCount is intentionally NOT decremented on undo — we track attempts, not board state.
+struct MoveSnapshot {
+    let pieceID: PieceID
+}
+
 /// Core game state machine for a single level session.
 ///
 /// @MainActor — all properties read/written from the main thread (SwiftUI).
@@ -43,6 +52,12 @@ final class GameViewModel {
 
     /// Count of successful placements this session (tray drops, re-drags, hints).
     private(set) var moveCount: Int = 0
+
+    // MARK: - PowerUp history
+
+    /// Ordered list of successful placements — supports PowerUp.undo.
+    /// Cleared on level start/restart (GameViewModel re-init handles this).
+    private(set) var moveHistory: [MoveSnapshot] = []
 
     // MARK: - Private
     private let checker = SolutionChecker()
@@ -121,6 +136,7 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            moveHistory.append(MoveSnapshot(pieceID: pieceID))
             isSolved = true
             NSLog("[Snuglo][tryPlace] SOLVED ✓")
             persistProgress()
@@ -130,6 +146,7 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            moveHistory.append(MoveSnapshot(pieceID: pieceID))
             if missing.count <= 6 {
                 NSLog("[Snuglo][tryPlace] missing cells: \(missing.map { "(\($0.x),\($0.y))" }.joined(separator: ","))")
             }
@@ -201,14 +218,94 @@ final class GameViewModel {
     /// - Returns: `true` if a hint was consumed and a piece was placed.
     @discardableResult
     func applyHint(store: ProgressStore = .shared) -> Bool {
+        guard store.useHint() else { return false }
+        hintsUsed += 1
+        return placeHintPiece()
+    }
+
+    /// Places the first unplaced solution piece without consuming a hint token.
+    /// Called by both `applyHint(store:)` (free path) and `applyPowerUp(.hint)` (gem path).
+    @discardableResult
+    private func placeHintPiece() -> Bool {
         guard let piece = unplacedPieces.first(where: { p in
             level.solution.contains(where: { $0.pieceId == p.id })
         }) else { return false }
-        guard let solutionPlacement = level.solution.first(where: { $0.pieceId == piece.id }) else { return false }
-        guard store.useHint() else { return false }
-        hintsUsed += 1
+        guard let solutionPlacement = level.solution.first(where: { $0.pieceId == piece.id })
+        else { return false }
         tryPlace(pieceID: piece.id, at: solutionPlacement.origin)
         return true
+    }
+
+    // MARK: - PowerUp API
+
+    /// Returns true when `pu` can currently be applied (ignores affordability).
+    func canApply(_ pu: PowerUp) -> Bool {
+        PowerUpRules.isApplicable(
+            pu,
+            unplacedCount: unplacedPieces.count,
+            moveHistoryCount: moveHistory.count
+        )
+    }
+
+    /// Single orchestration point for all in-game power-ups.
+    ///
+    /// Hint follows a hybrid path: free inventory first, then gem spend.
+    /// Undo does NOT decrement `moveCount` — attempts are permanent records.
+    @discardableResult
+    func applyPowerUp(
+        _ pu: PowerUp,
+        wallet: WalletStore = .shared,
+        progress: ProgressStore = .shared
+    ) -> PowerUpResult {
+        guard canApply(pu) else { return .notApplicable }
+
+        switch pu {
+        case .hint:
+            // Try free inventory first; fall back to gem purchase.
+            if progress.useHint() {
+                hintsUsed += 1
+                placeHintPiece()
+                return .success
+            }
+            guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
+            hintsUsed += 1
+            placeHintPiece()
+            return .success
+
+        case .undo:
+            guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
+            undoLastMove()
+            return .success
+
+        case .shuffleTray:
+            guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
+            shuffleTray()
+            return .success
+        }
+    }
+
+    /// Removes the most recent placement and returns the piece to the tray.
+    private func undoLastMove() {
+        guard let snapshot = moveHistory.popLast() else { return }
+        removePlacement(for: snapshot.pieceID)
+        isSolved = false
+    }
+
+    /// Randomises the order of pieces remaining in the tray using Swift's
+    /// built-in Fisher-Yates shuffle (seeded by SystemRandomNumberGenerator).
+    private func shuffleTray() {
+        // unplacedPieces is derived from level.pieces filtered by placements.
+        // Shuffling level.pieces reorders how unplacedPieces are returned,
+        // which TrayLayout consumes directly.
+        var shuffled = level.pieces
+        shuffled.shuffle()
+        level = Level(
+            id: level.id,
+            width: level.width,
+            height: level.height,
+            pieces: shuffled,
+            solution: level.solution
+        )
     }
 
     /// Returns true if placing `pieceID` at `coord` would overlap an existing piece

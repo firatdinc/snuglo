@@ -50,6 +50,8 @@ struct GameView: View {
     /// v1.1.3 UX fix: back button now asks for confirmation before quitting
     /// so the player doesn't lose timer state accidentally.
     @State private var showQuitConfirmation = false
+    /// Faz 3: shown when a power-up tap fails due to insufficient gems.
+    @State private var showInsufficientGemBanner = false
 
     /// v1.1.1 critical fix: cellSize used to read live `gridFrame`, but
     /// `trayView` also rendered BlockViews using that value. As gridFrame
@@ -239,6 +241,25 @@ struct GameView: View {
         VStack(spacing: AppSpacing.md) {
             gameHUD
             progressRow
+
+            // Faz 3: Power-up bar between HUD and puzzle grid
+            PowerUpBar(viewModel: viewModel) {
+                showInsufficientGemBanner = true
+            }
+
+            if showInsufficientGemBanner {
+                AnnouncementBanner(
+                    titleKey: "powerup.insufficient.gem.title",
+                    messageKey: "powerup.insufficient.gem.message",
+                    ctaKey: "powerup.insufficient.gem.cta",
+                    onCTA: {
+                        showInsufficientGemBanner = false
+                        router.selectTab(.shop)
+                    },
+                    onDismiss: { showInsufficientGemBanner = false }
+                )
+                .padding(.horizontal, AppSpacing.lg)
+            }
 
             VStack(spacing: AppSpacing.sm) {
                 // Mascot badge — sloth floating above the puzzle grid
@@ -472,44 +493,6 @@ struct GameView: View {
                 }
                 .frame(height: trayContentHeight)
 
-                // Hint pill — full-width blue capsule button
-                let hintCount = ProgressStore.shared.hintCount
-                HStack {
-                    Spacer()
-                    Button {
-                        withAnimation(reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)) {
-                            _ = viewModel.applyHint()
-                        }
-                        SoundService.shared.play(.place)
-                        HapticService.shared.impact(.light)
-                    } label: {
-                        HStack(spacing: AppSpacing.sm) {
-                            Image(systemName: "lightbulb.fill")
-                                .font(.system(size: 16, weight: .semibold))
-                            Text(LocalizedStringKey("game.hint"))
-                                .font(AppTypography.labelSmall)
-                            if hintCount > 0 {
-                                Text("×\(hintCount)")
-                                    .font(AppTypography.labelSmall)
-                                    .opacity(0.8)
-                            }
-                        }
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, AppSpacing.xl)
-                        .padding(.vertical, AppSpacing.sm + 2)
-                        .frame(maxWidth: .infinity)
-                        .background(AppColors.primary, in: Capsule())
-                        .shadowL1()
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(hintCount == 0)
-                    .opacity(hintCount == 0 ? 0.45 : 1.0)
-                    .accessibilityLabel(LocalizedStringKey("game.hint"))
-                    .accessibilityIdentifier("button.game.hint")
-                    Spacer()
-                }
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.vertical, AppSpacing.sm)
             }
             .background(AppColors.surfaceContainerLowest)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
