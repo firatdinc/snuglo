@@ -97,9 +97,15 @@ final class NotificationServiceTests: XCTestCase {
 
     // MARK: - Test 9: requestAuthorization must not crash (permission denied path in simulator)
 
-    func test_requestAuthorization_doesNotCrash() async {
-        // In simulator tests, permission is typically denied or not-determined.
-        // NotificationService.requestAuthorization() uses try-catch → always completes.
+    func test_requestAuthorization_doesNotCrash() async throws {
+        // Skip when status is .notDetermined: macOS/Simulator would show a system dialog
+        // that blocks headless test runners indefinitely.
+        let settings: UNNotificationSettings = await withCheckedContinuation { cont in
+            UNUserNotificationCenter.current().getNotificationSettings { cont.resume(returning: $0) }
+        }
+        guard settings.authorizationStatus != .notDetermined else {
+            throw XCTSkip("Notification permission not yet determined — skipping to avoid system dialog in CI")
+        }
         await NotificationService.shared.requestAuthorization()
         XCTAssertTrue(true, "requestAuthorization must not crash even when denied")
     }

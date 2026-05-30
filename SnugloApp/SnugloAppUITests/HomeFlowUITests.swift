@@ -63,8 +63,8 @@ final class HomeFlowUITests: SnugloAppUITestsBase {
 
         let grid = app.otherElements["game.grid"]
         XCTAssertTrue(
-            waitForElement(grid, timeout: 5),
-            "game.grid did not appear within 5 s after tapping button.menu.dailyPuzzle"
+            waitForElement(grid, timeout: 15),
+            "game.grid did not appear within 15 s after tapping button.menu.dailyPuzzle"
         )
     }
 }

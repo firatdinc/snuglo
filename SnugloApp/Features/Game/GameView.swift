@@ -326,10 +326,11 @@ struct GameView: View {
                         }
                     }
                 }
-                // .accessibilityElement(children: .contain) forces SwiftUI to create an explicit
-                // accessibility node for this ZStack even though its Canvas child is opaque to
-                // the accessibility tree. Without it the node may be pruned entirely.
-                .accessibilityElement(children: .contain)
+                // Canvas (GridView) is opaque to the accessibility tree.
+                // .ignore makes this ZStack a standalone leaf node — the only way to guarantee
+                // a stable accessibility element when all children are Canvas-based.
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Puzzle grid")
                 .accessibilityIdentifier("game.grid")
             }
             .padding(.horizontal, AppSpacing.lg)

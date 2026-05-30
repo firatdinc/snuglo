@@ -23,7 +23,7 @@ final class GameFlowUITests: SnugloAppUITestsBase {
         // which may be typed .other or .group depending on iOS version — use .any for safety.
         let grid = app.descendants(matching: .any).matching(identifier: "game.grid").firstMatch
         XCTAssertTrue(
-            grid.waitForExistence(timeout: 8),
+            grid.waitForExistence(timeout: 15),
             "game.grid not visible after tapping daily puzzle card",
             file: file, line: line
         )

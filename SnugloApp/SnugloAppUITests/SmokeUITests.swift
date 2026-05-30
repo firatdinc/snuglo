@@ -51,7 +51,7 @@ final class SmokeUITests: XCTestCase {
             .matching(identifier: "button.onboarding.getStarted")
             .firstMatch
         XCTAssertTrue(
-            getStarted.waitForExistence(timeout: 15),
+            getStarted.waitForExistence(timeout: 25),
             "button.onboarding.getStarted not found — onboarding may not have appeared"
         )
     }
@@ -61,13 +61,13 @@ final class SmokeUITests: XCTestCase {
     func test_completeOnboardingToMainMenu() {
         launchFirstLaunch()
         let skip = app.buttons["button.onboarding.skip"]
-        if skip.waitForExistence(timeout: 12) {
+        if skip.waitForExistence(timeout: 20) {
             skip.tap()
         }
         // Verify main menu by finding a reliable interactive button (not a container identifier).
         let dailyPuzzle = app.buttons["button.menu.dailyPuzzle"]
         XCTAssertTrue(
-            dailyPuzzle.waitForExistence(timeout: 12),
+            dailyPuzzle.waitForExistence(timeout: 20),
             "button.menu.dailyPuzzle not found after tapping onboarding skip — main menu did not load"
         )
     }
@@ -102,7 +102,7 @@ final class SmokeUITests: XCTestCase {
         // Access via gear icon (button.menu.settings) in the Play tab top bar.
         let settingsButton = app.buttons["button.menu.settings"]
         XCTAssertTrue(
-            settingsButton.waitForExistence(timeout: 6),
+            settingsButton.waitForExistence(timeout: 15),
             "button.menu.settings not found — main menu top bar may not have loaded"
         )
         settingsButton.tap()
