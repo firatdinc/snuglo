@@ -49,6 +49,8 @@ final class AppRouter {
     /// Set by push(.mainMenu); RootView switches from NavigationStack to RootTabView.
     var showingMainApp: Bool = false
     var selectedTab: AppTab = .play
+    /// True while GameView is visible — disables tab carousel horizontal swipe.
+    var isGameActive: Bool = false
 
     // Per-tab NavigationStack paths (Faz 1)
     var levelsPath: [Route] = []

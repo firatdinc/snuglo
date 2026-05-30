@@ -212,6 +212,7 @@ struct GameView: View {
             .environment(router)
         }
         .onAppear {
+            router.isGameActive = true
             startTimer()
             // Pre-warm audio + haptics OFF the gesture path so the first piece
             // drag is instant (was freezing 3–5s while AVAudioSession activated
@@ -219,7 +220,10 @@ struct GameView: View {
             SoundService.shared.warmUp()
             HapticService.shared.prepareImpact()
         }
-        .onDisappear { timerTask?.cancel() }
+        .onDisappear {
+            router.isGameActive = false
+            timerTask?.cancel()
+        }
         // v1.1.3: confirmation before quitting — preserves in-progress puzzle
         .confirmationDialog(
             "game.quitConfirm.title",

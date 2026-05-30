@@ -60,7 +60,7 @@ struct SplashView: View {
             if !reduceMotion { scale = 1.0 }
 
             let isUITest = UserDefaults.standard.bool(forKey: "snuglo.uitestmode")
-            let delayMs  = isUITest ? 0 : 1200
+            let delayMs  = isUITest ? 0 : 400
 
             splashTask = Task {
                 if delayMs > 0 {
