@@ -2,6 +2,7 @@ import SwiftUI
 
 // MARK: — RootTabView (Faz 1: 5-tab custom bar)
 // Tab order (left → right): Levels · Shop · [Play] · Leaderboard · Profile
+// • TabView.page carousel — native swipe between adjacent tabs
 // • Custom bar overlay: elevated centre Play button, 2 items each side
 // • hideBar: slides bar off on any tab NavigationStack push (spring animated)
 // • iOS 26 observation fix: per-path @State arrays trigger reliable hideBar re-renders
@@ -87,6 +88,7 @@ struct RootTabView: View {
             .tag(AppTab.profile)
             .toolbar(.hidden, for: .tabBar)
         }
+        .tabViewStyle(.page(indexDisplayMode: .never))
         .safeAreaInset(edge: .bottom, spacing: 0) {
             Color.clear.frame(height: contentInset)
         }
