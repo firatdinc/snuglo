@@ -194,4 +194,44 @@ struct ShopViewModelTests {
         vm.dismissBanner()
         #expect(vm.showClaimedBanner == false)
     }
+
+    // MARK: — Exchange state-transition (Reviewer IMPORTANT #2)
+
+    @Test func exchangeCoinToGem_success_dismissResetsShowBanner() {
+        let wallet = makeWallet(coin: 1000)
+        let vm = makeVM(wallet: wallet)
+        vm.coinToGemAmount = 1
+        vm.exchangeCoinToGem()
+        #expect(vm.showExchangeBanner == true)
+        #expect(vm.exchangeInsufficient == nil)
+        vm.dismissExchangeBanner()
+        #expect(vm.showExchangeBanner == false)
+        #expect(vm.exchangeInsufficient == nil)
+    }
+
+    @Test func exchangeGemToTicket_insufficient_capturesCurrencyAndDismissesBanner() {
+        let wallet = makeWallet(gem: 10)           // needs 50 gem → insufficient
+        let vm = makeVM(wallet: wallet)
+        vm.gemToTicketAmount = 1
+        vm.exchangeGemToTicket()
+        #expect(vm.showExchangeBanner == true)
+        #expect(vm.exchangeInsufficient == .gem)
+        vm.dismissExchangeBanner()
+        #expect(vm.showExchangeBanner == false)    // dismiss clears the flag
+        // exchangeInsufficient stays .gem until next exchange (by design)
+    }
+
+    @Test(.timeLimit(.minutes(1)))
+    func exchangeCoinToGem_simulatedAutoDismiss_bannerFalseAfterDelay() async throws {
+        // Auto-dismiss runs in ShopView: Task.sleep(2.5 s) then calls dismissExchangeBanner().
+        // Here we simulate that same sequence at the VM level.
+        let wallet = makeWallet(coin: 100)
+        let vm = makeVM(wallet: wallet)
+        vm.coinToGemAmount = 1
+        vm.exchangeCoinToGem()
+        #expect(vm.showExchangeBanner == true)
+        try await Task.sleep(nanoseconds: 3_000_000_000)
+        vm.dismissExchangeBanner()
+        #expect(vm.showExchangeBanner == false)
+    }
 }
