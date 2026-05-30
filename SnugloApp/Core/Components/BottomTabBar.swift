@@ -2,7 +2,6 @@ import SwiftUI
 
 // MARK: — RootTabView (Faz 1: 5-tab custom bar)
 // Tab order (left → right): Levels · Shop · [Play] · Leaderboard · Profile
-// • TabView.page carousel — native swipe between adjacent tabs
 // • Custom bar overlay: elevated centre Play button, 2 items each side
 // • hideBar: slides bar off on any tab NavigationStack push (spring animated)
 // • iOS 26 observation fix: per-path @State arrays trigger reliable hideBar re-renders
@@ -33,6 +32,17 @@ struct RootTabView: View {
 
     var body: some View {
         @Bindable var bindableRouter = router
+        // Explicit reads register @Observable deps so body re-renders when
+        // paths change. $bindableRouter.xPath only creates Bindings (lazy gets)
+        // and does NOT register deps on the underlying properties by itself.
+        // swiftlint:disable redundant_discardable_let
+        let _ = router.levelsPath
+        let _ = router.shopPath
+        let _ = router.playPath
+        let _ = router.leaderboardPath
+        let _ = router.profilePath
+        let _ = router.selectedTab
+        // swiftlint:enable redundant_discardable_let
         let safeBottom = deviceSafeBottom
         let contentInset: CGFloat = hideBar ? 0 : (barHeight + safeBottom)
 
@@ -77,7 +87,6 @@ struct RootTabView: View {
             .tag(AppTab.profile)
             .toolbar(.hidden, for: .tabBar)
         }
-        .tabViewStyle(.page(indexDisplayMode: .never))
         .safeAreaInset(edge: .bottom, spacing: 0) {
             Color.clear.frame(height: contentInset)
         }

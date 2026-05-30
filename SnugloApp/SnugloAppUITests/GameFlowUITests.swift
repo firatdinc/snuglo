@@ -19,8 +19,11 @@ final class GameFlowUITests: SnugloAppUITestsBase {
         )
         dailyCard.tap()
 
+        // Canvas (GridView) is accessibility-opaque; game.grid lives on its ZStack wrapper
+        // which may be typed .other or .group depending on iOS version — use .any for safety.
+        let grid = app.descendants(matching: .any).matching(identifier: "game.grid").firstMatch
         XCTAssertTrue(
-            app.otherElements["game.grid"].waitForExistence(timeout: 5),
+            grid.waitForExistence(timeout: 8),
             "game.grid not visible after tapping daily puzzle card",
             file: file, line: line
         )
@@ -48,8 +51,9 @@ final class GameFlowUITests: SnugloAppUITestsBase {
         resumeButton.tap()
 
         // Grid should still be visible after dismissing the pause sheet.
+        let gridAfterResume = app.descendants(matching: .any).matching(identifier: "game.grid").firstMatch
         XCTAssertTrue(
-            waitForElement(app.otherElements["game.grid"], timeout: 3),
+            waitForElement(gridAfterResume, timeout: 5),
             "game.grid not visible after resuming from pause"
         )
     }

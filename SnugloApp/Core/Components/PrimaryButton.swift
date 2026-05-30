@@ -11,14 +11,16 @@ struct PrimaryButton: View {
 
     let titleKey: LocalizedStringKey
     let systemImage: String?
+    let accessibilityID: String?
     var action: () -> Void
 
     @State private var isPressed = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    init(_ titleKey: LocalizedStringKey, systemImage: String? = nil, action: @escaping () -> Void) {
+    init(_ titleKey: LocalizedStringKey, systemImage: String? = nil, accessibilityID: String? = nil, action: @escaping () -> Void) {
         self.titleKey = titleKey
         self.systemImage = systemImage
+        self.accessibilityID = accessibilityID
         self.action = action
     }
 
@@ -43,6 +45,11 @@ struct PrimaryButton: View {
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.12), value: isPressed)
         }
         .buttonStyle(.plain)
+        // .buttonStyle(.plain) may strip the .isButton accessibility trait on some iOS versions.
+        // Explicitly re-adding it ensures XCTest classifies this as a button element.
+        .accessibilityAddTraits(.isButton)
+        // Apply identifier directly on the Button so XCTest finds it without a wrapper element.
+        .accessibilityIdentifier(accessibilityID ?? "")
         ._onButtonGesture(pressing: { isPressed = $0 }, perform: {})
     }
 }

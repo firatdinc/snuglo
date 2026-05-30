@@ -113,14 +113,13 @@ struct OnboardingView: View {
                 .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
 
                 // — Action button —
-                PrimaryButton(nextButtonKey, action: handleNext)
+                PrimaryButton(nextButtonKey, accessibilityID: "button.onboarding.getStarted", action: handleNext)
                     .padding(.horizontal, AppSpacing.lg)
                     .shadowL1()
                     .padding(.bottom, AppSpacing.xl + AppSpacing.md)
                     .accessibilityHint(currentPage == pages.count - 1
                         ? "Completes onboarding and opens the main menu"
                         : "Advances to the next onboarding page")
-                    .accessibilityIdentifier("button.onboarding.getStarted")
             }
         }
         .background(AppColors.background.ignoresSafeArea())

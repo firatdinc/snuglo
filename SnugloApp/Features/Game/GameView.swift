@@ -261,6 +261,9 @@ struct GameView: View {
                     Spacer()
                 }
 
+                // Faz I-2: ZStack is the accessibility element for the puzzle grid.
+                // Canvas (GridView) is accessibility-opaque, so the identifier lives on this
+                // non-Canvas wrapper ZStack instead — XCTest finds it via otherElements.
                 ZStack(alignment: .topLeading) {
                     GridView(
                         level: viewModel.level,
@@ -284,9 +287,6 @@ struct GameView: View {
                             gridFrame = rounded
                         }
                     }
-                    // Faz I-2: UITest identifier for the puzzle grid container.
-                    .accessibilityElement(children: .contain)
-                    .accessibilityIdentifier("game.grid")
 
                     // IOS-57: Transparent drag handles for placed pieces (re-drag from board).
                     // GeometryReader gets the exact same proposed size as GridView (same ZStack),
@@ -305,6 +305,11 @@ struct GameView: View {
                         }
                     }
                 }
+                // .accessibilityElement(children: .contain) forces SwiftUI to create an explicit
+                // accessibility node for this ZStack even though its Canvas child is opaque to
+                // the accessibility tree. Without it the node may be pruned entirely.
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("game.grid")
             }
             .padding(.horizontal, AppSpacing.lg)
 

@@ -41,8 +41,11 @@ enum AppTab: Hashable {
 @Observable
 final class AppRouter {
 
-    /// Outer stack — splash / onboarding flow only (.mainMenu, .onboarding).
+    /// Outer stack — splash / onboarding flow only (.onboarding).
     var path: [Route] = []
+    /// True once the main-app shell (RootTabView) should be shown.
+    /// Set by push(.mainMenu); RootView switches from NavigationStack to RootTabView.
+    var showingMainApp: Bool = false
     var selectedTab: AppTab = .play
 
     // Per-tab NavigationStack paths (Faz 1)
@@ -56,7 +59,11 @@ final class AppRouter {
 
     func push(_ route: Route) {
         switch route {
-        case .mainMenu, .onboarding:
+        case .mainMenu:
+            // Flip the top-level switch in RootView; no path append needed.
+            // Avoids nested NavigationStacks (outer RootView stack + inner per-tab stacks).
+            showingMainApp = true
+        case .onboarding:
             path.append(route)
         case .levelsList:
             // .levelsList is the Levels tab root — switch tab instead of pushing

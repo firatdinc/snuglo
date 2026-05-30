@@ -19,14 +19,33 @@ struct RootView: View {
         // an @Observable router. Without it the binding sometimes failed to
         // observe nested mutations.
         @Bindable var bindableRouter = router
-        NavigationStack(path: $bindableRouter.path) {
-            SplashView()
-                .navigationBarBackButtonHidden()
-                .navigationDestination(for: Route.self) { route in
-                    destination(for: route)
+        // Explicit reads create @Observable observation deps so body re-renders
+        // when these properties change. $bindableRouter.path only creates a
+        // Binding (lazy get) — it does NOT register a dep on path by itself.
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = router.path
+        // swiftlint:disable:next redundant_discardable_let
+        let _ = router.showingMainApp
+
+        // Faz 1 architecture: RootTabView must NOT live inside a NavigationStack —
+        // its own per-tab NavigationStacks would become nested stacks, breaking
+        // the XCTest accessibility hierarchy. The pre-main flow (Splash → Onboarding)
+        // uses a NavigationStack; once push(.mainMenu) fires, showingMainApp flips
+        // and RootTabView becomes the top-level view with no outer stack.
+        Group {
+            if bindableRouter.showingMainApp {
+                RootTabView()
+            } else {
+                NavigationStack(path: $bindableRouter.path) {
+                    SplashView()
+                        .navigationBarBackButtonHidden()
+                        .navigationDestination(for: Route.self) { route in
+                            preMainDestination(for: route)
+                        }
                 }
+                .accessibilityIdentifier("screen.root")
+            }
         }
-        .accessibilityIdentifier("screen.root")   // Faz I-2
         .environment(router)
         .preferredColorScheme(preferredScheme)
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
@@ -34,21 +53,15 @@ struct RootView: View {
         .overlay(AdInterstitialOverlay())
     }
 
+    /// Destinations reachable during the pre-main (splash/onboarding) flow only.
+    /// .mainMenu is intentionally absent — push(.mainMenu) sets showingMainApp instead.
     @ViewBuilder
-    private func destination(for route: Route) -> some View {
+    private func preMainDestination(for route: Route) -> some View {
         switch route {
-        case .mainMenu:
-            RootTabView()
-                .navigationBarBackButtonHidden()
         case .onboarding:
             OnboardingView()
                 .navigationBarBackButtonHidden()
         case .game(let levelID):
-            // .id(levelID) forces SwiftUI to recreate GameView (and its
-            // @State viewModel/placements/timer) when the route's level ID
-            // changes. Without this, "Sonraki seviye" reused the previous
-            // GameView's state — title updated but grid stayed filled with
-            // the prior level's pieces.
             GameView(levelId: levelID)
                 .id(levelID)
                 .navigationBarBackButtonHidden()
@@ -58,12 +71,14 @@ struct RootView: View {
                 .navigationBarBackButtonHidden()
         case .packDetail(let packId):
             PackDetailView(packName: packId)
-        case .levelsList:                          // Faz I-2: levels list pushed from home tab
+        case .levelsList:
             LevelsListView(packId: "")
         case .settings:
             SettingsView()
         case .shop:
             ShopView()
+        case .mainMenu:
+            EmptyView()
         }
     }
 }
