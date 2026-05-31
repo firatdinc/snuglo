@@ -121,7 +121,7 @@
 "shop.packUnlocks"    = "Bulmaca Paketleri";
 "shop.hintsSection"   = "İpuçları";
 "shop.oneTime"        = "Tek Seferlik Satın Almalar";
-"shop.hintsRemaining" = "%d ipucunuz kaldı";
+"shop.hintsRemaining" = "%d ipucun kaldı";
 "shop.hintsAvailable" = "%d ipucu mevcut";
 "shop.restore"        = "Satın Almaları Geri Yükle";
 "shop.owned"          = "Sahip Olundu";
@@ -252,12 +252,12 @@
 "shop.debug.add.tickets"  = "5 Bilet Ekle";
 
 "shop.exchange.success.title"        = "Takas Yapıldı!";
-"shop.exchange.success.message"      = "Bakiyeniz güncellendi.";
+"shop.exchange.success.message"      = "Bakiyen güncellendi.";
 "shop.exchange.insufficient.title"   = "Yetersiz Bakiye";
-"shop.exchange.insufficient.message" = "Bu takas için yeterli bakiyeniz yok.";
+"shop.exchange.insufficient.message" = "Bu takas için yeterli bakiyen yok.";
 
 "shop.iap.purchase.success"          = "Satın Alma Başarılı";
-"shop.iap.purchase.success.message"  = "Öğeleriniz hesabınıza eklendi.";
+"shop.iap.purchase.success.message"  = "Öğelerin hesabına eklendi.";
 
 "shop.ad.unavailable" = "Reklam mevcut değil";
 
@@ -292,9 +292,9 @@
 "achievement.firstSteps.title"          = "İlk Adımlar";
 "achievement.firstSteps.description"    = "İlk seviyeni tamamla";
 "achievement.levelHunter10.title"       = "Seviye Avcısı";
-"achievement.levelHunter10.description" = "10 seviye tamamla";
+"achievement.levelHunter10.description" = "10 seviyeyi tamamla";
 "achievement.levelMaster50.title"       = "Seviye Ustası";
-"achievement.levelMaster50.description" = "50 seviye tamamla";
+"achievement.levelMaster50.description" = "50 seviyeyi tamamla";
 "achievement.perfectionist1.title"          = "Mükemmeliyetçi";
 "achievement.perfectionist1.description"    = "Bir seviyede 3 yıldız kazan";
 "achievement.perfectionistPro10.title"      = "Mükemmeliyetçi Pro";
@@ -306,6 +306,6 @@
 "achievement.streak30.title"         = "Durdurulamaz";
 "achievement.streak30.description"   = "30 günlük seri kur";
 "achievement.noHints10.title"        = "Yardıma Gerek Yok";
-"achievement.noHints10.description"  = "İpucu kullanmadan 10 seviye tamamla";
+"achievement.noHints10.description"  = "İpucu kullanmadan 10 seviyeyi tamamla";
 "achievement.speedSolver.title"      = "Hız Çözücü";
 "achievement.speedSolver.description" = "Bir seviyeyi 30 saniyenin altında çöz";

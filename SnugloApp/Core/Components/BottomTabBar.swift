@@ -270,6 +270,8 @@ private struct CustomTabBar: View {
                 Text(item.labelKey)
                     .font(AppTypography.labelSmall)
                     .tracking(0.4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                     .foregroundStyle(isActive ? AppColors.primary : AppColors.outline)
             }
             .frame(maxWidth: .infinity)

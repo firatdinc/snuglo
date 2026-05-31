@@ -3,6 +3,7 @@ build/
 SnugloApp/build/
 *.xcuserdata/
 *.xcworkspace/xcuserdata/
+.swiftpm/
 DerivedData/
 .DS_Store
 Package.resolved

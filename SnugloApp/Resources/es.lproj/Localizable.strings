@@ -50,7 +50,7 @@
 "tab.levels"      = "Niveles";
 "tab.shop"        = "Tienda";
 "tab.play"        = "Jugar";
-"tab.leaderboard" = "Clasificación";
+"tab.leaderboard" = "Ranking";
 "tab.profile"     = "Perfil";
 // Claves heredadas (compatibilidad)
 "tab.home"     = "Inicio";
@@ -105,7 +105,7 @@
 "stats.levelsCompleted" = "Niveles";
 "stats.streak"          = "Racha";
 "stats.avgTime"         = "Tiempo medio";
-"stats.dailySolved"     = "Diario resuelto";
+"stats.dailySolved"     = "Resuelto hoy";
 "stats.packProgress"    = "Progreso del paquete";
 "stats.last7Days"       = "Resoluciones por día";
 "stats.chartSolved"     = "Resuelto";
@@ -127,7 +127,7 @@
 "shop.owned"          = "Ya adquirido";
 
 "sku.hintsSmall.title"      = "10 Pistas";
-"sku.hintsSmall.body"       = "Desbloquéate cuando los rompecabezas se pongan difíciles";
+"sku.hintsSmall.body"       = "Úsalas cuando el puzle se ponga difícil";
 "sku.removeAds.title"       = "Eliminar anuncios";
 "sku.removeAds.body"        = "Único pago · Sin más interrupciones";
 "sku.spiceRoute.title"      = "Paquete Ruta de las especias";

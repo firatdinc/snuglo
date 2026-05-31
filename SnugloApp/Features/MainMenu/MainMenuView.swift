@@ -99,7 +99,8 @@ struct MainMenuView: View {
     // MARK: — Scroll content
 
     private var scrollContent: some View {
-        ScrollView(showsIndicators: false) {
+        let completedCount = ProgressStore.shared.totalLevelsCompleted()
+        return ScrollView(showsIndicators: false) {
             VStack(spacing: AppSpacing.xl) {
                 progressPill
                 dailyPuzzleCard
@@ -109,6 +110,7 @@ struct MainMenuView: View {
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.md)
         }
+        .id(completedCount)
     }
 
     // MARK: — Progress pill
