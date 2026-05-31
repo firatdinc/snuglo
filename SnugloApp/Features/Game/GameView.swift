@@ -574,10 +574,24 @@ struct GameView: View {
                         availableHeight: innerHeight,
                         cap: cell * 0.6
                     )
+                    // Lock the render cell to the size at which the FULL (constant)
+                    // piece set fits. TrayLayout grows the cell to fill the width
+                    // (cellSize = min(cap, width / totalColumns)), so feeding it only
+                    // the unplaced subset ENLARGES pieces as the column count drops:
+                    // placing a piece → fewer columns → bigger cells → tall pieces
+                    // overflow the fixed-height tray and get clipped at the bottom.
+                    // Using the full-set cell size keeps pieces a constant size;
+                    // removing a piece then only adds horizontal spacing.
+                    let stableCell = TrayLayout.compute(
+                        pieces: viewModel.level.pieces,
+                        availableWidth: innerWidth,
+                        preferredCellSize: fitCell,
+                        itemSpacing: AppSpacing.md
+                    ).cellSize
                     let layout = TrayLayout.compute(
                         pieces: viewModel.unplacedPieces,
                         availableWidth: innerWidth,
-                        preferredCellSize: fitCell,
+                        preferredCellSize: stableCell,
                         itemSpacing: AppSpacing.md
                     )
                     VStack(alignment: .center, spacing: AppSpacing.md) {

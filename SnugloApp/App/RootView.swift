@@ -2,17 +2,12 @@ import SwiftUI
 
 struct RootView: View {
     @State private var router = AppRouter()
+    // Runtime language switching — drives `\.locale` so localized Text re-resolves
+    // live, without an app restart.
+    @State private var localeManager = LocaleManager.shared
 
     // Faz F: Theme picker (0=System, 1=Light, 2=Dark) — mirrors SettingsView key.
     @AppStorage("appTheme") private var appThemeRaw: Int = 0
-
-    private var preferredScheme: ColorScheme? {
-        switch appThemeRaw {
-        case 1: return .light
-        case 2: return .dark
-        default: return nil   // System — follow device setting
-        }
-    }
 
     var body: some View {
         // iOS 17+ pattern: @Bindable for NavigationStack(path:) binding from
@@ -46,8 +41,20 @@ struct RootView: View {
                 .accessibilityIdentifier("screen.root")
             }
         }
+        // Rebuild the whole UI subtree when language OR theme changes. `router`
+        // lives in @State on RootView (OUTSIDE this id), so navigation paths
+        // survive the rebuild — the user stays on their current screen. This is
+        // what forces the `.page` TabView children (Settings, etc.) to re-resolve
+        // localized strings and dynamic AppColors, which a plain environment/trait
+        // change fails to propagate to them at runtime.
+        .id("\(localeManager.languageCode)|\(appThemeRaw)")
         .environment(router)
-        .preferredColorScheme(preferredScheme)
+        // Runtime locale — drives number/date formatting + Text re-resolution.
+        .environment(\.locale, localeManager.locale)
+        // Theme: force the window's interface style so dynamic AppColors resolve
+        // against the chosen scheme (the rebuild above then re-reads it everywhere).
+        .onAppear { ThemeApplier.apply(appThemeRaw) }
+        .onChange(of: appThemeRaw) { _, newValue in ThemeApplier.apply(newValue) }
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
         // FAZ-J: Remove once GADInterstitialAd handles its own UIViewController.
         .overlay(AdInterstitialOverlay())

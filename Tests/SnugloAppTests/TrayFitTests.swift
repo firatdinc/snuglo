@@ -83,6 +83,62 @@ struct TrayFitTests {
         assertFits(levelId: "daily", level: level)
     }
 
+    // MARK: — Subset stability (the "pieces grow + clip after placing one" bug)
+
+    /// Mirrors the FIXED GameView.trayBody sizing: the render cell is locked to the
+    /// size at which the FULL piece set fits, so removing pieces must NOT enlarge
+    /// the remaining ones (which previously overflowed the fixed-height tray).
+    private func assertSubsetsStable(levelId: String, level: Level, screenW: CGFloat = 393) {
+        let itemSpacing: CGFloat = 16          // AppSpacing.md
+        let innerWidth = screenW - 24 * 4
+        let cap: CGFloat = ((screenW - 24 * 2) / CGFloat(level.width)) * 0.6
+
+        for trayContentH in [120.0, 160.0, 200.0, 260.0] as [CGFloat] {
+            let availableHeight = trayContentH - 8 * 2
+            let fit = trayFitCell(
+                pieces: level.pieces, availableWidth: innerWidth,
+                availableHeight: availableHeight, cap: cap, itemSpacing: itemSpacing
+            )
+            // Stable cell = the size at which the FULL set lays out.
+            let stableCell = TrayLayout.compute(
+                pieces: level.pieces, availableWidth: innerWidth,
+                preferredCellSize: fit, itemSpacing: itemSpacing
+            ).cellSize
+            let fullContentH = TrayLayout.compute(
+                pieces: level.pieces, availableWidth: innerWidth,
+                preferredCellSize: stableCell, itemSpacing: itemSpacing
+            ).contentHeight
+
+            // Simulate placing pieces one by one (drop from the front, as a player would).
+            var remaining = level.pieces
+            while remaining.count > 1 {
+                remaining.removeFirst()
+                let layout = TrayLayout.compute(
+                    pieces: remaining, availableWidth: innerWidth,
+                    preferredCellSize: stableCell, itemSpacing: itemSpacing
+                )
+                // (1) No growth: the subset renders at the SAME cell size as the full set.
+                #expect(
+                    layout.cellSize <= stableCell + 0.5,
+                    "\(levelId): cell GREW for \(remaining.count) pieces — \(layout.cellSize) > \(stableCell)"
+                )
+                // (2) No clipping: subset never taller than the full-set budget.
+                #expect(
+                    layout.contentHeight <= fullContentH + 0.5,
+                    "\(levelId): subset overflows tray for \(remaining.count) pieces — \(layout.contentHeight) > \(fullContentH)"
+                )
+            }
+        }
+    }
+
+    @Test func placingPieces_doesNotEnlargeOrClipRemaining() {
+        for i in 1...30 {
+            let id = "cozy-beginnings-\(i)"
+            guard let level = PackProvider.loadLevel(id: id) else { continue }
+            assertSubsetsStable(levelId: id, level: level)
+        }
+    }
+
     @Test func secondPackLevels_fitTray() {
         // Cover other packs too (different grid sizes / piece pools).
         for pack in PackProvider.allPacks().prefix(4) {

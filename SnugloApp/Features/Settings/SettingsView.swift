@@ -16,11 +16,12 @@ struct SettingsView: View {
     @AppStorage("appTheme")               private var appThemeRaw: Int     = 0
     @AppStorage("dailyReminderEnabled")   private var dailyReminderEnabled = false
     @AppStorage("dailyReminderTime")      private var dailyReminderTimeInterval: Double = 19 * 3600
-    @AppStorage("snuglo.language.override") private var languageOverride: String = "system"
+
+    // Runtime language switching (restart-free) — see LocaleManager.
+    @State private var localeManager = LocaleManager.shared
 
     @State private var showResetAlert            = false
     @State private var showNotifDeniedAlert      = false
-    @State private var showLanguageRestartAlert  = false
     @State private var ads                       = AdsManager.shared
 
     private var reminderDate: Binding<Date> {
@@ -90,7 +91,8 @@ struct SettingsView: View {
     // MARK: — Body
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        @Bindable var lm = localeManager
+        return ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
 
                 Text("settings.title")
@@ -139,6 +141,7 @@ struct SettingsView: View {
                         }
                         .labelsHidden()
                         .tint(AppColors.primary)
+                        .accessibilityIdentifier("settings.theme_picker")
                     }
                     .accessibilityElement(children: .contain)
                     .padding(AppSpacing.md)
@@ -180,7 +183,7 @@ struct SettingsView: View {
                     }
                     if dailyReminderEnabled {
                         Text(verbatim: String(
-                            format: NSLocalizedString("settings.notifications.reminderSet", comment: ""),
+                            format: localeManager.localized("settings.notifications.reminderSet"),
                             formattedReminderTime
                         ))
                         .font(AppTypography.labelSmall)
@@ -198,7 +201,10 @@ struct SettingsView: View {
                                 .font(AppTypography.bodyMedium)
                                 .foregroundStyle(AppColors.onSurface)
                             Spacer()
-                            Picker("", selection: $languageOverride) {
+                            // Binds to LocaleManager — the change takes effect
+                            // instantly via the root's `\.locale` environment; no
+                            // app restart needed.
+                            Picker("", selection: $lm.languageCode) {
                                 Text("settings.language.system").tag("system")
                                 Text("settings.language.en").tag("en")
                                 Text("settings.language.tr").tag("tr")
@@ -206,14 +212,7 @@ struct SettingsView: View {
                             }
                             .labelsHidden()
                             .tint(AppColors.primary)
-                            .onChange(of: languageOverride) { _, newValue in
-                                if newValue == "system" {
-                                    UserDefaults.standard.removeObject(forKey: "AppleLanguages")
-                                } else {
-                                    UserDefaults.standard.set([newValue], forKey: "AppleLanguages")
-                                }
-                                showLanguageRestartAlert = true
-                            }
+                            .accessibilityIdentifier("settings.language_picker")
                         }
                         .padding(AppSpacing.md)
                     }
@@ -320,11 +319,6 @@ struct SettingsView: View {
             Button("common.cancel", role: .cancel) {}
         } message: {
             Text("notif.disabled.message")
-        }
-        .alert("settings.language.restartTitle", isPresented: $showLanguageRestartAlert) {
-            Button("common.ok", role: .cancel) {}
-        } message: {
-            Text("settings.language.restartMessage")
         }
         .alert("settings.account.resetTitle", isPresented: $showResetAlert) {
             Button("common.cancel", role: .cancel) {}
