@@ -97,6 +97,7 @@
 		A1CEB342DD9EE642166908C0 /* PowerUpBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18379A862ABC0C58CE9544FA /* PowerUpBar.swift */; };
 		A4921D0A0CF269191A4B9C72 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 250C6435062F4891539078FC /* InfoPlist.strings */; };
 		A6B1D2446CBBE6167482C84A /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D137F780D77A0ECBDF59147 /* LeaderboardView.swift */; };
+		A8A316C2ECB176A6B4DF44E5 /* GameSwipeLockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09473F7A0446E6AAFC7FB84 /* GameSwipeLockUITests.swift */; };
 		AAACB186E0BD520F1FC8CA09 /* GameButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */; };
 		AB3EEF5267EB0CCBC1CD337D /* SoundService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344B16BC30C943EF404EB1F5 /* SoundService.swift */; };
 		AB96220B99E950B9181671AF /* NotificationSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7015B7FB288C8F5DA0BB75 /* NotificationSchedulerTests.swift */; };
@@ -106,12 +107,14 @@
 		B4CE7E24E4016DA9C5ED8C2C /* HomeFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A9D5CE872745FD30F07FE4 /* HomeFlowUITests.swift */; };
 		B53408EFB76F17C7E9396E54 /* CurrencyReward.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA74ECF4F2A0BBC5A19F5D7 /* CurrencyReward.swift */; };
 		BBCC099BCC1B269432202561 /* SnugloEngine in Frameworks */ = {isa = PBXBuildFile; productRef = C6CEC9215CDD114192DB9C26 /* SnugloEngine */; };
+		BC40111360B69BAF4A407E1D /* GameInteractionLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F0B3FB6B64D3DE0D9D9834 /* GameInteractionLock.swift */; };
 		BD54A59F4EC158A3BE360668 /* AchievementRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3E4831B4981C6254A97F7 /* AchievementRules.swift */; };
 		BD7DF58BF972971167734A7B /* DailyDealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF0624D9878FF7FCF6E1DE7 /* DailyDealCard.swift */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		C4B42BDA325627597C3D6E1C /* README-StoreKit.md in Resources */ = {isa = PBXBuildFile; fileRef = 125B30D67DEEC160EDBC670E /* README-StoreKit.md */; };
 		CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */; };
 		CD32E24288F0AFD2D0103A5B /* TrayFitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B93E655B16660D2F085286 /* TrayFitTests.swift */; };
+		CE27ACD8021E5C9619F24CAA /* ConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */; };
 		D3CA80E2CBF566F0A7A89930 /* DailyRewardCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE07E7933E5FAB5FF9FCA13C /* DailyRewardCalculator.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		D55B8F87F55A6DF5F6ECA5AE /* SpaceGrotesk-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C972D7D56DBB8FB5864AD95A /* SpaceGrotesk-Regular.ttf */; };
@@ -171,6 +174,7 @@
 		125B30D67DEEC160EDBC670E /* README-StoreKit.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-StoreKit.md"; sourceTree = "<group>"; };
 		15113BC008FC88512BFF4298 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		15DDDB0F2207F08EE6D816BA /* snuglo--AnsD1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "snuglo--AnsD1"; path = ..; sourceTree = SOURCE_ROOT; };
+		15F0B3FB6B64D3DE0D9D9834 /* GameInteractionLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInteractionLock.swift; sourceTree = "<group>"; };
 		162A0DE669B2657079FD4E4E /* DailyDealRotatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealRotatorTests.swift; sourceTree = "<group>"; };
 		16B7A0ABBF0B3545C32F1412 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		18379A862ABC0C58CE9544FA /* PowerUpBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpBar.swift; sourceTree = "<group>"; };
@@ -229,6 +233,7 @@
 		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; path = Snuglo.storekit; sourceTree = "<group>"; };
 		89DC4F900617E37644A9709B /* AnnouncementBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementBanner.swift; sourceTree = "<group>"; };
 		8B4758DD6FAC3569A870F3EC /* RowDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowDivider.swift; sourceTree = "<group>"; };
+		8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialog.swift; sourceTree = "<group>"; };
 		8DD307251780186223CCBBE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		900DBE5445E056E2506B1A4E /* PowerUpRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpRules.swift; sourceTree = "<group>"; };
@@ -265,6 +270,7 @@
 		CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBadge.swift; sourceTree = "<group>"; };
 		CDB2C7BCAD0C14AB751AD2D3 /* ShopViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewModelTests.swift; sourceTree = "<group>"; };
 		CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPill.swift; sourceTree = "<group>"; };
+		D09473F7A0446E6AAFC7FB84 /* GameSwipeLockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSwipeLockUITests.swift; sourceTree = "<group>"; };
 		D0A74183345C54A5FB76D8B3 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		D2AE8C64C877ABC6935B77EF /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
@@ -293,7 +299,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_28447640-32C0-469E-9B51-AB78C05AE6E8" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_2D60AA39-CBF5-408F-BFAB-96ED500F6F3C" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,8 +416,10 @@
 				7C3C5E6AE355B623F247316C /* BannerAdView.swift */,
 				071C5711F1CFFED37058BD01 /* BottomTabBar.swift */,
 				5E177BF53BC6C92D779D51C2 /* CardSurface.swift */,
+				8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */,
 				1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */,
 				B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */,
+				15F0B3FB6B64D3DE0D9D9834 /* GameInteractionLock.swift */,
 				CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */,
 				D3E8F3C0267F5E448BE9F1FD /* PrimaryButton.swift */,
 				CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */,
@@ -487,6 +495,7 @@
 			isa = PBXGroup;
 			children = (
 				AE1A1E6FF249929AF911E182 /* GameFlowUITests.swift */,
+				D09473F7A0446E6AAFC7FB84 /* GameSwipeLockUITests.swift */,
 				01A9D5CE872745FD30F07FE4 /* HomeFlowUITests.swift */,
 				56CBBFD1A789DBEB71966239 /* SettingsThemeLanguageUITests.swift */,
 				C280DEA922815D79D52035E1 /* SmokeUITests.swift */,
@@ -791,10 +800,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_EAEC8759-F97B-437B-A4FE-D0173A7EBDCF" /* . */ = {
+		"TEMP_DC54C2D0-49A7-40CA-91F0-BB828F59BF14" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_28447640-32C0-469E-9B51-AB78C05AE6E8" /* SnugloApp.entitlements */,
+				"TEMP_2D60AA39-CBF5-408F-BFAB-96ED500F6F3C" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -955,6 +964,7 @@
 				14BFEB384011E2F033D9DBF6 /* BundleSection.swift in Sources */,
 				870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
+				CE27ACD8021E5C9619F24CAA /* ConfirmDialog.swift in Sources */,
 				09B0B5EAF1D49AC381CA4D83 /* Currency.swift in Sources */,
 				EFE6275557E1D2C4A668201D /* CurrencyIcon.swift in Sources */,
 				47E85D49DB356A7B951892EF /* CurrencyPackGrid.swift in Sources */,
@@ -970,6 +980,7 @@
 				4EAFC1949B066E2F8EBDD434 /* GameCenterManager.swift in Sources */,
 				7F6E6257D1607470F9719E15 /* GameCenterScoreMapper.swift in Sources */,
 				DA8F5210F3021DF92A9EF663 /* GameCenterServicing.swift in Sources */,
+				BC40111360B69BAF4A407E1D /* GameInteractionLock.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
@@ -1024,6 +1035,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A33BB5DCD8712B44B33A874 /* GameFlowUITests.swift in Sources */,
+				A8A316C2ECB176A6B4DF44E5 /* GameSwipeLockUITests.swift in Sources */,
 				B4CE7E24E4016DA9C5ED8C2C /* HomeFlowUITests.swift in Sources */,
 				D580D9EC03228E3E6ED0EB28 /* SettingsThemeLanguageUITests.swift in Sources */,
 				F8313EE5C4D761217E1FC65E /* SmokeUITests.swift in Sources */,

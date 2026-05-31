@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "Quit the puzzle?";
 "game.quitConfirm.message"  = "Your current progress in this level won't be saved.";
 "game.quitConfirm.confirm"  = "Quit";
+"game.quitConfirm.cancel"   = "Keep playing";
 "game.hint"                 = "Hint";
 
 // MARK: — Tabs (Faz 1: 5-tab bar)

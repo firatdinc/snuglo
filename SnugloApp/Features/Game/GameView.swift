@@ -138,6 +138,9 @@ struct GameView: View {
         }
         .coordinateSpace(.named("gameLayout"))
         .background(AppColors.background.ignoresSafeArea())
+        // Lock tab-carousel swipe + nav edge-swipe while the game is on screen —
+        // the only way out is the Back button. Restores both when the view leaves.
+        .background(GameInteractionLock().allowsHitTesting(false))
         // iOS 17+ replacement for deprecated .navigationBarHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         // iOS 26: .contain ensures children (including game.grid) remain visible
@@ -224,19 +227,27 @@ struct GameView: View {
             router.isGameActive = false
             timerTask?.cancel()
         }
-        // v1.1.3: confirmation before quitting — preserves in-progress puzzle
-        .confirmationDialog(
-            "game.quitConfirm.title",
-            isPresented: $showQuitConfirmation,
-            titleVisibility: .visible
-        ) {
-            Button("game.quitConfirm.confirm", role: .destructive) {
-                router.pop()
+        // v1.1.3: confirmation before quitting — preserves in-progress puzzle.
+        // Modern custom modal (replaces the system .confirmationDialog).
+        .overlay {
+            if showQuitConfirmation {
+                ConfirmDialog(
+                    icon: "door.left.hand.open",
+                    titleKey: "game.quitConfirm.title",
+                    messageKey: "game.quitConfirm.message",
+                    cancelKey: "game.quitConfirm.cancel",
+                    confirmKey: "game.quitConfirm.confirm",
+                    onCancel: { dismissQuitConfirmation() },
+                    onConfirm: {
+                        dismissQuitConfirmation()
+                        router.pop()
+                    }
+                )
+                .zIndex(10)
             }
-            Button("common.cancel", role: .cancel) {}
-        } message: {
-            Text("game.quitConfirm.message")
         }
+        .animation(reduceMotion ? .none : .spring(response: 0.32, dampingFraction: 0.82),
+                   value: showQuitConfirmation)
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
@@ -443,7 +454,7 @@ struct GameView: View {
     private var gameHUD: some View {
         HStack(spacing: AppSpacing.sm) {
             // Back (v1.1.3: asks for confirmation to prevent accidental quit)
-            Button { showQuitConfirmation = true } label: {
+            Button { presentQuitConfirmation() } label: {
                 Image(systemName: "chevron.left")
                     .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(AppColors.onSurfaceVariant)
@@ -781,6 +792,15 @@ struct GameView: View {
     private func pauseGame() {
         timerTask?.cancel()
         showPause = true
+    }
+
+    private func presentQuitConfirmation() {
+        HapticService.shared.impact(.light)
+        showQuitConfirmation = true
+    }
+
+    private func dismissQuitConfirmation() {
+        showQuitConfirmation = false
     }
 
     // MARK: — Helpers

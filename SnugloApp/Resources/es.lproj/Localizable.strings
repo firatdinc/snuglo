@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "¿Salir del puzle?";
 "game.quitConfirm.message"  = "Tu progreso en este nivel no se guardará.";
 "game.quitConfirm.confirm"  = "Salir";
+"game.quitConfirm.cancel"   = "Seguir jugando";
 "game.hint"                 = "Pista";
 
 // MARK: — Pestañas (Faz 1: barra de 5 pestañas)

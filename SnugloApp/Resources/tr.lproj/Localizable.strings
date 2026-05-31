@@ -42,6 +42,7 @@
 "game.quitConfirm.title"    = "Çıkmak istediğine emin misin?";
 "game.quitConfirm.message"  = "Bu bölümdeki ilerlemen kaydedilmeyecek.";
 "game.quitConfirm.confirm"  = "Çık";
+"game.quitConfirm.cancel"   = "Devam Et";
 "game.hint"                 = "İpucu";
 
 // MARK: — Sekmeler (Faz 1: 5-sekme bar)
