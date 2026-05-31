@@ -93,6 +93,34 @@ enum TrayLayout {
         return min(maxCellSize, widthForCells / CGFloat(totalCols))
     }
 
+    // MARK: — Single-row (horizontally-scrolling) tray sizing
+
+    /// Cell size for a single-row tray that scrolls horizontally.
+    ///
+    /// Sized as large as `targetCell` allows, but never so tall that the tallest
+    /// piece exceeds `availableHeight` — so the row is GUARANTEED to fit the tray
+    /// vertically (no clipping) for any piece shape. Width is handled by scrolling,
+    /// so pieces are never shrunk to cram a crowded row.
+    ///
+    /// Pass the FULL (constant) piece set so the size stays stable as pieces are
+    /// placed — removing a piece never resizes the others.
+    static func rowCellSize(
+        pieces: [Piece],
+        availableHeight: CGFloat,
+        targetCell: CGFloat
+    ) -> CGFloat {
+        let maxPH = CGFloat(pieces.map { pieceHeight($0) }.max() ?? 1)
+        guard maxPH > 0, availableHeight > 0, targetCell > 0 else { return max(1, targetCell) }
+        return max(1, min(targetCell, availableHeight / maxPH))
+    }
+
+    /// Total width of one row of `pieces` laid edge-to-edge at `cellSize`.
+    static func rowWidth(pieces: [Piece], cellSize: CGFloat, spacing: CGFloat) -> CGFloat {
+        guard !pieces.isEmpty else { return 0 }
+        let cols = pieces.reduce(0) { $0 + pieceWidth($1) }
+        return CGFloat(cols) * cellSize + CGFloat(pieces.count - 1) * spacing
+    }
+
     // MARK: — Piece dimension helpers (used externally for overlay sizing)
 
     static func pieceWidth(_ piece: Piece) -> Int {

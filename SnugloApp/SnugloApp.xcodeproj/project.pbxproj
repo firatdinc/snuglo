@@ -25,6 +25,7 @@
 		18B050B9BE5BF4F171ED60DA /* DailyRewardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26682E61FDD8AC07AF5427F /* DailyRewardView.swift */; };
 		1A5067B2E1CC7FF61B38FC31 /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B4C244D37937E839199EAB /* LeaderboardViewModel.swift */; };
 		1B295A9A3151E47EBBF8A201 /* PlusJakartaSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7924A890DEE82EC99D7F3363 /* PlusJakartaSans-Regular.ttf */; };
+		1B3B52CDD279D451D81858C6 /* TrayVisualUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32EC2C6FC993C75C73FB3DC /* TrayVisualUITests.swift */; };
 		1D27807043DBA93196C5E710 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3C5E6AE355B623F247316C /* BannerAdView.swift */; };
 		205B681A3E3A95C73931BF09 /* error.caf in Resources */ = {isa = PBXBuildFile; fileRef = 28386137062A450C553FC295 /* error.caf */; };
 		20FBF50EF76EF9D9B2A62252 /* ColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EDADD1D5F19BEC9C6130F05 /* ColorsTests.swift */; };
@@ -246,6 +247,7 @@
 		ADDC25FC1EA8A9CC17232C07 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		AE1A1E6FF249929AF911E182 /* GameFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameFlowUITests.swift; sourceTree = "<group>"; };
 		B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCalculator.swift; sourceTree = "<group>"; };
+		B32EC2C6FC993C75C73FB3DC /* TrayVisualUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrayVisualUITests.swift; sourceTree = "<group>"; };
 		B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameButtonStyle.swift; sourceTree = "<group>"; };
 		B4B4C244D37937E839199EAB /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
@@ -291,7 +293,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_E16D4CDD-7D11-4071-B4E6-DA400247DEBC" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_28447640-32C0-469E-9B51-AB78C05AE6E8" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,6 +491,7 @@
 				56CBBFD1A789DBEB71966239 /* SettingsThemeLanguageUITests.swift */,
 				C280DEA922815D79D52035E1 /* SmokeUITests.swift */,
 				24C8AB441978A3E56D85CFF4 /* SnugloAppUITestsBase.swift */,
+				B32EC2C6FC993C75C73FB3DC /* TrayVisualUITests.swift */,
 			);
 			path = SnugloAppUITests;
 			sourceTree = "<group>";
@@ -788,10 +791,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_91EE7520-DC2B-482F-BB2B-4A01AD4D738E" /* . */ = {
+		"TEMP_EAEC8759-F97B-437B-A4FE-D0173A7EBDCF" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_E16D4CDD-7D11-4071-B4E6-DA400247DEBC" /* SnugloApp.entitlements */,
+				"TEMP_28447640-32C0-469E-9B51-AB78C05AE6E8" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1025,6 +1028,7 @@
 				D580D9EC03228E3E6ED0EB28 /* SettingsThemeLanguageUITests.swift in Sources */,
 				F8313EE5C4D761217E1FC65E /* SmokeUITests.swift in Sources */,
 				2E43D6A9A890916F3E7E0E89 /* SnugloAppUITestsBase.swift in Sources */,
+				1B3B52CDD279D451D81858C6 /* TrayVisualUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

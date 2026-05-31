@@ -362,16 +362,13 @@ struct GameView: View {
         let trayHeaderH: CGFloat = 30          // header label + xs gap
         let boardMaxW = max(0, regionW - AppSpacing.lg * 2)
 
-        // Comfortable tray content needed for ALL pieces at a board-relative cell
-        // (constant per level → stable).
+        // Single-row tray: it only needs room for the TALLEST piece at a
+        // comfortable, board-relative cell — width overflow is scrolled, never
+        // shrunk. Constant per level → stable (never grows/shrinks as pieces
+        // are placed).
         let approxCell = boardMaxW / max(1, w)
-        let innerTrayW = max(0, regionW - AppSpacing.lg * 4)
-        let neededContent = TrayLayout.compute(
-            pieces: viewModel.level.pieces,
-            availableWidth: innerTrayW,
-            preferredCellSize: approxCell * 0.6,
-            itemSpacing: spacing
-        ).contentHeight + AppSpacing.sm * 2
+        let maxPH = CGFloat(viewModel.level.pieces.map { TrayLayout.pieceHeight($0) }.max() ?? 1)
+        let neededContent = maxPH * (approxCell * 0.6) + AppSpacing.sm * 2
 
         let vBudget = max(0, regionH - spacing - trayHeaderH)
         // Tray gets what it needs but never more than ~42% of the budget — the
@@ -561,60 +558,47 @@ struct GameView: View {
         VStack(alignment: .leading, spacing: AppSpacing.xs) {
             trayHeader
 
-            VStack(spacing: 0) {
-                GeometryReader { geo in
-                    let innerWidth = max(0, geo.size.width - AppSpacing.lg * 2)
-                    let innerHeight = max(0, geo.size.height - AppSpacing.sm * 2)
-                    // Fit cell computed against the FULL (constant) piece set so
-                    // the piece size stays stable all game long; render only the
-                    // unplaced subset, which is therefore guaranteed to fit too.
-                    let fitCell = trayFitCell(
-                        pieces: viewModel.level.pieces,
-                        availableWidth: innerWidth,
-                        availableHeight: innerHeight,
-                        cap: cell * 0.6
-                    )
-                    // Lock the render cell to the size at which the FULL (constant)
-                    // piece set fits. TrayLayout grows the cell to fill the width
-                    // (cellSize = min(cap, width / totalColumns)), so feeding it only
-                    // the unplaced subset ENLARGES pieces as the column count drops:
-                    // placing a piece → fewer columns → bigger cells → tall pieces
-                    // overflow the fixed-height tray and get clipped at the bottom.
-                    // Using the full-set cell size keeps pieces a constant size;
-                    // removing a piece then only adds horizontal spacing.
-                    let stableCell = TrayLayout.compute(
-                        pieces: viewModel.level.pieces,
-                        availableWidth: innerWidth,
-                        preferredCellSize: fitCell,
-                        itemSpacing: AppSpacing.md
-                    ).cellSize
-                    let layout = TrayLayout.compute(
-                        pieces: viewModel.unplacedPieces,
-                        availableWidth: innerWidth,
-                        preferredCellSize: stableCell,
-                        itemSpacing: AppSpacing.md
-                    )
-                    VStack(alignment: .center, spacing: AppSpacing.md) {
-                        ForEach(Array(layout.rows.enumerated()), id: \.offset) { _, row in
-                            HStack(alignment: .center, spacing: AppSpacing.md) {
-                                ForEach(row, id: \.id) { piece in
-                                    BlockView(
-                                        piece: piece,
-                                        cellSize: layout.cellSize,
-                                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                                        isDragging: false
-                                    )
-                                    .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                                    .gesture(dragGesture(for: piece))
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
+            GeometryReader { geo in
+                let innerHeight = max(0, geo.size.height - AppSpacing.sm * 2)
+                let innerWidth  = geo.size.width
+                // Single-row tray. The cell is sized so the TALLEST piece of the
+                // FULL (constant) set fits the tray height — so pieces stay a fixed,
+                // readable size all game long and the row never overflows the box
+                // vertically. Width overflow is handled by horizontal scrolling, so
+                // pieces are NEVER shrunk to cram a crowded row (the old behaviour
+                // that produced unusable, clipped, vertically-stacked dots).
+                let cellSize = TrayLayout.rowCellSize(
+                    pieces: viewModel.level.pieces,
+                    availableHeight: innerHeight,
+                    targetCell: cell * 0.6
+                )
+                let spacing = AppSpacing.md
+                let contentWidth = TrayLayout.rowWidth(
+                    pieces: viewModel.unplacedPieces, cellSize: cellSize, spacing: spacing
+                ) + AppSpacing.lg * 2
+                let overflows = contentWidth > innerWidth
+
+                ScrollView(.horizontal, showsIndicators: overflows) {
+                    HStack(alignment: .center, spacing: spacing) {
+                        ForEach(viewModel.unplacedPieces, id: \.id) { piece in
+                            BlockView(
+                                piece: piece,
+                                cellSize: cellSize,
+                                isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                                isDragging: false
+                            )
+                            .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                            .gesture(dragGesture(for: piece))
                         }
                     }
                     .padding(.horizontal, AppSpacing.lg)
-                    .padding(.vertical, AppSpacing.sm)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    // Fill the viewport so pieces centre when they fit; expand to the
+                    // content width (scrollable) when they don't.
+                    .frame(minWidth: innerWidth, minHeight: geo.size.height, alignment: .center)
                 }
+                // Only scroll when pieces actually overflow — otherwise the scroll
+                // pan competes with the drag-to-place gesture.
+                .scrollDisabled(!overflows)
             }
             .frame(height: max(44, contentHeight))
             .background(AppColors.surfaceContainerLowest)
@@ -624,37 +608,6 @@ struct GameView: View {
         .padding(.horizontal, AppSpacing.lg)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
-    }
-
-    /// Largest cell size (≤ `cap`) at which ALL `pieces` fit inside the fixed
-    /// tray — both across its width (TrayLayout wraps to rows) and within its
-    /// height (`contentHeight ≤ availableHeight`). Binary search: content height
-    /// is monotonic in cell size (smaller cell ⇒ more pieces per row ⇒ fewer,
-    /// shorter rows), so this converges to the exact largest fitting cell and
-    /// GUARANTEES no piece is ever clipped, for any level or piece shape.
-    private func trayFitCell(
-        pieces: [Piece],
-        availableWidth: CGFloat,
-        availableHeight: CGFloat,
-        cap: CGFloat
-    ) -> CGFloat {
-        guard !pieces.isEmpty, availableWidth > 0, availableHeight > 0 else { return cap }
-        func contentHeight(_ c: CGFloat) -> CGFloat {
-            TrayLayout.compute(
-                pieces: pieces,
-                availableWidth: availableWidth,
-                preferredCellSize: c,
-                itemSpacing: AppSpacing.md
-            ).contentHeight
-        }
-        if contentHeight(cap) <= availableHeight { return cap }
-        var lo: CGFloat = 4   // floor — any real piece fits a tray at 4pt cells
-        var hi = cap
-        for _ in 0..<24 {
-            let mid = (lo + hi) / 2
-            if contentHeight(mid) <= availableHeight { lo = mid } else { hi = mid }
-        }
-        return lo
     }
 
     private var trayHeader: some View {
