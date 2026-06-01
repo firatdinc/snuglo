@@ -31,8 +31,8 @@ public enum DailyPuzzle {
     ///
     /// - Parameter timezone: API uyumluluğu için kabul edilir; dahili hesaplamalar
     ///   her zaman UTC kullanır (cross-timezone determinizm garantisi).
-    public static func today(timezone: TimeZone = .current) -> Level {
-        forDate(Date())
+    public static func today(index: Int = 0, timezone: TimeZone = .current) -> Level {
+        forDate(Date(), index: index)
     }
 
     /// Belirli bir tarih için bulmaca üretir.
@@ -43,7 +43,11 @@ public enum DailyPuzzle {
     ///     DateComponents her zaman UTC'den çıkarılır (reviewer BLOCKER D2 fix).
     ///
     /// **Regression lock:** 2026-01-01 Perşembe → gridSize=8, seed=20260101.
-    public static func forDate(_ date: Date, timezone: TimeZone = .current) -> Level {
+    ///
+    /// - Parameter index: Günün kaçıncı bölümü (0-tabanlı). Aynı gün içinde
+    ///   farklı `index` → farklı (ve `levelIndex` arttıkça daha zor) bulmaca.
+    ///   Üretilen `Level.id` = `"daily-<index>"`. `index: 0` eski davranışı korur.
+    public static func forDate(_ date: Date, index: Int = 0, timezone: TimeZone = .current) -> Level {
         // UTC ZORUNLU — timezone parametresi yok sayılır
         let comps = _utcCalendar.dateComponents([.year, .month, .day, .weekday], from: date)
 
@@ -58,7 +62,7 @@ public enum DailyPuzzle {
         let gen = LevelGenerator()
         return gen.generate(
             packId: "daily",
-            levelIndex: 0,
+            levelIndex: index,
             gridSize: gs,
             seedBase: s
         )

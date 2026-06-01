@@ -64,6 +64,9 @@ final class GameViewModel {
     /// Cleared on level start/restart (GameViewModel re-init handles this).
     private(set) var moveHistory: [MoveSnapshot] = []
 
+    /// One free undo is granted per game session; resets on re-init (new game / restart).
+    private(set) var freeUndoAvailable: Bool = true
+
     // MARK: - Private
     private let checker = SolutionChecker()
     private let gameCenter: any GameCenterServicing
@@ -94,13 +97,13 @@ final class GameViewModel {
     }
 
     /// Faz D-2: PackProvider üzerinden engine Level ile başlat.
-    /// levelId == "daily" → bugünün DailyPuzzle'ı
+    /// levelId "daily" / "daily-N" → bugünün N. daily bölümü (çok-bölümlü challenge)
     /// levelId == "packId-index" → PackProvider.loadLevel(id:)
     @MainActor
     static func makeFromPackProvider(levelId: String) -> GameViewModel {
         let level: Level
-        if levelId == "daily" {
-            level = PackProvider.dailyPuzzle()
+        if levelId.hasPrefix("daily") {
+            level = PackProvider.dailyPuzzle(index: PackProvider.dailyIndex(from: levelId))
         } else {
             level = PackProvider.loadLevel(id: levelId) ?? PackProvider.dailyPuzzle()
         }
@@ -143,6 +146,10 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            // Dedup: a re-dragged piece must appear once, at its LATEST placement
+            // time — otherwise undo pops a stale duplicate and no-ops while the
+            // user expects the next-most-recent piece to return to the tray.
+            moveHistory.removeAll { $0.pieceID == pieceID }
             moveHistory.append(MoveSnapshot(pieceID: pieceID))
             isSolved = true
             NSLog("[Snuglo][tryPlace] SOLVED ✓")
@@ -153,6 +160,10 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            // Dedup: a re-dragged piece must appear once, at its LATEST placement
+            // time — otherwise undo pops a stale duplicate and no-ops while the
+            // user expects the next-most-recent piece to return to the tray.
+            moveHistory.removeAll { $0.pieceID == pieceID }
             moveHistory.append(MoveSnapshot(pieceID: pieceID))
             if missing.count <= 6 {
                 NSLog("[Snuglo][tryPlace] missing cells: \(missing.map { "(\($0.x),\($0.y))" }.joined(separator: ","))")
@@ -290,6 +301,13 @@ final class GameViewModel {
             return .notApplicable
 
         case .undo:
+            // Free undo path — one per session.
+            if freeUndoAvailable {
+                freeUndoAvailable = false
+                undoLastMove()
+                return .success
+            }
+            // Gem fallback path.
             guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
             undoLastMove()
             return .success
@@ -302,7 +320,7 @@ final class GameViewModel {
     }
 
     /// Removes the most recent placement and returns the piece to the tray.
-    private func undoLastMove() {
+    func undoLastMove() {
         guard let snapshot = moveHistory.popLast() else { return }
         removePlacement(for: snapshot.pieceID)
         isSolved = false
@@ -345,9 +363,14 @@ final class GameViewModel {
         let timeTaken = Date().timeIntervalSince(startTime)
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
         let progress = ProgressStore.shared
-        progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
         if level.id.hasPrefix("daily") {
-            progress.markDailySolved(date: Date(), time: timeTaken)
+            // Daily levels are tracked per-day (dailyChallenge + streak), NOT in
+            // levelProgress, so they never inflate the campaign "/240" counters
+            // and reset cleanly each day.
+            let idx = PackProvider.dailyIndex(from: level.id)
+            progress.markDailyLevelSolved(index: idx, date: Date(), time: timeTaken)
+        } else {
+            progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
         }
         let stats = AchievementStats(from: progress)
         newlyUnlockedAchievements = AchievementsStore.shared.evaluate(

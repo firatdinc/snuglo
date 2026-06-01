@@ -13,6 +13,7 @@ struct SettingsView: View {
     @AppStorage("musicEnabled")           private var musicEnabled         = true
     @AppStorage("sfxEnabled")             private var sfxEnabled           = true
     @AppStorage("hapticsEnabled")         private var hapticsEnabled       = true
+    @AppStorage("zenMode")                private var zenMode              = false
     @AppStorage("appTheme")               private var appThemeRaw: Int     = 0
     @AppStorage("dailyReminderEnabled")   private var dailyReminderEnabled = false
     @AppStorage("dailyReminderTime")      private var dailyReminderTimeInterval: Double = 19 * 3600
@@ -124,6 +125,23 @@ struct SettingsView: View {
                         labelKey: "settings.haptics.enable",
                         isOn: $hapticsEnabled
                     )
+                }
+
+                // — GAMEPLAY (Zen mode) —
+                VStack(alignment: .leading, spacing: AppSpacing.xs) {
+                    settingsSection("settings.gameplay.title") {
+                        toggleRow(
+                            icon: "leaf.fill",
+                            iconColor: AppColors.blockSage.opacity(0.6),
+                            labelKey: "settings.gameplay.zen",
+                            isOn: $zenMode,
+                            a11yId: "settings.zen_toggle"
+                        )
+                    }
+                    Text("settings.gameplay.zenFooter")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                        .padding(.horizontal, AppSpacing.sm)
                 }
 
                 // — APPEARANCE —

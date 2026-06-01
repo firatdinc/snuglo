@@ -22,6 +22,8 @@ struct BalanceChip: View {
                 .font(AppTypography.numericSmall)
                 .monospacedDigit()
                 .foregroundStyle(AppColors.onSurface)
+                .contentTransition(.numericText())
+                .animation(.snappy(duration: 0.35), value: amount)
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, AppSpacing.sm)

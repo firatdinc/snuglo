@@ -33,6 +33,8 @@ struct Pack: Identifiable, Hashable {
     }
     /// LocalizedStringKey variant — used in SwiftUI Text(pack.titleKey).
     var titleKey: LocalizedStringKey { LocalizedStringKey(rawTitleKey) }
+    /// Plain localized String — for nav titles, a11y labels, alert interpolation.
+    var localizedTitle: String { NSLocalizedString(rawTitleKey, comment: "") }
     /// LocalizedStringKey for the grid-size badge, e.g. "pack.grid_label.5".
     var gridLabelKey: LocalizedStringKey {
         LocalizedStringKey("pack.grid_label.\(gridSize)")

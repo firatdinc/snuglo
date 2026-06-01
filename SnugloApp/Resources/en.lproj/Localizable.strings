@@ -35,6 +35,12 @@
 "menu.viewAll"     = "View All";
 "menu.startFirst"  = "Start your first level";
 "menu.refresh"     = "Refresh in %@";
+"menu.dailyComeBack" = "Done — new puzzles tomorrow";
+"menu.dailyNext"   = "Next puzzle in";
+"menu.daily.notif.on"  = "Daily reminder on";
+"menu.daily.notif.off" = "Daily reminder off";
+"notif.daily.title" = "Your daily puzzle is ready 🧩";
+"notif.daily.body"  = "A fresh set of puzzles is waiting. Keep your streak going!";
 
 // MARK: — Game (v1.1.3)
 "game.title.daily"          = "Daily Puzzle";
@@ -64,6 +70,10 @@
 // MARK: — Levels list
 "levels.title"    = "Levels";
 "levels.subtitle" = "Pick a pack";
+"pack.cozy_beginnings.title"  = "Cozy Beginnings";
+"pack.spice_route.title"      = "Spice Route";
+"pack.mambo_nights.title"     = "Mambo Nights";
+"pack.woodland_retreat.title" = "Woodland Retreat";
 
 // MARK: — Pack
 "pack.cozyBeginnings"  = "Cozy Beginnings";
@@ -88,6 +98,8 @@
 
 // MARK: — Level Complete
 "complete.puzzleSolved" = "Level complete!";
+"complete.dailyAllDone" = "All daily puzzles solved!";
+"complete.dailyComeBack" = "Come back tomorrow for a fresh set.";
 "complete.next"         = "Next Level";
 "complete.replay"       = "Replay";
 "complete.home"         = "Home";
@@ -236,7 +248,9 @@
 "shop.deal.ticket.gems.title"  = "Ticket Deal";
 "shop.deal.ticket.gems.message" = "Spend 80 gems and get 2 tickets.";
 
-"shop.packs.section"  = "Coin Packs";
+"shop.packs.section"  = "Free Rewards";
+"shop.packs.hint"     = "Watch a short video to earn — free";
+"shop.free"           = "FREE";
 "shop.pack.watch.ad"  = "Watch Ad";
 "shop.pack.coins.sm"  = "Small Pack";
 "shop.pack.coins.md"  = "Coin Bundle";
@@ -244,6 +258,9 @@
 "shop.pack.ticket"    = "Game Ticket";
 
 "shop.exchange.section" = "Exchange";
+"shop.exchange.hint"    = "Convert coins and gems";
+"shop.exchange.rate"    = "Rate";
+"shop.exchange.need"    = "Need %1$d more";
 "shop.exchange.confirm" = "Exchange";
 
 "shop.debug.section"      = "Debug Controls";
@@ -309,3 +326,13 @@
 "achievement.noHints10.description"  = "Complete 10 levels without hints";
 "achievement.speedSolver.title"      = "Speed Solver";
 "achievement.speedSolver.description" = "Solve a level in under 30 seconds";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "%d-day streak";
+"menu.streak.start" = "Play any level today to start a streak";
+"menu.streak.best"  = "Best %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Gameplay";
+"settings.gameplay.zen"    = "Zen Mode";
+"settings.gameplay.zenFooter" = "No timer, no fail — solve at your own pace.";

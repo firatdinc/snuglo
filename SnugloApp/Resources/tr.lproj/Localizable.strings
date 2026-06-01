@@ -35,6 +35,12 @@
 "menu.viewAll"     = "Tümünü Gör";
 "menu.startFirst"  = "İlk seviyene başla";
 "menu.refresh"     = "%@ içinde yenilenir";
+"menu.dailyComeBack" = "Bitti — yarın yeni bulmacalar";
+"menu.dailyNext"   = "Yeni bulmaca";
+"menu.daily.notif.on"  = "Günlük hatırlatma açık";
+"menu.daily.notif.off" = "Günlük hatırlatma kapalı";
+"notif.daily.title" = "Günlük bulmacan hazır 🧩";
+"notif.daily.body"  = "Yeni bulmacalar seni bekliyor. Serini sürdür!";
 
 // MARK: — Oyun (v1.1.3)
 "game.title.daily"          = "Günün Bulmacası";
@@ -64,6 +70,10 @@
 // MARK: — Seviyeler listesi
 "levels.title"    = "Seviyeler";
 "levels.subtitle" = "Bir paket seç";
+"pack.cozy_beginnings.title"  = "Rahat Başlangıçlar";
+"pack.spice_route.title"      = "Baharat Yolu";
+"pack.mambo_nights.title"     = "Mambo Geceleri";
+"pack.woodland_retreat.title" = "Orman Kaçamağı";
 
 // MARK: — Paket
 "pack.cozyBeginnings"  = "Sıcak Başlangıç";
@@ -88,6 +98,8 @@
 
 // MARK: — Seviye Tamamlandı
 "complete.puzzleSolved" = "Seviye Tamamlandı!";
+"complete.dailyAllDone" = "Bugünün tüm bulmacaları çözüldü!";
+"complete.dailyComeBack" = "Yarın yeni bir set için tekrar gel.";
 "complete.next"         = "Sonraki Seviye";
 "complete.replay"       = "Tekrar Oyna";
 "complete.home"         = "Ana Sayfa";
@@ -236,7 +248,9 @@
 "shop.deal.ticket.gems.title"  = "Bilet Fırsatı";
 "shop.deal.ticket.gems.message" = "80 mücevher harca ve 2 bilet al.";
 
-"shop.packs.section"  = "Altın Paketleri";
+"shop.packs.section"  = "Ücretsiz Ödüller";
+"shop.packs.hint"     = "Kısa bir video izle, ücretsiz kazan";
+"shop.free"           = "ÜCRETSİZ";
 "shop.pack.watch.ad"  = "Reklam İzle";
 "shop.pack.coins.sm"  = "Küçük Paket";
 "shop.pack.coins.md"  = "Altın Demeti";
@@ -244,6 +258,9 @@
 "shop.pack.ticket"    = "Oyun Bileti";
 
 "shop.exchange.section" = "Dönüştür";
+"shop.exchange.hint"    = "Altın ve mücevher dönüştür";
+"shop.exchange.rate"    = "Kur";
+"shop.exchange.need"    = "%1$d daha gerekli";
 "shop.exchange.confirm" = "Dönüştür";
 
 "shop.debug.section"      = "Hata Ayıklama";
@@ -309,3 +326,13 @@
 "achievement.noHints10.description"  = "İpucu kullanmadan 10 seviyeyi tamamla";
 "achievement.speedSolver.title"      = "Hız Çözücü";
 "achievement.speedSolver.description" = "Bir seviyeyi 30 saniyenin altında çöz";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "%d günlük seri";
+"menu.streak.start" = "Bugün oyna, serini başlat";
+"menu.streak.best"  = "En iyi %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Oyun";
+"settings.gameplay.zen"    = "Zen Modu";
+"settings.gameplay.zenFooter" = "Süre yok, başarısızlık yok — sakin sakin çöz.";

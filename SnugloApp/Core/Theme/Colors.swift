@@ -73,14 +73,16 @@ enum AppColors {
 
     static let surfaceVariant = Color(light: "#E6E1E4", dark: "#414045")
 
-    // MARK: — Block fills (6 solgun Nordic pastel)
+    // MARK: — Block fills
+    // Light mode uses clear, saturated mid-tones (not washed-out pastels) so the
+    // pieces read crisply — closer in vividness to their dark-mode counterparts.
 
-    static let blockLavender   = Color(light: "#D4C3E8", dark: "#7A6D8C")
-    static let blockSage       = Color(light: "#C8D8C5", dark: "#6F8A6B")
-    static let blockPeach      = Color(light: "#F2D0B7", dark: "#A5826A")
-    static let blockBlush      = Color(light: "#E8C6CD", dark: "#9C7780")
-    static let blockCream      = Color(light: "#F2E5C2", dark: "#9D9168")
-    static let blockDustyOlive = Color(light: "#C8C49C", dark: "#7D7A5F")
+    static let blockLavender   = Color(light: "#B49BE0", dark: "#7A6D8C")
+    static let blockSage       = Color(light: "#90C58C", dark: "#6F8A6B")
+    static let blockPeach      = Color(light: "#F2A878", dark: "#A5826A")
+    static let blockBlush      = Color(light: "#E59FAC", dark: "#9C7780")
+    static let blockCream      = Color(light: "#EBC861", dark: "#9D9168")
+    static let blockDustyOlive = Color(light: "#AEAA62", dark: "#7D7A5F")
 
     /// Index-stable palette — DO NOT reorder (deterministic piece coloring).
     static let blockPalette: [Color] = [
@@ -97,6 +99,8 @@ enum AppColors {
 
     static let invalidRed = error
     static let success    = primary
+    /// Clear leaf-green used for positive/solved states (e.g. the daily "sun" badge).
+    static let successGreen = Color(light: "#4FB05A", dark: "#5AA861")
 
     // MARK: — Game Board (Nordic Hearth warm parchment)
 

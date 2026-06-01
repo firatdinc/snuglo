@@ -46,83 +46,81 @@ struct OnboardingView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .top) {
-            // Atmospheric blob (decorative)
-            AppColors.primaryContainer.opacity(0.25)
-                .frame(width: 500, height: 500)
-                .clipShape(Circle())
-                .blur(radius: 80)
-                .offset(x: -80, y: -120)
-                .ignoresSafeArea()
-                .accessibilityHidden(true)
-
-            AppColors.background.ignoresSafeArea()
-                .opacity(0.5)
-                .accessibilityHidden(true)
-
-            VStack(spacing: 0) {
-                // — Skip button —
-                HStack {
-                    Spacer()
-                    Button {
-                        finish()
-                    } label: {
-                        Text("common.skip")
-                            .font(AppTypography.labelSmall)
-                            .tracking(0.3)
-                            .foregroundStyle(AppColors.onSurfaceVariant)
-                            .padding(.horizontal, AppSpacing.md)
-                            .padding(.vertical, AppSpacing.sm)
-                    }
-                    .buttonStyle(.plain)
-                    .contentShape(Rectangle())
-                    .accessibilityLabel("Skip onboarding")
-                    .accessibilityHint("Goes directly to the main menu")
-                    .accessibilityIdentifier("button.onboarding.skip")
-                }
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.top, AppSpacing.lg)
-
+        VStack(spacing: 0) {
+            // — Skip button —
+            HStack {
                 Spacer()
-
-                // — Page content —
-                TabView(selection: $currentPage) {
-                    ForEach(pages) { page in
-                        pageContent(page)
-                            .tag(page.id)
-                    }
+                Button {
+                    finish()
+                } label: {
+                    Text("common.skip")
+                        .font(AppTypography.labelSmall)
+                        .tracking(0.3)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                        .padding(.horizontal, AppSpacing.md)
+                        .padding(.vertical, AppSpacing.sm)
                 }
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: currentPage)
-
-                Spacer()
-
-                // — Dot indicator — (H-2: VoiceOver labelled)
-                HStack(spacing: AppSpacing.sm) {
-                    ForEach(pages) { page in
-                        Capsule()
-                            .fill(currentPage == page.id ? AppColors.primary : AppColors.surfaceContainerHigh)
-                            .frame(width: currentPage == page.id ? 32 : 10, height: 10)
-                            .animation(
-                                reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7),
-                                value: currentPage
-                            )
-                    }
-                }
-                .padding(.bottom, AppSpacing.xl)
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
-
-                // — Action button —
-                // iOS 26: external .accessibilityHint applied to a wrapper around a
-                // view with .accessibilityElement(children: .ignore) can shadow the
-                // identifier in the accessibility tree. Hint is omitted here; the
-                // button's label already communicates the action.
-                PrimaryButton(nextButtonKey, accessibilityID: "button.onboarding.getStarted", action: handleNext)
-                    .padding(.horizontal, AppSpacing.lg)
-                    .shadowL1()
-                    .padding(.bottom, AppSpacing.xl + AppSpacing.md)
+                .buttonStyle(.plain)
+                .contentShape(Rectangle())
+                .accessibilityLabel("Skip onboarding")
+                .accessibilityHint("Goes directly to the main menu")
+                .accessibilityIdentifier("button.onboarding.skip")
             }
+            .padding(.horizontal, AppSpacing.lg)
+            .padding(.top, AppSpacing.lg)
+
+            Spacer()
+
+            // — Page content —
+            TabView(selection: $currentPage) {
+                ForEach(pages) { page in
+                    pageContent(page)
+                        .tag(page.id)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: currentPage)
+
+            Spacer()
+
+            // — Dot indicator — (H-2: VoiceOver labelled)
+            HStack(spacing: AppSpacing.sm) {
+                ForEach(pages) { page in
+                    Capsule()
+                        .fill(currentPage == page.id ? AppColors.primary : AppColors.surfaceContainerHigh)
+                        .frame(width: currentPage == page.id ? 32 : 10, height: 10)
+                        .animation(
+                            reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.7),
+                            value: currentPage
+                        )
+                }
+            }
+            .padding(.bottom, AppSpacing.xl)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
+
+            // — Action button —
+            // iOS 26: external .accessibilityHint applied to a wrapper around a
+            // view with .accessibilityElement(children: .ignore) can shadow the
+            // identifier in the accessibility tree. Hint is omitted here; the
+            // button's label already communicates the action.
+            PrimaryButton(nextButtonKey, accessibilityID: "button.onboarding.getStarted", action: handleNext)
+                .padding(.horizontal, AppSpacing.lg)
+                .shadowL1()
+                .padding(.bottom, AppSpacing.xl)
+        }
+        .background {
+            // Atmospheric blob (decorative) — kept as background so it doesn't
+            // affect the VStack's layout width (500pt frame was expanding ZStack).
+            ZStack {
+                AppColors.primaryContainer.opacity(0.25)
+                    .frame(width: 500, height: 500)
+                    .clipShape(Circle())
+                    .blur(radius: 80)
+                    .offset(x: -80, y: -120)
+                    .accessibilityHidden(true)
+            }
+            .ignoresSafeArea()
         }
         .background(AppColors.background.ignoresSafeArea())
         // iOS 26: .contain ensures children (buttons, PrimaryButton) remain

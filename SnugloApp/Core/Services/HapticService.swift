@@ -16,7 +16,9 @@ final class HapticService {
     // MARK: — Generators (lazy for performance)
     private lazy var lightGenerator  = UIImpactFeedbackGenerator(style: .light)
     private lazy var mediumGenerator = UIImpactFeedbackGenerator(style: .medium)
+    private lazy var rigidGenerator  = UIImpactFeedbackGenerator(style: .rigid)
     private lazy var notifyGenerator = UINotificationFeedbackGenerator()
+    private lazy var selectionGenerator = UISelectionFeedbackGenerator()
 
     private init() {}
 
@@ -28,6 +30,8 @@ final class HapticService {
         guard isEnabled else { return }
         lightGenerator.prepare()
         mediumGenerator.prepare()
+        rigidGenerator.prepare()
+        selectionGenerator.prepare()
     }
 
     /// Trigger an impact vibration.
@@ -40,9 +44,17 @@ final class HapticService {
             lightGenerator.impactOccurred()
         case .medium:
             mediumGenerator.impactOccurred()
+        case .rigid:
+            rigidGenerator.impactOccurred()
         default:
             UIImpactFeedbackGenerator(style: style).impactOccurred()
         }
+    }
+
+    /// A light "tick" as the dragged piece hovers from one grid cell to the next.
+    func selection() {
+        guard isEnabled else { return }
+        selectionGenerator.selectionChanged()
     }
 
     /// Trigger a notification vibration pattern.

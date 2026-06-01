@@ -33,7 +33,7 @@ extension DailyDeal {
             id: "deal_coins_ad",
             titleKey: "shop.deal.coins.title",
             messageKey: "shop.deal.coins.message",
-            sfSymbol: "circle.hexagongrid.fill",
+            sfSymbol: "circle.circle.fill",
             action: .watchAd(earn: .coin, amount: 150)
         ),
         DailyDeal(
@@ -73,8 +73,8 @@ struct CurrencyPack: Identifiable {
 extension CurrencyPack {
     /// Four ad-reward currency packs shown in the coin packs grid.
     static let allPacks: [CurrencyPack] = [
-        CurrencyPack(id: "cp_coins_sm", titleKey: "shop.pack.coins.sm", sfSymbol: "circle.hexagongrid.fill", earn: .coin, amount: 50),
-        CurrencyPack(id: "cp_coins_md", titleKey: "shop.pack.coins.md", sfSymbol: "circle.hexagongrid.fill", earn: .coin, amount: 150),
+        CurrencyPack(id: "cp_coins_sm", titleKey: "shop.pack.coins.sm", sfSymbol: "circle.circle.fill", earn: .coin, amount: 50),
+        CurrencyPack(id: "cp_coins_md", titleKey: "shop.pack.coins.md", sfSymbol: "circle.circle.fill", earn: .coin, amount: 150),
         CurrencyPack(id: "cp_gems_sm", titleKey: "shop.pack.gems.sm", sfSymbol: "diamond.fill", earn: .gem, amount: 10),
         CurrencyPack(id: "cp_ticket", titleKey: "shop.pack.ticket", sfSymbol: "ticket.fill", earn: .ticket, amount: 1)
     ]

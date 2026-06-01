@@ -55,12 +55,11 @@ struct ShopView: View {
         .overlay(alignment: .top) {
             if viewModel.showExchangeBanner {
                 exchangeBanner
-                    .padding(.horizontal, AppSpacing.lg)
-                    .padding(.top, AppSpacing.md)
+                    .padding(.top, AppSpacing.xs)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear {
                         Task {
-                            try? await Task.sleep(nanoseconds: 2_500_000_000)
+                            try? await Task.sleep(nanoseconds: 3_200_000_000)
                             viewModel.dismissExchangeBanner()
                         }
                     }
@@ -78,9 +77,22 @@ struct ShopView: View {
         }
     }
 
+    // Section header with an optional clarifying subtitle.
+    private func sectionHeader(_ title: LocalizedStringKey, subtitle: LocalizedStringKey) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(AppTypography.headlineMedium)
+                .foregroundStyle(AppColors.onSurface)
+            Text(subtitle)
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurfaceVariant)
+        }
+        .padding(.horizontal, AppSpacing.xs)
+    }
+
     private var coinPacksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.packs.section")
+            sectionHeader("shop.packs.section", subtitle: "shop.packs.hint")
             CurrencyPackGrid(
                 packs: CurrencyPack.allPacks,
                 onWatch: viewModel.watchAdForPack,
@@ -91,7 +103,7 @@ struct ShopView: View {
 
     private var exchangeSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.exchange.section")
+            sectionHeader("shop.exchange.section", subtitle: "shop.exchange.hint")
             ExchangePanel(viewModel: viewModel)
         }
     }
@@ -158,9 +170,10 @@ struct ShopView: View {
 
     private var exchangeBanner: some View {
         let isInsufficient = viewModel.exchangeInsufficient != nil
-        return AnnouncementBanner(
+        return ExchangeSignBanner(
             titleKey: isInsufficient ? "shop.exchange.insufficient.title" : "shop.exchange.success.title",
-            messageKey: isInsufficient ? "shop.exchange.insufficient.message" : "shop.exchange.success.message",
+            receipt: isInsufficient ? nil : viewModel.lastExchange,
+            messageKey: isInsufficient ? "shop.exchange.insufficient.message" : nil,
             onDismiss: viewModel.dismissExchangeBanner
         )
     }

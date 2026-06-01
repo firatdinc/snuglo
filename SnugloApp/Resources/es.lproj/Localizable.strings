@@ -35,6 +35,12 @@
 "menu.viewAll"     = "Ver todo";
 "menu.startFirst"  = "Empieza tu primer nivel";
 "menu.refresh"     = "Se renueva en %@";
+"menu.dailyComeBack" = "Listo — nuevos puzles mañana";
+"menu.dailyNext"   = "Próximo en";
+"menu.daily.notif.on"  = "Recordatorio diario activado";
+"menu.daily.notif.off" = "Recordatorio diario desactivado";
+"notif.daily.title" = "Tu puzle diario está listo 🧩";
+"notif.daily.body"  = "Una nueva tanda de puzles te espera. ¡Mantén tu racha!";
 
 // MARK: — Juego (v1.1.3)
 "game.title.daily"          = "Puzle del día";
@@ -64,6 +70,10 @@
 // MARK: — Lista de niveles
 "levels.title"    = "Niveles";
 "levels.subtitle" = "Elige un paquete";
+"pack.cozy_beginnings.title"  = "Comienzos Acogedores";
+"pack.spice_route.title"      = "Ruta de Especias";
+"pack.mambo_nights.title"     = "Noches de Mambo";
+"pack.woodland_retreat.title" = "Refugio del Bosque";
 
 // MARK: — Paquete
 "pack.cozyBeginnings"  = "Comienzos acogedores";
@@ -88,6 +98,8 @@
 
 // MARK: — Nivel completado
 "complete.puzzleSolved" = "¡Nivel completado!";
+"complete.dailyAllDone" = "¡Todos los puzles diarios resueltos!";
+"complete.dailyComeBack" = "Vuelve mañana para una nueva tanda.";
 "complete.next"         = "Siguiente nivel";
 "complete.replay"       = "Repetir";
 "complete.home"         = "Inicio";
@@ -236,7 +248,9 @@
 "shop.deal.ticket.gems.title"  = "Oferta de Boleto";
 "shop.deal.ticket.gems.message" = "Gasta 80 gemas y obtén 2 boletos.";
 
-"shop.packs.section"  = "Paquetes de Monedas";
+"shop.packs.section"  = "Recompensas Gratis";
+"shop.packs.hint"     = "Mira un video corto y gana — gratis";
+"shop.free"           = "GRATIS";
 "shop.pack.watch.ad"  = "Ver Anuncio";
 "shop.pack.coins.sm"  = "Paquete Pequeño";
 "shop.pack.coins.md"  = "Paquete Mediano";
@@ -244,6 +258,9 @@
 "shop.pack.ticket"    = "Boleto de Juego";
 
 "shop.exchange.section" = "Intercambio";
+"shop.exchange.hint"    = "Convierte monedas y gemas";
+"shop.exchange.rate"    = "Tasa";
+"shop.exchange.need"    = "Faltan %1$d";
 "shop.exchange.confirm" = "Intercambiar";
 
 "shop.debug.section"      = "Controles Debug";
@@ -309,3 +326,13 @@
 "achievement.noHints10.description"  = "Completa 10 niveles sin pistas";
 "achievement.speedSolver.title"      = "Solucionador Rápido";
 "achievement.speedSolver.description" = "Resuelve un nivel en menos de 30 segundos";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "Racha de %d días";
+"menu.streak.start" = "Juega hoy para iniciar una racha";
+"menu.streak.best"  = "Mejor %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Juego";
+"settings.gameplay.zen"    = "Modo Zen";
+"settings.gameplay.zenFooter" = "Sin tiempo, sin fallos: resuelve a tu ritmo.";

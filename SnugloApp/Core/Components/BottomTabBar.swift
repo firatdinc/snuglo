@@ -89,6 +89,7 @@ struct RootTabView: View {
             .toolbar(.hidden, for: .tabBar)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+        .background(AppColors.background.ignoresSafeArea())
         .scrollDisabled(router.isGameActive)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             Color.clear.frame(height: contentInset)

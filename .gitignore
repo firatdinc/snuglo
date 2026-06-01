@@ -7,3 +7,6 @@ SnugloApp/build/
 DerivedData/
 .DS_Store
 Package.resolved
+
+# Xcode user state
+xcuserdata/

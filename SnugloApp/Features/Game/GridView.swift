@@ -19,6 +19,8 @@ struct GridView: View {
     let snapCoord: Coord?
     let snapIsInvalid: Bool
     let draggingPieceID: PieceID?
+    /// 0…1 animated phase driving the pulsing target outline (juicy snap feedback).
+    var snapPulse: CGFloat = 0
 
     var body: some View {
         GeometryReader { geo in
@@ -106,6 +108,14 @@ struct GridView: View {
             strokeWidth = 1.0
         }
 
+        // Pulsing outline: a brighter, slightly inflated halo that breathes while
+        // the piece hovers over a valid target — makes the landing spot pop.
+        let pulse = max(0, min(1, snapPulse))
+        let haloAlpha = (snapIsInvalid ? 0.35 : 0.45) + 0.40 * pulse
+        let haloWidth = strokeWidth + 2.5 * pulse
+        let haloColor = (snapIsInvalid ? AppColors.error : AppColors.blockColor(for: pid)).opacity(haloAlpha)
+        let grow = 1.0 * pulse   // px the halo inflates at peak
+
         for cell in piece.cells {
             let ax = CGFloat(cell.x + coord.x)
             let ay = CGFloat(cell.y + coord.y)
@@ -116,6 +126,11 @@ struct GridView: View {
             let path = Path(roundedRect: rect, cornerRadius: AppRadius.block)
             context.fill(path, with: .color(ghostFill))
             context.stroke(path, with: .color(ghostStroke), lineWidth: strokeWidth)
+
+            // breathing halo on top
+            let haloRect = rect.insetBy(dx: -grow, dy: -grow)
+            let haloPath = Path(roundedRect: haloRect, cornerRadius: AppRadius.block + grow)
+            context.stroke(haloPath, with: .color(haloColor), lineWidth: haloWidth)
         }
     }
 }

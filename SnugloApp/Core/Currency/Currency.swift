@@ -19,7 +19,7 @@ enum Currency: String, CaseIterable, Identifiable, Codable {
 
     var sfSymbol: String {
         switch self {
-        case .coin:   return "circle.hexagongrid.fill"
+        case .coin:   return "circle.circle.fill"
         case .gem:    return "diamond.fill"
         case .ticket: return "ticket.fill"
         case .cup:    return "trophy.fill"
