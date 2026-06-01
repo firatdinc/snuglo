@@ -78,6 +78,9 @@ struct GameView: View {
     /// the timer becomes a calm count-UP and the level can never fail on time.
     @AppStorage("zenMode") private var zenMode = false
 
+    /// Confetti burst on solve (juice). Auto-clears; skipped under Reduce Motion.
+    @State private var showCelebration = false
+
     /// v1.1.4 layout: live cell size of the board, derived from the flexible
     /// board region (see `boardRegion`). The board is a centred square sized to
     /// the SMALLER of its available width and height, so it always fits between
@@ -186,6 +189,11 @@ struct GameView: View {
                     // "poof" out on release; spring the lean back to level
                     .transition(.scale(scale: 0.55).combined(with: .opacity))
                     .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.6), value: dragTilt)
+                }
+                if showCelebration {
+                    SolveCelebration()
+                        .frame(width: rootGeo.size.width, height: rootGeo.size.height)
+                        .allowsHitTesting(false)
                 }
             }
             .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .top)
@@ -378,6 +386,14 @@ struct GameView: View {
                     )
                     earnedReward = reward
                     for (currency, amount) in reward { WalletStore.shared.earn(currency, amount: amount) }
+                }
+                // Confetti burst (juice) — skipped under Reduce Motion. Auto-clears.
+                if !reduceMotion {
+                    showCelebration = true
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(1900))
+                        showCelebration = false
+                    }
                 }
                 // Wave plays first; SolveWaveOverlay calls onComplete → showComplete = true
                 showWaveAnimation = true

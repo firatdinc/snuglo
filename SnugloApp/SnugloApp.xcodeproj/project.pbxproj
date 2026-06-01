@@ -128,6 +128,7 @@
 		DC120A80DBD2DC00E8679A12 /* ThemeApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076E6DB8E98471CF730240A5 /* ThemeApplier.swift */; };
 		DC5BB4694FE93DAF0E26D564 /* LevelFailSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC8A566FB79FC62CE1E5C42 /* LevelFailSheet.swift */; };
 		DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B165E71825BFEA8ABE02AC /* RootView.swift */; };
+		DFDD68B93932E3C5A3FFD06B /* SolveCelebration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE47F1741E67A9665438E95 /* SolveCelebration.swift */; };
 		E42E6BE04E41FB03992642BD /* LeaderboardID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0D4DF33B76D7F85EED62B5 /* LeaderboardID.swift */; };
 		E76526D1DA21182142A10109 /* ShopViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49470B585B6D13546687645C /* ShopViewModelTests.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
@@ -187,7 +188,7 @@
 		241999A38B4FC99BD18EC2AA /* DebugSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSection.swift; sourceTree = "<group>"; };
 		24C8AB441978A3E56D85CFF4 /* SnugloAppUITestsBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloAppUITestsBase.swift; sourceTree = "<group>"; };
 		251DF56362DCF0376BCF40E0 /* LeaderboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModelTests.swift; sourceTree = "<group>"; };
-		28386137062A450C553FC295 /* error.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = error.caf; sourceTree = "<group>"; };
+		28386137062A450C553FC295 /* error.caf */ = {isa = PBXFileReference; path = error.caf; sourceTree = "<group>"; };
 		287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoRewardedSheet.swift; sourceTree = "<group>"; };
 		320DEC836D769FE0FD1AB45A /* SnugloAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33962EFA49FA39F805BF52E0 /* GameCenterServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterServicing.swift; sourceTree = "<group>"; };
@@ -226,7 +227,7 @@
 		71A09BB21B2EEF8E2743976A /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		71A6FA8E3D616220F3BF852B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		733992206EC6B0F363ACA70D /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
-		76E92684B808840263957C5D /* place.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = place.caf; sourceTree = "<group>"; };
+		76E92684B808840263957C5D /* place.caf */ = {isa = PBXFileReference; path = place.caf; sourceTree = "<group>"; };
 		7924A890DEE82EC99D7F3363 /* PlusJakartaSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Regular.ttf"; sourceTree = "<group>"; };
 		7944E29A317C365AEC2DAFD3 /* Bundle+Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Language.swift"; sourceTree = "<group>"; };
 		79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
@@ -237,7 +238,7 @@
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		83E79266C06B548E9BA6CFDC /* GameCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterManager.swift; sourceTree = "<group>"; };
-		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Snuglo.storekit; sourceTree = "<group>"; };
+		872D391426D5D402C2F18006 /* Snuglo.storekit */ = {isa = PBXFileReference; path = Snuglo.storekit; sourceTree = "<group>"; };
 		89DC4F900617E37644A9709B /* AnnouncementBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementBanner.swift; sourceTree = "<group>"; };
 		8A2109A7C6E38A68754AD8D6 /* CurrencyRewardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyRewardTests.swift; sourceTree = "<group>"; };
 		8B08BB59EBEA47F1D27F2402 /* PowerUpRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpRulesTests.swift; sourceTree = "<group>"; };
@@ -283,7 +284,7 @@
 		C84E575E90F046E4084CF9AF /* AchievementsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsStore.swift; sourceTree = "<group>"; };
 		C96D7C00DE127CFBD56945D1 /* BundleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleSection.swift; sourceTree = "<group>"; };
 		C972D7D56DBB8FB5864AD95A /* SpaceGrotesk-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Regular.ttf"; sourceTree = "<group>"; };
-		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBadge.swift; sourceTree = "<group>"; };
 		CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPill.swift; sourceTree = "<group>"; };
 		D09473F7A0446E6AAFC7FB84 /* GameSwipeLockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSwipeLockUITests.swift; sourceTree = "<group>"; };
@@ -294,7 +295,7 @@
 		D3E8F3C0267F5E448BE9F1FD /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		D81438D1EF77DF3774BE0DB7 /* AchievementsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsStoreTests.swift; sourceTree = "<group>"; };
 		D97CD2AFBBBF7AE6D9333E2C /* ColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTests.swift; sourceTree = "<group>"; };
-		D9C1360D54ABE0C5DC91F9E4 /* snap.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = snap.caf; sourceTree = "<group>"; };
+		D9C1360D54ABE0C5DC91F9E4 /* snap.caf */ = {isa = PBXFileReference; path = snap.caf; sourceTree = "<group>"; };
 		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		DF5A558311B75E4DA65D77BC /* DailyDealRotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealRotator.swift; sourceTree = "<group>"; };
 		E6E47062C883114A0CD6A84B /* PackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProvider.swift; sourceTree = "<group>"; };
@@ -307,12 +308,14 @@
 		F019EC211A8ED76E9C4687A0 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 		F8ADAFF8F683E739EF03F470 /* GameCenterManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterManagerTests.swift; sourceTree = "<group>"; };
 		F8D8025E33203211C64E2B5C /* BlockColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockColorTests.swift; sourceTree = "<group>"; };
-		F964992F8082ADB279A5E91A /* click.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = click.caf; sourceTree = "<group>"; };
+		F964992F8082ADB279A5E91A /* click.caf */ = {isa = PBXFileReference; path = click.caf; sourceTree = "<group>"; };
 		F9C10C7B6CB21E1B41D1316F /* WalletStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletStore.swift; sourceTree = "<group>"; };
+		FBE47F1741E67A9665438E95 /* SolveCelebration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolveCelebration.swift; sourceTree = "<group>"; };
 		FE4EDB500DCC4D6994757C3A /* StoreOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreOffer.swift; sourceTree = "<group>"; };
-		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = solve.caf; sourceTree = "<group>"; };
+		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		"TEMP_EED6A953-4454-4632-98B0-5EE663A27BE5" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -804,6 +807,7 @@
 				C1336FE83D3A9D4D2489003C /* PieceCellsShape.swift */,
 				18379A862ABC0C58CE9544FA /* PowerUpBar.swift */,
 				B2B32BC4055E117E10F49D08 /* SnapCalculator.swift */,
+				FBE47F1741E67A9665438E95 /* SolveCelebration.swift */,
 				ADE3C7C878E6A3AD19E50CB1 /* SolveWaveOverlay.swift */,
 				C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */,
 				287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */,
@@ -818,6 +822,20 @@
 				0EA74ECF4F2A0BBC5A19F5D7 /* CurrencyReward.swift */,
 			);
 			path = Currency;
+			sourceTree = "<group>";
+		};
+		"TEMP_EB8C2C74-08EB-4670-B059-73C5C499A970" /* . */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_EED6A953-4454-4632-98B0-5EE663A27BE5" /* SnugloApp.entitlements */,
+				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
+				CA3FFCE8583420473DAB2C0F /* Core */,
+				E704AF9A2C4909919E8EFB76 /* App */,
+				F0773894B86C553977137FB7 /* Resources */,
+				BDF0424E12B0048C1ED49C5C /* Features */,
+			);
+			name = .;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1027,6 +1045,7 @@
 				AFB8374D5DFB6A00C5155D1C /* ShopViewModel.swift in Sources */,
 				9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */,
 				C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */,
+				DFDD68B93932E3C5A3FFD06B /* SolveCelebration.swift in Sources */,
 				F5DB8DF1C5ECA380591F6F69 /* SolveWaveOverlay.swift in Sources */,
 				AB3EEF5267EB0CCBC1CD337D /* SoundService.swift in Sources */,
 				D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */,
@@ -1198,7 +1217,6 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1242,7 +1260,6 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
