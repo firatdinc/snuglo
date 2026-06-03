@@ -17,6 +17,7 @@ cd SnugloApp && xcodegen generate && xcodebuild build -project SnugloApp.xcodepr
 ## Çalışma kuralları
 - **Tek-palet tema:** tüm renkler `AppColors` token'larından. Hardcoded hex **yasak**.
 - Snuglo çalışmalarını Obsidian vault'taki proje alanına da kaydet.
+- **Git: direkt `main`'de çalış.** Kullanıcı tercihi (2026-06-03) — feature branch + PR akışı YOK; `main` üzerinde commit'le ve `main`'e push et.
 
 ## Game drag mekaniği (juicy refactor)
 - **Hücre-hassas hit-test:** tray parçaları `.contentShape(PieceCellsShape(piece:))` ile yalnız dolu hücrelerden tutulur (L/T/Z parçanın boş köşesine dokununca yanlış parça kapma bug'ı çözüldü). `PieceCellsShape` cs'i `rect.width/cols`'tan türetir.
