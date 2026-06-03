@@ -13,6 +13,9 @@ struct BundleSection: View {
     @State private var isPurchasing: Bool = false
     @State private var errorMessage: String?
     @State private var showResultBanner: Bool = false
+    // Info popover content (what an item does), shown on the ⓘ tap.
+    @State private var infoTitle: LocalizedStringKey?
+    @State private var infoBody: LocalizedStringKey?
 
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
@@ -43,6 +46,15 @@ struct BundleSection: View {
             Button("common.ok", role: .cancel) { errorMessage = nil }
         } message: {
             Text(verbatim: errorMessage ?? "")
+        }
+        // "What does this do?" info popover.
+        .alert(infoTitle ?? "", isPresented: Binding(
+            get: { infoBody != nil },
+            set: { if !$0 { infoBody = nil; infoTitle = nil } }
+        )) {
+            Button("common.ok", role: .cancel) {}
+        } message: {
+            if let body = infoBody { Text(body) }
         }
         .onChange(of: store.lastError) { _, newValue in
             if let e = newValue { errorMessage = e }
@@ -110,6 +122,9 @@ struct BundleSection: View {
             )
         }
         .bundleItemCard(owned: owned)
+        .overlay(alignment: .topTrailing) {
+            infoBadge(title: "shop.info.packs.title", body: "shop.info.packs.body")
+        }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("shop.pack_item.\(itemIndex)")
     }
@@ -146,6 +161,9 @@ struct BundleSection: View {
             .accessibilityLabel("10 Hints. \(priceStr). Tap to purchase")
         }
         .bundleItemCard(owned: false)
+        .overlay(alignment: .topTrailing) {
+            infoBadge(title: "shop.info.hints.title", body: "shop.info.hints.body")
+        }
     }
 
     // MARK: — Remove Ads row
@@ -184,6 +202,9 @@ struct BundleSection: View {
             )
         }
         .bundleItemCard(owned: owned)
+        .overlay(alignment: .topTrailing) {
+            infoBadge(title: "shop.info.removeAds.title", body: "shop.info.removeAds.body")
+        }
     }
 
     // MARK: — Shared helpers
@@ -212,19 +233,47 @@ struct BundleSection: View {
                     .padding(.horizontal, AppSpacing.sm + 2)
                     .padding(.vertical, AppSpacing.sm)
             } else {
-                Text(verbatim: label ?? "—")
-                    .font(AppTypography.bodyMedium.weight(.semibold))
-                    .foregroundStyle(AppColors.primary)
-                    .padding(.horizontal, AppSpacing.sm + 2)
-                    .padding(.vertical, AppSpacing.sm)
-                    .background(
-                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                            .stroke(AppColors.primary, lineWidth: 1.5)
-                    )
+                // When the StoreKit price is available show it; otherwise a clear
+                // "Unlock" with a lock icon (never a bare "—").
+                let hasPrice = (label != nil && label != "—")
+                HStack(spacing: 5) {
+                    Image(systemName: hasPrice ? "cart.fill" : "lock.fill")
+                        .font(.system(size: 12, weight: .bold))
+                    if hasPrice {
+                        Text(verbatim: label!)
+                            .font(AppTypography.bodyMedium.weight(.semibold))
+                    } else {
+                        Text("shop.unlock")
+                            .font(AppTypography.bodyMedium.weight(.semibold))
+                    }
+                }
+                .foregroundStyle(AppColors.onPrimary)
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.vertical, AppSpacing.sm)
+                .background(
+                    RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                        .fill(AppColors.primary)
+                )
             }
         }
         .buttonStyle(.plain)
         .disabled(isOwned || isPurchasing)
+    }
+
+    // MARK: — Info badge (what does this item do?)
+
+    private func infoBadge(title: LocalizedStringKey, body: LocalizedStringKey) -> some View {
+        Button {
+            infoTitle = title
+            infoBody = body
+        } label: {
+            Image(systemName: "info.circle.fill")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+                .padding(6)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("info")
     }
 
     private func sectionLabel(_ key: LocalizedStringKey) -> some View {

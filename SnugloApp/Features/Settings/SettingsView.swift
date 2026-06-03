@@ -11,17 +11,27 @@ import UserNotifications
 struct SettingsView: View {
 
     @AppStorage("musicEnabled")           private var musicEnabled         = true
+    @AppStorage("musicVolume")            private var musicVolume: Double   = 0.6
+    @AppStorage("musicTrack")             private var musicTrack           = "auto"
     @AppStorage("sfxEnabled")             private var sfxEnabled           = true
+    @AppStorage("sfxVolume")              private var sfxVolume: Double     = 1.0
     @AppStorage("hapticsEnabled")         private var hapticsEnabled       = true
     @AppStorage("zenMode")                private var zenMode              = false
+    @AppStorage("blockSkin")              private var blockSkin            = "nordic"
+    @AppStorage("boardBackground")        private var boardBackground      = "parchment"
+    @AppStorage("colorblindMode")         private var colorblindMode       = false
+    @AppStorage("soundPack")              private var soundPack            = "classic"
+    @AppStorage("hapticLevel")            private var hapticLevel          = "full"
     @AppStorage("appTheme")               private var appThemeRaw: Int     = 0
     @AppStorage("dailyReminderEnabled")   private var dailyReminderEnabled = false
     @AppStorage("dailyReminderTime")      private var dailyReminderTimeInterval: Double = 19 * 3600
+    @AppStorage("comebackRemindersEnabled") private var comebackRemindersEnabled = false
 
     // Runtime language switching (restart-free) — see LocaleManager.
     @State private var localeManager = LocaleManager.shared
 
     @State private var showResetAlert            = false
+    @State private var showTransferSheet         = false
     @State private var showNotifDeniedAlert      = false
     @State private var ads                       = AdsManager.shared
 
@@ -65,6 +75,30 @@ struct SettingsView: View {
         )
     }
 
+    private var comebackToggle: Binding<Bool> {
+        Binding(
+            get: { comebackRemindersEnabled },
+            set: { newValue in
+                if newValue {
+                    Task { @MainActor in
+                        await NotificationService.shared.requestAuthorization()
+                        let settings = await UNUserNotificationCenter.current().notificationSettings()
+                        if settings.authorizationStatus == .authorized
+                            || settings.authorizationStatus == .provisional {
+                            comebackRemindersEnabled = true   // armed on next background
+                        } else {
+                            comebackRemindersEnabled = false
+                            showNotifDeniedAlert = true
+                        }
+                    }
+                } else {
+                    comebackRemindersEnabled = false
+                    NotificationService.shared.cancelComeback()
+                }
+            }
+        )
+    }
+
     private var adsConsentToggle: Binding<Bool> {
         Binding(
             get: { ads.hasConsented },
@@ -102,6 +136,9 @@ struct SettingsView: View {
                     .foregroundStyle(AppColors.onSurface)
                     .accessibilityIdentifier("title.settings")
 
+                // — ZEN MODE (prominent, top of settings) —
+                zenModeCard
+
                 // — SOUND & FEEL —
                 settingsSection("settings.sound.title") {
                     toggleRow(
@@ -112,6 +149,30 @@ struct SettingsView: View {
                         a11yId: "settings.sound_toggle"
                     )
                     RowDivider().padding(.horizontal, AppSpacing.md)
+                    volumeRow(icon: "music.note", color: AppColors.primaryContainer,
+                              value: $musicVolume, enabled: musicEnabled) {
+                        MusicService.shared.applyVolume()
+                    }
+                    if musicEnabled {
+                        RowDivider().padding(.horizontal, AppSpacing.md)
+                        HStack {
+                            iconBadge("music.quarternote.3", color: AppColors.primaryContainer)
+                            Text("settings.sound.track")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurface)
+                            Spacer()
+                            Picker("", selection: $musicTrack) {
+                                Text("settings.sound.track.auto").tag("auto")
+                                Text("settings.sound.track.calm").tag("calm")
+                                Text("settings.sound.track.zen").tag("zen")
+                            }
+                            .pickerStyle(.menu)
+                            .tint(AppColors.primary)
+                            .onChange(of: musicTrack) { _, _ in MusicService.shared.refresh() }
+                        }
+                        .padding(AppSpacing.md)
+                    }
+                    RowDivider().padding(.horizontal, AppSpacing.md)
                     toggleRow(
                         icon: "speaker.wave.2.fill",
                         iconColor: AppColors.secondaryContainer,
@@ -119,29 +180,66 @@ struct SettingsView: View {
                         isOn: $sfxEnabled
                     )
                     RowDivider().padding(.horizontal, AppSpacing.md)
+                    volumeRow(icon: "speaker.wave.2.fill", color: AppColors.secondaryContainer,
+                              value: $sfxVolume, enabled: sfxEnabled) {
+                        SoundService.shared.play(.click)   // preview the new level
+                    }
+                    RowDivider().padding(.horizontal, AppSpacing.md)
                     toggleRow(
                         icon: "hand.tap.fill",
                         iconColor: AppColors.tertiaryContainer,
                         labelKey: "settings.haptics.enable",
                         isOn: $hapticsEnabled
                     )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    HStack {
+                        iconBadge("hand.tap.fill", color: AppColors.tertiaryContainer)
+                        Text("haptic.strength")
+                            .font(AppTypography.bodyMedium)
+                            .foregroundStyle(AppColors.onSurface)
+                        Spacer()
+                        Picker("", selection: $hapticLevel) {
+                            Text("haptic.full").tag("full")
+                            Text("haptic.light").tag("light")
+                        }
+                        .pickerStyle(.menu)
+                        .tint(AppColors.primary)
+                        .disabled(!hapticsEnabled)
+                        .accessibilityIdentifier("settings.haptic_level")
+                    }
+                    .padding(AppSpacing.md)
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    HStack {
+                        iconBadge("waveform", color: AppColors.secondaryContainer)
+                        Text("soundpack.title")
+                            .font(AppTypography.bodyMedium)
+                            .foregroundStyle(AppColors.onSurface)
+                        Spacer()
+                        Picker("", selection: $soundPack) {
+                            ForEach(SoundPack.allCases) { pack in
+                                Text(NSLocalizedString(pack.nameKey, comment: "")).tag(pack.rawValue)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .tint(AppColors.primary)
+                        .accessibilityIdentifier("settings.soundpack_picker")
+                    }
+                    .padding(AppSpacing.md)
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    soundPreviewRow
                 }
 
-                // — GAMEPLAY (Zen mode) —
-                VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                    settingsSection("settings.gameplay.title") {
-                        toggleRow(
-                            icon: "leaf.fill",
-                            iconColor: AppColors.blockSage.opacity(0.6),
-                            labelKey: "settings.gameplay.zen",
-                            isOn: $zenMode,
-                            a11yId: "settings.zen_toggle"
-                        )
-                    }
-                    Text("settings.gameplay.zenFooter")
-                        .font(AppTypography.labelSmall)
-                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
-                        .padding(.horizontal, AppSpacing.sm)
+                // — GAMEPLAY (Zen toggle now lives in the top zenModeCard) —
+                settingsSection("settings.gameplay.title") {
+                    toggleRow(
+                        icon: "eye.fill",
+                        iconColor: AppColors.tertiaryContainer,
+                        labelKey: "settings.gameplay.colorblind",
+                        isOn: $colorblindMode,
+                        a11yId: "settings.colorblind_toggle"
+                    )
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    streakFreezeRow
                 }
 
                 // — APPEARANCE —
@@ -163,6 +261,11 @@ struct SettingsView: View {
                     }
                     .accessibilityElement(children: .contain)
                     .padding(AppSpacing.md)
+
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    skinSelector
+                    RowDivider().padding(.horizontal, AppSpacing.md)
+                    boardBgSelector
                 }
 
                 // — NOTIFICATIONS —
@@ -198,6 +301,13 @@ struct SettingsView: View {
                             }
                             .padding(AppSpacing.md)
                         }
+                        RowDivider().padding(.horizontal, AppSpacing.md)
+                        toggleRow(
+                            icon: "heart.fill",
+                            iconColor: AppColors.blockBlush.opacity(0.8),
+                            labelKey: "settings.notifications.comeback",
+                            isOn: comebackToggle
+                        )
                     }
                     if dailyReminderEnabled {
                         Text(verbatim: String(
@@ -263,6 +373,23 @@ struct SettingsView: View {
 
                 // — ACCOUNT —
                 settingsSection("settings.account.title") {
+                    Button {
+                        showTransferSheet = true
+                    } label: {
+                        HStack {
+                            iconBadge("arrow.up.arrow.down.circle.fill", color: AppColors.primaryContainer)
+                            Text("settings.account.transfer")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurface)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 12, weight: .medium))
+                                .foregroundStyle(AppColors.outlineVariant)
+                        }
+                        .padding(AppSpacing.md)
+                    }
+                    .buttonStyle(.plain)
+                    RowDivider().padding(.horizontal, AppSpacing.md)
                     disclosureRow(
                         icon: "arrow.counterclockwise",
                         iconColor: AppColors.surfaceContainerHigh,
@@ -327,6 +454,8 @@ struct SettingsView: View {
         .background(AppColors.background.ignoresSafeArea())
         .navigationTitle("settings.title")
         .navigationBarTitleDisplayMode(.inline)
+        // Start/stop background music live when the toggle flips.
+        .onChange(of: musicEnabled) { _, _ in MusicService.shared.refresh() }
         .accessibilityIdentifier("screen.settings")
         .alert("notif.disabled.title", isPresented: $showNotifDeniedAlert) {
             Button("notif.openSettings") {
@@ -338,6 +467,7 @@ struct SettingsView: View {
         } message: {
             Text("notif.disabled.message")
         }
+        .sheet(isPresented: $showTransferSheet) { SaveTransferSheet() }
         .alert("settings.account.resetTitle", isPresented: $showResetAlert) {
             Button("common.cancel", role: .cancel) {}
             Button("settings.account.resetAction", role: .destructive) {
@@ -358,6 +488,147 @@ struct SettingsView: View {
         let ampm  = hr >= 12 ? "PM" : "AM"
         let h12   = hr % 12 == 0 ? 12 : hr % 12
         return String(format: "%d:%02d %@", h12, min, ampm)
+    }
+
+    // MARK: — Streak freeze row
+
+    private var streakFreezeRow: some View {
+        let held = ProgressStore.shared.streakFreezes
+        return HStack {
+            iconBadge("snowflake", color: AppColors.secondaryContainer)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("freeze.title")
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurface)
+                Text(verbatim: String(format: NSLocalizedString("freeze.held", comment: ""), held))
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
+            Spacer()
+            Button {
+                if ProgressStore.shared.buyStreakFreeze() {
+                    HapticService.shared.notify(.success)
+                } else {
+                    HapticService.shared.notify(.error)
+                }
+            } label: {
+                Text(verbatim: "\(ProgressStore.freezeCostGems) 💎")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.primary)
+                    .padding(.horizontal, AppSpacing.sm)
+                    .padding(.vertical, AppSpacing.xs)
+                    .background(AppColors.primaryContainer.opacity(0.5), in: Capsule())
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("settings.buy_freeze")
+        }
+        .padding(AppSpacing.md)
+        .accessibilityElement(children: .combine)
+    }
+
+    // MARK: — Block skin selector
+
+    @ViewBuilder
+    private func skinSwatch(_ skin: AppColors.BlockSkin) -> some View {
+        let level = XPStore.shared.level
+        let cost = CosmeticsStore.skinCost(unlockLevel: skin.unlockLevel)
+        let unlocked = level >= skin.unlockLevel || CosmeticsStore.shared.isSkinUnlocked(skin.id)
+        let selected = blockSkin == skin.id
+        VStack(spacing: 6) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(AppColors.surfaceContainerLowest)
+                    .frame(width: 64, height: 44)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(selected ? AppColors.primary : AppColors.surfaceContainerHigh,
+                                    lineWidth: selected ? 2 : 1)
+                    )
+                HStack(spacing: 3) {
+                    ForEach(0..<3, id: \.self) { i in
+                        RoundedRectangle(cornerRadius: 3)
+                            .fill(skin.palette[i])
+                            .frame(width: 10, height: 18)
+                    }
+                }
+                .opacity(unlocked ? 1 : 0.35)
+                if !unlocked {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+            }
+            Text(verbatim: unlocked
+                 ? NSLocalizedString(skin.nameKey, comment: "")
+                 : "💎\(cost)")
+                .font(AppTypography.labelSmall)
+                .foregroundStyle(selected ? AppColors.primary : AppColors.onSurfaceVariant)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if unlocked {
+                blockSkin = skin.id
+                HapticService.shared.impact(.light)
+            } else if CosmeticsStore.shared.buySkin(skin.id, costGems: cost) {
+                blockSkin = skin.id
+                HapticService.shared.notify(.success)   // bought + equipped
+            } else {
+                HapticService.shared.notify(.error)     // not enough gems
+            }
+        }
+        .accessibilityLabel(NSLocalizedString(skin.nameKey, comment: "") + (unlocked ? "" : ", locked, costs \(cost) gems"))
+    }
+
+    @ViewBuilder
+    private func boardSwatch(_ bg: BoardBackground) -> some View {
+        let selected = boardBackground == bg.rawValue
+        VStack(spacing: 6) {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(LinearGradient(colors: bg.colors, startPoint: .top, endPoint: .bottom))
+                .frame(width: 64, height: 44)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                        .stroke(selected ? AppColors.primary : AppColors.surfaceContainerHigh,
+                                lineWidth: selected ? 2 : 1)
+                )
+            Text(NSLocalizedString(bg.nameKey, comment: ""))
+                .font(AppTypography.labelSmall)
+                .foregroundStyle(selected ? AppColors.primary : AppColors.onSurfaceVariant)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            boardBackground = bg.rawValue
+            HapticService.shared.impact(.light)
+        }
+    }
+
+    private var boardBgSelector: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("board.title")
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurface)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: AppSpacing.md) {
+                    ForEach(BoardBackground.allCases) { boardSwatch($0) }
+                }
+            }
+        }
+        .padding(AppSpacing.md)
+    }
+
+    private var skinSelector: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            Text("skin.title")
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurface)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: AppSpacing.md) {
+                    ForEach(AppColors.blockSkins) { skinSwatch($0) }
+                }
+            }
+        }
+        .padding(AppSpacing.md)
     }
 
     // MARK: — Section Layout
@@ -404,6 +675,110 @@ struct SettingsView: View {
         .padding(AppSpacing.md)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier(a11yId ?? "")
+    }
+
+    /// Prominent Zen Mode card at the very top of Settings — many players prefer
+    /// the calm, no-timer experience, so it leads.
+    private var zenModeCard: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            HStack(spacing: AppSpacing.md) {
+                iconBadge("leaf.fill", color: AppColors.blockSage.opacity(0.6))
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("settings.gameplay.zen")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text("settings.gameplay.zenFooter")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: AppSpacing.sm)
+                Toggle("", isOn: $zenMode)
+                    .labelsHidden()
+                    .tint(AppColors.primary)
+                    .accessibilityIdentifier("settings.zen_toggle")
+            }
+        }
+        .padding(AppSpacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(AppColors.surfaceContainerLowest, in: RoundedRectangle(cornerRadius: AppRadius.card))
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card)
+                .strokeBorder(AppColors.blockSage.opacity(0.4), lineWidth: 1)
+        )
+        .shadowL1()
+        .accessibilityElement(children: .combine)
+    }
+
+    /// Tap-to-preview chips for each SFX event — lets the player audition the
+    /// active sound pack + volume (handy after dropping in custom audio).
+    private var soundPreviewRow: some View {
+        let events: [(SoundService.Sound, String, String)] = [
+            (.place,  "place",  "square.fill"),
+            (.snap,   "snap",   "arrow.down.to.line"),
+            (.solve,  "solve",  "checkmark"),
+            (.reward, "reward", "gift.fill"),
+            (.error,  "error",  "xmark"),
+        ]
+        return VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            HStack {
+                iconBadge("speaker.wave.2.circle.fill", color: AppColors.secondaryContainer)
+                Text("settings.sound.preview")
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurface)
+                Spacer()
+            }
+            HStack(spacing: AppSpacing.sm) {
+                ForEach(events, id: \.1) { sound, _, icon in
+                    Button {
+                        SoundService.shared.play(sound)
+                        HapticService.shared.impact(.light)
+                    } label: {
+                        Image(systemName: icon)
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundStyle(AppColors.primary)
+                            .frame(width: 44, height: 44)
+                            .background(AppColors.surfaceContainerHigh, in: Circle())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(!sfxEnabled)
+                }
+            }
+            .opacity(sfxEnabled ? 1 : 0.45)
+        }
+        .padding(AppSpacing.md)
+    }
+
+    /// A labelled volume slider (0…1) that dims when its parent toggle is off.
+    /// `onChange` lets the caller preview / apply the new level live.
+    private func volumeRow(
+        icon: String,
+        color: Color,
+        value: Binding<Double>,
+        enabled: Bool,
+        onChange: @escaping () -> Void
+    ) -> some View {
+        HStack(spacing: AppSpacing.sm) {
+            iconBadge(icon, color: color)
+                .accessibilityHidden(true)
+            Image(systemName: "speaker.fill")
+                .font(.system(size: 11))
+                .foregroundStyle(AppColors.onSurfaceVariant)
+                .accessibilityHidden(true)
+            Slider(value: value, in: 0...1)
+                .tint(AppColors.primary)
+                .disabled(!enabled)
+                .onChange(of: value.wrappedValue) { _, _ in onChange() }
+                .accessibilityLabel(Text("settings.sound.volume"))
+                .accessibilityValue(Text(verbatim: "\(Int((value.wrappedValue * 100).rounded()))%"))
+            Image(systemName: "speaker.wave.3.fill")
+                .font(.system(size: 11))
+                .foregroundStyle(AppColors.onSurfaceVariant)
+                .accessibilityHidden(true)
+        }
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm)
+        .opacity(enabled ? 1 : 0.45)
     }
 
     private func disclosureRow(icon: String, iconColor: Color, labelKey: LocalizedStringKey) -> some View {

@@ -69,6 +69,7 @@ struct GameView: View {
     @State private var showInsufficientGemBanner = false
     /// Rewarded Undo: shown when user taps Undo without enough gems.
     @State private var showUndoRewardedSheet = false
+    @State private var showHintRewardedSheet = false
     /// Solve wave: true while the diagonal cell-wave animation plays after solve.
     @State private var showWaveAnimation = false
     /// Shown when the countdown hits zero without solving.
@@ -80,6 +81,35 @@ struct GameView: View {
 
     /// Confetti burst on solve (juice). Auto-clears; skipped under Reduce Motion.
     @State private var showCelebration = false
+    /// 0…1 — scales the confetti by the win-streak chain length (juicier streaks).
+    @State private var celebrationIntensity: Double = 0.5
+
+    // In-level combo: rapid consecutive valid placements build a "Combo xN" pop.
+    @State private var comboCount = 0
+    @State private var lastPlaceAt: Date?
+    @State private var comboVisible = false
+    @State private var comboVersion = 0
+    /// Gems awarded at the current combo milestone (shown in the pop); 0 if none.
+    @State private var comboGemBonus = 0
+
+    // Visual hint: the hinted piece pulses for a moment after it's placed.
+    @State private var hintFlashID: String?
+    @State private var hintFlashVersion = 0
+
+    // Achievement unlock toasts (queued).
+    @State private var achToastQueue: [Achievement] = []
+    @State private var achToast: Achievement?
+
+    // First-ever level coach hand (shown once).
+    @AppStorage("coachShown") private var coachShown = false
+    @State private var showCoach = false
+
+    // A rotating cozy word of encouragement shown briefly on solve.
+    @State private var solvePraiseKey: LocalizedStringKey?
+    @State private var solvePraiseVersion = 0
+    private static let praiseKeys: [LocalizedStringKey] = [
+        "praise.0", "praise.1", "praise.2", "praise.3", "praise.4", "praise.5"
+    ]
 
     /// v1.1.4 layout: live cell size of the board, derived from the flexible
     /// board region (see `boardRegion`). The board is a centred square sized to
@@ -136,8 +166,72 @@ struct GameView: View {
         dragPosition = p
     }
 
+    /// A valid placement landed — grow the in-level combo if it was quick, show a
+    /// "Combo xN" pop with a small coin bonus, and auto-hide after a beat.
+    private func registerCombo() {
+        let now = Date()
+        if let last = lastPlaceAt, now.timeIntervalSince(last) <= 2.5 {
+            comboCount += 1
+        } else {
+            comboCount = 1
+        }
+        lastPlaceAt = now
+        guard comboCount >= 2 else { return }
+        WalletStore.shared.earn(.coin, amount: min(comboCount, 8) * 2)
+        // Milestone combos (×3/×5/×8) get a punchier reward + celebration.
+        if comboCount == 3 || comboCount == 5 || comboCount == 8 {
+            HapticService.shared.impact(.rigid)
+            SoundService.shared.play(.reward)
+            if comboCount >= 5 {
+                let gems = comboCount >= 8 ? 2 : 1
+                WalletStore.shared.earn(.gem, amount: gems)
+                comboGemBonus = gems
+            }
+        } else {
+            HapticService.shared.selection()
+            SoundService.shared.play(.combo)
+        }
+        comboVersion += 1
+        withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.55)) {
+            comboVisible = true
+        }
+        let token = comboVersion
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(1000))
+            if comboVersion == token {
+                withAnimation(.easeOut(duration: 0.2)) { comboVisible = false }
+                comboGemBonus = 0
+            }
+        }
+    }
+
+    /// Pops the next queued achievement toast and schedules its dismissal.
+    private func showNextAchToast() {
+        guard !achToastQueue.isEmpty else { achToast = nil; return }
+        let next = achToastQueue.removeFirst()
+        withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.8)) {
+            achToast = next
+        }
+        HapticService.shared.selection()
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(2400))
+            withAnimation(.easeOut(duration: 0.25)) { achToast = nil }
+            try? await Task.sleep(for: .milliseconds(320))
+            showNextAchToast()
+        }
+    }
+
+    /// Resets the combo (invalid drop breaks the streak of clean placements).
+    private func breakCombo() {
+        comboCount = 0
+        lastPlaceAt = nil
+        comboGemBonus = 0
+        if comboVisible { withAnimation(.easeOut(duration: 0.15)) { comboVisible = false } }
+    }
+
     /// Invalid drop: error sound + haptic + a quick red wash over the board.
     private func triggerInvalidFeedback() {
+        breakCombo()
         SoundService.shared.play(.error)
         HapticService.shared.notify(.error)
         guard !reduceMotion else { return }
@@ -190,13 +284,40 @@ struct GameView: View {
                     .transition(.scale(scale: 0.55).combined(with: .opacity))
                     .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.6), value: dragTilt)
                 }
-                if showCelebration {
-                    SolveCelebration()
+                if comboVisible && comboCount >= 2 {
+                    comboPop
+                        // Clearly over the board, well below the HUD/toast band.
+                        .position(x: rootGeo.size.width / 2, y: rootGeo.size.height * 0.34)
+                        .allowsHitTesting(false)
+                        .transition(.scale.combined(with: .opacity))
+                }
+                if let a = achToast {
+                    AchievementToast(achievement: a)
+                        .frame(width: rootGeo.size.width, alignment: .top)
+                        // Sit BELOW the HUD (back/level/timer) so they never collide.
+                        .padding(.top, 64)
+                        .allowsHitTesting(false)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .zIndex(40)
+                }
+                if showCoach {
+                    CoachOverlay()
+                        .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .bottom)
+                        .padding(.bottom, 150)
+                        .allowsHitTesting(false)
+                        .zIndex(35)
+                }
+                // Solve praise — centred, ABOVE everything (was hidden behind tray).
+                if let praise = solvePraiseKey {
+                    PraiseBadge(textKey: praise)
                         .frame(width: rootGeo.size.width, height: rootGeo.size.height)
                         .allowsHitTesting(false)
+                        .transition(.scale(scale: 0.6).combined(with: .opacity))
+                        .zIndex(70)
                 }
             }
             .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .top)
+            .animation(reduceMotion ? nil : AppMotion.pop, value: solvePraiseKey == nil)
             // Block all input while the solve wave animation plays.
             .allowsHitTesting(!showWaveAnimation)
             // Stable: rootGeo.size only changes on rotation, never as pieces are
@@ -233,9 +354,23 @@ struct GameView: View {
                     elapsedSeconds = 0
                     showFail = false
                     rewardGranted = false
+                    ProgressStore.shared.breakChain()   // restart mid-play → chain broken
                     // startTimer() is called via onDismiss after sheet dismisses
                 },
-                onQuit: { router.pop() },
+                onQuit: {
+                    ProgressStore.shared.breakChain()
+                    router.pop()
+                },
+                onHint: {
+                    // Place one solution piece; the HUD pulse animates via onChange.
+                    if !viewModel.applyHint() {
+                        HapticService.shared.notify(.warning)
+                        SoundService.shared.play(.error)
+                    }
+                },
+                onSettings: { router.push(.settings) },
+                // Endless puzzles are generated (no canonical hint); campaign only.
+                hintsAvailable: !isEndless && ProgressStore.shared.hintCount > 0,
                 elapsedSeconds: elapsedSeconds
             )
             .environment(router)
@@ -267,6 +402,7 @@ struct GameView: View {
                 hintsUsed: viewModel.hintsUsed,
                 moveCount: viewModel.moveCount,
                 bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
+                isNewBest: viewModel.newBestTime,
                 earnedReward: earnedReward,
                 isDaily: dailyIndex != nil,
                 dailyIndex: dailyIndex,
@@ -278,6 +414,12 @@ struct GameView: View {
                 //   • Pack end / no continue → pop back to PackDetail/MainMenu
                 onNext: {
                     showComplete = false
+                    // Endless: roll straight into the next generated level.
+                    if isEndless {
+                        let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+                        router.replaceTop(with: .game(levelID: "endless-\(n)"))
+                        return
+                    }
                     // Daily: advance to the next daily level, or Home if this was
                     // the last one for today.
                     if let idx = dailyIndex {
@@ -317,9 +459,21 @@ struct GameView: View {
             )
             .environment(router)
         }
+        .onChange(of: draggingPiece?.id) { _, id in
+            if id != nil, showCoach {
+                showCoach = false
+                coachShown = true
+            }
+        }
         .onAppear {
             router.isGameActive = true
             startTimer()
+            // First-ever campaign level → show the one-time coach hand.
+            if !coachShown, !isEndless, dailyIndex == nil,
+               viewModel.placements.isEmpty,
+               ProgressStore.shared.totalLevelsCompleted() == 0 {
+                showCoach = true
+            }
             // Pre-warm audio + haptics OFF the gesture path so the first piece
             // drag is instant (was freezing 3–5s while AVAudioSession activated
             // on the main thread during the gesture → "gesture gate timed out").
@@ -343,6 +497,7 @@ struct GameView: View {
                     onCancel: { dismissQuitConfirmation() },
                     onConfirm: {
                         dismissQuitConfirmation()
+                        ProgressStore.shared.breakChain()   // quit mid-play → chain broken
                         router.pop()
                     }
                 )
@@ -370,6 +525,39 @@ struct GameView: View {
             .presentationDetents([.height(260)])
             .presentationDragIndicator(.visible)
         }
+        // Rewarded Hint sheet (out of hints AND gems)
+        .sheet(isPresented: $showHintRewardedSheet) {
+            HintRewardedSheet(
+                onWatchAd: {
+                    showHintRewardedSheet = false
+                    AdsManager.shared.showRewarded {
+                        ProgressStore.shared.addHints(1)
+                        _ = viewModel.applyPowerUp(.hint)   // consumes the granted hint
+                        HapticService.shared.impact(.light)
+                    }
+                },
+                onDismiss: { showHintRewardedSheet = false }
+            )
+            .presentationDetents([.height(260)])
+            .presentationDragIndicator(.visible)
+        }
+        .onChange(of: viewModel.newlyUnlockedAchievements) { _, new in
+            guard !new.isEmpty else { return }
+            achToastQueue.append(contentsOf: new)
+            viewModel.clearNewAchievements()
+            if achToast == nil { showNextAchToast() }
+        }
+        .onChange(of: viewModel.hintsUsed) { _, _ in
+            guard let id = viewModel.lastHintPieceID else { return }
+            hintFlashVersion += 1
+            let token = hintFlashVersion
+            hintFlashID = id
+            HapticService.shared.impact(.light)
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(1700))
+                if hintFlashVersion == token { hintFlashID = nil }
+            }
+        }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
@@ -386,14 +574,39 @@ struct GameView: View {
                     )
                     earnedReward = reward
                     for (currency, amount) in reward { WalletStore.shared.earn(currency, amount: amount) }
+
+                    // Win-streak chain: grow the chain, pay an escalating coin
+                    // bonus, and intensify the celebration the longer it runs.
+                    let chain = ProgressStore.shared.recordWin()
+                    let chainBonus = ProgressStore.chainCoinBonus(forChain: chain)
+                    if chainBonus > 0 {
+                        WalletStore.shared.earn(.coin, amount: chainBonus)
+                        earnedReward[.coin, default: 0] += chainBonus
+                    }
+                    celebrationIntensity = min(1, Double(chain) / 5.0)
                 }
-                // Confetti burst (juice) — skipped under Reduce Motion. Auto-clears.
+                // Calm completion glow (NOT confetti — confetti is for reward moments).
                 if !reduceMotion {
                     showCelebration = true
                     Task { @MainActor in
-                        try? await Task.sleep(for: .milliseconds(1900))
+                        try? await Task.sleep(for: .milliseconds(950))
                         showCelebration = false
                     }
+                }
+                // A rotating word of encouragement — small cozy variety on each solve.
+                // An endless personal-best overrides it with a record shout-out.
+                if viewModel.newEndlessBest {
+                    solvePraiseKey = "endless.record"
+                    HapticService.shared.notify(.success)
+                    SoundService.shared.play(.reward)
+                } else {
+                    solvePraiseKey = Self.praiseKeys.randomElement()
+                }
+                let praiseToken = (solvePraiseVersion &+ 1)
+                solvePraiseVersion = praiseToken
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(1500))
+                    if solvePraiseVersion == praiseToken { solvePraiseKey = nil }
                 }
                 // Wave plays first; SolveWaveOverlay calls onComplete → showComplete = true
                 showWaveAnimation = true
@@ -412,7 +625,8 @@ struct GameView: View {
             PowerUpBar(
                 viewModel: viewModel,
                 onInsufficientGem: { showInsufficientGemBanner = true },
-                onUndoRewarded:    { showUndoRewardedSheet = true }
+                onUndoRewarded:    { showUndoRewardedSheet = true },
+                onHintRewarded:    { showHintRewardedSheet = true }
             )
 
             if showInsufficientGemBanner {
@@ -445,12 +659,9 @@ struct GameView: View {
 
     // MARK: — Mascot badge
 
-    /// Sloth badge floating above the puzzle grid.
+    /// Sloth badge floating above the puzzle grid (gentle idle bob).
     private var mascotBadge: some View {
-        Image("mascot-sloth")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 64, height: 64)
+        MascotView(name: "mascot-sloth", size: 64, clipCircle: false)
             .background(
                 AppColors.surfaceContainerLowest,
                 in: RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -542,10 +753,11 @@ struct GameView: View {
             // while a piece is in hand (and never under Reduce Motion), so it costs
             // nothing at rest.
             TimelineView(.animation(minimumInterval: 1.0 / 30.0,
-                                    paused: draggingPiece == nil || reduceMotion)) { tl in
-                let pulse: CGFloat = (draggingPiece == nil || reduceMotion)
-                    ? 0
-                    : CGFloat(0.5 + 0.5 * sin(tl.date.timeIntervalSinceReferenceDate * 4.2))
+                                    paused: (draggingPiece == nil && hintFlashID == nil) || reduceMotion)) { tl in
+                let active = draggingPiece != nil || hintFlashID != nil
+                let pulse: CGFloat = (active && !reduceMotion)
+                    ? CGFloat(0.5 + 0.5 * sin(tl.date.timeIntervalSinceReferenceDate * 4.2))
+                    : (hintFlashID != nil ? 0.7 : 0)
                 GridView(
                     level: viewModel.level,
                     placements: viewModel.placements,
@@ -553,7 +765,8 @@ struct GameView: View {
                     snapCoord: snapCoord,
                     snapIsInvalid: snapIsInvalid,
                     draggingPieceID: draggingPiece?.id,
-                    snapPulse: pulse
+                    snapPulse: pulse,
+                    hintPieceID: hintFlashID
                 )
                 // v1.1.1 critical fix: round frame before triggering @State update.
                 .onGeometryChange(for: CGRect.self) { proxy in
@@ -595,6 +808,10 @@ struct GameView: View {
                     .fill(AppColors.error.opacity(invalidFlash))
                     .allowsHitTesting(false)
             }
+        }
+        // Calm solve completion glow, centred over the board.
+        .overlay {
+            if showCelebration { SolveGlow() }
         }
         // iOS 26: identifier on the ZStack wrapper — Canvas (GridView) is
         // accessibility-opaque, so the identifier must live on an ancestor
@@ -643,7 +860,7 @@ struct GameView: View {
             HStack(spacing: AppSpacing.sm) {
                 // Timer — countdown capsule pill, turns red when ≤ 30 s remain
                 HStack(spacing: 4) {
-                    Image(systemName: zenMode ? "leaf.fill" : (timerIsUrgent ? "exclamationmark.circle.fill" : "clock.fill"))
+                    Image(systemName: relaxed ? "leaf.fill" : (timerIsUrgent ? "exclamationmark.circle.fill" : "clock.fill"))
                         .font(.system(size: 11))
                         .foregroundStyle(.white)
                     Text(formattedTimer)
@@ -659,6 +876,22 @@ struct GameView: View {
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel("\(levelDisplayName), remaining time \(formattedTimer)")
                 .accessibilityIdentifier("game.timer")
+
+                // Endless: discard this puzzle and roll a fresh one (anti-frustration).
+                if isEndless {
+                    Button { skipEndless() } label: {
+                        Image(systemName: "forward.end.fill")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .frame(width: 40, height: 40)
+                            .background(AppColors.surfaceContainerLowest, in: Circle())
+                            .shadowL1()
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("New puzzle")
+                    .accessibilityHint("Discards this puzzle and loads a new one")
+                    .accessibilityIdentifier("button.game.skip")
+                }
 
                 // Pause
                 Button { pauseGame() } label: {
@@ -681,8 +914,51 @@ struct GameView: View {
 
     // MARK: — Progress bar (piece placement progress)
 
+    /// Floating in-level combo pop.
+    private var comboPop: some View {
+        HStack(spacing: 5) {
+            Image(systemName: "flame.fill")
+                .font(.system(size: 14, weight: .bold))
+            Text(verbatim: "Combo x\(comboCount)")
+                .font(AppTypography.headlineSmall)
+                .monospacedDigit()
+            if comboGemBonus > 0 {
+                Text(verbatim: "💎+\(comboGemBonus)")
+                    .font(AppTypography.headlineSmall)
+            }
+        }
+        .foregroundStyle(AppColors.onPrimary)
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.xs + 2)
+        .background(AppColors.tertiary, in: Capsule())
+        .shadowL1()
+        .id(comboVersion)
+        .scaleEffect(1 + min(Double(comboCount), 6) * 0.04)
+    }
+
+    /// Win-streak chip — appears at chain ≥ 2 to reinforce "don't break it".
+    private var chainBadge: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "flame.fill")
+                .font(.system(size: 10, weight: .bold))
+            Text(verbatim: "x\(ProgressStore.shared.winChain)")
+                .font(AppTypography.labelSmall)
+                .monospacedDigit()
+        }
+        .foregroundStyle(AppColors.tertiary)
+        .padding(.horizontal, AppSpacing.sm)
+        .padding(.vertical, 3)
+        .background(AppColors.tertiary.opacity(0.14), in: Capsule())
+        .overlay(Capsule().stroke(AppColors.tertiary.opacity(0.35), lineWidth: 1))
+        .accessibilityLabel("Win streak times \(ProgressStore.shared.winChain)")
+    }
+
     private var progressRow: some View {
         HStack(spacing: AppSpacing.sm) {
+            if ProgressStore.shared.winChain >= 2 {
+                chainBadge
+                    .transition(.scale.combined(with: .opacity))
+            }
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule()
@@ -766,7 +1042,7 @@ struct GameView: View {
                             isDragging: false
                         )
                         .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                        .contentShape(PieceCellsShape(piece: piece))
+                        .pieceHitArea(piece)
                         .highPriorityGesture(dragGesture(for: piece))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -837,9 +1113,12 @@ struct GameView: View {
     private func placedPieceHandle(piece: Piece, placement: Placement, cs: CGFloat) -> some View {
         let pw = CGFloat(TrayLayout.pieceWidth(piece))
         let ph = CGFloat(TrayLayout.pieceHeight(piece))
+        // Cell-accurate hit area: only the piece's FILLED cells are grabbable, so
+        // an L/T-shaped neighbour's bounding box can't steal taps meant for the
+        // piece sitting in its concave gap (fixes "grabs the wrong placed piece").
         return Color.clear
-            .contentShape(Rectangle())
             .frame(width: pw * cs, height: ph * cs)
+            .pieceHitArea(piece)
             .offset(x: CGFloat(placement.origin.x) * cs,
                     y: CGFloat(placement.origin.y) * cs)
             .highPriorityGesture(reliftGesture(for: piece))
@@ -901,6 +1180,7 @@ struct GameView: View {
                     } else if !viewModel.isSolved {
                         SoundService.shared.play(.place)
                         HapticService.shared.impact(.rigid)   // satisfying "thunk"
+                        registerCombo()
                     }
                 }
                 let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
@@ -1019,6 +1299,7 @@ struct GameView: View {
                         } else if !viewModel.isSolved {
                             SoundService.shared.play(.place)
                             HapticService.shared.impact(.rigid)
+                            registerCombo()
                         }
                     }
                     let anim: Animation? = reduceMotion ? nil
@@ -1102,6 +1383,11 @@ struct GameView: View {
 
     // MARK: — Countdown helpers
 
+    /// Endless = a procedurally-generated, never-ending relaxed run.
+    private var isEndless: Bool { levelId.hasPrefix("endless") }
+    /// Relaxed = no timer/fail (Zen mode OR Endless).
+    private var relaxed: Bool { zenMode || isEndless }
+
     /// Time allowed per level: ~5 seconds per cell, minimum 90 s.
     private var timeLimitSeconds: Int {
         max(90, viewModel.level.width * viewModel.level.height * 5)
@@ -1111,7 +1397,7 @@ struct GameView: View {
         max(0, timeLimitSeconds - elapsedSeconds)
     }
 
-    private var timerIsUrgent: Bool { !zenMode && remainingSeconds > 0 && remainingSeconds <= 30 }
+    private var timerIsUrgent: Bool { !relaxed && remainingSeconds > 0 && remainingSeconds <= 30 }
 
     private func startTimer() {
         // Faz I-2: skip timer in XCUITest runs — constant accessibility tree updates
@@ -1124,14 +1410,23 @@ struct GameView: View {
                 guard !Task.isCancelled else { break }
                 elapsedSeconds += 1
                 // Countdown hit zero — level failed. Never in Zen mode (no fail).
-                if !zenMode, elapsedSeconds >= timeLimitSeconds, !viewModel.isSolved {
+                if !relaxed, elapsedSeconds >= timeLimitSeconds, !viewModel.isSolved {
                     timerTask?.cancel()
                     HapticService.shared.notify(.error)
+                    ProgressStore.shared.breakChain()   // time ran out → chain broken
                     showFail = true
                     break
                 }
             }
         }
+    }
+
+    /// Endless only: discard the current generated puzzle, load the next one.
+    private func skipEndless() {
+        HapticService.shared.impact(.light)
+        SoundService.shared.play(.click)
+        let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+        router.replaceTop(with: .game(levelID: "endless-\(n)"))
     }
 
     private func pauseGame() {
@@ -1152,7 +1447,7 @@ struct GameView: View {
 
     private var formattedTimer: String {
         // Zen: count UP (elapsed) — no pressure. Otherwise: countdown remaining.
-        let t = zenMode ? elapsedSeconds : remainingSeconds
+        let t = relaxed ? elapsedSeconds : remainingSeconds
         let m = t / 60
         let s = t % 60
         return String(format: "%02d:%02d", m, s)
@@ -1172,6 +1467,7 @@ struct GameView: View {
         }
         let parts = levelId.split(separator: "-")
         let n = parts.last.flatMap { Int($0) } ?? 0
+        if isEndless { return "Endless \(n)" }
         return "Level \(n)"
     }
 }

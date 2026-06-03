@@ -15,6 +15,7 @@ struct PowerUpBar: View {
 
     var onInsufficientGem: () -> Void
     var onUndoRewarded: () -> Void
+    var onHintRewarded: () -> Void = {}
 
     private var wallet: WalletStore { .shared }
     private var progress: ProgressStore { .shared }
@@ -27,13 +28,14 @@ struct PowerUpBar: View {
         guard viewModel.canApply(pu) else { return .disabled }
         switch pu {
         case .undo:
-            if viewModel.freeUndoAvailable { return .free }
+            if viewModel.unlimitedUndo || viewModel.freeUndoAvailable { return .free }
             if wallet.canAfford(.gem, amount: pu.gemCost) { return .enabled }
             return .rewarded
         case .hint:
             if progress.hintCount > 0 { return .free }
             if wallet.canAfford(.gem, amount: pu.gemCost) { return .enabled }
-            return .disabled
+            // Out of hints AND gems → offer a rewarded ad (if one is ready).
+            return AdsManager.shared.rewardedAvailable ? .rewarded : .disabled
         case .shuffleTray:
             return wallet.canAfford(.gem, amount: pu.gemCost) ? .enabled : .disabled
         }
@@ -89,7 +91,7 @@ struct PowerUpBar: View {
     // MARK: — Icon
 
     private func iconName(_ pu: PowerUp, state: BtnState) -> String {
-        if pu == .undo && state == .rewarded { return "play.rectangle.fill" }
+        if state == .rewarded && (pu == .undo || pu == .hint) { return "play.rectangle.fill" }
         return pu.sfSymbol
     }
 
@@ -99,10 +101,17 @@ struct PowerUpBar: View {
     private func badgeView(_ pu: PowerUp, state: BtnState, fg: Color) -> some View {
         switch state {
         case .free:
-            let count = pu == .hint ? progress.hintCount : 1
-            Text("×\(count)")
-                .font(AppTypography.labelSmall)
-                .foregroundStyle(fg.opacity(0.85))
+            // Unlimited undo (relaxed modes) shows ∞ instead of a finite count.
+            if pu == .undo && viewModel.unlimitedUndo {
+                Text(verbatim: "∞")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(fg.opacity(0.85))
+            } else {
+                let count = pu == .hint ? progress.hintCount : 1
+                Text("×\(count)")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(fg.opacity(0.85))
+            }
 
         case .enabled:
             HStack(spacing: 2) {
@@ -136,9 +145,9 @@ struct PowerUpBar: View {
     // MARK: — Tap handler
 
     private func handleTap(_ pu: PowerUp, state: BtnState) {
-        if pu == .undo && state == .rewarded {
+        if state == .rewarded {
             HapticService.shared.impact(.light)
-            onUndoRewarded()
+            if pu == .hint { onHintRewarded() } else { onUndoRewarded() }
             return
         }
         let result = viewModel.applyPowerUp(pu)

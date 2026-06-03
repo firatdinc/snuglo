@@ -10,10 +10,30 @@ struct ShopView: View {
     @Environment(AppRouter.self) private var router
 
     @State private var viewModel = ShopViewModel()
+    @State private var ready = false
     private let store = StoreManager.shared
     private let ads   = AdsManager.shared
 
     var body: some View {
+        // Navigate instantly → show a loading view → reveal content once products
+        // are loaded (and after the transition settles, so the heavy content build
+        // never blocks the tab tap → no "System gesture gate timed out").
+        LoadingGate(isReady: ready) {
+            shopContent
+        }
+        // Root nav bar hidden — Shop's own BalanceHeader is its header. A visible
+        // root nav bar here (while sibling tabs hide theirs) made the `.page`
+        // TabView crash mid-swipe with "top item belongs to a different navigation
+        // bar" as two pages' bars briefly coexisted. All tab roots must be bar-consistent.
+        .toolbar(.hidden, for: .navigationBar)
+        .accessibilityIdentifier("screen.shop")
+        .task {
+            await store.loadProducts()
+            ready = true
+        }
+    }
+
+    private var shopContent: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
                 dailyDealSection
@@ -30,10 +50,6 @@ struct ShopView: View {
             .padding(.bottom, AppSpacing.xl + 32)
         }
         .background(AppColors.background.ignoresSafeArea())
-        .navigationTitle("shop.title")
-        .navigationBarTitleDisplayMode(.inline)
-        .accessibilityIdentifier("screen.shop")
-        .task { await store.loadProducts() }
         .safeAreaInset(edge: .top) {
             BalanceHeader()
         }

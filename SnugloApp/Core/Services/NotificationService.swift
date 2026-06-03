@@ -21,6 +21,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
 
     // MARK: — Constants
     static let dailyIdentifier = "snuglo.daily.reminder"
+    static let comebackIdentifiers = ["snuglo.comeback.2d", "snuglo.comeback.7d"]
 
     private let center = UNUserNotificationCenter.current()
 
@@ -82,6 +83,34 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         } else {
             cancelDaily()
         }
+    }
+
+    // MARK: — Comeback (re-engagement) reminders
+
+    /// Schedule gentle "come back" reminders 2 and 7 days out. Call when leaving
+    /// the app; each active session cancels + reschedules, so they only ever fire
+    /// after a true absence. Localized; silently no-ops without permission.
+    func scheduleComeback() {
+        cancelComeback()
+        let schedule: [(String, TimeInterval)] = [
+            (Self.comebackIdentifiers[0], 2 * 24 * 3600),
+            (Self.comebackIdentifiers[1], 7 * 24 * 3600),
+        ]
+        for (id, after) in schedule {
+            let content   = UNMutableNotificationContent()
+            content.title = NSLocalizedString("notif.comeback.title", comment: "")
+            content.body  = NSLocalizedString("notif.comeback.body", comment: "")
+            content.sound = .default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: after, repeats: false)
+            center.add(UNNotificationRequest(identifier: id, content: content, trigger: trigger)) { error in
+                if let error { print("[NotificationService] Comeback schedule error: \(error)") }
+            }
+        }
+    }
+
+    /// Cancel pending comeback reminders (call when the app becomes active).
+    func cancelComeback() {
+        center.removePendingNotificationRequests(withIdentifiers: Self.comebackIdentifiers)
     }
 
     // MARK: — Internal helpers (exposed for unit tests)

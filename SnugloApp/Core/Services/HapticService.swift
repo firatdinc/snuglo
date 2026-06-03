@@ -39,6 +39,11 @@ final class HapticService {
     /// - `.medium` — piece snaps to grid cell.
     func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle) {
         guard isEnabled else { return }
+        // "Light" strength softens every impact to a gentle tap.
+        if hapticLevel == "light" {
+            lightGenerator.impactOccurred()
+            return
+        }
         switch style {
         case .light:
             lightGenerator.impactOccurred()
@@ -52,8 +57,9 @@ final class HapticService {
     }
 
     /// A light "tick" as the dragged piece hovers from one grid cell to the next.
+    /// Skipped on "Light" strength — these per-cell ticks are the buzziest layer.
     func selection() {
-        guard isEnabled else { return }
+        guard isEnabled, hapticLevel != "light" else { return }
         selectionGenerator.selectionChanged()
     }
 
@@ -70,5 +76,10 @@ final class HapticService {
     private var isEnabled: Bool {
         // Default true if key never set.
         UserDefaults.standard.object(forKey: "hapticsEnabled") as? Bool ?? true
+    }
+
+    /// "full" (default) or "light" — user-controlled haptic strength.
+    private var hapticLevel: String {
+        UserDefaults.standard.string(forKey: "hapticLevel") ?? "full"
     }
 }

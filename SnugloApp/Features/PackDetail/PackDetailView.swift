@@ -188,6 +188,16 @@ struct PackDetailView: View {
 
     // MARK: — Hero banner (image first, info card BELOW it — fully visible)
 
+    /// Localized difficulty label derived from the pack's grid size.
+    private func difficultyKey(for gridSize: Int) -> LocalizedStringKey {
+        switch gridSize {
+        case ...5: return "pack.difficulty.beginner"
+        case 6:    return "pack.difficulty.easy"
+        case 7:    return "pack.difficulty.medium"
+        default:   return "pack.difficulty.hard"
+        }
+    }
+
     private var heroBanner: some View {
         VStack(spacing: 0) {
             // Smaller hero — scaledToFit (no crop), capped height + inset.
@@ -201,44 +211,64 @@ struct PackDetailView: View {
                 .accessibilityHidden(true)
 
             if let packData = pack {
+                // Live progress (MockData.completedCount is a static scaffold value).
+                let completed = ProgressStore.shared.packCompletionCount(packData.id)
+                let starsEarned = ProgressStore.shared.packStarsEarned(packData.id)
+                let starsMax = packData.levelCount * 3
                 VStack(alignment: .leading, spacing: AppSpacing.sm) {
-                    Label("BEGINNER", systemImage: "sparkles")
-                        .font(AppTypography.labelSmall)
-                        .tracking(0.6)
-                        .textCase(.uppercase)
-                        .foregroundStyle(AppColors.primary)
-                        .padding(.horizontal, AppSpacing.sm + 4)
-                        .padding(.vertical, AppSpacing.xs)
-                        .background(AppColors.primaryContainer.opacity(0.4), in: Capsule())
-                        .accessibilityHidden(true)
+                    HStack {
+                        Label(difficultyKey(for: packData.gridSize), systemImage: "sparkles")
+                            .font(AppTypography.labelSmall)
+                            .tracking(0.6)
+                            .textCase(.uppercase)
+                            .foregroundStyle(AppColors.primary)
+                            .padding(.horizontal, AppSpacing.sm + 4)
+                            .padding(.vertical, AppSpacing.xs)
+                            .background(AppColors.primaryContainer.opacity(0.4), in: Capsule())
+                            .accessibilityHidden(true)
+                        Spacer()
+                        if completed >= packData.levelCount {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.system(size: 20))
+                                .foregroundStyle(AppColors.tertiary)
+                                .accessibilityHidden(true)
+                        }
+                    }
 
-                    Text(packData.titleKey)
-                        .font(AppTypography.headlineLarge)
-                        .tracking(-0.6)
-                        .foregroundStyle(AppColors.onSurface)
+                    HStack(alignment: .center, spacing: AppSpacing.sm) {
+                        MascotView(name: "mascot-sloth", size: 40, clipCircle: false)
+                        Text(packData.titleKey)
+                            .font(AppTypography.headlineLarge)
+                            .tracking(-0.6)
+                            .foregroundStyle(AppColors.onSurface)
+                    }
 
                     Text(packData.subtitle)
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
 
                     HStack(spacing: AppSpacing.sm) {
-                        GeometryReader { geo in
-                            ZStack(alignment: .leading) {
-                                Capsule().fill(AppColors.surfaceContainerHigh)
-                                let frac = CGFloat(packData.completedCount) / CGFloat(packData.levelCount)
-                                Capsule()
-                                    .fill(AppColors.primary)
-                                    .frame(width: geo.size.width * frac)
-                            }
-                        }
-                        .frame(height: 10)
-
-                        Text("\(packData.completedCount)/\(packData.levelCount)")
+                        GameProgressBar(
+                            progress: Double(completed) / Double(packData.levelCount),
+                            height: 12
+                        )
+                        Text("\(completed)/\(packData.levelCount)")
                             .font(AppTypography.numericSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(packData.completedCount) of \(packData.levelCount) levels completed")
+                    .accessibilityLabel("\(completed) of \(packData.levelCount) levels completed")
+
+                    HStack(spacing: 4) {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 12))
+                            .foregroundStyle(AppColors.tertiary)
+                        Text(verbatim: "\(starsEarned)/\(starsMax)")
+                            .font(AppTypography.numericSmall)
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .monospacedDigit()
+                    }
+                    .accessibilityLabel("\(starsEarned) of \(starsMax) stars earned")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(AppSpacing.md)

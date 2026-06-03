@@ -336,3 +336,180 @@
 "settings.gameplay.title"  = "Gameplay";
 "settings.gameplay.zen"    = "Zen Mode";
 "settings.gameplay.zenFooter" = "No timer, no fail — solve at your own pace.";
+
+/* Daily quests */
+"quest.header"      = "Daily Quests";
+"quest.solveLevels" = "Solve %d levels";
+"quest.solveUnder"  = "Solve a level under %ds";
+"quest.noHints"     = "Solve %d levels, no hints";
+"quest.claim"       = "CLAIM";
+"quest.claimed"     = "Claimed";
+
+/* Reward chest */
+"chest.title"     = "Reward Chest";
+"chest.ready"     = "Chest ready!";
+"chest.tapToOpen" = "Tap to open";
+"chest.reward"    = "Reward!";
+"chest.collect"   = "Collect";
+
+/* Daily spin wheel */
+"spin.title"     = "Daily Spin";
+"spin.available" = "Free spin ready!";
+"spin.comeBack"  = "Come back tomorrow";
+"spin.spin"      = "SPIN";
+"spin.reward"    = "You won!";
+"spin.collect"   = "Collect";
+
+/* XP / level */
+"level.label"    = "Level %d";
+"level.up"       = "Level Up";
+"level.reached"  = "Level %d!";
+
+/* Block skins */
+"skin.title"  = "Block Skin";
+"skin.nordic" = "Nordic";
+"skin.candy"  = "Candy";
+"skin.ocean"  = "Ocean";
+"skin.mono"   = "Mono";
+"skin.locked" = "Lv %d";
+
+/* Streak milestones */
+"streak.milestone" = "%d-Day Streak!";
+"streak.keepGoing" = "Keep it going";
+
+/* Endless zen */
+"endless.title"    = "Endless Zen";
+"endless.subtitle" = "Relaxed, never-ending";
+"endless.best"     = "Best: Level %d";
+
+/* Weekly challenge */
+"weekly.title" = "Weekly Challenge";
+"weekly.goal"  = "Solve %d levels this week";
+
+/* Share result card */
+"share.button"  = "Share Result";
+"share.solved"  = "Solved!";
+"share.time"    = "TIME";
+"share.level"   = "LEVEL";
+"share.streak"  = "STREAK";
+"share.tagline" = "cozy block puzzle";
+
+/* Daily calendar */
+"calendar.title"     = "Daily Reward";
+"calendar.available" = "Claim today's reward!";
+"calendar.comeBack"  = "Come back tomorrow";
+"calendar.claimDay"  = "Claim Day %d";
+"common.close"       = "Close";
+
+/* Stats deep-dive */
+"stats.heatmap.title" = "Activity (30 days)";
+"stats.activeDays"    = "%d/30 active days";
+"stats.stars.title"   = "Star Distribution";
+"board.parchment" = "Parchment";
+"board.dawn" = "Dawn";
+"board.forest" = "Forest";
+"board.night" = "Night";
+"board.title" = "Board Background";
+"settings.gameplay.colorblind" = "Color-Blind Patterns";
+
+/* Sound packs */
+"soundpack.title"   = "Sound Pack";
+"soundpack.classic" = "Classic";
+"soundpack.soft"    = "Soft";
+"soundpack.crisp"   = "Crisp";
+"stats.empty" = "Solve a level to start your stats";
+
+/* Streak freeze */
+"freeze.title" = "Streak Freeze";
+"freeze.held"  = "%d held — protects a missed day";
+"reward.double" = "Watch → 2×";
+
+/* Haptic strength */
+"haptic.strength" = "Haptic Strength";
+"haptic.full"     = "Full";
+"haptic.light"    = "Light";
+"coach.drag" = "Drag a piece onto the board";
+"pause.hint" = "Hint";
+"pause.settings" = "Settings";
+"settings.sound.volume" = "Volume";
+"settings.notifications.comeback" = "Comeback reminders";
+"notif.comeback.title" = "We miss you! 🧩";
+"notif.comeback.body" = "Your Snuglo puzzles and streak are waiting.";
+"settings.sound.track" = "Music track";
+"settings.sound.track.auto" = "Auto";
+"settings.sound.track.calm" = "Calm";
+"settings.sound.track.zen" = "Zen";
+"settings.account.transfer" = "Back up / transfer progress";
+"transfer.title" = "Backup & Transfer";
+"transfer.backup.title" = "Backup code";
+"transfer.backup.desc" = "Copy this code and keep it safe, or move it to a new device.";
+"transfer.copy" = "Copy";
+"transfer.share" = "Share";
+"transfer.restore.title" = "Restore";
+"transfer.restore.desc" = "Paste a backup code here to restore it.";
+"transfer.restore.action" = "Restore";
+"transfer.note" = "Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.";
+"transfer.restored.title" = "Restored";
+"transfer.restored.message" = "Your save was restored. Restart the app to fully apply the changes.";
+"transfer.invalid.title" = "Invalid code";
+"transfer.invalid.message" = "This code couldn't be read. Make sure you copied all of it.";
+"stats.lifetime.title" = "Lifetime";
+"stats.starsEarned" = "Total stars";
+"stats.perfectSolves" = "Perfect (3★)";
+"stats.bestTime" = "Best time";
+"stats.longestStreak" = "Longest streak";
+"pack.complete.title" = "Pack complete!";
+"praise.0" = "Nicely done!";
+"praise.1" = "Beautiful!";
+"praise.2" = "Cozy!";
+"praise.3" = "Smooth!";
+"praise.4" = "Perfect fit!";
+"praise.5" = "Lovely!";
+"achievement.levelLegend100.title" = "Legend";
+"achievement.levelLegend100.description" = "Complete 100 levels";
+"achievement.packFinisher.title" = "Pack Finisher";
+"achievement.packFinisher.description" = "Complete every level in a pack";
+"achievement.perfectionistMaster25.title" = "Flawless Master";
+"achievement.perfectionistMaster25.description" = "Solve 25 levels with 3 stars";
+"achievement.dedicated7.title" = "Dedicated";
+"achievement.dedicated7.description" = "Play 7 days in a row";
+"achievement.comboChampion.title" = "Combo Champion";
+"achievement.comboChampion.description" = "Solve 5 levels in a row without failing";
+"achievement.speedDemon.title" = "Speed Demon";
+"achievement.speedDemon.description" = "Solve a level in under 15 seconds";
+"today.greeting.morning" = "Good morning 🌿";
+"today.greeting.afternoon" = "Good afternoon 🌿";
+"today.greeting.evening" = "Good evening 🌙";
+"today.greeting.night" = "Good night 🌙";
+"skin.sunset" = "Sunset";
+"skin.aurora" = "Aurora";
+"board.dusk" = "Dusk";
+"board.rose" = "Rose";
+"board.meadow" = "Meadow";
+"hint.rewarded.title" = "Hint — Free";
+"hint.rewarded.message" = "Watch a short ad and one piece will be placed for you.";
+"powerup.watchAd" = "Watch Ad";
+"daily.share.title" = "My Daily Streak!";
+"daily.share.solved" = "dailies solved";
+"menu.streak.day" = "day streak";
+"pack.difficulty.beginner" = "Beginner";
+"pack.difficulty.easy" = "Easy";
+"pack.difficulty.medium" = "Medium";
+"pack.difficulty.hard" = "Hard";
+"stats.share.title" = "My Stats";
+"complete.newBest" = "New Best!";
+"settings.sound.preview" = "Preview sounds";
+"quest.perfect" = "Solve %d levels with 3 stars";
+"endless.record" = "New Record! 🏆";
+"pack.grid_label.5" = "5×5 Grid";
+"pack.grid_label.6" = "6×6 Grid";
+"pack.grid_label.7" = "7×7 Grid";
+"pack.grid_label.8" = "8×8 Grid";
+"common.loading" = "Loading…";
+"shop.unlock" = "Unlock";
+"shop.info.packs.title" = "Puzzle Pack";
+"shop.info.packs.body" = "This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.";
+"shop.info.hints.title" = "Hints";
+"shop.info.hints.body" = "When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.";
+"shop.info.removeAds.title" = "Remove Ads";
+"shop.info.removeAds.body" = "Permanently removes all ads. A one-time purchase.";

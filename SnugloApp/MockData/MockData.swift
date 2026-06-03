@@ -36,8 +36,12 @@ struct Pack: Identifiable, Hashable {
     /// Plain localized String — for nav titles, a11y labels, alert interpolation.
     var localizedTitle: String { NSLocalizedString(rawTitleKey, comment: "") }
     /// LocalizedStringKey for the grid-size badge, e.g. "pack.grid_label.5".
+    /// NOTE: build the key as a String FIRST — `LocalizedStringKey("…\(x)…")`
+    /// treats the interpolation as a format ARGUMENT (key becomes "…%lld…"),
+    /// so the lookup fails and the raw key renders. A String variable avoids it.
     var gridLabelKey: LocalizedStringKey {
-        LocalizedStringKey("pack.grid_label.\(gridSize)")
+        let key = "pack.grid_label.\(gridSize)"
+        return LocalizedStringKey(key)
     }
 }
 

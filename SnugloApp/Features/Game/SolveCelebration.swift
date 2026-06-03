@@ -8,6 +8,8 @@ import SwiftUI
 
 struct SolveCelebration: View {
     var duration: Double = 1.8
+    /// 0…1 — scales particle count & energy (longer win-streaks burst harder).
+    var intensity: Double = 0.5
 
     @State private var start = Date()
 
@@ -23,13 +25,14 @@ struct SolveCelebration: View {
 
     private let particles: [Particle]
 
-    init(duration: Double = 1.8) {
+    init(duration: Double = 1.8, intensity: Double = 0.5) {
         self.duration = duration
+        self.intensity = intensity
         let palette: [Color] = [
             AppColors.tertiary, AppColors.primary, AppColors.secondary,
             AppColors.blockLavender, AppColors.blockPeach, AppColors.blockSage,
         ]
-        let count = 44
+        let count = Int(40 + max(0, min(1, intensity)) * 50)
         particles = (0..<count).map { i in
             // Golden-ratio spread for an even, organic fan; small per-index variety.
             let r = (Double(i) * 0.61803398875).truncatingRemainder(dividingBy: 1)

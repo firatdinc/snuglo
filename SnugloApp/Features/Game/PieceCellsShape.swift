@@ -14,6 +14,15 @@ import SnugloEngine
 // The shape derives the cell size from the proposed `rect` (rect.width / columns),
 // so it always matches the BlockView frame it is applied to — no cellSize plumbing.
 
+extension View {
+    /// THE single source of truth for piece hit-testing: a cell-accurate tap area
+    /// so an L/T neighbour's bounding box can never steal taps for a piece in its
+    /// concave gap. Apply to EVERY draggable piece view (tray, board, carousel).
+    func pieceHitArea(_ piece: Piece) -> some View {
+        contentShape(PieceCellsShape(piece: piece))
+    }
+}
+
 struct PieceCellsShape: Shape {
     let piece: Piece
     /// Fraction of a cell to inset each cell rect (0 = full cell).

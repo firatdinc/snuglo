@@ -336,3 +336,180 @@
 "settings.gameplay.title"  = "Oyun";
 "settings.gameplay.zen"    = "Zen Modu";
 "settings.gameplay.zenFooter" = "Süre yok, başarısızlık yok — sakin sakin çöz.";
+
+/* Daily quests */
+"quest.header"      = "Günlük Görevler";
+"quest.solveLevels" = "%d bölüm çöz";
+"quest.solveUnder"  = "%d sn altında bir bölüm çöz";
+"quest.noHints"     = "İpucu olmadan %d bölüm çöz";
+"quest.claim"       = "AL";
+"quest.claimed"     = "Alındı";
+
+/* Reward chest */
+"chest.title"     = "Ödül Sandığı";
+"chest.ready"     = "Sandık hazır!";
+"chest.tapToOpen" = "Açmak için dokun";
+"chest.reward"    = "Ödül!";
+"chest.collect"   = "Topla";
+
+/* Daily spin wheel */
+"spin.title"     = "Günlük Çark";
+"spin.available" = "Ücretsiz çevirme hazır!";
+"spin.comeBack"  = "Yarın tekrar gel";
+"spin.spin"      = "ÇEVİR";
+"spin.reward"    = "Kazandın!";
+"spin.collect"   = "Topla";
+
+/* XP / level */
+"level.label"    = "Seviye %d";
+"level.up"       = "Seviye Atladın";
+"level.reached"  = "Seviye %d!";
+
+/* Block skins */
+"skin.title"  = "Blok Teması";
+"skin.nordic" = "Nordic";
+"skin.candy"  = "Şeker";
+"skin.ocean"  = "Okyanus";
+"skin.mono"   = "Mono";
+"skin.locked" = "Sv %d";
+
+/* Streak milestones */
+"streak.milestone" = "%d Günlük Seri!";
+"streak.keepGoing" = "Böyle devam et";
+
+/* Endless zen */
+"endless.title"    = "Sonsuz Zen";
+"endless.subtitle" = "Sakin, hiç bitmeyen";
+"endless.best"     = "Rekor: Seviye %d";
+
+/* Weekly challenge */
+"weekly.title" = "Haftalık Görev";
+"weekly.goal"  = "Bu hafta %d bölüm çöz";
+
+/* Share result card */
+"share.button"  = "Sonucu Paylaş";
+"share.solved"  = "Çözüldü!";
+"share.time"    = "SÜRE";
+"share.level"   = "SEVİYE";
+"share.streak"  = "SERİ";
+"share.tagline" = "rahatlatıcı blok bulmaca";
+
+/* Daily calendar */
+"calendar.title"     = "Günlük Ödül";
+"calendar.available" = "Bugünkü ödülü al!";
+"calendar.comeBack"  = "Yarın tekrar gel";
+"calendar.claimDay"  = "%d. Günü Al";
+"common.close"       = "Kapat";
+
+/* Stats deep-dive */
+"stats.heatmap.title" = "Aktiflik (30 gün)";
+"stats.activeDays"    = "%d/30 aktif gün";
+"stats.stars.title"   = "Yıldız Dağılımı";
+"board.parchment" = "Parşömen";
+"board.dawn" = "Şafak";
+"board.forest" = "Orman";
+"board.night" = "Gece";
+"board.title" = "Tahta Arkaplanı";
+"settings.gameplay.colorblind" = "Renk Körü Desenleri";
+
+/* Sound packs */
+"soundpack.title"   = "Ses Paketi";
+"soundpack.classic" = "Klasik";
+"soundpack.soft"    = "Yumuşak";
+"soundpack.crisp"   = "Net";
+"stats.empty" = "İstatistiklerini doldurmak için bir bölüm çöz";
+
+/* Streak freeze */
+"freeze.title" = "Seri Dondurma";
+"freeze.held"  = "%d adet — kaçırılan bir günü korur";
+"reward.double" = "İzle → 2×";
+
+/* Haptic strength */
+"haptic.strength" = "Titreşim Şiddeti";
+"haptic.full"     = "Tam";
+"haptic.light"    = "Hafif";
+"coach.drag" = "Bir parçayı tahtaya sürükle";
+"pause.hint" = "İpucu";
+"pause.settings" = "Ayarlar";
+"settings.sound.volume" = "Ses seviyesi";
+"settings.notifications.comeback" = "Geri dönüş hatırlatması";
+"notif.comeback.title" = "Seni özledik! 🧩";
+"notif.comeback.body" = "Snuglo bulmacaların ve streak'in seni bekliyor.";
+"settings.sound.track" = "Müzik parçası";
+"settings.sound.track.auto" = "Otomatik";
+"settings.sound.track.calm" = "Sakin";
+"settings.sound.track.zen" = "Zen";
+"settings.account.transfer" = "İlerlemeyi yedekle / aktar";
+"transfer.title" = "Yedekle ve Aktar";
+"transfer.backup.title" = "Yedekleme kodu";
+"transfer.backup.desc" = "Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar.";
+"transfer.copy" = "Kopyala";
+"transfer.share" = "Paylaş";
+"transfer.restore.title" = "Geri yükle";
+"transfer.restore.desc" = "Bir yedekleme kodunu buraya yapıştır ve geri yükle.";
+"transfer.restore.action" = "Geri yükle";
+"transfer.note" = "İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir.";
+"transfer.restored.title" = "Geri yüklendi";
+"transfer.restored.message" = "Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat.";
+"transfer.invalid.title" = "Geçersiz kod";
+"transfer.invalid.message" = "Bu kod okunamadı. Tamamını kopyaladığından emin ol.";
+"stats.lifetime.title" = "Tüm Zamanlar";
+"stats.starsEarned" = "Toplam yıldız";
+"stats.perfectSolves" = "Mükemmel (3★)";
+"stats.bestTime" = "En iyi süre";
+"stats.longestStreak" = "En uzun seri";
+"pack.complete.title" = "Paket tamamlandı!";
+"praise.0" = "Güzel!";
+"praise.1" = "Harika!";
+"praise.2" = "Huzurlu!";
+"praise.3" = "Akıcı!";
+"praise.4" = "Tam oturdu!";
+"praise.5" = "Sıcacık!";
+"achievement.levelLegend100.title" = "Efsane";
+"achievement.levelLegend100.description" = "100 bölüm tamamla";
+"achievement.packFinisher.title" = "Paket Ustası";
+"achievement.packFinisher.description" = "Bir paketi tamamen bitir";
+"achievement.perfectionistMaster25.title" = "Kusursuz Usta";
+"achievement.perfectionistMaster25.description" = "25 bölümü 3 yıldızla çöz";
+"achievement.dedicated7.title" = "Sadık";
+"achievement.dedicated7.description" = "7 gün üst üste oyna";
+"achievement.comboChampion.title" = "Kombo Şampiyonu";
+"achievement.comboChampion.description" = "5 bölümü arka arkaya kaybetmeden çöz";
+"achievement.speedDemon.title" = "Şimşek";
+"achievement.speedDemon.description" = "Bir bölümü 15 saniyenin altında çöz";
+"today.greeting.morning" = "Günaydın 🌿";
+"today.greeting.afternoon" = "İyi günler 🌿";
+"today.greeting.evening" = "İyi akşamlar 🌙";
+"today.greeting.night" = "İyi geceler 🌙";
+"skin.sunset" = "Gün Batımı";
+"skin.aurora" = "Auroralar";
+"board.dusk" = "Alacakaranlık";
+"board.rose" = "Gül";
+"board.meadow" = "Çayır";
+"hint.rewarded.title" = "İpucu — Ücretsiz";
+"hint.rewarded.message" = "Kısa bir reklam izle, bir parça senin için yerleştirilsin.";
+"powerup.watchAd" = "Reklam İzle";
+"daily.share.title" = "Günlük Serim!";
+"daily.share.solved" = "günlük çözüldü";
+"menu.streak.day" = "gün seri";
+"pack.difficulty.beginner" = "Başlangıç";
+"pack.difficulty.easy" = "Kolay";
+"pack.difficulty.medium" = "Orta";
+"pack.difficulty.hard" = "Zor";
+"stats.share.title" = "İstatistiklerim";
+"complete.newBest" = "Yeni Rekor!";
+"settings.sound.preview" = "Sesleri dinle";
+"quest.perfect" = "%d bölümü 3 yıldızla çöz";
+"endless.record" = "Yeni Rekor! 🏆";
+"pack.grid_label.5" = "5×5 Izgara";
+"pack.grid_label.6" = "6×6 Izgara";
+"pack.grid_label.7" = "7×7 Izgara";
+"pack.grid_label.8" = "8×8 Izgara";
+"common.loading" = "Yükleniyor…";
+"shop.unlock" = "Aç";
+"shop.info.packs.title" = "Puzzle Paketi";
+"shop.info.packs.body" = "Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur.";
+"shop.info.hints.title" = "İpuçları";
+"shop.info.hints.body" = "Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.";
+"shop.info.removeAds.title" = "Reklamları Kaldır";
+"shop.info.removeAds.body" = "Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.";

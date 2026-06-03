@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snuglo — Feature Build Report</title>
+<style>
+  :root{
+    --bg:#070b16; --bg2:#0b1224; --card:rgba(20,28,48,.62); --line:rgba(148,163,184,.14);
+    --txt:#e7ecf5; --mut:#93a0b8; --green:#22f5a0; --cyan:#22d3ee; --mag:#e879f9; --amber:#fbbf24;
+    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--font); color:var(--txt); background:
+      radial-gradient(1100px 540px at 80% -8%,rgba(34,211,238,.12),transparent 60%),
+      radial-gradient(1000px 520px at 10% 6%,rgba(34,245,160,.10),transparent 55%),
+      var(--bg);
+    min-height:100vh; line-height:1.55; padding:0 0 80px;
+  }
+  .grid-bg{position:fixed;inset:0;z-index:-1;
+    background-image:linear-gradient(rgba(148,163,184,.045) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(148,163,184,.045) 1px,transparent 1px);
+    background-size:46px 46px;}
+  header{max-width:1080px;margin:0 auto;padding:72px 24px 40px;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--cyan);border:1px solid var(--line);
+    padding:7px 14px;border-radius:999px;background:rgba(34,211,238,.06)}
+  h1{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.02em;margin:22px 0 12px;
+    background:linear-gradient(120deg,#fff 20%,var(--green) 60%,var(--cyan));-webkit-background-clip:text;
+    background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--mut);font-size:17px;max-width:640px;margin:0 auto}
+  .stats{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin:40px auto 0;max-width:760px}
+  .stat{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px;backdrop-filter:blur(12px)}
+  .stat .n{font-size:34px;font-weight:800;font-variant-numeric:tabular-nums}
+  .stat .n.g{color:var(--green)} .stat .n.c{color:var(--cyan)} .stat .n.m{color:var(--mag)} .stat .n.a{color:var(--amber)}
+  .stat .l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin-top:6px}
+  main{max-width:1080px;margin:0 auto;padding:0 24px}
+  section{margin-top:56px}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+  .sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+  .sec-head .dot{width:10px;height:10px;border-radius:50%}
+  .sec-head .c{color:var(--mut);font-size:13px;margin-left:auto}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+    backdrop-filter:blur(12px);transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+  .card:hover{transform:translateY(-3px);border-color:rgba(34,211,238,.35);box-shadow:0 14px 44px -18px rgba(0,0,0,.7)}
+  .card .num{position:absolute;top:14px;right:18px;font-size:40px;font-weight:800;color:rgba(148,163,184,.10);
+    font-variant-numeric:tabular-nums}
+  .card h3{font-size:17px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:9px}
+  .card .ico{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none}
+  .card p{color:var(--mut);font-size:13.5px;margin-bottom:12px}
+  .card .tag{display:inline-block;font-size:11px;color:var(--cyan);background:rgba(34,211,238,.08);
+    border:1px solid var(--line);border-radius:7px;padding:4px 9px;letter-spacing:.02em}
+  footer{max-width:1080px;margin:64px auto 0;padding:28px 24px;text-align:center;color:var(--mut);
+    font-size:13px;border-top:1px solid var(--line)}
+  footer b{color:var(--txt)}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header>
+  <span class="badge">● Snuglo · v-next · build report</span>
+  <h1>20 Features that make Snuglo<br>stickier, juicier, more fun</h1>
+  <p class="sub">A competitor- &amp; market-driven feature wave engineered to deepen engagement,
+     reward daily play, and make every placement feel satisfying. Every feature ships building &amp; on-palette.</p>
+  <div class="stats">
+    <div class="stat"><div class="n g">20</div><div class="l">Features shipped</div></div>
+    <div class="stat"><div class="n c">100%</div><div class="l">Build green</div></div>
+    <div class="stat"><div class="n m">3</div><div class="l">Languages (EN·TR·ES)</div></div>
+    <div class="stat"><div class="n a">10</div><div class="l">UI polish steps</div></div>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--mag)"></span>
+      <h2>Retention &amp; Daily Habit</h2><span class="c">the come-back-every-day engine</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">02</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">🔥</span>Win-Streak Chain</h3>
+        <p>Consecutive solves build a visible chain with an escalating coin bonus &amp; intensifying confetti. Failing or quitting breaks it — loss aversion keeps players going “one more”.</p><span class="tag">Duolingo-style streak</span></div>
+      <div class="card"><div class="num">03</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">📋</span>Daily Quests</h3>
+        <p>3 rotating daily objectives with progress &amp; rewards — a fresh reason to open the app every day. Daily challenges raise retention ~40%.</p><span class="tag">Daily objectives</span></div>
+      <div class="card"><div class="num">04</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">🎁</span>Reward Chests</h3>
+        <p>A chest fills every few solves; opening it reveals a <em>random</em> reward with a juicy burst. Variable-ratio reward is the strongest dopamine loop in casual games.</p><span class="tag">Variable reward</span></div>
+      <div class="card"><div class="num">05</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">🎡</span>Daily Spin Wheel</h3>
+        <p>A once-per-day fortune wheel with a weighted prize table and a satisfying ease-out spin. Free daily variable reward = a powerful return hook.</p><span class="tag">Daily return</span></div>
+      <div class="card"><div class="num">10</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">🏅</span>Streak Milestones</h3>
+        <p>Crossing 7 / 14 / 30-day play streaks grants a one-time reward with a flame celebration — reinforcing the daily-return habit.</p><span class="tag">Reward cycle</span></div>
+      <div class="card"><div class="num">12</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">🏆</span>Weekly Challenge</h3>
+        <p>A deterministic week-long goal with an exclusive reward pulls players back across multiple days.</p><span class="tag">Weekly event</span></div>
+      <div class="card"><div class="num">15</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">📅</span>30-Day Calendar</h3>
+        <p>A 30-day login calendar with escalating rewards builds anticipation and a daily-open habit; a missed day resets the cycle.</p><span class="tag">Login calendar</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--green)"></span>
+      <h2>Juice &amp; Game-Feel</h2><span class="c">make every action feel great</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">01</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">🎉</span>Solve Celebration</h3>
+        <p>A confetti burst fires on every solve (and scales with the win-streak). Dopamine-triggering particle feedback is core to satisfying play.</p><span class="tag">Particle juice</span></div>
+      <div class="card"><div class="num">07</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">⚡</span>Combo Pops</h3>
+        <p>Fast consecutive placements raise a floating “Combo ×N” with a coin bonus &amp; tactile tick — rewarding confident, flowing play.</p><span class="tag">Combo system</span></div>
+      <div class="card"><div class="num">09</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">💡</span>Visual Hint</h3>
+        <p>The hinted piece pulses with a glowing outline so players see <em>where</em> it goes — keeps them in flow instead of rage-quitting.</p><span class="tag">Anti-frustration</span></div>
+      <div class="card"><div class="num">13</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">🏵️</span>Achievement Toasts</h3>
+        <p>Unlocks surface instantly as a slide-in banner with a reward — a chase-the-badge dopamine moment.</p><span class="tag">Surprise &amp; delight</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--cyan)"></span>
+      <h2>Progression &amp; Modes</h2><span class="c">a reason to keep growing</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">06</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">⭐</span>XP &amp; Player Level</h3>
+        <p>Earn XP per solve toward a player level with a bar, level-up reward and celebration — a persistent “just one more level” pull.</p><span class="tag">Meta-progression</span></div>
+      <div class="card"><div class="num">11</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">∞</span>Endless Zen</h3>
+        <p>Procedurally generated, ever-growing puzzles with no timer or fail — an open-ended, pressure-free flow for very long sessions.</p><span class="tag">“Just one more”</span></div>
+      <div class="card"><div class="num">16</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">⏭️</span>Skip Puzzle (Endless)</h3>
+        <p>Don’t like a generated board? Discard it for a fresh one — anti-frustration that keeps the relaxed flow going.</p><span class="tag">Quality of life</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--amber)"></span>
+      <h2>Customization &amp; Collection</h2><span class="c">make it yours · monetization-ready</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">08</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">🎨</span>Block Skins</h3>
+        <p>Four unlockable color palettes (level-gated) recolor every block instantly — a collection loop &amp; a natural monetization surface.</p><span class="tag">Unlockable skins</span></div>
+      <div class="card"><div class="num">18</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">🖼️</span>Board Backgrounds</h3>
+        <p>Cozy selectable backdrops (Parchment · Dawn · Forest · Night) behind the grid — more to collect &amp; personalize.</p><span class="tag">Cozy customization</span></div>
+      <div class="card"><div class="num">20</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">🔊</span>Sound Packs</h3>
+        <p>Selectable SFX feels (Classic · Soft · Crisp) reshape the placement sounds — tactile, ASMR-style satisfaction players ask for.</p><span class="tag">ASMR feel</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--green)"></span>
+      <h2>Insight · Social · Accessibility</h2><span class="c">reach &amp; mastery</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">14</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">📤</span>Share Result Card</h3>
+        <p>A branded result image (stars · time · level · streak) shareable from the win screen — organic growth &amp; pride.</p><span class="tag">Virality</span></div>
+      <div class="card"><div class="num">17</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">📊</span>Stats Deep-Dive</h3>
+        <p>A 30-day activity heatmap &amp; star-distribution bars — self-competition that sustains long-term play.</p><span class="tag">Mastery</span></div>
+      <div class="card"><div class="num">19</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">👁️</span>Color-Blind Patterns</h3>
+        <p>A toggle stamps a distinct glyph on each block color so pieces are distinguishable without hue — wider reach &amp; App-Store-featuring friendly.</p><span class="tag">Accessibility</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="dot" style="background:var(--cyan)"></span>
+      <h2>Phase 2 · UI Polish</h2><span class="c">10 steps to a premium, cohesive look</span></div>
+    <div class="cards">
+      <div class="card"><div class="num">U1</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">🧭</span>Main Menu Hub</h3>
+        <p>Collapsed the 10+ feature cards into a clean hub: a compact rewards rail (spin · calendar · chest) with availability dots + one clear hierarchy.</p><span class="tag">Declutter</span></div>
+      <div class="card"><div class="num">U2</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">🪟</span>Unified Reward Modals</h3>
+        <p>One shared <code>RewardModal</code> + <code>RewardButton</code> — every reward popup now shares the same scrim, spring entrance &amp; button.</p><span class="tag">Consistency</span></div>
+      <div class="card"><div class="num">U3</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">🗂️</span>Cohesive Card System</h3>
+        <p>A single <code>.infoCard()</code> modifier unifies padding, radius, elevation &amp; headers across every card.</p><span class="tag">Rhythm</span></div>
+      <div class="card"><div class="num">U4</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">🔤</span>Type &amp; Spacing</h3>
+        <p>Audited the new UI onto the AppTypography / AppSpacing scale; extracted a shared claim chip.</p><span class="tag">Foundations</span></div>
+      <div class="card"><div class="num">U5</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">🌑</span>Elevation Scale</h3>
+        <p>Added a deep <code>shadowL3</code> for modals — a consistent rest / drag / overlay elevation scale.</p><span class="tag">Depth</span></div>
+      <div class="card"><div class="num">U6</div><h3><span class="ico" style="background:rgba(232,121,249,.15);color:var(--mag)">👆</span>Press States</h3>
+        <p>A reusable <code>PressableCardStyle</code> (scale + dim + light haptic) makes every tappable surface feel alive.</p><span class="tag">Responsiveness</span></div>
+      <div class="card"><div class="num">U7</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">🎮</span>Game HUD Polish</h3>
+        <p>Achievement toasts &amp; combo pops repositioned so they never collide with the HUD — a clean play screen.</p><span class="tag">Clarity</span></div>
+      <div class="card"><div class="num">U8</div><h3><span class="ico" style="background:rgba(34,211,238,.15);color:var(--cyan)">📭</span>Empty States</h3>
+        <p>A tasteful <code>EmptyStateView</code> replaces bare zero-data surfaces with a helpful icon + line.</p><span class="tag">Polish</span></div>
+      <div class="card"><div class="num">U9</div><h3><span class="ico" style="background:rgba(251,191,36,.15);color:var(--amber)">✳️</span>Iconography</h3>
+        <p>A shared <code>CardIconBadge</code> gives card icons one consistent size, weight &amp; corner language.</p><span class="tag">Consistency</span></div>
+      <div class="card"><div class="num">U10</div><h3><span class="ico" style="background:rgba(34,245,160,.15);color:var(--green)">✨</span>Transitions</h3>
+        <p>Shared motion tokens + a staggered fade-and-rise entrance for the menu cards — cohesive, premium motion (Reduce-Motion safe).</p><span class="tag">Micro-interactions</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><b>Snuglo</b> · 20 features · every one builds green, single-palette (<b>AppColors</b>), Reduce-Motion-safe, EN·TR·ES.<br>
+  Self-contained &amp; on-device — no new entitlements, accounts, or network. Ready for your review.</p>
+</footer>
+</body>
+</html>

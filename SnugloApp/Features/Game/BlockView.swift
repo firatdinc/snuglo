@@ -24,6 +24,7 @@ struct BlockView: View {
     let isDragging: Bool
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @AppStorage("colorblindMode") private var colorblind = false
 
     // MARK: — Layout geometry
 
@@ -84,6 +85,17 @@ struct BlockView: View {
 
             if isInvalid {
                 context.stroke(path, with: .color(AppColors.error), lineWidth: 2)
+            }
+
+            // Color-blind: a distinct glyph per palette index (hue-independent).
+            if colorblind {
+                let idx = AppColors.blockColorIndex(for: piece.id)
+                let glyph = context.resolve(
+                    Text(AppColors.blockGlyphs[idx % AppColors.blockGlyphs.count])
+                        .font(.system(size: cellSize * 0.34))
+                        .foregroundStyle(AppColors.onSurface.opacity(0.5))
+                )
+                context.draw(glyph, at: CGPoint(x: x + cellSize / 2, y: y + cellSize / 2))
             }
 
             // L2 inner-top bevel — skip when reduceMotion (dragging state is muted)

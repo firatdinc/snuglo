@@ -56,9 +56,31 @@ struct GameButtonStyle: ButtonStyle {
     private var topFace: some View {
         RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
             .fill(topColor)
+            // Glossy game-button sheen — plain white gradient on the upper half
+            // (no blend mode → no offscreen pass).
+            .overlay(alignment: .top) {
+                if variant == .primary {
+                    RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [.white.opacity(0.22), .white.opacity(0.0)],
+                                startPoint: .top, endPoint: .center
+                            )
+                        )
+                        .allowsHitTesting(false)
+                }
+            }
+            // Border + top rim highlight in one gradient stroke (no mask).
             .overlay(
                 RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                    .strokeBorder(borderColor, lineWidth: borderWidth)
+                    .strokeBorder(
+                        variant == .muted ? AnyShapeStyle(borderColor)
+                        : AnyShapeStyle(LinearGradient(
+                            colors: [.white.opacity(variant == .primary ? 0.4 : 0.55),
+                                     borderColor, borderColor],
+                            startPoint: .top, endPoint: .bottom)),
+                        lineWidth: max(borderWidth, 1)
+                    )
             )
     }
 

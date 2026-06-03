@@ -11,6 +11,12 @@ struct AchievementStats: Equatable {
     let perfectSolves: Int
     let hintFreeSolves: Int
     let fastestSolveSeconds: Int?
+    /// Number of packs fully completed (every level solved).
+    let packsCompleted: Int
+    /// Longest play streak (any level on consecutive days).
+    let longestPlayStreak: Int
+    /// Best win-chain ever (consecutive solves without a fail/quit).
+    let bestWinChain: Int
 }
 
 extension AchievementStats {
@@ -24,5 +30,10 @@ extension AchievementStats {
         let minTime     = progress.levelProgress.values
             .compactMap(\.bestTime).min()
         fastestSolveSeconds = minTime.map { Int($0) }
+        packsCompleted = MockData.allPacks.filter {
+            progress.packCompletionCount($0.id) >= $0.levelCount
+        }.count
+        longestPlayStreak = progress.longestPlayStreak
+        bestWinChain      = progress.bestWinChain
     }
 }

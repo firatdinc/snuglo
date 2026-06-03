@@ -13,6 +13,7 @@ import SnugloEngine
 //   Invalid fill:     AppColors.error @ 50% opacity + error stroke
 
 struct GridView: View {
+    @AppStorage("colorblindMode") private var colorblind = false
     let level: Level
     let placements: [PieceID: Placement]
     let invalidPieceIDs: Set<PieceID>
@@ -21,6 +22,8 @@ struct GridView: View {
     let draggingPieceID: PieceID?
     /// 0…1 animated phase driving the pulsing target outline (juicy snap feedback).
     var snapPulse: CGFloat = 0
+    /// When set, this placed piece gets a pulsing highlight (visual hint feedback).
+    var hintPieceID: PieceID? = nil
 
     var body: some View {
         GeometryReader { geo in
@@ -41,10 +44,15 @@ struct GridView: View {
     // MARK: — Drawing helpers
 
     private func drawBackground(context: GraphicsContext, size: CGSize) {
+        let path = Path(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: AppRadius.card)
+        let colors = BoardBackground.active.colors
         context.fill(
-            Path(roundedRect: CGRect(origin: .zero, size: size),
-                 cornerRadius: AppRadius.card),
-            with: .color(AppColors.surfaceContainerLowest)
+            path,
+            with: .linearGradient(
+                Gradient(colors: colors),
+                startPoint: .zero,
+                endPoint: CGPoint(x: 0, y: size.height)
+            )
         )
     }
 
@@ -85,6 +93,22 @@ struct GridView: View {
                 context.fill(path, with: .color(isInvalid ? AppColors.error.opacity(0.50) : color))
                 if isInvalid {
                     context.stroke(path, with: .color(AppColors.error), lineWidth: 2)
+                }
+                if colorblind {
+                    let idx = AppColors.blockColorIndex(for: pieceID)
+                    let glyph = context.resolve(
+                        Text(AppColors.blockGlyphs[idx % AppColors.blockGlyphs.count])
+                            .font(.system(size: cs * 0.32))
+                            .foregroundStyle(AppColors.onSurface.opacity(0.5))
+                    )
+                    context.draw(glyph, at: CGPoint(x: ax * cs + cs / 2, y: ay * cs + cs / 2))
+                }
+                // Visual hint: pulsing highlight outline on the hinted piece.
+                if pieceID == hintPieceID {
+                    let p = max(0, min(1, snapPulse))
+                    context.stroke(path,
+                                   with: .color(AppColors.tertiary.opacity(0.5 + 0.4 * p)),
+                                   lineWidth: 2.5 + 3 * p)
                 }
             }
         }

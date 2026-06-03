@@ -15,6 +15,12 @@ import SnugloEngine
 struct MainMenuView: View {
 
     @Environment(AppRouter.self) private var router
+    @Environment(\.requestReview) private var requestReview
+    @AppStorage("hasRequestedReview") private var hasRequestedReview = false
+    @State private var chestReward: ChestReward?
+    @State private var showSpin = false
+    @State private var showCalendar = false
+    @State private var dailyShareImage: Image?
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -26,6 +32,68 @@ struct MainMenuView: View {
         // independently queryable by XCTest inside this identified container.
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("screen.mainMenu")
+        .overlay {
+            if let reward = chestReward {
+                ChestRevealOverlay(reward: reward) { chestReward = nil }
+                    .zIndex(50)
+                    .transition(.opacity)
+            }
+            if showSpin {
+                SpinWheelOverlay { showSpin = false }
+                    .zIndex(50)
+                    .transition(.opacity)
+            }
+            if showCalendar {
+                DailyCalendarView { showCalendar = false }
+                    .zIndex(50)
+                    .transition(.opacity)
+            }
+            if let lvl = XPStore.shared.pendingLevelUp {
+                LevelUpOverlay(level: lvl, coins: XPStore.shared.pendingLevelUpCoins) {
+                    XPStore.shared.consumeLevelUp()
+                }
+                .zIndex(60)
+                .transition(.opacity)
+            }
+            if let m = ProgressStore.shared.pendingStreakMilestone {
+                let r = ProgressStore.streakReward(forMilestone: m)
+                StreakMilestoneOverlay(days: m, coins: r.coins, gems: r.gems) {
+                    WalletStore.shared.earn(.coin, amount: r.coins)
+                    if r.gems > 0 { WalletStore.shared.earn(.gem, amount: r.gems) }
+                    _ = ProgressStore.shared.consumeStreakMilestone()
+                }
+                .zIndex(60)
+                .transition(.opacity)
+            }
+            if let packId = PackRewardStore.shared.pendingCompletedPack {
+                let title = MockData.allPacks.first { $0.id == packId }?.localizedTitle ?? ""
+                PackCompleteOverlay(
+                    packTitle: title,
+                    coins: PackRewardStore.reward.coins,
+                    gems: PackRewardStore.reward.gems
+                ) {
+                    PackRewardStore.shared.collect()
+                    maybeRequestReview()
+                }
+                .zIndex(65)
+                .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: chestReward?.id)
+        .animation(.easeInOut(duration: 0.2), value: showSpin)
+        .animation(.easeInOut(duration: 0.2), value: PackRewardStore.shared.pendingCompletedPack)
+    }
+
+    /// Ask for an App Store review at a genuine high point (pack completed),
+    /// once ever, and only after enough engagement. Apple throttles the prompt.
+    private func maybeRequestReview() {
+        guard !hasRequestedReview,
+              ProgressStore.shared.totalLevelsCompleted() >= 8 else { return }
+        hasRequestedReview = true
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(1400))   // let the reward settle
+            requestReview()
+        }
     }
 
     @ViewBuilder
@@ -64,10 +132,14 @@ struct MainMenuView: View {
         let completedCount = ProgressStore.shared.totalLevelsCompleted()
         return ScrollView(showsIndicators: false) {
             VStack(spacing: AppSpacing.lg) {
-                streakBadge
-                dailyPuzzleCard
-                progressPill
-                continueSection
+                todayBanner.appearStagger(0)        // warm greeting + today's quest count
+                topStatsBar.appearStagger(1)        // streak · level · progress combined
+                dailyPuzzleCard.appearStagger(2)
+                rewardsRail.appearStagger(3)        // spin · calendar · chest collapsed into one row
+                continueSection.appearStagger(4)
+                questsCard.appearStagger(5)
+                weeklyCard.appearStagger(6)
+                endlessCard.appearStagger(7)
                 Spacer(minLength: 80)
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -75,7 +147,78 @@ struct MainMenuView: View {
         }
         .id(completedCount)
         .task { await DailyReminderService.shared.refreshAuthorizationState() }
-        .onAppear { ProgressStore.shared.refreshPlayStreak() }
+        .onAppear {
+            ProgressStore.shared.refreshPlayStreak()
+            DailyQuestStore.shared.refresh()
+            WeeklyChallengeStore.shared.refresh()
+        }
+    }
+
+    // MARK: — Compact top stats bar (streak · level · progress)
+
+    private func statSeg(_ icon: String, _ value: String, _ tint: Color) -> some View {
+        HStack(spacing: 5) {
+            Image(systemName: icon)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(tint)
+            Text(verbatim: value)
+                .font(AppTypography.numericLabel)
+                .foregroundStyle(AppColors.onSurface)
+                .monospacedDigit()
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    /// A slim, warm "today" greeting + count of quests completed today. Kept
+    /// intentionally light (one row) to honour the decluttered menu.
+    private var todayBanner: some View {
+        let hour = Calendar.current.component(.hour, from: Date())
+        let greeting: LocalizedStringKey =
+            hour < 6  ? "today.greeting.night" :
+            hour < 12 ? "today.greeting.morning" :
+            hour < 18 ? "today.greeting.afternoon" : "today.greeting.evening"
+        let questsDone = (0..<3).filter { DailyQuestStore.shared.isComplete($0) }.count
+        return HStack(spacing: AppSpacing.sm) {
+            Text(greeting)
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
+            Spacer(minLength: AppSpacing.sm)
+            HStack(spacing: 4) {
+                Image(systemName: "checklist")
+                    .font(.system(size: 12, weight: .semibold))
+                Text(verbatim: "\(questsDone)/3")
+                    .font(AppTypography.labelSmall)
+                    .monospacedDigit()
+            }
+            .foregroundStyle(questsDone == 3 ? AppColors.successGreen : AppColors.onSurfaceVariant)
+        }
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.sm + 2)
+        .frame(maxWidth: .infinity)
+        .background(AppColors.surfaceContainerLow, in: Capsule())
+        .accessibilityElement(children: .combine)
+    }
+
+    private var topStatsBar: some View {
+        let streak = ProgressStore.shared.playStreak
+        let level = XPStore.shared.level
+        let completed = ProgressStore.shared.totalLevelsCompleted()
+        return HStack(spacing: 0) {
+            statSeg("flame.fill", "\(streak)", AppColors.tertiary)
+            Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
+            statSeg("star.circle.fill", "Lv \(level)", AppColors.primary)
+            Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
+            statSeg("square.grid.2x2.fill", "\(completed)/240", AppColors.secondary)
+        }
+        .padding(.vertical, AppSpacing.sm)
+        .padding(.horizontal, AppSpacing.md)
+        .background(AppColors.surfaceContainer)
+        .clipShape(Capsule())
+        .overlay(Capsule().stroke(AppColors.surfaceContainerHigh, lineWidth: 1))
+        .shadowL1()
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Streak \(streak) days, level \(level), \(completed) of 240 levels")
     }
 
     // MARK: — Streak badge (play streak — any level, any day)
@@ -121,6 +264,394 @@ struct MainMenuView: View {
         .accessibilityLabel(lit
             ? "Play streak: \(streak) days. Best \(best)."
             : "No active streak. Play any level today to start one.")
+    }
+
+    // MARK: — Weekly Challenge card
+
+    private var weeklyCard: some View {
+        let store = WeeklyChallengeStore.shared
+        let c = store.challenge
+        let prog = min(store.progress, c.goal)
+        let frac = c.goal > 0 ? CGFloat(prog) / CGFloat(c.goal) : 0
+        return VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            HStack(spacing: AppSpacing.xs) {
+                Image(systemName: "trophy.fill")
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.tertiary)
+                Text("weekly.title")
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Spacer()
+                Text(verbatim: c.rewardGems > 0 ? "🪙\(c.rewardCoins) 💎\(c.rewardGems)" : "🪙\(c.rewardCoins)")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+            }
+            .padding(.horizontal, AppSpacing.xs)
+
+            VStack(alignment: .leading, spacing: AppSpacing.sm) {
+                Text(verbatim: String(format: NSLocalizedString("weekly.goal", comment: ""), c.goal))
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                HStack(spacing: AppSpacing.sm) {
+                    GameProgressBar(progress: Double(frac), height: 10, tint: AppColors.tertiary)
+                    if store.canClaim {
+                        claimChip {
+                            if store.claim() != nil {
+                                HapticService.shared.notify(.success)
+                                SoundService.shared.play(.place)
+                            }
+                        }
+                    } else {
+                        Text(verbatim: store.claimed ? "✓" : "\(prog)/\(c.goal)")
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                    }
+                }
+            }
+            .infoCard()
+        }
+    }
+
+    // MARK: — Endless Zen card
+
+    private var endlessCard: some View {
+        let best = EndlessStore.shared.best
+        return Button {
+            router.push(.game(levelID: "endless-1"))
+        } label: {
+            HStack(spacing: AppSpacing.md) {
+                CardIconBadge(symbol: "infinity", tint: AppColors.primary, bg: AppColors.blockSage)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("endless.title")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text(verbatim: best > 0
+                         ? String(format: NSLocalizedString("endless.best", comment: ""), best)
+                         : NSLocalizedString("endless.subtitle", comment: ""))
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(AppColors.primary)
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+        }
+        .buttonStyle(PressableCardStyle())
+        .accessibilityIdentifier("button.menu.endless")
+    }
+
+    /// Shared "claim" chip — consistent type, spacing & shape for quests/weekly.
+    private func claimChip(_ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text("quest.claim")
+                .font(AppTypography.labelSmall).tracking(0.4)
+                .foregroundStyle(AppColors.primary)
+                .padding(.horizontal, AppSpacing.sm).padding(.vertical, AppSpacing.xs)
+                .background(AppColors.primaryContainer.opacity(0.5), in: Capsule())
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: — Rewards rail (spin · calendar · chest)
+
+    private func rewardTile(icon: String, titleKey: LocalizedStringKey, available: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: 6) {
+                ZStack(alignment: .topTrailing) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(AppColors.primaryContainer.opacity(available ? 0.5 : 0.25))
+                            .frame(width: 52, height: 52)
+                        Image(systemName: icon)
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                    }
+                    if available {
+                        Circle().fill(AppColors.tertiary)
+                            .frame(width: 11, height: 11)
+                            .overlay(Circle().stroke(AppColors.background, lineWidth: 2))
+                            .offset(x: 4, y: -4)
+                    }
+                }
+                Text(titleKey)
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, AppSpacing.sm)
+        }
+        .buttonStyle(PressableCardStyle())
+    }
+
+    private var rewardsRail: some View {
+        HStack(spacing: AppSpacing.xs) {
+            rewardTile(icon: "dial.medium.fill", titleKey: "spin.title", available: SpinStore.shared.canSpin) {
+                if SpinStore.shared.canSpin { showSpin = true }
+            }
+            rewardTile(icon: "calendar", titleKey: "calendar.title", available: DailyCalendarStore.shared.canClaim) {
+                showCalendar = true
+            }
+            rewardTile(icon: ChestStore.shared.hasChest ? "gift.fill" : "shippingbox.fill",
+                       titleKey: "chest.title", available: ChestStore.shared.hasChest) {
+                if let r = ChestStore.shared.open() { chestReward = r }
+            }
+        }
+        .padding(.horizontal, AppSpacing.xs)
+        .background(AppColors.background)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .cardSurface()
+        .accessibilityIdentifier("menu.rewardsRail")
+    }
+
+    // MARK: — Daily Reward Calendar card
+
+    @ViewBuilder
+    private var calendarCard: some View {
+        let available = DailyCalendarStore.shared.canClaim
+        Button { showCalendar = true } label: {
+            HStack(spacing: AppSpacing.md) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(AppColors.tertiaryContainer.opacity(available ? 0.5 : 0.25))
+                        .frame(width: 48, height: 48)
+                    Image(systemName: "calendar")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("calendar.title")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text(available ? "calendar.available" : "calendar.comeBack")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant.opacity(0.5))
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                    .stroke(available ? AppColors.primary.opacity(0.4) : .clear, lineWidth: 1.5)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("button.menu.calendar")
+    }
+
+    // MARK: — Daily Spin card
+
+    @ViewBuilder
+    private var spinCard: some View {
+        let available = SpinStore.shared.canSpin
+        Button {
+            if SpinStore.shared.canSpin { showSpin = true }
+        } label: {
+            HStack(spacing: AppSpacing.md) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(AppColors.primaryContainer.opacity(available ? 0.5 : 0.25))
+                        .frame(width: 48, height: 48)
+                    Image(systemName: "dial.medium.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("spin.title")
+                        .font(AppTypography.headlineSmall)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text(available ? "spin.available" : "spin.comeBack")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                if available {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(AppColors.primary)
+                }
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+            .overlay(
+                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                    .stroke(available ? AppColors.primary.opacity(0.4) : .clear, lineWidth: 1.5)
+            )
+        }
+        .buttonStyle(.plain)
+        .disabled(!available)
+        .accessibilityIdentifier("button.menu.spin")
+    }
+
+    // MARK: — Reward Chest card
+
+    @ViewBuilder
+    private func chestCardBody(ready: Bool) -> some View {
+        let store = ChestStore.shared
+        HStack(spacing: AppSpacing.md) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(AppColors.tertiary.opacity(ready ? 0.22 : 0.14))
+                    .frame(width: 48, height: 48)
+                Image(systemName: ready ? "gift.fill" : "shippingbox.fill")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundStyle(AppColors.tertiary)
+            }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(ready ? "chest.ready" : "chest.title")
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                if ready {
+                    Text("chest.tapToOpen")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.primary)
+                } else {
+                    GameProgressBar(
+                        progress: Double(store.progress) / Double(max(store.goal, 1)),
+                        height: 10, tint: AppColors.tertiary
+                    )
+                }
+            }
+            Spacer()
+            Text(verbatim: ready ? "×\(store.pending)" : "\(store.progress)/\(store.goal)")
+                .font(AppTypography.numericSmall)
+                .monospacedDigit()
+                .foregroundStyle(ready ? AppColors.tertiary : AppColors.onSurfaceVariant)
+        }
+        .padding(AppSpacing.md)
+        .background(AppColors.background)
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .cardSurface()
+        .overlay(
+            RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                .stroke(ready ? AppColors.tertiary.opacity(0.4) : .clear, lineWidth: 1.5)
+        )
+    }
+
+    @ViewBuilder
+    private var chestCard: some View {
+        let store = ChestStore.shared
+        if store.hasChest {
+            Button {
+                if let r = store.open() { chestReward = r }
+            } label: {
+                chestCardBody(ready: true)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("button.menu.chest")
+        } else {
+            chestCardBody(ready: false)
+                .accessibilityElement(children: .combine)
+        }
+    }
+
+    // MARK: — Daily Quests card
+
+    private func questTitle(_ q: DailyQuest) -> String {
+        switch q.kind {
+        case .solveLevels:
+            return String(format: NSLocalizedString("quest.solveLevels", comment: ""), q.goal)
+        case .solveUnder:
+            return String(format: NSLocalizedString("quest.solveUnder", comment: ""), q.param)
+        case .noHintSolves:
+            return String(format: NSLocalizedString("quest.noHints", comment: ""), q.goal)
+        case .perfectSolve:
+            return String(format: NSLocalizedString("quest.perfect", comment: ""), q.goal)
+        }
+    }
+
+    @ViewBuilder
+    private func questRow(_ q: DailyQuest, index: Int) -> some View {
+        let store = DailyQuestStore.shared
+        let prog = min(store.progress[index], q.goal)
+        let frac = q.goal > 0 ? CGFloat(prog) / CGFloat(q.goal) : 0
+        let claimed = store.claimed[index]
+        HStack(spacing: AppSpacing.sm) {
+            Image(systemName: q.icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(claimed ? AppColors.onSurfaceVariant.opacity(0.5) : AppColors.primary)
+                .frame(width: 26)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(verbatim: questTitle(q))
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(claimed ? AppColors.onSurfaceVariant : AppColors.onSurface)
+                    .strikethrough(claimed, color: AppColors.onSurfaceVariant)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(AppColors.surfaceContainerHigh).frame(height: 6)
+                        Capsule().fill(AppColors.primary).frame(width: geo.size.width * frac, height: 6)
+                    }
+                }
+                .frame(height: 6)
+            }
+
+            VStack(alignment: .trailing, spacing: 2) {
+                if store.canClaim(index) {
+                    claimChip {
+                        if DailyQuestStore.shared.claim(index) != nil {
+                            HapticService.shared.notify(.success)
+                            SoundService.shared.play(.place)
+                        }
+                    }
+                } else if claimed {
+                    Label("quest.claimed", systemImage: "checkmark")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+                        .labelStyle(.titleOnly)
+                } else {
+                    Text(verbatim: "\(prog)/\(q.goal)")
+                        .font(AppTypography.numericSmall)
+                        .monospacedDigit()
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                Text(verbatim: q.rewardGems > 0 ? "💎\(q.rewardGems)" : "🪙\(q.rewardCoins)")
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+            }
+        }
+        .padding(.vertical, AppSpacing.xs)
+        .accessibilityElement(children: .combine)
+    }
+
+    private var questsCard: some View {
+        let store = DailyQuestStore.shared
+        return VStack(alignment: .leading, spacing: AppSpacing.xs) {
+            HStack(spacing: AppSpacing.xs) {
+                Image(systemName: "list.bullet.clipboard.fill")
+                    .font(.system(size: 13))
+                    .foregroundStyle(AppColors.primary)
+                Text("quest.header")
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Spacer()
+            }
+            .padding(.horizontal, AppSpacing.xs)
+
+            VStack(spacing: 0) {
+                ForEach(Array(store.quests.enumerated()), id: \.element.id) { idx, q in
+                    questRow(q, index: idx)
+                    if idx < store.quests.count - 1 {
+                        Divider().background(AppColors.surfaceContainerHigh)
+                    }
+                }
+            }
+            .infoCard()
+        }
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: store.progress)
     }
 
     // MARK: — Progress pill
@@ -206,8 +737,27 @@ struct MainMenuView: View {
                 guard !dailyIsComplete else { return }
                 router.push(.gamePlay(levelId: "daily-\(dailySolvedCount)"))
             }
+            .task(id: dailyIsComplete) {
+                // Defer the ImageRenderer pass so it never janks the menu render.
+                try? await Task.sleep(for: .milliseconds(400))
+                renderDailyShare()
+            }
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("button.menu.dailyPuzzle")
+    }
+
+    /// Render the shareable daily-streak card to an image when the daily is done.
+    @MainActor
+    private func renderDailyShare() {
+        guard dailyIsComplete else { dailyShareImage = nil; return }
+        let card = DailyShareCard(
+            streak: ProgressStore.shared.currentStreak,
+            daysSolved: ProgressStore.shared.dailyResults.filter(\.solved).count,
+            dateText: dailyDateBadge
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3
+        if let ui = renderer.uiImage { dailyShareImage = Image(uiImage: ui) }
     }
 
     private func toggleReminder() {
@@ -296,6 +846,20 @@ struct MainMenuView: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(Text(reminder.isEnabled ? "menu.daily.notif.on" : "menu.daily.notif.off"))
                 .accessibilityIdentifier("button.menu.dailyReminder")
+
+                // Share the daily-streak card once today's daily is complete.
+                if dailyIsComplete, let img = dailyShareImage {
+                    ShareLink(item: img,
+                              preview: SharePreview("daily.share.title", image: img)) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(AppColors.primary)
+                            .frame(width: 44, height: 44)
+                            .background(Circle().fill(AppColors.surfaceContainerHigh))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text("daily.share.title"))
+                }
 
                 // Play (incomplete) / green-sun solved badge (complete).
                 if dailyIsComplete {
@@ -388,7 +952,7 @@ struct MainMenuView: View {
         } label: {
             continueCardLabel(pack: pack, level: level)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableCardStyle())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(
             "\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete"

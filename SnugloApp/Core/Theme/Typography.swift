@@ -37,14 +37,15 @@ enum AppTypography {
     /// 15 pt — secondary content, descriptions
     static let bodyMedium: Font = plusJakartaSans(size: 15, weight: 400)
 
-    // MARK: — Numeric (Plus Jakarta Sans, medium/semibold)
+    // MARK: — Numeric (SF Rounded, heavy — chunky "game" numbers for scores,
+    //         currencies, timers; the brand font stays on text headings/body.)
 
-    /// 26 pt — KPI card hero values, large statistics
-    static let numericLarge: Font = plusJakartaSans(size: 26, weight: 600)
+    /// 28 pt — KPI card hero values, large statistics
+    static let numericLarge: Font = .system(size: 28, weight: .heavy, design: .rounded)
     /// 20 pt — timers, scores, piece cell-count labels
-    static let numericLabel: Font = plusJakartaSans(size: 20, weight: 500)
+    static let numericLabel: Font = .system(size: 20, weight: .bold, design: .rounded)
     /// 13 pt — small inline numeric values (pack donut counts, table values)
-    static let numericSmall: Font = plusJakartaSans(size: 13, weight: 500)
+    static let numericSmall: Font = .system(size: 13, weight: .bold, design: .rounded)
 
     // MARK: — Label (Plus Jakarta Sans, medium, UPPERCASE, +0.05em)
 

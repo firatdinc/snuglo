@@ -20,6 +20,7 @@ struct LevelCompleteSheet: View {
     var hintsUsed: Int = 0
     var moveCount: Int = 0
     var bestTimeSeconds: Int?
+    var isNewBest: Bool = false
     var earnedReward: [Currency: Int] = [:]
     /// Multi-level daily challenge. When `isDaily`, the sheet shows the daily
     /// progress ("N/5") and — on the LAST level of the day — a celebratory
@@ -38,14 +39,26 @@ struct LevelCompleteSheet: View {
         return idx + 1 >= dailyTotal
     }
 
+    /// Rendered share image (built once on appear).
+    @State private var shareImage: Image?
+
+    @MainActor private func renderShareCard() {
+        let card = ResultCard(
+            stars: stars,
+            seconds: elapsedSeconds,
+            playerLevel: XPStore.shared.level,
+            streak: ProgressStore.shared.winChain
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3
+        if let ui = renderer.uiImage { shareImage = Image(uiImage: ui) }
+    }
+
     var body: some View {
         ZStack {
             AppColors.background.ignoresSafeArea()
 
-            // Confetti — decorative; hidden from VoiceOver
-            if !reduceMotion {
-                confettiLayer
-            }
+            // Confetti is reserved for reward-collection moments, not level finish.
 
             VStack(spacing: AppSpacing.xl) {
                 Spacer()
@@ -91,6 +104,17 @@ struct LevelCompleteSheet: View {
 
                 // Stat pills — H-2: combined label on container
                 VStack(spacing: AppSpacing.sm) {
+                    if isNewBest {
+                        Label("complete.newBest", systemImage: "bolt.fill")
+                            .font(AppTypography.labelSmall)
+                            .tracking(0.6)
+                            .textCase(.uppercase)
+                            .foregroundStyle(AppColors.onTertiary)
+                            .padding(.horizontal, AppSpacing.md)
+                            .padding(.vertical, AppSpacing.xs + 1)
+                            .background(AppColors.tertiary, in: Capsule())
+                            .accessibilityLabel(Text("complete.newBest"))
+                    }
                     HStack(spacing: AppSpacing.sm) {
                         statPill(value: formattedTime, labelKey: "complete.time")
                         statPill(value: "\(stars)/3", labelKey: "complete.stars")
@@ -166,8 +190,23 @@ struct LevelCompleteSheet: View {
                         }
                     }
                     .padding(.horizontal, AppSpacing.lg)
+
+                    if let img = shareImage {
+                        ShareLink(item: img,
+                                  preview: SharePreview("Snuglo", image: img)) {
+                            Label("share.button", systemImage: "square.and.arrow.up")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurfaceVariant)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, AppSpacing.sm + 2)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, AppSpacing.lg)
+                        .accessibilityIdentifier("complete.share")
+                    }
                 }
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
+                .task { renderShareCard() }
             }
         }
     }
@@ -247,11 +286,7 @@ struct LevelCompleteSheet: View {
                     )
                     .frame(width: 116, height: 116)
 
-                Image("mascot-tiger")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 96, height: 96)
-                    .clipShape(Circle())
+                MascotView(name: "mascot-tiger", size: 96, celebrate: true)
             }
 
             Image("badge-trophy")

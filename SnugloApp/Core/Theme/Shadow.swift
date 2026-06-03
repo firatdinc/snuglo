@@ -25,4 +25,12 @@ extension View {
             radius: 16, x: 0, y: 8
         )
     }
+
+    /// L3 — floating overlays / modals (reward popups, dialogs). Deep, soft lift.
+    func shadowL3() -> some View {
+        shadow(
+            color: AppColors.shadowAmbient.opacity(0.22),
+            radius: 30, x: 0, y: 14
+        )
+    }
 }

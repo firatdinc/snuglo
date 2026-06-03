@@ -17,6 +17,7 @@ private struct PackStat {
 struct StatsView: View {
 
     @State private var store: ProgressStore = ProgressStore.shared
+    @State private var shareImage: Image?
 
     private let packs: [PackStat] = [
         PackStat(id: "cozy-beginnings", rawKey: "pack.cozyBeginnings", color: AppColors.blockLavender, icon: "leaf.fill"),
@@ -30,9 +31,12 @@ struct StatsView: View {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
                 statsHeroCard
                 kpiGridSection
+                lifetimeSection
                 packProgressSection
                 chartSection
                 donutSection
+                playHeatmapSection
+                starDistributionSection
             }
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.md)
@@ -42,6 +46,124 @@ struct StatsView: View {
         .navigationTitle("stats.title")
         .navigationBarTitleDisplayMode(.inline)
         .accessibilityIdentifier("screen.stats")
+        .task {
+            // Defer the (main-actor) ImageRenderer pass so it never blocks the
+            // navigation transition into Stats — render after the screen settles.
+            try? await Task.sleep(for: .milliseconds(350))
+            renderShare()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if let img = shareImage {
+                    ShareLink(item: img,
+                              preview: SharePreview("stats.share.title", image: img)) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .accessibilityLabel(Text("stats.share.title"))
+                }
+            }
+        }
+    }
+
+    @MainActor
+    private func renderShare() {
+        let card = StatsShareCard(
+            levels: store.totalLevelsCompleted(),
+            stars: store.totalStarsEarned(),
+            perfect: store.perfectSolves(),
+            longestStreak: store.longestPlayStreak
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3
+        if let ui = renderer.uiImage { shareImage = Image(uiImage: ui) }
+    }
+
+    // MARK: — Play heatmap (last 30 days)
+
+    private var last30Active: [Bool] {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: Date())
+        return (0..<30).reversed().map { ago in
+            guard let d = cal.date(byAdding: .day, value: -ago, to: today) else { return false }
+            return store.playedDays.contains(ProgressStore.dayKey(d))
+        }
+    }
+
+    private var playHeatmapSection: some View {
+        let active = last30Active
+        let count = active.filter { $0 }.count
+        let cols = Array(repeating: GridItem(.flexible(), spacing: 5), count: 10)
+        return VStack(alignment: .leading, spacing: AppSpacing.md) {
+            HStack {
+                Text("stats.heatmap.title")
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Spacer()
+                Text(verbatim: String(format: NSLocalizedString("stats.activeDays", comment: ""), count))
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
+            LazyVGrid(columns: cols, spacing: 5) {
+                ForEach(Array(active.enumerated()), id: \.offset) { _, on in
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .fill(on ? AppColors.primary : AppColors.surfaceContainerHigh)
+                        .aspectRatio(1, contentMode: .fit)
+                }
+            }
+            .padding(AppSpacing.md)
+            .cardSurface()
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Played on \(count) of the last 30 days")
+    }
+
+    // MARK: — Star distribution
+
+    private var starDistributionSection: some View {
+        let completed = store.levelProgress.values.filter(\.isCompleted)
+        let counts = [1, 2, 3].map { s in
+            completed.filter { s == 3 ? $0.stars >= 3 : $0.stars == s }.count
+        }
+        let maxC = max(1, counts.max() ?? 1)
+        return VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("stats.stars.title")
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
+            Group {
+                if completed.isEmpty {
+                    EmptyStateView(icon: "star", titleKey: "stats.empty")
+                } else {
+                    VStack(spacing: AppSpacing.sm) {
+                        ForEach(0..<3, id: \.self) { i in
+                            HStack(spacing: AppSpacing.sm) {
+                                HStack(spacing: 1) {
+                                    ForEach(0...i, id: \.self) { _ in
+                                        Image(systemName: "star.fill")
+                                            .font(.system(size: 10))
+                                            .foregroundStyle(AppColors.tertiary)
+                                    }
+                                }
+                                .frame(width: 56, alignment: .leading)
+                                GeometryReader { geo in
+                                    ZStack(alignment: .leading) {
+                                        Capsule().fill(AppColors.surfaceContainerHigh).frame(height: 14)
+                                        Capsule().fill(AppColors.tertiary)
+                                            .frame(width: geo.size.width * CGFloat(counts[i]) / CGFloat(maxC), height: 14)
+                                    }
+                                }
+                                .frame(height: 14)
+                                Text(verbatim: "\(counts[i])")
+                                    .font(AppTypography.numericSmall).monospacedDigit()
+                                    .foregroundStyle(AppColors.onSurfaceVariant)
+                                    .frame(width: 32, alignment: .trailing)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(AppSpacing.md)
+            .cardSurface()
+        }
     }
 
     // MARK: — Hero Card
@@ -121,6 +243,50 @@ struct StatsView: View {
 
     private var levelsCompletedLabel: String {
         "\(store.totalLevelsCompleted())/240"
+    }
+
+    // MARK: — Lifetime totals (campaign-wide milestones)
+
+    private var lifetimeSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.md) {
+            Text("stats.lifetime.title")
+                .font(AppTypography.headlineSmall)
+                .foregroundStyle(AppColors.onSurface)
+
+            let cols = Array(repeating: GridItem(.flexible(), spacing: AppSpacing.sm), count: 2)
+            LazyVGrid(columns: cols, spacing: AppSpacing.sm) {
+                kpiCard(
+                    value: "\(store.totalStarsEarned())",
+                    labelKey: "stats.starsEarned",
+                    icon: "star.fill",
+                    a11yLabel: "Total stars earned: \(store.totalStarsEarned())"
+                )
+                kpiCard(
+                    value: "\(store.perfectSolves())",
+                    labelKey: "stats.perfectSolves",
+                    icon: "sparkles",
+                    a11yLabel: "Perfect three-star solves: \(store.perfectSolves())"
+                )
+                kpiCard(
+                    value: bestTimeLabel,
+                    labelKey: "stats.bestTime",
+                    icon: "bolt.fill",
+                    a11yLabel: "Best solve time: \(bestTimeLabel)"
+                )
+                kpiCard(
+                    value: store.longestPlayStreak > 0 ? "\(store.longestPlayStreak)d" : "—",
+                    labelKey: "stats.longestStreak",
+                    icon: "crown.fill",
+                    a11yLabel: "Longest play streak: \(store.longestPlayStreak) days"
+                )
+            }
+        }
+    }
+
+    private var bestTimeLabel: String {
+        guard let t = store.bestSolveTime() else { return "—" }
+        let m = Int(t) / 60, s = Int(t) % 60
+        return String(format: "%d:%02d", m, s)
     }
 
     private func kpiCard(value: String, labelKey: LocalizedStringKey, icon: String, a11yLabel: String, a11yId: String? = nil) -> some View {

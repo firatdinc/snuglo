@@ -27,7 +27,21 @@ struct BalanceChip: View {
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, AppSpacing.sm)
-        .cardSurface()
+        // Glossy, slightly-raised game pill instead of a flat card.
+        .background {
+            ZStack {
+                Capsule().fill(AppColors.surfaceContainerLowest)
+                Capsule()
+                    .fill(LinearGradient(colors: [.white.opacity(0.28), .clear],
+                                         startPoint: .top, endPoint: .center))
+                Capsule().strokeBorder(
+                    LinearGradient(colors: [.white.opacity(0.4),
+                                            AppColors.outlineVariant.opacity(0.5)],
+                                   startPoint: .top, endPoint: .bottom),
+                    lineWidth: 1)
+            }
+        }
+        .shadowL1()
         .accessibilityElement(children: .combine)
         .accessibilityLabel(Text("\(amount) \(currency.displayNameKey)"))
     }

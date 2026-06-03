@@ -84,7 +84,7 @@ struct ConfirmDialog: View {
             RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
                 .stroke(AppColors.outlineVariant.opacity(0.4), lineWidth: 0.5)
         )
-        .shadow(color: AppColors.shadowAmbient.opacity(0.25), radius: 30, x: 0, y: 12)
+        .shadowL3()
         .padding(.horizontal, AppSpacing.xl)
     }
 }

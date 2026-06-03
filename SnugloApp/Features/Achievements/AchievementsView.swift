@@ -75,7 +75,8 @@ struct AchievementsView: View {
                 ForEach(achievements) { achievement in
                     AchievementCell(
                         achievement: achievement,
-                        isUnlocked: vm.isUnlocked(achievement)
+                        isUnlocked: vm.isUnlocked(achievement),
+                        stats: vm.stats
                     )
                     .onTapGesture { selectedAchievement = achievement }
                 }
@@ -91,6 +92,7 @@ private struct AchievementCell: View {
 
     let achievement: Achievement
     let isUnlocked: Bool
+    var stats: AchievementStats?
 
     var body: some View {
         VStack(spacing: AppSpacing.sm) {
@@ -129,6 +131,27 @@ private struct AchievementCell: View {
                                 .foregroundStyle(AppColors.onSurfaceVariant)
                         }
                     }
+                }
+            }
+
+            // Progress toward the goal — only on locked cells with a real target.
+            if !isUnlocked, let stats {
+                let p = AchievementRules.progress(achievement, stats: stats)
+                if p.target > 1 {
+                    VStack(spacing: 2) {
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(AppColors.surfaceContainerHigh)
+                                Capsule().fill(AppColors.primary)
+                                    .frame(width: geo.size.width * CGFloat(p.current) / CGFloat(p.target))
+                            }
+                        }
+                        .frame(height: 4)
+                        Text(verbatim: "\(p.current)/\(p.target)")
+                            .font(AppTypography.numericSmall)
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                    }
+                    .padding(.top, 2)
                 }
             }
         }

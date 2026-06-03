@@ -9,6 +9,12 @@ struct RootView: View {
     // Faz F: Theme picker (0=System, 1=Light, 2=Dark) — mirrors SettingsView key.
     @AppStorage("appTheme") private var appThemeRaw: Int = 0
 
+    // Background music: switches theme by Zen state, pauses in background.
+    @AppStorage("zenMode") private var zenMode = false
+    // Re-engagement: gentle "come back" reminders after a real absence.
+    @AppStorage("comebackRemindersEnabled") private var comebackEnabled = false
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some View {
         // iOS 17+ pattern: @Bindable for NavigationStack(path:) binding from
         // an @Observable router. Without it the binding sometimes failed to
@@ -47,14 +53,29 @@ struct RootView: View {
         // what forces the `.page` TabView children (Settings, etc.) to re-resolve
         // localized strings and dynamic AppColors, which a plain environment/trait
         // change fails to propagate to them at runtime.
-        .id("\(localeManager.languageCode)|\(appThemeRaw)")
+        .id("\(localeManager.languageCode)|\(appThemeRaw)|\(zenMode)")
         .environment(router)
         // Runtime locale — drives number/date formatting + Text re-resolution.
         .environment(\.locale, localeManager.locale)
         // Theme: force the window's interface style so dynamic AppColors resolve
         // against the chosen scheme (the rebuild above then re-reads it everywhere).
-        .onAppear { ThemeApplier.apply(appThemeRaw) }
+        .onAppear {
+            ThemeApplier.apply(appThemeRaw)
+            MusicService.shared.update(zen: zenMode)
+        }
         .onChange(of: appThemeRaw) { _, newValue in ThemeApplier.apply(newValue) }
+        // Swap to the Zen theme music the moment Zen Mode toggles.
+        .onChange(of: zenMode) { _, newValue in MusicService.shared.update(zen: newValue) }
+        // Pause music in the background; resume (respecting all gates) on return.
+        // Comeback reminders: cancel while here, (re)arm on leaving after a real absence.
+        .onChange(of: scenePhase) { _, phase in
+            MusicService.shared.setForeground(phase == .active)
+            if phase == .active {
+                NotificationService.shared.cancelComeback()
+            } else if phase == .background, comebackEnabled {
+                NotificationService.shared.scheduleComeback()
+            }
+        }
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
         // FAZ-J: Remove once GADInterstitialAd handles its own UIViewController.
         .overlay(AdInterstitialOverlay())
