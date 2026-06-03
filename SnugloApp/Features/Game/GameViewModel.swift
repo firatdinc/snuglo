@@ -47,6 +47,8 @@ final class GameViewModel {
 
     /// Number of hints consumed in this session. Passed to LevelCompleteSheet.
     private(set) var hintsUsed: Int = 0
+    /// The piece most recently placed by a hint — drives the GameView highlight.
+    private(set) var lastHintPieceID: PieceID?
 
     // MARK: - Move tracking
 
@@ -58,11 +60,31 @@ final class GameViewModel {
     /// Achievements newly unlocked upon solving this level.
     private(set) var newlyUnlockedAchievements: [Achievement] = []
 
+    /// Clears the just-unlocked list once the view has queued its toasts.
+    func clearNewAchievements() { newlyUnlockedAchievements = [] }
+
     // MARK: - PowerUp history
 
     /// Ordered list of successful placements — supports PowerUp.undo.
     /// Cleared on level start/restart (GameViewModel re-init handles this).
     private(set) var moveHistory: [MoveSnapshot] = []
+
+    /// One free undo is granted per game session; resets on re-init (new game / restart).
+    private(set) var freeUndoAvailable: Bool = true
+
+    /// True when the just-solved campaign level beat the player's previous best time.
+    private(set) var newBestTime: Bool = false
+
+    /// True when the just-cleared endless level set a new personal-best run.
+    private(set) var newEndlessBest: Bool = false
+
+    /// Relaxed contexts (Zen Mode or Endless) grant UNLIMITED free undo — these
+    /// modes are about calm experimentation, not a gem sink. Timed campaign/daily
+    /// keep the one-free-then-gem economy. Computed live so a mid-session Zen
+    /// toggle is honoured.
+    var unlimitedUndo: Bool {
+        level.id.hasPrefix("endless") || UserDefaults.standard.bool(forKey: "zenMode")
+    }
 
     // MARK: - Private
     private let checker = SolutionChecker()
@@ -94,13 +116,18 @@ final class GameViewModel {
     }
 
     /// Faz D-2: PackProvider üzerinden engine Level ile başlat.
-    /// levelId == "daily" → bugünün DailyPuzzle'ı
+    /// levelId "daily" / "daily-N" → bugünün N. daily bölümü (çok-bölümlü challenge)
     /// levelId == "packId-index" → PackProvider.loadLevel(id:)
     @MainActor
     static func makeFromPackProvider(levelId: String) -> GameViewModel {
         let level: Level
-        if levelId == "daily" {
-            level = PackProvider.dailyPuzzle()
+        if levelId.hasPrefix("daily") {
+            level = PackProvider.dailyPuzzle(index: PackProvider.dailyIndex(from: levelId))
+        } else if levelId.hasPrefix("endless") {
+            // Procedurally generated, ever-growing relaxed run.
+            let n = Int(levelId.split(separator: "-").last ?? "1") ?? 1
+            let g = min(7, 4 + (n - 1) / 4)
+            level = LevelGenerator().generate(packId: "endless", levelIndex: n, gridSize: g)
         } else {
             level = PackProvider.loadLevel(id: levelId) ?? PackProvider.dailyPuzzle()
         }
@@ -143,6 +170,10 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            // Dedup: a re-dragged piece must appear once, at its LATEST placement
+            // time — otherwise undo pops a stale duplicate and no-ops while the
+            // user expects the next-most-recent piece to return to the tray.
+            moveHistory.removeAll { $0.pieceID == pieceID }
             moveHistory.append(MoveSnapshot(pieceID: pieceID))
             isSolved = true
             NSLog("[Snuglo][tryPlace] SOLVED ✓")
@@ -153,6 +184,10 @@ final class GameViewModel {
             placements[pieceID] = newPlacement
             invalidPieceIDs.remove(pieceID)
             moveCount += 1
+            // Dedup: a re-dragged piece must appear once, at its LATEST placement
+            // time — otherwise undo pops a stale duplicate and no-ops while the
+            // user expects the next-most-recent piece to return to the tray.
+            moveHistory.removeAll { $0.pieceID == pieceID }
             moveHistory.append(MoveSnapshot(pieceID: pieceID))
             if missing.count <= 6 {
                 NSLog("[Snuglo][tryPlace] missing cells: \(missing.map { "(\($0.x),\($0.y))" }.joined(separator: ","))")
@@ -239,6 +274,7 @@ final class GameViewModel {
         }) else { return false }
         guard let solutionPlacement = level.solution.first(where: { $0.pieceId == piece.id })
         else { return false }
+        lastHintPieceID = piece.id
         tryPlace(pieceID: piece.id, at: solutionPlacement.origin)
         return true
     }
@@ -290,6 +326,18 @@ final class GameViewModel {
             return .notApplicable
 
         case .undo:
+            // Relaxed modes: always free, never consumed.
+            if unlimitedUndo {
+                undoLastMove()
+                return .success
+            }
+            // Free undo path — one per session.
+            if freeUndoAvailable {
+                freeUndoAvailable = false
+                undoLastMove()
+                return .success
+            }
+            // Gem fallback path.
             guard wallet.spend(.gem, amount: pu.gemCost) else { return .insufficientGem }
             undoLastMove()
             return .success
@@ -302,7 +350,7 @@ final class GameViewModel {
     }
 
     /// Removes the most recent placement and returns the piece to the tray.
-    private func undoLastMove() {
+    func undoLastMove() {
         guard let snapshot = moveHistory.popLast() else { return }
         removePlacement(for: snapshot.pieceID)
         isSolved = false
@@ -341,14 +389,50 @@ final class GameViewModel {
 
     /// Called on solve. Writes level + daily progress to ProgressStore, evaluates achievements,
     /// then submits GC scores.
+    /// Derive the pack id from a campaign level id ("<packId>-<index>").
+    /// Strips the trailing "-<number>"; nil if the shape doesn't match.
+    static func packId(from levelId: String) -> String? {
+        let parts = levelId.split(separator: "-")
+        guard parts.count >= 2, Int(parts.last!) != nil else { return nil }
+        return parts.dropLast().joined(separator: "-")
+    }
+
     private func persistProgress() {
         let timeTaken = Date().timeIntervalSince(startTime)
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
         let progress = ProgressStore.shared
-        progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
         if level.id.hasPrefix("daily") {
-            progress.markDailySolved(date: Date(), time: timeTaken)
+            // Daily levels are tracked per-day (dailyChallenge + streak), NOT in
+            // levelProgress, so they never inflate the campaign "/240" counters
+            // and reset cleanly each day.
+            let idx = PackProvider.dailyIndex(from: level.id)
+            progress.markDailyLevelSolved(index: idx, date: Date(), time: timeTaken)
+        } else if level.id.hasPrefix("endless") {
+            // Endless: track best run only — never inflate the campaign counters.
+            let n = Int(level.id.split(separator: "-").last ?? "1") ?? 1
+            newEndlessBest = EndlessStore.shared.record(index: n)
+        } else {
+            // Capture the prior best BEFORE markCompleted overwrites it, so we
+            // can celebrate a genuine improvement (not the first completion).
+            let prevBest = progress.levelProgress[level.id]?.bestTime
+            newBestTime = prevBest != nil && timeTaken < prevBest!
+            progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
+            // Pack completion milestone: reward finishing every level in a pack.
+            if let packId = Self.packId(from: level.id),
+               let total = MockData.allPacks.first(where: { $0.id == packId })?.levelCount {
+                PackRewardStore.shared.checkCompletion(
+                    packId: packId,
+                    totalLevels: total,
+                    completed: progress.packCompletionCount(packId)
+                )
+            }
         }
+        // Daily quests + chest meter progress (any solve counts).
+        DailyQuestStore.shared.recordSolve(seconds: Int(timeTaken), hintsUsed: hintsUsed, stars: stars)
+        ChestStore.shared.recordSolve()
+        WeeklyChallengeStore.shared.recordSolve()
+        // XP: base + star bonus → player level progression.
+        XPStore.shared.award(20 + stars * 10)
         let stats = AchievementStats(from: progress)
         newlyUnlockedAchievements = AchievementsStore.shared.evaluate(
             stats: stats, wallet: WalletStore.shared

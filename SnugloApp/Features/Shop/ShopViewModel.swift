@@ -17,8 +17,17 @@ final class ShopViewModel {
     var coinToGemAmount: Int = 1
     var gemToTicketAmount: Int = 1
 
+    /// Details of the most recent successful exchange — drives the sign banner.
+    struct ExchangeReceipt: Equatable {
+        var fromCurrency: Currency
+        var cost: Int
+        var toCurrency: Currency
+        var reward: Int
+    }
+
     private(set) var showExchangeBanner: Bool = false
     private(set) var exchangeInsufficient: Currency?
+    private(set) var lastExchange: ExchangeReceipt?
 
     // MARK: — Private
 
@@ -80,12 +89,24 @@ final class ShopViewModel {
     func exchangeCoinToGem() {
         let success = wallet.exchange(from: .coin, to: .gem, amount: coinToGemAmount)
         exchangeInsufficient = success ? nil : .coin
+        lastExchange = success
+            ? ExchangeReceipt(fromCurrency: .coin,
+                              cost: coinToGemAmount * CurrencyRate.coinPerGem,
+                              toCurrency: .gem,
+                              reward: coinToGemAmount)
+            : nil
         showExchangeBanner = true
     }
 
     func exchangeGemToTicket() {
         let success = wallet.exchange(from: .gem, to: .ticket, amount: gemToTicketAmount)
         exchangeInsufficient = success ? nil : .gem
+        lastExchange = success
+            ? ExchangeReceipt(fromCurrency: .gem,
+                              cost: gemToTicketAmount * CurrencyRate.gemPerTicket,
+                              toCurrency: .ticket,
+                              reward: gemToTicketAmount)
+            : nil
         showExchangeBanner = true
     }
 

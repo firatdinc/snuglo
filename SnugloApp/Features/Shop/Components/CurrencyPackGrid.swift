@@ -21,46 +21,46 @@ struct CurrencyPackGrid: View {
     }
 
     private func packCell(_ pack: CurrencyPack) -> some View {
-        VStack(spacing: AppSpacing.xs) {
-            CurrencyIcon(currency: pack.earn, size: 28)
-                .accessibilityHidden(true)
+        VStack(spacing: AppSpacing.sm) {
+            // Icon in a soft tinted disc.
+            ZStack {
+                Circle()
+                    .fill(pack.earn.tint.opacity(0.14))
+                    .frame(width: 52, height: 52)
+                CurrencyIcon(currency: pack.earn, size: 30)
+            }
+            .accessibilityHidden(true)
 
+            // What you get — large and dominant.
             Text(verbatim: "+\(pack.amount)")
-                .font(AppTypography.numericLabel)
+                .font(AppTypography.headlineMedium)
                 .monospacedDigit()
                 .foregroundStyle(AppColors.onSurface)
 
             Text(LocalizedStringKey(pack.titleKey))
                 .font(AppTypography.labelSmall)
-                .tracking(0.6)
-                .textCase(.uppercase)
                 .foregroundStyle(AppColors.onSurfaceVariant)
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
 
-            Button { onWatch(pack) } label: {
-                Label("shop.pack.watch.ad", systemImage: "play.fill")
-                    .font(AppTypography.labelSmall.weight(.semibold))
-                    .foregroundStyle(adsAvailable ? AppColors.primary : AppColors.onSurfaceVariant)
-                    .padding(.horizontal, AppSpacing.sm)
-                    .padding(.vertical, 6)
-                    .background(
-                        Capsule()
-                            .stroke(
-                                adsAvailable ? AppColors.primary : AppColors.outlineVariant,
-                                lineWidth: 1
-                            )
-                    )
-            }
-            .buttonStyle(.plain)
-            .disabled(!adsAvailable)
-            .accessibilityIdentifier("shop.pack.watch.\(pack.id)")
-
-            if !adsAvailable {
-                Text("shop.ad.unavailable")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .multilineTextAlignment(.center)
+            // Clear CTA — filled when an ad is ready, muted otherwise.
+            Group {
+                if adsAvailable {
+                    Label("shop.pack.watch.ad", systemImage: "play.fill")
+                        .font(AppTypography.labelSmall.weight(.bold))
+                        .foregroundStyle(AppColors.onPrimary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 9)
+                        .background(AppColors.primary, in: Capsule())
+                } else {
+                    Text("shop.ad.unavailable")
+                        .font(AppTypography.labelSmall)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 9)
+                        .background(AppColors.surfaceContainerHigh, in: Capsule())
+                }
             }
         }
         .frame(maxWidth: .infinity)
@@ -69,7 +69,26 @@ struct CurrencyPackGrid: View {
             AppColors.surfaceContainerLowest,
             in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
         )
+        // Diagonal "FREE" corner ribbon — these packs cost nothing but a short video.
+        .overlay(alignment: .topTrailing) {
+            Text("shop.free")
+                .font(.system(size: 9, weight: .heavy))
+                .tracking(0.5)
+                .foregroundStyle(AppColors.onPrimary)
+                .padding(.horizontal, 26)
+                .padding(.vertical, 3)
+                .background(AppColors.tertiary)
+                .rotationEffect(.degrees(45))
+                .offset(x: 22, y: 11)
+                .accessibilityHidden(true)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
         .shadowL1()
+        .contentShape(Rectangle())
+        .onTapGesture { if adsAvailable { onWatch(pack) } }
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("shop.pack.watch.\(pack.id)")
+        .accessibilityAddTraits(.isButton)
     }
 }
 

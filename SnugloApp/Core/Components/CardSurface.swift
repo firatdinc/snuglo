@@ -14,9 +14,19 @@ struct CardSurface: ViewModifier {
                 AppColors.surfaceContainerLowest,
                 in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
             )
+            // Soft top rim highlight + hairline border in a SINGLE gradient stroke
+            // (no .mask()/blend → no offscreen pass; cheap to render in long lists).
             .overlay(
                 RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
-                    .stroke(AppColors.outlineVariant.opacity(0.3), lineWidth: 0.5)
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [.white.opacity(0.5),
+                                     AppColors.outlineVariant.opacity(0.3),
+                                     AppColors.outlineVariant.opacity(0.3)],
+                            startPoint: .top, endPoint: .bottom
+                        ),
+                        lineWidth: 1
+                    )
             )
             .shadowL1()
     }
@@ -26,6 +36,20 @@ extension View {
     /// Applies card surface styling: white bg, radius 20, L1 ambient shadow.
     func cardSurface() -> some View {
         modifier(CardSurface())
+    }
+
+    /// Cohesive card: standard inner padding + card surface + optional accent ring.
+    /// One call → consistent padding / radius / elevation across every card.
+    func infoCard(accent: Color? = nil) -> some View {
+        self
+            .padding(AppSpacing.md)
+            .cardSurface()
+            .overlay(
+                accent.map { c in
+                    RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                        .stroke(c.opacity(0.4), lineWidth: 1.5)
+                }
+            )
     }
 }
 

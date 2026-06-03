@@ -19,7 +19,6 @@ struct LevelsListView: View {
             AppColors.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                topBar
                 packList
             }
 
@@ -34,49 +33,6 @@ struct LevelsListView: View {
         } message: {
             Text(verbatim: String(format: NSLocalizedString("alert.unlockPack.message", comment: ""), lockedPackTitle))
         }
-    }
-
-    // MARK: — Top bar
-
-    private var topBar: some View {
-        HStack {
-            // Faz I-2: settings is now a tab in MainMenuView; pop and switch tab
-            Button {
-                router.pop()
-                router.selectTab(.settings)
-            } label: {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 22))
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .frame(width: 44, height: 44)
-            }
-            .accessibilityLabel("Settings")
-            .accessibilityHint("Opens the settings screen")
-
-            Spacer()
-
-            Text("app.name")
-                .font(AppTypography.headlineMedium)
-                .foregroundStyle(AppColors.primary)
-                .tracking(-0.4)
-                .accessibilityHidden(true)
-
-            Spacer()
-
-            Button {
-                router.selectTab(.shop)
-            } label: {
-                Image(systemName: "bag.fill")
-                    .font(.system(size: 22))
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                    .frame(width: 44, height: 44)
-            }
-            .accessibilityLabel("Shop")
-            .accessibilityHint("Opens the in-app shop")
-        }
-        .padding(.horizontal, AppSpacing.lg)
-        .frame(height: 56)
-        .background(AppColors.background)
     }
 
     // MARK: — Pack list
@@ -117,7 +73,7 @@ struct LevelsListView: View {
 
         if pack.isLocked {
             Button {
-                lockedPackTitle = pack.title
+                lockedPackTitle = pack.localizedTitle
                 showLockedAlert = true
             } label: {
                 content
@@ -141,17 +97,17 @@ struct LevelsListView: View {
     /// H-2: Constructs a meaningful VoiceOver label for a pack card.
     private func packA11yLabel(_ pack: Pack) -> String {
         if pack.isLocked {
-            return "\(pack.title). Locked. Tap to unlock."
+            return "\(pack.localizedTitle). Locked. Tap to unlock."
         }
         let pct = Int(pack.progressFraction * 100)
-        return "\(pack.title), \(pack.completedCount) of \(pack.levelCount) levels completed, \(pct) percent"
+        return "\(pack.localizedTitle), \(pack.completedCount) of \(pack.levelCount) levels completed, \(pct) percent"
     }
 
     private func packCardContent(_ pack: Pack) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                    Text(verbatim: pack.title)
+                    Text(pack.titleKey)
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
 

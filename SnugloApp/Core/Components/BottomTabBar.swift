@@ -25,9 +25,14 @@ struct RootTabView: View {
 
     private let barHeight: CGFloat = 80
 
-    private var deviceSafeBottom: CGFloat {
+    /// Cached once — the previous computed traversed connectedScenes/windows on
+    /// EVERY body render (which re-runs on any tab/path change), a needless
+    /// per-frame UIKit walk. The safe-area inset doesn't change at runtime.
+    @State private var deviceSafeBottom: CGFloat = 0
+
+    private static func readSafeBottom() -> CGFloat {
         UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom }
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow?.safeAreaInsets.bottom }
             .first ?? 0
     }
 
@@ -49,7 +54,7 @@ struct RootTabView: View {
 
         TabView(selection: $bindableRouter.selectedTab) {
             NavigationStack(path: $bindableRouter.levelsPath) {
-                LevelsListView(packId: "")
+                DeferredContent { LevelsListView(packId: "") }
                     .navigationBarBackButtonHidden()
                     .navigationDestination(for: Route.self) { tabDestination($0) }
             }
@@ -65,7 +70,7 @@ struct RootTabView: View {
             .toolbar(.hidden, for: .tabBar)
 
             NavigationStack(path: $bindableRouter.playPath) {
-                MainMenuView()
+                DeferredContent { MainMenuView() }
                     .navigationBarBackButtonHidden()
                     .navigationDestination(for: Route.self) { tabDestination($0) }
             }
@@ -73,7 +78,7 @@ struct RootTabView: View {
             .toolbar(.hidden, for: .tabBar)
 
             NavigationStack(path: $bindableRouter.leaderboardPath) {
-                LeaderboardView()
+                DeferredContent { LeaderboardView() }
                     .navigationBarBackButtonHidden()
                     .navigationDestination(for: Route.self) { tabDestination($0) }
             }
@@ -81,7 +86,7 @@ struct RootTabView: View {
             .toolbar(.hidden, for: .tabBar)
 
             NavigationStack(path: $bindableRouter.profilePath) {
-                ProfileView()
+                DeferredContent { ProfileView() }
                     .navigationBarBackButtonHidden()
                     .navigationDestination(for: Route.self) { tabDestination($0) }
             }
@@ -89,6 +94,7 @@ struct RootTabView: View {
             .toolbar(.hidden, for: .tabBar)
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
+        .background(AppColors.background.ignoresSafeArea())
         .scrollDisabled(router.isGameActive)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             Color.clear.frame(height: contentInset)
@@ -118,7 +124,10 @@ struct RootTabView: View {
         .onChange(of: router.playPath) { _, _ in hideBar = computeShouldHide() }
         .onChange(of: router.leaderboardPath) { _, _ in hideBar = computeShouldHide() }
         .onChange(of: router.profilePath) { _, _ in hideBar = computeShouldHide() }
-        .onAppear { hideBar = computeShouldHide() }
+        .onAppear {
+            hideBar = computeShouldHide()
+            if deviceSafeBottom == 0 { deviceSafeBottom = Self.readSafeBottom() }
+        }
     }
 
     // MARK: — Destination routing (shared across all tabs)
@@ -270,6 +279,8 @@ private struct CustomTabBar: View {
                 Text(item.labelKey)
                     .font(AppTypography.labelSmall)
                     .tracking(0.4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                     .foregroundStyle(isActive ? AppColors.primary : AppColors.outline)
             }
             .frame(maxWidth: .infinity)

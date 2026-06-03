@@ -10,10 +10,30 @@ struct ShopView: View {
     @Environment(AppRouter.self) private var router
 
     @State private var viewModel = ShopViewModel()
+    @State private var ready = false
     private let store = StoreManager.shared
     private let ads   = AdsManager.shared
 
     var body: some View {
+        // Navigate instantly → show a loading view → reveal content once products
+        // are loaded (and after the transition settles, so the heavy content build
+        // never blocks the tab tap → no "System gesture gate timed out").
+        LoadingGate(isReady: ready) {
+            shopContent
+        }
+        // Root nav bar hidden — Shop's own BalanceHeader is its header. A visible
+        // root nav bar here (while sibling tabs hide theirs) made the `.page`
+        // TabView crash mid-swipe with "top item belongs to a different navigation
+        // bar" as two pages' bars briefly coexisted. All tab roots must be bar-consistent.
+        .toolbar(.hidden, for: .navigationBar)
+        .accessibilityIdentifier("screen.shop")
+        .task {
+            await store.loadProducts()
+            ready = true
+        }
+    }
+
+    private var shopContent: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
                 dailyDealSection
@@ -30,10 +50,6 @@ struct ShopView: View {
             .padding(.bottom, AppSpacing.xl + 32)
         }
         .background(AppColors.background.ignoresSafeArea())
-        .navigationTitle("shop.title")
-        .navigationBarTitleDisplayMode(.inline)
-        .accessibilityIdentifier("screen.shop")
-        .task { await store.loadProducts() }
         .safeAreaInset(edge: .top) {
             BalanceHeader()
         }
@@ -55,12 +71,11 @@ struct ShopView: View {
         .overlay(alignment: .top) {
             if viewModel.showExchangeBanner {
                 exchangeBanner
-                    .padding(.horizontal, AppSpacing.lg)
-                    .padding(.top, AppSpacing.md)
+                    .padding(.top, AppSpacing.xs)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear {
                         Task {
-                            try? await Task.sleep(nanoseconds: 2_500_000_000)
+                            try? await Task.sleep(nanoseconds: 3_200_000_000)
                             viewModel.dismissExchangeBanner()
                         }
                     }
@@ -78,9 +93,22 @@ struct ShopView: View {
         }
     }
 
+    // Section header with an optional clarifying subtitle.
+    private func sectionHeader(_ title: LocalizedStringKey, subtitle: LocalizedStringKey) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(AppTypography.headlineMedium)
+                .foregroundStyle(AppColors.onSurface)
+            Text(subtitle)
+                .font(AppTypography.bodyMedium)
+                .foregroundStyle(AppColors.onSurfaceVariant)
+        }
+        .padding(.horizontal, AppSpacing.xs)
+    }
+
     private var coinPacksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.packs.section")
+            sectionHeader("shop.packs.section", subtitle: "shop.packs.hint")
             CurrencyPackGrid(
                 packs: CurrencyPack.allPacks,
                 onWatch: viewModel.watchAdForPack,
@@ -91,7 +119,7 @@ struct ShopView: View {
 
     private var exchangeSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.exchange.section")
+            sectionHeader("shop.exchange.section", subtitle: "shop.exchange.hint")
             ExchangePanel(viewModel: viewModel)
         }
     }
@@ -158,9 +186,10 @@ struct ShopView: View {
 
     private var exchangeBanner: some View {
         let isInsufficient = viewModel.exchangeInsufficient != nil
-        return AnnouncementBanner(
+        return ExchangeSignBanner(
             titleKey: isInsufficient ? "shop.exchange.insufficient.title" : "shop.exchange.success.title",
-            messageKey: isInsufficient ? "shop.exchange.insufficient.message" : "shop.exchange.success.message",
+            receipt: isInsufficient ? nil : viewModel.lastExchange,
+            messageKey: isInsufficient ? "shop.exchange.insufficient.message" : nil,
             onDismiss: viewModel.dismissExchangeBanner
         )
     }

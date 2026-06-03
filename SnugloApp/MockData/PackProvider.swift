@@ -86,9 +86,15 @@ enum PackProvider {
 
     // MARK: - Daily Puzzle
 
-    /// Bugünün daily puzzle Level'ını döndürür.
-    static func dailyPuzzle() -> Level {
-        DailyPuzzle.today()
+    /// Bugünün daily puzzle Level'ını döndürür (0-tabanlı index ile çok-bölümlü).
+    static func dailyPuzzle(index: Int = 0) -> Level {
+        DailyPuzzle.today(index: index)
+    }
+
+    /// Bir levelId'den ("daily" veya "daily-N") günlük bölüm index'ini çözer.
+    static func dailyIndex(from levelId: String) -> Int {
+        guard levelId.hasPrefix("daily") else { return 0 }
+        return Int(levelId.split(separator: "-").last ?? "0") ?? 0
     }
 
     // MARK: - Continue helpers (v1.1 bug fix — read from ProgressStore, not MockData)

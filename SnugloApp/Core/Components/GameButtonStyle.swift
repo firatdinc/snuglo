@@ -11,18 +11,16 @@ import SwiftUI
 struct GameButtonStyle: ButtonStyle {
 
     enum Variant {
-        case primary    // Blue CTA (primary / primaryPressed tokens)
-        case secondary  // White outlined (surfaceContainerLowest / outlineVariant tokens)
+        case primary    // Blue CTA
+        case secondary  // White outlined
+        case muted      // Inactive/disabled — flat gray, no depth
     }
 
     var variant: Variant = .primary
-    /// Compact buttons (e.g. the power-up bar) use tighter vertical padding so
-    /// they read as short horizontal pills rather than near-square circles —
-    /// the pill `AppRadius.button` (100) only looks right when width > height.
     var compact: Bool = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private let depth: CGFloat = 4
+    private var depth: CGFloat { variant == .muted ? 0 : 4 }
 
     func makeBody(configuration: Configuration) -> some View {
         let isPressed = configuration.isPressed
@@ -58,9 +56,31 @@ struct GameButtonStyle: ButtonStyle {
     private var topFace: some View {
         RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
             .fill(topColor)
+            // Glossy game-button sheen — plain white gradient on the upper half
+            // (no blend mode → no offscreen pass).
+            .overlay(alignment: .top) {
+                if variant == .primary {
+                    RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [.white.opacity(0.22), .white.opacity(0.0)],
+                                startPoint: .top, endPoint: .center
+                            )
+                        )
+                        .allowsHitTesting(false)
+                }
+            }
+            // Border + top rim highlight in one gradient stroke (no mask).
             .overlay(
                 RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                    .strokeBorder(borderColor, lineWidth: borderWidth)
+                    .strokeBorder(
+                        variant == .muted ? AnyShapeStyle(borderColor)
+                        : AnyShapeStyle(LinearGradient(
+                            colors: [.white.opacity(variant == .primary ? 0.4 : 0.55),
+                                     borderColor, borderColor],
+                            startPoint: .top, endPoint: .bottom)),
+                        lineWidth: max(borderWidth, 1)
+                    )
             )
     }
 
@@ -70,6 +90,7 @@ struct GameButtonStyle: ButtonStyle {
         switch variant {
         case .primary:   return AppColors.primary
         case .secondary: return AppColors.surfaceContainerLowest
+        case .muted:     return AppColors.surfaceContainerHigh
         }
     }
 
@@ -77,6 +98,7 @@ struct GameButtonStyle: ButtonStyle {
         switch variant {
         case .primary:   return AppColors.primaryPressed
         case .secondary: return AppColors.outlineVariant
+        case .muted:     return AppColors.surfaceContainerHigh
         }
     }
 
@@ -84,6 +106,7 @@ struct GameButtonStyle: ButtonStyle {
         switch variant {
         case .primary:   return .clear
         case .secondary: return AppColors.divider
+        case .muted:     return AppColors.outlineVariant.opacity(0.35)
         }
     }
 
@@ -91,6 +114,7 @@ struct GameButtonStyle: ButtonStyle {
         switch variant {
         case .primary:   return 0
         case .secondary: return 1.5
+        case .muted:     return 0.5
         }
     }
 }

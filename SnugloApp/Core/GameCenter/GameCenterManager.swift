@@ -25,8 +25,12 @@ final class GameCenterManager: GameCenterServicing {
     // MARK: — Authentication
 
     func authenticate() async {
-        if case .signedIn = authState { return }
+        if case .signedIn   = authState { return }
         if case .authenticating = authState { return }
+        // Don't retry after a permanent GK error (e.g. app not registered in ASC).
+        // Repeated retries fire the authenticateHandler callback on the main thread
+        // and generate log noise without any chance of succeeding.
+        if case .error = authState { return }
         authState = .authenticating
 
         await withCheckedContinuation { (cont: CheckedContinuation<Void, Never>) in
@@ -39,6 +43,9 @@ final class GameCenterManager: GameCenterServicing {
                     guard let self else { return }
                     if let error {
                         self.authState = .error(error.localizedDescription)
+                        // Clear the handler after a permanent failure so GK stops
+                        // firing callbacks and spamming the main thread.
+                        GKLocalPlayer.local.authenticateHandler = nil
                     } else if GKLocalPlayer.local.isAuthenticated {
                         self.authState = .signedIn(displayName: GKLocalPlayer.local.displayName)
                     } else {

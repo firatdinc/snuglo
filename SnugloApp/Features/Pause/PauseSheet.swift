@@ -15,9 +15,19 @@ struct PauseSheet: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    var onResume: () -> Void  = {}
-    var onRestart: () -> Void = {}
-    var onQuit: () -> Void    = {}
+    // Quick in-game toggles (mirror the main Settings keys).
+    @AppStorage("musicEnabled")   private var musicEnabled   = true
+    @AppStorage("sfxEnabled")     private var sfxEnabled     = true
+    @AppStorage("hapticsEnabled") private var hapticsEnabled = true
+
+    var onResume: () -> Void   = {}
+    var onRestart: () -> Void  = {}
+    var onQuit: () -> Void     = {}
+    var onHint: () -> Void     = {}
+    var onSettings: () -> Void = {}
+
+    /// Hint button is hidden when no hints remain (or unsupported, e.g. Endless).
+    var hintsAvailable: Bool = true
 
     var elapsedSeconds: Int = 73   // placeholder
 
@@ -47,6 +57,13 @@ struct PauseSheet: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
 
+            // — Quick toggles — music / sfx / haptics, adjustable mid-game.
+            HStack(spacing: AppSpacing.md) {
+                quickToggle(isOn: $musicEnabled, on: "music.note", off: "music.note", label: "settings.sound.music")
+                quickToggle(isOn: $sfxEnabled, on: "speaker.wave.2.fill", off: "speaker.slash.fill", label: "settings.sound.effects")
+                quickToggle(isOn: $hapticsEnabled, on: "hand.tap.fill", off: "hand.tap", label: "settings.haptics.enable")
+            }
+
             // — Actions — (v1.1: reusable PrimaryButton / SecondaryButton)
             VStack(spacing: AppSpacing.sm) {
 
@@ -56,10 +73,24 @@ struct PauseSheet: View {
                 }
                 .accessibilityIdentifier("pause.resume")
 
+                if hintsAvailable {
+                    SecondaryButton("pause.hint", systemImage: "lightbulb.fill") {
+                        onHint()
+                        dismiss()
+                    }
+                    .accessibilityIdentifier("pause.hint")
+                }
+
                 SecondaryButton("pause.restart", systemImage: "arrow.counterclockwise") {
                     onRestart()
                     dismiss()
                 }
+
+                SecondaryButton("pause.settings", systemImage: "gearshape.fill") {
+                    dismiss()
+                    onSettings()
+                }
+                .accessibilityIdentifier("pause.settings")
 
                 SecondaryButton("pause.home", systemImage: "house") {
                     onQuit()
@@ -72,8 +103,39 @@ struct PauseSheet: View {
         }
         .padding(.horizontal, AppSpacing.lg)
         .background(AppColors.surface)
-        .presentationDetents([.medium])
+        .presentationDetents([.fraction(0.62), .large])
         .presentationDragIndicator(.hidden)
+    }
+
+    // MARK: — Quick toggle chip
+
+    @ViewBuilder
+    private func quickToggle(isOn: Binding<Bool>, on: String, off: String, label: LocalizedStringKey) -> some View {
+        Button {
+            isOn.wrappedValue.toggle()
+            if label == "settings.sound.music" { MusicService.shared.refresh() }
+            HapticService.shared.impact(.light)
+        } label: {
+            VStack(spacing: AppSpacing.xs) {
+                Image(systemName: isOn.wrappedValue ? on : off)
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(isOn.wrappedValue ? AppColors.primary : AppColors.onSurfaceVariant)
+                    .frame(width: 56, height: 56)
+                    .background(
+                        Circle().fill(isOn.wrappedValue
+                            ? AppColors.primaryContainer.opacity(0.5)
+                            : AppColors.surfaceContainerHigh)
+                    )
+                Text(label)
+                    .font(AppTypography.labelSmall)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+            }
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityValue(Text(isOn.wrappedValue ? "ON" : "OFF"))
     }
 
     // MARK: — Helpers

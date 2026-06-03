@@ -38,6 +38,21 @@ struct GameView: View {
     @State private var dragPosition: CGPoint    = .zero
     @State private var snapCoord: Coord?
     @State private var gridFrame: CGRect        = .zero
+    /// Live tilt (degrees) of the floating piece — leans toward drag direction for weight.
+    @State private var dragTilt: Double         = 0
+    /// 0…0.3 red wash over the board on an invalid drop (juicy "nope" feedback).
+    @State private var invalidFlash: Double     = 0
+
+    // MARK: — Carousel state (custom paged tray, no ScrollView)
+    // We manage the horizontal offset ourselves so a single DragGesture can
+    // decide — on the FIRST movement — whether the touch is a horizontal scroll
+    // or an upward pick-up, then lock into that mode for the rest of the drag.
+    @State private var carouselOffset: CGFloat = 0          // committed page offset (≤ 0)
+    @State private var carouselDrag:   CGFloat = 0          // live horizontal delta while scrolling
+    @State private var trayGestureMode: TrayGestureMode = .undecided
+    @State private var trayViewportFrame: CGRect = .zero    // viewport rect in "gameLayout" space
+
+    private enum TrayGestureMode { case undecided, scrolling, picking }
 
     // MARK: — UI state
 
@@ -52,6 +67,49 @@ struct GameView: View {
     @State private var showQuitConfirmation = false
     /// Faz 3: shown when a power-up tap fails due to insufficient gems.
     @State private var showInsufficientGemBanner = false
+    /// Rewarded Undo: shown when user taps Undo without enough gems.
+    @State private var showUndoRewardedSheet = false
+    @State private var showHintRewardedSheet = false
+    /// Solve wave: true while the diagonal cell-wave animation plays after solve.
+    @State private var showWaveAnimation = false
+    /// Shown when the countdown hits zero without solving.
+    @State private var showFail = false
+
+    /// Zen / Relax mode (research: the #1 loved feature of the genre). When on,
+    /// the timer becomes a calm count-UP and the level can never fail on time.
+    @AppStorage("zenMode") private var zenMode = false
+
+    /// Confetti burst on solve (juice). Auto-clears; skipped under Reduce Motion.
+    @State private var showCelebration = false
+    /// 0…1 — scales the confetti by the win-streak chain length (juicier streaks).
+    @State private var celebrationIntensity: Double = 0.5
+
+    // In-level combo: rapid consecutive valid placements build a "Combo xN" pop.
+    @State private var comboCount = 0
+    @State private var lastPlaceAt: Date?
+    @State private var comboVisible = false
+    @State private var comboVersion = 0
+    /// Gems awarded at the current combo milestone (shown in the pop); 0 if none.
+    @State private var comboGemBonus = 0
+
+    // Visual hint: the hinted piece pulses for a moment after it's placed.
+    @State private var hintFlashID: String?
+    @State private var hintFlashVersion = 0
+
+    // Achievement unlock toasts (queued).
+    @State private var achToastQueue: [Achievement] = []
+    @State private var achToast: Achievement?
+
+    // First-ever level coach hand (shown once).
+    @AppStorage("coachShown") private var coachShown = false
+    @State private var showCoach = false
+
+    // A rotating cozy word of encouragement shown briefly on solve.
+    @State private var solvePraiseKey: LocalizedStringKey?
+    @State private var solvePraiseVersion = 0
+    private static let praiseKeys: [LocalizedStringKey] = [
+        "praise.0", "praise.1", "praise.2", "praise.3", "praise.4", "praise.5"
+    ]
 
     /// v1.1.4 layout: live cell size of the board, derived from the flexible
     /// board region (see `boardRegion`). The board is a centred square sized to
@@ -88,10 +146,107 @@ struct GameView: View {
         return viewModel.wouldOverlapOrOOB(pieceID: piece.id, at: coord)
     }
 
+    /// How far the dragged piece floats ABOVE the finger, so the thumb never
+    /// covers the piece or the target cells (a core mobile-puzzle feel fix).
+    private let dragLift: CGFloat = 46
+
+    /// Finger position adjusted by the lift — the piece's visual centre. Both the
+    /// floating overlay and the snap target are computed from this single point,
+    /// so the ghost always matches exactly where the piece will land.
+    private func liftedPos(_ p: CGPoint) -> CGPoint {
+        CGPoint(x: p.x, y: p.y - dragLift)
+    }
+
+    /// Updates the drag position and leans the piece toward the horizontal motion.
+    private func setDragPosition(_ p: CGPoint) {
+        if !reduceMotion {
+            let dx = p.x - dragPosition.x
+            dragTilt = max(-9, min(9, Double(dx) * 0.8))
+        }
+        dragPosition = p
+    }
+
+    /// A valid placement landed — grow the in-level combo if it was quick, show a
+    /// "Combo xN" pop with a small coin bonus, and auto-hide after a beat.
+    private func registerCombo() {
+        let now = Date()
+        if let last = lastPlaceAt, now.timeIntervalSince(last) <= 2.5 {
+            comboCount += 1
+        } else {
+            comboCount = 1
+        }
+        lastPlaceAt = now
+        guard comboCount >= 2 else { return }
+        WalletStore.shared.earn(.coin, amount: min(comboCount, 8) * 2)
+        // Milestone combos (×3/×5/×8) get a punchier reward + celebration.
+        if comboCount == 3 || comboCount == 5 || comboCount == 8 {
+            HapticService.shared.impact(.rigid)
+            SoundService.shared.play(.reward)
+            if comboCount >= 5 {
+                let gems = comboCount >= 8 ? 2 : 1
+                WalletStore.shared.earn(.gem, amount: gems)
+                comboGemBonus = gems
+            }
+        } else {
+            HapticService.shared.selection()
+            SoundService.shared.play(.combo)
+        }
+        comboVersion += 1
+        withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.55)) {
+            comboVisible = true
+        }
+        let token = comboVersion
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(1000))
+            if comboVersion == token {
+                withAnimation(.easeOut(duration: 0.2)) { comboVisible = false }
+                comboGemBonus = 0
+            }
+        }
+    }
+
+    /// Pops the next queued achievement toast and schedules its dismissal.
+    private func showNextAchToast() {
+        guard !achToastQueue.isEmpty else { achToast = nil; return }
+        let next = achToastQueue.removeFirst()
+        withAnimation(reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.8)) {
+            achToast = next
+        }
+        HapticService.shared.selection()
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(2400))
+            withAnimation(.easeOut(duration: 0.25)) { achToast = nil }
+            try? await Task.sleep(for: .milliseconds(320))
+            showNextAchToast()
+        }
+    }
+
+    /// Resets the combo (invalid drop breaks the streak of clean placements).
+    private func breakCombo() {
+        comboCount = 0
+        lastPlaceAt = nil
+        comboGemBonus = 0
+        if comboVisible { withAnimation(.easeOut(duration: 0.15)) { comboVisible = false } }
+    }
+
+    /// Invalid drop: error sound + haptic + a quick red wash over the board.
+    private func triggerInvalidFeedback() {
+        breakCombo()
+        SoundService.shared.play(.error)
+        HapticService.shared.notify(.error)
+        guard !reduceMotion else { return }
+        withAnimation(.easeOut(duration: 0.08)) { invalidFlash = 0.30 }
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(140))
+            withAnimation(.easeIn(duration: 0.25)) { invalidFlash = 0 }
+        }
+    }
+
     private func overlayOffset(for piece: Piece) -> CGPoint {
         let halfW = CGFloat((piece.cells.map(\.x).max() ?? 0) + 1) * cellSize / 2
         let halfH = CGFloat((piece.cells.map(\.y).max() ?? 0) + 1) * cellSize / 2
-        return CGPoint(x: dragPosition.x - halfW, y: dragPosition.y - halfH)
+        let c = liftedPos(dragPosition)
+        return CGPoint(x: c.x - halfW, y: c.y - halfH)
     }
 
     /// Pack display name for HUD title (derived from PackProvider lookup, not stored).
@@ -121,12 +276,50 @@ struct GameView: View {
                         isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
                         isDragging: true
                     )
+                    .rotationEffect(.degrees(dragTilt))
                     .offset(x: off.x, y: off.y)
                     .allowsHitTesting(false)
                     .accessibilityHidden(true) // overlay duplicate; original already labelled
+                    // "poof" out on release; spring the lean back to level
+                    .transition(.scale(scale: 0.55).combined(with: .opacity))
+                    .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.6), value: dragTilt)
+                }
+                if comboVisible && comboCount >= 2 {
+                    comboPop
+                        // Clearly over the board, well below the HUD/toast band.
+                        .position(x: rootGeo.size.width / 2, y: rootGeo.size.height * 0.34)
+                        .allowsHitTesting(false)
+                        .transition(.scale.combined(with: .opacity))
+                }
+                if let a = achToast {
+                    AchievementToast(achievement: a)
+                        .frame(width: rootGeo.size.width, alignment: .top)
+                        // Sit BELOW the HUD (back/level/timer) so they never collide.
+                        .padding(.top, 64)
+                        .allowsHitTesting(false)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .zIndex(40)
+                }
+                if showCoach {
+                    CoachOverlay()
+                        .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .bottom)
+                        .padding(.bottom, 150)
+                        .allowsHitTesting(false)
+                        .zIndex(35)
+                }
+                // Solve praise — centred, ABOVE everything (was hidden behind tray).
+                if let praise = solvePraiseKey {
+                    PraiseBadge(textKey: praise)
+                        .frame(width: rootGeo.size.width, height: rootGeo.size.height)
+                        .allowsHitTesting(false)
+                        .transition(.scale(scale: 0.6).combined(with: .opacity))
+                        .zIndex(70)
                 }
             }
             .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .top)
+            .animation(reduceMotion ? nil : AppMotion.pop, value: solvePraiseKey == nil)
+            // Block all input while the solve wave animation plays.
+            .allowsHitTesting(!showWaveAnimation)
             // Stable: rootGeo.size only changes on rotation, never as pieces are
             // placed, so storing it can't drive a layout loop.
             .onChange(of: rootGeo.size) { _, newSize in
@@ -159,13 +352,49 @@ struct GameView: View {
                 onRestart: {
                     viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
                     elapsedSeconds = 0
+                    showFail = false
+                    rewardGranted = false
+                    ProgressStore.shared.breakChain()   // restart mid-play → chain broken
                     // startTimer() is called via onDismiss after sheet dismisses
                 },
-                onQuit: { router.pop() },
+                onQuit: {
+                    ProgressStore.shared.breakChain()
+                    router.pop()
+                },
+                onHint: {
+                    // Place one solution piece; the HUD pulse animates via onChange.
+                    if !viewModel.applyHint() {
+                        HapticService.shared.notify(.warning)
+                        SoundService.shared.play(.error)
+                    }
+                },
+                onSettings: { router.push(.settings) },
+                // Endless puzzles are generated (no canonical hint); campaign only.
+                hintsAvailable: !isEndless && ProgressStore.shared.hintCount > 0,
                 elapsedSeconds: elapsedSeconds
             )
             .environment(router)
         })
+        .overlay {
+            if showFail {
+                LevelFailSheet(
+                    onRetry: {
+                        showFail = false
+                        viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
+                        elapsedSeconds = 0
+                        rewardGranted = false
+                        earnedReward = [:]
+                        startTimer()
+                    },
+                    onHome: {
+                        showFail = false
+                        router.pop()
+                    }
+                )
+                .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: showFail)
         .fullScreenCover(isPresented: $showComplete) {
             LevelCompleteSheet(
                 stars: 3,
@@ -173,20 +402,36 @@ struct GameView: View {
                 hintsUsed: viewModel.hintsUsed,
                 moveCount: viewModel.moveCount,
                 bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
+                isNewBest: viewModel.newBestTime,
                 earnedReward: earnedReward,
-                // v1.1.3: Next Level resolution
+                isDaily: dailyIndex != nil,
+                dailyIndex: dailyIndex,
+                dailyTotal: ProgressStore.dailyLevelCount,
+                // Next Level resolution
                 //   • Pack levels  → next index in the same pack
-                //   • Daily puzzle → user's current continue level (so
-                //     "Sonraki seviye" always leads to *something* to play)
+                //   • Daily        → next daily level (daily-N+1) until the day's
+                //     set is finished, then Home (the card locks until tomorrow).
                 //   • Pack end / no continue → pop back to PackDetail/MainMenu
                 onNext: {
                     showComplete = false
-                    let resolvedNextId: String?
-                    if levelId == "daily" {
-                        resolvedNextId = PackProvider.continueLevel()?.id
-                    } else {
-                        resolvedNextId = PackProvider.nextLevelId(after: levelId)
+                    // Endless: roll straight into the next generated level.
+                    if isEndless {
+                        let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+                        router.replaceTop(with: .game(levelID: "endless-\(n)"))
+                        return
                     }
+                    // Daily: advance to the next daily level, or Home if this was
+                    // the last one for today.
+                    if let idx = dailyIndex {
+                        let next = idx + 1
+                        if next < ProgressStore.dailyLevelCount {
+                            router.replaceTop(with: .game(levelID: "daily-\(next)"))
+                        } else {
+                            router.popToRoot()
+                        }
+                        return
+                    }
+                    let resolvedNextId: String? = PackProvider.nextLevelId(after: levelId)
                     // v1.1.4 bug fix: only navigate when there's a genuinely
                     // DIFFERENT next level. Re-pushing the current levelId is a
                     // no-op path mutation (NavigationStack sees no change), so
@@ -214,9 +459,21 @@ struct GameView: View {
             )
             .environment(router)
         }
+        .onChange(of: draggingPiece?.id) { _, id in
+            if id != nil, showCoach {
+                showCoach = false
+                coachShown = true
+            }
+        }
         .onAppear {
             router.isGameActive = true
             startTimer()
+            // First-ever campaign level → show the one-time coach hand.
+            if !coachShown, !isEndless, dailyIndex == nil,
+               viewModel.placements.isEmpty,
+               ProgressStore.shared.totalLevelsCompleted() == 0 {
+                showCoach = true
+            }
             // Pre-warm audio + haptics OFF the gesture path so the first piece
             // drag is instant (was freezing 3–5s while AVAudioSession activated
             // on the main thread during the gesture → "gesture gate timed out").
@@ -240,6 +497,7 @@ struct GameView: View {
                     onCancel: { dismissQuitConfirmation() },
                     onConfirm: {
                         dismissQuitConfirmation()
+                        ProgressStore.shared.breakChain()   // quit mid-play → chain broken
                         router.pop()
                     }
                 )
@@ -248,6 +506,58 @@ struct GameView: View {
         }
         .animation(reduceMotion ? .none : .spring(response: 0.32, dampingFraction: 0.82),
                    value: showQuitConfirmation)
+        // Rewarded Undo sheet
+        .sheet(isPresented: $showUndoRewardedSheet) {
+            UndoRewardedSheet(
+                onWatchAd: {
+                    showUndoRewardedSheet = false
+                    AdsManager.shared.showRewarded {
+                        let anim: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                        withAnimation(anim) {
+                            viewModel.undoLastMove()
+                        }
+                        HapticService.shared.impact(.light)
+                        SoundService.shared.play(.place)
+                    }
+                },
+                onDismiss: { showUndoRewardedSheet = false }
+            )
+            .presentationDetents([.height(260)])
+            .presentationDragIndicator(.visible)
+        }
+        // Rewarded Hint sheet (out of hints AND gems)
+        .sheet(isPresented: $showHintRewardedSheet) {
+            HintRewardedSheet(
+                onWatchAd: {
+                    showHintRewardedSheet = false
+                    AdsManager.shared.showRewarded {
+                        ProgressStore.shared.addHints(1)
+                        _ = viewModel.applyPowerUp(.hint)   // consumes the granted hint
+                        HapticService.shared.impact(.light)
+                    }
+                },
+                onDismiss: { showHintRewardedSheet = false }
+            )
+            .presentationDetents([.height(260)])
+            .presentationDragIndicator(.visible)
+        }
+        .onChange(of: viewModel.newlyUnlockedAchievements) { _, new in
+            guard !new.isEmpty else { return }
+            achToastQueue.append(contentsOf: new)
+            viewModel.clearNewAchievements()
+            if achToast == nil { showNextAchToast() }
+        }
+        .onChange(of: viewModel.hintsUsed) { _, _ in
+            guard let id = viewModel.lastHintPieceID else { return }
+            hintFlashVersion += 1
+            let token = hintFlashVersion
+            hintFlashID = id
+            HapticService.shared.impact(.light)
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(1700))
+                if hintFlashVersion == token { hintFlashID = nil }
+            }
+        }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
@@ -264,8 +574,42 @@ struct GameView: View {
                     )
                     earnedReward = reward
                     for (currency, amount) in reward { WalletStore.shared.earn(currency, amount: amount) }
+
+                    // Win-streak chain: grow the chain, pay an escalating coin
+                    // bonus, and intensify the celebration the longer it runs.
+                    let chain = ProgressStore.shared.recordWin()
+                    let chainBonus = ProgressStore.chainCoinBonus(forChain: chain)
+                    if chainBonus > 0 {
+                        WalletStore.shared.earn(.coin, amount: chainBonus)
+                        earnedReward[.coin, default: 0] += chainBonus
+                    }
+                    celebrationIntensity = min(1, Double(chain) / 5.0)
                 }
-                showComplete = true
+                // Calm completion glow (NOT confetti — confetti is for reward moments).
+                if !reduceMotion {
+                    showCelebration = true
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(950))
+                        showCelebration = false
+                    }
+                }
+                // A rotating word of encouragement — small cozy variety on each solve.
+                // An endless personal-best overrides it with a record shout-out.
+                if viewModel.newEndlessBest {
+                    solvePraiseKey = "endless.record"
+                    HapticService.shared.notify(.success)
+                    SoundService.shared.play(.reward)
+                } else {
+                    solvePraiseKey = Self.praiseKeys.randomElement()
+                }
+                let praiseToken = (solvePraiseVersion &+ 1)
+                solvePraiseVersion = praiseToken
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(1500))
+                    if solvePraiseVersion == praiseToken { solvePraiseKey = nil }
+                }
+                // Wave plays first; SolveWaveOverlay calls onComplete → showComplete = true
+                showWaveAnimation = true
             }
         }
     }
@@ -273,14 +617,17 @@ struct GameView: View {
     // MARK: — Main layout
 
     private var mainLayout: some View {
-        VStack(spacing: AppSpacing.md) {
+        VStack(spacing: AppSpacing.sm) {
             gameHUD
             progressRow
 
             // Faz 3: Power-up bar between HUD and puzzle grid
-            PowerUpBar(viewModel: viewModel) {
-                showInsufficientGemBanner = true
-            }
+            PowerUpBar(
+                viewModel: viewModel,
+                onInsufficientGem: { showInsufficientGemBanner = true },
+                onUndoRewarded:    { showUndoRewardedSheet = true },
+                onHintRewarded:    { showHintRewardedSheet = true }
+            )
 
             if showInsufficientGemBanner {
                 AnnouncementBanner(
@@ -296,15 +643,13 @@ struct GameView: View {
                 .padding(.horizontal, AppSpacing.lg)
             }
 
-            mascotBadge
-
             // Board + tray share ONE measured region and are split
             // proportionally (board ≥ ~58%, tray ≤ ~42%). No chrome-height
             // estimate, so it can't starve the board on tall-piece levels, and
             // the tray pieces shrink-to-fit their share (never clipped).
             boardAndTrayRegion
         }
-        .padding(.vertical, AppSpacing.lg)
+        .padding(.vertical, AppSpacing.md)
         // Pin to the top of the screen so oversized content can never get
         // vertically centred (which is what clipped the HUD off the top and
         // the tray off the bottom). With the board sized to fit, nothing
@@ -314,12 +659,9 @@ struct GameView: View {
 
     // MARK: — Mascot badge
 
-    /// Sloth badge floating above the puzzle grid.
+    /// Sloth badge floating above the puzzle grid (gentle idle bob).
     private var mascotBadge: some View {
-        Image("mascot-sloth")
-            .resizable()
-            .scaledToFit()
-            .frame(width: 64, height: 64)
+        MascotView(name: "mascot-sloth", size: 64, clipCircle: false)
             .background(
                 AppColors.surfaceContainerLowest,
                 in: RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -347,7 +689,21 @@ struct GameView: View {
             VStack(spacing: AppSpacing.md) {
                 boardSquare
                     .frame(width: split.boardW, height: split.boardH)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .overlay {
+                        if showWaveAnimation {
+                            SolveWaveOverlay(
+                                level: viewModel.level,
+                                placements: viewModel.placements,
+                                cellSize: cellSize
+                            ) {
+                                showWaveAnimation = false
+                                showComplete = true
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
+                        }
+                    }
+                    // fills remaining vertical space so tray stays at bottom
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .onAppear { publishBoardCell(split.cell) }
                     .onChange(of: split.cell) { _, c in publishBoardCell(c) }
 
@@ -364,27 +720,19 @@ struct GameView: View {
         var trayContentH: CGFloat
     }
 
-    /// Pure split math (testable shape): board square + tray content height that
-    /// together fit the region, with the board favoured and the tray capped.
+    /// Pure split math: fixed tray height — tray never grows/shrinks as pieces
+    /// are placed; board takes all remaining space.
     private func regionSplit(width regionW: CGFloat, height regionH: CGFloat) -> RegionSplit {
         let w = CGFloat(viewModel.level.width)
         let h = CGFloat(viewModel.level.height)
         let spacing = AppSpacing.md
-        let trayHeaderH: CGFloat = 30          // header label + xs gap
+        let trayHeaderH: CGFloat = 26
         let boardMaxW = max(0, regionW - AppSpacing.lg * 2)
 
-        // Single-row tray: it only needs room for the TALLEST piece at a
-        // comfortable, board-relative cell — width overflow is scrolled, never
-        // shrunk. Constant per level → stable (never grows/shrinks as pieces
-        // are placed).
-        let approxCell = boardMaxW / max(1, w)
-        let maxPH = CGFloat(viewModel.level.pieces.map { TrayLayout.pieceHeight($0) }.max() ?? 1)
-        let neededContent = maxPH * (approxCell * 0.6) + AppSpacing.sm * 2
+        // Fixed tray content height — constant regardless of piece count.
+        let trayContentH: CGFloat = 100
 
         let vBudget = max(0, regionH - spacing - trayHeaderH)
-        // Tray gets what it needs but never more than ~42% of the budget — the
-        // board keeps the majority. Shrink-to-fit handles the capped case.
-        let trayContentH = max(0, min(neededContent, vBudget * 0.42))
         let boardAvailH = max(0, vBudget - trayContentH)
 
         let boardW = max(0, min(boardMaxW, boardAvailH * (w / h)))
@@ -401,26 +749,38 @@ struct GameView: View {
     /// The board itself (grid canvas + transparent re-drag handles).
     private var boardSquare: some View {
         ZStack(alignment: .topLeading) {
-            GridView(
-                level: viewModel.level,
-                placements: viewModel.placements,
-                invalidPieceIDs: viewModel.invalidPieceIDs,
-                snapCoord: snapCoord,
-                snapIsInvalid: snapIsInvalid,
-                draggingPieceID: draggingPiece?.id
-            )
-            // v1.1.1 critical fix: round frame before triggering @State update.
-            .onGeometryChange(for: CGRect.self) { proxy in
-                proxy.frame(in: .named("gameLayout"))
-            } action: { frame in
-                let rounded = CGRect(
-                    x: frame.origin.x.rounded(),
-                    y: frame.origin.y.rounded(),
-                    width: frame.width.rounded(),
-                    height: frame.height.rounded()
+            // Pulse drives the breathing snap-target halo. The timeline only ticks
+            // while a piece is in hand (and never under Reduce Motion), so it costs
+            // nothing at rest.
+            TimelineView(.animation(minimumInterval: 1.0 / 30.0,
+                                    paused: (draggingPiece == nil && hintFlashID == nil) || reduceMotion)) { tl in
+                let active = draggingPiece != nil || hintFlashID != nil
+                let pulse: CGFloat = (active && !reduceMotion)
+                    ? CGFloat(0.5 + 0.5 * sin(tl.date.timeIntervalSinceReferenceDate * 4.2))
+                    : (hintFlashID != nil ? 0.7 : 0)
+                GridView(
+                    level: viewModel.level,
+                    placements: viewModel.placements,
+                    invalidPieceIDs: viewModel.invalidPieceIDs,
+                    snapCoord: snapCoord,
+                    snapIsInvalid: snapIsInvalid,
+                    draggingPieceID: draggingPiece?.id,
+                    snapPulse: pulse,
+                    hintPieceID: hintFlashID
                 )
-                if rounded != gridFrame {
-                    gridFrame = rounded
+                // v1.1.1 critical fix: round frame before triggering @State update.
+                .onGeometryChange(for: CGRect.self) { proxy in
+                    proxy.frame(in: .named("gameLayout"))
+                } action: { frame in
+                    let rounded = CGRect(
+                        x: frame.origin.x.rounded(),
+                        y: frame.origin.y.rounded(),
+                        width: frame.width.rounded(),
+                        height: frame.height.rounded()
+                    )
+                    if rounded != gridFrame {
+                        gridFrame = rounded
+                    }
                 }
             }
 
@@ -440,6 +800,18 @@ struct GameView: View {
                     }
                 }
             }
+        }
+        // Invalid-drop red wash (non-geometric → safe overlay, no layout churn).
+        .overlay {
+            if invalidFlash > 0 {
+                RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous)
+                    .fill(AppColors.error.opacity(invalidFlash))
+                    .allowsHitTesting(false)
+            }
+        }
+        // Calm solve completion glow, centred over the board.
+        .overlay {
+            if showCelebration { SolveGlow() }
         }
         // iOS 26: identifier on the ZStack wrapper — Canvas (GridView) is
         // accessibility-opaque, so the identifier must live on an ancestor
@@ -469,38 +841,57 @@ struct GameView: View {
 
             Spacer()
 
-            // Pack name + "Level N" subtitle
+            // Level number + pack name subtitle
             VStack(spacing: 2) {
-                Text(verbatim: packDisplayName)
+                Text(verbatim: levelDisplayName)
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                    .lineLimit(1)
-                Text(levelDisplayNameKey)
+                Text(verbatim: packDisplayName)
                     .font(AppTypography.labelSmall)
                     .tracking(0.4)
                     .foregroundStyle(AppColors.onSurfaceVariant)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .accessibilityHidden(true)
 
             Spacer()
 
             HStack(spacing: AppSpacing.sm) {
-                // Timer — blue capsule pill with clock icon
+                // Timer — countdown capsule pill, turns red when ≤ 30 s remain
                 HStack(spacing: 4) {
-                    Image(systemName: "clock.fill")
+                    Image(systemName: relaxed ? "leaf.fill" : (timerIsUrgent ? "exclamationmark.circle.fill" : "clock.fill"))
                         .font(.system(size: 11))
                         .foregroundStyle(.white)
                     Text(formattedTimer)
                         .font(AppTypography.labelSmall)
                         .foregroundStyle(.white)
+                        .monospacedDigit()
+                        .frame(minWidth: 38, alignment: .leading)
                 }
                 .padding(.horizontal, AppSpacing.sm + 2)
                 .padding(.vertical, AppSpacing.xs + 2)
-                .background(AppColors.primary, in: Capsule())
+                .background(timerIsUrgent ? AppColors.error : AppColors.primary, in: Capsule())
+                .animation(.easeInOut(duration: 0.3), value: timerIsUrgent)
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(levelDisplayName), elapsed time \(formattedTimer)")
-                // Faz I-2: UITest identifier for timer display
+                .accessibilityLabel("\(levelDisplayName), remaining time \(formattedTimer)")
                 .accessibilityIdentifier("game.timer")
+
+                // Endless: discard this puzzle and roll a fresh one (anti-frustration).
+                if isEndless {
+                    Button { skipEndless() } label: {
+                        Image(systemName: "forward.end.fill")
+                            .font(.system(size: 15, weight: .medium))
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .frame(width: 40, height: 40)
+                            .background(AppColors.surfaceContainerLowest, in: Circle())
+                            .shadowL1()
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("New puzzle")
+                    .accessibilityHint("Discards this puzzle and loads a new one")
+                    .accessibilityIdentifier("button.game.skip")
+                }
 
                 // Pause
                 Button { pauseGame() } label: {
@@ -523,38 +914,76 @@ struct GameView: View {
 
     // MARK: — Progress bar (piece placement progress)
 
+    /// Floating in-level combo pop.
+    private var comboPop: some View {
+        HStack(spacing: 5) {
+            Image(systemName: "flame.fill")
+                .font(.system(size: 14, weight: .bold))
+            Text(verbatim: "Combo x\(comboCount)")
+                .font(AppTypography.headlineSmall)
+                .monospacedDigit()
+            if comboGemBonus > 0 {
+                Text(verbatim: "💎+\(comboGemBonus)")
+                    .font(AppTypography.headlineSmall)
+            }
+        }
+        .foregroundStyle(AppColors.onPrimary)
+        .padding(.horizontal, AppSpacing.md)
+        .padding(.vertical, AppSpacing.xs + 2)
+        .background(AppColors.tertiary, in: Capsule())
+        .shadowL1()
+        .id(comboVersion)
+        .scaleEffect(1 + min(Double(comboCount), 6) * 0.04)
+    }
+
+    /// Win-streak chip — appears at chain ≥ 2 to reinforce "don't break it".
+    private var chainBadge: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "flame.fill")
+                .font(.system(size: 10, weight: .bold))
+            Text(verbatim: "x\(ProgressStore.shared.winChain)")
+                .font(AppTypography.labelSmall)
+                .monospacedDigit()
+        }
+        .foregroundStyle(AppColors.tertiary)
+        .padding(.horizontal, AppSpacing.sm)
+        .padding(.vertical, 3)
+        .background(AppColors.tertiary.opacity(0.14), in: Capsule())
+        .overlay(Capsule().stroke(AppColors.tertiary.opacity(0.35), lineWidth: 1))
+        .accessibilityLabel("Win streak times \(ProgressStore.shared.winChain)")
+    }
+
     private var progressRow: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.xs) {
-            HStack {
-                Text("pack.progress")
-                    .font(AppTypography.labelSmall)
-                    .tracking(0.6)
-                    .textCase(.uppercase)
-                    .foregroundStyle(AppColors.onSurfaceVariant)
-                Spacer()
-                Text("\(Int(placedFraction * 100))%")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.primary)
+        HStack(spacing: AppSpacing.sm) {
+            if ProgressStore.shared.winChain >= 2 {
+                chainBadge
+                    .transition(.scale.combined(with: .opacity))
             }
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Capsule()
                         .fill(AppColors.surfaceContainerHigh)
-                        .frame(height: 8)
+                        .frame(height: 5)
                     if placedFraction > 0 {
                         Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [AppColors.primary, AppColors.secondary],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .frame(width: geo.size.width * placedFraction, height: 8)
+                            .fill(LinearGradient(
+                                colors: [AppColors.primary, AppColors.secondary],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ))
+                            .frame(width: geo.size.width * placedFraction, height: 5)
                     }
                 }
+                .frame(height: 5)
+                .frame(maxHeight: .infinity, alignment: .center)
             }
-            .frame(height: 8)
+            .frame(height: 14)
+
+            Text("\(Int(placedFraction * 100))%")
+                .font(AppTypography.labelSmall)
+                .foregroundStyle(AppColors.primary)
+                .monospacedDigit()
+                .frame(width: 34, alignment: .trailing)
         }
         .padding(.horizontal, AppSpacing.lg)
         .accessibilityHidden(true)
@@ -562,56 +991,26 @@ struct GameView: View {
 
     // MARK: — Tray
 
-    /// Tray with a caller-provided content height (from the region split). Pieces
-    /// are shrink-to-fit into that height (and width) so they're never clipped,
-    /// for any level or piece shape, with no scrolling.
+    /// Tray: fixed height, always 3 columns wide.
+    /// ≤ 3 pieces → equal distribution (like UIStackView fillEqually).
+    /// > 3 pieces → horizontal scroll, each piece in a 1/3-width column.
+    /// Cell size is computed from the FULL piece set so it never changes.
     private func trayBody(contentHeight: CGFloat, cell: CGFloat) -> some View {
-        VStack(alignment: .leading, spacing: AppSpacing.xs) {
+        VStack(alignment: .leading, spacing: 4) {
             trayHeader
 
             GeometryReader { geo in
-                let innerHeight = max(0, geo.size.height - AppSpacing.sm * 2)
-                let innerWidth  = geo.size.width
-                // Single-row tray. The cell is sized so the TALLEST piece of the
-                // FULL (constant) set fits the tray height — so pieces stay a fixed,
-                // readable size all game long and the row never overflows the box
-                // vertically. Width overflow is handled by horizontal scrolling, so
-                // pieces are NEVER shrunk to cram a crowded row (the old behaviour
-                // that produced unusable, clipped, vertically-stacked dots).
-                let cellSize = TrayLayout.rowCellSize(
-                    pieces: viewModel.level.pieces,
-                    availableHeight: innerHeight,
-                    targetCell: cell * 0.6
-                )
-                let spacing = AppSpacing.md
-                let contentWidth = TrayLayout.rowWidth(
-                    pieces: viewModel.unplacedPieces, cellSize: cellSize, spacing: spacing
-                ) + AppSpacing.lg * 2
-                let overflows = contentWidth > innerWidth
+                let colW  = geo.size.width / 3
+                let maxPW = CGFloat(viewModel.level.pieces.map { TrayLayout.pieceWidth($0)  }.max() ?? 1)
+                let maxPH = CGFloat(viewModel.level.pieces.map { TrayLayout.pieceHeight($0) }.max() ?? 1)
+                let cellByH = geo.size.height / maxPH
+                let cellByW = (colW - AppSpacing.xs) / maxPW
+                let cs      = max(1, min(cellByH, cellByW))
+                let pieces  = viewModel.unplacedPieces
 
-                ScrollView(.horizontal, showsIndicators: overflows) {
-                    HStack(alignment: .center, spacing: spacing) {
-                        ForEach(viewModel.unplacedPieces, id: \.id) { piece in
-                            BlockView(
-                                piece: piece,
-                                cellSize: cellSize,
-                                isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
-                                isDragging: false
-                            )
-                            .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
-                            .gesture(dragGesture(for: piece))
-                        }
-                    }
-                    .padding(.horizontal, AppSpacing.lg)
-                    // Fill the viewport so pieces centre when they fit; expand to the
-                    // content width (scrollable) when they don't.
-                    .frame(minWidth: innerWidth, minHeight: geo.size.height, alignment: .center)
-                }
-                // Only scroll when pieces actually overflow — otherwise the scroll
-                // pan competes with the drag-to-place gesture.
-                .scrollDisabled(!overflows)
+                trayPiecesLayout(pieces: pieces, colW: colW, totalH: geo.size.height, cs: cs)
             }
-            .frame(height: max(44, contentHeight))
+            .frame(height: contentHeight)
             .background(AppColors.surfaceContainerLowest)
             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
             .shadowL1()
@@ -619,6 +1018,78 @@ struct GameView: View {
         .padding(.horizontal, AppSpacing.lg)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
+        .onChange(of: viewModel.unplacedPieces.count) { _, _ in
+            // Piece placed/removed: reset the carousel so the offset can't point
+            // past the (now shorter) row.
+            carouselOffset   = 0
+            carouselDrag     = 0
+            trayGestureMode  = .undecided
+        }
+    }
+
+    @ViewBuilder
+    private func trayPiecesLayout(pieces: [Piece], colW: CGFloat, totalH: CGFloat, cs: CGFloat) -> some View {
+        if pieces.count <= 3 {
+            // Equal distribution: each piece centered in its equal share. A gap
+            // between shares + a cell-accurate contentShape give each piece a
+            // clean, non-overlapping touch target (fixes "wrong piece grabbed").
+            HStack(spacing: AppSpacing.md) {
+                ForEach(pieces, id: \.id) { piece in
+                    ZStack {
+                        BlockView(
+                            piece: piece, cellSize: cs,
+                            isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                            isDragging: false
+                        )
+                        .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                        .pieceHitArea(piece)
+                        .highPriorityGesture(dragGesture(for: piece))
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            // Custom paged carousel — NO ScrollView. 3 pieces visible; a single
+            // DragGesture decides per-touch between horizontal scroll and upward
+            // pick-up. This avoids the gesture-conflict that made the ScrollView
+            // approach swallow horizontal swipes.
+            let pageW       = colW                              // one piece per "page"
+            let contentW    = colW * CGFloat(pieces.count)
+            let viewportW   = colW * 3
+            let maxOffset   = max(0, contentW - viewportW)      // how far we can scroll left
+            let liveOffset  = carouselOffset + carouselDrag
+
+            HStack(spacing: 0) {
+                ForEach(pieces, id: \.id) { piece in
+                    BlockView(
+                        piece: piece, cellSize: cs,
+                        isInvalid: viewModel.invalidPieceIDs.contains(piece.id),
+                        isDragging: false
+                    )
+                    .opacity(draggingPiece?.id == piece.id ? 0.0 : 1.0)
+                    .frame(width: colW, height: totalH)
+                }
+            }
+            .frame(width: contentW, alignment: .leading)
+            .offset(x: liveOffset)
+            .frame(width: viewportW, alignment: .leading)
+            .clipped()
+            .contentShape(Rectangle())
+            .background(
+                GeometryReader { g in
+                    Color.clear
+                        .onAppear  { trayViewportFrame = g.frame(in: .named("gameLayout")) }
+                        .onChange(of: g.frame(in: .named("gameLayout"))) { _, f in
+                            trayViewportFrame = f
+                        }
+                }
+            )
+            .highPriorityGesture(
+                carouselGesture(pieces: pieces, colW: colW,
+                                pageW: pageW, maxOffset: maxOffset)
+            )
+        }
     }
 
     private var trayHeader: some View {
@@ -642,38 +1113,57 @@ struct GameView: View {
     private func placedPieceHandle(piece: Piece, placement: Placement, cs: CGFloat) -> some View {
         let pw = CGFloat(TrayLayout.pieceWidth(piece))
         let ph = CGFloat(TrayLayout.pieceHeight(piece))
+        // Cell-accurate hit area: only the piece's FILLED cells are grabbable, so
+        // an L/T-shaped neighbour's bounding box can't steal taps meant for the
+        // piece sitting in its concave gap (fixes "grabs the wrong placed piece").
         return Color.clear
-            .contentShape(Rectangle())
             .frame(width: pw * cs, height: ph * cs)
+            .pieceHitArea(piece)
             .offset(x: CGFloat(placement.origin.x) * cs,
                     y: CGFloat(placement.origin.y) * cs)
-            .gesture(reliftGesture(for: piece))
+            .highPriorityGesture(reliftGesture(for: piece))
+    }
+
+    // MARK: — Shared snap update (lift-aware + juicy hover feedback)
+
+    /// Recomputes the snap target from the lifted finger position and layers the
+    /// tactile feedback: a firm tick when the piece first enters the board, a soft
+    /// selection tick each time it hovers to a new cell. One code path for all
+    /// three drag gestures (tray / carousel / re-drag).
+    private func updateSnap(for piece: Piece, at location: CGPoint) {
+        let newSnap = SnapCalculator.snap(
+            at: liftedPos(location),
+            piece: piece,
+            gridFrame: gridFrame,
+            cellSize: cellSize,
+            gridSize: (width: viewModel.level.width, height: viewModel.level.height)
+        )
+        guard newSnap != snapCoord else { return }
+        if newSnap != nil && snapCoord == nil {
+            HapticService.shared.impact(.medium)   // entered the board
+            SoundService.shared.play(.snap)
+        } else if newSnap != nil {
+            HapticService.shared.selection()        // hovered to a new cell
+        }
+        snapCoord = newSnap
     }
 
     // MARK: — Tray drag gesture
     // H-2: Reduce Motion — replace .spring with .none for all placement animations.
 
     private func dragGesture(for piece: Piece) -> some Gesture {
-        DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
+        DragGesture(minimumDistance: 6, coordinateSpace: .named("gameLayout"))
             .onChanged { value in
                 if draggingPiece == nil {
                     draggingPiece = piece
+                    dragPosition  = value.location   // seed (no tilt spike on pick)
+                    dragTilt      = 0
                     HapticService.shared.prepareImpact()
+                    HapticService.shared.impact(.light)   // "lift into hand"
                     SoundService.shared.play(.click)
                 }
-                dragPosition = value.location
-                let newSnap = SnapCalculator.snap(
-                    at: value.location,
-                    piece: piece,
-                    gridFrame: gridFrame,
-                    cellSize: cellSize,
-                    gridSize: (width: viewModel.level.width, height: viewModel.level.height)
-                )
-                if newSnap != nil && snapCoord == nil {
-                    HapticService.shared.impact(.medium)
-                    SoundService.shared.play(.snap)
-                }
-                snapCoord = newSnap
+                setDragPosition(value.location)
+                updateSnap(for: piece, at: value.location)
             }
             .onEnded { _ in
                 if let coord = snapCoord {
@@ -682,21 +1172,146 @@ struct GameView: View {
                         viewModel.tryPlace(pieceID: piece.id, at: coord)
                     }
                     if viewModel.invalidPieceIDs.contains(piece.id) {
-                        SoundService.shared.play(.error)
-                        HapticService.shared.notify(.error)
+                        triggerInvalidFeedback()
                         Task { @MainActor in
                             try? await Task.sleep(for: .milliseconds(400))
                             viewModel.clearInvalid(pieceID: piece.id)
                         }
                     } else if !viewModel.isSolved {
                         SoundService.shared.play(.place)
-                        HapticService.shared.impact(.light)
+                        HapticService.shared.impact(.rigid)   // satisfying "thunk"
+                        registerCombo()
                     }
                 }
                 let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
                 withAnimation(resetAnimation) {
                     draggingPiece = nil
                     snapCoord     = nil
+                    dragTilt      = 0
+                }
+            }
+    }
+
+    // MARK: — Carousel gesture (custom paged tray)
+    // A single DragGesture on the carousel viewport. On the FIRST significant
+    // movement it locks into one of two modes and stays there for the whole drag:
+    //
+    //   • |dx| dominates                → .scrolling : pan the row horizontally,
+    //                                     snap to the nearest page on release.
+    //   • upward & |dy| dominates       → .picking   : identify the piece under
+    //                                     the finger and drag it onto the grid
+    //                                     (same place/snap logic as the tray).
+    //
+    // Because we own the horizontal offset (no ScrollView), there is no recognizer
+    // to compete with — horizontal swipes always scroll, upward drags always pick.
+
+    private func carouselGesture(pieces: [Piece], colW: CGFloat,
+                                 pageW: CGFloat, maxOffset: CGFloat) -> some Gesture {
+        DragGesture(minimumDistance: 6, coordinateSpace: .named("gameLayout"))
+            .onChanged { value in
+                let dx = value.translation.width
+                let dy = value.translation.height
+
+                // Decide the mode once, on the first qualifying movement.
+                if trayGestureMode == .undecided {
+                    if abs(dx) > abs(dy) {
+                        trayGestureMode = .scrolling
+                    } else if dy < 0 {                       // moving upward → pick up
+                        trayGestureMode = .picking
+                        // Identify which piece sits under the touch start point.
+                        let localX = value.startLocation.x - trayViewportFrame.minX
+                        let contentX = localX - carouselOffset
+                        let idx = max(0, min(pieces.count - 1, Int(contentX / colW)))
+                        let piece = pieces[idx]
+                        draggingPiece = piece
+                        dragPosition  = value.startLocation   // seed
+                        dragTilt      = 0
+                        HapticService.shared.prepareImpact()
+                        HapticService.shared.impact(.light)
+                        SoundService.shared.play(.click)
+                    } else {
+                        // Downward-only drag: ignore (don't scroll, don't pick).
+                        return
+                    }
+                }
+
+                switch trayGestureMode {
+                case .scrolling:
+                    // Rubber-band clamp: allow a little overscroll past the ends.
+                    let raw = dx
+                    let projected = carouselOffset + raw
+                    let clamped: CGFloat
+                    if projected > 0 {
+                        clamped = projected * 0.35
+                    } else if projected < -maxOffset {
+                        clamped = -maxOffset + (projected + maxOffset) * 0.35
+                    } else {
+                        clamped = projected
+                    }
+                    carouselDrag = clamped - carouselOffset
+
+                case .picking:
+                    guard let piece = draggingPiece else { return }
+                    setDragPosition(value.location)
+                    updateSnap(for: piece, at: value.location)
+
+                case .undecided:
+                    break
+                }
+            }
+            .onEnded { value in
+                let mode = trayGestureMode
+                trayGestureMode = .undecided
+
+                switch mode {
+                case .scrolling:
+                    // Commit the current visual position into carouselOffset and
+                    // zero the live drag TOGETHER, so liveOffset stays unchanged
+                    // (no jump back to the drag's start point), then animate the
+                    // snap to the nearest page from there.
+                    let settled = carouselOffset + carouselDrag
+                    carouselOffset = settled
+                    carouselDrag   = 0
+                    let page = (-settled / pageW).rounded()
+                    let maxPage = (maxOffset / pageW).rounded(.up)
+                    let clampedPage = max(0, min(maxPage, page))
+                    let target = max(-maxOffset, min(0, -clampedPage * pageW))
+                    let anim: Animation? = reduceMotion ? nil
+                        : .spring(response: 0.32, dampingFraction: 0.85)
+                    withAnimation(anim) {
+                        carouselOffset = target
+                    }
+
+                case .picking:
+                    guard let piece = draggingPiece else { return }
+                    if let coord = snapCoord {
+                        let anim: Animation? = reduceMotion ? nil
+                            : .spring(response: 0.3, dampingFraction: 0.75)
+                        withAnimation(anim) {
+                            viewModel.tryPlace(pieceID: piece.id, at: coord)
+                        }
+                        if viewModel.invalidPieceIDs.contains(piece.id) {
+                            triggerInvalidFeedback()
+                            Task { @MainActor in
+                                try? await Task.sleep(for: .milliseconds(400))
+                                viewModel.clearInvalid(pieceID: piece.id)
+                            }
+                        } else if !viewModel.isSolved {
+                            SoundService.shared.play(.place)
+                            HapticService.shared.impact(.rigid)
+                            registerCombo()
+                        }
+                    }
+                    let anim: Animation? = reduceMotion ? nil
+                        : .spring(response: 0.35, dampingFraction: 0.80)
+                    withAnimation(anim) {
+                        draggingPiece = nil
+                        snapCoord     = nil
+                        dragTilt      = 0
+                    }
+
+                case .undecided:
+                    break
                 }
             }
     }
@@ -704,7 +1319,7 @@ struct GameView: View {
     // MARK: — Re-drag gesture (placed-piece → relift → drop or rollback)
 
     private func reliftGesture(for piece: Piece) -> some Gesture {
-        DragGesture(minimumDistance: 4, coordinateSpace: .named("gameLayout"))
+        DragGesture(minimumDistance: 2, coordinateSpace: .named("gameLayout"))
             .onChanged { value in
                 if draggingPiece == nil {
                     // Note: do NOT lift (remove placement) here — that would
@@ -713,22 +1328,14 @@ struct GameView: View {
                     // hidden via GridView's draggingPieceID; the actual lift
                     // happens in onEnded once the gesture has settled.
                     draggingPiece = piece
+                    dragPosition  = value.location   // seed
+                    dragTilt      = 0
                     HapticService.shared.prepareImpact()
+                    HapticService.shared.impact(.light)
                     SoundService.shared.play(.click)
                 }
-                dragPosition = value.location
-                let newSnap = SnapCalculator.snap(
-                    at: value.location,
-                    piece: piece,
-                    gridFrame: gridFrame,
-                    cellSize: cellSize,
-                    gridSize: (width: viewModel.level.width, height: viewModel.level.height)
-                )
-                if newSnap != nil && snapCoord == nil {
-                    HapticService.shared.impact(.medium)
-                    SoundService.shared.play(.snap)
-                }
-                snapCoord = newSnap
+                setDragPosition(value.location)
+                updateSnap(for: piece, at: value.location)
             }
             .onEnded { _ in
                 // Lift now (remove + snapshot) so re-placement validity ignores
@@ -742,8 +1349,7 @@ struct GameView: View {
                     }
                     if viewModel.invalidPieceIDs.contains(piece.id) {
                         // Invalid drop: restore piece to original board position
-                        SoundService.shared.play(.error)
-                        HapticService.shared.notify(.error)
+                        triggerInvalidFeedback()
                         let rollbackAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
                         withAnimation(rollbackAnimation) {
                             viewModel.rollbackLift()
@@ -752,7 +1358,7 @@ struct GameView: View {
                     } else if !viewModel.isSolved {
                         viewModel.commitLift()
                         SoundService.shared.play(.place)
-                        HapticService.shared.impact(.light)
+                        HapticService.shared.impact(.rigid)
                     } else {
                         viewModel.commitLift()
                     }
@@ -762,18 +1368,36 @@ struct GameView: View {
                     withAnimation(rollbackAnimation) {
                         viewModel.rollbackLift()
                     }
-                    HapticService.shared.notify(.error)
-                    SoundService.shared.play(.error)
+                    triggerInvalidFeedback()
                 }
                 let resetAnimation: Animation? = reduceMotion ? nil : .spring(response: 0.35, dampingFraction: 0.80)
                 withAnimation(resetAnimation) {
                     draggingPiece = nil
                     snapCoord     = nil
+                    dragTilt      = 0
                 }
             }
     }
 
     // MARK: — Timer
+
+    // MARK: — Countdown helpers
+
+    /// Endless = a procedurally-generated, never-ending relaxed run.
+    private var isEndless: Bool { levelId.hasPrefix("endless") }
+    /// Relaxed = no timer/fail (Zen mode OR Endless).
+    private var relaxed: Bool { zenMode || isEndless }
+
+    /// Time allowed per level: ~5 seconds per cell, minimum 90 s.
+    private var timeLimitSeconds: Int {
+        max(90, viewModel.level.width * viewModel.level.height * 5)
+    }
+
+    private var remainingSeconds: Int {
+        max(0, timeLimitSeconds - elapsedSeconds)
+    }
+
+    private var timerIsUrgent: Bool { !relaxed && remainingSeconds > 0 && remainingSeconds <= 30 }
 
     private func startTimer() {
         // Faz I-2: skip timer in XCUITest runs — constant accessibility tree updates
@@ -785,8 +1409,24 @@ struct GameView: View {
                 try? await Task.sleep(for: .seconds(1))
                 guard !Task.isCancelled else { break }
                 elapsedSeconds += 1
+                // Countdown hit zero — level failed. Never in Zen mode (no fail).
+                if !relaxed, elapsedSeconds >= timeLimitSeconds, !viewModel.isSolved {
+                    timerTask?.cancel()
+                    HapticService.shared.notify(.error)
+                    ProgressStore.shared.breakChain()   // time ran out → chain broken
+                    showFail = true
+                    break
+                }
             }
         }
+    }
+
+    /// Endless only: discard the current generated puzzle, load the next one.
+    private func skipEndless() {
+        HapticService.shared.impact(.light)
+        SoundService.shared.play(.click)
+        let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+        router.replaceTop(with: .game(levelID: "endless-\(n)"))
     }
 
     private func pauseGame() {
@@ -806,26 +1446,28 @@ struct GameView: View {
     // MARK: — Helpers
 
     private var formattedTimer: String {
-        let m = elapsedSeconds / 60
-        let s = elapsedSeconds % 60
+        // Zen: count UP (elapsed) — no pressure. Otherwise: countdown remaining.
+        let t = relaxed ? elapsedSeconds : remainingSeconds
+        let m = t / 60
+        let s = t % 60
         return String(format: "%02d:%02d", m, s)
     }
 
-    /// v1.1.3: localized display name for the HUD title. Daily puzzle gets
-    /// its own localization key; pack levels show "Level N" formatted from
-    /// the trailing integer in the id.
-    private var levelDisplayNameKey: LocalizedStringKey {
-        if levelId == "daily" { return "game.title.daily" }
-        let parts = levelId.split(separator: "-")
-        let n = parts.last.flatMap { Int($0) } ?? 0
-        return LocalizedStringKey("Level \(n)")
+    /// 0-based index of the current daily level, or nil for pack levels.
+    private var dailyIndex: Int? {
+        levelId.hasPrefix("daily") ? PackProvider.dailyIndex(from: levelId) : nil
     }
 
-    /// Plain-string fallback for accessibility labels and analytics.
+    /// HUD title. Daily shows "Günün Bulmacası N/5" so the player always sees
+    /// which daily level they're on; pack levels show "Level N".
     private var levelDisplayName: String {
-        if levelId == "daily" { return NSLocalizedString("game.title.daily", comment: "") }
+        if let idx = dailyIndex {
+            let base = NSLocalizedString("game.title.daily", comment: "")
+            return "\(base) \(idx + 1)/\(ProgressStore.dailyLevelCount)"
+        }
         let parts = levelId.split(separator: "-")
         let n = parts.last.flatMap { Int($0) } ?? 0
+        if isEndless { return "Endless \(n)" }
         return "Level \(n)"
     }
 }

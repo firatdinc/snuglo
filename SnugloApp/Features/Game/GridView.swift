@@ -13,12 +13,17 @@ import SnugloEngine
 //   Invalid fill:     AppColors.error @ 50% opacity + error stroke
 
 struct GridView: View {
+    @AppStorage("colorblindMode") private var colorblind = false
     let level: Level
     let placements: [PieceID: Placement]
     let invalidPieceIDs: Set<PieceID>
     let snapCoord: Coord?
     let snapIsInvalid: Bool
     let draggingPieceID: PieceID?
+    /// 0…1 animated phase driving the pulsing target outline (juicy snap feedback).
+    var snapPulse: CGFloat = 0
+    /// When set, this placed piece gets a pulsing highlight (visual hint feedback).
+    var hintPieceID: PieceID? = nil
 
     var body: some View {
         GeometryReader { geo in
@@ -39,10 +44,15 @@ struct GridView: View {
     // MARK: — Drawing helpers
 
     private func drawBackground(context: GraphicsContext, size: CGSize) {
+        let path = Path(roundedRect: CGRect(origin: .zero, size: size), cornerRadius: AppRadius.card)
+        let colors = BoardBackground.active.colors
         context.fill(
-            Path(roundedRect: CGRect(origin: .zero, size: size),
-                 cornerRadius: AppRadius.card),
-            with: .color(AppColors.surfaceContainerLowest)
+            path,
+            with: .linearGradient(
+                Gradient(colors: colors),
+                startPoint: .zero,
+                endPoint: CGPoint(x: 0, y: size.height)
+            )
         )
     }
 
@@ -84,6 +94,22 @@ struct GridView: View {
                 if isInvalid {
                     context.stroke(path, with: .color(AppColors.error), lineWidth: 2)
                 }
+                if colorblind {
+                    let idx = AppColors.blockColorIndex(for: pieceID)
+                    let glyph = context.resolve(
+                        Text(AppColors.blockGlyphs[idx % AppColors.blockGlyphs.count])
+                            .font(.system(size: cs * 0.32))
+                            .foregroundStyle(AppColors.onSurface.opacity(0.5))
+                    )
+                    context.draw(glyph, at: CGPoint(x: ax * cs + cs / 2, y: ay * cs + cs / 2))
+                }
+                // Visual hint: pulsing highlight outline on the hinted piece.
+                if pieceID == hintPieceID {
+                    let p = max(0, min(1, snapPulse))
+                    context.stroke(path,
+                                   with: .color(AppColors.tertiary.opacity(0.5 + 0.4 * p)),
+                                   lineWidth: 2.5 + 3 * p)
+                }
             }
         }
     }
@@ -106,6 +132,14 @@ struct GridView: View {
             strokeWidth = 1.0
         }
 
+        // Pulsing outline: a brighter, slightly inflated halo that breathes while
+        // the piece hovers over a valid target — makes the landing spot pop.
+        let pulse = max(0, min(1, snapPulse))
+        let haloAlpha = (snapIsInvalid ? 0.35 : 0.45) + 0.40 * pulse
+        let haloWidth = strokeWidth + 2.5 * pulse
+        let haloColor = (snapIsInvalid ? AppColors.error : AppColors.blockColor(for: pid)).opacity(haloAlpha)
+        let grow = 1.0 * pulse   // px the halo inflates at peak
+
         for cell in piece.cells {
             let ax = CGFloat(cell.x + coord.x)
             let ay = CGFloat(cell.y + coord.y)
@@ -116,6 +150,11 @@ struct GridView: View {
             let path = Path(roundedRect: rect, cornerRadius: AppRadius.block)
             context.fill(path, with: .color(ghostFill))
             context.stroke(path, with: .color(ghostStroke), lineWidth: strokeWidth)
+
+            // breathing halo on top
+            let haloRect = rect.insetBy(dx: -grow, dy: -grow)
+            let haloPath = Path(roundedRect: haloRect, cornerRadius: AppRadius.block + grow)
+            context.stroke(haloPath, with: .color(haloColor), lineWidth: haloWidth)
         }
     }
 }

@@ -20,18 +20,45 @@ struct LevelCompleteSheet: View {
     var hintsUsed: Int = 0
     var moveCount: Int = 0
     var bestTimeSeconds: Int?
+    var isNewBest: Bool = false
     var earnedReward: [Currency: Int] = [:]
+    /// Multi-level daily challenge. When `isDaily`, the sheet shows the daily
+    /// progress ("N/5") and — on the LAST level of the day — a celebratory
+    /// "all done" headline plus a Home primary button (the card then locks
+    /// until tomorrow). On earlier daily levels the primary button advances to
+    /// the next daily level. The redundant secondary Home button is hidden.
+    var isDaily: Bool = false
+    var dailyIndex: Int? = nil      // 0-based index of the daily level just solved
+    var dailyTotal: Int  = ProgressStore.dailyLevelCount
     var onNext: () -> Void   = {}
     var onReplay: () -> Void = {}
+
+    /// True when the just-solved level was the final daily level of the day.
+    private var isLastDaily: Bool {
+        guard isDaily, let idx = dailyIndex else { return false }
+        return idx + 1 >= dailyTotal
+    }
+
+    /// Rendered share image (built once on appear).
+    @State private var shareImage: Image?
+
+    @MainActor private func renderShareCard() {
+        let card = ResultCard(
+            stars: stars,
+            seconds: elapsedSeconds,
+            playerLevel: XPStore.shared.level,
+            streak: ProgressStore.shared.winChain
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = 3
+        if let ui = renderer.uiImage { shareImage = Image(uiImage: ui) }
+    }
 
     var body: some View {
         ZStack {
             AppColors.background.ignoresSafeArea()
 
-            // Confetti — decorative; hidden from VoiceOver
-            if !reduceMotion {
-                confettiLayer
-            }
+            // Confetti is reserved for reward-collection moments, not level finish.
 
             VStack(spacing: AppSpacing.xl) {
                 Spacer()
@@ -39,10 +66,29 @@ struct LevelCompleteSheet: View {
                 heroView
 
                 VStack(spacing: AppSpacing.sm) {
-                    Text("complete.puzzleSolved")
+                    Text(isLastDaily ? "complete.dailyAllDone" : "complete.puzzleSolved")
                         .font(AppTypography.headlineLarge)
                         .tracking(-0.6)
                         .foregroundStyle(AppColors.onSurface)
+                        .multilineTextAlignment(.center)
+
+                    // Daily progress chip — "N/5" so the player sees where they are.
+                    if isDaily {
+                        Text(verbatim: "\((dailyIndex ?? 0) + 1)/\(dailyTotal)")
+                            .font(AppTypography.labelSmall)
+                            .foregroundStyle(AppColors.primary)
+                            .padding(.horizontal, AppSpacing.sm + 2)
+                            .padding(.vertical, AppSpacing.xs)
+                            .background(AppColors.primaryContainer.opacity(0.9), in: Capsule())
+
+                        if isLastDaily {
+                            Text("complete.dailyComeBack")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurfaceVariant)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, AppSpacing.lg)
+                        }
+                    }
 
                     // Stars row — H-2: combined label
                     HStack(spacing: AppSpacing.sm) {
@@ -58,6 +104,17 @@ struct LevelCompleteSheet: View {
 
                 // Stat pills — H-2: combined label on container
                 VStack(spacing: AppSpacing.sm) {
+                    if isNewBest {
+                        Label("complete.newBest", systemImage: "bolt.fill")
+                            .font(AppTypography.labelSmall)
+                            .tracking(0.6)
+                            .textCase(.uppercase)
+                            .foregroundStyle(AppColors.onTertiary)
+                            .padding(.horizontal, AppSpacing.md)
+                            .padding(.vertical, AppSpacing.xs + 1)
+                            .background(AppColors.tertiary, in: Capsule())
+                            .accessibilityLabel(Text("complete.newBest"))
+                    }
                     HStack(spacing: AppSpacing.sm) {
                         statPill(value: formattedTime, labelKey: "complete.time")
                         statPill(value: "\(stars)/3", labelKey: "complete.stars")
@@ -80,12 +137,16 @@ struct LevelCompleteSheet: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.sm) {
-                    PrimaryButton("complete.next", systemImage: "arrow.right") {
+                    // Last daily level → Home; otherwise advance (pack next / next daily).
+                    PrimaryButton(
+                        isLastDaily ? "complete.home" : "complete.next",
+                        systemImage: isLastDaily ? "house.fill" : "arrow.right"
+                    ) {
                         onNext()
                         dismiss()
                     }
                     .padding(.horizontal, AppSpacing.lg)
-                    .accessibilityHint("Proceeds to the next level")
+                    .accessibilityHint(isLastDaily ? "Returns to the main menu" : "Proceeds to the next level")
                     .accessibilityIdentifier("complete.next")
 
                     HStack(spacing: AppSpacing.sm) {
@@ -107,26 +168,45 @@ struct LevelCompleteSheet: View {
                         .accessibilityHint("Restarts this same level")
                         .accessibilityIdentifier("complete.continue")
 
-                        Button {
-                            dismiss()
-                            router.popToRoot()
-                        } label: {
-                            Text("complete.home")
-                                .font(AppTypography.bodyMedium)
-                                .foregroundStyle(AppColors.secondary)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, AppSpacing.sm + 4)
-                                .background(
-                                    RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
-                                        .stroke(AppColors.outlineVariant, lineWidth: 1.5)
-                                )
+                        // Hidden only on the last daily level — there the primary
+                        // button already goes Home, so a second Home is redundant.
+                        if !isLastDaily {
+                            Button {
+                                dismiss()
+                                router.popToRoot()
+                            } label: {
+                                Text("complete.home")
+                                    .font(AppTypography.bodyMedium)
+                                    .foregroundStyle(AppColors.secondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, AppSpacing.sm + 4)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous)
+                                            .stroke(AppColors.outlineVariant, lineWidth: 1.5)
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityHint("Returns to the main menu")
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityHint("Returns to the main menu")
                     }
                     .padding(.horizontal, AppSpacing.lg)
+
+                    if let img = shareImage {
+                        ShareLink(item: img,
+                                  preview: SharePreview("Snuglo", image: img)) {
+                            Label("share.button", systemImage: "square.and.arrow.up")
+                                .font(AppTypography.bodyMedium)
+                                .foregroundStyle(AppColors.onSurfaceVariant)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, AppSpacing.sm + 2)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.horizontal, AppSpacing.lg)
+                        .accessibilityIdentifier("complete.share")
+                    }
                 }
                 .padding(.bottom, AppSpacing.xl + AppSpacing.md)
+                .task { renderShareCard() }
             }
         }
     }
@@ -206,11 +286,7 @@ struct LevelCompleteSheet: View {
                     )
                     .frame(width: 116, height: 116)
 
-                Image("mascot-tiger")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 96, height: 96)
-                    .clipShape(Circle())
+                MascotView(name: "mascot-tiger", size: 96, celebrate: true)
             }
 
             Image("badge-trophy")

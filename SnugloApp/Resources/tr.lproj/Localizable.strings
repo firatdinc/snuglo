@@ -35,6 +35,12 @@
 "menu.viewAll"     = "Tümünü Gör";
 "menu.startFirst"  = "İlk seviyene başla";
 "menu.refresh"     = "%@ içinde yenilenir";
+"menu.dailyComeBack" = "Bitti — yarın yeni bulmacalar";
+"menu.dailyNext"   = "Yeni bulmaca";
+"menu.daily.notif.on"  = "Günlük hatırlatma açık";
+"menu.daily.notif.off" = "Günlük hatırlatma kapalı";
+"notif.daily.title" = "Günlük bulmacan hazır 🧩";
+"notif.daily.body"  = "Yeni bulmacalar seni bekliyor. Serini sürdür!";
 
 // MARK: — Oyun (v1.1.3)
 "game.title.daily"          = "Günün Bulmacası";
@@ -64,6 +70,10 @@
 // MARK: — Seviyeler listesi
 "levels.title"    = "Seviyeler";
 "levels.subtitle" = "Bir paket seç";
+"pack.cozy_beginnings.title"  = "Rahat Başlangıçlar";
+"pack.spice_route.title"      = "Baharat Yolu";
+"pack.mambo_nights.title"     = "Mambo Geceleri";
+"pack.woodland_retreat.title" = "Orman Kaçamağı";
 
 // MARK: — Paket
 "pack.cozyBeginnings"  = "Sıcak Başlangıç";
@@ -88,6 +98,8 @@
 
 // MARK: — Seviye Tamamlandı
 "complete.puzzleSolved" = "Seviye Tamamlandı!";
+"complete.dailyAllDone" = "Bugünün tüm bulmacaları çözüldü!";
+"complete.dailyComeBack" = "Yarın yeni bir set için tekrar gel.";
 "complete.next"         = "Sonraki Seviye";
 "complete.replay"       = "Tekrar Oyna";
 "complete.home"         = "Ana Sayfa";
@@ -121,7 +133,7 @@
 "shop.packUnlocks"    = "Bulmaca Paketleri";
 "shop.hintsSection"   = "İpuçları";
 "shop.oneTime"        = "Tek Seferlik Satın Almalar";
-"shop.hintsRemaining" = "%d ipucunuz kaldı";
+"shop.hintsRemaining" = "%d ipucun kaldı";
 "shop.hintsAvailable" = "%d ipucu mevcut";
 "shop.restore"        = "Satın Almaları Geri Yükle";
 "shop.owned"          = "Sahip Olundu";
@@ -236,7 +248,9 @@
 "shop.deal.ticket.gems.title"  = "Bilet Fırsatı";
 "shop.deal.ticket.gems.message" = "80 mücevher harca ve 2 bilet al.";
 
-"shop.packs.section"  = "Altın Paketleri";
+"shop.packs.section"  = "Ücretsiz Ödüller";
+"shop.packs.hint"     = "Kısa bir video izle, ücretsiz kazan";
+"shop.free"           = "ÜCRETSİZ";
 "shop.pack.watch.ad"  = "Reklam İzle";
 "shop.pack.coins.sm"  = "Küçük Paket";
 "shop.pack.coins.md"  = "Altın Demeti";
@@ -244,6 +258,9 @@
 "shop.pack.ticket"    = "Oyun Bileti";
 
 "shop.exchange.section" = "Dönüştür";
+"shop.exchange.hint"    = "Altın ve mücevher dönüştür";
+"shop.exchange.rate"    = "Kur";
+"shop.exchange.need"    = "%1$d daha gerekli";
 "shop.exchange.confirm" = "Dönüştür";
 
 "shop.debug.section"      = "Hata Ayıklama";
@@ -252,12 +269,12 @@
 "shop.debug.add.tickets"  = "5 Bilet Ekle";
 
 "shop.exchange.success.title"        = "Takas Yapıldı!";
-"shop.exchange.success.message"      = "Bakiyeniz güncellendi.";
+"shop.exchange.success.message"      = "Bakiyen güncellendi.";
 "shop.exchange.insufficient.title"   = "Yetersiz Bakiye";
-"shop.exchange.insufficient.message" = "Bu takas için yeterli bakiyeniz yok.";
+"shop.exchange.insufficient.message" = "Bu takas için yeterli bakiyen yok.";
 
 "shop.iap.purchase.success"          = "Satın Alma Başarılı";
-"shop.iap.purchase.success.message"  = "Öğeleriniz hesabınıza eklendi.";
+"shop.iap.purchase.success.message"  = "Öğelerin hesabına eklendi.";
 
 "shop.ad.unavailable" = "Reklam mevcut değil";
 
@@ -292,9 +309,9 @@
 "achievement.firstSteps.title"          = "İlk Adımlar";
 "achievement.firstSteps.description"    = "İlk seviyeni tamamla";
 "achievement.levelHunter10.title"       = "Seviye Avcısı";
-"achievement.levelHunter10.description" = "10 seviye tamamla";
+"achievement.levelHunter10.description" = "10 seviyeyi tamamla";
 "achievement.levelMaster50.title"       = "Seviye Ustası";
-"achievement.levelMaster50.description" = "50 seviye tamamla";
+"achievement.levelMaster50.description" = "50 seviyeyi tamamla";
 "achievement.perfectionist1.title"          = "Mükemmeliyetçi";
 "achievement.perfectionist1.description"    = "Bir seviyede 3 yıldız kazan";
 "achievement.perfectionistPro10.title"      = "Mükemmeliyetçi Pro";
@@ -306,6 +323,193 @@
 "achievement.streak30.title"         = "Durdurulamaz";
 "achievement.streak30.description"   = "30 günlük seri kur";
 "achievement.noHints10.title"        = "Yardıma Gerek Yok";
-"achievement.noHints10.description"  = "İpucu kullanmadan 10 seviye tamamla";
+"achievement.noHints10.description"  = "İpucu kullanmadan 10 seviyeyi tamamla";
 "achievement.speedSolver.title"      = "Hız Çözücü";
 "achievement.speedSolver.description" = "Bir seviyeyi 30 saniyenin altında çöz";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "%d günlük seri";
+"menu.streak.start" = "Bugün oyna, serini başlat";
+"menu.streak.best"  = "En iyi %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Oyun";
+"settings.gameplay.zen"    = "Zen Modu";
+"settings.gameplay.zenFooter" = "Süre yok, başarısızlık yok — sakin sakin çöz.";
+
+/* Daily quests */
+"quest.header"      = "Günlük Görevler";
+"quest.solveLevels" = "%d bölüm çöz";
+"quest.solveUnder"  = "%d sn altında bir bölüm çöz";
+"quest.noHints"     = "İpucu olmadan %d bölüm çöz";
+"quest.claim"       = "AL";
+"quest.claimed"     = "Alındı";
+
+/* Reward chest */
+"chest.title"     = "Ödül Sandığı";
+"chest.ready"     = "Sandık hazır!";
+"chest.tapToOpen" = "Açmak için dokun";
+"chest.reward"    = "Ödül!";
+"chest.collect"   = "Topla";
+
+/* Daily spin wheel */
+"spin.title"     = "Günlük Çark";
+"spin.available" = "Ücretsiz çevirme hazır!";
+"spin.comeBack"  = "Yarın tekrar gel";
+"spin.spin"      = "ÇEVİR";
+"spin.reward"    = "Kazandın!";
+"spin.collect"   = "Topla";
+
+/* XP / level */
+"level.label"    = "Seviye %d";
+"level.up"       = "Seviye Atladın";
+"level.reached"  = "Seviye %d!";
+
+/* Block skins */
+"skin.title"  = "Blok Teması";
+"skin.nordic" = "Nordic";
+"skin.candy"  = "Şeker";
+"skin.ocean"  = "Okyanus";
+"skin.mono"   = "Mono";
+"skin.locked" = "Sv %d";
+
+/* Streak milestones */
+"streak.milestone" = "%d Günlük Seri!";
+"streak.keepGoing" = "Böyle devam et";
+
+/* Endless zen */
+"endless.title"    = "Sonsuz Zen";
+"endless.subtitle" = "Sakin, hiç bitmeyen";
+"endless.best"     = "Rekor: Seviye %d";
+
+/* Weekly challenge */
+"weekly.title" = "Haftalık Görev";
+"weekly.goal"  = "Bu hafta %d bölüm çöz";
+
+/* Share result card */
+"share.button"  = "Sonucu Paylaş";
+"share.solved"  = "Çözüldü!";
+"share.time"    = "SÜRE";
+"share.level"   = "SEVİYE";
+"share.streak"  = "SERİ";
+"share.tagline" = "rahatlatıcı blok bulmaca";
+
+/* Daily calendar */
+"calendar.title"     = "Günlük Ödül";
+"calendar.available" = "Bugünkü ödülü al!";
+"calendar.comeBack"  = "Yarın tekrar gel";
+"calendar.claimDay"  = "%d. Günü Al";
+"common.close"       = "Kapat";
+
+/* Stats deep-dive */
+"stats.heatmap.title" = "Aktiflik (30 gün)";
+"stats.activeDays"    = "%d/30 aktif gün";
+"stats.stars.title"   = "Yıldız Dağılımı";
+"board.parchment" = "Parşömen";
+"board.dawn" = "Şafak";
+"board.forest" = "Orman";
+"board.night" = "Gece";
+"board.title" = "Tahta Arkaplanı";
+"settings.gameplay.colorblind" = "Renk Körü Desenleri";
+
+/* Sound packs */
+"soundpack.title"   = "Ses Paketi";
+"soundpack.classic" = "Klasik";
+"soundpack.soft"    = "Yumuşak";
+"soundpack.crisp"   = "Net";
+"stats.empty" = "İstatistiklerini doldurmak için bir bölüm çöz";
+
+/* Streak freeze */
+"freeze.title" = "Seri Dondurma";
+"freeze.held"  = "%d adet — kaçırılan bir günü korur";
+"reward.double" = "İzle → 2×";
+
+/* Haptic strength */
+"haptic.strength" = "Titreşim Şiddeti";
+"haptic.full"     = "Tam";
+"haptic.light"    = "Hafif";
+"coach.drag" = "Bir parçayı tahtaya sürükle";
+"pause.hint" = "İpucu";
+"pause.settings" = "Ayarlar";
+"settings.sound.volume" = "Ses seviyesi";
+"settings.notifications.comeback" = "Geri dönüş hatırlatması";
+"notif.comeback.title" = "Seni özledik! 🧩";
+"notif.comeback.body" = "Snuglo bulmacaların ve streak'in seni bekliyor.";
+"settings.sound.track" = "Müzik parçası";
+"settings.sound.track.auto" = "Otomatik";
+"settings.sound.track.calm" = "Sakin";
+"settings.sound.track.zen" = "Zen";
+"settings.account.transfer" = "İlerlemeyi yedekle / aktar";
+"transfer.title" = "Yedekle ve Aktar";
+"transfer.backup.title" = "Yedekleme kodu";
+"transfer.backup.desc" = "Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar.";
+"transfer.copy" = "Kopyala";
+"transfer.share" = "Paylaş";
+"transfer.restore.title" = "Geri yükle";
+"transfer.restore.desc" = "Bir yedekleme kodunu buraya yapıştır ve geri yükle.";
+"transfer.restore.action" = "Geri yükle";
+"transfer.note" = "İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir.";
+"transfer.restored.title" = "Geri yüklendi";
+"transfer.restored.message" = "Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat.";
+"transfer.invalid.title" = "Geçersiz kod";
+"transfer.invalid.message" = "Bu kod okunamadı. Tamamını kopyaladığından emin ol.";
+"stats.lifetime.title" = "Tüm Zamanlar";
+"stats.starsEarned" = "Toplam yıldız";
+"stats.perfectSolves" = "Mükemmel (3★)";
+"stats.bestTime" = "En iyi süre";
+"stats.longestStreak" = "En uzun seri";
+"pack.complete.title" = "Paket tamamlandı!";
+"praise.0" = "Güzel!";
+"praise.1" = "Harika!";
+"praise.2" = "Huzurlu!";
+"praise.3" = "Akıcı!";
+"praise.4" = "Tam oturdu!";
+"praise.5" = "Sıcacık!";
+"achievement.levelLegend100.title" = "Efsane";
+"achievement.levelLegend100.description" = "100 bölüm tamamla";
+"achievement.packFinisher.title" = "Paket Ustası";
+"achievement.packFinisher.description" = "Bir paketi tamamen bitir";
+"achievement.perfectionistMaster25.title" = "Kusursuz Usta";
+"achievement.perfectionistMaster25.description" = "25 bölümü 3 yıldızla çöz";
+"achievement.dedicated7.title" = "Sadık";
+"achievement.dedicated7.description" = "7 gün üst üste oyna";
+"achievement.comboChampion.title" = "Kombo Şampiyonu";
+"achievement.comboChampion.description" = "5 bölümü arka arkaya kaybetmeden çöz";
+"achievement.speedDemon.title" = "Şimşek";
+"achievement.speedDemon.description" = "Bir bölümü 15 saniyenin altında çöz";
+"today.greeting.morning" = "Günaydın 🌿";
+"today.greeting.afternoon" = "İyi günler 🌿";
+"today.greeting.evening" = "İyi akşamlar 🌙";
+"today.greeting.night" = "İyi geceler 🌙";
+"skin.sunset" = "Gün Batımı";
+"skin.aurora" = "Auroralar";
+"board.dusk" = "Alacakaranlık";
+"board.rose" = "Gül";
+"board.meadow" = "Çayır";
+"hint.rewarded.title" = "İpucu — Ücretsiz";
+"hint.rewarded.message" = "Kısa bir reklam izle, bir parça senin için yerleştirilsin.";
+"powerup.watchAd" = "Reklam İzle";
+"daily.share.title" = "Günlük Serim!";
+"daily.share.solved" = "günlük çözüldü";
+"menu.streak.day" = "gün seri";
+"pack.difficulty.beginner" = "Başlangıç";
+"pack.difficulty.easy" = "Kolay";
+"pack.difficulty.medium" = "Orta";
+"pack.difficulty.hard" = "Zor";
+"stats.share.title" = "İstatistiklerim";
+"complete.newBest" = "Yeni Rekor!";
+"settings.sound.preview" = "Sesleri dinle";
+"quest.perfect" = "%d bölümü 3 yıldızla çöz";
+"endless.record" = "Yeni Rekor! 🏆";
+"pack.grid_label.5" = "5×5 Izgara";
+"pack.grid_label.6" = "6×6 Izgara";
+"pack.grid_label.7" = "7×7 Izgara";
+"pack.grid_label.8" = "8×8 Izgara";
+"common.loading" = "Yükleniyor…";
+"shop.unlock" = "Aç";
+"shop.info.packs.title" = "Puzzle Paketi";
+"shop.info.packs.body" = "Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur.";
+"shop.info.hints.title" = "İpuçları";
+"shop.info.hints.body" = "Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.";
+"shop.info.removeAds.title" = "Reklamları Kaldır";
+"shop.info.removeAds.body" = "Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.";

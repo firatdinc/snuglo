@@ -15,6 +15,7 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: AppSpacing.lg) {
                 identityCard
+                xpCard
                 premiumCard
                 quickLinksSection
                 settingsRow
@@ -23,7 +24,39 @@ struct ProfileView: View {
             .padding(.vertical, AppSpacing.lg)
         }
         .background(AppColors.background.ignoresSafeArea())
+        // Consistent with all other tab roots — hidden root nav bar so the `.page`
+        // TabView never has mismatched nav bars across pages during a swipe.
+        .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.profile")
+    }
+
+    // MARK: — XP / Level card
+
+    private var xpCard: some View {
+        let xp = XPStore.shared
+        return VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            HStack(spacing: AppSpacing.sm) {
+                ZStack {
+                    Circle().fill(AppColors.primaryContainer).frame(width: 40, height: 40)
+                    Image(systemName: "star.circle.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(AppColors.primary)
+                }
+                .accessibilityHidden(true)
+                Text(verbatim: String(format: NSLocalizedString("level.label", comment: ""), xp.level))
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                Spacer()
+                Text(verbatim: "\(xp.xpIntoLevel) / \(xp.xpForNext) XP")
+                    .font(AppTypography.numericSmall)
+                    .monospacedDigit()
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+            }
+            GameProgressBar(progress: Double(xp.progress), height: 14)
+        }
+        .infoCard()
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Level \(xp.level), \(xp.xpIntoLevel) of \(xp.xpForNext) XP")
     }
 
     // MARK: — Identity Card
