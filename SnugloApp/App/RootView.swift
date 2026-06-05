@@ -63,6 +63,11 @@ struct RootView: View {
             ThemeApplier.apply(appThemeRaw)
             MusicService.shared.update(zen: zenMode)
             AdsManager.shared.start()
+            // RevenueCat — only once a real public key is set (else stay on the
+            // StoreKit/premium-flag path).
+            if Secrets.revenueCatConfigured {
+                RevenueCatManager.configure(apiKey: Secrets.revenueCatPublicKey)
+            }
         }
         // Sign in to Game Center at launch so scores submit and achievements
         // report in the background (idempotent — early-returns once resolved).
@@ -91,8 +96,15 @@ struct RootView: View {
                     .transition(.opacity)
                     .zIndex(100)
             }
+            if bindableRouter.showPaywall {
+                PremiumPaywallSheet()
+                    .environment(router)
+                    .transition(.opacity)
+                    .zIndex(110)
+            }
         }
         .animation(.easeInOut(duration: 0.2), value: bindableRouter.showEnergyGate)
+        .animation(.easeInOut(duration: 0.2), value: bindableRouter.showPaywall)
     }
 
     /// Destinations reachable during the pre-main (splash/onboarding) flow only.

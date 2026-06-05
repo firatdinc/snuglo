@@ -144,7 +144,9 @@ final class StoreManager {
         #if DEBUG
         if UserDefaults.standard.bool(forKey: "snuglo.debug.premium") { return true }
         #endif
-        return isPurchased(.premium)
+        // RevenueCat entitlement (mirrored to a flag to avoid cross-actor reads)
+        // OR a direct StoreKit premium purchase.
+        return isPurchased(.premium) || UserDefaults.standard.bool(forKey: "snuglo.premium.active")
     }
 
     /// Bir product ID için görünen fiyatı döndür (ör. "$2.99").

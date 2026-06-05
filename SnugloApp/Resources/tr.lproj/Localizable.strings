@@ -547,3 +547,13 @@
 "pack.cocoa_cabin.title" = "Kakao Kulübesi";
 "pack.aurora_vale.title" = "Auroralı Vadi";
 "button.close" = "Kapat";
+
+/* ── Premium paywall ── */
+"paywall.title" = "Snuglo Premium";
+"paywall.subtitle" = "Sınırsız oyna.";
+"paywall.benefit.energy" = "Sınırsız enerji — bekleme yok";
+"paywall.benefit.ads" = "Hiç reklam yok";
+"paywall.benefit.cosmetics" = "Özel skinler ve board'lar";
+"paywall.benefit.levels" = "1000+ bölümün tamamı açık";
+"paywall.cta" = "Premium Ol · %@";
+"paywall.restore" = "Satın Alımları Geri Yükle";

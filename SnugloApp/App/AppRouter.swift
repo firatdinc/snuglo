@@ -58,6 +58,8 @@ final class AppRouter {
     var showEnergyGate: Bool = false
     /// The game route to launch once energy is topped up (ad / wait / premium).
     var pendingGameRoute: Route?
+    /// Shows the Premium paywall over everything.
+    var showPaywall: Bool = false
 
     /// Relaxed routes (Endless / Zen) are FREE — they never cost energy.
     private func isRelaxedRoute(_ route: Route) -> Bool {

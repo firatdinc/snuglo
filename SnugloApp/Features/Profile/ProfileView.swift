@@ -8,7 +8,7 @@ struct ProfileView: View {
 
     @Environment(AppRouter.self) private var router
     private var gcState: GameCenterAuthState { GameCenterManager.shared.authState }
-    private var isPremium: Bool { StoreManager.shared.adsRemoved }
+    private var isPremium: Bool { StoreManager.shared.isPremium }
     private var cupBalance: Int { WalletStore.shared.balance(of: .cup) }
 
     var body: some View {
@@ -118,7 +118,7 @@ struct ProfileView: View {
 
             if !isPremium {
                 Button {
-                    router.selectTab(.shop)
+                    router.showPaywall = true
                 } label: {
                     Text("common.upgrade")
                         .font(AppTypography.bodyMedium)

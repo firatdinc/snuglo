@@ -75,7 +75,7 @@ struct EnergyGateSheet: View {
                     }
 
                     // Go Premium — unlimited play.
-                    Button { dismiss(); router.selectTab(.shop) } label: {
+                    Button { dismiss(); router.showPaywall = true } label: {
                         Text("energy.goPremium").frame(maxWidth: .infinity)
                     }
                     .buttonStyle(GameButtonStyle(variant: .secondary))

@@ -46,6 +46,7 @@
 		312EF9D826AB36CF720C6C3A /* AchievementsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F887A51DC1BE362E73163A /* AchievementsViewModel.swift */; };
 		32C05381AED6329E7CC1FE39 /* HapticServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BBE32A7DD6659291A6D0ED /* HapticServiceTests.swift */; };
 		33112FEC53B3501D7EFA14D2 /* LevelsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F5BACB29FA770A810C3ABA /* LevelsListView.swift */; };
+		33795734BF6DE16679A8C1FD /* GemPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8293F94F4E3B17C47404735A /* GemPack.swift */; };
 		3653E61A9002379158F768A9 /* CosmeticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7688238CB72A6D9B849BF /* CosmeticsStore.swift */; };
 		3907B7ABDEA4B35F558646C5 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF2DDE7B28FE5B3DA308C50 /* NotificationService.swift */; };
 		390FEC2D617767C768719C99 /* MascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183111C4C84C3A1D8587EAB7 /* MascotView.swift */; };
@@ -67,6 +68,7 @@
 		4898B2B2F0D71146D0407348 /* AchievementToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEBE24E06501FDA4B96E3A3 /* AchievementToast.swift */; };
 		4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A09BB21B2EEF8E2743976A /* MockData.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
+		4BB2F127CDB972B9723D40F7 /* RevenueCatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE26C2D900007EA495BE230 /* RevenueCatManager.swift */; };
 		4D02B18CC32E51853500645A /* PieceOccupancyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2FBDC5AF71BAF053E7C2C3 /* PieceOccupancyTests.swift */; };
 		4DF7305CAF8F666037E42927 /* AchievementStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71992E0A8CC929448F64753 /* AchievementStats.swift */; };
 		4EAFC1949B066E2F8EBDD434 /* GameCenterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E79266C06B548E9BA6CFDC /* GameCenterManager.swift */; };
@@ -78,6 +80,7 @@
 		56EAA094A8107B58FAE1BEAE /* GameCenterManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8ADAFF8F683E739EF03F470 /* GameCenterManagerTests.swift */; };
 		56F4A71C2354DD0A66026405 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354A30FA9DC3EFE7135C328D /* MainMenuView.swift */; };
 		59D433CDA71947EA4F7CB377 /* PieceCellsShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1336FE83D3A9D4D2489003C /* PieceCellsShape.swift */; };
+		608F276C029F99156F51A976 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE281969F799CAAB323E06F /* Secrets.swift */; };
 		618FFF5B02115D291E27F465 /* BlockColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D8025E33203211C64E2B5C /* BlockColorTests.swift */; };
 		62091BA45E5885F2895A66D2 /* CurrencyRewardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2109A7C6E38A68754AD8D6 /* CurrencyRewardTests.swift */; };
 		6493D658BAEC7B5A7A1FFBEA /* PowerUpRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B08BB59EBEA47F1D27F2402 /* PowerUpRulesTests.swift */; };
@@ -111,6 +114,7 @@
 		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
 		84E295EF732BD9D69520D29A /* AchievementsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81438D1EF77DF3774BE0DB7 /* AchievementsStoreTests.swift */; };
 		850886B76100646315C6C6DD /* LevelUpOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A2DA83C0F5BE4EEC42178A /* LevelUpOverlay.swift */; };
+		8611C1AC303EAD0CB0EE6D94 /* PremiumPaywallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D0127476F9D2F4D4269EAF /* PremiumPaywallSheet.swift */; };
 		870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E177BF53BC6C92D779D51C2 /* CardSurface.swift */; };
 		872C874C38B15D1528A815DA /* ExchangePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CCDA4558DE8C8E8F64BEC /* ExchangePanel.swift */; };
 		89AC955A6629894BEA89372E /* DeferredContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8F731355CE007AB0646A0 /* DeferredContent.swift */; };
@@ -171,6 +175,7 @@
 		DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B165E71825BFEA8ABE02AC /* RootView.swift */; };
 		DFDD68B93932E3C5A3FFD06B /* SolveCelebration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE47F1741E67A9665438E95 /* SolveCelebration.swift */; };
 		E239ABEA2B2336D6805334B1 /* BoardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682CED0B1628AFECF317141 /* BoardBackground.swift */; };
+		E3076D2A231AFF8ECCF11D59 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 09EE16E830E87A8BDA9C2B30 /* RevenueCat */; };
 		E42E6BE04E41FB03992642BD /* LeaderboardID.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0D4DF33B76D7F85EED62B5 /* LeaderboardID.swift */; };
 		E5EEDAC933188569D7465C28 /* StatsShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6316CD06F24481C487287DB6 /* StatsShareCard.swift */; };
 		E76526D1DA21182142A10109 /* ShopViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49470B585B6D13546687645C /* ShopViewModelTests.swift */; };
@@ -257,6 +262,7 @@
 		3AEBE24E06501FDA4B96E3A3 /* AchievementToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementToast.swift; sourceTree = "<group>"; };
 		3B46E8AAB67D1279057432AC /* ChestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestStore.swift; sourceTree = "<group>"; };
 		3D66967344E696920FB09670 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		43D0127476F9D2F4D4269EAF /* PremiumPaywallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallSheet.swift; sourceTree = "<group>"; };
 		43E3E4831B4981C6254A97F7 /* AchievementRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementRules.swift; sourceTree = "<group>"; };
 		459FFDA351641074E53137A0 /* BeVietnamPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Regular.ttf"; sourceTree = "<group>"; };
 		46F887A51DC1BE362E73163A /* AchievementsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewModel.swift; sourceTree = "<group>"; };
@@ -308,6 +314,7 @@
 		80AB68B43EA91CCC02EA302A /* ProgressStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStoreTests.swift; sourceTree = "<group>"; };
 		81379930E0245A1DA865A8B1 /* DailyCalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCalendarStore.swift; sourceTree = "<group>"; };
 		818EF1009A596F19A02F3237 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8293F94F4E3B17C47404735A /* GemPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GemPack.swift; sourceTree = "<group>"; };
 		82BDCB0C13EFD13CAFE73686 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		83A943553FB54304D651F4A6 /* reward.caf */ = {isa = PBXFileReference; path = reward.caf; sourceTree = "<group>"; };
 		83E79266C06B548E9BA6CFDC /* GameCenterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterManager.swift; sourceTree = "<group>"; };
@@ -321,6 +328,7 @@
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		8E590EB5311368724D5DFD8E /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
 		8F9C77490B2A9347C1C78875 /* AchievementRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementRulesTests.swift; sourceTree = "<group>"; };
+		8FE281969F799CAAB323E06F /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		900DBE5445E056E2506B1A4E /* PowerUpRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpRules.swift; sourceTree = "<group>"; };
 		915CFD69C32C96C23BCCD5C8 /* LoadingGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingGate.swift; sourceTree = "<group>"; };
 		923F090D7130F37BBDD451D8 /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
@@ -372,6 +380,7 @@
 		C8FA7A6755CC660561FAB170 /* PressableCardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PressableCardStyle.swift; sourceTree = "<group>"; };
 		C96D7C00DE127CFBD56945D1 /* BundleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleSection.swift; sourceTree = "<group>"; };
 		C972D7D56DBB8FB5864AD95A /* SpaceGrotesk-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceGrotesk-Regular.ttf"; sourceTree = "<group>"; };
+		CAE26C2D900007EA495BE230 /* RevenueCatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatManager.swift; sourceTree = "<group>"; };
 		CBE4CCA810059C58A752ADAF /* SnugloApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SnugloApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCD8F731355CE007AB0646A0 /* DeferredContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeferredContent.swift; sourceTree = "<group>"; };
 		CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBadge.swift; sourceTree = "<group>"; };
@@ -408,7 +417,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_23F70819-9EE3-4DA9-8B97-5230870E50D4" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_1B6A55DF-F947-4A6B-9F9A-9E38E257C29B" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -418,6 +427,7 @@
 			files = (
 				55D3EB1BFD4BAC2C7EDF7189 /* SnugloEngine in Frameworks */,
 				BBCFCF5F76099E06669C4B97 /* GoogleMobileAds in Frameworks */,
+				E3076D2A231AFF8ECCF11D59 /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +442,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C42148DAAEE35854DEF9B5E /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				8FE281969F799CAAB323E06F /* Secrets.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		0D2ED9E65199FB3613E3F67F /* GameCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,6 +584,14 @@
 				320DEC836D769FE0FD1AB45A /* SnugloAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		6114720D36D8B978A274DEDB /* Premium */ = {
+			isa = PBXGroup;
+			children = (
+				43D0127476F9D2F4D4269EAF /* PremiumPaywallSheet.swift */,
+			);
+			path = Premium;
 			sourceTree = "<group>";
 		};
 		663D32DE143E35ABF2FEF691 /* SnugloAppUITests */ = {
@@ -704,6 +730,8 @@
 		BC0F3B6F4001E56081CAAF75 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				8293F94F4E3B17C47404735A /* GemPack.swift */,
+				CAE26C2D900007EA495BE230 /* RevenueCatManager.swift */,
 				1A4F8A6CB07D25367BD321D8 /* StoreManager.swift */,
 			);
 			path = Store;
@@ -738,6 +766,7 @@
 				0E6C2C9312A1B273156E3540 /* Onboarding */,
 				47E33B1C09C7312E06CE1CE3 /* PackDetail */,
 				F64E4C4226861CE2C7AB1050 /* Pause */,
+				6114720D36D8B978A274DEDB /* Premium */,
 				9A20A54C63D2244E6801778E /* Profile */,
 				A205DEB565F160DB0EB17E6B /* Settings */,
 				360562F81B5DA39774190494 /* Shop */,
@@ -784,6 +813,7 @@
 				37AF84C704166B9F667FBBE8 /* Achievements */,
 				B64ADB223E188A37795C24D8 /* Ads */,
 				44E4BF646D4293E17EC9B777 /* Components */,
+				0C42148DAAEE35854DEF9B5E /* Config */,
 				FCB014D770FD9A3279370255 /* Currency */,
 				80D1F27C1F5EE17B3EDC3D07 /* Daily */,
 				C3D15B550664EFE7F21E3587 /* Energy */,
@@ -980,10 +1010,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_B81CC48A-8735-4A08-B934-9C990A7767AE" /* . */ = {
+		"TEMP_2676C4F2-437D-49A6-AF00-E94C08C0A865" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_23F70819-9EE3-4DA9-8B97-5230870E50D4" /* SnugloApp.entitlements */,
+				"TEMP_1B6A55DF-F947-4A6B-9F9A-9E38E257C29B" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1033,6 +1063,7 @@
 			packageProductDependencies = (
 				43AB9381ED7582889EB0EEBB /* SnugloEngine */,
 				AC9530049DD9989934856212 /* GoogleMobileAds */,
+				09EE16E830E87A8BDA9C2B30 /* RevenueCat */,
 			);
 			productName = SnugloApp;
 			productReference = CBE4CCA810059C58A752ADAF /* SnugloApp.app */;
@@ -1083,6 +1114,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				863EA4C47CBEAA656D08A211 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				A6B78517981C165FAF064938 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				0198A1396A0E1C1DA578F298 /* XCLocalSwiftPackageReference ".." */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -1190,6 +1222,7 @@
 				710CABA2447FC32497C79FB7 /* GameProgressBar.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
+				33795734BF6DE16679A8C1FD /* GemPack.swift in Sources */,
 				273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */,
 				FBBEF1BDEFEC12CE81949594 /* HapticService.swift in Sources */,
 				70C04BFFA8926271388F1044 /* HintRewardedSheet.swift in Sources */,
@@ -1220,6 +1253,7 @@
 				A1CEB342DD9EE642166908C0 /* PowerUpBar.swift in Sources */,
 				8B27FDC33FD0FE466077C968 /* PowerUpRules.swift in Sources */,
 				254F4757E99F8C08455BA72C /* PraiseBadge.swift in Sources */,
+				8611C1AC303EAD0CB0EE6D94 /* PremiumPaywallSheet.swift in Sources */,
 				C047880C4FC1D01FA0557A90 /* PressableCardStyle.swift in Sources */,
 				3CBBEA8BF5421CE5D339D5E1 /* PrimaryButton.swift in Sources */,
 				810594074D30D57231B4B68D /* ProfileView.swift in Sources */,
@@ -1228,12 +1262,14 @@
 				810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */,
 				30299C524452E0F28B435DDF /* RelaxedRewardStore.swift in Sources */,
 				A061CF7324AC0FE7D5D5E22D /* ResultCard.swift in Sources */,
+				4BB2F127CDB972B9723D40F7 /* RevenueCatManager.swift in Sources */,
 				1483A73F3EB6A9537773925C /* RewardModal.swift in Sources */,
 				DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */,
 				9E6FD2504B15C754A3A467A1 /* RowDivider.swift in Sources */,
 				7AEF95815B6AB27681587E6A /* SaveTransfer.swift in Sources */,
 				456CB097EC6EA0B936D74D83 /* SaveTransferSheet.swift in Sources */,
 				7F7979F2FDB91A33A94532B2 /* SecondaryButton.swift in Sources */,
+				608F276C029F99156F51A976 /* Secrets.swift in Sources */,
 				9A7C6B590FAD5B739D17DD58 /* SectionHeader.swift in Sources */,
 				10623549868FE8396ECC486F /* SettingsView.swift in Sources */,
 				4749283EBBBBBB741384B951 /* Shadow.swift in Sources */,
@@ -1655,9 +1691,22 @@
 				minimumVersion = 11.13.0;
 			};
 		};
+		A6B78517981C165FAF064938 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.74.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		09EE16E830E87A8BDA9C2B30 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6B78517981C165FAF064938 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
 		43AB9381ED7582889EB0EEBB /* SnugloEngine */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SnugloEngine;

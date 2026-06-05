@@ -547,3 +547,13 @@
 "pack.cocoa_cabin.title" = "Cocoa Cabin";
 "pack.aurora_vale.title" = "Aurora Vale";
 "button.close" = "Close";
+
+/* ── Premium paywall ── */
+"paywall.title" = "Snuglo Premium";
+"paywall.subtitle" = "Play without limits.";
+"paywall.benefit.energy" = "Unlimited energy — no waiting";
+"paywall.benefit.ads" = "No ads, ever";
+"paywall.benefit.cosmetics" = "Exclusive skins & boards";
+"paywall.benefit.levels" = "All 1000+ levels unlocked";
+"paywall.cta" = "Go Premium · %@";
+"paywall.restore" = "Restore Purchases";
