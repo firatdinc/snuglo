@@ -78,6 +78,11 @@ final class GameViewModel {
     /// True when the just-cleared endless level set a new personal-best run.
     private(set) var newEndlessBest: Bool = false
 
+    /// Currency granted for the just-completed solve — computed & applied in
+    /// `persistProgress` (where real stars + mode are known) and surfaced here so
+    /// the result UI can display it without re-deriving rewards.
+    private(set) var lastSolveReward: [Currency: Int] = [:]
+
     /// Relaxed contexts (Zen Mode or Endless) grant UNLIMITED free undo — these
     /// modes are about calm experimentation, not a gem sink. Timed campaign/daily
     /// keep the one-free-then-gem economy. Computed live so a mid-session Zen
@@ -124,10 +129,15 @@ final class GameViewModel {
         if levelId.hasPrefix("daily") {
             level = PackProvider.dailyPuzzle(index: PackProvider.dailyIndex(from: levelId))
         } else if levelId.hasPrefix("endless") {
-            // Procedurally generated, ever-growing relaxed run.
+            // Procedurally generated, ever-growing RELAXED run. Endless/Zen don't
+            // need deterministic layouts (the endless leaderboard ranks the index
+            // reached, not the exact boards), so we VARY the seed on every load —
+            // otherwise each run replays the identical 1,2,3… boards and feels
+            // repetitive. The difficulty curve (gridSize + index) is preserved.
             let n = Int(levelId.split(separator: "-").last ?? "1") ?? 1
             let g = min(7, 4 + (n - 1) / 4)
-            level = LevelGenerator().generate(packId: "endless", levelIndex: n, gridSize: g)
+            let variedSeed = UInt64.random(in: UInt64.min ... UInt64.max)
+            level = LevelGenerator().generate(packId: "endless", levelIndex: n, gridSize: g, seedBase: variedSeed)
         } else {
             level = PackProvider.loadLevel(id: levelId) ?? PackProvider.dailyPuzzle()
         }
@@ -401,20 +411,35 @@ final class GameViewModel {
         let timeTaken = Date().timeIntervalSince(startTime)
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
         let progress = ProgressStore.shared
-        if level.id.hasPrefix("daily") {
+
+        let isEndless = level.id.hasPrefix("endless")
+        let isDaily   = level.id.hasPrefix("daily")
+        // RELAXED = Endless OR Zen Mode (a global toggle that can also be on over a
+        // campaign level). Relaxed play must not farm the economy.
+        let relaxed   = isEndless || UserDefaults.standard.bool(forKey: "zenMode")
+
+        // Did this campaign level already hold 3★ before now? (Captured BEFORE
+        // markCompleted so the "first 3★" gem fires exactly once, ever.)
+        var wasThreeStar = false
+
+        if isDaily {
             // Daily levels are tracked per-day (dailyChallenge + streak), NOT in
             // levelProgress, so they never inflate the campaign "/240" counters
             // and reset cleanly each day.
             let idx = PackProvider.dailyIndex(from: level.id)
             progress.markDailyLevelSolved(index: idx, date: Date(), time: timeTaken)
-        } else if level.id.hasPrefix("endless") {
+        } else if isEndless {
             // Endless: track best run only — never inflate the campaign counters.
             let n = Int(level.id.split(separator: "-").last ?? "1") ?? 1
             newEndlessBest = EndlessStore.shared.record(index: n)
+            // Endless earns no currency — its reward is the leaderboard.
+            let best = EndlessStore.shared.best
+            let gc = gameCenter
+            Task { try? await gc.submit(score: best, leaderboardID: LeaderboardID.endlessBest) }
         } else {
-            // Capture the prior best BEFORE markCompleted overwrites it, so we
-            // can celebrate a genuine improvement (not the first completion).
+            // Capture the prior best/stars BEFORE markCompleted overwrites them.
             let prevBest = progress.levelProgress[level.id]?.bestTime
+            wasThreeStar = (progress.levelProgress[level.id]?.stars ?? 0) >= 3
             newBestTime = prevBest != nil && timeTaken < prevBest!
             progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
             // Pack completion milestone: reward finishing every level in a pack.
@@ -427,17 +452,45 @@ final class GameViewModel {
                 )
             }
         }
-        // Daily quests + chest meter progress (any solve counts).
-        DailyQuestStore.shared.recordSolve(seconds: Int(timeTaken), hintsUsed: hintsUsed, stars: stars)
-        ChestStore.shared.recordSolve()
-        WeeklyChallengeStore.shared.recordSolve()
-        // XP: base + star bonus → player level progression.
-        XPStore.shared.award(20 + stars * 10)
+
+        // ── Rewards ─────────────────────────────────────────────────────────
+        let wallet = WalletStore.shared
+        if relaxed {
+            // Tiny daily-capped XP/coin, never gems, and no economy-meter / score
+            // progress — relaxed modes are for calm, not farming.
+            let granted = RelaxedRewardStore.shared.grant()
+            if granted.xp > 0 { XPStore.shared.award(granted.xp) }
+            if granted.coin > 0 { wallet.earn(.coin, amount: granted.coin) }
+            lastSolveReward = granted.coin > 0 ? [.coin: granted.coin] : [:]
+        } else {
+            // Campaign / Daily: coin scales with REAL stars (+ small speed bonus);
+            // a single gem ONLY the first time a campaign level reaches 3★
+            // (skill-gated and finite — gems stay scarce/valuable).
+            let coin = max(0, stars) * 10 + (timeTaken < 60 ? 5 : 0)
+            let gem  = (!isDaily && !wasThreeStar && stars >= 3) ? 1 : 0
+            if coin > 0 { wallet.earn(.coin, amount: coin) }
+            if gem  > 0 { wallet.earn(.gem,  amount: gem) }
+            var r: [Currency: Int] = [:]
+            if coin > 0 { r[.coin] = coin }
+            if gem  > 0 { r[.gem]  = gem }
+            lastSolveReward = r
+            // XP: base + star bonus → player level progression.
+            XPStore.shared.award(20 + stars * 10)
+            // Economy meters advance on real play only.
+            DailyQuestStore.shared.recordSolve(seconds: Int(timeTaken), hintsUsed: hintsUsed, stars: stars)
+            ChestStore.shared.recordSolve()
+            WeeklyChallengeStore.shared.recordSolve()
+        }
+
         let stats = AchievementStats(from: progress)
-        newlyUnlockedAchievements = AchievementsStore.shared.evaluate(
-            stats: stats, wallet: WalletStore.shared
-        )
-        submitScores()
+        let unlockedNow = AchievementsStore.shared.evaluate(stats: stats, wallet: wallet)
+        newlyUnlockedAchievements = unlockedNow
+        // Mirror freshly-unlocked achievements to Game Center (fire-and-forget).
+        if !unlockedNow.isEmpty {
+            let gc = gameCenter
+            Task { for a in unlockedNow { await gc.report(achievementID: a.gcID, percentComplete: 100) } }
+        }
+        if !relaxed { submitScores() }
     }
 
     private func submitScores() {

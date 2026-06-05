@@ -14,6 +14,18 @@ cd SnugloApp && xcodegen generate && xcodebuild build -project SnugloApp.xcodepr
 - SourceKit'in "No such module 'SnugloEngine'" uyarıları **yanlış pozitif** — gerçek build temiz.
 - Build hatalarını sen kopyalama — ben build alıp tespit ederim.
 
+## ASC otomasyonu (scripts/)
+`scripts/` — ASC API otomasyonu (Worplix pattern'i): `asc_client.py` (JWT/.env/strings), `setup_leaderboards.py` (4 board), `setup_achievements.py` (16 başarım, isim Localizable.strings'ten). Idempotent, dry-run default, `--apply` ile yazar. `secrets/.env.local` (git-ignored: APP_STORE_KEY_ID/ISSUER_ID/KEY_PATH/.p8/APP_ID) gerekir. `pip3 install --user "pyjwt[crypto]"`. Faz 6'da `setup_iap.py`/`setup_revenuecat.py` eklenecek.
+
+## Enerji & bölümler (2026-06-05)
+`EnergyStore` (Core/Energy): max 50, oyun −5, 3dk'da +1, timestamp offline regen, premium sınırsız (`StoreManager.isPremium`), UITest bypass. Gate `AppRouter.push(.game/.gamePlay)`'de (zen/endless `endless-*` ÜCRETSIZ); yetmezse `EnergyGateSheet`. MainMenu: enerji HUD + Zen kartı + rewards FAB dropdown. **1020 bölüm** (MockData 17 pack×60, hepsi progresyonla açık, `MockData.totalLevels`). Pack-IAP kaldırıldı.
+
+## Monetizasyon & Ekonomi
+Ekonomi/monetizasyon tasarımının tek doğruluk kaynağı: **`MONETIZATION_AND_ECONOMY.md`** (repo kökü). Felsefe: **nazik** (kozmetik + convenience + reklamsız abonelik; ilerleme bloklanmaz). coin=yumuşak, gem=sert/kıt. Zen/Endless = relaxed (günlük cap'li ödül, gem yok). Fazlar: 1) ekonomi rebalance 2) zen çeşitlilik 3) gem sink'leri 4) GameCenter 5) AdMob 6) RevenueCat.
+
+## Tasarım: Warm Cozy (2026-06-05)
+Palet token-bazlı **Warm Cozy**: krem `#FBF4EA` zemin, terracotta `#E08A4F` primary, bal accent, sıcak kil-gül secondary, sıcak kahve metin (`Colors.swift`). Bloklar + Zen sage varyantları korundu. Kartlar (`CardSurface`) sıcak "taban dudağı" (lip) + belirgin kenar = oyunsu tile. Tema cold-launch'ta `.page` TabView'da dark'a düşebiliyor (bilinen quirk; in-app Settings toggle ile düzelir).
+
 ## Çalışma kuralları
 - **Tek-palet tema:** tüm renkler `AppColors` token'larından. Hardcoded hex **yasak**.
 - Snuglo çalışmalarını Obsidian vault'taki proje alanına da kaydet.

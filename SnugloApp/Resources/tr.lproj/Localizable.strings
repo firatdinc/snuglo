@@ -211,6 +211,7 @@
 "leaderboard.board.totalLevels"  = "Toplam Seviye";
 "leaderboard.board.fastestSolve" = "En Hızlı Çözüm";
 "leaderboard.board.bestStreak"   = "En İyi Seri";
+"leaderboard.board.endless"      = "Sonsuz";
 "leaderboard.empty.title"        = "Henüz Giriş Yok";
 "leaderboard.empty.body"         = "Liderlik tablosunda görünmek için birkaç seviye tamamla.";
 "leaderboard.notSignedIn.title"  = "Game Center Gerekli";
@@ -486,6 +487,10 @@
 "board.dusk" = "Alacakaranlık";
 "board.rose" = "Gül";
 "board.meadow" = "Çayır";
+"skin.midnight" = "Gece Yarısı";
+"skin.blossom" = "Çiçek";
+"board.twilight" = "Alacakaranlık";
+"board.ember" = "Köz";
 "hint.rewarded.title" = "İpucu — Ücretsiz";
 "hint.rewarded.message" = "Kısa bir reklam izle, bir parça senin için yerleştirilsin.";
 "powerup.watchAd" = "Reklam İzle";
@@ -513,3 +518,32 @@
 "shop.info.hints.body" = "Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.";
 "shop.info.removeAds.title" = "Reklamları Kaldır";
 "shop.info.removeAds.body" = "Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.";
+
+/* ── Enerji + Zen + Ödüller ── */
+"energy.title" = "Enerji";
+"energy.unlimited" = "Sınırsız";
+"energy.full" = "Dolu";
+"energy.next" = "%@ sonra +1";
+"energy.out.title" = "Enerji Bitti";
+"energy.out.message" = "Enerji zamanla dolar. Hızlı dolum için reklam izle ya da sınırsız oyun için Premium’a geç.";
+"energy.watchAd" = "Reklam İzle  +%d";
+"energy.goPremium" = "Premium — Sınırsız";
+"energy.playable" = "%@ sonra oynanabilir";
+"zen.mode.title" = "Zen Modu";
+"zen.mode.subtitle" = "Rahatla · süre yok · ücretsiz";
+"rewards.fab" = "Ödüller";
+/* Yeni paketler */
+"pack.morning_meadow.title" = "Sabah Çayırı";
+"pack.amber_harbor.title" = "Kehribar Liman";
+"pack.velvet_dusk.title" = "Kadife Akşam";
+"pack.hearth_tales.title" = "Ocak Masalları";
+"pack.misty_grove.title" = "Sisli Koru";
+"pack.honey_fields.title" = "Bal Tarlaları";
+"pack.lantern_lane.title" = "Fener Sokağı";
+"pack.frost_haven.title" = "Kırağı Limanı";
+"pack.garden_party.title" = "Bahçe Partisi";
+"pack.ocean_breeze.title" = "Okyanus Esintisi";
+"pack.starlit_peak.title" = "Yıldızlı Zirve";
+"pack.cocoa_cabin.title" = "Kakao Kulübesi";
+"pack.aurora_vale.title" = "Auroralı Vadi";
+"button.close" = "Kapat";

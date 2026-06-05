@@ -32,6 +32,10 @@ final class StoreManager {
         case packWoodland   = "com.snuglo.pack.woodland_retreat"
         case removeAds      = "com.snuglo.removeads"
         case hintsSmall     = "com.snuglo.hints.small"
+        /// Premium: unlimited energy + no ads. Auto-renewable subscription
+        /// (RevenueCat will manage purchase; entitlement still resolves here via
+        /// StoreKit currentEntitlements).
+        case premium        = "com.snuglo.premium"
     }
 
     // MARK: - Observed State
@@ -125,19 +129,23 @@ final class StoreManager {
         purchasedProductIDs.contains(id.rawValue)
     }
 
-    /// Pack unlock durumu: cozy-beginnings her zaman açık; diğerleri satın alım gerektirir.
-    func isPackUnlocked(_ packId: String) -> Bool {
-        switch packId {
-        case "cozy-beginnings": return true   // ücretsiz
-        case "spice-route":     return isPurchased(.packSpice)
-        case "mambo-nights":    return isPurchased(.packMambo)
-        case "woodland-retreat": return isPurchased(.packWoodland)
-        default:                return false
-        }
-    }
+    /// Pack unlock durumu. Yeni monetizasyon modelinde (enerji + Premium) tüm
+    /// pack'ler ücretsiz; erişim level-level PROGRESYON ile açılır (pack-başı IAP
+    /// kaldırıldı). Premium da her şeyi açar.
+    func isPackUnlocked(_ packId: String) -> Bool { true }
 
-    /// Reklam kaldırma — Faz G-2'de AdMob buradan okur.
-    var adsRemoved: Bool { isPurchased(.removeAds) }
+    /// Reklam kaldırma — Faz G-2'de AdMob buradan okur. Premium da reklamsızdır.
+    var adsRemoved: Bool { isPurchased(.removeAds) || isPurchased(.premium) }
+
+    /// Premium: unlimited energy + ads removed. Driven by the premium
+    /// subscription entitlement (RevenueCat / StoreKit). A DEBUG override allows
+    /// testing the premium path without a sandbox purchase.
+    var isPremium: Bool {
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "snuglo.debug.premium") { return true }
+        #endif
+        return isPurchased(.premium)
+    }
 
     /// Bir product ID için görünen fiyatı döndür (ör. "$2.99").
     func displayPrice(for id: ProductID) -> String? {

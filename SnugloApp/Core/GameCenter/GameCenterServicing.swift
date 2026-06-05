@@ -30,4 +30,7 @@ protocol GameCenterServicing: AnyObject, Observable {
     func authenticate() async
     func submit(score: Int, leaderboardID: String) async throws
     func loadEntries(for leaderboardID: String) async throws -> [GameCenterEntry]
+    /// Reports an achievement's completion to Game Center. Fire-and-forget —
+    /// failures (offline, not signed in) are swallowed, never surfaced to gameplay.
+    func report(achievementID: String, percentComplete: Double) async
 }

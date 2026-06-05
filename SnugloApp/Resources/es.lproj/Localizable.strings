@@ -211,6 +211,7 @@
 "leaderboard.board.totalLevels"  = "Total de Niveles";
 "leaderboard.board.fastestSolve" = "Resolución más rápida";
 "leaderboard.board.bestStreak"   = "Mejor racha";
+"leaderboard.board.endless"      = "Infinito";
 "leaderboard.empty.title"        = "Aún sin entradas";
 "leaderboard.empty.body"         = "Completa algunos niveles para aparecer en la clasificación.";
 "leaderboard.notSignedIn.title"  = "Se requiere Game Center";
@@ -486,6 +487,10 @@
 "board.dusk" = "Crepúsculo";
 "board.rose" = "Rosa";
 "board.meadow" = "Pradera";
+"skin.midnight" = "Medianoche";
+"skin.blossom" = "Flor";
+"board.twilight" = "Crepúsculo";
+"board.ember" = "Brasa";
 "hint.rewarded.title" = "Pista — Gratis";
 "hint.rewarded.message" = "Mira un anuncio corto y se colocará una pieza por ti.";
 "powerup.watchAd" = "Ver anuncio";
@@ -513,3 +518,32 @@
 "shop.info.hints.body" = "Cuando te atascas, una pista coloca una pieza correcta por ti. Úsala desde el botón de pista durante un nivel.";
 "shop.info.removeAds.title" = "Quitar anuncios";
 "shop.info.removeAds.body" = "Elimina todos los anuncios de forma permanente. Compra única.";
+
+/* ── Energía + Zen + Recompensas ── */
+"energy.title" = "Energía";
+"energy.unlimited" = "Ilimitada";
+"energy.full" = "Llena";
+"energy.next" = "+1 en %@";
+"energy.out.title" = "Sin energía";
+"energy.out.message" = "La energía se recarga con el tiempo. Mira un anuncio para un impulso o hazte Premium para jugar sin límites.";
+"energy.watchAd" = "Ver anuncio  +%d";
+"energy.goPremium" = "Premium — Ilimitado";
+"energy.playable" = "Jugable en %@";
+"zen.mode.title" = "Modo Zen";
+"zen.mode.subtitle" = "Relájate · sin tiempo · gratis";
+"rewards.fab" = "Recompensas";
+/* Paquetes nuevos */
+"pack.morning_meadow.title" = "Pradera Matinal";
+"pack.amber_harbor.title" = "Puerto Ámbar";
+"pack.velvet_dusk.title" = "Ocaso de Terciopelo";
+"pack.hearth_tales.title" = "Cuentos del Hogar";
+"pack.misty_grove.title" = "Arboleda Neblinosa";
+"pack.honey_fields.title" = "Campos de Miel";
+"pack.lantern_lane.title" = "Callejón de Faroles";
+"pack.frost_haven.title" = "Refugio Helado";
+"pack.garden_party.title" = "Fiesta de Jardín";
+"pack.ocean_breeze.title" = "Brisa Marina";
+"pack.starlit_peak.title" = "Pico Estrellado";
+"pack.cocoa_cabin.title" = "Cabaña de Cacao";
+"pack.aurora_vale.title" = "Valle Aurora";
+"button.close" = "Cerrar";

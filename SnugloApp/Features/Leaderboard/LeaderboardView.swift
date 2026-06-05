@@ -27,6 +27,7 @@ struct LeaderboardView: View {
                     Text("leaderboard.board.totalLevels").tag(LeaderboardID.totalLevels)
                     Text("leaderboard.board.fastestSolve").tag(LeaderboardID.fastestSolve)
                     Text("leaderboard.board.bestStreak").tag(LeaderboardID.bestStreak)
+                    Text("leaderboard.board.endless").tag(LeaderboardID.endlessBest)
                 }
                 .pickerStyle(.segmented)
                 .padding(.horizontal, AppSpacing.lg)

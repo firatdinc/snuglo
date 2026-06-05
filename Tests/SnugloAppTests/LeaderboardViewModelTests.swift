@@ -24,6 +24,8 @@ final class MockGCForVM: GameCenterServicing {
         if shouldThrow { throw URLError(.notConnectedToInternet) }
         return nextEntries
     }
+
+    func report(achievementID: String, percentComplete: Double) async {}
 }
 
 // MARK: — LeaderboardViewModelTests

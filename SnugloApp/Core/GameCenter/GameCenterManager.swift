@@ -72,6 +72,16 @@ final class GameCenterManager: GameCenterServicing {
         )
     }
 
+    // MARK: — Achievement reporting
+
+    func report(achievementID: String, percentComplete: Double) async {
+        guard case .signedIn = authState else { return }
+        let achievement = GKAchievement(identifier: achievementID)
+        achievement.percentComplete = percentComplete
+        achievement.showsCompletionBanner = true
+        try? await GKAchievement.report([achievement])
+    }
+
     // MARK: — Entry loading
 
     func loadEntries(for leaderboardID: String) async throws -> [GameCenterEntry] {

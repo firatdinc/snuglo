@@ -10,3 +10,7 @@ Package.resolved
 
 # Xcode user state
 xcuserdata/
+
+# App Store Connect automation secrets (.p8 keys, .env.local)
+secrets/*
+!secrets/.env.local.example

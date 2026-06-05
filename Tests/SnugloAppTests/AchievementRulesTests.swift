@@ -12,14 +12,20 @@ struct AchievementRulesTests {
         currentStreak: Int = 0,
         perfectSolves: Int = 0,
         hintFreeSolves: Int = 0,
-        fastestSolveSeconds: Int? = nil
+        fastestSolveSeconds: Int? = nil,
+        packsCompleted: Int = 0,
+        longestPlayStreak: Int = 0,
+        bestWinChain: Int = 0
     ) -> AchievementStats {
         AchievementStats(
             completedLevels: completedLevels,
             currentStreak: currentStreak,
             perfectSolves: perfectSolves,
             hintFreeSolves: hintFreeSolves,
-            fastestSolveSeconds: fastestSolveSeconds
+            fastestSolveSeconds: fastestSolveSeconds,
+            packsCompleted: packsCompleted,
+            longestPlayStreak: longestPlayStreak,
+            bestWinChain: bestWinChain
         )
     }
 

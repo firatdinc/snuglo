@@ -222,6 +222,13 @@ final class GameViewModelTests: XCTestCase {
     func test_powerUpUndo_revertsLastPlacementAndDeductsGems() {
         let wallet = makeWallet(gems: 50)
         let vm = GameViewModel(level: makeSimpleLevel())
+
+        // The first undo of a session is free — consume it so the next undo pays.
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        _ = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
+        XCTAssertEqual(wallet.balance(of: .gem), 50, "First undo is free — no gems spent")
+
+        // Second undo must deduct gems.
         vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
         XCTAssertEqual(vm.moveHistory.count, 1, "precondition: history has 1 entry")
 
@@ -244,8 +251,12 @@ final class GameViewModelTests: XCTestCase {
     }
 
     func test_powerUpUndo_insufficientGem_leavesHistoryIntact() {
-        let wallet = makeWallet(gems: 10)
+        let wallet = makeWallet(gems: 10)   // < 20 gem undo cost
         let vm = GameViewModel(level: makeSimpleLevel())
+
+        // Consume the free undo first so the next one must pay (and can't afford it).
+        vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
+        _ = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
         vm.tryPlace(pieceID: "p1", at: Coord(x: 0, y: 0))
 
         let result = vm.applyPowerUp(.undo, wallet: wallet, progress: makeProgress())
@@ -253,6 +264,7 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(result, .insufficientGem)
         XCTAssertEqual(vm.moveHistory.count, 1, "History must be intact on insufficient gem")
         XCTAssertNotNil(vm.placements["p1"], "Placement must remain on insufficient gem")
+        XCTAssertEqual(wallet.balance(of: .gem), 10, "Wallet untouched on insufficient gem")
     }
 
     // MARK: - Faz 3: PowerUp tests — shuffleTray

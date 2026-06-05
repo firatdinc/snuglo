@@ -31,6 +31,11 @@ final class MockGameCenterService: GameCenterServicing {
         if shouldThrowOnLoad { throw URLError(.notConnectedToInternet) }
         return loadedEntries
     }
+
+    var lastReportedAchievementID: String?
+    func report(achievementID: String, percentComplete: Double) async {
+        lastReportedAchievementID = achievementID
+    }
 }
 
 // MARK: — GameCenterManagerTests
@@ -78,10 +83,11 @@ struct GameCenterManagerTests {
         }
     }
 
-    @Test func leaderboardIDs_allContainsThree() {
-        #expect(LeaderboardID.all.count == 3)
+    @Test func leaderboardIDs_allContainsAll() {
+        #expect(LeaderboardID.all.count == 4)
         #expect(LeaderboardID.all.contains(LeaderboardID.totalLevels))
         #expect(LeaderboardID.all.contains(LeaderboardID.fastestSolve))
         #expect(LeaderboardID.all.contains(LeaderboardID.bestStreak))
+        #expect(LeaderboardID.all.contains(LeaderboardID.endlessBest))
     }
 }

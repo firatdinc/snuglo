@@ -36,6 +36,10 @@ enum Achievement: String, CaseIterable, Codable, Identifiable {
 
     var id: String { rawValue }
 
+    /// App Store Connect achievement identifier — must match the ID configured in
+    /// ASC. Reported to Game Center when the achievement unlocks.
+    var gcID: String { "snuglo.achievement.\(rawValue)" }
+
     var displayNameKey: LocalizedStringKey {
         let key = "achievement.\(rawValue).title"
         return LocalizedStringKey(key)

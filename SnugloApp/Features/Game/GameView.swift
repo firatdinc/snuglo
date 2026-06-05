@@ -90,7 +90,7 @@ struct GameView: View {
     @State private var comboVisible = false
     @State private var comboVersion = 0
     /// Gems awarded at the current combo milestone (shown in the pop); 0 if none.
-    @State private var comboGemBonus = 0
+    @State private var comboCoinBonus = 0
 
     // Visual hint: the hinted piece pulses for a moment after it's placed.
     @State private var hintFlashID: String?
@@ -177,15 +177,19 @@ struct GameView: View {
         }
         lastPlaceAt = now
         guard comboCount >= 2 else { return }
-        WalletStore.shared.earn(.coin, amount: min(comboCount, 8) * 2)
+        // Combos pay COIN only (gems stay scarce), and never in relaxed modes
+        // (Zen/Endless must not farm currency) — the pop/haptic still play.
+        if !relaxed {
+            WalletStore.shared.earn(.coin, amount: min(comboCount, 8) * 2)
+        }
         // Milestone combos (×3/×5/×8) get a punchier reward + celebration.
         if comboCount == 3 || comboCount == 5 || comboCount == 8 {
             HapticService.shared.impact(.rigid)
             SoundService.shared.play(.reward)
-            if comboCount >= 5 {
-                let gems = comboCount >= 8 ? 2 : 1
-                WalletStore.shared.earn(.gem, amount: gems)
-                comboGemBonus = gems
+            if !relaxed && comboCount >= 5 {
+                let bonus = comboCount >= 8 ? 20 : 10
+                WalletStore.shared.earn(.coin, amount: bonus)
+                comboCoinBonus = bonus
             }
         } else {
             HapticService.shared.selection()
@@ -200,7 +204,7 @@ struct GameView: View {
             try? await Task.sleep(for: .milliseconds(1000))
             if comboVersion == token {
                 withAnimation(.easeOut(duration: 0.2)) { comboVisible = false }
-                comboGemBonus = 0
+                comboCoinBonus = 0
             }
         }
     }
@@ -225,7 +229,7 @@ struct GameView: View {
     private func breakCombo() {
         comboCount = 0
         lastPlaceAt = nil
-        comboGemBonus = 0
+        comboCoinBonus = 0
         if comboVisible { withAnimation(.easeOut(duration: 0.15)) { comboVisible = false } }
     }
 
@@ -566,24 +570,25 @@ struct GameView: View {
                 AdsManager.shared.onLevelCompleted()
                 if !rewardGranted {
                     rewardGranted = true
-                    let prevBest = ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) }
-                    let reward = CurrencyReward.forLevelComplete(
-                        stars: 3,
-                        elapsedSeconds: elapsedSeconds,
-                        previousBestSeconds: prevBest
-                    )
-                    earnedReward = reward
-                    for (currency, amount) in reward { WalletStore.shared.earn(currency, amount: amount) }
+                    // Solve currency/XP is computed & applied in
+                    // GameViewModel.persistProgress (real stars + mode aware); we
+                    // just surface what was granted for the result UI.
+                    earnedReward = viewModel.lastSolveReward
 
-                    // Win-streak chain: grow the chain, pay an escalating coin
-                    // bonus, and intensify the celebration the longer it runs.
-                    let chain = ProgressStore.shared.recordWin()
-                    let chainBonus = ProgressStore.chainCoinBonus(forChain: chain)
-                    if chainBonus > 0 {
-                        WalletStore.shared.earn(.coin, amount: chainBonus)
-                        earnedReward[.coin, default: 0] += chainBonus
+                    if !relaxed {
+                        // Win-streak chain (campaign/daily only): grow the chain,
+                        // pay an escalating coin bonus, intensify the celebration.
+                        // Relaxed modes don't build competitive chains.
+                        let chain = ProgressStore.shared.recordWin()
+                        let chainBonus = ProgressStore.chainCoinBonus(forChain: chain)
+                        if chainBonus > 0 {
+                            WalletStore.shared.earn(.coin, amount: chainBonus)
+                            earnedReward[.coin, default: 0] += chainBonus
+                        }
+                        celebrationIntensity = min(1, Double(chain) / 5.0)
+                    } else {
+                        celebrationIntensity = 0.3
                     }
-                    celebrationIntensity = min(1, Double(chain) / 5.0)
                 }
                 // Calm completion glow (NOT confetti — confetti is for reward moments).
                 if !reduceMotion {
@@ -922,8 +927,8 @@ struct GameView: View {
             Text(verbatim: "Combo x\(comboCount)")
                 .font(AppTypography.headlineSmall)
                 .monospacedDigit()
-            if comboGemBonus > 0 {
-                Text(verbatim: "💎+\(comboGemBonus)")
+            if comboCoinBonus > 0 {
+                Text(verbatim: "🪙+\(comboCoinBonus)")
                     .font(AppTypography.headlineSmall)
             }
         }

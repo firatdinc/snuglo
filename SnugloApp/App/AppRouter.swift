@@ -41,6 +41,7 @@ enum AppTab: Hashable {
 
 /// Observable navigation state. Inject via `.environment(router)` from SnugloApp.
 @Observable
+@MainActor
 final class AppRouter {
 
     /// Outer stack — splash / onboarding flow only (.onboarding).
@@ -51,6 +52,38 @@ final class AppRouter {
     var selectedTab: AppTab = .play
     /// True while GameView is visible — disables tab carousel horizontal swipe.
     var isGameActive: Bool = false
+
+    // MARK: — Energy gate
+    /// Shown when the player tries to start a paid game without enough energy.
+    var showEnergyGate: Bool = false
+    /// The game route to launch once energy is topped up (ad / wait / premium).
+    var pendingGameRoute: Route?
+
+    /// Relaxed routes (Endless / Zen) are FREE — they never cost energy.
+    private func isRelaxedRoute(_ route: Route) -> Bool {
+        switch route {
+        case .game(let id), .gamePlay(let id): return id.hasPrefix("endless")
+        default: return false
+        }
+    }
+
+    private func isGameRoute(_ route: Route) -> Bool {
+        switch route {
+        case .game, .gamePlay: return true
+        default: return false
+        }
+    }
+
+    /// Try to launch the remembered game once energy is available (called by the
+    /// energy gate after an ad refill / premium purchase).
+    func launchPendingGameIfReady() {
+        guard let route = pendingGameRoute else { return }
+        if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable() {
+            pendingGameRoute = nil
+            showEnergyGate = false
+            appendToCurrentTab(route)
+        }
+    }
 
     // Per-tab NavigationStack paths (Faz 1)
     var levelsPath: [Route] = []
@@ -72,6 +105,15 @@ final class AppRouter {
         case .levelsList:
             // .levelsList is the Levels tab root — switch tab instead of pushing
             selectedTab = .levels
+        case .game, .gamePlay:
+            // Paid game start: spend energy (Endless/Zen + premium are free). If
+            // the player can't afford it, remember the route and raise the gate.
+            if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable() {
+                appendToCurrentTab(route)
+            } else {
+                pendingGameRoute = route
+                showEnergyGate = true
+            }
         default:
             appendToCurrentTab(route)
         }
@@ -98,6 +140,11 @@ final class AppRouter {
     /// outer `path` (which is only the splash/onboarding stack). Mutating the
     /// wrong array left the finished board on screen when "Next" was tapped.
     func replaceTop(with route: Route) {
+        // Next-level continuation also costs energy (Endless/Zen + premium free).
+        // Best-effort: never blocks mid-session — if low, it simply doesn't charge.
+        if isGameRoute(route), !isRelaxedRoute(route) {
+            _ = EnergyStore.shared.startGameIfAffordable()
+        }
         func swap(_ p: inout [Route]) {
             if p.isEmpty { p.append(route) } else { p[p.count - 1] = route }
         }

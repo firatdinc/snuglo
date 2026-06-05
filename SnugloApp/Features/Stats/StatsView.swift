@@ -215,7 +215,7 @@ struct StatsView: View {
                 value: levelsCompletedLabel,
                 labelKey: "stats.levelsCompleted",
                 icon: "checkmark.circle.fill",
-                a11yLabel: "Levels completed: \(store.totalLevelsCompleted()) of 240",
+                a11yLabel: "Levels completed: \(store.totalLevelsCompleted()) of \(MockData.totalLevels)",
                 a11yId: "stats.total_completed"  // Faz I-2: UITest identifier
             )
             kpiCard(
@@ -242,7 +242,7 @@ struct StatsView: View {
     }
 
     private var levelsCompletedLabel: String {
-        "\(store.totalLevelsCompleted())/240"
+        "\(store.totalLevelsCompleted())/\(MockData.totalLevels)"
     }
 
     // MARK: — Lifetime totals (campaign-wide milestones)

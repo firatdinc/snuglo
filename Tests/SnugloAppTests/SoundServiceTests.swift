@@ -25,12 +25,14 @@ final class SoundServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    // MARK: - Test 1: Sound enum has exactly 5 cases
+    // MARK: - Test 1: Sound enum has the expected case count
+    // 5 core sounds (click/place/snap/solve/error) + 3 dedicated event sounds
+    // (reward/levelUp/combo) added in the reward-feedback work.
 
-    func test_soundEnum_hasFiveCases() {
+    func test_soundEnum_hasExpectedCases() {
         let cases = SoundService.Sound.allCases
-        XCTAssertEqual(cases.count, 5,
-                       "SoundService.Sound must have exactly 5 cases")
+        XCTAssertEqual(cases.count, 8,
+                       "SoundService.Sound must have exactly 8 cases")
     }
 
     // MARK: - Test 2: Sound enum contains required case names

@@ -532,7 +532,9 @@ struct SettingsView: View {
     @ViewBuilder
     private func skinSwatch(_ skin: AppColors.BlockSkin) -> some View {
         let level = XPStore.shared.level
-        let cost = CosmeticsStore.skinCost(unlockLevel: skin.unlockLevel)
+        // Premium skins are gem-only (never level-unlocked); free skins keep the
+        // level-derived price and can also be bought early with gems.
+        let cost = skin.premiumCost ?? CosmeticsStore.skinCost(unlockLevel: skin.unlockLevel)
         let unlocked = level >= skin.unlockLevel || CosmeticsStore.shared.isSkinUnlocked(skin.id)
         let selected = blockSkin == skin.id
         VStack(spacing: 6) {
@@ -557,6 +559,13 @@ struct SettingsView: View {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                if skin.premiumCost != nil {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(AppColors.tertiary)
+                        .padding(3)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                 }
             }
             Text(verbatim: unlocked
@@ -583,24 +592,52 @@ struct SettingsView: View {
     @ViewBuilder
     private func boardSwatch(_ bg: BoardBackground) -> some View {
         let selected = boardBackground == bg.rawValue
+        // Premium boards (gemCost != nil) are gem-only; free boards have no cost.
+        let cost = bg.gemCost
+        let unlocked = cost == nil || CosmeticsStore.shared.isBoardUnlocked(bg.rawValue)
         VStack(spacing: 6) {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(LinearGradient(colors: bg.colors, startPoint: .top, endPoint: .bottom))
-                .frame(width: 64, height: 44)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .stroke(selected ? AppColors.primary : AppColors.surfaceContainerHigh,
-                                lineWidth: selected ? 2 : 1)
-                )
-            Text(NSLocalizedString(bg.nameKey, comment: ""))
+            ZStack {
+                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(LinearGradient(colors: bg.colors, startPoint: .top, endPoint: .bottom))
+                    .frame(width: 64, height: 44)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(selected ? AppColors.primary : AppColors.surfaceContainerHigh,
+                                    lineWidth: selected ? 2 : 1)
+                    )
+                    .opacity(unlocked ? 1 : 0.5)
+                if !unlocked {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                if cost != nil {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(AppColors.tertiary)
+                        .padding(3)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                }
+            }
+            Text(verbatim: unlocked
+                 ? NSLocalizedString(bg.nameKey, comment: "")
+                 : "💎\(cost ?? 0)")
                 .font(AppTypography.labelSmall)
                 .foregroundStyle(selected ? AppColors.primary : AppColors.onSurfaceVariant)
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            boardBackground = bg.rawValue
-            HapticService.shared.impact(.light)
+            if unlocked {
+                boardBackground = bg.rawValue
+                HapticService.shared.impact(.light)
+            } else if let c = cost, CosmeticsStore.shared.buyBoard(bg.rawValue, costGems: c) {
+                boardBackground = bg.rawValue
+                HapticService.shared.notify(.success)
+            } else {
+                HapticService.shared.notify(.error)
+            }
         }
+        .accessibilityLabel(NSLocalizedString(bg.nameKey, comment: "") + (unlocked ? "" : ", locked, costs \(cost ?? 0) gems"))
     }
 
     private var boardBgSelector: some View {

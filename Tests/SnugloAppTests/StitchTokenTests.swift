@@ -37,15 +37,26 @@ final class StitchTokenTests: XCTestCase {
                           "softCocoa token must be defined")
     }
 
+    // AppColors tokens are dynamic (each access wraps a fresh `UIColor { trait }`),
+    // so two SwiftUI `Color`s are never `==` even when they alias the same token.
+    // Resolve both to concrete RGBA for light AND dark traits and compare those.
+    private func sameResolved(_ a: Color, _ b: Color) -> Bool {
+        let ua = UIColor(a), ub = UIColor(b)
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let t = UITraitCollection(userInterfaceStyle: style)
+            if ua.resolvedColor(with: t) != ub.resolvedColor(with: t) { return false }
+        }
+        return true
+    }
+
     func test_gridBackground_aliases_gameBoardBackground() {
-        // gridBackground and gameBoardBackground must be the same value
-        XCTAssertEqual(AppColors.gridBackground, AppColors.gameBoardBackground,
-                       "gridBackground must alias gameBoardBackground")
+        XCTAssertTrue(sameResolved(AppColors.gridBackground, AppColors.gameBoardBackground),
+                      "gridBackground must alias gameBoardBackground")
     }
 
     func test_gridLines_aliases_gridLine() {
-        XCTAssertEqual(AppColors.gridLines, AppColors.gridLine,
-                       "gridLines must alias gridLine")
+        XCTAssertTrue(sameResolved(AppColors.gridLines, AppColors.gridLine),
+                      "gridLines must alias gridLine")
     }
 
     // MARK: — Typography Tokens

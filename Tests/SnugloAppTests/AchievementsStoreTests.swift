@@ -22,7 +22,10 @@ struct AchievementsStoreTests {
             currentStreak: 0,
             perfectSolves: 0,
             hintFreeSolves: 0,
-            fastestSolveSeconds: nil
+            fastestSolveSeconds: nil,
+            packsCompleted: 0,
+            longestPlayStreak: 0,
+            bestWinChain: 0
         )
     }
 

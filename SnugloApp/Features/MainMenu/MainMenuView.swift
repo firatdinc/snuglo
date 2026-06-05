@@ -20,12 +20,18 @@ struct MainMenuView: View {
     @State private var chestReward: ChestReward?
     @State private var showSpin = false
     @State private var showCalendar = false
+    @State private var showRewardsMenu = false
     @State private var dailyShareImage: Image?
 
     var body: some View {
         ZStack(alignment: .bottom) {
             AppColors.background.ignoresSafeArea()
             tabContent
+        }
+        // Floating rewards button + drop-down (spin / daily / chest) — only on the
+        // menu tabs. Frees the home column for the prominent Zen card.
+        .overlay(alignment: .bottomTrailing) {
+            if isMenuTab { rewardsFab.padding(.trailing, AppSpacing.lg).padding(.bottom, AppSpacing.md) }
         }
         .toolbar(.hidden, for: .navigationBar)
         // iOS 26: .contain ensures children (topBar buttons, tab content) remain
@@ -133,14 +139,13 @@ struct MainMenuView: View {
         return ScrollView(showsIndicators: false) {
             VStack(spacing: AppSpacing.lg) {
                 todayBanner.appearStagger(0)        // warm greeting + today's quest count
-                topStatsBar.appearStagger(1)        // streak · level · progress combined
+                topStatsBar.appearStagger(1)        // energy · streak · level · progress
                 dailyPuzzleCard.appearStagger(2)
-                rewardsRail.appearStagger(3)        // spin · calendar · chest collapsed into one row
+                zenCard.appearStagger(3)            // prominent relaxed entry (free, no energy)
                 continueSection.appearStagger(4)
                 questsCard.appearStagger(5)
                 weeklyCard.appearStagger(6)
-                endlessCard.appearStagger(7)
-                Spacer(minLength: 80)
+                Spacer(minLength: 96)
             }
             .padding(.horizontal, AppSpacing.lg)
             .padding(.top, AppSpacing.sm)
@@ -157,15 +162,16 @@ struct MainMenuView: View {
     // MARK: — Compact top stats bar (streak · level · progress)
 
     private func statSeg(_ icon: String, _ value: String, _ tint: Color) -> some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 3) {
             Image(systemName: icon)
-                .font(.system(size: 13, weight: .semibold))
+                .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(tint)
             Text(verbatim: value)
-                .font(AppTypography.numericLabel)
+                .font(.system(size: 15, weight: .bold, design: .rounded))
                 .foregroundStyle(AppColors.onSurface)
                 .monospacedDigit()
                 .lineLimit(1)
+                .minimumScaleFactor(0.8)
         }
         .frame(maxWidth: .infinity)
     }
@@ -204,21 +210,35 @@ struct MainMenuView: View {
         let streak = ProgressStore.shared.playStreak
         let level = XPStore.shared.level
         let completed = ProgressStore.shared.totalLevelsCompleted()
+        let energyText = StoreManager.shared.isPremium ? "∞" : "\(EnergyStore.shared.current)/\(EnergyStore.maxEnergy)"
+        func divider() -> some View {
+            Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
+        }
         return HStack(spacing: 0) {
+            statSeg("bolt.fill", energyText, AppColors.tertiary)
+            divider()
             statSeg("flame.fill", "\(streak)", AppColors.tertiary)
-            Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
+            divider()
             statSeg("star.circle.fill", "Lv \(level)", AppColors.primary)
-            Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
-            statSeg("square.grid.2x2.fill", "\(completed)/240", AppColors.secondary)
+            divider()
+            statSeg("square.grid.2x2.fill", "\(completed)/\(MockData.totalLevels)", AppColors.secondary)
         }
         .padding(.vertical, AppSpacing.sm)
-        .padding(.horizontal, AppSpacing.md)
+        .padding(.horizontal, AppSpacing.sm)
         .background(AppColors.surfaceContainer)
         .clipShape(Capsule())
-        .overlay(Capsule().stroke(AppColors.surfaceContainerHigh, lineWidth: 1))
+        .overlay(
+            Capsule().strokeBorder(
+                LinearGradient(
+                    colors: [.white.opacity(0.5), AppColors.shadowAmbient.opacity(0.2)],
+                    startPoint: .top, endPoint: .bottom
+                ),
+                lineWidth: 1.5
+            )
+        )
         .shadowL1()
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Streak \(streak) days, level \(level), \(completed) of 240 levels")
+        .accessibilityLabel("Streak \(streak) days, level \(level), \(completed) of \(MockData.totalLevels) levels")
     }
 
     // MARK: — Streak badge (play streak — any level, any day)
@@ -355,6 +375,99 @@ struct MainMenuView: View {
                 .background(AppColors.primaryContainer.opacity(0.5), in: Capsule())
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: — Energy meter + Zen entry + Rewards FAB
+
+    private var isMenuTab: Bool {
+        switch router.selectedTab {
+        case .play, .home, .levels, .leaderboard: return true
+        default: return false
+        }
+    }
+
+    /// Prominent Zen entry — relaxed, no timer, FREE (never costs energy).
+    private var zenCard: some View {
+        Button { router.push(.game(levelID: "endless-1")) } label: {
+            HStack(spacing: AppSpacing.md) {
+                CardIconBadge(symbol: "leaf.fill", tint: AppColors.primary, bg: AppColors.blockSage)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("zen.mode.title")
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text("zen.mode.subtitle")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                Image(systemName: "play.fill")
+                    .font(.system(size: 15, weight: .bold))
+                    .foregroundStyle(AppColors.primary)
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+        }
+        .buttonStyle(PressableCardStyle())
+        .accessibilityIdentifier("button.menu.zen")
+    }
+
+    /// Floating rewards button + drop-down (spin / daily / chest).
+    private var rewardsFab: some View {
+        let anyAvailable = SpinStore.shared.canSpin
+            || DailyCalendarStore.shared.canClaim
+            || ChestStore.shared.hasChest
+        return VStack(alignment: .trailing, spacing: AppSpacing.sm) {
+            if showRewardsMenu {
+                VStack(spacing: AppSpacing.xs) {
+                    rewardTile(icon: "dial.medium.fill", titleKey: "spin.title", available: SpinStore.shared.canSpin) {
+                        showRewardsMenu = false
+                        if SpinStore.shared.canSpin { showSpin = true }
+                    }
+                    rewardTile(icon: "calendar", titleKey: "calendar.title", available: DailyCalendarStore.shared.canClaim) {
+                        showRewardsMenu = false
+                        showCalendar = true
+                    }
+                    rewardTile(icon: ChestStore.shared.hasChest ? "gift.fill" : "shippingbox.fill",
+                               titleKey: "chest.title", available: ChestStore.shared.hasChest) {
+                        showRewardsMenu = false
+                        if let r = ChestStore.shared.open() { chestReward = r }
+                    }
+                }
+                .padding(AppSpacing.sm)
+                .frame(width: 128)
+                .background(AppColors.surfaceContainerLowest,
+                            in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+                .cardSurface()
+                .transition(.scale(scale: 0.9, anchor: .bottomTrailing).combined(with: .opacity))
+            }
+            Button {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) { showRewardsMenu.toggle() }
+            } label: {
+                Circle()
+                    .fill(AppColors.primary)
+                    .frame(width: 48, height: 48)
+                    // Icon centered via overlay (NOT a ZStack alignment, which
+                    // would shove it off-centre).
+                    .overlay(
+                        Image(systemName: showRewardsMenu ? "xmark" : "gift.fill")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(AppColors.onPrimary)
+                    )
+                    // Availability dot — separate overlay so it never moves the icon.
+                    .overlay(alignment: .topTrailing) {
+                        if anyAvailable && !showRewardsMenu {
+                            Circle().fill(AppColors.tertiary).frame(width: 12, height: 12)
+                                .overlay(Circle().stroke(AppColors.background, lineWidth: 2))
+                                .offset(x: 2, y: -2)
+                        }
+                    }
+                    .shadowL2()
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("rewards.fab"))
+        }
     }
 
     // MARK: — Rewards rail (spin · calendar · chest)
@@ -658,7 +771,7 @@ struct MainMenuView: View {
 
     private var progressPill: some View {
         let completed = ProgressStore.shared.totalLevelsCompleted()
-        let total = 240
+        let total = MockData.totalLevels
         let current = min(completed + 1, total)
         return HStack(spacing: AppSpacing.sm) {
             Image(systemName: "star.fill")
@@ -678,8 +791,13 @@ struct MainMenuView: View {
         .padding(.vertical, AppSpacing.xs + 2)
         .background(AppColors.surfaceContainer)
         .overlay(
-            RoundedRectangle(cornerRadius: 999, style: .continuous)
-                .stroke(AppColors.surfaceContainerHigh, lineWidth: 1.5)
+            Capsule().strokeBorder(
+                LinearGradient(
+                    colors: [.white.opacity(0.5), AppColors.shadowAmbient.opacity(0.2)],
+                    startPoint: .top, endPoint: .bottom
+                ),
+                lineWidth: 1.5
+            )
         )
         .clipShape(Capsule())
         .shadowL1()

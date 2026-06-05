@@ -7,6 +7,8 @@ import SwiftUI
 
 enum BoardBackground: String, CaseIterable, Identifiable {
     case parchment, dawn, forest, night, dusk, rose, meadow
+    // ── Premium (gem-only) ──
+    case twilight, ember
 
     var id: String { rawValue }
     var nameKey: String { "board.\(rawValue)" }
@@ -21,6 +23,16 @@ enum BoardBackground: String, CaseIterable, Identifiable {
         case .dusk:      return [AppColors.blockLavender.opacity(0.22), AppColors.blockBlush.opacity(0.12)]
         case .rose:      return [AppColors.blockBlush.opacity(0.28), AppColors.surfaceContainerLowest]
         case .meadow:    return [AppColors.blockSage.opacity(0.25), AppColors.blushAccent]
+        case .twilight:  return [AppColors.blockLavender.opacity(0.5), AppColors.blockBlush.opacity(0.25)]
+        case .ember:     return [AppColors.blockPeach.opacity(0.5), AppColors.blockBlush.opacity(0.22)]
+        }
+    }
+
+    /// Gem price for premium boards; `nil` = free (level/default boards).
+    var gemCost: Int? {
+        switch self {
+        case .twilight, .ember: return 250
+        default:                return nil
         }
     }
 

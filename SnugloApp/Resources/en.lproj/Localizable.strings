@@ -211,6 +211,7 @@
 "leaderboard.board.totalLevels"  = "Total Levels";
 "leaderboard.board.fastestSolve" = "Fastest Solve";
 "leaderboard.board.bestStreak"   = "Best Streak";
+"leaderboard.board.endless"      = "Endless";
 "leaderboard.empty.title"        = "No Entries Yet";
 "leaderboard.empty.body"         = "Complete some levels to appear on the leaderboard.";
 "leaderboard.notSignedIn.title"  = "Game Center Required";
@@ -486,6 +487,10 @@
 "board.dusk" = "Dusk";
 "board.rose" = "Rose";
 "board.meadow" = "Meadow";
+"skin.midnight" = "Midnight";
+"skin.blossom" = "Blossom";
+"board.twilight" = "Twilight";
+"board.ember" = "Ember";
 "hint.rewarded.title" = "Hint — Free";
 "hint.rewarded.message" = "Watch a short ad and one piece will be placed for you.";
 "powerup.watchAd" = "Watch Ad";
@@ -513,3 +518,32 @@
 "shop.info.hints.body" = "When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.";
 "shop.info.removeAds.title" = "Remove Ads";
 "shop.info.removeAds.body" = "Permanently removes all ads. A one-time purchase.";
+
+/* ── Energy + Zen + Rewards (Faz: energy gate) ── */
+"energy.title" = "Energy";
+"energy.unlimited" = "Unlimited";
+"energy.full" = "Full";
+"energy.next" = "+1 in %@";
+"energy.out.title" = "Out of Energy";
+"energy.out.message" = "Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.";
+"energy.watchAd" = "Watch Ad  +%d";
+"energy.goPremium" = "Go Premium — Unlimited";
+"energy.playable" = "Enough to play in %@";
+"zen.mode.title" = "Zen Mode";
+"zen.mode.subtitle" = "Relax · no timer · free";
+"rewards.fab" = "Rewards";
+/* New packs */
+"pack.morning_meadow.title" = "Morning Meadow";
+"pack.amber_harbor.title" = "Amber Harbor";
+"pack.velvet_dusk.title" = "Velvet Dusk";
+"pack.hearth_tales.title" = "Hearth Tales";
+"pack.misty_grove.title" = "Misty Grove";
+"pack.honey_fields.title" = "Honey Fields";
+"pack.lantern_lane.title" = "Lantern Lane";
+"pack.frost_haven.title" = "Frost Haven";
+"pack.garden_party.title" = "Garden Party";
+"pack.ocean_breeze.title" = "Ocean Breeze";
+"pack.starlit_peak.title" = "Starlit Peak";
+"pack.cocoa_cabin.title" = "Cocoa Cabin";
+"pack.aurora_vale.title" = "Aurora Vale";
+"button.close" = "Close";

@@ -62,7 +62,11 @@ struct RootView: View {
         .onAppear {
             ThemeApplier.apply(appThemeRaw)
             MusicService.shared.update(zen: zenMode)
+            AdsManager.shared.start()
         }
+        // Sign in to Game Center at launch so scores submit and achievements
+        // report in the background (idempotent — early-returns once resolved).
+        .task { await GameCenterManager.shared.authenticate() }
         .onChange(of: appThemeRaw) { _, newValue in ThemeApplier.apply(newValue) }
         // Swap to the Zen theme music the moment Zen Mode toggles.
         .onChange(of: zenMode) { _, newValue in MusicService.shared.update(zen: newValue) }
@@ -79,6 +83,16 @@ struct RootView: View {
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
         // FAZ-J: Remove once GADInterstitialAd handles its own UIViewController.
         .overlay(AdInterstitialOverlay())
+        // Energy gate — shown above everything when a paid game start is blocked.
+        .overlay {
+            if bindableRouter.showEnergyGate {
+                EnergyGateSheet()
+                    .environment(router)
+                    .transition(.opacity)
+                    .zIndex(100)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: bindableRouter.showEnergyGate)
     }
 
     /// Destinations reachable during the pre-main (splash/onboarding) flow only.

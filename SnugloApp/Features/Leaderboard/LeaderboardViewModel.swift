@@ -102,6 +102,8 @@ final class LeaderboardViewModel {
             return GameCenterScoreMapper.fastestSolveMs(fromBestTimes: times) ?? 0
         case LeaderboardID.bestStreak:
             return GameCenterScoreMapper.bestStreak(progress.longestStreak)
+        case LeaderboardID.endlessBest:
+            return max(0, EndlessStore.shared.best)
         default:
             return 0
         }

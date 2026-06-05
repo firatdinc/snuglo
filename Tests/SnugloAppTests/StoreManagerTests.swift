@@ -25,20 +25,20 @@ final class StoreManagerTests: XCTestCase {
 
     // MARK: - 2. Bilinmeyen pack ID → false
 
-    func testIsPackUnlockedUnknownPackFalse() {
-        XCTAssertFalse(
-            StoreManager.shared.isPackUnlocked("non-existent-pack"),
-            "Bilinmeyen pack ID false döndürmeli"
-        )
+    func testIsPackUnlockedAllUnlocked() {
+        // New monetization model: all packs are free (energy + Premium gate play),
+        // so isPackUnlocked is always true.
+        XCTAssertTrue(StoreManager.shared.isPackUnlocked("non-existent-pack"))
+        XCTAssertTrue(StoreManager.shared.isPackUnlocked("aurora-vale"))
     }
 
-    // MARK: - 3. ProductID enum — 5 SKU
+    // MARK: - 3. ProductID enum — 6 SKU (added premium)
 
     func testProductIDAllCasesCount() {
         XCTAssertEqual(
             StoreManager.ProductID.allCases.count,
-            5,
-            "Tam olarak 5 SKU tanımlı olmalı"
+            6,
+            "5 SKU + premium = 6"
         )
     }
 

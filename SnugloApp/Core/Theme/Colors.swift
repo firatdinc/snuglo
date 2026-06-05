@@ -1,16 +1,20 @@
 import SwiftUI
 
-// MARK: — Nordic Hearth Design System: Colors
-// Source: Designs/NordicHearth/SPEC.md
+// MARK: — Warm Cozy Design System: Colors
 // Token NAMES are preserved — all call-sites compile unchanged.
 //
+// Direction: deepen "cozy" + add visual pop via WARMTH, not gloss.
+// Cream backgrounds, terracotta primary, honey accent. The muted grey-purple
+// of the old "Nordic Hearth" palette is gone; the warm character now carries
+// the pop. Block fills stay (already warm pastels). Zen variants unchanged.
+//
 // Palette values (light / dark):
-//   surface #FDF8FB / #1B1A1D · primary #65587A / #C5B5DC
-//   secondary (warm coffee) #675C58 / #D3C5BF
-//   tertiary (khaki gold) #665F31 / #D0C68C
-//   blocks: solgun Nordic pastels
+//   surface #FBF4EA / #1E1A15 · primary (terracotta) #E08A4F / #F4B183
+//   secondary (clay rose) #A8675C / #E3B5AC
+//   tertiary (honey gold) #C8901F / #F2C857
+//   blocks: warm pastels (peach / sage / lavender / blush / honey / olive)
 
-/// Canonical color tokens for the Nordic Hearth design system.
+/// Canonical color tokens for the Warm Cozy design system.
 enum AppColors {
 
     // MARK: — Zen Mode tinting
@@ -34,80 +38,80 @@ enum AppColors {
 
     /// Alias for background (L0)
     static var surface: Color {
-        tone(Color(light: "#FDF8FB", dark: "#1B1A1D"), zen: Color(light: "#EDF1E6", dark: "#161A13"))
+        tone(Color(light: "#FBF4EA", dark: "#1E1A15"), zen: Color(light: "#EDF1E6", dark: "#161A13"))
     }
     /// L0 — page background
     static var background: Color {
-        tone(Color(light: "#FDF8FB", dark: "#1B1A1D"), zen: Color(light: "#EDF1E6", dark: "#161A13"))
+        tone(Color(light: "#FBF4EA", dark: "#1E1A15"), zen: Color(light: "#EDF1E6", dark: "#161A13"))
     }
     /// Pure white cards (light) / deepest surface (dark)
     static var surfaceContainerLowest: Color {
-        tone(Color(light: "#FFFFFF", dark: "#141316"), zen: Color(light: "#F6F9F0", dark: "#10130D"))
+        tone(Color(light: "#FFFDF9", dark: "#181410"), zen: Color(light: "#F6F9F0", dark: "#10130D"))
     }
     /// L1 — lowest-elevation containers
     static var surfaceContainerLow: Color {
-        tone(Color(light: "#F8F2F5", dark: "#252428"), zen: Color(light: "#E6ECDC", dark: "#1D2118"))
+        tone(Color(light: "#F6EEE0", dark: "#28231C"), zen: Color(light: "#E6ECDC", dark: "#1D2118"))
     }
     /// L2 — standard containers
     static var surfaceContainer: Color {
-        tone(Color(light: "#F2ECF0", dark: "#2D2C30"), zen: Color(light: "#DFE6D3", dark: "#24291E"))
+        tone(Color(light: "#F1E7D6", dark: "#322B22"), zen: Color(light: "#DFE6D3", dark: "#24291E"))
     }
     /// L3 — elevated containers
     static var surfaceContainerHigh: Color {
-        tone(Color(light: "#ECE7EA", dark: "#363539"), zen: Color(light: "#D8E0CB", dark: "#2B3124"))
+        tone(Color(light: "#EBE0CC", dark: "#3C3429"), zen: Color(light: "#D8E0CB", dark: "#2B3124"))
     }
     /// L4 — highest-elevation containers
     static var surfaceContainerHighest: Color {
-        tone(Color(light: "#E6E1E4", dark: "#414045"), zen: Color(light: "#D1DAC2", dark: "#32382A"))
+        tone(Color(light: "#E4D8C2", dark: "#463C2F"), zen: Color(light: "#D1DAC2", dark: "#32382A"))
     }
 
-    // MARK: — Primary (gri-mor → sage in Zen)
+    // MARK: — Primary (terracotta → sage in Zen)
 
     static var primary: Color {
-        tone(Color(light: "#65587A", dark: "#C5B5DC"), zen: Color(light: "#5C7A52", dark: "#A9C59D"))
+        tone(Color(light: "#E08A4F", dark: "#F4B183"), zen: Color(light: "#5C7A52", dark: "#A9C59D"))
     }
     static var primaryContainer: Color {
-        tone(Color(light: "#C5B5DC", dark: "#3F3654"), zen: Color(light: "#C3D7B4", dark: "#3B4F32"))
+        tone(Color(light: "#F6D9C2", dark: "#6B3D22"), zen: Color(light: "#C3D7B4", dark: "#3B4F32"))
     }
-    static let onPrimary            = Color(light: "#FFFFFF", dark: "#1B0F2E")
+    static let onPrimary            = Color(light: "#FFFFFF", dark: "#3A1A08")
     static var onPrimaryContainer: Color {
-        tone(Color(light: "#524566", dark: "#C5B5DC"), zen: Color(light: "#3F5436", dark: "#C3D7B4"))
+        tone(Color(light: "#8A4A23", dark: "#F6D9C2"), zen: Color(light: "#3F5436", dark: "#C3D7B4"))
     }
     /// Pressed / active state — slightly deeper primary
     static var primaryPressed: Color {
-        tone(Color(light: "#524566", dark: "#B0A0C7"), zen: Color(light: "#4C6743", dark: "#97B389"))
+        tone(Color(light: "#C66E3B", dark: "#E8995F"), zen: Color(light: "#4C6743", dark: "#97B389"))
     }
 
-    // MARK: — Secondary (sıcak kahve)
+    // MARK: — Secondary (clay rose)
 
-    static let secondary                = Color(light: "#675C58", dark: "#D3C5BF")
-    static let onSecondary              = Color(light: "#FFFFFF", dark: "#411E17")
-    static let secondaryContainer       = Color(light: "#EBDDD7", dark: "#5D4037")
-    static let onSecondaryContainer     = Color(light: "#6B605C", dark: "#D3C5BF")
+    static let secondary                = Color(light: "#A8675C", dark: "#E3B5AC")
+    static let onSecondary              = Color(light: "#FFFFFF", dark: "#43180F")
+    static let secondaryContainer       = Color(light: "#F5DDD5", dark: "#5E372E")
+    static let onSecondaryContainer     = Color(light: "#804A40", dark: "#F5DDD5")
 
-    // MARK: — Tertiary (haki altın)
+    // MARK: — Tertiary (honey gold — reward/accent pop)
 
-    static let tertiary                 = Color(light: "#665F31", dark: "#D0C68C")
-    static let onTertiary               = Color(light: "#FFFFFF", dark: "#343100")
-    static let tertiaryContainer        = Color(light: "#C6BD86", dark: "#4C4900")
-    static let onTertiaryContainer      = Color(light: "#524C20", dark: "#D0C68C")
+    static let tertiary                 = Color(light: "#C8901F", dark: "#F2C857")
+    static let onTertiary               = Color(light: "#FFFFFF", dark: "#3D2E00")
+    static let tertiaryContainer        = Color(light: "#F8E3A8", dark: "#5A4715")
+    static let onTertiaryContainer      = Color(light: "#6E5410", dark: "#F8E3A8")
 
-    // MARK: — Text / Content
+    // MARK: — Text / Content (warm brown ink)
 
     static var onSurface: Color {
-        tone(Color(light: "#1C1B1D", dark: "#E6E1E4"), zen: Color(light: "#1A1F16", dark: "#E1E7DA"))
+        tone(Color(light: "#2B2118", dark: "#EEE4D6"), zen: Color(light: "#1A1F16", dark: "#E1E7DA"))
     }
     static var onSurfaceVariant: Color {
-        tone(Color(light: "#49454D", dark: "#CBC4CE"), zen: Color(light: "#464F3D", dark: "#C5CDBB"))
+        tone(Color(light: "#6B5D4D", dark: "#CFC2B0"), zen: Color(light: "#464F3D", dark: "#C5CDBB"))
     }
 
     // MARK: — Outline
 
     static var outline: Color {
-        tone(Color(light: "#7A757E", dark: "#8E8893"), zen: Color(light: "#71785E", dark: "#8A917E"))
+        tone(Color(light: "#9C8A74", dark: "#978872"), zen: Color(light: "#71785E", dark: "#8A917E"))
     }
     static var outlineVariant: Color {
-        tone(Color(light: "#CBC4CE", dark: "#3D3B40"), zen: Color(light: "#C7CFB8", dark: "#3B4135"))
+        tone(Color(light: "#DDCFBA", dark: "#463E32"), zen: Color(light: "#C7CFB8", dark: "#3B4135"))
     }
 
     // MARK: — Error
@@ -119,7 +123,7 @@ enum AppColors {
     // MARK: — Surface Variant
 
     static var surfaceVariant: Color {
-        tone(Color(light: "#E6E1E4", dark: "#414045"), zen: Color(light: "#D1DAC2", dark: "#32382A"))
+        tone(Color(light: "#E4D8C2", dark: "#463C2F"), zen: Color(light: "#D1DAC2", dark: "#32382A"))
     }
 
     // MARK: — Block fills
@@ -184,11 +188,32 @@ enum AppColors {
         Color(light: "#A48FE0", dark: "#8A7EB5"),
     ]
 
+    // Premium skins — NEVER unlocked by level; obtained only with gems / IAP, so
+    // they create genuine demand for the hard currency. Richer, jewel/pastel sets.
+    static let skinMidnightPalette: [Color] = [
+        Color(light: "#3D5A80", dark: "#2C415C"),
+        Color(light: "#5E548E", dark: "#463E6B"),
+        Color(light: "#9B5DE5", dark: "#6E42A5"),
+        Color(light: "#00BBF9", dark: "#0A86B0"),
+        Color(light: "#3A86FF", dark: "#2C63BF"),
+        Color(light: "#7B2CBF", dark: "#5A2090"),
+    ]
+    static let skinBlossomPalette: [Color] = [
+        Color(light: "#FFB3C6", dark: "#B57E8C"),
+        Color(light: "#FFC8A2", dark: "#B58E73"),
+        Color(light: "#E0BBE4", dark: "#9C84A0"),
+        Color(light: "#FEC8D8", dark: "#B58D99"),
+        Color(light: "#D4A5FF", dark: "#9477B5"),
+        Color(light: "#FFDAC1", dark: "#B59C8A"),
+    ]
+
     struct BlockSkin: Identifiable {
         let id: String
         let nameKey: String
         let unlockLevel: Int
         let palette: [Color]
+        /// Premium (gem-only) skins set this; they are never unlocked by level.
+        var premiumCost: Int? = nil
     }
 
     static let blockSkins: [BlockSkin] = [
@@ -198,6 +223,9 @@ enum AppColors {
         BlockSkin(id: "mono",   nameKey: "skin.mono",   unlockLevel: 9, palette: skinMonoPalette),
         BlockSkin(id: "sunset", nameKey: "skin.sunset", unlockLevel: 12, palette: skinSunsetPalette),
         BlockSkin(id: "aurora", nameKey: "skin.aurora", unlockLevel: 15, palette: skinAuroraPalette),
+        // ── Premium (gem-only) ──
+        BlockSkin(id: "midnight", nameKey: "skin.midnight", unlockLevel: .max, palette: skinMidnightPalette, premiumCost: 300),
+        BlockSkin(id: "blossom",  nameKey: "skin.blossom",  unlockLevel: .max, palette: skinBlossomPalette,  premiumCost: 400),
     ]
 
     /// The palette for the currently-selected skin (read live from UserDefaults).
@@ -218,27 +246,27 @@ enum AppColors {
     /// Clear leaf-green used for positive/solved states (e.g. the daily "sun" badge).
     static let successGreen = Color(light: "#4FB05A", dark: "#5AA861")
 
-    // MARK: — Game Board (Nordic Hearth warm parchment → soft sage in Zen)
+    // MARK: — Game Board (Warm Cozy parchment → soft sage in Zen)
 
     /// Warm parchment game board
     static var gameBoardBackground: Color {
-        tone(Color(light: "#F2EBE0", dark: "#2A2419"), zen: Color(light: "#E7EEDD", dark: "#21271A"))
+        tone(Color(light: "#F3E8D6", dark: "#2C2519"), zen: Color(light: "#E7EEDD", dark: "#21271A"))
     }
     /// Grid lines — warm linen
     static var gridLine: Color {
-        tone(Color(light: "#E5DCC8", dark: "#3A3228"), zen: Color(light: "#D6DEC6", dark: "#313829"))
+        tone(Color(light: "#E6D6BC", dark: "#3C3225"), zen: Color(light: "#D6DEC6", dark: "#313829"))
     }
     /// Blush tint for success accents
     static var blushAccent: Color {
-        tone(Color(light: "#F5E6E0", dark: "#3D2E28"), zen: Color(light: "#E4EDD9", dark: "#2B3324"))
+        tone(Color(light: "#F8E7DA", dark: "#3F2E24"), zen: Color(light: "#E4EDD9", dark: "#2B3324"))
     }
     /// Row divider / secondary-button border
     static var divider: Color {
-        tone(Color(light: "#EDE6DA", dark: "#2E2923"), zen: Color(light: "#E2E8D6", dark: "#272D20"))
+        tone(Color(light: "#EFE4D2", dark: "#2F2920"), zen: Color(light: "#E2E8D6", dark: "#272D20"))
     }
     /// Primary text for secondary button labels
     static var softCocoa: Color {
-        tone(Color(light: "#3A332D", dark: "#D5CFC8"), zen: Color(light: "#2F3528", dark: "#D2D8C8"))
+        tone(Color(light: "#3A2E22", dark: "#D8CDBE"), zen: Color(light: "#2F3528", dark: "#D2D8C8"))
     }
 
     // MARK: — GridView aliases

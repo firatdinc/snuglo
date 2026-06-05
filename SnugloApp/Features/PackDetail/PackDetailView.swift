@@ -200,14 +200,15 @@ struct PackDetailView: View {
 
     private var heroBanner: some View {
         VStack(spacing: 0) {
-            // Smaller hero — scaledToFit (no crop), capped height + inset.
+            // Generous hero — scaledToFit (no crop), large height so the island
+            // scene reads as the screen's focal point.
             Image("scene-island")
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
-                .frame(height: 110)
-                .padding(.horizontal, AppSpacing.xl)
-                .padding(.top, AppSpacing.sm)
+                .frame(height: 200)
+                .padding(.horizontal, AppSpacing.lg)
+                .padding(.top, AppSpacing.md)
                 .accessibilityHidden(true)
 
             if let packData = pack {
