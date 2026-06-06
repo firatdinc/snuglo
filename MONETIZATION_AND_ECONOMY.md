@@ -70,7 +70,10 @@ GoogleMobileAds 11.13.0 SPM (`project.yml`). `AdsManager` gerçek SDK ile: launc
 ### Orijinal plan
 - **Rewarded ad = ücretsiz gem musluğu** (günlük cap; ödemeyi cazip tutacak kadar az). Interstitial = level arası (Plus aboneliğiyle kalkar).
 
-## Faz 6 — RevenueCat
+## Faz 6 — RevenueCat ✅ YAPILDI (2026-06-06)
+Kod: RevenueCat 5.74.0 SPM, `RevenueCatManager` (premium entitlement "premium" + gem paketleri), `StoreManager.isPremium` köprüsü, `PremiumPaywallSheet` (enerji gate + Profile'dan), `Secrets.revenueCatPublicKey` (appl_… placeholder), launch configure. Otomasyon: `scripts/setup_iap.py` (ASC: premium + 5 gem IAP + loc + USD fiyat) + `scripts/setup_revenuecat.py` (RC ürün/entitlement/offering). **Bundle ID: com.snuglo.app.** Kullanıcı yapacak: appl_ key → Secrets.swift; sk_+project id → .env.local; setup_iap --apply → setup_revenuecat.
+
+### Orijinal plan
 - **Tüketilebilir gem paketleri:** $0.99 / $4.99 / $9.99 / $19.99 / $49.99 ladder + "BEST VALUE" ribbon.
 - **Snuglo Plus aboneliği:** reklamsız + aylık gem + özel kozmetik (Profile'da "Go Premium" zaten duruyor).
 - **Starter pack:** tek seferlik, yüksek değer, limited countdown.
