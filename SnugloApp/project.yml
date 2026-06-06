@@ -1,7 +1,7 @@
 name: SnugloApp
 
 options:
-  bundleIdPrefix: com.felabs
+  bundleIdPrefix: com.snuglo
   deploymentTarget:
     iOS: "18.0"
   createIntermediateGroups: true
@@ -46,7 +46,7 @@ targets:
         product: RevenueCat
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.felabs.snuglo
+        PRODUCT_BUNDLE_IDENTIFIER: com.snuglo.app
         SWIFT_VERSION: "5.9"
         # v1.1: Switched to custom Info.plist — fixes BLOCKER-01 (UILaunchScreen) + BLOCKER-07 (UIAppFonts).
         # GENERATE_INFOPLIST_FILE removed; all keys now in SnugloApp/Info.plist.

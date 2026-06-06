@@ -2,7 +2,7 @@
 
 iOS SwiftUI cozy block-logic puzzle oyunu. Bu dosya açılışta otomatik yüklenir — projeyi sıfırdan taramana gerek yok.
 
-**Bundle ID:** `com.felabs.snuglo` · **Repo:** `github.com/firatdinc/snuglo.git`
+**Bundle ID:** `com.snuglo.app` (RC/ASC app bundle; 2026-06-06 değişti, eski: com.felabs.snuglo) · **Repo:** `github.com/firatdinc/snuglo.git`
 **Stack:** SwiftUI (iOS 18+), `SnugloEngine` lokal SPM paketi (deterministik level üretici), xcodegen, StoreKit 2 + WalletStore, Game Center, ProgressStore (UserDefaults JSON)
 **Diller:** EN / TR / ES
 **Obsidian:** `02 - Projeler/Snuglo/` (MOC + Fixes/ + Decisions/ + Session Log) — bkz vault `/Users/ergunyunuscengiz/Desktop/FELABS OBSIDIAN/FELabs`

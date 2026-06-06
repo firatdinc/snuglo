@@ -417,7 +417,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_1B6A55DF-F947-4A6B-9F9A-9E38E257C29B" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_BA97470C-FDC2-41AD-929D-88E2B96BE228" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1010,10 +1010,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_2676C4F2-437D-49A6-AF00-E94C08C0A865" /* . */ = {
+		"TEMP_3A70D8C0-F1CC-4781-89B5-BE29A2BBEC4F" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_1B6A55DF-F947-4A6B-9F9A-9E38E257C29B" /* SnugloApp.entitlements */,
+				"TEMP_BA97470C-FDC2-41AD-929D-88E2B96BE228" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1400,7 +1400,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.SnugloAppTests;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
@@ -1420,7 +1420,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.SnugloAppUITests;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
@@ -1440,7 +1440,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.SnugloAppUITests;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
@@ -1464,7 +1464,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.snuglo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.app;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
@@ -1483,7 +1483,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.SnugloAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.SnugloAppTests;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
@@ -1507,7 +1507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.felabs.snuglo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.app;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
