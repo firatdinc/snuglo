@@ -25,7 +25,7 @@ LEADERBOARDS = [
      "formatter": "INTEGER", "sort": "DESC",
      "loc": [("en-US", "Total Levels"), ("tr", "Toplam Seviye"), ("es-ES", "Niveles totales")]},
     {"vendor": "snuglo.fastest.solve", "ref": "Fastest Solve",
-     "formatter": "ELAPSED_TIME_MILLISECOND", "sort": "ASC",
+     "formatter": "ELAPSED_TIME_CENTISECOND", "sort": "ASC",
      "loc": [("en-US", "Fastest Solve"), ("tr", "En Hızlı Çözüm"), ("es-ES", "Resolución más rápida")]},
     {"vendor": "snuglo.best.streak", "ref": "Best Streak",
      "formatter": "INTEGER", "sort": "DESC",
@@ -116,8 +116,12 @@ def main() -> None:
             print(f"  + {vid} OLUŞTURULACAK ({spec['formatter']}/{spec['sort']}) [dry-run]")
             continue
         else:
-            lb_id = create_leaderboard(client, detail_id, spec)
-            print(f"  + {vid} oluşturuldu.")
+            try:
+                lb_id = create_leaderboard(client, detail_id, spec)
+                print(f"  + {vid} oluşturuldu.")
+            except APIError as e:
+                print(f"  ! {vid} OLUŞTURULAMADI: {e.status} {e.body}")
+                continue
         if apply:
             have = existing_locales(client, lb_id)
             for locale, name in spec["loc"]:

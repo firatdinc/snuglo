@@ -17,26 +17,26 @@ struct GameCenterScoreMapperTests {
         #expect(GameCenterScoreMapper.totalLevels(completedCount: -5) == 0)
     }
 
-    // MARK: — fastestSolveMs
+    // MARK: — fastestSolveCentiseconds
 
-    @Test func fastestSolveMs_singleValid_returnsMs() {
-        #expect(GameCenterScoreMapper.fastestSolveMs(fromBestTimes: [1.5]) == 1500)
+    @Test func fastestSolveCs_singleValid_returnsCs() {
+        #expect(GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: [1.5]) == 150)
     }
 
-    @Test func fastestSolveMs_multipleValid_returnsMinMs() {
-        #expect(GameCenterScoreMapper.fastestSolveMs(fromBestTimes: [3.0, 1.2, 2.0]) == 1200)
+    @Test func fastestSolveCs_multipleValid_returnsMinCs() {
+        #expect(GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: [3.0, 1.2, 2.0]) == 120)
     }
 
-    @Test func fastestSolveMs_empty_returnsNil() {
-        #expect(GameCenterScoreMapper.fastestSolveMs(fromBestTimes: []) == nil)
+    @Test func fastestSolveCs_empty_returnsNil() {
+        #expect(GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: []) == nil)
     }
 
-    @Test func fastestSolveMs_allNonPositive_returnsNil() {
-        #expect(GameCenterScoreMapper.fastestSolveMs(fromBestTimes: [0, -1.0]) == nil)
+    @Test func fastestSolveCs_allNonPositive_returnsNil() {
+        #expect(GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: [0, -1.0]) == nil)
     }
 
-    @Test func fastestSolveMs_mixedValidInvalid_skipsNonPositive() {
-        #expect(GameCenterScoreMapper.fastestSolveMs(fromBestTimes: [0, -2.0, 2.5]) == 2500)
+    @Test func fastestSolveCs_mixedValidInvalid_skipsNonPositive() {
+        #expect(GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: [0, -2.0, 2.5]) == 250)
     }
 
     // MARK: — bestStreak

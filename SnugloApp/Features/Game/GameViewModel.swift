@@ -501,12 +501,12 @@ final class GameViewModel {
                 completedCount: progress.totalLevelsCompleted()
             )
             let bestTimes = progress.levelProgress.values.compactMap(\.bestTime)
-            let fastestMs = GameCenterScoreMapper.fastestSolveMs(fromBestTimes: bestTimes)
+            let fastestCs = GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: bestTimes)
             let streak = GameCenterScoreMapper.bestStreak(progress.longestStreak)
 
             try? await gc.submit(score: totalLevels, leaderboardID: LeaderboardID.totalLevels)
-            if let ms = fastestMs {
-                try? await gc.submit(score: ms, leaderboardID: LeaderboardID.fastestSolve)
+            if let cs = fastestCs {
+                try? await gc.submit(score: cs, leaderboardID: LeaderboardID.fastestSolve)
             }
             try? await gc.submit(score: streak, leaderboardID: LeaderboardID.bestStreak)
         }

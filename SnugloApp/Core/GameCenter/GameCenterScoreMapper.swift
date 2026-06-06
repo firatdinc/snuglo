@@ -10,12 +10,13 @@ struct GameCenterScoreMapper {
         max(0, completedCount)
     }
 
-    /// Fastest solve time in milliseconds.
+    /// Fastest solve time in CENTISECONDS — matches the leaderboard's
+    /// ELAPSED_TIME_CENTISECOND formatter (Apple has no millisecond formatter).
     /// Filters out zero/negative values; returns nil if no valid time exists.
-    static func fastestSolveMs(fromBestTimes bestTimes: [TimeInterval]) -> Int? {
+    static func fastestSolveCentiseconds(fromBestTimes bestTimes: [TimeInterval]) -> Int? {
         let valid = bestTimes.filter { $0 > 0 }
         guard let minTime = valid.min() else { return nil }
-        return Int(minTime * 1000)
+        return Int(minTime * 100)
     }
 
     /// Best streak score. Clamps negative inputs to 0.

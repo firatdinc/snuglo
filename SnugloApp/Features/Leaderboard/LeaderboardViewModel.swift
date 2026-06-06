@@ -99,7 +99,7 @@ final class LeaderboardViewModel {
             return progress.totalLevelsCompleted()
         case LeaderboardID.fastestSolve:
             let times = progress.levelProgress.values.compactMap(\.bestTime)
-            return GameCenterScoreMapper.fastestSolveMs(fromBestTimes: times) ?? 0
+            return GameCenterScoreMapper.fastestSolveCentiseconds(fromBestTimes: times) ?? 0
         case LeaderboardID.bestStreak:
             return GameCenterScoreMapper.bestStreak(progress.longestStreak)
         case LeaderboardID.endlessBest:
