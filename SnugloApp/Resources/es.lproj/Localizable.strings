@@ -1,5 +1,568 @@
+/* ============================================================
+   Snuglo — Localizable.strings (Español)
+   Faz H-1: Traducción inicial por IA — revisión nativa: Faz J
+   ============================================================ */
 
+// MARK: — Común
+"common.continue" = "Continuar";
+"common.cancel"   = "Cancelar";
+"common.back"     = "Atrás";
+"common.next"     = "Siguiente";
+"common.done"     = "Hecho";
+"common.skip"     = "Saltar";
+"common.restart"  = "Reiniciar";
+"common.quit"     = "Salir";
+"common.retry"    = "Reintentar";
+"common.ok"       = "Aceptar";
+"common.error"    = "Error";
 
+// MARK: — App
+"app.name"    = "Snuglo";
+"app.tagline" = "Acogedores rompecabezas de lógica de bloques";
+
+// MARK: — Introducción
+"onboarding.page1.title" = "Bienvenido a Snuglo";
+"onboarding.page1.body"  = "Un acogedor rompecabezas para tu día";
+"onboarding.page2.title" = "Rellena la cuadrícula";
+"onboarding.page2.body"  = "Arrastra y suelta las piezas para llenar cada celda. Sin superposiciones, sin huecos.";
+"onboarding.page3.title" = "Acogedor cada día";
+"onboarding.page3.body"  = "Rompecabezas diarios, rachas y cuatro paquetes temáticos para explorar a tu ritmo.";
+"onboarding.getStarted"  = "Empezar";
+
+// MARK: — Menú principal
+"menu.dailyPuzzle" = "Rompecabezas diario";
+"menu.continue"    = "Continuar";
+"menu.viewAll"     = "Ver todo";
+"menu.startFirst"  = "Empieza tu primer nivel";
+"menu.refresh"     = "Se renueva en %@";
+"menu.dailyComeBack" = "Listo — nuevos puzles mañana";
+"menu.dailyNext"   = "Próximo en";
+"menu.daily.notif.on"  = "Recordatorio diario activado";
+"menu.daily.notif.off" = "Recordatorio diario desactivado";
+"notif.daily.title" = "Tu puzle diario está listo 🧩";
+"notif.daily.body"  = "Una nueva tanda de puzles te espera. ¡Mantén tu racha!";
+
+// MARK: — Juego (v1.1.3)
+"game.title.daily"          = "Puzle del día";
+"game.tray.remaining"       = "Quedan";
+"game.quitConfirm.title"    = "¿Salir del puzle?";
+"game.quitConfirm.message"  = "Tu progreso en este nivel no se guardará.";
+"game.quitConfirm.confirm"  = "Salir";
+"game.quitConfirm.cancel"   = "Seguir jugando";
+"game.hint"                 = "Pista";
+
+// MARK: — Pestañas (Faz 1: barra de 5 pestañas)
+// Visibles: levels / shop / play / leaderboard / profile
+"tab.levels"      = "Niveles";
+"tab.shop"        = "Tienda";
+"tab.play"        = "Jugar";
+"tab.leaderboard" = "Ranking";
+"tab.profile"     = "Perfil";
+// Claves heredadas (compatibilidad)
+"tab.home"     = "Inicio";
+"tab.stats"    = "Estadísticas";
+"tab.settings" = "Ajustes";
+
+// MARK: — Pestaña Perfil (Estadísticas dentro)
+"profile.title"    = "Perfil";
+"profile.subtitle" = "Tu viaje de puzles";
+
+// MARK: — Lista de niveles
+"levels.title"    = "Niveles";
+"levels.subtitle" = "Elige un paquete";
+"pack.cozy_beginnings.title"  = "Comienzos Acogedores";
+"pack.spice_route.title"      = "Ruta de Especias";
+"pack.mambo_nights.title"     = "Noches de Mambo";
+"pack.woodland_retreat.title" = "Refugio del Bosque";
+
+// MARK: — Paquete
+"pack.cozyBeginnings"  = "Comienzos acogedores";
+"pack.spiceRoute"      = "Ruta de las especias";
+"pack.mamboNights"     = "Noches de Mambo";
+"pack.woodlandRetreat" = "Refugio del bosque";
+"pack.locked"          = "Bloqueado";
+"pack.progress"        = "Progreso";
+
+// MARK: — Alerta: desbloquear paquete
+"alert.unlockPack.title"    = "Desbloquear paquete";
+"alert.unlockPack.message"  = "%@ está bloqueado. Ve a la Tienda para desbloquearlo.";
+"alert.unlockPack.goToShop" = "Ir a la tienda";
+
+// MARK: — Pausa
+"pause.title"   = "Pausado";
+"pause.resume"  = "Continuar";
+"pause.restart" = "Reiniciar";
+"pause.home"    = "Inicio";
+"pause.sound"   = "Sonido";
+"pause.haptics" = "Vibración";
+
+// MARK: — Nivel completado
+"complete.puzzleSolved" = "¡Nivel completado!";
+"complete.dailyAllDone" = "¡Todos los puzles diarios resueltos!";
+"complete.dailyComeBack" = "Vuelve mañana para una nueva tanda.";
+"complete.next"         = "Siguiente nivel";
+"complete.replay"       = "Repetir";
+"complete.home"         = "Inicio";
+"complete.time"         = "Tiempo";
+"complete.stars"        = "Estrellas";
+"complete.hints"        = "Pistas";
+"complete.moves"        = "Movimientos";
+"complete.bestTime"     = "Mejor Tiempo";
+
+// MARK: — Estadísticas
+"stats.title"           = "Estadísticas";
+"stats.header"          = "Tus estadísticas";
+"stats.streakActive"    = "🔥 Racha de %d días — ¡sigue así!";
+"stats.streakEmpty"     = "Resuelve el rompecabezas de hoy para empezar una racha 🧩";
+"stats.levelsCompleted" = "Niveles";
+"stats.streak"          = "Racha";
+"stats.avgTime"         = "Tiempo medio";
+"stats.dailySolved"     = "Resuelto hoy";
+"stats.packProgress"    = "Progreso del paquete";
+"stats.last7Days"       = "Resoluciones por día";
+"stats.chartSolved"     = "Resuelto";
+"stats.chartMissed"     = "Perdido";
+"stats.hintUsage"       = "Uso de pistas";
+"stats.noHints"         = "Sin pistas";
+"stats.hints1to2"       = "1–2 pistas";
+"stats.hints3plus"      = "3+ pistas";
+
+// MARK: — Tienda
+"shop.title"          = "Tienda";
+"shop.enhance"        = "Mejora tu experiencia acogedora";
+"shop.packUnlocks"    = "Paquetes de rompecabezas";
+"shop.hintsSection"   = "Pistas";
+"shop.oneTime"        = "Compras únicas";
+"shop.hintsRemaining" = "Tienes %d restantes";
+"shop.hintsAvailable" = "%d pistas disponibles";
+"shop.restore"        = "Restaurar compras";
+"shop.owned"          = "Ya adquirido";
+
+"sku.hintsSmall.title"      = "10 Pistas";
+"sku.hintsSmall.body"       = "Úsalas cuando el puzle se ponga difícil";
+"sku.removeAds.title"       = "Eliminar anuncios";
+"sku.removeAds.body"        = "Único pago · Sin más interrupciones";
+"sku.spiceRoute.title"      = "Paquete Ruta de las especias";
+"sku.spiceRoute.body"       = "Desbloquea 60 niveles de rompecabezas 6×6";
+"sku.mamboNights.title"     = "Paquete Noches de Mambo";
+"sku.mamboNights.body"      = "Desbloquea 60 niveles de rompecabezas 7×7";
+"sku.woodlandRetreat.title" = "Paquete Refugio del bosque";
+"sku.woodlandRetreat.body"  = "Desbloquea 60 niveles de rompecabezas 8×8";
+
+// MARK: — Ajustes
+"settings.title"                   = "Ajustes";
+"settings.sound.title"             = "Sonido y sensaciones";
+"settings.sound.music"             = "Música";
+"settings.sound.effects"           = "Efectos de sonido";
+"settings.haptics.enable"          = "Vibración";
+"settings.appearance.title"        = "Apariencia";
+"settings.appearance.theme"        = "Tema";
+"settings.appearance.system"       = "Sistema";
+"settings.appearance.light"        = "Claro";
+"settings.appearance.dark"         = "Oscuro";
+"settings.notifications.title"     = "Notificaciones";
+"settings.notifications.reminder"  = "Recordatorio diario";
+"settings.notifications.time"      = "Hora del recordatorio";
+"settings.notifications.reminderSet" = "Recordatorio diario configurado para %@";
+"settings.language.title"          = "Idioma";
+"settings.language.label"          = "Idioma";
+"settings.language.footer"         = "También puedes cambiar el idioma en Ajustes de iOS → Snuglo.";
+"settings.language.system"         = "Sistema";
+"settings.language.en"             = "English";
+"settings.language.tr"             = "Türkçe";
+"settings.language.es"             = "Español";
+"settings.language.restartTitle"   = "Reinicio requerido";
+"settings.language.restartMessage" = "Los cambios de idioma surten efecto después de reiniciar Snuglo.";
+"settings.privacy.title"           = "Privacidad";
+"settings.privacy.personalizedAds" = "Anuncios personalizados";
+"settings.privacy.adsFooter"       = "Permite que Snuglo muestre anuncios adaptados a tus intereses usando el ID de publicidad de Apple. Puedes cambiarlo en Ajustes de iOS → Privacidad → Seguimiento.";
+"settings.account.title"           = "Cuenta";
+"settings.account.restore"         = "Restaurar compras";
+"settings.account.privacy"         = "Política de privacidad";
+"settings.account.terms"           = "Condiciones de servicio";
+"settings.account.reset"           = "Restablecer progreso";
+"settings.account.resetTitle"      = "¿Restablecer todo el progreso?";
+"settings.account.resetMessage"    = "Esto eliminará permanentemente todos los niveles completados, estrellas, rachas e historial de rompecabezas diarios. Esta acción no se puede deshacer.";
+"settings.account.resetAction"     = "Restablecer";
+"settings.about.title"             = "Acerca de";
+"settings.about.version"           = "Versión";
+"settings.about.credits"           = "Hecho con ♥ y calidez";
+
+// MARK: — Alerta de notificaciones
+"notif.disabled.title"   = "Notificaciones desactivadas";
+"notif.disabled.message" = "Para activar los recordatorios diarios, permite que Snuglo envíe notificaciones en Ajustes → Snuglo → Notificaciones.";
+"notif.openSettings"     = "Abrir ajustes";
+
+// MARK: — Moneda
+"currency.coin"   = "Moneda";
+"currency.gem"    = "Gema";
+"currency.ticket" = "Boleto";
+"currency.cup"    = "Trofeo";
+
+// MARK: — Recompensa al completar nivel
+"levelcomplete.reward" = "Ganaste";
+
+// MARK: — Clasificación (Faz 1: marcador de posición)
+"leaderboard.title"             = "Clasificación";
+"leaderboard.placeholder.title" = "Próximamente en la Fase 5";
+"leaderboard.placeholder.body"  = "¡Las clasificaciones y logros están en camino!";
+
+// MARK: — Clasificación (Faz 5: implementación completa)
+"leaderboard.board.totalLevels"  = "Total de Niveles";
+"leaderboard.board.fastestSolve" = "Resolución más rápida";
+"leaderboard.board.bestStreak"   = "Mejor racha";
+"leaderboard.board.endless"      = "Infinito";
+"leaderboard.empty.title"        = "Aún sin entradas";
+"leaderboard.empty.body"         = "Completa algunos niveles para aparecer en la clasificación.";
+"leaderboard.notSignedIn.title"  = "Se requiere Game Center";
+"leaderboard.notSignedIn.body"   = "Inicia sesión en Game Center en los Ajustes de iOS para ver las clasificaciones globales.";
+"leaderboard.notSignedIn.cta"    = "Abrir ajustes";
+"leaderboard.error.title"        = "No se pudo cargar";
+"leaderboard.error.body"         = "Hubo un problema al obtener la clasificación.";
+"leaderboard.sample"             = "(Muestra)";
+"leaderboard.row.rank"           = "Puesto %d";
+
+// MARK: — Faz 2: Kit de componentes
+"common.viewAll"       = "Ver todo";
+"announcement.dismiss" = "Cerrar";
+
+// MARK: — Faz 3: Barra de mejoras
+"powerup.hint"   = "Pista";
+"powerup.undo"   = "Deshacer";
+"powerup.shuffle" = "Mezclar";
+"powerup.insufficient.gem.title"   = "Gemas insuficientes";
+"powerup.insufficient.gem.message" = "Puedes conseguir más en la Tienda.";
+"powerup.insufficient.gem.cta"     = "Ir a la tienda";
+
+// MARK: — Faz 4: Renovación de Tienda
+"shop.deal.section"   = "Oferta del Día";
+"shop.deal.claim"     = "Reclamar";
+
+"shop.deal.gems.title"         = "Refuerzo de Gemas";
+"shop.deal.gems.message"       = "Mira un anuncio y gana 20 gemas gratis.";
+"shop.deal.coins.title"        = "Lluvia de Monedas";
+"shop.deal.coins.message"      = "Mira un anuncio y gana 150 monedas.";
+"shop.deal.ticket.title"       = "Entrada Gratis";
+"shop.deal.ticket.message"     = "Mira un anuncio y obtén un boleto de juego.";
+"shop.deal.exchange.title"     = "Oferta de Gemas";
+"shop.deal.exchange.message"   = "Gasta 300 monedas y obtén 5 gemas.";
+"shop.deal.ticket.gems.title"  = "Oferta de Boleto";
+"shop.deal.ticket.gems.message" = "Gasta 80 gemas y obtén 2 boletos.";
+
+"shop.packs.section"  = "Recompensas Gratis";
+"shop.packs.hint"     = "Mira un video corto y gana — gratis";
+"shop.free"           = "GRATIS";
+"shop.pack.watch.ad"  = "Ver Anuncio";
+"shop.pack.coins.sm"  = "Paquete Pequeño";
+"shop.pack.coins.md"  = "Paquete Mediano";
+"shop.pack.gems.sm"   = "Bolsa de Gemas";
+"shop.pack.ticket"    = "Boleto de Juego";
+
+"shop.exchange.section" = "Intercambio";
+"shop.exchange.hint"    = "Convierte monedas y gemas";
+"shop.exchange.rate"    = "Tasa";
+"shop.exchange.need"    = "Faltan %1$d";
+"shop.exchange.confirm" = "Intercambiar";
+
+"shop.debug.section"      = "Controles Debug";
+"shop.debug.add.coins"    = "Añadir 500 Monedas";
+"shop.debug.add.gems"     = "Añadir 100 Gemas";
+"shop.debug.add.tickets"  = "Añadir 5 Boletos";
+
+"shop.exchange.success.title"        = "¡Intercambiado!";
+"shop.exchange.success.message"      = "Tu saldo ha sido actualizado.";
+"shop.exchange.insufficient.title"   = "Saldo insuficiente";
+"shop.exchange.insufficient.message" = "No tienes suficiente para completar este intercambio.";
+
+"shop.iap.purchase.success"          = "Compra exitosa";
+"shop.iap.purchase.success.message"  = "Tus artículos han sido añadidos a tu cuenta.";
+
+"shop.ad.unavailable" = "Anuncio no disponible";
+
+// MARK: — Faz 6: Perfil
+"profile.identity.title"           = "Jugador";
+"profile.premium.active"           = "Premium Activo";
+"profile.premium.upgrade.title"    = "Hazte Premium";
+"profile.premium.upgrade.subtitle" = "Elimina los anuncios y desbloquea bonificaciones";
+"profile.link.achievements"        = "Logros";
+"profile.link.bestScores"          = "Mejores Puntuaciones";
+"profile.link.dailyReward"         = "Recompensa Diaria";
+"profile.link.stats"               = "Estadísticas";
+"profile.settings.title"           = "Ajustes";
+"common.upgrade"                   = "Mejorar";
+
+// MARK: — Faz 6: Recompensa Diaria
+"dailyReward.title"            = "Recompensa Diaria";
+"dailyReward.claim.cta"        = "Reclamar Recompensa de Hoy";
+"dailyReward.claim.disabled"   = "Vuelve Mañana";
+"dailyReward.success.title"    = "¡Recompensa Reclamada!";
+"dailyReward.success.subtitle" = "Hasta mañana";
+"dailyReward.day"              = "Día %d";
+"dailyReward.premium.bonus"    = "Bono Premium";
+
+// MARK: — Faz 6: Logros
+"achievements.title"                    = "Logros";
+"achievement.category.levels"           = "Niveles";
+"achievement.category.streak"           = "Rachas";
+"achievement.category.skill"            = "Habilidades";
+"achievement.locked.label"              = "Bloqueado";
+"achievement.unlocked.banner.title"     = "¡Logro Desbloqueado!";
+"achievement.firstSteps.title"          = "Primeros Pasos";
+"achievement.firstSteps.description"    = "Completa tu primer nivel";
+"achievement.levelHunter10.title"       = "Cazador de Niveles";
+"achievement.levelHunter10.description" = "Completa 10 niveles";
+"achievement.levelMaster50.title"       = "Maestro de Niveles";
+"achievement.levelMaster50.description" = "Completa 50 niveles";
+"achievement.perfectionist1.title"          = "Perfeccionista";
+"achievement.perfectionist1.description"    = "Consigue 3 estrellas en un nivel";
+"achievement.perfectionistPro10.title"      = "Perfeccionista Pro";
+"achievement.perfectionistPro10.description" = "Consigue 3 estrellas en 10 niveles";
+"achievement.streak3.title"          = "Racha Ardiente";
+"achievement.streak3.description"    = "Mantén una racha de 3 días";
+"achievement.streak7.title"          = "Maestro de Rachas";
+"achievement.streak7.description"    = "Mantén una racha de 7 días";
+"achievement.streak30.title"         = "Imparable";
+"achievement.streak30.description"   = "Mantén una racha de 30 días";
+"achievement.noHints10.title"        = "Sin Ayuda";
+"achievement.noHints10.description"  = "Completa 10 niveles sin pistas";
+"achievement.speedSolver.title"      = "Solucionador Rápido";
+"achievement.speedSolver.description" = "Resuelve un nivel en menos de 30 segundos";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "Racha de %d días";
+"menu.streak.start" = "Juega hoy para iniciar una racha";
+"menu.streak.best"  = "Mejor %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Juego";
+"settings.gameplay.zen"    = "Modo Zen";
+"settings.gameplay.zenFooter" = "Sin tiempo, sin fallos: resuelve a tu ritmo.";
+
+/* Daily quests */
+"quest.header"      = "Misiones diarias";
+"quest.solveLevels" = "Resuelve %d niveles";
+"quest.solveUnder"  = "Resuelve un nivel en menos de %ds";
+"quest.noHints"     = "Resuelve %d niveles sin pistas";
+"quest.claim"       = "RECLAMAR";
+"quest.claimed"     = "Reclamado";
+
+/* Reward chest */
+"chest.title"     = "Cofre de recompensa";
+"chest.ready"     = "¡Cofre listo!";
+"chest.tapToOpen" = "Toca para abrir";
+"chest.reward"    = "¡Recompensa!";
+"chest.collect"   = "Recoger";
+
+/* Daily spin wheel */
+"spin.title"     = "Giro diario";
+"spin.available" = "¡Giro gratis listo!";
+"spin.comeBack"  = "Vuelve mañana";
+"spin.spin"      = "GIRAR";
+"spin.reward"    = "¡Ganaste!";
+"spin.collect"   = "Recoger";
+
+/* XP / level */
+"level.label"    = "Nivel %d";
+"level.up"       = "Subiste de nivel";
+"level.reached"  = "¡Nivel %d!";
+
+/* Block skins */
+"skin.title"  = "Aspecto de bloques";
+"skin.nordic" = "Nórdico";
+"skin.candy"  = "Dulce";
+"skin.ocean"  = "Océano";
+"skin.mono"   = "Mono";
+"skin.locked" = "Nv %d";
+
+/* Streak milestones */
+"streak.milestone" = "¡Racha de %d días!";
+"streak.keepGoing" = "Sigue así";
+
+/* Endless zen */
+"endless.title"    = "Zen infinito";
+"endless.subtitle" = "Relajado, sin fin";
+"endless.best"     = "Mejor: Nivel %d";
+
+/* Weekly challenge */
+"weekly.title" = "Reto semanal";
+"weekly.goal"  = "Resuelve %d niveles esta semana";
+
+/* Share result card */
+"share.button"  = "Compartir resultado";
+"share.solved"  = "¡Resuelto!";
+"share.time"    = "TIEMPO";
+"share.level"   = "NIVEL";
+"share.streak"  = "RACHA";
+"share.tagline" = "puzzle de bloques relajante";
+
+/* Daily calendar */
+"calendar.title"     = "Recompensa diaria";
+"calendar.available" = "¡Reclama la de hoy!";
+"calendar.comeBack"  = "Vuelve mañana";
+"calendar.claimDay"  = "Reclamar día %d";
+"common.close"       = "Cerrar";
+
+/* Stats deep-dive */
+"stats.heatmap.title" = "Actividad (30 días)";
+"stats.activeDays"    = "%d/30 días activos";
+"stats.stars.title"   = "Distribución de estrellas";
+"board.parchment" = "Pergamino";
+"board.dawn" = "Amanecer";
+"board.forest" = "Bosque";
+"board.night" = "Noche";
+"board.title" = "Fondo del tablero";
+"settings.gameplay.colorblind" = "Patrones daltónicos";
+
+/* Sound packs */
+"soundpack.title"   = "Paquete de sonido";
+"soundpack.classic" = "Clásico";
+"soundpack.soft"    = "Suave";
+"soundpack.crisp"   = "Nítido";
+"stats.empty" = "Resuelve un nivel para ver tus estadísticas";
+
+/* Streak freeze */
+"freeze.title" = "Congelar racha";
+"freeze.held"  = "%d en reserva — protege un día perdido";
+"reward.double" = "Ver → 2×";
+
+/* Haptic strength */
+"haptic.strength" = "Intensidad háptica";
+"haptic.full"     = "Completo";
+"haptic.light"    = "Suave";
+"coach.drag" = "Arrastra una pieza al tablero";
+"pause.hint" = "Pista";
+"pause.settings" = "Ajustes";
+"settings.sound.volume" = "Volumen";
+"settings.notifications.comeback" = "Recordatorios de regreso";
+"notif.comeback.title" = "¡Te echamos de menos! 🧩";
+"notif.comeback.body" = "Tus puzzles de Snuglo y tu racha te esperan.";
+"settings.sound.track" = "Pista de música";
+"settings.sound.track.auto" = "Automático";
+"settings.sound.track.calm" = "Tranquila";
+"settings.sound.track.zen" = "Zen";
+"settings.account.transfer" = "Respaldar / transferir progreso";
+"transfer.title" = "Respaldo y transferencia";
+"transfer.backup.title" = "Código de respaldo";
+"transfer.backup.desc" = "Copia este código y guárdalo, o pásalo a un nuevo dispositivo.";
+"transfer.copy" = "Copiar";
+"transfer.share" = "Compartir";
+"transfer.restore.title" = "Restaurar";
+"transfer.restore.desc" = "Pega aquí un código de respaldo para restaurarlo.";
+"transfer.restore.action" = "Restaurar";
+"transfer.note" = "Incluye progreso, monedas, cosméticos y ajustes. La restauración se aplica del todo al reiniciar la app.";
+"transfer.restored.title" = "Restaurado";
+"transfer.restored.message" = "Tu partida se restauró. Reinicia la app para aplicar los cambios.";
+"transfer.invalid.title" = "Código no válido";
+"transfer.invalid.message" = "No se pudo leer el código. Asegúrate de copiarlo completo.";
+"stats.lifetime.title" = "Histórico";
+"stats.starsEarned" = "Estrellas totales";
+"stats.perfectSolves" = "Perfectos (3★)";
+"stats.bestTime" = "Mejor tiempo";
+"stats.longestStreak" = "Racha más larga";
+"pack.complete.title" = "¡Paquete completado!";
+"praise.0" = "¡Bien hecho!";
+"praise.1" = "¡Precioso!";
+"praise.2" = "¡Acogedor!";
+"praise.3" = "¡Fluido!";
+"praise.4" = "¡Encaje perfecto!";
+"praise.5" = "¡Encantador!";
+"achievement.levelLegend100.title" = "Leyenda";
+"achievement.levelLegend100.description" = "Completa 100 niveles";
+"achievement.packFinisher.title" = "Finalizador";
+"achievement.packFinisher.description" = "Completa todos los niveles de un paquete";
+"achievement.perfectionistMaster25.title" = "Maestro Impecable";
+"achievement.perfectionistMaster25.description" = "Resuelve 25 niveles con 3 estrellas";
+"achievement.dedicated7.title" = "Dedicado";
+"achievement.dedicated7.description" = "Juega 7 días seguidos";
+"achievement.comboChampion.title" = "Campeón Combo";
+"achievement.comboChampion.description" = "Resuelve 5 niveles seguidos sin fallar";
+"achievement.speedDemon.title" = "Demonio Veloz";
+"achievement.speedDemon.description" = "Resuelve un nivel en menos de 15 segundos";
+"today.greeting.morning" = "Buenos días 🌿";
+"today.greeting.afternoon" = "Buenas tardes 🌿";
+"today.greeting.evening" = "Buenas noches 🌙";
+"today.greeting.night" = "Buenas noches 🌙";
+"skin.sunset" = "Atardecer";
+"skin.aurora" = "Aurora";
+"board.dusk" = "Crepúsculo";
+"board.rose" = "Rosa";
+"board.meadow" = "Pradera";
+"skin.midnight" = "Medianoche";
+"skin.blossom" = "Flor";
+"board.twilight" = "Crepúsculo";
+"board.ember" = "Brasa";
+"hint.rewarded.title" = "Pista — Gratis";
+"hint.rewarded.message" = "Mira un anuncio corto y se colocará una pieza por ti.";
+"powerup.watchAd" = "Ver anuncio";
+"daily.share.title" = "¡Mi racha diaria!";
+"daily.share.solved" = "diarios resueltos";
+"menu.streak.day" = "racha de días";
+"pack.difficulty.beginner" = "Principiante";
+"pack.difficulty.easy" = "Fácil";
+"pack.difficulty.medium" = "Medio";
+"pack.difficulty.hard" = "Difícil";
+"stats.share.title" = "Mis estadísticas";
+"complete.newBest" = "¡Nuevo récord!";
+"settings.sound.preview" = "Escuchar sonidos";
+"quest.perfect" = "Resuelve %d niveles con 3 estrellas";
+"endless.record" = "¡Nuevo récord! 🏆";
+"pack.grid_label.5" = "Cuadrícula 5×5";
+"pack.grid_label.6" = "Cuadrícula 6×6";
+"pack.grid_label.7" = "Cuadrícula 7×7";
+"pack.grid_label.8" = "Cuadrícula 8×8";
+"common.loading" = "Cargando…";
+"shop.unlock" = "Desbloquear";
+"shop.info.packs.title" = "Paquete de puzles";
+"shop.info.packs.body" = "Este paquete desbloquea 60 niveles nuevos: cuadrículas más grandes y temas nuevos. Compra única, tuyo para siempre.";
+"shop.info.hints.title" = "Pistas";
+"shop.info.hints.body" = "Cuando te atascas, una pista coloca una pieza correcta por ti. Úsala desde el botón de pista durante un nivel.";
+"shop.info.removeAds.title" = "Quitar anuncios";
+"shop.info.removeAds.body" = "Elimina todos los anuncios de forma permanente. Compra única.";
+
+/* ── Energía + Zen + Recompensas ── */
+"energy.title" = "Energía";
+"energy.unlimited" = "Ilimitada";
+"energy.full" = "Llena";
+"energy.next" = "+1 en %@";
+"energy.out.title" = "Sin energía";
+"energy.out.message" = "La energía se recarga con el tiempo. Mira un anuncio para un impulso o hazte Premium para jugar sin límites.";
+"energy.watchAd" = "Ver anuncio  +%d";
+"energy.goPremium" = "Premium — Ilimitado";
+"energy.playable" = "Jugable en %@";
+"zen.mode.title" = "Modo Zen";
+"zen.mode.subtitle" = "Relájate · sin tiempo · gratis";
+"rewards.fab" = "Recompensas";
+/* Paquetes nuevos */
+"pack.morning_meadow.title" = "Pradera Matinal";
+"pack.amber_harbor.title" = "Puerto Ámbar";
+"pack.velvet_dusk.title" = "Ocaso de Terciopelo";
+"pack.hearth_tales.title" = "Cuentos del Hogar";
+"pack.misty_grove.title" = "Arboleda Neblinosa";
+"pack.honey_fields.title" = "Campos de Miel";
+"pack.lantern_lane.title" = "Callejón de Faroles";
+"pack.frost_haven.title" = "Refugio Helado";
+"pack.garden_party.title" = "Fiesta de Jardín";
+"pack.ocean_breeze.title" = "Brisa Marina";
+"pack.starlit_peak.title" = "Pico Estrellado";
+"pack.cocoa_cabin.title" = "Cabaña de Cacao";
+"pack.aurora_vale.title" = "Valle Aurora";
+"button.close" = "Cerrar";
+
+/* ── Premium paywall ── */
+"paywall.title" = "Snuglo Premium";
+"paywall.subtitle" = "Juega sin límites.";
+"paywall.benefit.energy" = "Energía ilimitada — sin esperas";
+"paywall.benefit.ads" = "Sin anuncios, nunca";
+"paywall.benefit.cosmetics" = "Skins y tableros exclusivos";
+"paywall.benefit.levels" = "Más de 1000 niveles desbloqueados";
+"paywall.cta" = "Hazte Premium · %@";
+"paywall.restore" = "Restaurar compras";
+
+/* ── Shop claim feedback ── */
+"shop.claim.insufficient" = "Saldo insuficiente";
+"shop.claim.adNotReady" = "Anuncio no listo — reinténtalo";
+/* ── Settings footer ── */
+"settings.about.footer" = "Snuglo · %@";
 /* ── Tutorial ── */
 "tutorial.welcome.title" = "Bienvenido a Snuglo";
 "tutorial.welcome.body" = "Llena el tablero con bloques acogedores — sin dejar casillas vacías.";

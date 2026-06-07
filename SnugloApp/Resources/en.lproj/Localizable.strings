@@ -1,5 +1,568 @@
+/* ============================================================
+   Snuglo — Localizable.strings (English)
+   Faz H-1: Initial AI translation — native review: Faz J
+   ============================================================ */
 
+// MARK: — Common
+"common.continue" = "Continue";
+"common.cancel"   = "Cancel";
+"common.back"     = "Back";
+"common.next"     = "Next";
+"common.done"     = "Done";
+"common.skip"     = "Skip";
+"common.restart"  = "Restart";
+"common.quit"     = "Quit";
+"common.retry"    = "Retry";
+"common.ok"       = "OK";
+"common.error"    = "Error";
 
+// MARK: — App
+"app.name"    = "Snuglo";
+"app.tagline" = "Cozy block-logic puzzles";
+
+// MARK: — Onboarding
+"onboarding.page1.title" = "Welcome to Snuglo";
+"onboarding.page1.body"  = "A cozy puzzle to fit your day";
+"onboarding.page2.title" = "Fill the Grid";
+"onboarding.page2.body"  = "Drag and drop pieces to fill every cell. No overlaps, no gaps.";
+"onboarding.page3.title" = "Cozy Every Day";
+"onboarding.page3.body"  = "Daily puzzles, streaks, and four themed packs to explore at your pace.";
+"onboarding.getStarted"  = "Get Started";
+
+// MARK: — Main Menu
+"menu.dailyPuzzle" = "Daily Puzzle";
+"menu.continue"    = "Continue";
+"menu.viewAll"     = "View All";
+"menu.startFirst"  = "Start your first level";
+"menu.refresh"     = "Refresh in %@";
+"menu.dailyComeBack" = "Done — new puzzles tomorrow";
+"menu.dailyNext"   = "Next puzzle in";
+"menu.daily.notif.on"  = "Daily reminder on";
+"menu.daily.notif.off" = "Daily reminder off";
+"notif.daily.title" = "Your daily puzzle is ready 🧩";
+"notif.daily.body"  = "A fresh set of puzzles is waiting. Keep your streak going!";
+
+// MARK: — Game (v1.1.3)
+"game.title.daily"          = "Daily Puzzle";
+"game.tray.remaining"       = "Remaining";
+"game.quitConfirm.title"    = "Quit the puzzle?";
+"game.quitConfirm.message"  = "Your current progress in this level won't be saved.";
+"game.quitConfirm.confirm"  = "Quit";
+"game.quitConfirm.cancel"   = "Keep playing";
+"game.hint"                 = "Hint";
+
+// MARK: — Tabs (Faz 1: 5-tab bar)
+// Visible: levels / shop / play / leaderboard / profile
+"tab.levels"      = "Levels";
+"tab.shop"        = "Shop";
+"tab.play"        = "Play";
+"tab.leaderboard" = "Leaderboard";
+"tab.profile"     = "Profile";
+// Legacy keys retained for backward-compat call sites
+"tab.home"     = "Home";
+"tab.stats"    = "Stats";
+"tab.settings" = "Settings";
+
+// MARK: — Profile tab (Stats embedded inside)
+"profile.title"    = "Profile";
+"profile.subtitle" = "Your puzzle journey";
+
+// MARK: — Levels list
+"levels.title"    = "Levels";
+"levels.subtitle" = "Pick a pack";
+"pack.cozy_beginnings.title"  = "Cozy Beginnings";
+"pack.spice_route.title"      = "Spice Route";
+"pack.mambo_nights.title"     = "Mambo Nights";
+"pack.woodland_retreat.title" = "Woodland Retreat";
+
+// MARK: — Pack
+"pack.cozyBeginnings"  = "Cozy Beginnings";
+"pack.spiceRoute"      = "Spice Route";
+"pack.mamboNights"     = "Mambo Nights";
+"pack.woodlandRetreat" = "Woodland Retreat";
+"pack.locked"          = "Locked";
+"pack.progress"        = "Progress";
+
+// MARK: — Alert: unlock pack
+"alert.unlockPack.title"    = "Unlock Pack";
+"alert.unlockPack.message"  = "%@ is locked. Visit the Shop to unlock it.";
+"alert.unlockPack.goToShop" = "Go to Shop";
+
+// MARK: — Pause
+"pause.title"   = "Paused";
+"pause.resume"  = "Resume";
+"pause.restart" = "Restart";
+"pause.home"    = "Home";
+"pause.sound"   = "Sound";
+"pause.haptics" = "Haptics";
+
+// MARK: — Level Complete
+"complete.puzzleSolved" = "Level complete!";
+"complete.dailyAllDone" = "All daily puzzles solved!";
+"complete.dailyComeBack" = "Come back tomorrow for a fresh set.";
+"complete.next"         = "Next Level";
+"complete.replay"       = "Replay";
+"complete.home"         = "Home";
+"complete.time"         = "Time";
+"complete.stars"        = "Stars";
+"complete.hints"        = "Hints";
+"complete.moves"        = "Moves";
+"complete.bestTime"     = "Best Time";
+
+// MARK: — Stats
+"stats.title"           = "Stats";
+"stats.header"          = "Your Stats";
+"stats.streakActive"    = "🔥 %d-day streak — keep it going!";
+"stats.streakEmpty"     = "Play today's daily puzzle to start a streak 🧩";
+"stats.levelsCompleted" = "Levels";
+"stats.streak"          = "Streak";
+"stats.avgTime"         = "Avg Time";
+"stats.dailySolved"     = "Daily Solved";
+"stats.packProgress"    = "Pack Progress";
+"stats.last7Days"       = "Solves per day";
+"stats.chartSolved"     = "Solved";
+"stats.chartMissed"     = "Missed";
+"stats.hintUsage"       = "Hint usage";
+"stats.noHints"         = "No hints";
+"stats.hints1to2"       = "1–2 hints";
+"stats.hints3plus"      = "3+ hints";
+
+// MARK: — Shop
+"shop.title"           = "Shop";
+"shop.enhance"         = "Enhance your cozy experience";
+"shop.packUnlocks"     = "Puzzle Packs";
+"shop.hintsSection"    = "Hints";
+"shop.oneTime"         = "One-Time Purchases";
+"shop.hintsRemaining"  = "You have %d remaining";
+"shop.hintsAvailable"  = "%d hints available";
+"shop.restore"         = "Restore Purchases";
+"shop.owned"           = "Owned";
+
+"sku.hintsSmall.title"      = "10 Hints";
+"sku.hintsSmall.body"       = "Get unstuck when puzzles get tricky";
+"sku.removeAds.title"       = "Remove Ads";
+"sku.removeAds.body"        = "One-time · No more interruptions";
+"sku.spiceRoute.title"      = "Spice Route Pack";
+"sku.spiceRoute.body"       = "Unlock 60 levels of 6×6 puzzles";
+"sku.mamboNights.title"     = "Mambo Nights Pack";
+"sku.mamboNights.body"      = "Unlock 60 levels of 7×7 puzzles";
+"sku.woodlandRetreat.title" = "Woodland Retreat Pack";
+"sku.woodlandRetreat.body"  = "Unlock 60 levels of 8×8 puzzles";
+
+// MARK: — Settings
+"settings.title"                   = "Settings";
+"settings.sound.title"             = "Sound & Feel";
+"settings.sound.music"             = "Music";
+"settings.sound.effects"           = "Sound Effects";
+"settings.haptics.enable"          = "Haptics";
+"settings.appearance.title"        = "Appearance";
+"settings.appearance.theme"        = "Theme";
+"settings.appearance.system"       = "System";
+"settings.appearance.light"        = "Light";
+"settings.appearance.dark"         = "Dark";
+"settings.notifications.title"     = "Notifications";
+"settings.notifications.reminder"  = "Daily Reminder";
+"settings.notifications.time"      = "Reminder Time";
+"settings.notifications.reminderSet" = "Daily reminder set for %@";
+"settings.language.title"          = "Language";
+"settings.language.label"          = "Language";
+"settings.language.footer"         = "You can also change the language in iOS Settings → Snuglo.";
+"settings.language.system"         = "System";
+"settings.language.en"             = "English";
+"settings.language.tr"             = "Türkçe";
+"settings.language.es"             = "Español";
+"settings.language.restartTitle"   = "Restart Required";
+"settings.language.restartMessage" = "Language changes take effect after you restart Snuglo.";
+"settings.privacy.title"           = "Privacy";
+"settings.privacy.personalizedAds" = "Personalized Ads";
+"settings.privacy.adsFooter"       = "Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.";
+"settings.account.title"           = "Account";
+"settings.account.restore"         = "Restore Purchases";
+"settings.account.privacy"         = "Privacy Policy";
+"settings.account.terms"           = "Terms of Service";
+"settings.account.reset"           = "Reset Progress";
+"settings.account.resetTitle"      = "Reset All Progress?";
+"settings.account.resetMessage"    = "This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.";
+"settings.account.resetAction"     = "Reset";
+"settings.about.title"             = "About";
+"settings.about.version"           = "Version";
+"settings.about.credits"           = "Made with ♥ and cozy vibes";
+
+// MARK: — Notifications alert
+"notif.disabled.title"   = "Notifications Disabled";
+"notif.disabled.message" = "To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.";
+"notif.openSettings"     = "Open Settings";
+
+// MARK: — Currency
+"currency.coin"   = "Coin";
+"currency.gem"    = "Gem";
+"currency.ticket" = "Ticket";
+"currency.cup"    = "Trophy";
+
+// MARK: — Level Complete reward
+"levelcomplete.reward" = "You earned";
+
+// MARK: — Leaderboard (Faz 1: placeholder)
+"leaderboard.title"             = "Leaderboard";
+"leaderboard.placeholder.title" = "Coming in Phase 5";
+"leaderboard.placeholder.body"  = "Rankings and achievements are on their way!";
+
+// MARK: — Leaderboard (Faz 5: full implementation)
+"leaderboard.board.totalLevels"  = "Total Levels";
+"leaderboard.board.fastestSolve" = "Fastest Solve";
+"leaderboard.board.bestStreak"   = "Best Streak";
+"leaderboard.board.endless"      = "Endless";
+"leaderboard.empty.title"        = "No Entries Yet";
+"leaderboard.empty.body"         = "Complete some levels to appear on the leaderboard.";
+"leaderboard.notSignedIn.title"  = "Game Center Required";
+"leaderboard.notSignedIn.body"   = "Sign in to Game Center in iOS Settings to view global rankings.";
+"leaderboard.notSignedIn.cta"    = "Open Settings";
+"leaderboard.error.title"        = "Couldn't Load";
+"leaderboard.error.body"         = "There was a problem fetching the leaderboard.";
+"leaderboard.sample"             = "(Sample)";
+"leaderboard.row.rank"           = "Rank %d";
+
+// MARK: — Faz 2: Component kit
+"common.viewAll"       = "View All";
+"announcement.dismiss" = "Dismiss";
+
+// MARK: — Faz 3: PowerUp bar
+"powerup.hint"   = "Hint";
+"powerup.undo"   = "Undo";
+"powerup.shuffle" = "Shuffle";
+"powerup.insufficient.gem.title"   = "Not Enough Gems";
+"powerup.insufficient.gem.message" = "You can get more from the Shop.";
+"powerup.insufficient.gem.cta"     = "Go to Shop";
+
+// MARK: — Faz 4: Shop Yenileme
+"shop.deal.section"   = "Today's Deal";
+"shop.deal.claim"     = "Claim";
+
+"shop.deal.gems.title"         = "Gem Boost";
+"shop.deal.gems.message"       = "Watch an ad and earn 20 free gems.";
+"shop.deal.coins.title"        = "Coin Rain";
+"shop.deal.coins.message"      = "Watch an ad to earn 150 coins.";
+"shop.deal.ticket.title"       = "Free Ticket";
+"shop.deal.ticket.message"     = "Watch an ad and get a game ticket.";
+"shop.deal.exchange.title"     = "Gem Deal";
+"shop.deal.exchange.message"   = "Spend 300 coins and get 5 gems.";
+"shop.deal.ticket.gems.title"  = "Ticket Deal";
+"shop.deal.ticket.gems.message" = "Spend 80 gems and get 2 tickets.";
+
+"shop.packs.section"  = "Free Rewards";
+"shop.packs.hint"     = "Watch a short video to earn — free";
+"shop.free"           = "FREE";
+"shop.pack.watch.ad"  = "Watch Ad";
+"shop.pack.coins.sm"  = "Small Pack";
+"shop.pack.coins.md"  = "Coin Bundle";
+"shop.pack.gems.sm"   = "Gem Pouch";
+"shop.pack.ticket"    = "Game Ticket";
+
+"shop.exchange.section" = "Exchange";
+"shop.exchange.hint"    = "Convert coins and gems";
+"shop.exchange.rate"    = "Rate";
+"shop.exchange.need"    = "Need %1$d more";
+"shop.exchange.confirm" = "Exchange";
+
+"shop.debug.section"      = "Debug Controls";
+"shop.debug.add.coins"    = "Add 500 Coins";
+"shop.debug.add.gems"     = "Add 100 Gems";
+"shop.debug.add.tickets"  = "Add 5 Tickets";
+
+"shop.exchange.success.title"       = "Exchanged!";
+"shop.exchange.success.message"     = "Your balance has been updated.";
+"shop.exchange.insufficient.title"   = "Insufficient Balance";
+"shop.exchange.insufficient.message" = "You don't have enough to complete this exchange.";
+
+"shop.iap.purchase.success"         = "Purchase Successful";
+"shop.iap.purchase.success.message" = "Your items have been added to your account.";
+
+"shop.ad.unavailable" = "Ad not available";
+
+// MARK: — Faz 6: Profile
+"profile.identity.title"          = "Player";
+"profile.premium.active"          = "Premium Active";
+"profile.premium.upgrade.title"   = "Go Premium";
+"profile.premium.upgrade.subtitle" = "Remove ads and unlock bonuses";
+"profile.link.achievements"       = "Achievements";
+"profile.link.bestScores"         = "Best Scores";
+"profile.link.dailyReward"        = "Daily Reward";
+"profile.link.stats"              = "Stats";
+"profile.settings.title"          = "Settings";
+"common.upgrade"                  = "Upgrade";
+
+// MARK: — Faz 6: Daily Reward
+"dailyReward.title"           = "Daily Reward";
+"dailyReward.claim.cta"       = "Claim Today's Reward";
+"dailyReward.claim.disabled"  = "Come Back Tomorrow";
+"dailyReward.success.title"   = "Reward Claimed!";
+"dailyReward.success.subtitle" = "See you tomorrow";
+"dailyReward.day"             = "Day %d";
+"dailyReward.premium.bonus"   = "Premium Bonus";
+
+// MARK: — Faz 6: Achievements
+"achievements.title"                    = "Achievements";
+"achievement.category.levels"           = "Levels";
+"achievement.category.streak"           = "Streaks";
+"achievement.category.skill"            = "Skills";
+"achievement.locked.label"              = "Locked";
+"achievement.unlocked.banner.title"     = "Achievement Unlocked!";
+"achievement.firstSteps.title"          = "First Steps";
+"achievement.firstSteps.description"    = "Complete your first level";
+"achievement.levelHunter10.title"       = "Level Hunter";
+"achievement.levelHunter10.description" = "Complete 10 levels";
+"achievement.levelMaster50.title"       = "Level Master";
+"achievement.levelMaster50.description" = "Complete 50 levels";
+"achievement.perfectionist1.title"          = "Perfectionist";
+"achievement.perfectionist1.description"    = "Earn 3 stars on a level";
+"achievement.perfectionistPro10.title"      = "Perfectionist Pro";
+"achievement.perfectionistPro10.description" = "Earn 3 stars on 10 levels";
+"achievement.streak3.title"          = "Hot Streak";
+"achievement.streak3.description"    = "Maintain a 3-day streak";
+"achievement.streak7.title"          = "Streak Master";
+"achievement.streak7.description"    = "Maintain a 7-day streak";
+"achievement.streak30.title"         = "Unstoppable";
+"achievement.streak30.description"   = "Maintain a 30-day streak";
+"achievement.noHints10.title"        = "No Help Needed";
+"achievement.noHints10.description"  = "Complete 10 levels without hints";
+"achievement.speedSolver.title"      = "Speed Solver";
+"achievement.speedSolver.description" = "Solve a level in under 30 seconds";
+
+/* Play streak (main menu) */
+"menu.streak.days"  = "%d-day streak";
+"menu.streak.start" = "Play any level today to start a streak";
+"menu.streak.best"  = "Best %d";
+
+/* Gameplay — Zen mode */
+"settings.gameplay.title"  = "Gameplay";
+"settings.gameplay.zen"    = "Zen Mode";
+"settings.gameplay.zenFooter" = "No timer, no fail — solve at your own pace.";
+
+/* Daily quests */
+"quest.header"      = "Daily Quests";
+"quest.solveLevels" = "Solve %d levels";
+"quest.solveUnder"  = "Solve a level under %ds";
+"quest.noHints"     = "Solve %d levels, no hints";
+"quest.claim"       = "CLAIM";
+"quest.claimed"     = "Claimed";
+
+/* Reward chest */
+"chest.title"     = "Reward Chest";
+"chest.ready"     = "Chest ready!";
+"chest.tapToOpen" = "Tap to open";
+"chest.reward"    = "Reward!";
+"chest.collect"   = "Collect";
+
+/* Daily spin wheel */
+"spin.title"     = "Daily Spin";
+"spin.available" = "Free spin ready!";
+"spin.comeBack"  = "Come back tomorrow";
+"spin.spin"      = "SPIN";
+"spin.reward"    = "You won!";
+"spin.collect"   = "Collect";
+
+/* XP / level */
+"level.label"    = "Level %d";
+"level.up"       = "Level Up";
+"level.reached"  = "Level %d!";
+
+/* Block skins */
+"skin.title"  = "Block Skin";
+"skin.nordic" = "Nordic";
+"skin.candy"  = "Candy";
+"skin.ocean"  = "Ocean";
+"skin.mono"   = "Mono";
+"skin.locked" = "Lv %d";
+
+/* Streak milestones */
+"streak.milestone" = "%d-Day Streak!";
+"streak.keepGoing" = "Keep it going";
+
+/* Endless zen */
+"endless.title"    = "Endless Zen";
+"endless.subtitle" = "Relaxed, never-ending";
+"endless.best"     = "Best: Level %d";
+
+/* Weekly challenge */
+"weekly.title" = "Weekly Challenge";
+"weekly.goal"  = "Solve %d levels this week";
+
+/* Share result card */
+"share.button"  = "Share Result";
+"share.solved"  = "Solved!";
+"share.time"    = "TIME";
+"share.level"   = "LEVEL";
+"share.streak"  = "STREAK";
+"share.tagline" = "cozy block puzzle";
+
+/* Daily calendar */
+"calendar.title"     = "Daily Reward";
+"calendar.available" = "Claim today's reward!";
+"calendar.comeBack"  = "Come back tomorrow";
+"calendar.claimDay"  = "Claim Day %d";
+"common.close"       = "Close";
+
+/* Stats deep-dive */
+"stats.heatmap.title" = "Activity (30 days)";
+"stats.activeDays"    = "%d/30 active days";
+"stats.stars.title"   = "Star Distribution";
+"board.parchment" = "Parchment";
+"board.dawn" = "Dawn";
+"board.forest" = "Forest";
+"board.night" = "Night";
+"board.title" = "Board Background";
+"settings.gameplay.colorblind" = "Color-Blind Patterns";
+
+/* Sound packs */
+"soundpack.title"   = "Sound Pack";
+"soundpack.classic" = "Classic";
+"soundpack.soft"    = "Soft";
+"soundpack.crisp"   = "Crisp";
+"stats.empty" = "Solve a level to start your stats";
+
+/* Streak freeze */
+"freeze.title" = "Streak Freeze";
+"freeze.held"  = "%d held — protects a missed day";
+"reward.double" = "Watch → 2×";
+
+/* Haptic strength */
+"haptic.strength" = "Haptic Strength";
+"haptic.full"     = "Full";
+"haptic.light"    = "Light";
+"coach.drag" = "Drag a piece onto the board";
+"pause.hint" = "Hint";
+"pause.settings" = "Settings";
+"settings.sound.volume" = "Volume";
+"settings.notifications.comeback" = "Comeback reminders";
+"notif.comeback.title" = "We miss you! 🧩";
+"notif.comeback.body" = "Your Snuglo puzzles and streak are waiting.";
+"settings.sound.track" = "Music track";
+"settings.sound.track.auto" = "Auto";
+"settings.sound.track.calm" = "Calm";
+"settings.sound.track.zen" = "Zen";
+"settings.account.transfer" = "Back up / transfer progress";
+"transfer.title" = "Backup & Transfer";
+"transfer.backup.title" = "Backup code";
+"transfer.backup.desc" = "Copy this code and keep it safe, or move it to a new device.";
+"transfer.copy" = "Copy";
+"transfer.share" = "Share";
+"transfer.restore.title" = "Restore";
+"transfer.restore.desc" = "Paste a backup code here to restore it.";
+"transfer.restore.action" = "Restore";
+"transfer.note" = "Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.";
+"transfer.restored.title" = "Restored";
+"transfer.restored.message" = "Your save was restored. Restart the app to fully apply the changes.";
+"transfer.invalid.title" = "Invalid code";
+"transfer.invalid.message" = "This code couldn't be read. Make sure you copied all of it.";
+"stats.lifetime.title" = "Lifetime";
+"stats.starsEarned" = "Total stars";
+"stats.perfectSolves" = "Perfect (3★)";
+"stats.bestTime" = "Best time";
+"stats.longestStreak" = "Longest streak";
+"pack.complete.title" = "Pack complete!";
+"praise.0" = "Nicely done!";
+"praise.1" = "Beautiful!";
+"praise.2" = "Cozy!";
+"praise.3" = "Smooth!";
+"praise.4" = "Perfect fit!";
+"praise.5" = "Lovely!";
+"achievement.levelLegend100.title" = "Legend";
+"achievement.levelLegend100.description" = "Complete 100 levels";
+"achievement.packFinisher.title" = "Pack Finisher";
+"achievement.packFinisher.description" = "Complete every level in a pack";
+"achievement.perfectionistMaster25.title" = "Flawless Master";
+"achievement.perfectionistMaster25.description" = "Solve 25 levels with 3 stars";
+"achievement.dedicated7.title" = "Dedicated";
+"achievement.dedicated7.description" = "Play 7 days in a row";
+"achievement.comboChampion.title" = "Combo Champion";
+"achievement.comboChampion.description" = "Solve 5 levels in a row without failing";
+"achievement.speedDemon.title" = "Speed Demon";
+"achievement.speedDemon.description" = "Solve a level in under 15 seconds";
+"today.greeting.morning" = "Good morning 🌿";
+"today.greeting.afternoon" = "Good afternoon 🌿";
+"today.greeting.evening" = "Good evening 🌙";
+"today.greeting.night" = "Good night 🌙";
+"skin.sunset" = "Sunset";
+"skin.aurora" = "Aurora";
+"board.dusk" = "Dusk";
+"board.rose" = "Rose";
+"board.meadow" = "Meadow";
+"skin.midnight" = "Midnight";
+"skin.blossom" = "Blossom";
+"board.twilight" = "Twilight";
+"board.ember" = "Ember";
+"hint.rewarded.title" = "Hint — Free";
+"hint.rewarded.message" = "Watch a short ad and one piece will be placed for you.";
+"powerup.watchAd" = "Watch Ad";
+"daily.share.title" = "My Daily Streak!";
+"daily.share.solved" = "dailies solved";
+"menu.streak.day" = "day streak";
+"pack.difficulty.beginner" = "Beginner";
+"pack.difficulty.easy" = "Easy";
+"pack.difficulty.medium" = "Medium";
+"pack.difficulty.hard" = "Hard";
+"stats.share.title" = "My Stats";
+"complete.newBest" = "New Best!";
+"settings.sound.preview" = "Preview sounds";
+"quest.perfect" = "Solve %d levels with 3 stars";
+"endless.record" = "New Record! 🏆";
+"pack.grid_label.5" = "5×5 Grid";
+"pack.grid_label.6" = "6×6 Grid";
+"pack.grid_label.7" = "7×7 Grid";
+"pack.grid_label.8" = "8×8 Grid";
+"common.loading" = "Loading…";
+"shop.unlock" = "Unlock";
+"shop.info.packs.title" = "Puzzle Pack";
+"shop.info.packs.body" = "This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.";
+"shop.info.hints.title" = "Hints";
+"shop.info.hints.body" = "When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.";
+"shop.info.removeAds.title" = "Remove Ads";
+"shop.info.removeAds.body" = "Permanently removes all ads. A one-time purchase.";
+
+/* ── Energy + Zen + Rewards (Faz: energy gate) ── */
+"energy.title" = "Energy";
+"energy.unlimited" = "Unlimited";
+"energy.full" = "Full";
+"energy.next" = "+1 in %@";
+"energy.out.title" = "Out of Energy";
+"energy.out.message" = "Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.";
+"energy.watchAd" = "Watch Ad  +%d";
+"energy.goPremium" = "Go Premium — Unlimited";
+"energy.playable" = "Enough to play in %@";
+"zen.mode.title" = "Zen Mode";
+"zen.mode.subtitle" = "Relax · no timer · free";
+"rewards.fab" = "Rewards";
+/* New packs */
+"pack.morning_meadow.title" = "Morning Meadow";
+"pack.amber_harbor.title" = "Amber Harbor";
+"pack.velvet_dusk.title" = "Velvet Dusk";
+"pack.hearth_tales.title" = "Hearth Tales";
+"pack.misty_grove.title" = "Misty Grove";
+"pack.honey_fields.title" = "Honey Fields";
+"pack.lantern_lane.title" = "Lantern Lane";
+"pack.frost_haven.title" = "Frost Haven";
+"pack.garden_party.title" = "Garden Party";
+"pack.ocean_breeze.title" = "Ocean Breeze";
+"pack.starlit_peak.title" = "Starlit Peak";
+"pack.cocoa_cabin.title" = "Cocoa Cabin";
+"pack.aurora_vale.title" = "Aurora Vale";
+"button.close" = "Close";
+
+/* ── Premium paywall ── */
+"paywall.title" = "Snuglo Premium";
+"paywall.subtitle" = "Play without limits.";
+"paywall.benefit.energy" = "Unlimited energy — no waiting";
+"paywall.benefit.ads" = "No ads, ever";
+"paywall.benefit.cosmetics" = "Exclusive skins & boards";
+"paywall.benefit.levels" = "All 1000+ levels unlocked";
+"paywall.cta" = "Go Premium · %@";
+"paywall.restore" = "Restore Purchases";
+
+/* ── Shop claim feedback ── */
+"shop.claim.insufficient" = "Not enough balance";
+"shop.claim.adNotReady" = "Ad not ready — try again";
+/* ── Settings footer ── */
+"settings.about.footer" = "Snuglo · %@";
 /* ── Tutorial ── */
 "tutorial.welcome.title" = "Welcome to Snuglo";
 "tutorial.welcome.body" = "Fill the board with cozy blocks — leave no empty square.";
