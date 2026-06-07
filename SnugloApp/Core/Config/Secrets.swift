@@ -8,7 +8,7 @@ import Foundation
 // configured and the app falls back to the StoreKit/premium-flag path.
 
 enum Secrets {
-    static let revenueCatPublicKey = "appl_REPLACE_WITH_REAL_KEY"
+    static let revenueCatPublicKey = "appl_erSFinQjoSgmOmLkTtReFfwrKzf"
 
     /// True once a real RevenueCat key has been set.
     static var revenueCatConfigured: Bool {
