@@ -174,9 +174,11 @@ struct ShopViewModelTests {
         let wallet = makeWallet(coin: 100)
         let vm = makeVM(wallet: wallet, deals: [spendDeal])
         vm.claimDeal()
+        // Wallet is untouched, but an "insufficient" warning banner is now shown.
         #expect(wallet.coin == 100)
         #expect(wallet.gem  == 0)
-        #expect(vm.showClaimedBanner == false)
+        #expect(vm.showClaimedBanner == true)
+        #expect(vm.claimSucceeded == false)
     }
 
     // MARK: — dismissBanner

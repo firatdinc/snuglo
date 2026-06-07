@@ -440,7 +440,10 @@ struct SettingsView: View {
                     .padding(AppSpacing.md)
                 }
 
-                Text("settings.about.credits")
+                Text(verbatim: String(
+                    format: NSLocalizedString("settings.about.footer", comment: ""),
+                    (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
+                ))
                     .font(AppTypography.labelSmall)
                     .tracking(0.3)
                     .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))

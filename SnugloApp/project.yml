@@ -58,6 +58,9 @@ targets:
         SWIFT_STRICT_CONCURRENCY: minimal
         IPHONEOS_DEPLOYMENT_TARGET: "18.0"
         CODE_SIGN_ENTITLEMENTS: $(SRCROOT)/SnugloApp.entitlements
+        # Device signing (automatic) — team that owns com.snuglo.app.
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: K858B9M275
 
   SnugloAppTests:
     type: bundle.unit-test

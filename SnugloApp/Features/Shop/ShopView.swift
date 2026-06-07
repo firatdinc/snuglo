@@ -154,16 +154,26 @@ struct ShopView: View {
 
     // MARK: — Claimed banner
 
+    @ViewBuilder
     private var claimedBanner: some View {
         HStack(spacing: AppSpacing.sm) {
-            if let currency = viewModel.claimedCurrency {
-                CurrencyIcon(currency: currency, size: 20)
+            if viewModel.claimSucceeded {
+                if let currency = viewModel.claimedCurrency {
+                    CurrencyIcon(currency: currency, size: 20)
+                        .accessibilityHidden(true)
+                }
+                Text(verbatim: "+\(viewModel.claimedAmount)")
+                    .font(AppTypography.headlineSmall)
+                    .foregroundStyle(AppColors.onSurface)
+                    .monospacedDigit()
+            } else {
+                Image(systemName: "exclamationmark.circle.fill")
+                    .foregroundStyle(AppColors.error)
                     .accessibilityHidden(true)
+                Text(viewModel.claimedCurrency == nil ? "shop.claim.adNotReady" : "shop.claim.insufficient")
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurface)
             }
-            Text(verbatim: "+\(viewModel.claimedAmount)")
-                .font(AppTypography.headlineSmall)
-                .foregroundStyle(AppColors.onSurface)
-                .monospacedDigit()
             Spacer(minLength: 0)
             Button { viewModel.dismissBanner() } label: {
                 Image(systemName: "xmark")

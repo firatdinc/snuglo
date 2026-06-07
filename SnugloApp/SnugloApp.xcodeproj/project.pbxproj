@@ -160,6 +160,7 @@
 		C4B42BDA325627597C3D6E1C /* README-StoreKit.md in Resources */ = {isa = PBXBuildFile; fileRef = 125B30D67DEEC160EDBC670E /* README-StoreKit.md */; };
 		C537F78DFFA0A6627FDD3C5F /* WalletStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CE9E54A079C82F1E3F259 /* WalletStoreTests.swift */; };
 		C6764089BB7E702C3DEA3F81 /* combo.caf in Resources */ = {isa = PBXBuildFile; fileRef = 53B0C0524CE2DD464FEAF6A4 /* combo.caf */; };
+		CA83B95C2D8625ECE0A7DAE8 /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4288520CBF3788AC2453E7DC /* TutorialOverlay.swift */; };
 		CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */; };
 		CC623CF99EFBB3F98F3E8A89 /* SunCheckBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E1272F6B49B7BA63C6312 /* SunCheckBadge.swift */; };
 		CE27ACD8021E5C9619F24CAA /* ConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */; };
@@ -262,6 +263,7 @@
 		3AEBE24E06501FDA4B96E3A3 /* AchievementToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementToast.swift; sourceTree = "<group>"; };
 		3B46E8AAB67D1279057432AC /* ChestStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestStore.swift; sourceTree = "<group>"; };
 		3D66967344E696920FB09670 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		4288520CBF3788AC2453E7DC /* TutorialOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		43D0127476F9D2F4D4269EAF /* PremiumPaywallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallSheet.swift; sourceTree = "<group>"; };
 		43E3E4831B4981C6254A97F7 /* AchievementRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementRules.swift; sourceTree = "<group>"; };
 		459FFDA351641074E53137A0 /* BeVietnamPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Regular.ttf"; sourceTree = "<group>"; };
@@ -417,7 +419,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_BA97470C-FDC2-41AD-929D-88E2B96BE228" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_C213642D-7EC1-42A3-82A7-85AEAEC6C06F" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -996,6 +998,7 @@
 				7AF8FD04E0FF078437660BA0 /* SolveGlow.swift */,
 				ADE3C7C878E6A3AD19E50CB1 /* SolveWaveOverlay.swift */,
 				C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */,
+				4288520CBF3788AC2453E7DC /* TutorialOverlay.swift */,
 				287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */,
 			);
 			path = Game;
@@ -1010,10 +1013,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_3A70D8C0-F1CC-4781-89B5-BE29A2BBEC4F" /* . */ = {
+		"TEMP_6CD8A937-782A-4CE8-8E7B-D193951B2A1F" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_BA97470C-FDC2-41AD-929D-88E2B96BE228" /* SnugloApp.entitlements */,
+				"TEMP_C213642D-7EC1-42A3-82A7-85AEAEC6C06F" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1096,6 +1099,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					629257F8BD02D3B177D7E2B0 = {
+						DevelopmentTeam = K858B9M275;
+						ProvisioningStyle = Automatic;
+					};
 					B1A82A34479BDB392E829CAB = {
 						TestTargetID = 629257F8BD02D3B177D7E2B0;
 					};
@@ -1293,6 +1300,7 @@
 				CC623CF99EFBB3F98F3E8A89 /* SunCheckBadge.swift in Sources */,
 				DC120A80DBD2DC00E8679A12 /* ThemeApplier.swift in Sources */,
 				E895BC67E13B46899A8AE42F /* TrayLayout.swift in Sources */,
+				CA83B95C2D8625ECE0A7DAE8 /* TutorialOverlay.swift in Sources */,
 				4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */,
 				125973CF82E4F51A502A358E /* UndoRewardedSheet.swift in Sources */,
 				74A5C5E17058FDB558A4F7C1 /* WalletStore.swift in Sources */,
@@ -1456,7 +1464,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1499,7 +1509,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (

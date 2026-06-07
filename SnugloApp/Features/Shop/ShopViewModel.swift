@@ -11,6 +11,9 @@ final class ShopViewModel {
     private(set) var showClaimedBanner: Bool = false
     private(set) var claimedCurrency: Currency?
     private(set) var claimedAmount: Int = 0
+    /// false → the banner shows an "insufficient / ad not ready" warning instead
+    /// of a reward confirmation.
+    private(set) var claimSucceeded: Bool = true
 
     // MARK: — Exchange
 
@@ -60,30 +63,38 @@ final class ShopViewModel {
     func claimDeal() {
         switch currentDeal.action {
         case .watchAd(let earn, let amount):
+            guard AdsManager.shared.rewardedAvailable else { flashInsufficient(nil); return }
             AdsManager.shared.showRewarded { [weak self] in
-                Task { @MainActor in
-                    self?.wallet.earn(earn, amount: amount)
-                    self?.claimedCurrency = earn
-                    self?.claimedAmount = amount
-                    self?.showClaimedBanner = true
-                }
+                Task { @MainActor in self?.grantClaim(earn, amount: amount) }
             }
         case .spend(let from, let cost, let earn, let amount):
-            guard wallet.spend(from, amount: cost) else { return }
-            wallet.earn(earn, amount: amount)
-            claimedCurrency = earn
-            claimedAmount = amount
-            showClaimedBanner = true
+            guard wallet.spend(from, amount: cost) else { flashInsufficient(from); return }
+            grantClaim(earn, amount: amount)
         }
     }
 
-    /// Watch a rewarded ad to earn a currency pack reward.
+    /// Watch a rewarded ad to earn a currency pack reward (with confirmation banner).
     func watchAdForPack(_ pack: CurrencyPack) {
+        guard AdsManager.shared.rewardedAvailable else { flashInsufficient(nil); return }
         AdsManager.shared.showRewarded { [weak self] in
-            Task { @MainActor in
-                self?.wallet.earn(pack.earn, amount: pack.amount)
-            }
+            Task { @MainActor in self?.grantClaim(pack.earn, amount: pack.amount) }
         }
+    }
+
+    /// Credit a reward and surface the success confirmation banner.
+    private func grantClaim(_ currency: Currency, amount: Int) {
+        wallet.earn(currency, amount: amount)
+        claimedCurrency = currency
+        claimedAmount = amount
+        claimSucceeded = true
+        showClaimedBanner = true
+    }
+
+    /// Surface a warning banner: not enough currency (`currency`) or no ad ready (nil).
+    private func flashInsufficient(_ currency: Currency?) {
+        claimedCurrency = currency
+        claimSucceeded = false
+        showClaimedBanner = true
     }
 
     func exchangeCoinToGem() {

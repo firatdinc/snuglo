@@ -305,11 +305,12 @@ struct GameView: View {
                         .zIndex(40)
                 }
                 if showCoach {
-                    CoachOverlay()
-                        .frame(width: rootGeo.size.width, height: rootGeo.size.height, alignment: .bottom)
-                        .padding(.bottom, 150)
-                        .allowsHitTesting(false)
-                        .zIndex(35)
+                    TutorialOverlay {
+                        showCoach = false
+                        coachShown = true
+                    }
+                    .zIndex(80)
+                    .transition(.opacity)
                 }
                 // Solve praise — centred, ABOVE everything (was hidden behind tray).
                 if let praise = solvePraiseKey {
@@ -707,8 +708,10 @@ struct GameView: View {
                             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
                         }
                     }
-                    // fills remaining vertical space so tray stays at bottom
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    // Natural size (no maxHeight fill) so the board+tray GROUP can be
+                    // centred together below — otherwise the board ate the slack and
+                    // pinned the tray to the region bottom, pushing pieces off-screen
+                    // on shorter devices (iPhone 15).
                     .onAppear { publishBoardCell(split.cell) }
                     .onChange(of: split.cell) { _, c in publishBoardCell(c) }
 
