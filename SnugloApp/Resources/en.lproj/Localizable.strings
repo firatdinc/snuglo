@@ -577,3 +577,43 @@
 /* ── Reward popup ── */
 "reward.earned" = "You earned";
 "reward.great" = "Great!";
+
+/* ── Achievements (expanded) ── */
+"achievement.levelHunter25.title" = "Getting Serious";
+"achievement.levelHunter25.description" = "Complete 25 levels";
+"achievement.levelVoyager250.title" = "Level Voyager";
+"achievement.levelVoyager250.description" = "Complete 250 levels";
+"achievement.levelSage500.title" = "Level Sage";
+"achievement.levelSage500.description" = "Complete 500 levels";
+"achievement.completionist1000.title" = "Completionist";
+"achievement.completionist1000.description" = "Complete 1000 levels";
+"achievement.packCollector3.title" = "Pack Collector";
+"achievement.packCollector3.description" = "Finish 3 packs";
+"achievement.packMaster10.title" = "Pack Master";
+"achievement.packMaster10.description" = "Finish 10 packs";
+"achievement.perfectionistGrand50.title" = "Grand Perfectionist";
+"achievement.perfectionistGrand50.description" = "50 perfect (3★) solves";
+"achievement.perfectionistLegend100.title" = "Perfect Legend";
+"achievement.perfectionistLegend100.description" = "100 perfect (3★) solves";
+"achievement.chainMaster10.title" = "Chain Master";
+"achievement.chainMaster10.description" = "Win 10 levels in a row";
+"achievement.chainLegend20.title" = "Unbroken";
+"achievement.chainLegend20.description" = "Win 20 levels in a row";
+"achievement.noHints25.title" = "Self-Reliant";
+"achievement.noHints25.description" = "Solve 25 levels with no hints";
+"achievement.noHints50.title" = "Pure Skill";
+"achievement.noHints50.description" = "Solve 50 levels with no hints";
+"achievement.speedLightning.title" = "Lightning";
+"achievement.speedLightning.description" = "Solve a level under 10 seconds";
+"achievement.speedBlitz.title" = "Blitz";
+"achievement.speedBlitz.description" = "Solve a level under 5 seconds";
+"achievement.streak14.title" = "Two-Week Glow";
+"achievement.streak14.description" = "Reach a 14-day daily streak";
+"achievement.streak60.title" = "Two-Month Flame";
+"achievement.streak60.description" = "Reach a 60-day daily streak";
+"achievement.streak100.title" = "Century Streak";
+"achievement.streak100.description" = "Reach a 100-day daily streak";
+"achievement.dedicated14.title" = "Committed";
+"achievement.dedicated14.description" = "Play 14 days in a row";
+"achievement.dedicated30.title" = "Devoted";
+"achievement.dedicated30.description" = "Play 30 days in a row";

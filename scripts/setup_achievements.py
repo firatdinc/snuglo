@@ -23,11 +23,21 @@ LOCALES = [("en-US", "en"), ("tr", "tr"), ("es-ES", "es")]
 
 # id → Game Center points (sum must stay ≤ 1000). Harder achievement → more pts.
 POINTS = {
+    # Original 16 (already created in ASC — keep their points unchanged).
     "firstSteps": 5, "levelHunter10": 10, "levelMaster50": 25, "levelLegend100": 50,
     "packFinisher": 20, "perfectionist1": 5, "perfectionistPro10": 15,
     "perfectionistMaster25": 35, "streak3": 10, "streak7": 20, "streak30": 50,
     "dedicated7": 20, "comboChampion": 25, "noHints10": 20, "speedSolver": 15,
     "speedDemon": 30,
+    # Expansion (19 new) — total stays ≤ 1000 (900).
+    "levelHunter25": 15, "levelVoyager250": 35, "levelSage500": 45, "completionist1000": 60,
+    "packCollector3": 20, "packMaster10": 35,
+    "perfectionistGrand50": 30, "perfectionistLegend100": 40,
+    "chainMaster10": 20, "chainLegend20": 30,
+    "noHints25": 15, "noHints50": 25,
+    "speedLightning": 20, "speedBlitz": 30,
+    "streak14": 15, "streak60": 30, "streak100": 40,
+    "dedicated14": 15, "dedicated30": 25,
 }
 
 

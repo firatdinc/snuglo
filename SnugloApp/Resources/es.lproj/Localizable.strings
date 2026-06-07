@@ -577,3 +577,43 @@
 /* ── Reward popup ── */
 "reward.earned" = "Has ganado";
 "reward.great" = "¡Genial!";
+
+/* ── Achievements (expanded) ── */
+"achievement.levelHunter25.title" = "Vas en Serio";
+"achievement.levelHunter25.description" = "Completa 25 niveles";
+"achievement.levelVoyager250.title" = "Viajero de Niveles";
+"achievement.levelVoyager250.description" = "Completa 250 niveles";
+"achievement.levelSage500.title" = "Sabio de Niveles";
+"achievement.levelSage500.description" = "Completa 500 niveles";
+"achievement.completionist1000.title" = "Completista";
+"achievement.completionist1000.description" = "Completa 1000 niveles";
+"achievement.packCollector3.title" = "Coleccionista de Paquetes";
+"achievement.packCollector3.description" = "Termina 3 paquetes";
+"achievement.packMaster10.title" = "Maestro de Paquetes";
+"achievement.packMaster10.description" = "Termina 10 paquetes";
+"achievement.perfectionistGrand50.title" = "Gran Perfeccionista";
+"achievement.perfectionistGrand50.description" = "50 resoluciones perfectas (3★)";
+"achievement.perfectionistLegend100.title" = "Leyenda Perfecta";
+"achievement.perfectionistLegend100.description" = "100 resoluciones perfectas (3★)";
+"achievement.chainMaster10.title" = "Maestro de Cadenas";
+"achievement.chainMaster10.description" = "Gana 10 niveles seguidos";
+"achievement.chainLegend20.title" = "Imparable";
+"achievement.chainLegend20.description" = "Gana 20 niveles seguidos";
+"achievement.noHints25.title" = "Autosuficiente";
+"achievement.noHints25.description" = "Resuelve 25 niveles sin pistas";
+"achievement.noHints50.title" = "Pura Habilidad";
+"achievement.noHints50.description" = "Resuelve 50 niveles sin pistas";
+"achievement.speedLightning.title" = "Relámpago";
+"achievement.speedLightning.description" = "Resuelve un nivel en menos de 10s";
+"achievement.speedBlitz.title" = "Blitz";
+"achievement.speedBlitz.description" = "Resuelve un nivel en menos de 5s";
+"achievement.streak14.title" = "Brillo de Dos Semanas";
+"achievement.streak14.description" = "Alcanza una racha de 14 días";
+"achievement.streak60.title" = "Llama de Dos Meses";
+"achievement.streak60.description" = "Alcanza una racha de 60 días";
+"achievement.streak100.title" = "Racha del Siglo";
+"achievement.streak100.description" = "Alcanza una racha de 100 días";
+"achievement.dedicated14.title" = "Comprometido";
+"achievement.dedicated14.description" = "Juega 14 días seguidos";
+"achievement.dedicated30.title" = "Devoto";
+"achievement.dedicated30.description" = "Juega 30 días seguidos";

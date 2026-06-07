@@ -9,60 +9,51 @@ struct AchievementRules {
     /// achievements are binary (0/1). Used to draw a progress bar on locked cells.
     static func progress(_ achievement: Achievement, stats: AchievementStats) -> (current: Int, target: Int) {
         func clamp(_ v: Int, _ t: Int) -> (Int, Int) { (min(max(v, 0), t), t) }
+        func faster(than s: Int) -> (Int, Int) { ((stats.fastestSolveSeconds ?? .max) < s ? 1 : 0, 1) }
         switch achievement {
-        case .firstSteps:            return clamp(stats.completedLevels, 1)
-        case .levelHunter10:         return clamp(stats.completedLevels, 10)
-        case .levelMaster50:         return clamp(stats.completedLevels, 50)
-        case .levelLegend100:        return clamp(stats.completedLevels, 100)
-        case .packFinisher:          return clamp(stats.packsCompleted, 1)
-        case .perfectionist1:        return clamp(stats.perfectSolves, 1)
-        case .perfectionistPro10:    return clamp(stats.perfectSolves, 10)
-        case .perfectionistMaster25: return clamp(stats.perfectSolves, 25)
-        case .streak3:               return clamp(stats.currentStreak, 3)
-        case .streak7:               return clamp(stats.currentStreak, 7)
-        case .streak30:              return clamp(stats.currentStreak, 30)
-        case .dedicated7:            return clamp(stats.longestPlayStreak, 7)
-        case .comboChampion:         return clamp(stats.bestWinChain, 5)
-        case .noHints10:             return clamp(stats.hintFreeSolves, 10)
-        case .speedSolver:           return ((stats.fastestSolveSeconds ?? .max) < 30 ? 1 : 0, 1)
-        case .speedDemon:            return ((stats.fastestSolveSeconds ?? .max) < 15 ? 1 : 0, 1)
+        // Levels
+        case .firstSteps:             return clamp(stats.completedLevels, 1)
+        case .levelHunter10:          return clamp(stats.completedLevels, 10)
+        case .levelHunter25:          return clamp(stats.completedLevels, 25)
+        case .levelMaster50:          return clamp(stats.completedLevels, 50)
+        case .levelLegend100:         return clamp(stats.completedLevels, 100)
+        case .levelVoyager250:        return clamp(stats.completedLevels, 250)
+        case .levelSage500:           return clamp(stats.completedLevels, 500)
+        case .completionist1000:      return clamp(stats.completedLevels, 1000)
+        case .packFinisher:           return clamp(stats.packsCompleted, 1)
+        case .packCollector3:         return clamp(stats.packsCompleted, 3)
+        case .packMaster10:           return clamp(stats.packsCompleted, 10)
+        // Skill
+        case .perfectionist1:         return clamp(stats.perfectSolves, 1)
+        case .perfectionistPro10:     return clamp(stats.perfectSolves, 10)
+        case .perfectionistMaster25:  return clamp(stats.perfectSolves, 25)
+        case .perfectionistGrand50:   return clamp(stats.perfectSolves, 50)
+        case .perfectionistLegend100: return clamp(stats.perfectSolves, 100)
+        case .comboChampion:          return clamp(stats.bestWinChain, 5)
+        case .chainMaster10:          return clamp(stats.bestWinChain, 10)
+        case .chainLegend20:          return clamp(stats.bestWinChain, 20)
+        case .noHints10:              return clamp(stats.hintFreeSolves, 10)
+        case .noHints25:              return clamp(stats.hintFreeSolves, 25)
+        case .noHints50:              return clamp(stats.hintFreeSolves, 50)
+        case .speedSolver:            return faster(than: 30)
+        case .speedDemon:             return faster(than: 15)
+        case .speedLightning:         return faster(than: 10)
+        case .speedBlitz:             return faster(than: 5)
+        // Streak
+        case .streak3:                return clamp(stats.currentStreak, 3)
+        case .streak7:                return clamp(stats.currentStreak, 7)
+        case .streak14:               return clamp(stats.currentStreak, 14)
+        case .streak30:               return clamp(stats.currentStreak, 30)
+        case .streak60:               return clamp(stats.currentStreak, 60)
+        case .streak100:              return clamp(stats.currentStreak, 100)
+        case .dedicated7:             return clamp(stats.longestPlayStreak, 7)
+        case .dedicated14:            return clamp(stats.longestPlayStreak, 14)
+        case .dedicated30:            return clamp(stats.longestPlayStreak, 30)
         }
     }
 
     static func isApplicable(_ achievement: Achievement, stats: AchievementStats) -> Bool {
-        switch achievement {
-        case .firstSteps:
-            return stats.completedLevels >= 1
-        case .levelHunter10:
-            return stats.completedLevels >= 10
-        case .levelMaster50:
-            return stats.completedLevels >= 50
-        case .levelLegend100:
-            return stats.completedLevels >= 100
-        case .packFinisher:
-            return stats.packsCompleted >= 1
-        case .perfectionist1:
-            return stats.perfectSolves >= 1
-        case .perfectionistPro10:
-            return stats.perfectSolves >= 10
-        case .perfectionistMaster25:
-            return stats.perfectSolves >= 25
-        case .streak3:
-            return stats.currentStreak >= 3
-        case .streak7:
-            return stats.currentStreak >= 7
-        case .streak30:
-            return stats.currentStreak >= 30
-        case .dedicated7:
-            return stats.longestPlayStreak >= 7
-        case .comboChampion:
-            return stats.bestWinChain >= 5
-        case .noHints10:
-            return stats.hintFreeSolves >= 10
-        case .speedSolver:
-            return (stats.fastestSolveSeconds ?? Int.max) < 30
-        case .speedDemon:
-            return (stats.fastestSolveSeconds ?? Int.max) < 15
-        }
+        let p = progress(achievement, stats: stats)
+        return p.current >= p.target
     }
 }

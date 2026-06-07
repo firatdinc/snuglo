@@ -155,6 +155,12 @@ private struct AchievementCell: View {
                 }
             }
 
+            // Completed badge — green "sun" with a white check.
+            if isUnlocked {
+                SunCheckBadge(size: 30)
+                    .padding(.top, 2)
+            }
+
             // Push content to the top so cards in the same row stay equal height
             // (locked cards add a progress bar; this keeps the pair aligned).
             Spacer(minLength: 0)

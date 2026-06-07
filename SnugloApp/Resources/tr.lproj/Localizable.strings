@@ -577,3 +577,43 @@
 /* ── Reward popup ── */
 "reward.earned" = "Kazandın";
 "reward.great" = "Harika!";
+
+/* ── Achievements (expanded) ── */
+"achievement.levelHunter25.title" = "İşi Ciddiye Aldın";
+"achievement.levelHunter25.description" = "25 bölüm tamamla";
+"achievement.levelVoyager250.title" = "Seviye Gezgini";
+"achievement.levelVoyager250.description" = "250 bölüm tamamla";
+"achievement.levelSage500.title" = "Seviye Bilgesi";
+"achievement.levelSage500.description" = "500 bölüm tamamla";
+"achievement.completionist1000.title" = "Tamamlayıcı";
+"achievement.completionist1000.description" = "1000 bölüm tamamla";
+"achievement.packCollector3.title" = "Paket Koleksiyoncusu";
+"achievement.packCollector3.description" = "3 paketi bitir";
+"achievement.packMaster10.title" = "Paket Ustası";
+"achievement.packMaster10.description" = "10 paketi bitir";
+"achievement.perfectionistGrand50.title" = "Büyük Mükemmeliyetçi";
+"achievement.perfectionistGrand50.description" = "50 kusursuz (3★) çözüm";
+"achievement.perfectionistLegend100.title" = "Kusursuz Efsane";
+"achievement.perfectionistLegend100.description" = "100 kusursuz (3★) çözüm";
+"achievement.chainMaster10.title" = "Zincir Ustası";
+"achievement.chainMaster10.description" = "Üst üste 10 bölüm kazan";
+"achievement.chainLegend20.title" = "Kırılmaz";
+"achievement.chainLegend20.description" = "Üst üste 20 bölüm kazan";
+"achievement.noHints25.title" = "Kendi Başına";
+"achievement.noHints25.description" = "25 bölümü ipuçsuz çöz";
+"achievement.noHints50.title" = "Saf Yetenek";
+"achievement.noHints50.description" = "50 bölümü ipuçsuz çöz";
+"achievement.speedLightning.title" = "Şimşek";
+"achievement.speedLightning.description" = "Bir bölümü 10 saniye altında çöz";
+"achievement.speedBlitz.title" = "Blitz";
+"achievement.speedBlitz.description" = "Bir bölümü 5 saniye altında çöz";
+"achievement.streak14.title" = "İki Haftalık Işıltı";
+"achievement.streak14.description" = "14 günlük seriye ulaş";
+"achievement.streak60.title" = "İki Aylık Alev";
+"achievement.streak60.description" = "60 günlük seriye ulaş";
+"achievement.streak100.title" = "Yüz Günlük Seri";
+"achievement.streak100.description" = "100 günlük seriye ulaş";
+"achievement.dedicated14.title" = "Kararlı";
+"achievement.dedicated14.description" = "Üst üste 14 gün oyna";
+"achievement.dedicated30.title" = "Adanmış";
+"achievement.dedicated30.description" = "Üst üste 30 gün oyna";
