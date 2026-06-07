@@ -78,6 +78,9 @@ final class GameViewModel {
     /// True when the just-cleared endless level set a new personal-best run.
     private(set) var newEndlessBest: Bool = false
 
+    /// Tower: set true when an invalid placement ends the climb (one-mistake rule).
+    private(set) var towerFailed: Bool = false
+
     /// Currency granted for the just-completed solve — computed & applied in
     /// `persistProgress` (where real stars + mode are known) and surfaced here so
     /// the result UI can display it without re-deriving rewards.
@@ -128,6 +131,13 @@ final class GameViewModel {
         let level: Level
         if levelId.hasPrefix("daily") {
             level = PackProvider.dailyPuzzle(index: PackProvider.dailyIndex(from: levelId))
+        } else if levelId.hasPrefix("tower") {
+            // Tower floor — escalating difficulty, varied seed (one mistake ends
+            // the run; handled in tryPlace + GameView).
+            let n = Int(levelId.split(separator: "-").last ?? "1") ?? 1
+            let g = TowerStore.gridSize(forFloor: n)
+            let variedSeed = UInt64.random(in: UInt64.min ... UInt64.max)
+            level = LevelGenerator().generate(packId: "tower", levelIndex: n, gridSize: g, seedBase: variedSeed)
         } else if levelId.hasPrefix("endless") {
             // Procedurally generated, ever-growing RELAXED run. Endless/Zen don't
             // need deterministic layouts (the endless leaderboard ranks the index
@@ -206,6 +216,8 @@ final class GameViewModel {
         case .overlap, .outOfBounds, .unknownPiece:
             // Reject — caller should animate the block back
             invalidPieceIDs.insert(pieceID)
+            // Tower: one mistake ends the climb.
+            if level.id.hasPrefix("tower") { towerFailed = true }
 
         case .emptyGrid:
             break

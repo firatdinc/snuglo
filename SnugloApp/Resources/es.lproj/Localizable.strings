@@ -617,3 +617,14 @@
 "achievement.dedicated14.description" = "Juega 14 días seguidos";
 "achievement.dedicated30.title" = "Devoto";
 "achievement.dedicated30.description" = "Juega 30 días seguidos";
+
+/* ── Torre ── */
+"tower.title" = "Torre";
+"tower.subtitle" = "1 ticket · sube lo más alto que puedas";
+"tower.best" = "Mejor: piso %d";
+"tower.floorUp" = "¡Siguiente piso!";
+"tower.over.title" = "Torre Terminada";
+"tower.over.floors" = "Superaste %d pisos";
+"tower.over.best" = "Mejor: piso %d";
+"tower.over.retry" = "Reintentar · %d";
+"tower.over.home" = "Inicio";

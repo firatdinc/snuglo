@@ -69,23 +69,28 @@ struct SpinWheelOverlay: View {
                     .transition(.scale.combined(with: .opacity))
 
                     if !adShown {
+                        let canAd = AdsManager.shared.rewardedAvailable
                         Button {
-                            adShown = true
+                            guard canAd else { return }
                             let seg = SpinStore.segments[i]
                             AdsManager.shared.showRewarded {
                                 WalletStore.shared.earn(seg.currency, amount: seg.amount)
+                                RewardCenter.shared.showCurrency(seg.currency, amount: seg.amount)
                                 HapticService.shared.notify(.success)
                                 onClose()
                             }
+                            adShown = true
                         } label: {
-                            Label("reward.double", systemImage: "play.rectangle.fill")
+                            Label(canAd ? "reward.double" : "shop.claim.adNotReady",
+                                  systemImage: "play.rectangle.fill")
                                 .font(AppTypography.bodyMedium)
-                                .foregroundStyle(AppColors.primary)
+                                .foregroundStyle(canAd ? AppColors.primary : AppColors.onSurfaceVariant)
                                 .padding(.horizontal, AppSpacing.lg)
                                 .padding(.vertical, AppSpacing.sm)
-                                .overlay(Capsule().stroke(AppColors.primary, lineWidth: 1.5))
+                                .overlay(Capsule().stroke(canAd ? AppColors.primary : AppColors.outlineVariant, lineWidth: 1.5))
                         }
                         .buttonStyle(.plain)
+                        .disabled(!canAd)
                     }
                     RewardButton(titleKey: "spin.collect", action: onClose)
                 } else {

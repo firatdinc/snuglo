@@ -74,6 +74,9 @@ struct GameView: View {
     @State private var showWaveAnimation = false
     /// Shown when the countdown hits zero without solving.
     @State private var showFail = false
+    /// Tower: shown when a climb ends (one mistake).
+    @State private var showTowerOver = false
+    @State private var towerFloorsCleared = 0
 
     /// Zen / Relax mode (research: the #1 loved feature of the genre). When on,
     /// the timer becomes a calm count-UP and the level can never fail on time.
@@ -310,6 +313,24 @@ struct GameView: View {
                         coachShown = true
                     }
                     .zIndex(80)
+                    .transition(.opacity)
+                }
+                if showTowerOver {
+                    TowerGameOverSheet(
+                        floorsCleared: towerFloorsCleared,
+                        coinReward: TowerStore.reward(forFloors: towerFloorsCleared),
+                        onRetry: {
+                            if TowerStore.shared.payEntry() {
+                                showTowerOver = false
+                                router.replaceTop(with: .game(levelID: "tower-1"))
+                            }
+                        },
+                        onHome: {
+                            showTowerOver = false
+                            router.popToRoot()
+                        }
+                    )
+                    .zIndex(90)
                     .transition(.opacity)
                 }
                 // Solve praise — centred, ABOVE everything (was hidden behind tray).
@@ -563,11 +584,34 @@ struct GameView: View {
                 if hintFlashVersion == token { hintFlashID = nil }
             }
         }
+        .onChange(of: viewModel.towerFailed) { _, failed in
+            guard failed, !showTowerOver else { return }
+            timerTask?.cancel()
+            let cleared = max(0, towerFloor - 1)
+            towerFloorsCleared = cleared
+            let coins = TowerStore.reward(forFloors: cleared)
+            if coins > 0 { WalletStore.shared.earn(.coin, amount: coins) }
+            HapticService.shared.notify(.error)
+            SoundService.shared.play(.error)
+            showTowerOver = true
+        }
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
                 SoundService.shared.play(.solve)
                 HapticService.shared.notify(.success)
+                // Tower: floor cleared → record + climb straight to the next floor.
+                if isTower {
+                    let floor = towerFloor
+                    TowerStore.shared.record(floor: floor)
+                    solvePraiseKey = "tower.floorUp"
+                    let token = (solvePraiseVersion &+ 1); solvePraiseVersion = token
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(700))
+                        router.replaceTop(with: .game(levelID: "tower-\(floor + 1)"))
+                    }
+                    return
+                }
                 AdsManager.shared.onLevelCompleted()
                 if !rewardGranted {
                     rewardGranted = true
@@ -1393,8 +1437,13 @@ struct GameView: View {
 
     /// Endless = a procedurally-generated, never-ending relaxed run.
     private var isEndless: Bool { levelId.hasPrefix("endless") }
-    /// Relaxed = no timer/fail (Zen mode OR Endless).
-    private var relaxed: Bool { zenMode || isEndless }
+    /// Tower = ticket-gated, one-mistake climb.
+    private var isTower: Bool { levelId.hasPrefix("tower") }
+    private var towerFloor: Int { Int(levelId.split(separator: "-").last ?? "1") ?? 1 }
+    /// Relaxed = no timer/fail (Zen mode OR Endless). Tower keeps its own timer
+    /// but never auto-fails on time (only on a mistake), so treat it as relaxed
+    /// for the fail-timer.
+    private var relaxed: Bool { zenMode || isEndless || isTower }
 
     /// Time allowed per level: ~5 seconds per cell, minimum 90 s.
     private var timeLimitSeconds: Int {

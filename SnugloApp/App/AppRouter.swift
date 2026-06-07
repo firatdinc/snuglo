@@ -61,10 +61,11 @@ final class AppRouter {
     /// Shows the Premium paywall over everything.
     var showPaywall: Bool = false
 
-    /// Relaxed routes (Endless / Zen) are FREE — they never cost energy.
+    /// Routes that don't cost energy: Endless/Zen (relaxed) and Tower (ticket-gated).
     private func isRelaxedRoute(_ route: Route) -> Bool {
         switch route {
-        case .game(let id), .gamePlay(let id): return id.hasPrefix("endless")
+        case .game(let id), .gamePlay(let id):
+            return id.hasPrefix("endless") || id.hasPrefix("tower")
         default: return false
         }
     }

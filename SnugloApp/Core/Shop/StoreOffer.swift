@@ -37,13 +37,6 @@ extension DailyDeal {
             action: .watchAd(earn: .coin, amount: 150)
         ),
         DailyDeal(
-            id: "deal_ticket_ad",
-            titleKey: "shop.deal.ticket.title",
-            messageKey: "shop.deal.ticket.message",
-            sfSymbol: "ticket.fill",
-            action: .watchAd(earn: .ticket, amount: 1)
-        ),
-        DailyDeal(
             id: "deal_gems_coins",
             titleKey: "shop.deal.exchange.title",
             messageKey: "shop.deal.exchange.message",
@@ -75,7 +68,6 @@ extension CurrencyPack {
     static let allPacks: [CurrencyPack] = [
         CurrencyPack(id: "cp_coins_sm", titleKey: "shop.pack.coins.sm", sfSymbol: "circle.circle.fill", earn: .coin, amount: 50),
         CurrencyPack(id: "cp_coins_md", titleKey: "shop.pack.coins.md", sfSymbol: "circle.circle.fill", earn: .coin, amount: 150),
-        CurrencyPack(id: "cp_gems_sm", titleKey: "shop.pack.gems.sm", sfSymbol: "diamond.fill", earn: .gem, amount: 10),
-        CurrencyPack(id: "cp_ticket", titleKey: "shop.pack.ticket", sfSymbol: "ticket.fill", earn: .ticket, amount: 1)
+        CurrencyPack(id: "cp_gems_sm", titleKey: "shop.pack.gems.sm", sfSymbol: "diamond.fill", earn: .gem, amount: 10)
     ]
 }

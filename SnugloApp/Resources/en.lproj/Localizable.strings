@@ -617,3 +617,14 @@
 "achievement.dedicated14.description" = "Play 14 days in a row";
 "achievement.dedicated30.title" = "Devoted";
 "achievement.dedicated30.description" = "Play 30 days in a row";
+
+/* ── Tower ── */
+"tower.title" = "Tower";
+"tower.subtitle" = "1 ticket · climb as high as you can";
+"tower.best" = "Best: floor %d";
+"tower.floorUp" = "Next floor!";
+"tower.over.title" = "Tower Over";
+"tower.over.floors" = "You cleared %d floors";
+"tower.over.best" = "Best: floor %d";
+"tower.over.retry" = "Retry · %d";
+"tower.over.home" = "Home";

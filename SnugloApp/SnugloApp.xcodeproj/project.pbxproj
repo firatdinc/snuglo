@@ -18,6 +18,7 @@
 		09B0B5EAF1D49AC381CA4D83 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDC25FC1EA8A9CC17232C07 /* Currency.swift */; };
 		0ACD98BF1D20DEF4FBED52AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF55B584B729B84FA08FA6D1 /* Localizable.strings */; };
 		0B0BE8A0B7CED6F91E4ADF08 /* AdsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BECF5D97DF66C12E3D7F37 /* AdsManagerTests.swift */; };
+		0BD1B4C93ACFCB547DC4A378 /* TowerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEACA3DD1E825D0FD8C0E0 /* TowerStore.swift */; };
 		0F1AA8690AB6409294FB88AF /* DailyReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEE70F313528AB1DDE78F3 /* DailyReminderService.swift */; };
 		0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E553228972F7FFB0F8EF868 /* PackDetailView.swift */; };
 		10623549868FE8396ECC486F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */; };
@@ -121,6 +122,7 @@
 		89AC955A6629894BEA89372E /* DeferredContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8F731355CE007AB0646A0 /* DeferredContent.swift */; };
 		8B27FDC33FD0FE466077C968 /* PowerUpRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900DBE5445E056E2506B1A4E /* PowerUpRules.swift */; };
 		8F0DF202114F56EE261FAED3 /* EnergyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E784273C1BFEC4A3CFF5EB5 /* EnergyStore.swift */; };
+		8FB10ECD03FCD0D313C4A9B0 /* TowerGameOverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5271E9B19A650D8CABA7BCEF /* TowerGameOverSheet.swift */; };
 		9033A279823B9EA9D07CD7DB /* BalanceChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12380D07D6CC9B797EA56560 /* BalanceChip.swift */; };
 		90EA2EDDA06BA4AB50C8038E /* ProgressPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */; };
 		91EB882F6CC4A611E61DA88A /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */; };
@@ -277,6 +279,7 @@
 		4DF0624D9878FF7FCF6E1DE7 /* DailyDealCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealCard.swift; sourceTree = "<group>"; };
 		503DC90DEAE7B2781F37935B /* PackCompleteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackCompleteOverlay.swift; sourceTree = "<group>"; };
 		50EC00143E8ED9E71012699F /* ResultCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCard.swift; sourceTree = "<group>"; };
+		5271E9B19A650D8CABA7BCEF /* TowerGameOverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerGameOverSheet.swift; sourceTree = "<group>"; };
 		53B0C0524CE2DD464FEAF6A4 /* combo.caf */ = {isa = PBXFileReference; path = combo.caf; sourceTree = "<group>"; };
 		556697CC3ABB5B4D294417A3 /* GameCenterScoreMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterScoreMapper.swift; sourceTree = "<group>"; };
 		56CBBFD1A789DBEB71966239 /* SettingsThemeLanguageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsThemeLanguageUITests.swift; sourceTree = "<group>"; };
@@ -402,6 +405,7 @@
 		D81438D1EF77DF3774BE0DB7 /* AchievementsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsStoreTests.swift; sourceTree = "<group>"; };
 		D97CD2AFBBBF7AE6D9333E2C /* ColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTests.swift; sourceTree = "<group>"; };
 		D9C1360D54ABE0C5DC91F9E4 /* snap.caf */ = {isa = PBXFileReference; path = snap.caf; sourceTree = "<group>"; };
+		DADEACA3DD1E825D0FD8C0E0 /* TowerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerStore.swift; sourceTree = "<group>"; };
 		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		DF5A558311B75E4DA65D77BC /* DailyDealRotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealRotator.swift; sourceTree = "<group>"; };
 		E6E47062C883114A0CD6A84B /* PackProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProvider.swift; sourceTree = "<group>"; };
@@ -423,7 +427,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_6AF8700C-F074-406C-844E-39A8C37EFDF2" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_6A76B581-9E1F-4E7B-AFCE-A01C90A658BF" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -832,6 +836,7 @@
 				8244089CDCAC86D2F167B550 /* Shop */,
 				BC0F3B6F4001E56081CAAF75 /* Store */,
 				E61ECDF1E7283589003957A1 /* Theme */,
+				D2C3D0E3E8A7D56442CEAFCE /* Tower */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -860,6 +865,14 @@
 				15113BC008FC88512BFF4298 /* README.md */,
 			);
 			path = Audio;
+			sourceTree = "<group>";
+		};
+		D2C3D0E3E8A7D56442CEAFCE /* Tower */ = {
+			isa = PBXGroup;
+			children = (
+				DADEACA3DD1E825D0FD8C0E0 /* TowerStore.swift */,
+			);
+			path = Tower;
 			sourceTree = "<group>";
 		};
 		DC76897D3F4893A85D4DD375 /* Achievements */ = {
@@ -1003,6 +1016,7 @@
 				FBE47F1741E67A9665438E95 /* SolveCelebration.swift */,
 				7AF8FD04E0FF078437660BA0 /* SolveGlow.swift */,
 				ADE3C7C878E6A3AD19E50CB1 /* SolveWaveOverlay.swift */,
+				5271E9B19A650D8CABA7BCEF /* TowerGameOverSheet.swift */,
 				C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */,
 				4288520CBF3788AC2453E7DC /* TutorialOverlay.swift */,
 				287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */,
@@ -1019,10 +1033,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_C377C7CA-34E2-45C4-B6A8-04A098A778E7" /* . */ = {
+		"TEMP_83CB7F4C-FFAF-458D-804D-1B8BF2267407" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_6AF8700C-F074-406C-844E-39A8C37EFDF2" /* SnugloApp.entitlements */,
+				"TEMP_6A76B581-9E1F-4E7B-AFCE-A01C90A658BF" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1307,6 +1321,8 @@
 				7CF46221075283C4A91A28DA /* StreakMilestoneOverlay.swift in Sources */,
 				CC623CF99EFBB3F98F3E8A89 /* SunCheckBadge.swift in Sources */,
 				DC120A80DBD2DC00E8679A12 /* ThemeApplier.swift in Sources */,
+				8FB10ECD03FCD0D313C4A9B0 /* TowerGameOverSheet.swift in Sources */,
+				0BD1B4C93ACFCB547DC4A378 /* TowerStore.swift in Sources */,
 				E895BC67E13B46899A8AE42F /* TrayLayout.swift in Sources */,
 				CA83B95C2D8625ECE0A7DAE8 /* TutorialOverlay.swift in Sources */,
 				4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */,

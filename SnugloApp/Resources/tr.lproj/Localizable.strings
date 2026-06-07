@@ -617,3 +617,14 @@
 "achievement.dedicated14.description" = "Üst üste 14 gün oyna";
 "achievement.dedicated30.title" = "Adanmış";
 "achievement.dedicated30.description" = "Üst üste 30 gün oyna";
+
+/* ── Kule ── */
+"tower.title" = "Kule";
+"tower.subtitle" = "1 bilet · olabildiğince yüksele tırman";
+"tower.best" = "En iyi: %d. kat";
+"tower.floorUp" = "Sıradaki kat!";
+"tower.over.title" = "Kule Bitti";
+"tower.over.floors" = "%d kat geçtin";
+"tower.over.best" = "En iyi: %d. kat";
+"tower.over.retry" = "Tekrar Dene · %d";
+"tower.over.home" = "Ana Sayfa";

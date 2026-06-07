@@ -142,9 +142,10 @@ struct MainMenuView: View {
                 topStatsBar.appearStagger(1)        // energy · streak · level · progress
                 dailyPuzzleCard.appearStagger(2)
                 zenCard.appearStagger(3)            // prominent relaxed entry (free, no energy)
-                continueSection.appearStagger(4)
-                questsCard.appearStagger(5)
-                weeklyCard.appearStagger(6)
+                towerCard.appearStagger(4)          // ticket-gated one-mistake climb
+                continueSection.appearStagger(5)
+                questsCard.appearStagger(6)
+                weeklyCard.appearStagger(7)
                 Spacer(minLength: 96)
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -411,6 +412,51 @@ struct MainMenuView: View {
         }
         .buttonStyle(PressableCardStyle())
         .accessibilityIdentifier("button.menu.zen")
+    }
+
+    /// Tower entry — ticket-gated, one-mistake climb. Tap with no ticket → Shop
+    /// (where gems convert to tickets).
+    private var towerCard: some View {
+        let best = TowerStore.shared.bestFloor
+        return Button {
+            if TowerStore.shared.payEntry() {
+                router.push(.game(levelID: "tower-1"))
+            } else {
+                router.selectTab(.shop)
+            }
+        } label: {
+            HStack(spacing: AppSpacing.md) {
+                CardIconBadge(symbol: "building.2.fill", tint: AppColors.secondary, bg: AppColors.blockBlush)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("tower.title")
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Group {
+                        if best > 0 {
+                            Text(verbatim: String(format: NSLocalizedString("tower.best", comment: ""), best))
+                        } else {
+                            Text("tower.subtitle")
+                        }
+                    }
+                    .font(AppTypography.bodyMedium)
+                    .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                HStack(spacing: 4) {
+                    Image(systemName: "ticket.fill")
+                        .font(.system(size: 13, weight: .semibold))
+                    Text(verbatim: "\(TowerStore.ticketCost)")
+                        .font(AppTypography.numericSmall).monospacedDigit()
+                }
+                .foregroundStyle(AppColors.tertiary)
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+        }
+        .buttonStyle(PressableCardStyle())
+        .accessibilityIdentifier("button.menu.tower")
     }
 
     /// Floating rewards button + drop-down (spin / daily / chest).
