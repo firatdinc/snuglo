@@ -573,3 +573,7 @@
 "tutorial.next" = "İleri";
 "tutorial.start" = "Hadi Başlayalım";
 "tutorial.skip" = "Geç";
+
+/* ── Reward popup ── */
+"reward.earned" = "Kazandın";
+"reward.great" = "Harika!";

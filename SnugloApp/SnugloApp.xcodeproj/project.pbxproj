@@ -24,6 +24,7 @@
 		11C24C050DF87D8CCDBC789E /* levelUp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 38F272A63EF4E9A33FF964BC /* levelUp.caf */; };
 		11D0FD4209EE217BF16B2DC2 /* Bundle+Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7944E29A317C365AEC2DAFD3 /* Bundle+Language.swift */; };
 		125973CF82E4F51A502A358E /* UndoRewardedSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */; };
+		12DE0E80773A62D0D9C791CA /* RewardCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C29352C6E135B7F69F42E38 /* RewardCenter.swift */; };
 		14688457DE584D827B5CCBD2 /* place.caf in Resources */ = {isa = PBXBuildFile; fileRef = 76E92684B808840263957C5D /* place.caf */; };
 		1483A73F3EB6A9537773925C /* RewardModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80089EF61429DED4BDA0E424 /* RewardModal.swift */; };
 		14A7974216A954660D82BB3B /* StoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCF6BA9DD13440E6335DC35 /* StoreManagerTests.swift */; };
@@ -188,6 +189,7 @@
 		EE4E34AA534C6C15E86AFDEB /* SoundServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC16342738E3D470A36A8F6F /* SoundServiceTests.swift */; };
 		EF15CB6F60A607817C021192 /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFB0517FA48E26D47BF2D19 /* Achievement.swift */; };
 		EFE6275557E1D2C4A668201D /* CurrencyIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */; };
+		F22230D0A3A14AD9B63EC9AC /* RewardPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3EA7686ECE906848D55A78 /* RewardPopup.swift */; };
 		F2CBFA51A9B0B9428F0ED3BA /* DailyRewardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C242A49AC10AEE6C392F1A7A /* DailyRewardViewModel.swift */; };
 		F3C88DE506BE2CA771C416A4 /* PackRewardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17EB7C7AE1C2C44E7F33589 /* PackRewardStore.swift */; };
 		F40A012A86D09EB675596ADB /* ExchangeSignBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA79A4870F3F218C591133E /* ExchangeSignBanner.swift */; };
@@ -269,6 +271,7 @@
 		459FFDA351641074E53137A0 /* BeVietnamPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Regular.ttf"; sourceTree = "<group>"; };
 		46F887A51DC1BE362E73163A /* AchievementsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsViewModel.swift; sourceTree = "<group>"; };
 		49470B585B6D13546687645C /* ShopViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewModelTests.swift; sourceTree = "<group>"; };
+		4C29352C6E135B7F69F42E38 /* RewardCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardCenter.swift; sourceTree = "<group>"; };
 		4C2FBDC5AF71BAF053E7C2C3 /* PieceOccupancyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceOccupancyTests.swift; sourceTree = "<group>"; };
 		4DB33132A3A74D284DF925FD /* GameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProgressBar.swift; sourceTree = "<group>"; };
 		4DF0624D9878FF7FCF6E1DE7 /* DailyDealCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealCard.swift; sourceTree = "<group>"; };
@@ -283,6 +286,7 @@
 		5B8180C88611E72245B91A6F /* MusicService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicService.swift; sourceTree = "<group>"; };
 		5B94E9A14F759CEFABF051FC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		5CCB0B566A5ABA5D2B7E393C /* PackProviderContinueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackProviderContinueTests.swift; sourceTree = "<group>"; };
+		5D3EA7686ECE906848D55A78 /* RewardPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardPopup.swift; sourceTree = "<group>"; };
 		5E177BF53BC6C92D779D51C2 /* CardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSurface.swift; sourceTree = "<group>"; };
 		5E553228972F7FFB0F8EF868 /* PackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackDetailView.swift; sourceTree = "<group>"; };
 		5EF2DDE7B28FE5B3DA308C50 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -419,7 +423,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_C213642D-7EC1-42A3-82A7-85AEAEC6C06F" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_6AF8700C-F074-406C-844E-39A8C37EFDF2" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -553,6 +557,8 @@
 				C8FA7A6755CC660561FAB170 /* PressableCardStyle.swift */,
 				D3E8F3C0267F5E448BE9F1FD /* PrimaryButton.swift */,
 				CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */,
+				4C29352C6E135B7F69F42E38 /* RewardCenter.swift */,
+				5D3EA7686ECE906848D55A78 /* RewardPopup.swift */,
 				8B4758DD6FAC3569A870F3EC /* RowDivider.swift */,
 				D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */,
 				5B94E9A14F759CEFABF051FC /* SectionHeader.swift */,
@@ -1013,10 +1019,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_6CD8A937-782A-4CE8-8E7B-D193951B2A1F" /* . */ = {
+		"TEMP_C377C7CA-34E2-45C4-B6A8-04A098A778E7" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_C213642D-7EC1-42A3-82A7-85AEAEC6C06F" /* SnugloApp.entitlements */,
+				"TEMP_6AF8700C-F074-406C-844E-39A8C37EFDF2" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1270,7 +1276,9 @@
 				30299C524452E0F28B435DDF /* RelaxedRewardStore.swift in Sources */,
 				A061CF7324AC0FE7D5D5E22D /* ResultCard.swift in Sources */,
 				4BB2F127CDB972B9723D40F7 /* RevenueCatManager.swift in Sources */,
+				12DE0E80773A62D0D9C791CA /* RewardCenter.swift in Sources */,
 				1483A73F3EB6A9537773925C /* RewardModal.swift in Sources */,
+				F22230D0A3A14AD9B63EC9AC /* RewardPopup.swift in Sources */,
 				DF086D943609CC4FDB0AB808 /* RootView.swift in Sources */,
 				9E6FD2504B15C754A3A467A1 /* RowDivider.swift in Sources */,
 				7AEF95815B6AB27681587E6A /* SaveTransfer.swift in Sources */,

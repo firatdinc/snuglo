@@ -527,7 +527,7 @@ struct GameView: View {
                 },
                 onDismiss: { showUndoRewardedSheet = false }
             )
-            .presentationDetents([.height(260)])
+            .presentationDetents([.height(360)])
             .presentationDragIndicator(.visible)
         }
         // Rewarded Hint sheet (out of hints AND gems)
@@ -543,7 +543,7 @@ struct GameView: View {
                 },
                 onDismiss: { showHintRewardedSheet = false }
             )
-            .presentationDetents([.height(260)])
+            .presentationDetents([.height(360)])
             .presentationDragIndicator(.visible)
         }
         .onChange(of: viewModel.newlyUnlockedAchievements) { _, new in

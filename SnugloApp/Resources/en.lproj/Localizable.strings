@@ -573,3 +573,7 @@
 "tutorial.next" = "Next";
 "tutorial.start" = "Let's Play";
 "tutorial.skip" = "Skip";
+
+/* ── Reward popup ── */
+"reward.earned" = "You earned";
+"reward.great" = "Great!";

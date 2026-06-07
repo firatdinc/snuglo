@@ -10,6 +10,7 @@ import SwiftUI
 struct DailyDealCard: View {
 
     let deal: DailyDeal
+    var canClaim: Bool = true
     let onClaim: () -> Void
 
     private var reward: (currency: Currency, amount: Int) {
@@ -83,10 +84,11 @@ struct DailyDealCard: View {
                 }
                 .labelStyle(.titleAndIcon)
                 .font(AppTypography.headlineSmall)
-                .foregroundStyle(AppColors.onPrimary)
+                .foregroundStyle(canClaim ? AppColors.onPrimary : AppColors.onSurfaceVariant)
                 .frame(maxWidth: .infinity)
             }
-            .buttonStyle(GameButtonStyle(variant: .primary))
+            .buttonStyle(GameButtonStyle(variant: canClaim ? .primary : .muted))
+            .disabled(!canClaim)
             .accessibilityIdentifier("shop.deal.claim.\(deal.id)")
         }
         .padding(AppSpacing.lg)

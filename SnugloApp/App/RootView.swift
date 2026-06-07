@@ -102,6 +102,11 @@ struct RootView: View {
                     .transition(.opacity)
                     .zIndex(110)
             }
+            // Global animated reward popup — above everything.
+            if let reward = RewardCenter.shared.pending {
+                RewardPopup(reward: reward) { RewardCenter.shared.dismiss() }
+                    .zIndex(120)
+            }
         }
         .animation(.easeInOut(duration: 0.2), value: bindableRouter.showEnergyGate)
         .animation(.easeInOut(duration: 0.2), value: bindableRouter.showPaywall)

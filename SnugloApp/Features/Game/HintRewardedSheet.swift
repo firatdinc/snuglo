@@ -21,7 +21,7 @@ struct HintRewardedSheet: View {
                     .font(.system(size: 28))
                     .foregroundStyle(AppColors.primary)
             }
-            .padding(.top, AppSpacing.md)
+            .padding(.top, AppSpacing.xl)
 
             VStack(spacing: AppSpacing.xs) {
                 Text("hint.rewarded.title")

@@ -63,6 +63,7 @@ struct EnergyGateSheet: View {
                         Button {
                             AdsManager.shared.showRewarded {
                                 EnergyStore.shared.addEnergy(adRefill)
+                                RewardCenter.shared.showEnergy(adRefill)
                                 launch()
                             }
                         } label: {

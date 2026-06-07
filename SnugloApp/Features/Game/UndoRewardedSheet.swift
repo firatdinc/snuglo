@@ -23,7 +23,7 @@ struct UndoRewardedSheet: View {
                     .font(.system(size: 30))
                     .foregroundStyle(AppColors.primary)
             }
-            .padding(.top, AppSpacing.md)
+            .padding(.top, AppSpacing.xl)
 
             // Text
             VStack(spacing: AppSpacing.xs) {

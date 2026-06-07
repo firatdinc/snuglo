@@ -54,7 +54,9 @@ struct ShopView: View {
             BalanceHeader()
         }
         .overlay(alignment: .top) {
-            if viewModel.showClaimedBanner {
+            // Success now celebrates with the centred RewardPopup; this top banner
+            // is only for warnings (insufficient balance / ad not ready).
+            if viewModel.showClaimedBanner && !viewModel.claimSucceeded {
                 claimedBanner
                     .padding(.horizontal, AppSpacing.lg)
                     .padding(.top, AppSpacing.md)
@@ -89,7 +91,9 @@ struct ShopView: View {
     private var dailyDealSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             sectionTitle("shop.deal.section")
-            DailyDealCard(deal: viewModel.currentDeal, onClaim: viewModel.claimDeal)
+            DailyDealCard(deal: viewModel.currentDeal,
+                          canClaim: viewModel.canClaimDeal,
+                          onClaim: viewModel.claimDeal)
         }
     }
 

@@ -57,6 +57,17 @@ final class ShopViewModel {
         wallet.canAfford(.gem, amount: gemToTicketAmount * CurrencyRate.gemPerTicket)
     }
 
+    /// Whether the current daily deal can be claimed right now (ad ready, or
+    /// enough balance for a spend deal) — drives the CTA's enabled state.
+    var canClaimDeal: Bool {
+        switch currentDeal.action {
+        case .watchAd:
+            return AdsManager.shared.rewardedAvailable
+        case .spend(let from, let cost, _, _):
+            return wallet.canAfford(from, amount: cost)
+        }
+    }
+
     // MARK: — Actions
 
     /// Claim the daily deal: watch ad or spend currency based on the deal action.
@@ -81,13 +92,14 @@ final class ShopViewModel {
         }
     }
 
-    /// Credit a reward and surface the success confirmation banner.
+    /// Credit a reward and celebrate with the centred animated reward popup.
     private func grantClaim(_ currency: Currency, amount: Int) {
         wallet.earn(currency, amount: amount)
         claimedCurrency = currency
         claimedAmount = amount
         claimSucceeded = true
-        showClaimedBanner = true
+        showClaimedBanner = true   // success path no longer renders the small banner
+        RewardCenter.shared.showCurrency(currency, amount: amount)
     }
 
     /// Surface a warning banner: not enough currency (`currency`) or no ad ready (nil).
