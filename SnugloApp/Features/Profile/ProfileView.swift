@@ -208,6 +208,9 @@ struct ProfileView: View {
                 .accessibilityHidden(true)
         }
         .padding(AppSpacing.md)
+        // Make the WHOLE row tappable (not just the label) — Spacer/gaps were
+        // transparent to hit-testing without this.
+        .contentShape(Rectangle())
     }
 
     // MARK: — Settings Row

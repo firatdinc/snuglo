@@ -154,9 +154,13 @@ private struct AchievementCell: View {
                     .padding(.top, 2)
                 }
             }
+
+            // Push content to the top so cards in the same row stay equal height
+            // (locked cards add a progress bar; this keeps the pair aligned).
+            Spacer(minLength: 0)
         }
         .padding(AppSpacing.md)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .cardSurface()
         .opacity(isUnlocked ? 1.0 : 0.55)
         .accessibilityElement(children: .combine)
