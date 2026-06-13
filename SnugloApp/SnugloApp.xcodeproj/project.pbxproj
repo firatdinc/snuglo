@@ -455,7 +455,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_1D1E3A77-CFEC-43B4-92DD-824D96C57AB8" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_442324D7-3444-4C79-A4A2-A0334657FFD4" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1107,10 +1107,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_6A05F5B8-D987-479A-9B6F-8742D92D8E87" /* . */ = {
+		"TEMP_ABED77E5-8886-48BC-B9D3-42DE6FC49DCC" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_1D1E3A77-CFEC-43B4-92DD-824D96C57AB8" /* SnugloApp.entitlements */,
+				"TEMP_442324D7-3444-4C79-A4A2-A0334657FFD4" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
