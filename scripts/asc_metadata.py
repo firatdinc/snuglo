@@ -19,16 +19,35 @@ SUBTITLE = {
     "es-ES": "Puzles de bloques zen",
 }
 
+VERSION = "1.2.0"
+
+# Privacy + Marketing URLs — set to the same site per product decision (2026-06-13).
+MARKETING_URL = {loc: "https://felabs.app/" for loc in LOCALES}
 PRIVACY_URL = {
-    "en-US": "https://felabs.app/apps/snuglo/en/privacy-policy.html",
-    "tr":    "https://felabs.app/apps/snuglo/tr/privacy-policy.html",
-    "es-ES": "https://felabs.app/apps/snuglo/es/privacy-policy.html",
+    "en-US": "https://felabs.app/",
+    "tr":    "https://felabs.app/",
+    "es-ES": "https://felabs.app/",
 }
 
-SUPPORT_URL = {
-    "en-US": "https://felabs.app/apps/snuglo/en/support.html",
-    "tr":    "https://felabs.app/apps/snuglo/tr/support.html",
-    "es-ES": "https://felabs.app/apps/snuglo/es/support.html",
+SUPPORT_URL = {loc: "https://felabs.app/" for loc in LOCALES}
+
+# What's New in this version (release notes) — required for updates, all locales.
+WHATS_NEW = {
+    "en-US": """• iCloud sync — your progress now follows you to a new device.
+• Resume a level right where you left off.
+• Smarter hints (fix a misplaced piece first) and a fuller shuffle.
+• Smoother ads and a cleaner update flow.
+• Lots of cozy fixes and polish.""",
+    "tr": """• iCloud eşitleme — ilerlemen artık yeni cihaza taşınıyor.
+• Bölümlere kaldığın yerden devam et.
+• Daha akıllı ipucu (önce yanlış parçayı düzeltir) ve gelişmiş karıştırma.
+• Daha pürüzsüz reklamlar ve sade güncelleme akışı.
+• Birçok düzeltme ve sıcacık dokunuş.""",
+    "es-ES": """• Sincronización con iCloud: tu progreso te acompaña en un nuevo dispositivo.
+• Continúa un nivel justo donde lo dejaste.
+• Pistas más inteligentes (corrigen primero una pieza mal colocada) y barajado completo.
+• Anuncios más fluidos y un flujo de actualización más limpio.
+• Muchas correcciones y detalles acogedores.""",
 }
 
 KEYWORDS = {
@@ -129,15 +148,30 @@ def main():
     c, app = client_from_env()
     print(f"App {app} | {'APPLY' if apply else 'DRY-RUN'}\n")
 
-    # ── Editable version ──
+    # ── Editable version (create VERSION if none exists) ──
     vers = c.request("GET", f"/v1/apps/{app}/appStoreVersions", params={"limit": "10"})
     ver = next((v for v in vers["data"]
                 if v["attributes"]["appStoreState"] in
                 ("PREPARE_FOR_SUBMISSION", "DEVELOPER_REJECTED", "REJECTED", "METADATA_REJECTED")), None)
     if not ver:
-        sys.exit("✗ Düzenlenebilir App Store sürümü yok.")
-    vid = ver["id"]
-    print(f"Version {vid} | {ver['attributes']['versionString']} → 1.1.0")
+        existing = next((v for v in vers["data"]
+                         if v["attributes"]["versionString"] == VERSION), None)
+        if existing:
+            ver, vid = existing, existing["id"]
+            print(f"Version {vid} | {VERSION} (existing, state={existing['attributes']['appStoreState']})")
+        elif apply:
+            created = c.request("POST", "/v1/appStoreVersions",
+                                body={"data": {"type": "appStoreVersions",
+                                               "attributes": {"platform": "IOS", "versionString": VERSION},
+                                               "relationships": {"app": {"data": {"type": "apps", "id": app}}}}})
+            ver, vid = created["data"], created["data"]["id"]
+            print(f"+ created App Store version {VERSION} ({vid})")
+        else:
+            print(f"(dry-run) would CREATE App Store version {VERSION}")
+            return
+    else:
+        vid = ver["id"]
+        print(f"Version {vid} | {ver['attributes']['versionString']} → {VERSION}")
 
     # ── appInfo ──
     ai = c.request("GET", f"/v1/apps/{app}/appInfos")["data"][0]
@@ -150,8 +184,8 @@ def main():
     # 1) version string
     c.request("PATCH", f"/v1/appStoreVersions/{vid}",
               body={"data": {"type": "appStoreVersions", "id": vid,
-                             "attributes": {"versionString": "1.1.0"}}})
-    print("✓ versionString = 1.1.0")
+                             "attributes": {"versionString": VERSION}}})
+    print(f"✓ versionString = {VERSION}")
 
     # 2) category (Games → Puzzle)
     try:
@@ -168,17 +202,23 @@ def main():
     existing_il = {l["attributes"]["locale"]: l["id"]
                    for l in c.request("GET", f"/v1/appInfos/{aid}/appInfoLocalizations")["data"]}
     for loc in LOCALES:
-        attrs = {"name": NAME, "subtitle": SUBTITLE[loc], "privacyPolicyUrl": PRIVACY_URL[loc]}
-        if loc in existing_il:
-            c.request("PATCH", f"/v1/appInfoLocalizations/{existing_il[loc]}",
-                      body={"data": {"type": "appInfoLocalizations", "id": existing_il[loc], "attributes": attrs}})
-            print(f"  ✓ appInfoLoc {loc} (patched)")
-        else:
-            attrs["locale"] = loc
-            c.request("POST", "/v1/appInfoLocalizations",
-                      body={"data": {"type": "appInfoLocalizations", "attributes": attrs,
-                                     "relationships": {"appInfo": {"data": {"type": "appInfos", "id": aid}}}}})
-            print(f"  + appInfoLoc {loc} (created)")
+        # name/subtitle are unchanged & lock once live; only privacy URL may change.
+        # appInfo fields can be locked for a released app — never let that abort the
+        # version-level metadata (marketing URL etc.) below.
+        attrs = {"privacyPolicyUrl": PRIVACY_URL[loc]}
+        try:
+            if loc in existing_il:
+                c.request("PATCH", f"/v1/appInfoLocalizations/{existing_il[loc]}",
+                          body={"data": {"type": "appInfoLocalizations", "id": existing_il[loc], "attributes": attrs}})
+                print(f"  ✓ appInfoLoc {loc} privacy (patched)")
+            else:
+                attrs.update({"name": NAME, "subtitle": SUBTITLE[loc], "locale": loc})
+                c.request("POST", "/v1/appInfoLocalizations",
+                          body={"data": {"type": "appInfoLocalizations", "attributes": attrs,
+                                         "relationships": {"appInfo": {"data": {"type": "appInfos", "id": aid}}}}})
+                print(f"  + appInfoLoc {loc} (created)")
+        except APIError as e:
+            print(f"  ⚠ appInfoLoc {loc} (privacy locked in current state): {e}")
 
     # 4) appStoreVersionLocalizations (description, keywords, promo, support)
     existing_vl = {l["attributes"]["locale"]: l["id"]
@@ -190,7 +230,8 @@ def main():
 
     for loc in LOCALES:
         attrs = {"description": clean(DESC[loc]), "keywords": KEYWORDS[loc],
-                 "promotionalText": PROMO[loc], "supportUrl": SUPPORT_URL[loc]}
+                 "promotionalText": PROMO[loc], "supportUrl": SUPPORT_URL[loc],
+                 "marketingUrl": MARKETING_URL[loc], "whatsNew": WHATS_NEW[loc]}
         try:
             if loc in existing_vl:
                 c.request("PATCH", f"/v1/appStoreVersionLocalizations/{existing_vl[loc]}",

@@ -15,3 +15,4 @@ xcuserdata/
 secrets/*
 !secrets/.env.local.example
 AppIcon-Candidates/
+build_release.log
