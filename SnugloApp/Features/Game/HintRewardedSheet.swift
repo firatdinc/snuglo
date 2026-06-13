@@ -9,7 +9,7 @@ struct HintRewardedSheet: View {
     let onWatchAd: () -> Void
     let onDismiss: () -> Void
 
-    private var adAvailable: Bool { AdsManager.shared.rewardedAvailable }
+    private var adAvailable: Bool { AdsManager.shared.rewardedReady }
 
     var body: some View {
         VStack(spacing: AppSpacing.lg) {

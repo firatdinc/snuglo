@@ -15,6 +15,7 @@ enum Route: Hashable {
     case shop
     case achievements
     case dailyReward
+    case nook
 }
 
 // MARK: — AppTab
@@ -77,11 +78,19 @@ final class AppRouter {
         }
     }
 
+    /// The level identifier carried by a game route (nil for non-game routes).
+    private func levelID(of route: Route) -> String? {
+        switch route {
+        case .game(let id), .gamePlay(let id): return id
+        default: return nil
+        }
+    }
+
     /// Try to launch the remembered game once energy is available (called by the
     /// energy gate after an ad refill / premium purchase).
     func launchPendingGameIfReady() {
         guard let route = pendingGameRoute else { return }
-        if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable() {
+        if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable(levelID: levelID(of: route)) {
             pendingGameRoute = nil
             showEnergyGate = false
             appendToCurrentTab(route)
@@ -111,7 +120,7 @@ final class AppRouter {
         case .game, .gamePlay:
             // Paid game start: spend energy (Endless/Zen + premium are free). If
             // the player can't afford it, remember the route and raise the gate.
-            if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable() {
+            if isRelaxedRoute(route) || EnergyStore.shared.startGameIfAffordable(levelID: levelID(of: route)) {
                 appendToCurrentTab(route)
             } else {
                 pendingGameRoute = route
@@ -146,7 +155,7 @@ final class AppRouter {
         // Next-level continuation also costs energy (Endless/Zen + premium free).
         // Best-effort: never blocks mid-session — if low, it simply doesn't charge.
         if isGameRoute(route), !isRelaxedRoute(route) {
-            _ = EnergyStore.shared.startGameIfAffordable()
+            _ = EnergyStore.shared.startGameIfAffordable(levelID: levelID(of: route))
         }
         func swap(_ p: inout [Route]) {
             if p.isEmpty { p.append(route) } else { p[p.count - 1] = route }

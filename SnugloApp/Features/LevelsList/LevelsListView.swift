@@ -26,12 +26,9 @@ struct LevelsListView: View {
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("screen.levels")
         .alert("alert.unlockPack.title", isPresented: $showLockedAlert) {
-            Button("alert.unlockPack.goToShop") {
-                router.selectTab(.shop)
-            }
-            Button("common.cancel", role: .cancel) {}
+            Button("common.ok", role: .cancel) {}
         } message: {
-            Text(verbatim: String(format: NSLocalizedString("alert.unlockPack.message", comment: ""), lockedPackTitle))
+            Text("alert.unlockPack.prevPack")
         }
     }
 
@@ -51,8 +48,8 @@ struct LevelsListView: View {
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
 
-                ForEach(PackProvider.allPacks()) { pack in
-                    packCard(pack)
+                ForEach(Array(PackProvider.allPacks().enumerated()), id: \.element.id) { idx, pack in
+                    packCard(pack, index: idx)
                 }
 
                 Spacer(minLength: 80)
@@ -64,9 +61,14 @@ struct LevelsListView: View {
 
     // MARK: — Pack card
 
+    /// Per-pack themed icon (shared with PackDetail so card + hero + title match).
+    private func packArtName(_ index: Int) -> String {
+        PackArt.theme(forIndex: index).art
+    }
+
     @ViewBuilder
-    private func packCard(_ pack: Pack) -> some View {
-        let content = packCardContent(pack)
+    private func packCard(_ pack: Pack, index: Int) -> some View {
+        let content = packCardContent(pack, index: index)
 
         // H-2: accessibility label built from pack info
         let a11yLabel = packA11yLabel(pack)
@@ -81,7 +83,7 @@ struct LevelsListView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(a11yLabel)
-            .accessibilityHint("Tap to unlock this pack in the shop")
+            .accessibilityHint(Text("a11y.packLockedHint"))
         } else {
             Button {
                 router.push(.packDetail(packId: pack.id))
@@ -90,20 +92,21 @@ struct LevelsListView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(a11yLabel)
-            .accessibilityHint("Opens the level list for this pack")
+            .accessibilityHint(Text("a11y.openPackHint"))
         }
     }
 
     /// H-2: Constructs a meaningful VoiceOver label for a pack card.
     private func packA11yLabel(_ pack: Pack) -> String {
         if pack.isLocked {
-            return "\(pack.localizedTitle). Locked. Tap to unlock."
+            return String(format: NSLocalizedString("a11y.packLocked", comment: ""), pack.localizedTitle)
         }
         let pct = Int(pack.progressFraction * 100)
-        return "\(pack.localizedTitle), \(pack.completedCount) of \(pack.levelCount) levels completed, \(pct) percent"
+        return String(format: NSLocalizedString("a11y.packProgress", comment: ""),
+                      pack.localizedTitle, pack.completedCount, pack.levelCount, pct)
     }
 
-    private func packCardContent(_ pack: Pack) -> some View {
+    private func packCardContent(_ pack: Pack, index: Int) -> some View {
         VStack(alignment: .leading, spacing: AppSpacing.md) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
@@ -128,18 +131,25 @@ struct LevelsListView: View {
                 Spacer()
 
                 ZStack {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(pack.isLocked ? AppColors.surfaceContainerHigh : pack.accentColor.opacity(0.5))
-                        .frame(width: 48, height: 48)
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(pack.isLocked ? AppColors.surfaceContainerHigh : pack.accentColor.opacity(0.35))
+                        .frame(width: 64, height: 64)
+
+                    // Hand-illustrated artwork (like the home mascots) instead of a flat glyph.
+                    Image(packArtName(index))
+                        .resizable()
+                        .renderingMode(.original)
+                        .scaledToFit()
+                        .frame(width: 54, height: 54)
+                        .opacity(pack.isLocked ? 0.35 : 1)
+                        .grayscale(pack.isLocked ? 1 : 0)
 
                     if pack.isLocked {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 20))
+                            .font(.system(size: 18, weight: .bold))
                             .foregroundStyle(AppColors.onSurfaceVariant)
-                    } else {
-                        Image(systemName: pack.iconSymbol)
-                            .font(.system(size: 20))
-                            .foregroundStyle(AppColors.primary)
+                            .padding(5)
+                            .background(.ultraThinMaterial, in: Circle())
                     }
                 }
                 .accessibilityHidden(true) // icon is decorative; label on button

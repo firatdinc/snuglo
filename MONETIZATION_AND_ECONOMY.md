@@ -94,3 +94,10 @@ Marka "cozy/relax" — sert monetizasyon (enerji/can, ilerleme paywall'u) markay
 
 ## Sayılar ayarlanabilir
 Yukarıdaki tüm rakamlar (cap'ler, gem fiyatları, IAP ladder) ilk öneridir; playtest/analytics ile tune edilecek.
+
+## Coin sıkılaştırma (2026-06-13) — kullanıcıyı coin paketine itmek
+Soft-currency farm'ı yavaşlatmak için tekrarlanan coin kaynakları ~yarıya indirildi (periyodik kaynaklar — daily/chest/spin/weekly/quest — DOKUNULMADI):
+- **Bölüm çözme** (`CurrencyReward.forLevelComplete`): `stars×10 + (hız<60s ? 5)` → **`stars×5 + (hız<60s ? 3)`**. 3★ hızlı: 35→18.
+- **Win-chain** (`ProgressStore.chainCoinBonus`): `(chain-1)×10, cap 80` → **`(chain-1)×5, cap 40`**.
+- **XP level-up** (`XPStore`): `40 + level×10` → **`20 + level×5`**.
+Gem formülü değişmedi. `CurrencyRewardTests` yeni değerlere güncellendi. Daha fazla/az kısmak istenirse bu üç formül tek noktada.

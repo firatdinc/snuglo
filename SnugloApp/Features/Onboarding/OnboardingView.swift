@@ -62,8 +62,8 @@ struct OnboardingView: View {
                 }
                 .buttonStyle(.plain)
                 .contentShape(Rectangle())
-                .accessibilityLabel("Skip onboarding")
-                .accessibilityHint("Goes directly to the main menu")
+                .accessibilityLabel(Text("a11y.skipOnboarding"))
+                .accessibilityHint(Text("a11y.skipOnboardingHint"))
                 .accessibilityIdentifier("button.onboarding.skip")
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -97,7 +97,7 @@ struct OnboardingView: View {
             }
             .padding(.bottom, AppSpacing.xl)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Page \(currentPage + 1) of \(pages.count)")
+            .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.page", comment: ""), currentPage + 1, pages.count)))
 
             // — Action button —
             // iOS 26: external .accessibilityHint applied to a wrapper around a

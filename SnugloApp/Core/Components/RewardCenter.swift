@@ -14,7 +14,8 @@ final class RewardCenter {
 
     struct Reward: Identifiable, Equatable {
         let id = UUID()
-        var systemImage: String
+        var systemImage: String        // SF Symbol fallback (e.g. energy bolt)
+        var assetName: String?         // custom illustrated icon (currencies)
         var amount: Int
         var tint: Color
     }
@@ -25,12 +26,14 @@ final class RewardCenter {
 
     func showCurrency(_ currency: Currency, amount: Int) {
         guard amount > 0 else { return }
-        pending = Reward(systemImage: currency.sfSymbol, amount: amount, tint: currency.tint)
+        pending = Reward(systemImage: currency.sfSymbol, assetName: currency.assetName,
+                         amount: amount, tint: currency.tint)
     }
 
     func showEnergy(_ amount: Int) {
         guard amount > 0 else { return }
-        pending = Reward(systemImage: "bolt.fill", amount: amount, tint: AppColors.tertiary)
+        pending = Reward(systemImage: "bolt.fill", assetName: nil,
+                         amount: amount, tint: AppColors.tertiary)
     }
 
     func dismiss() { pending = nil }

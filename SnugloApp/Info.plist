@@ -17,6 +17,10 @@
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<!-- Export compliance: app uses only standard/exempt crypto (HTTPS). Avoids
+	     the per-submission encryption prompt in App Store Connect. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 
@@ -58,7 +62,7 @@
 	<!-- AdMob (Faz 5) — DEV uses Google's TEST app id; swap for the real
 	     ca-app-pub-XXXX~YYYY before release. Required or the SDK crashes on start. -->
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-8571533711927103~5613795076</string>
 	<!-- Google-recommended SKAdNetwork ids (release attribution; non-blocking). -->
 	<key>SKAdNetworkItems</key>
 	<array>

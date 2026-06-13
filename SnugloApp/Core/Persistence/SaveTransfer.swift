@@ -28,6 +28,8 @@ enum SaveTransfer {
         "snuglo.dailycal.v1",
         "snuglo.endless.v1",
         "snuglo.packrewards.v1", "snuglo.packrewards.pending",
+        "snuglo.energy.value.v1", "snuglo.energy.anchor.v1", "snuglo.energy.openlevels.v1",
+        "snuglo.gamesessions.v1",
         // Preferences
         "blockSkin", "boardBackground", "soundPack",
         "musicEnabled", "musicVolume", "musicTrack",

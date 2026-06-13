@@ -37,12 +37,10 @@ struct ShopView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppSpacing.xl) {
                 dailyDealSection
+                gemStoreSection
                 coinPacksSection
                 exchangeSection
                 bundleSection
-                #if DEBUG
-                debugSection
-                #endif
                 restoreButton
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -110,13 +108,79 @@ struct ShopView: View {
         .padding(.horizontal, AppSpacing.xs)
     }
 
+    // Paid gem packs (RevenueCat IAPs com.snuglo.gems.tier1…5).
+    private var gemStoreSection: some View {
+        VStack(alignment: .leading, spacing: AppSpacing.sm) {
+            sectionHeader("shop.gems.section", subtitle: "shop.gems.hint")
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: AppSpacing.md),
+                                GridItem(.flexible(), spacing: AppSpacing.md)],
+                      spacing: AppSpacing.md) {
+                ForEach(GemPack.catalog) { pack in
+                    Button {
+                        Task { await buyGem(pack) }
+                    } label: {
+                        gemPackCard(pack)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(RevenueCatManager.shared.isPurchasing)
+                }
+            }
+        }
+    }
+
+    private func gemPackCard(_ pack: GemPack) -> some View {
+        VStack(spacing: AppSpacing.sm) {
+            CurrencyIcon(currency: .gem, size: 40)
+            Text(verbatim: "+\(pack.gems)")
+                .font(AppTypography.numericLabel)
+                .foregroundStyle(AppColors.onSurface)
+            Text(verbatim: RevenueCatManager.shared.displayPrice(for: pack))
+                .font(AppTypography.bodyMedium.weight(.semibold))
+                .foregroundStyle(AppColors.onPrimary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 9)
+                .background(AppColors.primary, in: Capsule())
+        }
+        .frame(maxWidth: .infinity)
+        .padding(AppSpacing.md)
+        .background(AppColors.surfaceContainerLowest,
+                    in: RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .overlay(alignment: .topTrailing) {
+            if pack.bestValue {
+                Text("shop.bestValue")
+                    .font(.system(size: 9, weight: .heavy))
+                    .tracking(0.5)
+                    .lineLimit(1).minimumScaleFactor(0.7)
+                    .foregroundStyle(AppColors.onPrimary)
+                    .frame(width: 120, alignment: .center)
+                    .padding(.vertical, 3)
+                    .background(AppColors.tertiary)
+                    .rotationEffect(.degrees(45))
+                    .offset(x: 36, y: 18)
+                    .accessibilityHidden(true)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+        .shadowL1()
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.buyGems", comment: ""),
+                                                   pack.gems, RevenueCatManager.shared.displayPrice(for: pack))))
+    }
+
+    private func buyGem(_ pack: GemPack) async {
+        // RC.purchase credits the gems to the wallet on success; celebrate it.
+        if await RevenueCatManager.shared.purchase(pack) {
+            RewardCenter.shared.showCurrency(.gem, amount: pack.gems)
+        }
+    }
+
     private var coinPacksSection: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             sectionHeader("shop.packs.section", subtitle: "shop.packs.hint")
             CurrencyPackGrid(
                 packs: CurrencyPack.allPacks,
                 onWatch: viewModel.watchAdForPack,
-                adsAvailable: ads.rewardedAvailable
+                adsAvailable: ads.rewardedReady
             )
         }
     }
@@ -132,15 +196,6 @@ struct ShopView: View {
         BundleSection(store: store, progress: ProgressStore.shared)
     }
 
-    #if DEBUG
-    private var debugSection: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionTitle("shop.debug.section")
-            DebugSection()
-        }
-    }
-    #endif
-
     // MARK: — Restore
 
     private var restoreButton: some View {
@@ -153,7 +208,7 @@ struct ShopView: View {
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
-        .accessibilityHint("Restores any previously purchased items")
+        .accessibilityHint(Text("a11y.restoreHint"))
     }
 
     // MARK: — Claimed banner
@@ -185,7 +240,7 @@ struct ShopView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Dismiss")
+            .accessibilityLabel(Text("a11y.dismiss"))
         }
         .padding(.horizontal, AppSpacing.md)
         .padding(.vertical, AppSpacing.sm)

@@ -5,19 +5,19 @@ struct CurrencyRewardTests {
 
     // MARK: — Coin formula
 
-    @Test func oneStar_coin_is10() {
+    @Test func oneStar_coin_is5() {
         let reward = CurrencyReward.forLevelComplete(stars: 1, elapsedSeconds: 90, previousBestSeconds: nil)
+        #expect(reward[.coin] == 5)
+    }
+
+    @Test func twoStar_coin_is10() {
+        let reward = CurrencyReward.forLevelComplete(stars: 2, elapsedSeconds: 90, previousBestSeconds: nil)
         #expect(reward[.coin] == 10)
     }
 
-    @Test func twoStar_coin_is20() {
-        let reward = CurrencyReward.forLevelComplete(stars: 2, elapsedSeconds: 90, previousBestSeconds: nil)
-        #expect(reward[.coin] == 20)
-    }
-
-    @Test func threeStar_coin_is30() {
+    @Test func threeStar_coin_is15() {
         let reward = CurrencyReward.forLevelComplete(stars: 3, elapsedSeconds: 90, previousBestSeconds: nil)
-        #expect(reward[.coin] == 30)
+        #expect(reward[.coin] == 15)
     }
 
     @Test func zeroStar_coin_is0_noEntry() {
@@ -25,19 +25,19 @@ struct CurrencyRewardTests {
         #expect(reward[.coin] == nil)
     }
 
-    @Test func speedBonus_under60s_adds5() {
+    @Test func speedBonus_under60s_adds3() {
         let reward = CurrencyReward.forLevelComplete(stars: 1, elapsedSeconds: 59, previousBestSeconds: 100)
-        #expect(reward[.coin] == 15)  // 10 + 5
+        #expect(reward[.coin] == 8)  // 5 + 3
     }
 
     @Test func speedBonus_exactly60s_noBonus() {
         let reward = CurrencyReward.forLevelComplete(stars: 1, elapsedSeconds: 60, previousBestSeconds: 100)
-        #expect(reward[.coin] == 10)
+        #expect(reward[.coin] == 5)
     }
 
     @Test func speedBonus_over60s_noBonus() {
         let reward = CurrencyReward.forLevelComplete(stars: 2, elapsedSeconds: 120, previousBestSeconds: 200)
-        #expect(reward[.coin] == 20)
+        #expect(reward[.coin] == 10)
     }
 
     // MARK: — Gem formula
@@ -85,7 +85,7 @@ struct CurrencyRewardTests {
 
     @Test func maxReward_speedPlus3StarPlusBest() {
         let reward = CurrencyReward.forLevelComplete(stars: 3, elapsedSeconds: 45, previousBestSeconds: 60)
-        #expect(reward[.coin] == 35)  // 30 + 5
+        #expect(reward[.coin] == 18)  // 15 + 3
         #expect(reward[.gem] == 2)    // gemBest=1 + gemStar=1
     }
 

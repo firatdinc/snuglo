@@ -44,6 +44,18 @@ PRODUCTS = [
     {"pid": "com.snuglo.gems.tier5", "type": "CONSUMABLE", "usd": 49.99, "ref": "7000 Gems",
      "loc": {"en-US": ("7000 Gems", "A vault of gems."), "tr": ("7000 Elmas", "Bir hazine elmas."),
              "es-ES": ("7000 Gemas", "Una bóveda de gemas.")}},
+    {"pid": "com.snuglo.removeads", "type": "NON_CONSUMABLE", "usd": 2.99, "ref": "Remove Ads",
+     "loc": {"en-US": ("Remove Ads", "Play with no interstitial ads, forever."),
+             "tr": ("Reklamları Kaldır", "Sonsuza dek tam ekran reklamsız oyna."),
+             "es-ES": ("Quitar Anuncios", "Juega sin anuncios para siempre.")}},
+    {"pid": "com.snuglo.hints.small", "type": "CONSUMABLE", "usd": 0.99, "ref": "10 Hints",
+     "loc": {"en-US": ("10 Hints", "A pack of 10 hints to help you solve."),
+             "tr": ("10 İpucu", "Çözmene yardımcı 10 ipucu paketi."),
+             "es-ES": ("10 Pistas", "Un paquete de 10 pistas para ayudarte.")}},
+    {"pid": "com.snuglo.keys.small", "type": "CONSUMABLE", "usd": 0.99, "ref": "3 Keys",
+     "loc": {"en-US": ("3 Keys", "Three keys to open treasure chests."),
+             "tr": ("3 Anahtar", "Sandıkları açmak için üç anahtar."),
+             "es-ES": ("3 Llaves", "Tres llaves para abrir cofres.")}},
 ]
 
 BASE_TERRITORY = "USA"

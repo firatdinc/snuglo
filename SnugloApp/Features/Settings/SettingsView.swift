@@ -104,11 +104,20 @@ struct SettingsView: View {
             get: { ads.hasConsented },
             set: { newValue in
                 if newValue {
-                    ATTrackingManager.requestTrackingAuthorization { status in
-                        let granted = status == .authorized
-                        DispatchQueue.main.async {
-                            AdsManager.shared.setConsent(granted)
+                    switch ATTrackingManager.trackingAuthorizationStatus {
+                    case .notDetermined:
+                        ATTrackingManager.requestTrackingAuthorization { status in
+                            DispatchQueue.main.async {
+                                AdsManager.shared.setConsent(status == .authorized)
+                            }
                         }
+                    case .denied, .restricted:
+                        // iOS won't re-prompt once answered — deep-link to Settings.
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    default:
+                        AdsManager.shared.setConsent(true)
                     }
                 } else {
                     AdsManager.shared.setConsent(false)
@@ -421,8 +430,8 @@ struct SettingsView: View {
                         .padding(AppSpacing.md)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Reset all progress")
-                    .accessibilityHint("Permanently deletes all your game data. This cannot be undone.")
+                    .accessibilityLabel(Text("a11y.resetLabel"))
+                    .accessibilityHint(Text("a11y.resetHint"))
                     .accessibilityAddTraits(.isButton)
                 }
 
@@ -474,7 +483,15 @@ struct SettingsView: View {
         .alert("settings.account.resetTitle", isPresented: $showResetAlert) {
             Button("common.cancel", role: .cancel) {}
             Button("settings.account.resetAction", role: .destructive) {
+                // Wipe level progress + stats + streaks, the Nook (scene pieces) and
+                // energy too (wallet, purchases, premium, achievements survive). Drop
+                // in-progress sessions and push the wipe to iCloud so a higher-rev
+                // cloud save can't restore it.
                 ProgressStore.shared.reset()
+                NookStore.shared.reset()
+                EnergyStore.shared.reset()
+                GameSessionStore.shared.clearAll()
+                CloudSync.shared.pushToCloud()
             }
         } message: {
             Text("settings.account.resetMessage")

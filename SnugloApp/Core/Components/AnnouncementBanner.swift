@@ -28,10 +28,11 @@ struct AnnouncementBanner: View {
     }
 
     var body: some View {
-        ZStack(alignment: .leading) {
-            cardContent
-            accentStrip
-        }
+        // Strip is an OVERLAY on the card (not a ZStack sibling) so it's bounded to
+        // the card's height. As a greedy Shape in a ZStack it stretched to fill any
+        // tall container (e.g. the full-screen update overlay) → a giant left line.
+        cardContent
+            .overlay(alignment: .leading) { accentStrip }
     }
 
     // MARK: — Card content

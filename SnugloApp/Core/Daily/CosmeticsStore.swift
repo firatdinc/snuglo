@@ -23,8 +23,12 @@ final class CosmeticsStore {
         unlockedBoards = Set(defaults.stringArray(forKey: boardsKey) ?? [])
     }
 
-    func isSkinUnlocked(_ id: String) -> Bool { unlockedSkins.contains(id) }
-    func isBoardUnlocked(_ id: String) -> Bool { unlockedBoards.contains(id) }
+    /// Premium unlocks ALL cosmetics (as the paywall promises). Reads the mirrored
+    /// flag so this stays actor-free.
+    private var premiumActive: Bool { UserDefaults.standard.bool(forKey: "snuglo.premium.active") }
+
+    func isSkinUnlocked(_ id: String) -> Bool { premiumActive || unlockedSkins.contains(id) }
+    func isBoardUnlocked(_ id: String) -> Bool { premiumActive || unlockedBoards.contains(id) }
 
     /// Gem price for a skin, derived from its unlock level.
     static func skinCost(unlockLevel: Int) -> Int { max(5, unlockLevel * 2) }

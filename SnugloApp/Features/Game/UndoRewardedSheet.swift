@@ -10,7 +10,7 @@ struct UndoRewardedSheet: View {
     let onDismiss: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    private var adAvailable: Bool { AdsManager.shared.rewardedAvailable }
+    private var adAvailable: Bool { AdsManager.shared.rewardedReady }
 
     var body: some View {
         VStack(spacing: AppSpacing.lg) {
@@ -27,10 +27,10 @@ struct UndoRewardedSheet: View {
 
             // Text
             VStack(spacing: AppSpacing.xs) {
-                Text("Geri Al — Ücretsiz")
+                Text("undo.rewarded.title")
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text("Kısa bir reklam izle, son yerleştirdiğin parça tepsiye dönsün.")
+                Text("undo.rewarded.message")
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurfaceVariant)
                     .multilineTextAlignment(.center)
@@ -45,7 +45,7 @@ struct UndoRewardedSheet: View {
                     HStack(spacing: AppSpacing.sm) {
                         Image(systemName: "play.rectangle.fill")
                             .font(.system(size: 16))
-                        Text("Reklam İzle")
+                        Text("powerup.watchAd")
                             .font(AppTypography.headlineSmall)
                     }
                     .foregroundStyle(AppColors.onPrimary)
@@ -57,7 +57,7 @@ struct UndoRewardedSheet: View {
                 .padding(.horizontal, AppSpacing.lg)
 
                 if !adAvailable {
-                    Text("Şu an reklam mevcut değil")
+                    Text("shop.claim.adNotReady")
                         .font(AppTypography.labelSmall)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
@@ -65,7 +65,7 @@ struct UndoRewardedSheet: View {
                 Button {
                     onDismiss()
                 } label: {
-                    Text("İptal")
+                    Text("common.cancel")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                         .frame(maxWidth: .infinity)

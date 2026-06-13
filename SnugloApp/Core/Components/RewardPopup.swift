@@ -31,9 +31,7 @@ struct RewardPopup: View {
                     Circle()
                         .fill(reward.tint.opacity(0.16))
                         .frame(width: 92, height: 92)
-                    Image(systemName: reward.systemImage)
-                        .font(.system(size: 44, weight: .bold))
-                        .foregroundStyle(reward.tint)
+                    icon(size: 52)
                         .shadow(color: reward.tint.opacity(0.5), radius: 12)
                 }
                 .frame(height: 130)
@@ -47,9 +45,7 @@ struct RewardPopup: View {
                         .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundStyle(AppColors.onSurface)
                         .monospacedDigit()
-                    Image(systemName: reward.systemImage)
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(reward.tint)
+                    icon(size: 34)
                 }
 
                 Button("reward.great") { close() }
@@ -83,6 +79,22 @@ struct RewardPopup: View {
                 try? await Task.sleep(for: .seconds(2.6))
                 close()
             }
+        }
+    }
+
+    /// Currency rewards use the illustrated asset; energy etc. fall back to SF.
+    @ViewBuilder
+    private func icon(size: CGFloat) -> some View {
+        if let asset = reward.assetName {
+            Image(asset)
+                .resizable()
+                .renderingMode(.original)
+                .scaledToFit()
+                .frame(width: size, height: size)
+        } else {
+            Image(systemName: reward.systemImage)
+                .font(.system(size: size * 0.82, weight: .bold))
+                .foregroundStyle(reward.tint)
         }
     }
 

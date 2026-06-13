@@ -78,8 +78,11 @@ final class GameViewModel {
     /// True when the just-cleared endless level set a new personal-best run.
     private(set) var newEndlessBest: Bool = false
 
-    /// Tower: set true when an invalid placement ends the climb (one-mistake rule).
+    /// Tower: set true when the floor's countdown runs out (eliminated).
     private(set) var towerFailed: Bool = false
+
+    /// Called by the timer when a Tower floor's countdown hits zero.
+    func failTower() { towerFailed = true }
 
     /// Currency granted for the just-completed solve — computed & applied in
     /// `persistProgress` (where real stars + mode are known) and surfaced here so
@@ -154,6 +157,56 @@ final class GameViewModel {
         return GameViewModel(level: level)
     }
 
+    // MARK: - Resume (in-progress session snapshot/restore)
+
+    /// Identifies the exact level layout — used to reject a stale resume snapshot
+    /// (e.g. a daily id reused for a different day's puzzle).
+    var levelFingerprint: String {
+        let ids = level.pieces.map(\.id).sorted().joined(separator: ",")
+        return "\(level.width)x\(level.height)|\(ids)"
+    }
+
+    /// Build a resumable snapshot of the current board (paired with the GameView's
+    /// `elapsedSeconds`, the only timer state the view owns).
+    func makeSession(elapsedSeconds: Int) -> GameSession {
+        GameSession(
+            levelID: level.id,
+            fingerprint: levelFingerprint,
+            placements: Array(placements.values),
+            elapsedSeconds: elapsedSeconds,
+            moveCount: moveCount,
+            hintsUsed: hintsUsed,
+            moveHistory: moveHistory.map(\.pieceID)
+        )
+    }
+
+    /// Restore a saved session onto this (fresh) view model. Rejects mismatched or
+    /// invalid snapshots. Returns true if the board was restored.
+    @discardableResult
+    func restore(from session: GameSession) -> Bool {
+        guard session.fingerprint == levelFingerprint else { return false }
+        var restored: [PieceID: Placement] = [:]
+        for p in session.placements where level.pieces.contains(where: { $0.id == p.pieceId }) {
+            restored[p.pieceId] = p
+        }
+        guard !restored.isEmpty else { return false }
+        // Defensive: never resume into an overlapping / out-of-bounds board.
+        let check = checker.check(level: level, placements: Array(restored.values))
+        if case .overlap = check { return false }
+        if case .outOfBounds = check { return false }
+
+        placements = restored
+        moveCount = session.moveCount
+        hintsUsed = session.hintsUsed
+        moveHistory = session.moveHistory
+            .filter { restored[$0] != nil }
+            .map { MoveSnapshot(pieceID: $0) }
+        isSolved = (check == .valid)   // normally false; an unfinished board resumes
+        // Keep solve-time accounting consistent with the resumed clock.
+        startTime = Date().addingTimeInterval(-Double(session.elapsedSeconds))
+        return true
+    }
+
     // MARK: - Computed helpers
 
     /// Pieces not yet successfully placed on the grid.
@@ -214,10 +267,9 @@ final class GameViewModel {
             }
 
         case .overlap, .outOfBounds, .unknownPiece:
-            // Reject — caller should animate the block back
+            // Reject — caller should animate the block back. (Tower is NOT failed
+            // by a wrong placement; only the countdown running out ends a climb.)
             invalidPieceIDs.insert(pieceID)
-            // Tower: one mistake ends the climb.
-            if level.id.hasPrefix("tower") { towerFailed = true }
 
         case .emptyGrid:
             break
@@ -287,10 +339,61 @@ final class GameViewModel {
         return placeHintPiece()
     }
 
-    /// Places the first unplaced solution piece without consuming a hint token.
+    /// Absolute grid cells that placing `pieceID` at `origin` would cover.
+    private func absoluteCells(pieceID: PieceID, origin: Coord) -> [Coord] {
+        guard let piece = level.pieces.first(where: { $0.id == pieceID }) else { return [] }
+        return piece.cells.map { Coord(x: $0.x + origin.x, y: $0.y + origin.y) }
+    }
+
+    /// Pieces already on the board but sitting somewhere other than their canonical
+    /// solution origin — i.e. they need to MOVE, not be placed from the tray.
+    var misplacedPieceIDs: [PieceID] {
+        placements.compactMap { id, placement in
+            guard let sol = level.solution.first(where: { $0.pieceId == id }) else { return nil }
+            return sol.origin == placement.origin ? nil : id
+        }
+    }
+
+    /// Advance toward the canonical solution by ONE move, without consuming a token.
     /// Called by both `applyHint(store:)` (free path) and `applyPowerUp(.hint)` (gem path).
+    ///
+    /// Hybrid behavior (design choice): a piece that's already on the board but in
+    /// the WRONG place is corrected first — relocated to its solution slot when that
+    /// slot is free, or lifted back to the tray when a swap/cycle blocks the slot (so
+    /// the next hint can place it cleanly). Only when every placed piece is already
+    /// correct do we fall back to placing the next unplaced tray piece.
     @discardableResult
     private func placeHintPiece() -> Bool {
+        // 1) Fix a misplaced piece that's already on the board.
+        let misplaced = misplacedPieceIDs
+        if !misplaced.isEmpty {
+            // Cells occupied by pieces OTHER than `id` (its solution slot must be clear
+            // of these for a relocation to be a valid, non-overlapping move).
+            func cellsOccupiedByOthers(excluding id: PieceID) -> Set<Coord> {
+                var occ = Set<Coord>()
+                for (pid, pl) in placements where pid != id {
+                    occ.formUnion(absoluteCells(pieceID: pid, origin: pl.origin))
+                }
+                return occ
+            }
+            // Prefer a misplaced piece whose solution slot is currently free → relocate.
+            for id in misplaced {
+                guard let sol = level.solution.first(where: { $0.pieceId == id }) else { continue }
+                let target = Set(absoluteCells(pieceID: id, origin: sol.origin))
+                if target.isDisjoint(with: cellsOccupiedByOthers(excluding: id)) {
+                    lastHintPieceID = id
+                    tryPlace(pieceID: id, at: sol.origin)
+                    return true
+                }
+            }
+            // Every target blocked (two pieces swapped, or a longer cycle): break the
+            // deadlock by lifting one back to the tray. The next hint relocates cleanly.
+            removePlacement(for: misplaced[0])
+            lastHintPieceID = nil
+            return true
+        }
+
+        // 2) All placed pieces are correct → place the next unplaced solution piece.
         guard let piece = unplacedPieces.first(where: { p in
             level.solution.contains(where: { $0.pieceId == p.id })
         }) else { return false }
@@ -308,7 +411,9 @@ final class GameViewModel {
         PowerUpRules.isApplicable(
             pu,
             unplacedCount: unplacedPieces.count,
-            moveHistoryCount: moveHistory.count
+            moveHistoryCount: moveHistory.count,
+            misplacedCount: misplacedPieceIDs.count,
+            placedCount: placements.count
         )
     }
 
@@ -378,12 +483,19 @@ final class GameViewModel {
         isSolved = false
     }
 
-    /// Randomises the order of pieces remaining in the tray using Swift's
-    /// built-in Fisher-Yates shuffle (seeded by SystemRandomNumberGenerator).
+    /// Shuffle the pieces. Any pieces already on the board are returned to the tray
+    /// first so the shuffle covers the WHOLE set (a reset-and-reshuffle) — previously
+    /// this only reordered the tray, a no-op once pieces were placed. Order is then
+    /// randomised with Swift's built-in Fisher-Yates shuffle.
     private func shuffleTray() {
-        // unplacedPieces is derived from level.pieces filtered by placements.
-        // Shuffling level.pieces reorders how unplacedPieces are returned,
-        // which TrayLayout consumes directly.
+        if !placements.isEmpty {
+            placements.removeAll()
+            invalidPieceIDs.removeAll()
+            moveHistory.removeAll()   // board cleared → nothing to undo
+            isSolved = false
+        }
+        // unplacedPieces is derived from level.pieces filtered by placements, so
+        // reordering level.pieces reorders the tray, which TrayLayout consumes.
         var shuffled = level.pieces
         shuffled.shuffle()
         level = Level(
@@ -424,6 +536,12 @@ final class GameViewModel {
         let stars = computeStars(seconds: timeTaken, gridSize: level.width)
         let progress = ProgressStore.shared
 
+        // Level cleared → close its paid energy session so a future fresh start
+        // charges again (no-op for relaxed/Endless levels, never charged) and drop
+        // any in-progress resume snapshot.
+        EnergyStore.shared.endPaidSession(levelID: level.id)
+        GameSessionStore.shared.clear(levelID: level.id)
+
         let isEndless = level.id.hasPrefix("endless")
         let isDaily   = level.id.hasPrefix("daily")
         // RELAXED = Endless OR Zen Mode (a global toggle that can also be on over a
@@ -452,6 +570,9 @@ final class GameViewModel {
             // Capture the prior best/stars BEFORE markCompleted overwrites them.
             let prevBest = progress.levelProgress[level.id]?.bestTime
             wasThreeStar = (progress.levelProgress[level.id]?.stars ?? 0) >= 3
+            // Was this level already cleared? (Captured before markCompleted so the
+            // Nook scene piece is awarded exactly once, on the first clear.)
+            let wasCompleted = progress.levelProgress[level.id]?.isCompleted ?? false
             newBestTime = prevBest != nil && timeTaken < prevBest!
             progress.markCompleted(levelId: level.id, stars: stars, time: timeTaken, hintsUsed: hintsUsed)
             // Pack completion milestone: reward finishing every level in a pack.
@@ -462,6 +583,15 @@ final class GameViewModel {
                     totalLevels: total,
                     completed: progress.packCompletionCount(packId)
                 )
+            }
+            // Nook surprise: every 10th level (10/20/…/60) earns a scene piece on its
+            // first clear. Announce it as a juicy reveal; the player drags it into
+            // place in the Nook (NookStore derives "earned" from progress).
+            if !wasCompleted,
+               let packId = Self.packId(from: level.id),
+               let lvlIdx = level.id.split(separator: "-").last.flatMap({ Int($0) }),
+               lvlIdx > 0, lvlIdx % 10 == 0 {
+                NookRevealCenter.shared.announce(packId: packId, pieceIndex: lvlIdx / 10 - 1)
             }
         }
 
@@ -491,6 +621,8 @@ final class GameViewModel {
             // Economy meters advance on real play only.
             DailyQuestStore.shared.recordSolve(seconds: Int(timeTaken), hintsUsed: hintsUsed, stars: stars)
             ChestStore.shared.recordSolve()
+            // Keys (to open chests): a perfect 3★ solve earns one.
+            if stars >= 3 { ChestStore.shared.addKey(1) }
             WeeklyChallengeStore.shared.recordSolve()
         }
 

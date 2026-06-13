@@ -17,10 +17,15 @@ struct MainMenuView: View {
     @Environment(AppRouter.self) private var router
     @Environment(\.requestReview) private var requestReview
     @AppStorage("hasRequestedReview") private var hasRequestedReview = false
+    /// Zen Mode toggle, surfaced on the home corner (was buried in Settings).
+    /// When on, the home shows ONLY the Zen entry and the app shifts to the sage
+    /// palette (RootView rebuilds on this key).
+    @AppStorage("zenMode") private var zenMode = false
     @State private var chestReward: ChestReward?
     @State private var showSpin = false
     @State private var showCalendar = false
     @State private var showRewardsMenu = false
+    @State private var showTowerNoTicket = false
     @State private var dailyShareImage: Image?
 
     var body: some View {
@@ -31,7 +36,7 @@ struct MainMenuView: View {
         // Floating rewards button + drop-down (spin / daily / chest) — only on the
         // menu tabs. Frees the home column for the prominent Zen card.
         .overlay(alignment: .bottomTrailing) {
-            if isMenuTab { rewardsFab.padding(.trailing, AppSpacing.lg).padding(.bottom, AppSpacing.md) }
+            if isMenuTab && !zenMode { rewardsFab.padding(.trailing, AppSpacing.lg).padding(.bottom, AppSpacing.md) }
         }
         .toolbar(.hidden, for: .navigationBar)
         // iOS 26: .contain ensures children (topBar buttons, tab content) remain
@@ -53,6 +58,20 @@ struct MainMenuView: View {
                 DailyCalendarView { showCalendar = false }
                     .zIndex(50)
                     .transition(.opacity)
+            }
+            if showTowerNoTicket {
+                ConfirmDialog(
+                    icon: "ticket.fill",
+                    titleKey: "tower.title",
+                    messageKey: "tower.needTicket",
+                    cancelKey: "button.close",
+                    confirmKey: "tower.getTickets",
+                    confirmIsDestructive: false,
+                    onCancel: { showTowerNoTicket = false },
+                    onConfirm: { showTowerNoTicket = false; router.selectTab(.shop) }
+                )
+                .zIndex(55)
+                .transition(.opacity)
             }
             if let lvl = XPStore.shared.pendingLevelUp {
                 LevelUpOverlay(level: lvl, coins: XPStore.shared.pendingLevelUpCoins) {
@@ -79,6 +98,7 @@ struct MainMenuView: View {
                     gems: PackRewardStore.reward.gems
                 ) {
                     PackRewardStore.shared.collect()
+                    ChestStore.shared.addKey(2)   // finishing a pack drops 2 chest keys
                     maybeRequestReview()
                 }
                 .zIndex(65)
@@ -138,14 +158,21 @@ struct MainMenuView: View {
         let completedCount = ProgressStore.shared.totalLevelsCompleted()
         return ScrollView(showsIndicators: false) {
             VStack(spacing: AppSpacing.lg) {
-                todayBanner.appearStagger(0)        // warm greeting + today's quest count
+                topRow.appearStagger(0)             // greeting + today's quests + Zen toggle
                 topStatsBar.appearStagger(1)        // energy · streak · level · progress
-                dailyPuzzleCard.appearStagger(2)
-                zenCard.appearStagger(3)            // prominent relaxed entry (free, no energy)
-                towerCard.appearStagger(4)          // ticket-gated one-mistake climb
-                continueSection.appearStagger(5)
-                questsCard.appearStagger(6)
-                weeklyCard.appearStagger(7)
+                if zenMode {
+                    // Zen Mode on → ONLY the Zen entry is shown (calm focus).
+                    zenCard.appearStagger(2)
+                } else {
+                    continueSection.appearStagger(2)    // CAMPAIGN — main progression, on top
+                    gameModesHeader.appearStagger(3)
+                    dailyPuzzleCard.appearStagger(4)
+                    zenCard.appearStagger(5)            // relaxed entry (free, no energy)
+                    towerCard.appearStagger(6)          // ticket-gated one-mistake climb
+                    nookCard.appearStagger(7)           // cozy meta — decorate + rescue friends
+                    questsCard.appearStagger(8)
+                    weeklyCard.appearStagger(9)
+                }
                 Spacer(minLength: 96)
             }
             .padding(.horizontal, AppSpacing.lg)
@@ -175,6 +202,22 @@ struct MainMenuView: View {
                 .minimumScaleFactor(0.8)
         }
         .frame(maxWidth: .infinity)
+    }
+
+    /// Like `statSeg` but with the illustrated currency icon (gem / gold coin).
+    private func currencySeg(_ currency: Currency, _ amount: Int) -> some View {
+        HStack(spacing: 3) {
+            CurrencyIcon(currency: currency, size: 16)
+            Text(verbatim: "\(amount)")
+                .font(.system(size: 15, weight: .bold, design: .rounded))
+                .foregroundStyle(AppColors.onSurface)
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+        }
+        .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: "\(amount) " + NSLocalizedString(currency.displayNameKey, comment: "")))
     }
 
     /// A slim, warm "today" greeting + count of quests completed today. Kept
@@ -208,21 +251,19 @@ struct MainMenuView: View {
     }
 
     private var topStatsBar: some View {
-        let streak = ProgressStore.shared.playStreak
-        let level = XPStore.shared.level
-        let completed = ProgressStore.shared.totalLevelsCompleted()
         let energyText = StoreManager.shared.isPremium ? "∞" : "\(EnergyStore.shared.current)/\(EnergyStore.maxEnergy)"
+        let gems = WalletStore.shared.balance(of: .gem)
+        let coins = WalletStore.shared.balance(of: .coin)
         func divider() -> some View {
             Capsule().fill(AppColors.surfaceContainerHigh).frame(width: 1.5, height: 22)
         }
+        // Level-progress count moved into the Continue card ("Level N/total").
         return HStack(spacing: 0) {
             statSeg("bolt.fill", energyText, AppColors.tertiary)
             divider()
-            statSeg("flame.fill", "\(streak)", AppColors.tertiary)
+            currencySeg(.gem, gems)
             divider()
-            statSeg("star.circle.fill", "Lv \(level)", AppColors.primary)
-            divider()
-            statSeg("square.grid.2x2.fill", "\(completed)/\(MockData.totalLevels)", AppColors.secondary)
+            currencySeg(.coin, coins)
         }
         .padding(.vertical, AppSpacing.sm)
         .padding(.horizontal, AppSpacing.sm)
@@ -238,8 +279,7 @@ struct MainMenuView: View {
             )
         )
         .shadowL1()
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Streak \(streak) days, level \(level), \(completed) of \(MockData.totalLevels) levels")
+        .accessibilityElement(children: .combine)
     }
 
     // MARK: — Streak badge (play streak — any level, any day)
@@ -282,9 +322,9 @@ struct MainMenuView: View {
         .clipShape(Capsule())
         .shadowL1()
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(lit
-            ? "Play streak: \(streak) days. Best \(best)."
-            : "No active streak. Play any level today to start one.")
+        .accessibilityLabel(Text(verbatim: lit
+            ? String(format: NSLocalizedString("a11y.playStreak", comment: ""), streak, best)
+            : NSLocalizedString("a11y.noStreak", comment: "")))
     }
 
     // MARK: — Weekly Challenge card
@@ -303,9 +343,18 @@ struct MainMenuView: View {
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
                 Spacer()
-                Text(verbatim: c.rewardGems > 0 ? "🪙\(c.rewardCoins) 💎\(c.rewardGems)" : "🪙\(c.rewardCoins)")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+                HStack(spacing: 4) {
+                    CurrencyIcon(currency: .coin, size: 16)
+                    Text(verbatim: "\(c.rewardCoins)")
+                        .font(AppTypography.numericSmall).monospacedDigit()
+                        .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.8))
+                    if c.rewardGems > 0 {
+                        CurrencyIcon(currency: .gem, size: 16)
+                        Text(verbatim: "\(c.rewardGems)")
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                            .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.8))
+                    }
+                }
             }
             .padding(.horizontal, AppSpacing.xs)
 
@@ -387,6 +436,90 @@ struct MainMenuView: View {
         }
     }
 
+    /// Top row: the greeting banner + a corner Zen toggle (was buried in Settings).
+    private var topRow: some View {
+        HStack(spacing: AppSpacing.sm) {
+            todayBanner
+            zenToggle
+        }
+    }
+
+    /// Corner Zen toggle. On → app shifts to the sage palette (RootView rebuilds)
+    /// and the home shows only the Zen entry.
+    private var zenToggle: some View {
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) { zenMode.toggle() }
+            HapticService.shared.impact(.light)
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: zenMode ? "leaf.fill" : "leaf")
+                    .font(.system(size: 13, weight: .bold))
+                Text(verbatim: "Zen")
+                    .font(AppTypography.labelSmall)
+            }
+            .foregroundStyle(zenMode ? AppColors.onPrimary : AppColors.onSurfaceVariant)
+            .padding(.horizontal, AppSpacing.sm + 2)
+            .padding(.vertical, 9)
+            .background(zenMode ? AppColors.primary : AppColors.surfaceContainerLow, in: Capsule())
+            .overlay(Capsule().stroke(zenMode ? .clear : AppColors.surfaceContainerHigh, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text("zen.mode.title"))
+        .accessibilityValue(Text(zenMode ? "On" : "Off"))
+    }
+
+    /// "Game Modes" section header (Daily / Zen / Tower live below it).
+    private var gameModesHeader: some View {
+        Text("menu.gameModes")
+            .font(AppTypography.headlineSmall)
+            .foregroundStyle(AppColors.onSurface)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, AppSpacing.xs)
+            .padding(.top, AppSpacing.xs)
+    }
+
+    /// Cozy meta entry — decorate your Nook + rescue the friends you free by
+    /// completing campaign packs. Shows how "cozy" (complete) the Nook is.
+    private var nookCard: some View {
+        let pct = Int((NookStore.shared.completion * 100).rounded())
+        let ready = NookStore.shared.totalAvailablePieces
+        return Button { router.push(.nook) } label: {
+            HStack(spacing: AppSpacing.md) {
+                CardIconBadge(symbol: "house.fill", tint: AppColors.tertiary, bg: AppColors.blockCream)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("nook.title")
+                        .font(AppTypography.headlineMedium)
+                        .foregroundStyle(AppColors.onSurface)
+                    Text("nook.subtitle")
+                        .font(AppTypography.bodyMedium)
+                        .foregroundStyle(AppColors.onSurfaceVariant)
+                }
+                Spacer()
+                HStack(spacing: 4) {
+                    Image(systemName: ready > 0 ? "puzzlepiece.fill" : "sparkles")
+                        .font(.system(size: 12, weight: .bold))
+                    if ready > 0 {
+                        Text(verbatim: "\(ready)")
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                    } else {
+                        Text(verbatim: String(format: NSLocalizedString("nook.cozy.percent", comment: ""), pct))
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                    }
+                }
+                .foregroundStyle(ready > 0 ? AppColors.onTertiary : AppColors.tertiary)
+                .padding(.horizontal, AppSpacing.sm)
+                .padding(.vertical, 5)
+                .background(ready > 0 ? AppColors.tertiary : AppColors.surfaceContainerHigh, in: Capsule())
+            }
+            .padding(AppSpacing.md)
+            .background(AppColors.background)
+            .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))
+            .cardSurface()
+        }
+        .buttonStyle(PressableCardStyle())
+        .accessibilityIdentifier("button.menu.nook")
+    }
+
     /// Prominent Zen entry — relaxed, no timer, FREE (never costs energy).
     private var zenCard: some View {
         Button { router.push(.game(levelID: "endless-1")) } label: {
@@ -419,10 +552,15 @@ struct MainMenuView: View {
     private var towerCard: some View {
         let best = TowerStore.shared.bestFloor
         return Button {
-            if TowerStore.shared.payEntry() {
+            let tower = TowerStore.shared
+            if tower.hasActiveRun {
+                // Resume the in-progress climb where you left off — no ticket.
+                router.push(.game(levelID: "tower-\(tower.currentFloor)"))
+            } else if tower.payEntry() {
+                tower.setCurrentFloor(1)
                 router.push(.game(levelID: "tower-1"))
             } else {
-                router.selectTab(.shop)
+                showTowerNoTicket = true
             }
         } label: {
             HStack(spacing: AppSpacing.md) {
@@ -432,7 +570,9 @@ struct MainMenuView: View {
                         .font(AppTypography.headlineMedium)
                         .foregroundStyle(AppColors.onSurface)
                     Group {
-                        if best > 0 {
+                        if TowerStore.shared.hasActiveRun {
+                            Text(verbatim: String(format: NSLocalizedString("tower.resume", comment: ""), TowerStore.shared.currentFloor))
+                        } else if best > 0 {
                             Text(verbatim: String(format: NSLocalizedString("tower.best", comment: ""), best))
                         } else {
                             Text("tower.subtitle")
@@ -442,13 +582,17 @@ struct MainMenuView: View {
                     .foregroundStyle(AppColors.onSurfaceVariant)
                 }
                 Spacer()
+                // Player's ticket balance (tickets are Tower-only, so this is the
+                // natural place to show how many you have).
                 HStack(spacing: 4) {
-                    Image(systemName: "ticket.fill")
-                        .font(.system(size: 13, weight: .semibold))
-                    Text(verbatim: "\(TowerStore.ticketCost)")
-                        .font(AppTypography.numericSmall).monospacedDigit()
+                    CurrencyIcon(currency: .ticket, size: 18)
+                    Text(verbatim: "\(WalletStore.shared.ticket)")
+                        .font(AppTypography.numericLabel).monospacedDigit()
                 }
                 .foregroundStyle(AppColors.tertiary)
+                .padding(.horizontal, AppSpacing.sm)
+                .padding(.vertical, 5)
+                .background(AppColors.surfaceContainerHigh, in: Capsule())
             }
             .padding(AppSpacing.md)
             .background(AppColors.background)
@@ -463,7 +607,7 @@ struct MainMenuView: View {
     private var rewardsFab: some View {
         let anyAvailable = SpinStore.shared.canSpin
             || DailyCalendarStore.shared.canClaim
-            || ChestStore.shared.hasChest
+            || ChestStore.shared.canOpen
         return VStack(alignment: .trailing, spacing: AppSpacing.sm) {
             if showRewardsMenu {
                 VStack(spacing: AppSpacing.xs) {
@@ -475,8 +619,9 @@ struct MainMenuView: View {
                         showRewardsMenu = false
                         showCalendar = true
                     }
-                    rewardTile(icon: ChestStore.shared.hasChest ? "gift.fill" : "shippingbox.fill",
-                               titleKey: "chest.title", available: ChestStore.shared.hasChest) {
+                    rewardTile(icon: "shippingbox.fill", assetIcon: "Chest",
+                               titleKey: "chest.title", available: ChestStore.shared.canOpen,
+                               keyCount: ChestStore.shared.keys) {
                         showRewardsMenu = false
                         if let r = ChestStore.shared.open() { chestReward = r }
                     }
@@ -518,7 +663,9 @@ struct MainMenuView: View {
 
     // MARK: — Rewards rail (spin · calendar · chest)
 
-    private func rewardTile(icon: String, titleKey: LocalizedStringKey, available: Bool, action: @escaping () -> Void) -> some View {
+    private func rewardTile(icon: String, assetIcon: String? = nil, titleKey: LocalizedStringKey,
+                            available: Bool, keyCount: Int? = nil,
+                            action: @escaping () -> Void) -> some View {
         Button(action: action) {
             VStack(spacing: 6) {
                 ZStack(alignment: .topTrailing) {
@@ -526,15 +673,36 @@ struct MainMenuView: View {
                         RoundedRectangle(cornerRadius: 14, style: .continuous)
                             .fill(AppColors.primaryContainer.opacity(available ? 0.5 : 0.25))
                             .frame(width: 52, height: 52)
-                        Image(systemName: icon)
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                        if let assetIcon {
+                            Image(assetIcon)
+                                .resizable().renderingMode(.original).scaledToFit()
+                                .frame(width: 36, height: 36)
+                                .opacity(available ? 1 : 0.5)
+                                .saturation(available ? 1 : 0.3)
+                        } else {
+                            Image(systemName: icon)
+                                .font(.system(size: 22, weight: .semibold))
+                                .foregroundStyle(available ? AppColors.primary : AppColors.onSurfaceVariant)
+                        }
                     }
                     if available {
                         Circle().fill(AppColors.tertiary)
                             .frame(width: 11, height: 11)
                             .overlay(Circle().stroke(AppColors.background, lineWidth: 2))
                             .offset(x: 4, y: -4)
+                    }
+                    // Key count badge (chest tile) — shows how many keys you hold.
+                    if let keyCount {
+                        HStack(spacing: 1) {
+                            Image("Key").resizable().renderingMode(.original).scaledToFit()
+                                .frame(width: 11, height: 11)
+                            Text(verbatim: "\(keyCount)")
+                                .font(.system(size: 10, weight: .bold, design: .rounded))
+                                .foregroundStyle(AppColors.onSurface)
+                        }
+                        .padding(.horizontal, 4).padding(.vertical, 2)
+                        .background(AppColors.surfaceContainerHigh, in: Capsule())
+                        .offset(x: 8, y: -6)
                     }
                 }
                 Text(titleKey)
@@ -556,8 +724,9 @@ struct MainMenuView: View {
             rewardTile(icon: "calendar", titleKey: "calendar.title", available: DailyCalendarStore.shared.canClaim) {
                 showCalendar = true
             }
-            rewardTile(icon: ChestStore.shared.hasChest ? "gift.fill" : "shippingbox.fill",
-                       titleKey: "chest.title", available: ChestStore.shared.hasChest) {
+            rewardTile(icon: "shippingbox.fill", assetIcon: "Chest",
+                       titleKey: "chest.title", available: ChestStore.shared.canOpen,
+                       keyCount: ChestStore.shared.keys) {
                 if let r = ChestStore.shared.open() { chestReward = r }
             }
         }
@@ -777,9 +946,19 @@ struct MainMenuView: View {
                         .monospacedDigit()
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }
-                Text(verbatim: q.rewardGems > 0 ? "💎\(q.rewardGems)" : "🪙\(q.rewardCoins)")
-                    .font(AppTypography.labelSmall)
-                    .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.6))
+                HStack(spacing: 3) {
+                    if q.rewardGems > 0 {
+                        CurrencyIcon(currency: .gem, size: 14)
+                        Text(verbatim: "\(q.rewardGems)")
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                            .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+                    } else {
+                        CurrencyIcon(currency: .coin, size: 14)
+                        Text(verbatim: "\(q.rewardCoins)")
+                            .font(AppTypography.numericSmall).monospacedDigit()
+                            .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.7))
+                    }
+                }
             }
         }
         .padding(.vertical, AppSpacing.xs)
@@ -825,7 +1004,7 @@ struct MainMenuView: View {
                 .foregroundStyle(AppColors.tertiary)
                 .accessibilityHidden(true)
 
-            Text(verbatim: "Level \(current)")
+            Text(verbatim: String(format: NSLocalizedString("level.label", comment: ""), current))
                 .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.onSurface)
             +
@@ -848,7 +1027,7 @@ struct MainMenuView: View {
         .clipShape(Capsule())
         .shadowL1()
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("On level \(current) of \(total). \(completed) completed.")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.continueStats", comment: ""), current, total, completed)))
     }
 
     // MARK: — Daily Puzzle card
@@ -1071,7 +1250,7 @@ struct MainMenuView: View {
                         .textCase(.uppercase)
                         .foregroundStyle(AppColors.primary)
                 }
-                .accessibilityLabel("View all level packs")
+                .accessibilityLabel(Text("a11y.viewAllPacks"))
             }
             .padding(.horizontal, AppSpacing.xs)
 
@@ -1095,7 +1274,7 @@ struct MainMenuView: View {
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.button, style: .continuous))
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint("Opens the levels list to start your first puzzle")
+                .accessibilityHint(Text("a11y.startFirstHint"))
             }
         }
     }
@@ -1118,10 +1297,11 @@ struct MainMenuView: View {
         }
         .buttonStyle(PressableCardStyle())
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(
-            "\(pack.title), Level \(level.number), \(Int(pack.progressFraction * 100)) percent complete"
-        )
-        .accessibilityHint("Tap to continue this level")
+        .accessibilityLabel(Text(verbatim: String(
+            format: NSLocalizedString("a11y.continueCard", comment: ""),
+            pack.localizedTitle, level.number, Int(pack.progressFraction * 100)
+        )))
+        .accessibilityHint(Text("a11y.continueHint"))
         .accessibilityIdentifier("button.menu.continue")
     }
 
@@ -1151,12 +1331,20 @@ struct MainMenuView: View {
 
             VStack(alignment: .leading, spacing: AppSpacing.sm) {
                 VStack(alignment: .leading, spacing: AppSpacing.xs) {
-                    Text(verbatim: pack.title)
+                    Text(pack.titleKey)
                         .font(AppTypography.headlineMedium)
                         .foregroundStyle(AppColors.onSurface)
                         .lineLimit(1)
 
-                    Text(verbatim: "Level \(level.number)")
+                    // Global level position out of all campaign levels (e.g. 12/1020).
+                    // level.number is pack-relative, so add the levels in earlier packs.
+                    let globalNumber = MockData.allPacks
+                        .prefix(while: { $0.id != pack.id })
+                        .reduce(0) { $0 + $1.levelCount } + level.number
+                    Text(verbatim: String(
+                        format: NSLocalizedString("level.labelTotal", comment: ""),
+                        globalNumber, MockData.totalLevels
+                    ))
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }

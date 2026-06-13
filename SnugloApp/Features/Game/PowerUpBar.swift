@@ -35,7 +35,7 @@ struct PowerUpBar: View {
             if progress.hintCount > 0 { return .free }
             if wallet.canAfford(.gem, amount: pu.gemCost) { return .enabled }
             // Out of hints AND gems → offer a rewarded ad (if one is ready).
-            return AdsManager.shared.rewardedAvailable ? .rewarded : .disabled
+            return AdsManager.shared.rewardedReady ? .rewarded : .disabled
         case .shuffleTray:
             return wallet.canAfford(.gem, amount: pu.gemCost) ? .enabled : .disabled
         }
@@ -108,7 +108,7 @@ struct PowerUpBar: View {
                     .foregroundStyle(fg.opacity(0.85))
             } else {
                 let count = pu == .hint ? progress.hintCount : 1
-                Text("×\(count)")
+                Text(verbatim: "×\(count)")
                     .font(AppTypography.labelSmall)
                     .foregroundStyle(fg.opacity(0.85))
             }
@@ -123,7 +123,7 @@ struct PowerUpBar: View {
             }
 
         case .rewarded:
-            Text("FREE")
+            Text("powerup.free")
                 .font(.system(size: 9, weight: .bold))
                 .foregroundStyle(AppColors.onPrimary)
                 .padding(.horizontal, 4)

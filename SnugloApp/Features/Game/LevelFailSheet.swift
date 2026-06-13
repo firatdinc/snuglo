@@ -37,12 +37,12 @@ struct LevelFailSheet: View {
                 }
 
                 VStack(spacing: AppSpacing.sm) {
-                    Text("Süre Bitti!")
+                    Text("fail.title")
                         .font(AppTypography.headlineLarge)
                         .tracking(-0.4)
                         .foregroundStyle(AppColors.onSurface)
 
-                    Text("Bu sefer bitiremesek de bir daha deneyelim!")
+                    Text("fail.message")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                         .multilineTextAlignment(.center)

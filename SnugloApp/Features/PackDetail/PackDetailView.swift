@@ -22,6 +22,12 @@ struct PackDetailView: View {
         MockData.allPacks.first { $0.title == packName || $0.id == packName }
     }
 
+    /// Themed scene + icon for this pack (shared table → matches the Levels card).
+    private var theme: PackArt.Theme {
+        PackArt.theme(forPackId: pack?.id ?? "")
+    }
+    private var sceneName: String { theme.scene }
+
     private var levels: [LevelItem] {
         guard let currentPack = pack else { return [] }
         return PackProvider.levelItems(in: currentPack.id)
@@ -202,11 +208,11 @@ struct PackDetailView: View {
         VStack(spacing: 0) {
             // Generous hero — scaledToFit (no crop), large height so the island
             // scene reads as the screen's focal point.
-            Image("scene-island")
+            Image(sceneName)
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: .infinity)
-                .frame(height: 200)
+                .frame(height: 240)
                 .padding(.horizontal, AppSpacing.lg)
                 .padding(.top, AppSpacing.md)
                 .accessibilityHidden(true)
@@ -237,14 +243,17 @@ struct PackDetailView: View {
                     }
 
                     HStack(alignment: .center, spacing: AppSpacing.sm) {
-                        MascotView(name: "mascot-sloth", size: 40, clipCircle: false)
+                        Image(theme.art)
+                            .resizable().renderingMode(.original).scaledToFit()
+                            .frame(width: 44, height: 44)
+                            .accessibilityHidden(true)
                         Text(packData.titleKey)
                             .font(AppTypography.headlineLarge)
                             .tracking(-0.6)
                             .foregroundStyle(AppColors.onSurface)
                     }
 
-                    Text(packData.subtitle)
+                    Text(packData.gridLabelKey)
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
 
@@ -258,7 +267,7 @@ struct PackDetailView: View {
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(completed) of \(packData.levelCount) levels completed")
+                    .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.levelsCompleted", comment: ""), completed, packData.levelCount)))
 
                     HStack(spacing: 4) {
                         Image(systemName: "star.fill")
@@ -269,7 +278,7 @@ struct PackDetailView: View {
                             .foregroundStyle(AppColors.onSurfaceVariant)
                             .monospacedDigit()
                     }
-                    .accessibilityLabel("\(starsEarned) of \(starsMax) stars earned")
+                    .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.starsEarned", comment: ""), starsEarned, starsMax)))
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(AppSpacing.md)
@@ -316,7 +325,7 @@ struct PackDetailView: View {
         .buttonStyle(NodePressStyle(depth: nodeDepth))
         .disabled(level.isLocked)
         .accessibilityLabel(levelTileA11yLabel(level))
-        .accessibilityHint(level.isLocked ? "" : "Tap to play this level")
+        .accessibilityHint(Text(level.isLocked ? "" : "a11y.tapToPlay"))
         .accessibilityIdentifier("packdetail.level_item.\(level.index - 1)")
     }
 

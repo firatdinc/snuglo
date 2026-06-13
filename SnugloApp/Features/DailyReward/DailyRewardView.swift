@@ -88,7 +88,7 @@ struct DailyRewardView: View {
                             if let amount = reward[currency], amount > 0 {
                                 HStack(spacing: 2) {
                                     CurrencyIcon(currency: currency, size: 14)
-                                    Text("+\(amount)")
+                                    Text(verbatim: "+\(amount)")
                                         .font(AppTypography.bodyMedium)
                                         .foregroundStyle(AppColors.onSurface)
                                 }
@@ -135,7 +135,7 @@ private struct DayCell: View {
                     if let amount = reward[currency], amount > 0 {
                         HStack(spacing: 2) {
                             CurrencyIcon(currency: currency, size: 14)
-                            Text("+\(amount)")
+                            Text(verbatim: "+\(amount)")
                                 .font(AppTypography.labelSmall)
                                 .foregroundStyle(AppColors.onSurface)
                         }

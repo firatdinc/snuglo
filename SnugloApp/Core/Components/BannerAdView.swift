@@ -19,12 +19,12 @@ struct BannerAdView: View {
             HStack {
                 Spacer()
                 VStack(spacing: 2) {
-                    Text("ADVERTISEMENT")
+                    Text("ad.advertisement")
                         .font(AppTypography.labelSmall)
                         .tracking(0.6)
                         .textCase(.uppercase)
                         .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
-                    Text("Banner Ad Placeholder")
+                    Text("ad.bannerPlaceholder")
                         .font(AppTypography.labelSmall)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                 }

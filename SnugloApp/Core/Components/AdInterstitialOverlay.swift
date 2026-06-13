@@ -24,11 +24,11 @@ struct AdInterstitialOverlay: View {
                         .font(.system(size: 48, weight: .thin))
                         .foregroundStyle(AppColors.onSurfaceVariant.opacity(0.5))
 
-                    Text("Ad")
+                    Text("ad.label")
                         .font(AppTypography.headlineSmall)
                         .foregroundStyle(AppColors.onSurface)
 
-                    Text("Reklam yükleniyor… (placeholder)")
+                    Text("ad.loading")
                         .font(AppTypography.bodyMedium)
                         .foregroundStyle(AppColors.onSurfaceVariant)
                         .multilineTextAlignment(.center)

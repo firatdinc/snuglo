@@ -58,7 +58,7 @@ struct ItemBadge: View {
     }
 
     private func countBadge(_ value: Int) -> some View {
-        Text("\(value)")
+        Text(verbatim: "\(value)")
             .font(AppTypography.labelSmall)
             .foregroundStyle(AppColors.onPrimary)
             .padding(.horizontal, 5)

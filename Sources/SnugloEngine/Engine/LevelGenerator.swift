@@ -90,29 +90,36 @@ public struct LevelGenerator {
 
     /// Grid boyutu ve level index'e göre hedef piece sayısı.
     /// Zorluk arttıkça daha fazla parça → daha küçük piece alanları.
+    ///
+    /// Milestone (her 10. level: 10/20/30/40/50/60) +1 parça alır → o bölümlerde
+    /// bir Nook sahne parçası kazanıldığı için biraz daha zorlu/hak edilmiş
+    /// hisseder. `partitionGrid` count'u toplam hücreyle sınırladığından +1 daima
+    /// güvenli. Seed `levelIndex`'e bağlı olduğundan üretim deterministik kalır.
     public func difficultyPieceCount(gridSize: Int, levelIndex: Int) -> Int {
+        let bump = (levelIndex > 0 && levelIndex % 10 == 0) ? 1 : 0
+
         switch gridSize {
         case 5:  // 25 hücre
-            return levelIndex <= 20 ? 4 : 5
+            return (levelIndex <= 20 ? 4 : 5) + bump
 
         case 6:  // 36 hücre
-            if levelIndex <= 20 { return 5 }
-            if levelIndex <= 40 { return 6 }
-            return 7
+            if levelIndex <= 20 { return 5 + bump }
+            if levelIndex <= 40 { return 6 + bump }
+            return 7 + bump
 
         case 7:  // 49 hücre
-            if levelIndex <= 20 { return 6 }
-            if levelIndex <= 40 { return 7 }
-            return 8
+            if levelIndex <= 20 { return 6 + bump }
+            if levelIndex <= 40 { return 7 + bump }
+            return 8 + bump
 
         case 8:  // 64 hücre
-            if levelIndex <= 20 { return 8 }
-            if levelIndex <= 40 { return 10 }
-            return 12
+            if levelIndex <= 20 { return 8 + bump }
+            if levelIndex <= 40 { return 10 + bump }
+            return 12 + bump
 
         default:
             // Diğer boyutlar için genel formül
-            return max(3, gridSize * gridSize / 6)
+            return max(3, gridSize * gridSize / 6) + bump
         }
     }
 

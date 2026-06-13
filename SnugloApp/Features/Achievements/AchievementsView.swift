@@ -50,7 +50,7 @@ struct AchievementsView: View {
                 Text("achievements.title")
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text("\(vm.unlockedCount) / \(vm.totalCount)")
+                Text(verbatim: "\(vm.unlockedCount) / \(vm.totalCount)")
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
@@ -126,7 +126,7 @@ private struct AchievementCell: View {
                     if let amount = achievement.reward[currency], amount > 0 {
                         HStack(spacing: 2) {
                             CurrencyIcon(currency: currency, size: 12)
-                            Text("+\(amount)")
+                            Text(verbatim: "+\(amount)")
                                 .font(AppTypography.numericSmall)
                                 .foregroundStyle(AppColors.onSurfaceVariant)
                         }
@@ -214,7 +214,7 @@ private struct AchievementDetailSheet: View {
                     if let amount = achievement.reward[currency], amount > 0 {
                         HStack(spacing: AppSpacing.xs) {
                             CurrencyIcon(currency: currency, size: 20)
-                            Text("+\(amount)")
+                            Text(verbatim: "+\(amount)")
                                 .font(AppTypography.numericLabel)
                                 .foregroundStyle(AppColors.onSurface)
                         }

@@ -74,12 +74,16 @@ struct CurrencyPackGrid: View {
             Text("shop.free")
                 .font(.system(size: 9, weight: .heavy))
                 .tracking(0.5)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
                 .foregroundStyle(AppColors.onPrimary)
-                .padding(.horizontal, 26)
+                // Fixed-width band + centered text → ribbon stays centred no matter
+                // the language ("FREE" / "ÜCRETSİZ" / "GRATIS").
+                .frame(width: 120, alignment: .center)
                 .padding(.vertical, 3)
                 .background(AppColors.tertiary)
                 .rotationEffect(.degrees(45))
-                .offset(x: 22, y: 11)
+                .offset(x: 36, y: 18)
                 .accessibilityHidden(true)
         }
         .clipShape(RoundedRectangle(cornerRadius: AppRadius.card, style: .continuous))

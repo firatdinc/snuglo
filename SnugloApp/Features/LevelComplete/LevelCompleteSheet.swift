@@ -30,8 +30,14 @@ struct LevelCompleteSheet: View {
     var isDaily: Bool = false
     var dailyIndex: Int? = nil      // 0-based index of the daily level just solved
     var dailyTotal: Int  = ProgressStore.dailyLevelCount
+    /// True when advancing would cost energy the player doesn't have — the primary
+    /// button becomes an out-of-energy CTA (`onNeedEnergy`) instead of "Next".
+    var nextBlockedByEnergy: Bool = false
     var onNext: () -> Void   = {}
     var onReplay: () -> Void = {}
+    /// Out-of-energy CTA action (watch ad / go Premium). Does NOT auto-dismiss — the
+    /// host keeps the sheet up during a rewarded ad so a cancel returns here.
+    var onNeedEnergy: () -> Void = {}
 
     /// True when the just-solved level was the final daily level of the day.
     private var isLastDaily: Bool {
@@ -99,7 +105,7 @@ struct LevelCompleteSheet: View {
                         }
                     }
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(stars) of 3 stars earned")
+                    .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.starsEarned3", comment: ""), stars)))
                 }
 
                 // Stat pills — H-2: combined label on container
@@ -137,17 +143,34 @@ struct LevelCompleteSheet: View {
                 Spacer()
 
                 VStack(spacing: AppSpacing.sm) {
-                    // Last daily level → Home; otherwise advance (pack next / next daily).
-                    PrimaryButton(
-                        isLastDaily ? "complete.home" : "complete.next",
-                        systemImage: isLastDaily ? "house.fill" : "arrow.right"
-                    ) {
-                        onNext()
-                        dismiss()
+                    // Out of energy for the next level → CTA to top up (watch ad /
+                    // Premium); the host owns dismissal so a cancelled ad returns here.
+                    if !isLastDaily && nextBlockedByEnergy {
+                        PrimaryButton("complete.outOfEnergy", systemImage: "bolt.slash.fill") {
+                            onNeedEnergy()
+                        }
+                        .padding(.horizontal, AppSpacing.lg)
+                        .accessibilityHint(Text("energy.out.message"))
+                        .accessibilityIdentifier("complete.next")
+
+                        Text("energy.out.message")
+                            .font(AppTypography.labelSmall)
+                            .foregroundStyle(AppColors.onSurfaceVariant)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, AppSpacing.xl)
+                    } else {
+                        // Last daily level → Home; otherwise advance (pack next / next daily).
+                        PrimaryButton(
+                            isLastDaily ? "complete.home" : "complete.next",
+                            systemImage: isLastDaily ? "house.fill" : "arrow.right"
+                        ) {
+                            onNext()
+                            dismiss()
+                        }
+                        .padding(.horizontal, AppSpacing.lg)
+                        .accessibilityHint(Text(isLastDaily ? "a11y.homeHint" : "a11y.nextHint"))
+                        .accessibilityIdentifier("complete.next")
                     }
-                    .padding(.horizontal, AppSpacing.lg)
-                    .accessibilityHint(isLastDaily ? "Returns to the main menu" : "Proceeds to the next level")
-                    .accessibilityIdentifier("complete.next")
 
                     HStack(spacing: AppSpacing.sm) {
                         Button {
@@ -165,7 +188,7 @@ struct LevelCompleteSheet: View {
                                 )
                         }
                         .buttonStyle(.plain)
-                        .accessibilityHint("Restarts this same level")
+                        .accessibilityHint(Text("a11y.replayHint"))
                         .accessibilityIdentifier("complete.continue")
 
                         // Hidden only on the last daily level — there the primary
@@ -186,7 +209,7 @@ struct LevelCompleteSheet: View {
                                     )
                             }
                             .buttonStyle(.plain)
-                            .accessibilityHint("Returns to the main menu")
+                            .accessibilityHint(Text("a11y.homeHint"))
                         }
                     }
                     .padding(.horizontal, AppSpacing.lg)
@@ -231,11 +254,8 @@ struct LevelCompleteSheet: View {
                     ForEach(Currency.allCases.filter { earnedReward[$0] != nil }) { currency in
                         if let amount = earnedReward[currency] {
                             HStack(spacing: 3) {
-                                Image(systemName: currency.sfSymbol)
-                                    .font(.system(size: 12, weight: .medium))
-                                    .foregroundStyle(currency.tint)
-                                    .accessibilityHidden(true)
-                                Text("+\(amount)")
+                                CurrencyIcon(currency: currency, size: 16)
+                                Text(verbatim: "+\(amount)")
                                     .font(AppTypography.numericSmall)
                                     .foregroundStyle(currency.tint)
                             }

@@ -16,14 +16,31 @@ final class TowerStore {
     static let ticketCost = 1
 
     private(set) var bestFloor: Int
+    /// Floor of the CURRENT in-progress climb (0 = no active run). Persisted so a
+    /// climb resumes where you left off after closing the app.
+    private(set) var currentFloor: Int
 
     private let defaults: UserDefaults
     private let key = "snuglo.tower.bestFloor.v1"
+    private let currentKey = "snuglo.tower.currentFloor.v1"
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         bestFloor = defaults.integer(forKey: key)
+        currentFloor = defaults.integer(forKey: currentKey)
     }
+
+    /// True when a climb is in progress and can be resumed without a ticket.
+    var hasActiveRun: Bool { currentFloor > 0 }
+
+    /// Mark the floor the player is currently on (persisted for resume).
+    func setCurrentFloor(_ floor: Int) {
+        currentFloor = max(0, floor)
+        defaults.set(currentFloor, forKey: currentKey)
+    }
+
+    /// End the active climb (eliminated / went home for good).
+    func endRun() { setCurrentFloor(0) }
 
     /// Record clearing `floor`; keeps the best. Returns true on a new record.
     @discardableResult

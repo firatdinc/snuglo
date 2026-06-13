@@ -51,8 +51,9 @@ targets:
         # v1.1: Switched to custom Info.plist — fixes BLOCKER-01 (UILaunchScreen) + BLOCKER-07 (UIAppFonts).
         # GENERATE_INFOPLIST_FILE removed; all keys now in SnugloApp/Info.plist.
         INFOPLIST_FILE: $(SRCROOT)/Info.plist
-        MARKETING_VERSION: "1.1.0"
-        CURRENT_PROJECT_VERSION: "3"
+        MARKETING_VERSION: "1.2.0"
+        CURRENT_PROJECT_VERSION: "6"
+        TARGETED_DEVICE_FAMILY: "1"   # iPhone only — no iPad (avoids iPad screenshot requirement)
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_STRICT_CONCURRENCY: minimal

@@ -65,12 +65,27 @@ struct ChestRevealOverlay: View {
                             .overlay(Circle().strokeBorder(.white.opacity(0.25), lineWidth: 2))
                             .shadow(color: tierColor.opacity(0.6), radius: revealed ? 34 : 14, y: 6)
 
-                        Image(systemName: revealed ? "gift.fill" : "shippingbox.fill")
-                            .font(.system(size: 78, weight: .bold))
-                            .foregroundStyle(.white)
-                            .shadow(color: .black.opacity(0.2), radius: 3, y: 2)
-                            .rotationEffect(.degrees(revealed ? 0 : Double(shake)))
-                            .scaleEffect(revealed ? rewardScale : pulse)
+                        if revealed {
+                            Image(systemName: "gift.fill")
+                                .font(.system(size: 78, weight: .bold))
+                                .foregroundStyle(.white)
+                                .shadow(color: .black.opacity(0.2), radius: 3, y: 2)
+                                .scaleEffect(rewardScale)
+                        } else {
+                            // Closed treasure chest (illustrated asset).
+                            Image("Chest")
+                                .resizable().renderingMode(.original).scaledToFit()
+                                .frame(width: 112, height: 112)
+                                .rotationEffect(.degrees(Double(shake)))
+                                .scaleEffect(pulse)
+                            // A key turning to unlock it.
+                            Image("Key")
+                                .resizable().renderingMode(.original).scaledToFit()
+                                .frame(width: 50, height: 50)
+                                .rotationEffect(.degrees(Double(shake) * 2.2))
+                                .offset(x: 52, y: 50)
+                                .shadow(color: .black.opacity(0.25), radius: 3, y: 2)
+                        }
                     }
 
                     // White burst flash at the moment of opening.
@@ -87,9 +102,12 @@ struct ChestRevealOverlay: View {
 
                 if revealed {
                     VStack(spacing: AppSpacing.xs) {
-                        Text(verbatim: reward.gem > 0 ? "💎 +\(reward.gem)" : "🪙 +\(reward.coin)")
-                            .font(AppTypography.headlineLarge)
-                            .foregroundStyle(AppColors.onSurface)
+                        HStack(spacing: AppSpacing.xs) {
+                            CurrencyIcon(currency: reward.gem > 0 ? .gem : .coin, size: 28)
+                            Text(verbatim: "+\(reward.gem > 0 ? reward.gem : reward.coin)")
+                                .font(AppTypography.headlineLarge)
+                                .foregroundStyle(AppColors.onSurface)
+                        }
                         Text("chest.reward")
                             .font(AppTypography.labelSmall)
                             .tracking(0.6)

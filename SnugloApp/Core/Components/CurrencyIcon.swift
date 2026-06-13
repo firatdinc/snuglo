@@ -16,9 +16,10 @@ struct CurrencyIcon: View {
     }
 
     var body: some View {
-        Image(systemName: currency.sfSymbol)
-            .font(.system(size: size * 0.7, weight: .semibold))
-            .foregroundStyle(currency.tint)
+        Image(currency.assetName)
+            .resizable()
+            .renderingMode(.original)     // full-colour illustrated icon
+            .scaledToFit()
             .frame(width: size, height: size)
             .accessibilityLabel(Text(LocalizedStringKey(currency.displayNameKey)))
     }

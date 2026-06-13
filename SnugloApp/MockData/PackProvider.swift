@@ -16,21 +16,31 @@ enum PackProvider {
 
     // MARK: - Pack API
 
-    /// 4 pack'in tümünü döndürür.
+    /// Tüm pack'leri döndürür.
     /// completedCount ProgressStore.shared'dan gerçek sayı.
-    /// isLocked → Faz G-1: StoreManager.shared.isPackUnlocked ile belirlenir.
+    /// Kilit (2026-06-07): ilk pack her zaman açık; pack N → N-1 pack'i TAMAMEN
+    /// bitmeden kilitli. (Pack-IAP kaldırıldı; ilerleme ile açılır.)
     static func allPacks() -> [Pack] {
         let progress = ProgressStore.shared
-        let sk       = StoreManager.shared
-        return MockData.allPacks.map { pack in
-            Pack(
+        let all = MockData.allPacks
+        // Premium unlocks every pack (as the paywall promises).
+        let premium = StoreManager.shared.isPremium
+        return all.enumerated().map { idx, pack in
+            let locked: Bool
+            if premium || idx == 0 {
+                locked = false
+            } else {
+                let prev = all[idx - 1]
+                locked = progress.packCompletionCount(prev.id) < prev.levelCount
+            }
+            return Pack(
                 id: pack.id,
                 title: pack.title,
                 subtitle: pack.subtitle,
                 gridSize: pack.gridSize,
                 levelCount: pack.levelCount,
                 completedCount: progress.packCompletionCount(pack.id),
-                isLocked: !sk.isPackUnlocked(pack.id),
+                isLocked: locked,
                 accentColor: pack.accentColor,
                 iconName: pack.iconName
             )

@@ -36,6 +36,9 @@ API_BASE = "https://api.revenuecat.com/v2"
 PREMIUM_PRODUCT_ID = "com.snuglo.premium"
 ENTITLEMENT_LOOKUP_KEY = "premium"
 ENTITLEMENT_DISPLAY_NAME = "Premium"
+REMOVE_ADS_PRODUCT_ID = "com.snuglo.removeads"
+ADS_ENTITLEMENT_LOOKUP_KEY = "ads_removed"
+ADS_ENTITLEMENT_DISPLAY_NAME = "Ads Removed"
 OFFERING_LOOKUP_KEY = "default"
 OFFERING_DISPLAY_NAME = "Snuglo Store"
 
@@ -54,6 +57,9 @@ PRODUCTS = [
     ProductSpec("com.snuglo.gems.tier3",  "consumable",     "1200 Gems"),
     ProductSpec("com.snuglo.gems.tier4",  "consumable",     "2600 Gems"),
     ProductSpec("com.snuglo.gems.tier5",  "consumable",     "7000 Gems"),
+    ProductSpec(REMOVE_ADS_PRODUCT_ID,    "non_consumable", "Remove Ads"),
+    ProductSpec("com.snuglo.hints.small", "consumable",     "10 Hints"),
+    ProductSpec("com.snuglo.keys.small",  "consumable",     "3 Keys"),
 ]
 
 
@@ -148,15 +154,15 @@ def ensure_product(client, project_id, app_id, spec, existing):
         raise
 
 
-def ensure_entitlement(client, project_id, existing):
-    if ENTITLEMENT_LOOKUP_KEY in existing:
-        return existing[ENTITLEMENT_LOOKUP_KEY]
-    body = {"lookup_key": ENTITLEMENT_LOOKUP_KEY, "display_name": ENTITLEMENT_DISPLAY_NAME}
+def ensure_entitlement(client, project_id, existing, lookup_key, display_name):
+    if lookup_key in existing:
+        return existing[lookup_key]
+    body = {"lookup_key": lookup_key, "display_name": display_name}
     try:
         return client.request("POST", f"/projects/{project_id}/entitlements", body=body)
     except APIError as e:
         if e.is_conflict():
-            return existing.get(ENTITLEMENT_LOOKUP_KEY, {})
+            return existing.get(lookup_key, {})
         raise
 
 
@@ -227,15 +233,24 @@ def main():
             existing_products[spec.identifier] = res
         print(f"  [{'✓' if before else '+'}] {spec.identifier} ({spec.type})")
 
-    print("\n── Entitlement ──")
+    print("\n── Entitlements ──")
     existing_ents = list_existing(client, project_id, "entitlements")
-    ent = ensure_entitlement(client, project_id, existing_ents)
+    # Premium entitlement
+    ent = ensure_entitlement(client, project_id, existing_ents, ENTITLEMENT_LOOKUP_KEY, ENTITLEMENT_DISPLAY_NAME)
     ent_id = ent.get("id")
     print(f"  [{'✓' if ENTITLEMENT_LOOKUP_KEY in existing_ents else '+'}] {ENTITLEMENT_LOOKUP_KEY} (id={ent_id})")
     premium_id = existing_products.get(PREMIUM_PRODUCT_ID, {}).get("id")
     if premium_id and ent_id:
         attach_product_to_entitlement(client, project_id, ent_id, premium_id)
         print(f"  ↳ attached {PREMIUM_PRODUCT_ID}")
+    # Ads-removed entitlement (Remove Ads non-consumable)
+    ads_ent = ensure_entitlement(client, project_id, existing_ents, ADS_ENTITLEMENT_LOOKUP_KEY, ADS_ENTITLEMENT_DISPLAY_NAME)
+    ads_ent_id = ads_ent.get("id")
+    print(f"  [{'✓' if ADS_ENTITLEMENT_LOOKUP_KEY in existing_ents else '+'}] {ADS_ENTITLEMENT_LOOKUP_KEY} (id={ads_ent_id})")
+    remove_ads_id = existing_products.get(REMOVE_ADS_PRODUCT_ID, {}).get("id")
+    if remove_ads_id and ads_ent_id:
+        attach_product_to_entitlement(client, project_id, ads_ent_id, remove_ads_id)
+        print(f"  ↳ attached {REMOVE_ADS_PRODUCT_ID}")
 
     print("\n── Offering ──")
     existing_offerings = list_existing(client, project_id, "offerings")

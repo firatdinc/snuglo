@@ -26,6 +26,17 @@ enum Currency: String, CaseIterable, Identifiable, Codable {
         }
     }
 
+    /// Custom illustrated icon in Assets.xcassets/Icons (full-colour, not tinted).
+    /// Used everywhere via `CurrencyIcon` so Shop + home match.
+    var assetName: String {
+        switch self {
+        case .coin:   return "Gold"
+        case .gem:    return "Diamond"
+        case .ticket: return "Ticket"
+        case .cup:    return "Crown"
+        }
+    }
+
     // cup is prestige / display-only — never spendable
     var isSpendable: Bool { self != .cup }
 

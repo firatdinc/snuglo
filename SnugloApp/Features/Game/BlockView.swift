@@ -63,8 +63,8 @@ struct BlockView: View {
         .animation(reduceMotion ? nil : .spring(response: 0.20, dampingFraction: 0.70), value: isDragging)
         .animation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.65), value: isInvalid)
         // H-2: VoiceOver — block identity + drag hint
-        .accessibilityLabel("\(piece.cellCount)-cell block")
-        .accessibilityHint("Double tap to select, then drag to place on the grid")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.cellBlock", comment: ""), piece.cellCount)))
+        .accessibilityHint(Text("a11y.blockHint"))
         .accessibilityAddTraits(.isButton)
     }
 

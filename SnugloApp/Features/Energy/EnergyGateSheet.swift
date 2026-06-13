@@ -59,7 +59,7 @@ struct EnergyGateSheet: View {
 
                 VStack(spacing: AppSpacing.sm) {
                     // Watch a rewarded ad for an energy boost (if one is loaded).
-                    if AdsManager.shared.rewardedAvailable {
+                    if AdsManager.shared.rewardedReady {
                         Button {
                             AdsManager.shared.showRewarded {
                                 EnergyStore.shared.addEnergy(adRefill)

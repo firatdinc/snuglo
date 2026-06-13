@@ -62,7 +62,7 @@ final class ShopViewModel {
     var canClaimDeal: Bool {
         switch currentDeal.action {
         case .watchAd:
-            return AdsManager.shared.rewardedAvailable
+            return AdsManager.shared.rewardedReady
         case .spend(let from, let cost, _, _):
             return wallet.canAfford(from, amount: cost)
         }
@@ -74,7 +74,7 @@ final class ShopViewModel {
     func claimDeal() {
         switch currentDeal.action {
         case .watchAd(let earn, let amount):
-            guard AdsManager.shared.rewardedAvailable else { flashInsufficient(nil); return }
+            guard AdsManager.shared.rewardedReady else { flashInsufficient(nil); return }
             AdsManager.shared.showRewarded { [weak self] in
                 Task { @MainActor in self?.grantClaim(earn, amount: amount) }
             }
@@ -86,7 +86,7 @@ final class ShopViewModel {
 
     /// Watch a rewarded ad to earn a currency pack reward (with confirmation banner).
     func watchAdForPack(_ pack: CurrencyPack) {
-        guard AdsManager.shared.rewardedAvailable else { flashInsufficient(nil); return }
+        guard AdsManager.shared.rewardedReady else { flashInsufficient(nil); return }
         AdsManager.shared.showRewarded { [weak self] in
             Task { @MainActor in self?.grantClaim(pack.earn, amount: pack.amount) }
         }

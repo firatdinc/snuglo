@@ -28,6 +28,17 @@ final class EnergyStore {
     private let defaults: UserDefaults
     private let energyKey = "snuglo.energy.value.v1"
     private let anchorKey = "snuglo.energy.anchor.v1"
+    private let openLevelsKey = "snuglo.energy.openlevels.v1"
+
+    // Paid levels the player has started but not yet finished. Re-entering one of
+    // these (left the level, came back) must NOT charge energy a second time — you
+    // already paid for this attempt. Cleared on completion via endPaidSession().
+    @ObservationIgnored private var openPaidLevels: Set<String>
+
+    /// Energy spent on the most recent paid game start that the next game screen
+    /// should animate (0 = nothing pending). Consumed once by GameView on appear —
+    /// kept out of observation so reading it never triggers a render.
+    @ObservationIgnored var pendingSpendAnimation: Int = 0
 
     // Mutated by refresh() (called from view bodies via TimelineView ticks), so
     // kept out of observation to avoid a render→mutate→render loop. UI that shows
@@ -51,6 +62,7 @@ final class EnergyStore {
             storedEnergy = Self.maxEnergy
             anchor = Date()
         }
+        openPaidLevels = Set(defaults.stringArray(forKey: openLevelsKey) ?? [])
     }
 
     // MARK: - Derived state
@@ -104,16 +116,65 @@ final class EnergyStore {
     // MARK: - Mutations
 
     /// Spend the cost of one game if affordable (or premium). Returns success.
+    ///
+    /// Pass `levelID` for campaign levels so re-entering an unfinished paid level
+    /// (you left and came back) doesn't charge twice — you already paid for this
+    /// attempt. Relaxed/Endless/Tower starts pass nil (they're free anyway).
     @discardableResult
-    func startGameIfAffordable() -> Bool {
+    func startGameIfAffordable(levelID: String? = nil) -> Bool {
         if unlimited { return true }
+        // Re-entry to a level whose paid attempt is still open → free.
+        if let id = levelID, openPaidLevels.contains(id) { return true }
         _ = refresh()
         guard storedEnergy >= Self.costPerGame else { return false }
         // Leaving "full" → start the regen clock from now.
         if storedEnergy >= Self.maxEnergy { anchor = Date() }
         storedEnergy -= Self.costPerGame
+        if let id = levelID { openPaidLevels.insert(id) }
+        pendingSpendAnimation = Self.costPerGame   // GameView animates this once
         persist()
         return true
+    }
+
+    /// Charge for an explicit RESTART of an in-progress paid level. A restart is a
+    /// brand-new attempt, so it costs energy again — but the level stays "open" so a
+    /// later leave/return still isn't double-charged. Returns false (no mutation) when
+    /// the player can't afford it; the caller should route to the energy gate / a
+    /// rewarded ad instead of restarting for free.
+    @discardableResult
+    func chargeRestart(levelID: String) -> Bool {
+        if unlimited { return true }
+        _ = refresh()
+        guard storedEnergy >= Self.costPerGame else { return false }
+        if storedEnergy >= Self.maxEnergy { anchor = Date() }
+        storedEnergy -= Self.costPerGame
+        openPaidLevels.insert(levelID)        // keep marked paid (idempotent)
+        pendingSpendAnimation = Self.costPerGame
+        persist()
+        return true
+    }
+
+    /// Consume the pending spend amount for the spend animation (returns 0 if none).
+    func consumeSpendAnimation() -> Int {
+        let amount = pendingSpendAnimation
+        pendingSpendAnimation = 0
+        return amount
+    }
+
+    /// End a level's paid session (call on completion). A future fresh start of the
+    /// same level charges again. No-op for relaxed/unknown levels.
+    func endPaidSession(levelID: String) {
+        guard openPaidLevels.remove(levelID) != nil else { return }
+        persist()
+    }
+
+    /// Reset to a full bar and drop all open paid sessions. Called by Reset Progress.
+    func reset() {
+        storedEnergy = Self.maxEnergy
+        anchor = Date()
+        openPaidLevels = []
+        pendingSpendAnimation = 0
+        persist()
     }
 
     /// Grant energy (rewarded ad refill, gifts). Clamped to max. No-op for premium.
@@ -128,5 +189,6 @@ final class EnergyStore {
     private func persist() {
         defaults.set(storedEnergy, forKey: energyKey)
         defaults.set(anchor.timeIntervalSince1970, forKey: anchorKey)
+        defaults.set(Array(openPaidLevels), forKey: openLevelsKey)
     }
 }

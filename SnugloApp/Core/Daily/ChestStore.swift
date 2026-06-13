@@ -25,20 +25,26 @@ final class ChestStore {
 
     private let defaults: UserDefaults
     private let key = "snuglo.chests.v1"
-    private struct P: Codable { var progress: Int; var pending: Int }
+    // `keys` optional for back-compat decode (old saves had no keys field).
+    private struct P: Codable { var progress: Int; var pending: Int; var keys: Int? }
+
+    private(set) var keys: Int = 0   // keys owned — needed to OPEN a chest
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         if let d = defaults.data(forKey: key), let p = try? JSONDecoder().decode(P.self, from: d) {
             progress = max(0, min(p.progress, ChestStore.solvesPerChest))
             pending = max(0, p.pending)
+            keys = max(0, p.keys ?? 0)
         } else {
-            progress = 0; pending = 0
+            progress = 0; pending = 0; keys = 0
         }
     }
 
     var goal: Int { ChestStore.solvesPerChest }
     var hasChest: Bool { pending > 0 }
+    /// Openable only when a chest is banked AND you hold a key.
+    var canOpen: Bool { pending > 0 && keys > 0 }
 
     /// Call on every level solve — fills the chest meter, banking a chest at the cap.
     func recordSolve() {
@@ -50,12 +56,20 @@ final class ChestStore {
         persist()
     }
 
-    /// Opens one pending chest, granting a random reward. Returns it for the reveal.
+    /// Award keys (perfect solves, win-chains, pack completion, …).
+    func addKey(_ n: Int = 1) {
+        guard n > 0 else { return }
+        keys += n
+        persist()
+    }
+
+    /// Opens one pending chest by spending a key. Returns the reward for the reveal.
     @MainActor
     @discardableResult
     func open(wallet: WalletStore = .shared) -> ChestReward? {
-        guard pending > 0 else { return nil }
+        guard pending > 0, keys > 0 else { return nil }
         pending -= 1
+        keys -= 1
         let reward = ChestStore.roll()
         if reward.coin > 0 { wallet.earn(.coin, amount: reward.coin) }
         if reward.gem > 0 { wallet.earn(.gem, amount: reward.gem) }
@@ -74,7 +88,7 @@ final class ChestStore {
     }
 
     private func persist() {
-        if let d = try? JSONEncoder().encode(P(progress: progress, pending: pending)) {
+        if let d = try? JSONEncoder().encode(P(progress: progress, pending: pending, keys: keys)) {
             defaults.set(d, forKey: key)
         }
     }

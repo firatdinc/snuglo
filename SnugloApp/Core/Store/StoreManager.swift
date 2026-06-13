@@ -134,8 +134,13 @@ final class StoreManager {
     /// kaldırıldı). Premium da her şeyi açar.
     func isPackUnlocked(_ packId: String) -> Bool { true }
 
-    /// Reklam kaldırma — Faz G-2'de AdMob buradan okur. Premium da reklamsızdır.
-    var adsRemoved: Bool { isPurchased(.removeAds) || isPurchased(.premium) }
+    /// Reklam kaldırma — AdMob buradan okur. Premium da reklamsızdır. Remove-Ads
+    /// artık RevenueCat üzerinden satılıyor; RC entitlement'ı bir flag'e mirror'lanır.
+    var adsRemoved: Bool {
+        isPurchased(.removeAds)
+        || UserDefaults.standard.bool(forKey: "snuglo.ads.removed")
+        || isPremium
+    }
 
     /// Premium: unlimited energy + ads removed. Driven by the premium
     /// subscription entitlement (RevenueCat / StoreKit). A DEBUG override allows

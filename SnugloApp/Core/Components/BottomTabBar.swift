@@ -155,6 +155,8 @@ struct RootTabView: View {
             AchievementsView()
         case .dailyReward:
             DailyRewardView()
+        case .nook:
+            NookView()
         case .mainMenu, .onboarding:
             EmptyView()
         }

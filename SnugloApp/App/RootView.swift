@@ -5,6 +5,12 @@ struct RootView: View {
     // Runtime language switching — drives `\.locale` so localized Text re-resolves
     // live, without an app restart.
     @State private var localeManager = LocaleManager.shared
+    // iCloud save sync — first paint waits on this so a fresh-install restore lands
+    // BEFORE any store reads UserDefaults.
+    @State private var cloud = CloudSync.shared
+    // Remote version control — drives the soft "update available" banner and the
+    // forced (below-minVersion) update wall.
+    @State private var versionGate = VersionGate.shared
 
     // Faz F: Theme picker (0=System, 1=Light, 2=Dark) — mirrors SettingsView key.
     @AppStorage("appTheme") private var appThemeRaw: Int = 0
@@ -34,7 +40,12 @@ struct RootView: View {
         // uses a NavigationStack; once push(.mainMenu) fires, showingMainApp flips
         // and RootTabView becomes the top-level view with no outer stack.
         Group {
-            if bindableRouter.showingMainApp {
+            if !cloud.ready {
+                // Brief gate while iCloud (maybe) restores a save on a fresh install.
+                // Existing players clear this in well under a frame; the stores below
+                // are never touched until it flips, so a restore can't lose a race.
+                LoadingView()
+            } else if bindableRouter.showingMainApp {
                 RootTabView()
             } else {
                 NavigationStack(path: $bindableRouter.path) {
@@ -69,9 +80,21 @@ struct RootView: View {
                 RevenueCatManager.configure(apiKey: Secrets.revenueCatPublicKey)
             }
         }
+        // iCloud save sync — runs before stores are read (the UI is gated on
+        // `cloud.ready`). Restores a backup on a fresh install; backs this device up
+        // otherwise.
+        .task { await CloudSync.shared.bootstrap() }
+        // Remote version check at launch — resolves soft/forced update state.
+        .task { await VersionGate.shared.check() }
         // Sign in to Game Center at launch so scores submit and achievements
         // report in the background (idempotent — early-returns once resolved).
         .task { await GameCenterManager.shared.authenticate() }
+        // Ask for the ATT (personalized ads) permission at launch — once, after a
+        // beat so the app is active when the system prompt appears.
+        .task {
+            try? await Task.sleep(for: .seconds(1.2))
+            await AdsManager.shared.requestTrackingIfNeeded()
+        }
         .onChange(of: appThemeRaw) { _, newValue in ThemeApplier.apply(newValue) }
         // Swap to the Zen theme music the moment Zen Mode toggles.
         .onChange(of: zenMode) { _, newValue in MusicService.shared.update(zen: newValue) }
@@ -81,8 +104,13 @@ struct RootView: View {
             MusicService.shared.setForeground(phase == .active)
             if phase == .active {
                 NotificationService.shared.cancelComeback()
-            } else if phase == .background, comebackEnabled {
-                NotificationService.shared.scheduleComeback()
+                // Re-check version on every foreground so a freshly-bumped minVersion
+                // gates a long-running session without a relaunch.
+                Task { await VersionGate.shared.check() }
+            } else if phase == .background {
+                // Back up the latest save to iCloud whenever we leave.
+                CloudSync.shared.pushToCloud()
+                if comebackEnabled { NotificationService.shared.scheduleComeback() }
             }
         }
         // Faz G-2: Interstitial ad overlay — sits above all navigation content.
@@ -107,9 +135,53 @@ struct RootView: View {
                 RewardPopup(reward: reward) { RewardCenter.shared.dismiss() }
                     .zIndex(120)
             }
+            // Milestone surprise: a freshly-earned Nook scene piece. Deferred until
+            // the player leaves the level so it doesn't fight the level-complete
+            // celebration — it greets them like a gift when they're back.
+            if !bindableRouter.isGameActive, let reveal = NookRevealCenter.shared.pending {
+                NookPieceRevealOverlay(
+                    reveal: reveal,
+                    onPlace: {
+                        NookRevealCenter.shared.dismiss()
+                        router.push(.nook)
+                    },
+                    onDismiss: { NookRevealCenter.shared.dismiss() }
+                )
+                .transition(.opacity)
+                .zIndex(130)
+            }
         }
         .animation(.easeInOut(duration: 0.2), value: bindableRouter.showEnergyGate)
         .animation(.easeInOut(duration: 0.2), value: bindableRouter.showPaywall)
+        // Version gate — sits ABOVE everything (even the cloud-loading gate). The
+        // forced wall blocks the whole app; the soft banner is a dismissible top card.
+        .overlay {
+            if versionGate.state == .forced {
+                UpdateRequiredView { versionGate.openStore() }
+                    .transition(.opacity)
+                    .zIndex(200)
+            } else if versionGate.state == .soft, bindableRouter.showingMainApp {
+                ZStack {
+                    // Frosted blur over the app + blocks interaction: the popup can't
+                    // be dismissed without updating (no "×", tapping behind does nothing).
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .ignoresSafeArea()
+                    AnnouncementBanner(
+                        titleKey: "update.soft.title",
+                        messageKey: "update.soft.message",
+                        ctaKey: "update.soft.cta",
+                        onCTA: { versionGate.openStore() }
+                        // no onDismiss → not closable until the user updates
+                    )
+                    .padding(.horizontal, AppSpacing.lg)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .transition(.opacity)
+                .zIndex(150)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: versionGate.state)
     }
 
     /// Destinations reachable during the pre-main (splash/onboarding) flow only.
@@ -140,6 +212,8 @@ struct RootView: View {
             AchievementsView()
         case .dailyReward:
             DailyRewardView()
+        case .nook:
+            NookView()
         case .mainMenu:
             EmptyView()
         }

@@ -56,7 +56,7 @@ struct ProfileView: View {
         }
         .infoCard()
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Level \(xp.level), \(xp.xpIntoLevel) of \(xp.xpForNext) XP")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.levelXP", comment: ""), xp.level, xp.xpIntoLevel, xp.xpForNext)))
     }
 
     // MARK: — Identity Card
@@ -155,15 +155,7 @@ struct ProfileView: View {
 
             RowDivider()
 
-            quickLink(
-                icon: "gift.fill",
-                titleKey: "profile.link.dailyReward",
-                accessibilityID: "profile.link.dailyReward"
-            ) {
-                router.push(.dailyReward)
-            }
-
-            RowDivider()
+            // Daily Reward lives on the home screen (rewards FAB) — no duplicate here.
 
             NavigationLink(destination: StatsView()) {
                 quickLinkContent(icon: "chart.bar.fill", titleKey: "profile.link.stats")

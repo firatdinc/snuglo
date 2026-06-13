@@ -64,7 +64,8 @@ final class XPStore {
         totalXP += xp
         let after = XPStore.levelInfo(totalXP: totalXP).level
         if after > before {
-            let coins = (before + 1 ... after).reduce(0) { $0 + 40 + $1 * 10 }
+            // Tightened (was 40 + level*10) to slow soft-currency farming.
+            let coins = (before + 1 ... after).reduce(0) { $0 + 20 + $1 * 5 }
             wallet.earn(.coin, amount: coins)
             pendingLevelUp = after
             pendingLevelUpCoins = coins

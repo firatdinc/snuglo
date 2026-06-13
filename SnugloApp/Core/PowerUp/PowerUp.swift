@@ -36,7 +36,9 @@ enum PowerUp: String, CaseIterable, Identifiable {
         switch self {
         case .hint:        return "lightbulb.fill"
         case .undo:        return "arrow.uturn.backward"
-        case .shuffleTray: return "shuffle"
+        // Named "Restart" in the UI — it pulls every placed piece off the board back
+        // into the tray, so a reset glyph fits better than a shuffle glyph.
+        case .shuffleTray: return "arrow.counterclockwise"
         }
     }
 }

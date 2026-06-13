@@ -114,7 +114,7 @@ struct StatsView: View {
             .cardSurface()
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Played on \(count) of the last 30 days")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.playedDays", comment: ""), count)))
     }
 
     // MARK: — Star distribution
@@ -223,8 +223,8 @@ struct StatsView: View {
                 labelKey: "stats.streak",
                 icon: "flame.fill",
                 a11yLabel: store.currentStreak > 0
-                    ? "Current streak: \(store.currentStreak) days"
-                    : "No active streak"
+                    ? String(format: NSLocalizedString("a11y.currentStreak", comment: ""), store.currentStreak)
+                    : NSLocalizedString("a11y.noStreak", comment: "")
             )
             kpiCard(
                 value: store.averageTimeFormatted,
@@ -372,7 +372,7 @@ struct StatsView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
 
-            Text("\(completed)/60")
+            Text(verbatim: "\(completed)/60")
                 .font(AppTypography.numericSmall)
                 .foregroundStyle(fraction > 0 ? AppColors.onSurface : AppColors.onSurfaceVariant.opacity(0.5))
         }
@@ -407,7 +407,11 @@ struct StatsView: View {
                     }
                     // H-2: each bar reads as "Mon: solved" / "Tue: missed"
                     .accessibilityElement(children: .ignore)
-                    .accessibilityLabel("\(day.label): \(day.solved ? "solved" : "missed")\(day.isToday ? ", today" : "")")
+                    .accessibilityLabel(Text(verbatim:
+                        String(format: NSLocalizedString("a11y.dayStatus", comment: ""), day.label,
+                               day.solved ? NSLocalizedString("a11y.daySolved", comment: "")
+                                           : NSLocalizedString("a11y.dayMissed", comment: ""))
+                        + (day.isToday ? NSLocalizedString("a11y.dayToday", comment: "") : "")))
                 }
             }
             .frame(height: 100)
@@ -478,7 +482,7 @@ struct StatsView: View {
                         Text("—")
                             .font(AppTypography.numericLabel)
                             .foregroundStyle(AppColors.onSurface)
-                        Text("per game")
+                        Text("stats.perGame")
                             .font(AppTypography.labelSmall)
                             .foregroundStyle(AppColors.onSurfaceVariant)
                     }

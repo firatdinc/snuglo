@@ -10,28 +10,27 @@ struct BundleSection: View {
     let store: StoreManager
     let progress: ProgressStore
 
-    @State private var isPurchasing: Bool = false
     @State private var errorMessage: String?
     @State private var showResultBanner: Bool = false
     // Info popover content (what an item does), shown on the ⓘ tap.
     @State private var infoTitle: LocalizedStringKey?
     @State private var infoBody: LocalizedStringKey?
 
+    private var rc: RevenueCatManager { .shared }
+
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            sectionLabel("shop.packUnlocks")
-            packCard(packId: "spice-route", productID: .packSpice, icon: "cup.and.saucer.fill", accent: AppColors.blockPeach, itemIndex: 0)
-            packCard(packId: "mambo-nights", productID: .packMambo, icon: "moon.stars.fill", accent: AppColors.blockBlush, itemIndex: 1)
-            packCard(packId: "woodland-retreat", productID: .packWoodland, icon: "tree.fill", accent: AppColors.blockSage, itemIndex: 2)
-
+            // Puzzle packs unlock by PROGRESSION now (finish the previous pack),
+            // so the shop only sells Hints + Remove Ads (via RevenueCat).
             sectionLabel("shop.hintsSection")
             hintsRow
 
             sectionLabel("shop.oneTime")
+            keysRow
             removeAdsRow
         }
         .overlay {
-            if isPurchasing {
+            if rc.isPurchasing {
                 ZStack {
                     AppColors.background.opacity(0.5)
                     ProgressView().tint(AppColors.primary)
@@ -56,7 +55,7 @@ struct BundleSection: View {
         } message: {
             if let body = infoBody { Text(body) }
         }
-        .onChange(of: store.lastError) { _, newValue in
+        .onChange(of: rc.lastError) { _, newValue in
             if let e = newValue { errorMessage = e }
         }
         .overlay(alignment: .top) {
@@ -78,62 +77,72 @@ struct BundleSection: View {
         .animation(.easeInOut(duration: 0.3), value: showResultBanner)
     }
 
-    // MARK: — Pack row
+    // MARK: — Purchases (RevenueCat)
 
-    private func packCard(
-        packId: String,
-        productID: StoreManager.ProductID,
-        icon: String,
-        accent: Color,
-        itemIndex: Int
-    ) -> some View {
-        let pack     = MockData.allPacks.first(where: { $0.id == packId })
-        let product  = store.product(for: productID)
-        let owned    = store.isPurchased(productID)
-        let priceStr = product?.displayPrice ?? "—"
-        let localizedTitle = pack.map { NSLocalizedString($0.rawTitleKey, comment: "") } ?? packId
+    private func buyHints() async {
+        if await rc.purchaseHints() {
+            showResultBanner = true
+        } else if let e = rc.lastError {
+            errorMessage = e
+        }
+    }
 
+    private func buyRemoveAds() async {
+        if await rc.purchaseRemoveAds() {
+            showResultBanner = true
+        } else if let e = rc.lastError {
+            errorMessage = e
+        }
+    }
+
+    private func buyKeys() async {
+        if await rc.purchaseKeys() {
+            showResultBanner = true
+        } else if let e = rc.lastError {
+            errorMessage = e
+        }
+    }
+
+    // MARK: — Keys row
+
+    private var keysRow: some View {
+        let priceStr = rc.keysPrice
         return HStack(spacing: AppSpacing.md) {
-            iconTile(
-                systemName: icon,
-                accent: owned ? accent : AppColors.surfaceContainerHigh,
-                tint: owned ? AppColors.primary : AppColors.onSurfaceVariant
-            )
+            ZStack {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(AppColors.tertiary.opacity(0.15))
+                    .frame(width: 48, height: 48)
+                Image("Key").resizable().renderingMode(.original).scaledToFit()
+                    .frame(width: 30, height: 30)
+            }
             .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(pack?.titleKey ?? LocalizedStringKey(packId))
+                Text("sku.keysSmall.title")
                     .font(AppTypography.headlineSmall)
                     .foregroundStyle(AppColors.onSurface)
-                Text(pack?.gridLabelKey ?? "")
+                Text(verbatim: String(format: NSLocalizedString("shop.keysOwned", comment: ""), ChestStore.shared.keys))
                     .font(AppTypography.bodyMedium)
                     .foregroundStyle(AppColors.onSurfaceVariant)
             }
 
             Spacer(minLength: 0)
 
-            purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
-                guard let product else { return }
-                await performPurchase(product)
+            purchaseButton(label: priceStr, isOwned: false) {
+                await buyKeys()
             }
-            .accessibilityLabel(owned
-                ? "\(localizedTitle). Owned"
-                : "\(localizedTitle). \(priceStr). Tap to purchase"
-            )
+            .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.buyKeys", comment: ""), priceStr)))
         }
-        .bundleItemCard(owned: owned)
+        .bundleItemCard(owned: false)
         .overlay(alignment: .topTrailing) {
-            infoBadge(title: "shop.info.packs.title", body: "shop.info.packs.body")
+            infoBadge(title: "shop.info.keys.title", body: "shop.info.keys.body")
         }
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("shop.pack_item.\(itemIndex)")
     }
 
     // MARK: — Hints row
 
     private var hintsRow: some View {
-        let product  = store.product(for: .hintsSmall)
-        let priceStr = product?.displayPrice ?? "—"
+        let priceStr = rc.hintsPrice
 
         return HStack(spacing: AppSpacing.md) {
             iconTile(
@@ -155,10 +164,9 @@ struct BundleSection: View {
             Spacer(minLength: 0)
 
             purchaseButton(label: priceStr, isOwned: false) {
-                guard let product else { return }
-                await performPurchase(product)
+                await buyHints()
             }
-            .accessibilityLabel("10 Hints. \(priceStr). Tap to purchase")
+            .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.buyHints", comment: ""), priceStr)))
         }
         .bundleItemCard(owned: false)
         .overlay(alignment: .topTrailing) {
@@ -169,9 +177,8 @@ struct BundleSection: View {
     // MARK: — Remove Ads row
 
     private var removeAdsRow: some View {
-        let owned    = store.adsRemoved
-        let product  = store.product(for: .removeAds)
-        let priceStr = product?.displayPrice ?? "—"
+        let owned    = rc.hasRemoveAds || store.adsRemoved
+        let priceStr = rc.removeAdsPrice
 
         return HStack(spacing: AppSpacing.md) {
             iconTile(
@@ -193,13 +200,12 @@ struct BundleSection: View {
             Spacer(minLength: 0)
 
             purchaseButton(label: owned ? nil : priceStr, isOwned: owned) {
-                guard let product else { return }
-                await performPurchase(product)
+                await buyRemoveAds()
             }
-            .accessibilityLabel(owned
-                ? "Remove Ads. Owned"
-                : "Remove Ads. \(priceStr). Tap to purchase"
-            )
+            .accessibilityLabel(Text(verbatim: owned
+                ? NSLocalizedString("a11y.removeAdsOwned", comment: "")
+                : String(format: NSLocalizedString("a11y.buyRemoveAds", comment: ""), priceStr)
+            ))
         }
         .bundleItemCard(owned: owned)
         .overlay(alignment: .topTrailing) {
@@ -257,7 +263,7 @@ struct BundleSection: View {
             }
         }
         .buttonStyle(.plain)
-        .disabled(isOwned || isPurchasing)
+        .disabled(isOwned || rc.isPurchasing)
     }
 
     // MARK: — Info badge (what does this item do?)
@@ -273,7 +279,7 @@ struct BundleSection: View {
                 .padding(6)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("info")
+        .accessibilityLabel(Text("a11y.info"))
     }
 
     private func sectionLabel(_ key: LocalizedStringKey) -> some View {
@@ -284,12 +290,6 @@ struct BundleSection: View {
             .padding(.top, AppSpacing.xs)
     }
 
-    private func performPurchase(_ product: Product) async {
-        isPurchasing = true
-        defer { isPurchasing = false }
-        let purchased = await store.purchase(product)
-        if purchased { showResultBanner = true }
-    }
 }
 
 // MARK: — Local view modifier

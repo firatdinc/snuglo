@@ -20,6 +20,7 @@ struct GameView: View {
 
     @Environment(AppRouter.self) private var router
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
 
     let levelId: String
 
@@ -98,6 +99,9 @@ struct GameView: View {
     // Visual hint: the hinted piece pulses for a moment after it's placed.
     @State private var hintFlashID: String?
     @State private var hintFlashVersion = 0
+
+    // Energy-spent flourish: shows "−5 ⚡" once when a paid level starts.
+    @State private var energySpendAmount: Int?
 
     // Achievement unlock toasts (queued).
     @State private var achToastQueue: [Achievement] = []
@@ -322,6 +326,7 @@ struct GameView: View {
                         onRetry: {
                             if TowerStore.shared.payEntry() {
                                 showTowerOver = false
+                                TowerStore.shared.setCurrentFloor(1)
                                 router.replaceTop(with: .game(levelID: "tower-1"))
                             }
                         },
@@ -375,14 +380,7 @@ struct GameView: View {
         .sheet(isPresented: $showPause, onDismiss: { startTimer() }, content: {
             PauseSheet(
                 onResume: {},      // startTimer() is called via onDismiss above
-                onRestart: {
-                    viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
-                    elapsedSeconds = 0
-                    showFail = false
-                    rewardGranted = false
-                    ProgressStore.shared.breakChain()   // restart mid-play → chain broken
-                    // startTimer() is called via onDismiss after sheet dismisses
-                },
+                onRestart: { restartFromPause() },
                 onQuit: {
                     ProgressStore.shared.breakChain()
                     router.pop()
@@ -406,6 +404,7 @@ struct GameView: View {
                 LevelFailSheet(
                     onRetry: {
                         showFail = false
+                        GameSessionStore.shared.clear(levelID: levelId)   // fresh attempt
                         viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
                         elapsedSeconds = 0
                         rewardGranted = false
@@ -421,70 +420,7 @@ struct GameView: View {
             }
         }
         .animation(.easeInOut(duration: 0.25), value: showFail)
-        .fullScreenCover(isPresented: $showComplete) {
-            LevelCompleteSheet(
-                stars: 3,
-                elapsedSeconds: elapsedSeconds,
-                hintsUsed: viewModel.hintsUsed,
-                moveCount: viewModel.moveCount,
-                bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
-                isNewBest: viewModel.newBestTime,
-                earnedReward: earnedReward,
-                isDaily: dailyIndex != nil,
-                dailyIndex: dailyIndex,
-                dailyTotal: ProgressStore.dailyLevelCount,
-                // Next Level resolution
-                //   • Pack levels  → next index in the same pack
-                //   • Daily        → next daily level (daily-N+1) until the day's
-                //     set is finished, then Home (the card locks until tomorrow).
-                //   • Pack end / no continue → pop back to PackDetail/MainMenu
-                onNext: {
-                    showComplete = false
-                    // Endless: roll straight into the next generated level.
-                    if isEndless {
-                        let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
-                        router.replaceTop(with: .game(levelID: "endless-\(n)"))
-                        return
-                    }
-                    // Daily: advance to the next daily level, or Home if this was
-                    // the last one for today.
-                    if let idx = dailyIndex {
-                        let next = idx + 1
-                        if next < ProgressStore.dailyLevelCount {
-                            router.replaceTop(with: .game(levelID: "daily-\(next)"))
-                        } else {
-                            router.popToRoot()
-                        }
-                        return
-                    }
-                    let resolvedNextId: String? = PackProvider.nextLevelId(after: levelId)
-                    // v1.1.4 bug fix: only navigate when there's a genuinely
-                    // DIFFERENT next level. Re-pushing the current levelId is a
-                    // no-op path mutation (NavigationStack sees no change), so
-                    // the GameView is never recreated and the just-solved board
-                    // stays on screen looking like the "next" level finished
-                    // instantly. In that case (or no next level) pop back.
-                    guard let nextId = resolvedNextId, nextId != levelId else {
-                        router.pop()
-                        return
-                    }
-                    // Replace the top of the CURRENT TAB's stack (the game
-                    // lives in e.g. playPath, NOT the outer `router.path`).
-                    // Mutating the wrong array was a no-op, which left the
-                    // just-finished board on screen. Back still returns to
-                    // PackDetail / MainMenu.
-                    router.replaceTop(with: .game(levelID: nextId))
-                },
-                onReplay: {
-                    viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
-                    elapsedSeconds = 0
-                    rewardGranted = false
-                    earnedReward = [:]
-                    startTimer()
-                }
-            )
-            .environment(router)
-        }
+        .fullScreenCover(isPresented: $showComplete) { levelCompleteCover }
         .onChange(of: draggingPiece?.id) { _, id in
             if id != nil, showCoach {
                 showCoach = false
@@ -493,7 +429,20 @@ struct GameView: View {
         }
         .onAppear {
             router.isGameActive = true
+            // Resume an in-progress board (campaign/daily) when re-entering a level
+            // left unfinished. Must run before startTimer so the clock continues.
+            if isResumable, viewModel.placements.isEmpty,
+               let session = GameSessionStore.shared.session(for: levelId),
+               viewModel.restore(from: session) {
+                elapsedSeconds = session.elapsedSeconds
+            }
             startTimer()
+            // Show the "−5 energy" flourish once, if this entry actually charged
+            // (paid campaign start; re-entries & relaxed modes don't set it).
+            let spent = EnergyStore.shared.consumeSpendAnimation()
+            if spent > 0 { energySpendAmount = spent }
+            // Tower: persist the floor we're on so the climb resumes here.
+            if isTower { TowerStore.shared.setCurrentFloor(towerFloor) }
             // First-ever campaign level → show the one-time coach hand.
             if !coachShown, !isEndless, dailyIndex == nil,
                viewModel.placements.isEmpty,
@@ -509,6 +458,24 @@ struct GameView: View {
         .onDisappear {
             router.isGameActive = false
             timerTask?.cancel()
+            // Persist the in-progress board so re-entry resumes here.
+            saveSession()
+        }
+        // Save whenever the board changes so an app kill mid-level loses nothing.
+        .onChange(of: viewModel.placements) { _, _ in saveSession() }
+        // Save on backgrounding too (captures the latest elapsed time).
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { saveSession() }
+        }
+        // Energy-spent flourish — a one-shot "−5 ⚡" badge that pops in near the top,
+        // then floats up and fades. Self-clears via onFinish.
+        .overlay(alignment: .top) {
+            if let amount = energySpendAmount {
+                EnergySpendBadge(amount: amount) { energySpendAmount = nil }
+                    .padding(.top, AppSpacing.lg)
+                    .allowsHitTesting(false)
+                    .zIndex(80)
+            }
         }
         // v1.1.3: confirmation before quitting — preserves in-progress puzzle.
         // Modern custom modal (replaces the system .confirmationDialog).
@@ -537,13 +504,18 @@ struct GameView: View {
             UndoRewardedSheet(
                 onWatchAd: {
                     showUndoRewardedSheet = false
-                    AdsManager.shared.showRewarded {
-                        let anim: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
-                        withAnimation(anim) {
-                            viewModel.undoLastMove()
+                    // Wait for the sheet to dismiss before presenting the ad (else it
+                    // shows from a tearing-down VC and closes instantly).
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(500))
+                        AdsManager.shared.showRewarded {
+                            let anim: Animation? = reduceMotion ? nil : .spring(response: 0.3, dampingFraction: 0.75)
+                            withAnimation(anim) {
+                                viewModel.undoLastMove()
+                            }
+                            HapticService.shared.impact(.light)
+                            SoundService.shared.play(.place)
                         }
-                        HapticService.shared.impact(.light)
-                        SoundService.shared.play(.place)
                     }
                 },
                 onDismiss: { showUndoRewardedSheet = false }
@@ -556,10 +528,13 @@ struct GameView: View {
             HintRewardedSheet(
                 onWatchAd: {
                     showHintRewardedSheet = false
-                    AdsManager.shared.showRewarded {
-                        ProgressStore.shared.addHints(1)
-                        _ = viewModel.applyPowerUp(.hint)   // consumes the granted hint
-                        HapticService.shared.impact(.light)
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(500))
+                        AdsManager.shared.showRewarded {
+                            ProgressStore.shared.addHints(1)
+                            _ = viewModel.applyPowerUp(.hint)   // consumes the granted hint
+                            HapticService.shared.impact(.light)
+                        }
                     }
                 },
                 onDismiss: { showHintRewardedSheet = false }
@@ -587,6 +562,7 @@ struct GameView: View {
         .onChange(of: viewModel.towerFailed) { _, failed in
             guard failed, !showTowerOver else { return }
             timerTask?.cancel()
+            TowerStore.shared.endRun()      // climb is over → no resume
             let cleared = max(0, towerFloor - 1)
             towerFloorsCleared = cleared
             let coins = TowerStore.reward(forFloors: cleared)
@@ -598,12 +574,17 @@ struct GameView: View {
         .onChange(of: viewModel.isSolved) { _, solved in
             if solved {
                 timerTask?.cancel()
+                // Buzzer-beater: a solve always wins. Clear any fail that raced in on
+                // the same MainActor tick so the player never sees BOTH the fail sheet
+                // and the success cover (the "lion + 3 stars over a fail" bug).
+                showFail = false
                 SoundService.shared.play(.solve)
                 HapticService.shared.notify(.success)
                 // Tower: floor cleared → record + climb straight to the next floor.
                 if isTower {
                     let floor = towerFloor
                     TowerStore.shared.record(floor: floor)
+                    TowerStore.shared.setCurrentFloor(floor + 1)   // resume point
                     solvePraiseKey = "tower.floorUp"
                     let token = (solvePraiseVersion &+ 1); solvePraiseVersion = token
                     Task { @MainActor in
@@ -612,7 +593,10 @@ struct GameView: View {
                     }
                     return
                 }
-                AdsManager.shared.onLevelCompleted()
+                // NB: the between-level interstitial is no longer fired here. Shown
+                // at solve, the level-complete cover presented on top of it and tore
+                // it down after ~0.5s (the "ad flash" bug). It now fires from the
+                // "Next" handler, after the cover has dismissed.
                 if !rewardGranted {
                     rewardGranted = true
                     // Solve currency/XP is computed & applied in
@@ -630,6 +614,8 @@ struct GameView: View {
                             WalletStore.shared.earn(.coin, amount: chainBonus)
                             earnedReward[.coin, default: 0] += chainBonus
                         }
+                        // Every 5-win chain milestone drops a chest key.
+                        if chain > 0 && chain % 5 == 0 { ChestStore.shared.addKey(1) }
                         celebrationIntensity = min(1, Double(chain) / 5.0)
                     } else {
                         celebrationIntensity = 0.3
@@ -747,7 +733,9 @@ struct GameView: View {
                                 cellSize: cellSize
                             ) {
                                 showWaveAnimation = false
-                                showComplete = true
+                                // Guard the reverse race: if the countdown fail already
+                                // concluded the level, don't also present the success cover.
+                                if !showFail { showComplete = true }
                             }
                             .clipShape(RoundedRectangle(cornerRadius: AppRadius.card))
                         }
@@ -869,7 +857,7 @@ struct GameView: View {
         // accessibility-opaque, so the identifier must live on an ancestor
         // with real visual bounds and .ignore semantics.
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Puzzle grid")
+        .accessibilityLabel(Text("a11y.puzzleGrid"))
         .accessibilityIdentifier("game.grid")
     }
 
@@ -887,8 +875,8 @@ struct GameView: View {
                     .shadowL1()
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Back")
-            .accessibilityHint("Returns to the previous screen")
+            .accessibilityLabel(Text("a11y.back"))
+            .accessibilityHint(Text("a11y.backHint"))
             .accessibilityIdentifier("game.back")
 
             Spacer()
@@ -926,7 +914,7 @@ struct GameView: View {
                 .background(timerIsUrgent ? AppColors.error : AppColors.primary, in: Capsule())
                 .animation(.easeInOut(duration: 0.3), value: timerIsUrgent)
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel("\(levelDisplayName), remaining time \(formattedTimer)")
+                .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.remainingTime", comment: ""), levelDisplayName, formattedTimer)))
                 .accessibilityIdentifier("game.timer")
 
                 // Endless: discard this puzzle and roll a fresh one (anti-frustration).
@@ -940,8 +928,8 @@ struct GameView: View {
                             .shadowL1()
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("New puzzle")
-                    .accessibilityHint("Discards this puzzle and loads a new one")
+                    .accessibilityLabel(Text("a11y.newPuzzle"))
+                    .accessibilityHint(Text("a11y.newPuzzleHint"))
                     .accessibilityIdentifier("button.game.skip")
                 }
 
@@ -955,8 +943,8 @@ struct GameView: View {
                         .shadowL1()
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Pause")
-                .accessibilityHint("Pauses the timer and shows pause options")
+                .accessibilityLabel(Text("a11y.pause"))
+                .accessibilityHint(Text("a11y.pauseHint"))
                 // Faz I-2: updated identifier spec
                 .accessibilityIdentifier("button.game.pause")
             }
@@ -1002,7 +990,7 @@ struct GameView: View {
         .padding(.vertical, 3)
         .background(AppColors.tertiary.opacity(0.14), in: Capsule())
         .overlay(Capsule().stroke(AppColors.tertiary.opacity(0.35), lineWidth: 1))
-        .accessibilityLabel("Win streak times \(ProgressStore.shared.winChain)")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.winStreak", comment: ""), ProgressStore.shared.winChain)))
     }
 
     private var progressRow: some View {
@@ -1069,7 +1057,7 @@ struct GameView: View {
         }
         .padding(.horizontal, AppSpacing.lg)
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("Piece tray. \(viewModel.unplacedPieces.count) pieces remaining.")
+        .accessibilityLabel(Text(verbatim: String(format: NSLocalizedString("a11y.pieceTray", comment: ""), viewModel.unplacedPieces.count)))
         .onChange(of: viewModel.unplacedPieces.count) { _, _ in
             // Piece placed/removed: reset the carousel so the offset can't point
             // past the (now shorter) row.
@@ -1155,8 +1143,30 @@ struct GameView: View {
                 .font(AppTypography.numericLabel)
                 .foregroundStyle(AppColors.primary)
             Spacer()
+            // Gem + gold balances — shown here, right above the power-up bar where
+            // they're spent, so the player always sees what they can afford.
+            HStack(spacing: AppSpacing.sm) {
+                currencyTag(.gem)
+                currencyTag(.coin)
+            }
         }
         .padding(.horizontal, AppSpacing.md)
+    }
+
+    /// Compact balance tag (illustrated currency icon + amount) for the tray header.
+    private func currencyTag(_ currency: Currency) -> some View {
+        let amount = WalletStore.shared.balance(of: currency)
+        return HStack(spacing: 3) {
+            CurrencyIcon(currency: currency, size: 16)
+            Text(verbatim: "\(amount)")
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .monospacedDigit()
+                .foregroundStyle(AppColors.onSurface)
+                .contentTransition(.numericText())
+                .animation(.snappy(duration: 0.35), value: amount)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: "\(amount) " + NSLocalizedString(currency.displayNameKey, comment: "")))
     }
 
     // MARK: — Placed-piece drag handle
@@ -1439,15 +1449,23 @@ struct GameView: View {
     private var isEndless: Bool { levelId.hasPrefix("endless") }
     /// Tower = ticket-gated, one-mistake climb.
     private var isTower: Bool { levelId.hasPrefix("tower") }
+    /// Resume only applies to deterministic levels (campaign + daily). Endless/Tower
+    /// roll a fresh random seed each load, so a saved board wouldn't match.
+    private var isResumable: Bool { !isEndless && !isTower }
     private var towerFloor: Int { Int(levelId.split(separator: "-").last ?? "1") ?? 1 }
-    /// Relaxed = no timer/fail (Zen mode OR Endless). Tower keeps its own timer
-    /// but never auto-fails on time (only on a mistake), so treat it as relaxed
-    /// for the fail-timer.
-    private var relaxed: Bool { zenMode || isEndless || isTower }
+    /// Relaxed = no timer/fail (Zen mode OR Endless). Tower is NOT relaxed: it has
+    /// a real countdown and you're eliminated if it runs out (wrong placements are
+    /// harmless — only the clock ends the climb).
+    private var relaxed: Bool { zenMode || isEndless }
 
-    /// Time allowed per level: ~5 seconds per cell, minimum 90 s.
+    /// Time allowed per level. Campaign: ~5 s/cell (min 90). Tower: tighter
+    /// (~3 s/cell) and shrinks as you climb → escalating time pressure.
     private var timeLimitSeconds: Int {
-        max(90, viewModel.level.width * viewModel.level.height * 5)
+        let cells = viewModel.level.width * viewModel.level.height
+        if isTower {
+            return max(25, cells * 3 - (towerFloor - 1) * 3)
+        }
+        return max(90, cells * 5)
     }
 
     private var remainingSeconds: Int {
@@ -1455,6 +1473,167 @@ struct GameView: View {
     }
 
     private var timerIsUrgent: Bool { !relaxed && remainingSeconds > 0 && remainingSeconds <= 30 }
+
+    /// Persist (or drop) the in-progress board for resume. No-op for non-resumable
+    /// modes (Endless/Tower) and once the level is solved.
+    private func saveSession() {
+        guard isResumable, !viewModel.isSolved else { return }
+        if viewModel.placements.isEmpty {
+            GameSessionStore.shared.clear(levelID: levelId)
+        } else {
+            GameSessionStore.shared.save(viewModel.makeSession(elapsedSeconds: elapsedSeconds))
+        }
+    }
+
+    // MARK: — Level-complete cover
+
+    @ViewBuilder
+    private var levelCompleteCover: some View {
+        LevelCompleteSheet(
+            stars: 3,
+            elapsedSeconds: elapsedSeconds,
+            hintsUsed: viewModel.hintsUsed,
+            moveCount: viewModel.moveCount,
+            bestTimeSeconds: ProgressStore.shared.levelProgress[viewModel.level.id]?.bestTime.map { Int($0) },
+            isNewBest: viewModel.newBestTime,
+            earnedReward: earnedReward,
+            isDaily: dailyIndex != nil,
+            dailyIndex: dailyIndex,
+            dailyTotal: ProgressStore.dailyLevelCount,
+            nextBlockedByEnergy: nextBlockedByEnergy,
+            onNext: { goToNextLevel(fireInterstitial: true) },
+            onReplay: {
+                GameSessionStore.shared.clear(levelID: levelId)   // fresh attempt
+                viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
+                elapsedSeconds = 0
+                rewardGranted = false
+                earnedReward = [:]
+                startTimer()
+            },
+            onNeedEnergy: { resolveNextEnergy() }
+        )
+        .environment(router)
+        // Milestone surprise — shown right inside the level-complete screen (over it)
+        // when this clear earned a Nook scene piece. The player can jump straight to
+        // the Nook to drag it in, or save it for later.
+        .overlay {
+            if let reveal = NookRevealCenter.shared.pending {
+                NookPieceRevealOverlay(
+                    reveal: reveal,
+                    onPlace: {
+                        NookRevealCenter.shared.dismiss()
+                        // Advance the finished level BEHIND the Nook so returning from
+                        // it continues the game instead of stranding the player on the
+                        // solved board (the "back → stuck" bug). The Nook then
+                        // auto-returns here once the piece is placed.
+                        showComplete = false
+                        advanceBehindNook()
+                        NookRevealCenter.shared.autoReturnOnPlace = true
+                        router.push(.nook)
+                    },
+                    onDismiss: { NookRevealCenter.shared.dismiss() }
+                )
+                .transition(.opacity)
+            }
+        }
+    }
+
+    // MARK: — Next-level navigation
+
+    /// True when advancing to the next level would cost energy the player doesn't
+    /// have (campaign / non-last daily, not Endless, not Premium). Drives the
+    /// level-complete "Next" button into its out-of-energy state.
+    private var nextBlockedByEnergy: Bool {
+        if isEndless { return false }                       // Endless is free
+        if let idx = dailyIndex {                           // daily: last one → Home, never blocked
+            guard idx + 1 < ProgressStore.dailyLevelCount else { return false }
+            return !EnergyStore.shared.canStartGame
+        }
+        guard let nextId = PackProvider.nextLevelId(after: levelId), nextId != levelId
+        else { return false }                               // no next level → Next pops, no charge
+        return !EnergyStore.shared.canStartGame
+    }
+
+    /// Deferred between-level interstitial — presents cleanly OVER the next screen
+    /// instead of being torn down by the level-complete cover (the ~0.5s ad flash).
+    private func scheduleInterstitial() {
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(450))
+            AdsManager.shared.onLevelCompleted()
+        }
+    }
+
+    /// Advance to the next level (called only when affordable — the button blocks
+    /// the out-of-energy case). Endless → next generated; Daily → next daily or Home;
+    /// Campaign → next pack level or pop back when there's none.
+    private func goToNextLevel(fireInterstitial: Bool) {
+        showComplete = false
+        if fireInterstitial { scheduleInterstitial() }
+        if isEndless {
+            let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+            router.replaceTop(with: .game(levelID: "endless-\(n)"))
+            return
+        }
+        if let idx = dailyIndex {
+            let next = idx + 1
+            if next < ProgressStore.dailyLevelCount {
+                router.replaceTop(with: .game(levelID: "daily-\(next)"))
+            } else {
+                router.popToRoot()
+            }
+            return
+        }
+        // v1.1.4: only navigate to a genuinely different next level; re-pushing the
+        // same id is a no-op that leaves the solved board on screen. None → pop back.
+        guard let nextId = PackProvider.nextLevelId(after: levelId), nextId != levelId else {
+            router.pop()
+            return
+        }
+        router.replaceTop(with: .game(levelID: nextId))
+    }
+
+    /// Out-of-energy path for the "Next" button: a rewarded ad tops up energy and
+    /// continues; with no ad available we send the player Home and offer Premium —
+    /// never leaving them stranded on the solved board.
+    private func resolveNextEnergy() {
+        if AdsManager.shared.rewardedReady {
+            AdsManager.shared.showRewarded {
+                EnergyStore.shared.addEnergy(10)
+                RewardCenter.shared.showEnergy(10)
+                goToNextLevel(fireInterstitial: false)   // now affordable → advances
+            }
+        } else {
+            showComplete = false
+            router.popToRoot()
+            router.showPaywall = true
+        }
+    }
+
+    /// Continue the game behind the Nook after placing a milestone piece. Advances
+    /// to the next level when affordable, otherwise returns Home — so popping out of
+    /// the Nook never lands on the finished board.
+    private func advanceBehindNook() {
+        if isEndless {
+            let n = (Int(levelId.split(separator: "-").last ?? "1") ?? 1) + 1
+            router.replaceTop(with: .game(levelID: "endless-\(n)"))
+            return
+        }
+        if let idx = dailyIndex {
+            let next = idx + 1
+            if next < ProgressStore.dailyLevelCount, EnergyStore.shared.canStartGame {
+                router.replaceTop(with: .game(levelID: "daily-\(next)"))
+            } else {
+                router.popToRoot()
+            }
+            return
+        }
+        if let nextId = PackProvider.nextLevelId(after: levelId), nextId != levelId,
+           EnergyStore.shared.canStartGame {
+            router.replaceTop(with: .game(levelID: nextId))
+        } else {
+            router.popToRoot()
+        }
+    }
 
     private func startTimer() {
         // Faz I-2: skip timer in XCUITest runs — constant accessibility tree updates
@@ -1466,12 +1645,18 @@ struct GameView: View {
                 try? await Task.sleep(for: .seconds(1))
                 guard !Task.isCancelled else { break }
                 elapsedSeconds += 1
-                // Countdown hit zero — level failed. Never in Zen mode (no fail).
-                if !relaxed, elapsedSeconds >= timeLimitSeconds, !viewModel.isSolved {
+                // Countdown hit zero. Never in Zen/Endless (no fail). Tower → the
+                // climb ends (eliminated); campaign/daily → the fail sheet.
+                if !relaxed, elapsedSeconds >= timeLimitSeconds, !viewModel.isSolved,
+                   !showWaveAnimation, !showComplete {
                     timerTask?.cancel()
                     HapticService.shared.notify(.error)
-                    ProgressStore.shared.breakChain()   // time ran out → chain broken
-                    showFail = true
+                    if isTower {
+                        viewModel.failTower()       // out of time → eliminated
+                    } else {
+                        ProgressStore.shared.breakChain()   // time ran out → chain broken
+                        showFail = true
+                    }
                     break
                 }
             }
@@ -1489,6 +1674,42 @@ struct GameView: View {
     private func pauseGame() {
         timerTask?.cancel()
         showPause = true
+    }
+
+    /// Rebuild the level for a fresh attempt (board cleared, clock zeroed, chain
+    /// broken). Safe to call any time — it (re)starts the timer itself.
+    private func restartLevel() {
+        GameSessionStore.shared.clear(levelID: levelId)
+        viewModel = GameViewModel.makeFromPackProvider(levelId: levelId)
+        elapsedSeconds = 0
+        showFail = false
+        rewardGranted = false
+        earnedReward = [:]
+        ProgressStore.shared.breakChain()   // restart mid-play → chain broken
+        // onAppear won't run again, so surface the "−5 ⚡" spend flourish here.
+        let spent = EnergyStore.shared.consumeSpendAnimation()
+        if spent > 0 { energySpendAmount = spent }
+        startTimer()
+    }
+
+    /// Pause → Restart. A restart is a NEW paid attempt, so it costs energy (unless
+    /// the mode is free or the player is Premium). Out of energy → a rewarded ad tops
+    /// up and restarts; with no ad available, offer Premium and keep the current board
+    /// (the pause sheet's dismissal resumes its timer).
+    private func restartFromPause() {
+        let free = relaxed || isTower
+        if free || EnergyStore.shared.chargeRestart(levelID: levelId) {
+            restartLevel()
+        } else if AdsManager.shared.rewardedReady {
+            AdsManager.shared.showRewarded {
+                EnergyStore.shared.addEnergy(10)
+                RewardCenter.shared.showEnergy(10)
+                _ = EnergyStore.shared.chargeRestart(levelID: levelId)
+                restartLevel()
+            }
+        } else {
+            router.showPaywall = true
+        }
     }
 
     private func presentQuitConfirmation() {

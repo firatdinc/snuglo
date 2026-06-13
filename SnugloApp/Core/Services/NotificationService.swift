@@ -51,8 +51,8 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         center.removePendingNotificationRequests(withIdentifiers: [Self.dailyIdentifier])
 
         let content        = UNMutableNotificationContent()
-        content.title      = "Time to Snuglo! 🧩"
-        content.body       = "Your daily puzzle is waiting."
+        content.title      = NSLocalizedString("notif.daily.title", comment: "")
+        content.body       = NSLocalizedString("notif.daily.body", comment: "")
         content.sound      = .default
 
         let comps   = Self.makeComponents(from: time)

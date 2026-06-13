@@ -2,7 +2,7 @@ import Foundation
 
 enum CurrencyReward {
     /// Pure reward formula for level completion.
-    /// coin = stars×10 + (elapsed<60 ? 5 : 0)
+    /// coin = stars×5 + (elapsed<60 ? 3 : 0)   (tightened to push paid coin packs)
     /// gem  = (isPersonalBest ? 1 : 0) + (stars==3 ? 1 : 0)
     static func forLevelComplete(
         stars: Int,
@@ -11,8 +11,8 @@ enum CurrencyReward {
     ) -> [Currency: Int] {
         var reward: [Currency: Int] = [:]
 
-        let coinBase = max(0, stars) * 10
-        let speedBonus = elapsedSeconds < 60 ? 5 : 0
+        let coinBase = max(0, stars) * 5
+        let speedBonus = elapsedSeconds < 60 ? 3 : 0
         let totalCoin = coinBase + speedBonus
         if totalCoin > 0 { reward[.coin] = totalCoin }
 

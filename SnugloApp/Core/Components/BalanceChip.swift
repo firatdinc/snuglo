@@ -18,7 +18,7 @@ struct BalanceChip: View {
     var body: some View {
         HStack(spacing: AppSpacing.xs) {
             CurrencyIcon(currency: currency, size: 18)
-            Text("\(amount)")
+            Text(verbatim: "\(amount)")
                 .font(AppTypography.numericSmall)
                 .monospacedDigit()
                 .foregroundStyle(AppColors.onSurface)
@@ -43,7 +43,7 @@ struct BalanceChip: View {
         }
         .shadowL1()
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(Text("\(amount) \(currency.displayNameKey)"))
+        .accessibilityLabel(Text(verbatim: "\(amount) " + NSLocalizedString(currency.displayNameKey, comment: "")))
     }
 }
 

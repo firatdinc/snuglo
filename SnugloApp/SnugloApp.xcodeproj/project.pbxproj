@@ -19,9 +19,11 @@
 		0ACD98BF1D20DEF4FBED52AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF55B584B729B84FA08FA6D1 /* Localizable.strings */; };
 		0B0BE8A0B7CED6F91E4ADF08 /* AdsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BECF5D97DF66C12E3D7F37 /* AdsManagerTests.swift */; };
 		0BD1B4C93ACFCB547DC4A378 /* TowerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADEACA3DD1E825D0FD8C0E0 /* TowerStore.swift */; };
+		0E14470A70E43C84CC92A9C6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7EDF0197C99B112C845CA85 /* PrivacyInfo.xcprivacy */; };
 		0F1AA8690AB6409294FB88AF /* DailyReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDEE70F313528AB1DDE78F3 /* DailyReminderService.swift */; };
 		0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E553228972F7FFB0F8EF868 /* PackDetailView.swift */; };
 		10623549868FE8396ECC486F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A7D331C985A5CAD2F162B1 /* SettingsView.swift */; };
+		11A5B9A0BB98EF674DC92851 /* NookRevealCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC62F3CFAB3EB61A7B837CE1 /* NookRevealCenter.swift */; };
 		11C24C050DF87D8CCDBC789E /* levelUp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 38F272A63EF4E9A33FF964BC /* levelUp.caf */; };
 		11D0FD4209EE217BF16B2DC2 /* Bundle+Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7944E29A317C365AEC2DAFD3 /* Bundle+Language.swift */; };
 		125973CF82E4F51A502A358E /* UndoRewardedSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */; };
@@ -42,6 +44,7 @@
 		26A29931C7B08DD23D5EFD7B /* StitchTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CCB3D80C66BB59955AE20D /* StitchTokenTests.swift */; };
 		273AD3BCEF81AAAE4021FD78 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C00CEC5196A0D5872A0987F /* GridView.swift */; };
 		27B75FE57EC1D192C7EF51B5 /* snap.caf in Resources */ = {isa = PBXBuildFile; fileRef = D9C1360D54ABE0C5DC91F9E4 /* snap.caf */; };
+		2D044CB2704BE38EEA8A9CFE /* ShardGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACB1221DD42FE866FFC74B7 /* ShardGeometry.swift */; };
 		2E43D6A9A890916F3E7E0E89 /* SnugloAppUITestsBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C8AB441978A3E56D85CFF4 /* SnugloAppUITestsBase.swift */; };
 		2FA259699812395DDBABFE0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 71A6FA8E3D616220F3BF852B /* Assets.xcassets */; };
 		30299C524452E0F28B435DDF /* RelaxedRewardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF533CC10B20A50B91E44DB /* RelaxedRewardStore.swift */; };
@@ -59,6 +62,7 @@
 		42A713FCCF31C5AD71C0374B /* AdInterstitialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */; };
 		42D8266ECF2CA79306887022 /* EndlessStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D673571FE8658B61ED70F8 /* EndlessStore.swift */; };
 		4433668111483C116B1D4390 /* LevelCompleteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */; };
+		44CBB8A6B26EE14B6C12F266 /* UpdateRequiredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D906D46589F4DA8996CAB /* UpdateRequiredView.swift */; };
 		44EEA1333109A9F28AB5FCF2 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923F090D7130F37BBDD451D8 /* ProgressStore.swift */; };
 		456CB097EC6EA0B936D74D83 /* SaveTransferSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64AAD22404324978CB481FA /* SaveTransferSheet.swift */; };
 		470EC7CC84F7BA8F25E120FA /* AppMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6DF54D8CC8BC7C7694AABF /* AppMotion.swift */; };
@@ -67,6 +71,7 @@
 		477B4C4582A06720ED9986F1 /* DailyQuestStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBF04ED88C253ED334CCDAD /* DailyQuestStore.swift */; };
 		47A8049289A3A2CE1A58B7A4 /* ChestRevealOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2F63007FE8F0AA5A0E7ED7 /* ChestRevealOverlay.swift */; };
 		47E85D49DB356A7B951892EF /* CurrencyPackGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A4DD48DF6E6BE14C4641E3 /* CurrencyPackGrid.swift */; };
+		47FADE0D7B4582EFD492F82C /* GameSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02AB72C61B152E8C5F86C02 /* GameSessionStore.swift */; };
 		4898B2B2F0D71146D0407348 /* AchievementToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEBE24E06501FDA4B96E3A3 /* AchievementToast.swift */; };
 		4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71A09BB21B2EEF8E2743976A /* MockData.swift */; };
 		4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DDE190833C63BBB6798DC42 /* Typography.swift */; };
@@ -84,11 +89,14 @@
 		59D433CDA71947EA4F7CB377 /* PieceCellsShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1336FE83D3A9D4D2489003C /* PieceCellsShape.swift */; };
 		608F276C029F99156F51A976 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE281969F799CAAB323E06F /* Secrets.swift */; };
 		618FFF5B02115D291E27F465 /* BlockColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D8025E33203211C64E2B5C /* BlockColorTests.swift */; };
+		61DD31E3912E0F90CFA5BB0F /* NookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501ADCA9BCA436CA3D104E96 /* NookView.swift */; };
 		62091BA45E5885F2895A66D2 /* CurrencyRewardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2109A7C6E38A68754AD8D6 /* CurrencyRewardTests.swift */; };
 		6493D658BAEC7B5A7A1FFBEA /* PowerUpRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B08BB59EBEA47F1D27F2402 /* PowerUpRulesTests.swift */; };
+		64DB5A2BECDA86E8CACEBD4F /* CloudSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CFEDFFF28415C35A648829 /* CloudSync.swift */; };
 		67D1AD36172F6BE500884EF7 /* SpinStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994980D6BA4032284D4FDF8C /* SpinStore.swift */; };
 		683963869C196507559FE9AA /* AchievementsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E575E90F046E4084CF9AF /* AchievementsStore.swift */; };
 		6A2F7B14C284819D6347CE73 /* SolveGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8FD04E0FF078437660BA0 /* SolveGlow.swift */; };
+		6A736E791B0EF3BAFEBBE918 /* EnergySpendBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5089E7642F8235C3FC7A8C8D /* EnergySpendBadge.swift */; };
 		6A9A09404BF4E0750C247049 /* DebugSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241999A38B4FC99BD18EC2AA /* DebugSection.swift */; };
 		6B129672CD8BD82860195071 /* Snuglo.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 872D391426D5D402C2F18006 /* Snuglo.storekit */; };
 		6CA9C94BB700BA6AAE9E0275 /* GameCenterScoreMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CDAB4A74DB9005748EE678 /* GameCenterScoreMapperTests.swift */; };
@@ -114,12 +122,14 @@
 		7F7979F2FDB91A33A94532B2 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */; };
 		810594074D30D57231B4B68D /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D66967344E696920FB09670 /* ProfileView.swift */; };
 		810B90D33D80F1DB5C72CBA2 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B377C02F73E5F9D8712B20B /* Radius.swift */; };
+		81479C255EC9040CE98FD002 /* NookCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A687098DAB4888C932A7B310 /* NookCatalog.swift */; };
 		84E295EF732BD9D69520D29A /* AchievementsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81438D1EF77DF3774BE0DB7 /* AchievementsStoreTests.swift */; };
 		850886B76100646315C6C6DD /* LevelUpOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A2DA83C0F5BE4EEC42178A /* LevelUpOverlay.swift */; };
 		8611C1AC303EAD0CB0EE6D94 /* PremiumPaywallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D0127476F9D2F4D4269EAF /* PremiumPaywallSheet.swift */; };
 		870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E177BF53BC6C92D779D51C2 /* CardSurface.swift */; };
 		872C874C38B15D1528A815DA /* ExchangePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9CCDA4558DE8C8E8F64BEC /* ExchangePanel.swift */; };
 		89AC955A6629894BEA89372E /* DeferredContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD8F731355CE007AB0646A0 /* DeferredContent.swift */; };
+		8B207D10449BA810D11168C7 /* PackArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BF2B0D03E0368A7A8D420E /* PackArt.swift */; };
 		8B27FDC33FD0FE466077C968 /* PowerUpRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900DBE5445E056E2506B1A4E /* PowerUpRules.swift */; };
 		8F0DF202114F56EE261FAED3 /* EnergyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E784273C1BFEC4A3CFF5EB5 /* EnergyStore.swift */; };
 		8FB10ECD03FCD0D313C4A9B0 /* TowerGameOverSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5271E9B19A650D8CABA7BCEF /* TowerGameOverSheet.swift */; };
@@ -159,6 +169,7 @@
 		BD54A59F4EC158A3BE360668 /* AchievementRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3E4831B4981C6254A97F7 /* AchievementRules.swift */; };
 		BD7DF58BF972971167734A7B /* DailyDealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF0624D9878FF7FCF6E1DE7 /* DailyDealCard.swift */; };
 		C047880C4FC1D01FA0557A90 /* PressableCardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA7A6755CC660561FAB170 /* PressableCardStyle.swift */; };
+		C1989D9FB93128031306F7EE /* VersionGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EA2EF53138278334EFD833 /* VersionGate.swift */; };
 		C34010B48A028A7DA5B64483 /* SnugloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */; };
 		C4B42BDA325627597C3D6E1C /* README-StoreKit.md in Resources */ = {isa = PBXBuildFile; fileRef = 125B30D67DEEC160EDBC670E /* README-StoreKit.md */; };
 		C537F78DFFA0A6627FDD3C5F /* WalletStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CE9E54A079C82F1E3F259 /* WalletStoreTests.swift */; };
@@ -167,10 +178,12 @@
 		CC1131A31A5E1A2B5858CE9E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */; };
 		CC623CF99EFBB3F98F3E8A89 /* SunCheckBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804E1272F6B49B7BA63C6312 /* SunCheckBadge.swift */; };
 		CE27ACD8021E5C9619F24CAA /* ConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */; };
+		D05CAE28D1D2118BDD5A581E /* ScenePieceCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38A139793E1884B42323371 /* ScenePieceCrop.swift */; };
 		D3CA80E2CBF566F0A7A89930 /* DailyRewardCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE07E7933E5FAB5FF9FCA13C /* DailyRewardCalculator.swift */; };
 		D4652764B29EB9AAB7864CB0 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702C36C13CE76BA82748DED /* Spacing.swift */; };
 		D55B8F87F55A6DF5F6ECA5AE /* SpaceGrotesk-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C972D7D56DBB8FB5864AD95A /* SpaceGrotesk-Regular.ttf */; };
 		D580D9EC03228E3E6ED0EB28 /* SettingsThemeLanguageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CBBFD1A789DBEB71966239 /* SettingsThemeLanguageUITests.swift */; };
+		D5F4CFBB14196E22D6D9DDD7 /* NookPieceRevealOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA370361E587BDFE2EDD8F0 /* NookPieceRevealOverlay.swift */; };
 		D7574A18719733E0B493964F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818EF1009A596F19A02F3237 /* OnboardingView.swift */; };
 		D94214B07BF27C1CAF6BBF30 /* GameViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB93B2D1E2E8A5C05B072A58 /* GameViewModelTests.swift */; };
 		DA8F5210F3021DF92A9EF663 /* GameCenterServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33962EFA49FA39F805BF52E0 /* GameCenterServicing.swift */; };
@@ -184,6 +197,7 @@
 		E5EEDAC933188569D7465C28 /* StatsShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6316CD06F24481C487287DB6 /* StatsShareCard.swift */; };
 		E76526D1DA21182142A10109 /* ShopViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49470B585B6D13546687645C /* ShopViewModelTests.swift */; };
 		E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDCB0C13EFD13CAFE73686 /* Colors.swift */; };
+		E866B1E6A7BE918E9FA80277 /* NookStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618C5CE48FE1E1CEA74B3103 /* NookStore.swift */; };
 		E895BC67E13B46899A8AE42F /* TrayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60E95EFFFDFBEAEBBAEA30C /* TrayLayout.swift */; };
 		EA737EAF322B5A32B3A1E29A /* bgm.caf in Resources */ = {isa = PBXBuildFile; fileRef = D72DB54969B944AB7D761CBE /* bgm.caf */; };
 		EB68D778C40CB7EC640EBF74 /* AchievementRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9C77490B2A9347C1C78875 /* AchievementRulesTests.swift */; };
@@ -227,6 +241,7 @@
 /* Begin PBXFileReference section */
 		00B165E71825BFEA8ABE02AC /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		01A9D5CE872745FD30F07FE4 /* HomeFlowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowUITests.swift; sourceTree = "<group>"; };
+		01BF2B0D03E0368A7A8D420E /* PackArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackArt.swift; sourceTree = "<group>"; };
 		02900C8FA9C484E97BDE5D58 /* SnugloAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0597FC5978CF1E47D7125A67 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		05BBBEC427C25E22E51FA7B6 /* LevelCompleteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCompleteSheet.swift; sourceTree = "<group>"; };
@@ -254,6 +269,7 @@
 		28386137062A450C553FC295 /* error.caf */ = {isa = PBXFileReference; path = error.caf; sourceTree = "<group>"; };
 		287BB036D01D98270FB02D83 /* UndoRewardedSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoRewardedSheet.swift; sourceTree = "<group>"; };
 		2B2F63007FE8F0AA5A0E7ED7 /* ChestRevealOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChestRevealOverlay.swift; sourceTree = "<group>"; };
+		2E0D906D46589F4DA8996CAB /* UpdateRequiredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateRequiredView.swift; sourceTree = "<group>"; };
 		320DEC836D769FE0FD1AB45A /* SnugloAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SnugloAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33962EFA49FA39F805BF52E0 /* GameCenterServicing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterServicing.swift; sourceTree = "<group>"; };
 		3435511355BAEDA0E4FDD53D /* ComponentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentHelperTests.swift; sourceTree = "<group>"; };
@@ -277,7 +293,9 @@
 		4C2FBDC5AF71BAF053E7C2C3 /* PieceOccupancyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceOccupancyTests.swift; sourceTree = "<group>"; };
 		4DB33132A3A74D284DF925FD /* GameProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProgressBar.swift; sourceTree = "<group>"; };
 		4DF0624D9878FF7FCF6E1DE7 /* DailyDealCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealCard.swift; sourceTree = "<group>"; };
+		501ADCA9BCA436CA3D104E96 /* NookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookView.swift; sourceTree = "<group>"; };
 		503DC90DEAE7B2781F37935B /* PackCompleteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackCompleteOverlay.swift; sourceTree = "<group>"; };
+		5089E7642F8235C3FC7A8C8D /* EnergySpendBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySpendBadge.swift; sourceTree = "<group>"; };
 		50EC00143E8ED9E71012699F /* ResultCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCard.swift; sourceTree = "<group>"; };
 		5271E9B19A650D8CABA7BCEF /* TowerGameOverSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerGameOverSheet.swift; sourceTree = "<group>"; };
 		53B0C0524CE2DD464FEAF6A4 /* combo.caf */ = {isa = PBXFileReference; path = combo.caf; sourceTree = "<group>"; };
@@ -294,6 +312,7 @@
 		5E553228972F7FFB0F8EF868 /* PackDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackDetailView.swift; sourceTree = "<group>"; };
 		5EF2DDE7B28FE5B3DA308C50 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		60E0BF6F56D7977EF5C2B21D /* SnugloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnugloApp.swift; sourceTree = "<group>"; };
+		618C5CE48FE1E1CEA74B3103 /* NookStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookStore.swift; sourceTree = "<group>"; };
 		6316CD06F24481C487287DB6 /* StatsShareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsShareCard.swift; sourceTree = "<group>"; };
 		645EFACB3DFA65F3D1D5CBD2 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		650F634142598BE8F4F9EF2E /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
@@ -333,6 +352,7 @@
 		8B08BB59EBEA47F1D27F2402 /* PowerUpRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpRulesTests.swift; sourceTree = "<group>"; };
 		8B4758DD6FAC3569A870F3EC /* RowDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowDivider.swift; sourceTree = "<group>"; };
 		8B7F9665223D4318DEBC119D /* ConfirmDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDialog.swift; sourceTree = "<group>"; };
+		8CA370361E587BDFE2EDD8F0 /* NookPieceRevealOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookPieceRevealOverlay.swift; sourceTree = "<group>"; };
 		8DD307251780186223CCBBE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DDE190833C63BBB6798DC42 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		8E590EB5311368724D5DFD8E /* NotificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceTests.swift; sourceTree = "<group>"; };
@@ -342,6 +362,7 @@
 		915CFD69C32C96C23BCCD5C8 /* LoadingGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingGate.swift; sourceTree = "<group>"; };
 		923F090D7130F37BBDD451D8 /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
 		927C7D2740A64BB114CC2194 /* CardIconBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconBadge.swift; sourceTree = "<group>"; };
+		93EA2EF53138278334EFD833 /* VersionGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionGate.swift; sourceTree = "<group>"; };
 		95CCB3D80C66BB59955AE20D /* StitchTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchTokenTests.swift; sourceTree = "<group>"; };
 		994980D6BA4032284D4FDF8C /* SpinStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinStore.swift; sourceTree = "<group>"; };
 		99E05411CD51C4239B64D008 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
@@ -353,9 +374,11 @@
 		A1A4DD48DF6E6BE14C4641E3 /* CurrencyPackGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPackGrid.swift; sourceTree = "<group>"; };
 		A26682E61FDD8AC07AF5427F /* DailyRewardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRewardView.swift; sourceTree = "<group>"; };
 		A2C8123612DB0F95CDFA2856 /* DailyDealRotatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealRotatorTests.swift; sourceTree = "<group>"; };
+		A687098DAB4888C932A7B310 /* NookCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookCatalog.swift; sourceTree = "<group>"; };
 		A702C36C13CE76BA82748DED /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		AA0D4DF33B76D7F85EED62B5 /* LeaderboardID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardID.swift; sourceTree = "<group>"; };
 		AAA129D2F8BDD847213F9AE4 /* DailyShareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyShareCard.swift; sourceTree = "<group>"; };
+		AC62F3CFAB3EB61A7B837CE1 /* NookRevealCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NookRevealCenter.swift; sourceTree = "<group>"; };
 		ACC8A566FB79FC62CE1E5C42 /* LevelFailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelFailSheet.swift; sourceTree = "<group>"; };
 		ACCF6BA9DD13440E6335DC35 /* StoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerTests.swift; sourceTree = "<group>"; };
 		AD6CE4A908FE21FB0F350AFF /* snuglo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = snuglo; path = ..; sourceTree = SOURCE_ROOT; };
@@ -372,6 +395,7 @@
 		B64AAD22404324978CB481FA /* SaveTransferSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveTransferSheet.swift; sourceTree = "<group>"; };
 		B682CED0B1628AFECF317141 /* BoardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardBackground.swift; sourceTree = "<group>"; };
 		B71992E0A8CC929448F64753 /* AchievementStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementStats.swift; sourceTree = "<group>"; };
+		B8CFEDFFF28415C35A648829 /* CloudSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSync.swift; sourceTree = "<group>"; };
 		B9D673571FE8658B61ED70F8 /* EndlessStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndlessStore.swift; sourceTree = "<group>"; };
 		BB93B2D1E2E8A5C05B072A58 /* GameViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModelTests.swift; sourceTree = "<group>"; };
 		BD1E401EC2F8770229C9AFDC /* PraiseBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PraiseBadge.swift; sourceTree = "<group>"; };
@@ -381,6 +405,7 @@
 		C242A49AC10AEE6C392F1A7A /* DailyRewardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyRewardViewModel.swift; sourceTree = "<group>"; };
 		C280DEA922815D79D52035E1 /* SmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeUITests.swift; sourceTree = "<group>"; };
 		C2F5BACB29FA770A810C3ABA /* LevelsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsListView.swift; sourceTree = "<group>"; };
+		C38A139793E1884B42323371 /* ScenePieceCrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenePieceCrop.swift; sourceTree = "<group>"; };
 		C4BBE32A7DD6659291A6D0ED /* HapticServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticServiceTests.swift; sourceTree = "<group>"; };
 		C5527338299AE7AF64B827C7 /* LocaleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleManager.swift; sourceTree = "<group>"; };
 		C5C224CA258AC539407F3E96 /* bgm_zen.caf */ = {isa = PBXFileReference; path = bgm_zen.caf; sourceTree = "<group>"; };
@@ -395,6 +420,7 @@
 		CD3039D9DB38263B0BFFCE66 /* ItemBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBadge.swift; sourceTree = "<group>"; };
 		CE71C68F74228CA34E5F51E5 /* ProgressPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressPill.swift; sourceTree = "<group>"; };
 		CEB7688238CB72A6D9B849BF /* CosmeticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CosmeticsStore.swift; sourceTree = "<group>"; };
+		D02AB72C61B152E8C5F86C02 /* GameSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionStore.swift; sourceTree = "<group>"; };
 		D09473F7A0446E6AAFC7FB84 /* GameSwipeLockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSwipeLockUITests.swift; sourceTree = "<group>"; };
 		D1B5F7711E13697C1A7BCA90 /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
 		D269E947BDEBC0DAFE9A6F24 /* NotificationSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSchedulerTests.swift; sourceTree = "<group>"; };
@@ -402,9 +428,11 @@
 		D3D025DF3A173AF4949F9C01 /* AdInterstitialOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdInterstitialOverlay.swift; sourceTree = "<group>"; };
 		D3E8F3C0267F5E448BE9F1FD /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		D72DB54969B944AB7D761CBE /* bgm.caf */ = {isa = PBXFileReference; path = bgm.caf; sourceTree = "<group>"; };
+		D7EDF0197C99B112C845CA85 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D81438D1EF77DF3774BE0DB7 /* AchievementsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsStoreTests.swift; sourceTree = "<group>"; };
 		D97CD2AFBBBF7AE6D9333E2C /* ColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsTests.swift; sourceTree = "<group>"; };
 		D9C1360D54ABE0C5DC91F9E4 /* snap.caf */ = {isa = PBXFileReference; path = snap.caf; sourceTree = "<group>"; };
+		DACB1221DD42FE866FFC74B7 /* ShardGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShardGeometry.swift; sourceTree = "<group>"; };
 		DADEACA3DD1E825D0FD8C0E0 /* TowerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TowerStore.swift; sourceTree = "<group>"; };
 		DBAB0452088EF7C80E88FA92 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
 		DF5A558311B75E4DA65D77BC /* DailyDealRotator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyDealRotator.swift; sourceTree = "<group>"; };
@@ -427,7 +455,7 @@
 		FF136C6FC8050DDA222C0598 /* solve.caf */ = {isa = PBXFileReference; path = solve.caf; sourceTree = "<group>"; };
 		FF5FFD43A9176C1018BE0822 /* BeVietnamPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BeVietnamPro-Medium.ttf"; sourceTree = "<group>"; };
 		FF82F8FCC4C6001A6909E998 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
-		"TEMP_6A76B581-9E1F-4E7B-AFCE-A01C90A658BF" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
+		"TEMP_1D1E3A77-CFEC-43B4-92DD-824D96C57AB8" /* SnugloApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SnugloApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,6 +519,8 @@
 			isa = PBXGroup;
 			children = (
 				C84E575E90F046E4084CF9AF /* AchievementsStore.swift */,
+				B8CFEDFFF28415C35A648829 /* CloudSync.swift */,
+				D02AB72C61B152E8C5F86C02 /* GameSessionStore.swift */,
 				923F090D7130F37BBDD451D8 /* ProgressStore.swift */,
 				7835EA2A883F766D306CC025 /* SaveTransfer.swift */,
 				F9C10C7B6CB21E1B41D1316F /* WalletStore.swift */,
@@ -552,6 +582,7 @@
 				1C1F21FABAE9FAF466FEFB3B /* CurrencyIcon.swift */,
 				CCD8F731355CE007AB0646A0 /* DeferredContent.swift */,
 				99E05411CD51C4239B64D008 /* EmptyStateView.swift */,
+				5089E7642F8235C3FC7A8C8D /* EnergySpendBadge.swift */,
 				B3C318C4F2D79328EABD8997 /* GameButtonStyle.swift */,
 				15F0B3FB6B64D3DE0D9D9834 /* GameInteractionLock.swift */,
 				4DB33132A3A74D284DF925FD /* GameProgressBar.swift */,
@@ -632,9 +663,20 @@
 			isa = PBXGroup;
 			children = (
 				71A09BB21B2EEF8E2743976A /* MockData.swift */,
+				01BF2B0D03E0368A7A8D420E /* PackArt.swift */,
 				E6E47062C883114A0CD6A84B /* PackProvider.swift */,
 			);
 			path = MockData;
+			sourceTree = "<group>";
+		};
+		7A536E07D9BCE43F8A876FDA /* Nook */ = {
+			isa = PBXGroup;
+			children = (
+				A687098DAB4888C932A7B310 /* NookCatalog.swift */,
+				AC62F3CFAB3EB61A7B837CE1 /* NookRevealCenter.swift */,
+				618C5CE48FE1E1CEA74B3103 /* NookStore.swift */,
+			);
+			path = Nook;
 			sourceTree = "<group>";
 		};
 		80D1F27C1F5EE17B3EDC3D07 /* Daily */ = {
@@ -722,12 +764,31 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		AC587359CA85624DE2C071FF /* Nook */ = {
+			isa = PBXGroup;
+			children = (
+				8CA370361E587BDFE2EDD8F0 /* NookPieceRevealOverlay.swift */,
+				501ADCA9BCA436CA3D104E96 /* NookView.swift */,
+				C38A139793E1884B42323371 /* ScenePieceCrop.swift */,
+				DACB1221DD42FE866FFC74B7 /* ShardGeometry.swift */,
+			);
+			path = Nook;
+			sourceTree = "<group>";
+		};
 		B64ADB223E188A37795C24D8 /* Ads */ = {
 			isa = PBXGroup;
 			children = (
 				79F7F8B23BC50919D87D3CE8 /* AdsManager.swift */,
 			);
 			path = Ads;
+			sourceTree = "<group>";
+		};
+		B74393C66D5379ECBD8EEE50 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				93EA2EF53138278334EFD833 /* VersionGate.swift */,
+			);
+			path = Version;
 			sourceTree = "<group>";
 		};
 		BADFC30AA4A6A7595502FCBD /* Leaderboard */ = {
@@ -775,6 +836,7 @@
 				C85B97EDA463D5E44D03BF34 /* LevelComplete */,
 				EBB9C62F7CB3E2C4B29B2173 /* LevelsList */,
 				D2646A8D9EB31777AAEA845D /* MainMenu */,
+				AC587359CA85624DE2C071FF /* Nook */,
 				0E6C2C9312A1B273156E3540 /* Onboarding */,
 				47E33B1C09C7312E06CE1CE3 /* PackDetail */,
 				F64E4C4226861CE2C7AB1050 /* Pause */,
@@ -784,6 +846,7 @@
 				360562F81B5DA39774190494 /* Shop */,
 				443DC6ACA1481644D9AB2B7B /* Splash */,
 				F12EAE5AF34AECC4ED01FA3B /* Stats */,
+				F61DA2F60E616BE2FA1356D2 /* Update */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -830,6 +893,7 @@
 				80D1F27C1F5EE17B3EDC3D07 /* Daily */,
 				C3D15B550664EFE7F21E3587 /* Energy */,
 				0D2ED9E65199FB3613E3F67F /* GameCenter */,
+				7A536E07D9BCE43F8A876FDA /* Nook */,
 				2D8BFEE3E83DF1152E7FBC22 /* Persistence */,
 				821BEBD7E32C707D46FCEE96 /* PowerUp */,
 				C9DC1112A64D4404FCA50FF5 /* Services */,
@@ -837,6 +901,7 @@
 				BC0F3B6F4001E56081CAAF75 /* Store */,
 				E61ECDF1E7283589003957A1 /* Theme */,
 				D2C3D0E3E8A7D56442CEAFCE /* Tower */,
+				B74393C66D5379ECBD8EEE50 /* Version */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -969,6 +1034,7 @@
 			isa = PBXGroup;
 			children = (
 				71A6FA8E3D616220F3BF852B /* Assets.xcassets */,
+				D7EDF0197C99B112C845CA85 /* PrivacyInfo.xcprivacy */,
 				125B30D67DEEC160EDBC670E /* README-StoreKit.md */,
 				872D391426D5D402C2F18006 /* Snuglo.storekit */,
 				D2BE267534231C6B9E10D87F /* Audio */,
@@ -987,6 +1053,14 @@
 				34D61C90179BE05FFF34656B /* StatsView.swift */,
 			);
 			path = Stats;
+			sourceTree = "<group>";
+		};
+		F61DA2F60E616BE2FA1356D2 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				2E0D906D46589F4DA8996CAB /* UpdateRequiredView.swift */,
+			);
+			path = Update;
 			sourceTree = "<group>";
 		};
 		F64E4C4226861CE2C7AB1050 /* Pause */ = {
@@ -1033,10 +1107,10 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
-		"TEMP_83CB7F4C-FFAF-458D-804D-1B8BF2267407" /* . */ = {
+		"TEMP_6A05F5B8-D987-479A-9B6F-8742D92D8E87" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_6A76B581-9E1F-4E7B-AFCE-A01C90A658BF" /* SnugloApp.entitlements */,
+				"TEMP_1D1E3A77-CFEC-43B4-92DD-824D96C57AB8" /* SnugloApp.entitlements */,
 				6BA2BD1DFAA0BBB648F22DA9 /* MockData */,
 				CA3FFCE8583420473DAB2C0F /* Core */,
 				E704AF9A2C4909919E8EFB76 /* App */,
@@ -1167,6 +1241,7 @@
 				A4921D0A0CF269191A4B9C72 /* InfoPlist.strings in Resources */,
 				0ACD98BF1D20DEF4FBED52AE /* Localizable.strings in Resources */,
 				1B295A9A3151E47EBBF8A201 /* PlusJakartaSans-Regular.ttf in Resources */,
+				0E14470A70E43C84CC92A9C6 /* PrivacyInfo.xcprivacy in Resources */,
 				C4B42BDA325627597C3D6E1C /* README-StoreKit.md in Resources */,
 				6D5A15BEC4D154BEEFC66E67 /* README.md in Resources */,
 				6B129672CD8BD82860195071 /* Snuglo.storekit in Resources */,
@@ -1215,6 +1290,7 @@
 				870BBA3368B73B06EE6F8577 /* CardSurface.swift in Sources */,
 				47A8049289A3A2CE1A58B7A4 /* ChestRevealOverlay.swift in Sources */,
 				9FAF6168BCE89EC7E2CACB4E /* ChestStore.swift in Sources */,
+				64DB5A2BECDA86E8CACEBD4F /* CloudSync.swift in Sources */,
 				97557AFA116F7912BC61142F /* CoachOverlay.swift in Sources */,
 				E7D790BF55A55A24C78CEF07 /* Colors.swift in Sources */,
 				CE27ACD8021E5C9619F24CAA /* ConfirmDialog.swift in Sources */,
@@ -1238,6 +1314,7 @@
 				2676D2293CDCDA42A7D1BA1F /* EmptyStateView.swift in Sources */,
 				42D8266ECF2CA79306887022 /* EndlessStore.swift in Sources */,
 				FFAB4A210FB1ED18E17AD149 /* EnergyGateSheet.swift in Sources */,
+				6A736E791B0EF3BAFEBBE918 /* EnergySpendBadge.swift in Sources */,
 				8F0DF202114F56EE261FAED3 /* EnergyStore.swift in Sources */,
 				872C874C38B15D1528A815DA /* ExchangePanel.swift in Sources */,
 				F40A012A86D09EB675596ADB /* ExchangeSignBanner.swift in Sources */,
@@ -1247,6 +1324,7 @@
 				DA8F5210F3021DF92A9EF663 /* GameCenterServicing.swift in Sources */,
 				BC40111360B69BAF4A407E1D /* GameInteractionLock.swift in Sources */,
 				710CABA2447FC32497C79FB7 /* GameProgressBar.swift in Sources */,
+				47FADE0D7B4582EFD492F82C /* GameSessionStore.swift in Sources */,
 				76EEA95BE6C22EDED3AFED3C /* GameView.swift in Sources */,
 				03FFABCB2C303B8C50D21624 /* GameViewModel.swift in Sources */,
 				33795734BF6DE16679A8C1FD /* GemPack.swift in Sources */,
@@ -1267,8 +1345,14 @@
 				390FEC2D617767C768719C99 /* MascotView.swift in Sources */,
 				4A9AD0F05276A0200971BA40 /* MockData.swift in Sources */,
 				047728BD0B0514AC195FDC4C /* MusicService.swift in Sources */,
+				81479C255EC9040CE98FD002 /* NookCatalog.swift in Sources */,
+				D5F4CFBB14196E22D6D9DDD7 /* NookPieceRevealOverlay.swift in Sources */,
+				11A5B9A0BB98EF674DC92851 /* NookRevealCenter.swift in Sources */,
+				E866B1E6A7BE918E9FA80277 /* NookStore.swift in Sources */,
+				61DD31E3912E0F90CFA5BB0F /* NookView.swift in Sources */,
 				3907B7ABDEA4B35F558646C5 /* NotificationService.swift in Sources */,
 				D7574A18719733E0B493964F /* OnboardingView.swift in Sources */,
+				8B207D10449BA810D11168C7 /* PackArt.swift in Sources */,
 				B97F76ADA3F74ACFB85F50A0 /* PackCompleteOverlay.swift in Sources */,
 				0FEF0C2D7C12DC2D130ED220 /* PackDetailView.swift in Sources */,
 				9CE833B028557F0558472ACE /* PackProvider.swift in Sources */,
@@ -1297,11 +1381,13 @@
 				9E6FD2504B15C754A3A467A1 /* RowDivider.swift in Sources */,
 				7AEF95815B6AB27681587E6A /* SaveTransfer.swift in Sources */,
 				456CB097EC6EA0B936D74D83 /* SaveTransferSheet.swift in Sources */,
+				D05CAE28D1D2118BDD5A581E /* ScenePieceCrop.swift in Sources */,
 				7F7979F2FDB91A33A94532B2 /* SecondaryButton.swift in Sources */,
 				608F276C029F99156F51A976 /* Secrets.swift in Sources */,
 				9A7C6B590FAD5B739D17DD58 /* SectionHeader.swift in Sources */,
 				10623549868FE8396ECC486F /* SettingsView.swift in Sources */,
 				4749283EBBBBBB741384B951 /* Shadow.swift in Sources */,
+				2D044CB2704BE38EEA8A9CFE /* ShardGeometry.swift in Sources */,
 				9B9C88676E42710CC92AFF8C /* ShopView.swift in Sources */,
 				AFB8374D5DFB6A00C5155D1C /* ShopViewModel.swift in Sources */,
 				9338C2DFBAE44768A7DB6C12 /* SnapCalculator.swift in Sources */,
@@ -1327,6 +1413,8 @@
 				CA83B95C2D8625ECE0A7DAE8 /* TutorialOverlay.swift in Sources */,
 				4B86EDC16AD9FB4C50EC6FF9 /* Typography.swift in Sources */,
 				125973CF82E4F51A502A358E /* UndoRewardedSheet.swift in Sources */,
+				44CBB8A6B26EE14B6C12F266 /* UpdateRequiredView.swift in Sources */,
+				C1989D9FB93128031306F7EE /* VersionGate.swift in Sources */,
 				74A5C5E17058FDB558A4F7C1 /* WalletStore.swift in Sources */,
 				53EBBEAED95BADC2D2E4DF02 /* WeeklyChallengeStore.swift in Sources */,
 				6DE2A34AF5F39D462FB5BE79 /* XPStore.swift in Sources */,
@@ -1489,7 +1577,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1497,12 +1585,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.app;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1534,7 +1622,7 @@
 				CODE_SIGN_ENTITLEMENTS = "$(SRCROOT)/SnugloApp.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = K858B9M275;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
@@ -1542,12 +1630,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.snuglo.app;
 				SDKROOT = iphoneos;
 				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.9;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};

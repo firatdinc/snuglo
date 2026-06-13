@@ -359,7 +359,8 @@ final class ProgressStore {
     /// stays a flavour bonus, not a balance-breaker. Chain 2→+10, 3→+20 … cap +80.
     static func chainCoinBonus(forChain chain: Int) -> Int {
         guard chain >= 2 else { return 0 }
-        return min(80, (chain - 1) * 10)
+        // Tightened (was (chain-1)*10, cap 80) to slow soft-currency farming.
+        return min(40, (chain - 1) * 5)
     }
 
     // MARK: - Persistence

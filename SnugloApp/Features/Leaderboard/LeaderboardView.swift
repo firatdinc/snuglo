@@ -23,16 +23,9 @@ struct LeaderboardView: View {
                     .padding(.top, AppSpacing.xl)
                     .padding(.bottom, AppSpacing.md)
 
-                Picker("", selection: $bvm.selectedBoard) {
-                    Text("leaderboard.board.totalLevels").tag(LeaderboardID.totalLevels)
-                    Text("leaderboard.board.fastestSolve").tag(LeaderboardID.fastestSolve)
-                    Text("leaderboard.board.bestStreak").tag(LeaderboardID.bestStreak)
-                    Text("leaderboard.board.endless").tag(LeaderboardID.endlessBest)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, AppSpacing.lg)
-                .padding(.bottom, AppSpacing.md)
-                .accessibilityIdentifier("leaderboard.board.picker")
+                boardSelector
+                    .padding(.bottom, AppSpacing.md)
+                    .accessibilityIdentifier("leaderboard.board.picker")
 
                 ScrollView {
                     LazyVStack(spacing: AppSpacing.sm) {
@@ -50,6 +43,54 @@ struct LeaderboardView: View {
         .onChange(of: viewModel.selectedBoard) {
             Task { await viewModel.load() }
         }
+    }
+
+    // MARK: — Board selector (scrollable chips — long labels never truncate)
+
+    private struct BoardOption: Identifiable {
+        let id: String
+        let labelKey: LocalizedStringKey
+        let icon: String
+    }
+
+    private let boards: [BoardOption] = [
+        .init(id: LeaderboardID.totalLevels,  labelKey: "leaderboard.board.totalLevels",  icon: "square.grid.2x2.fill"),
+        .init(id: LeaderboardID.fastestSolve, labelKey: "leaderboard.board.fastestSolve", icon: "bolt.fill"),
+        .init(id: LeaderboardID.bestStreak,   labelKey: "leaderboard.board.bestStreak",   icon: "flame.fill"),
+        .init(id: LeaderboardID.endlessBest,  labelKey: "leaderboard.board.endless",      icon: "infinity"),
+    ]
+
+    private var boardSelector: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: AppSpacing.sm) {
+                ForEach(boards) { board in
+                    boardChip(board)
+                }
+            }
+            .padding(.horizontal, AppSpacing.lg)
+        }
+    }
+
+    @ViewBuilder
+    private func boardChip(_ board: BoardOption) -> some View {
+        let selected = viewModel.selectedBoard == board.id
+        Button {
+            withAnimation(.easeInOut(duration: 0.2)) { viewModel.selectedBoard = board.id }
+        } label: {
+            HStack(spacing: 6) {
+                Image(systemName: board.icon)
+                    .font(.system(size: 13, weight: .semibold))
+                Text(board.labelKey)
+                    .font(AppTypography.labelSmall)
+                    .fixedSize()
+            }
+            .foregroundStyle(selected ? AppColors.onPrimary : AppColors.onSurfaceVariant)
+            .padding(.horizontal, AppSpacing.md)
+            .padding(.vertical, AppSpacing.sm)
+            .background(Capsule().fill(selected ? AppColors.primary : AppColors.surfaceContainerHigh))
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
     }
 
     // MARK: — State Renders

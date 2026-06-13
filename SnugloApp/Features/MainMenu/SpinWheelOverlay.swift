@@ -69,7 +69,7 @@ struct SpinWheelOverlay: View {
                     .transition(.scale.combined(with: .opacity))
 
                     if !adShown {
-                        let canAd = AdsManager.shared.rewardedAvailable
+                        let canAd = AdsManager.shared.rewardedReady
                         Button {
                             guard canAd else { return }
                             let seg = SpinStore.segments[i]
