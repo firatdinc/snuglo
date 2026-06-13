@@ -9,7 +9,7 @@ import SwiftUI
 struct LevelFailSheet: View {
 
     let onRetry: () -> Void
-    let onHome:  () -> Void
+    let onHome: () -> Void
 
     @State private var appeared = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

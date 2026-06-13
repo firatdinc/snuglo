@@ -30,7 +30,7 @@ struct SolveCelebration: View {
         self.intensity = intensity
         let palette: [Color] = [
             AppColors.tertiary, AppColors.primary, AppColors.secondary,
-            AppColors.blockLavender, AppColors.blockPeach, AppColors.blockSage,
+            AppColors.blockLavender, AppColors.blockPeach, AppColors.blockSage
         ]
         let count = Int(40 + max(0, min(1, intensity)) * 50)
         particles = (0..<count).map { i in

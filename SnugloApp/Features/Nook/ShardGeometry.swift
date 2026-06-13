@@ -32,9 +32,9 @@ enum ShardGeometry {
             let r = deg * .pi / 180
             let dx = cos(r), dy = sin(r)
             var t = Double.greatestFiniteMagnitude
-            if dx > 1e-9  { t = min(t, (1 - Double(center.x)) / dx) }
+            if dx > 1e-9 { t = min(t, (1 - Double(center.x)) / dx) }
             if dx < -1e-9 { t = min(t, (0 - Double(center.x)) / dx) }
-            if dy > 1e-9  { t = min(t, (1 - Double(center.y)) / dy) }
+            if dy > 1e-9 { t = min(t, (1 - Double(center.y)) / dy) }
             if dy < -1e-9 { t = min(t, (0 - Double(center.y)) / dy) }
             let x = Double(center.x) + t * dx
             let y = Double(center.y) + t * dy

@@ -94,7 +94,7 @@ final class NotificationService: NSObject, UNUserNotificationCenterDelegate {
         cancelComeback()
         let schedule: [(String, TimeInterval)] = [
             (Self.comebackIdentifiers[0], 2 * 24 * 3600),
-            (Self.comebackIdentifiers[1], 7 * 24 * 3600),
+            (Self.comebackIdentifiers[1], 7 * 24 * 3600)
         ]
         for (id, after) in schedule {
             let content   = UNMutableNotificationContent()

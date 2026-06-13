@@ -21,8 +21,8 @@ struct TutorialOverlay: View {
 
     private let steps: [Step] = [
         Step(icon: "square.grid.3x3.fill", title: "tutorial.welcome.title", body: "tutorial.welcome.body"),
-        Step(icon: "hand.draw.fill",       title: "tutorial.drag.title",    body: "tutorial.drag.body"),
-        Step(icon: "wand.and.stars",       title: "tutorial.power.title",   body: "tutorial.power.body"),
+        Step(icon: "hand.draw.fill", title: "tutorial.drag.title", body: "tutorial.drag.body"),
+        Step(icon: "wand.and.stars", title: "tutorial.power.title", body: "tutorial.power.body")
     ]
 
     private var isLast: Bool { page >= steps.count - 1 }

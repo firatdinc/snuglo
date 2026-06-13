@@ -13,10 +13,10 @@ struct GemPack: Identifiable, Hashable {
     let bestValue: Bool
 
     static let catalog: [GemPack] = [
-        GemPack(id: "com.snuglo.gems.tier1", gems: 100,  fallbackPrice: "$0.99",  bestValue: false),
-        GemPack(id: "com.snuglo.gems.tier2", gems: 550,  fallbackPrice: "$4.99",  bestValue: false),
-        GemPack(id: "com.snuglo.gems.tier3", gems: 1200, fallbackPrice: "$9.99",  bestValue: false),
+        GemPack(id: "com.snuglo.gems.tier1", gems: 100, fallbackPrice: "$0.99", bestValue: false),
+        GemPack(id: "com.snuglo.gems.tier2", gems: 550, fallbackPrice: "$4.99", bestValue: false),
+        GemPack(id: "com.snuglo.gems.tier3", gems: 1200, fallbackPrice: "$9.99", bestValue: false),
         GemPack(id: "com.snuglo.gems.tier4", gems: 2600, fallbackPrice: "$19.99", bestValue: true),
-        GemPack(id: "com.snuglo.gems.tier5", gems: 7000, fallbackPrice: "$49.99", bestValue: false),
+        GemPack(id: "com.snuglo.gems.tier5", gems: 7000, fallbackPrice: "$49.99", bestValue: false)
     ]
 }

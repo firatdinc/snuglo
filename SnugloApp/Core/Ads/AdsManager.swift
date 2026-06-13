@@ -108,7 +108,7 @@ final class AdsManager {
             "2362EB31-0BFE-4FC3-AF96-EFD7FCD7C93A",  // Fırat
             "26078A84-52D0-40B5-86C7-BB2E0BE1585F",  // ergn
             "c7ed54b33c372a9987c275f00467fecc",      // Ergün (hash)
-            "5bdab3040b25f6bf3b6809864653e42d",       // Ergün (hash)
+            "5bdab3040b25f6bf3b6809864653e42d"       // Ergün (hash)
         ]
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         guard !adsRemovedProvider() else { return }

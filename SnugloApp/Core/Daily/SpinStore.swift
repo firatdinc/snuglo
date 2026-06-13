@@ -10,12 +10,12 @@ final class SpinStore {
 
     static let shared = SpinStore()
 
-    /// Wheel segments (currency, amount), clockwise from the top.
+    // Wheel segments (currency, amount), clockwise from the top.
     // Tickets are NOT a free faucet — they come only from spending gems
     // (Shop → exchange / gem deal). The wheel pays coins + the occasional gem.
     static let segments: [(currency: Currency, amount: Int)] = [
         (.coin, 50), (.coin, 150), (.gem, 1), (.coin, 100),
-        (.coin, 500), (.coin, 80), (.gem, 2), (.coin, 120),
+        (.coin, 500), (.coin, 80), (.gem, 2), (.coin, 120)
     ]
     /// Selection weights (sum 100) — jackpot/gems rarer than small coins.
     static let weights: [Int] = [22, 14, 8, 18, 3, 20, 5, 10]

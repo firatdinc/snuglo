@@ -80,7 +80,7 @@ private struct WaveCell: View {
             .scaleEffect(scale)
             .offset(x: CGFloat(gridX) * cellSize + 2,
                     y: CGFloat(gridY) * cellSize + 2)
-            .onAppear  { if triggered { fire() } }
+            .onAppear { if triggered { fire() } }
             .onChange(of: triggered) { _, t in if t { fire() } }
     }
 

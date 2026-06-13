@@ -28,7 +28,7 @@ struct LevelCompleteSheet: View {
     /// until tomorrow). On earlier daily levels the primary button advances to
     /// the next daily level. The redundant secondary Home button is hidden.
     var isDaily: Bool = false
-    var dailyIndex: Int? = nil      // 0-based index of the daily level just solved
+    var dailyIndex: Int?      // 0-based index of the daily level just solved
     var dailyTotal: Int  = ProgressStore.dailyLevelCount
     /// True when advancing would cost energy the player doesn't have — the primary
     /// button becomes an out-of-energy CTA (`onNeedEnergy`) instead of "Next".

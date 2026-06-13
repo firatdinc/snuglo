@@ -611,7 +611,7 @@ final class GameViewModel {
             let coin = max(0, stars) * 10 + (timeTaken < 60 ? 5 : 0)
             let gem  = (!isDaily && !wasThreeStar && stars >= 3) ? 1 : 0
             if coin > 0 { wallet.earn(.coin, amount: coin) }
-            if gem  > 0 { wallet.earn(.gem,  amount: gem) }
+            if gem  > 0 { wallet.earn(.gem, amount: gem) }
             var r: [Currency: Int] = [:]
             if coin > 0 { r[.coin] = coin }
             if gem  > 0 { r[.gem]  = gem }

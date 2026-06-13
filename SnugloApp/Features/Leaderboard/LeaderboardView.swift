@@ -54,10 +54,10 @@ struct LeaderboardView: View {
     }
 
     private let boards: [BoardOption] = [
-        .init(id: LeaderboardID.totalLevels,  labelKey: "leaderboard.board.totalLevels",  icon: "square.grid.2x2.fill"),
+        .init(id: LeaderboardID.totalLevels, labelKey: "leaderboard.board.totalLevels", icon: "square.grid.2x2.fill"),
         .init(id: LeaderboardID.fastestSolve, labelKey: "leaderboard.board.fastestSolve", icon: "bolt.fill"),
-        .init(id: LeaderboardID.bestStreak,   labelKey: "leaderboard.board.bestStreak",   icon: "flame.fill"),
-        .init(id: LeaderboardID.endlessBest,  labelKey: "leaderboard.board.endless",      icon: "infinity"),
+        .init(id: LeaderboardID.bestStreak, labelKey: "leaderboard.board.bestStreak", icon: "flame.fill"),
+        .init(id: LeaderboardID.endlessBest, labelKey: "leaderboard.board.endless", icon: "infinity")
     ]
 
     private var boardSelector: some View {

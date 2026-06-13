@@ -9,7 +9,7 @@ struct RewardModal<Content: View>: View {
     var confetti: Bool = false
     var confettiIntensity: Double = 0.7
     /// Tap-on-scrim handler; nil disables tap-to-dismiss.
-    var onScrimTap: (() -> Void)? = nil
+    var onScrimTap: (() -> Void)?
     @ViewBuilder var content: () -> Content
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion

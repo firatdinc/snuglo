@@ -6,6 +6,7 @@ disabled_rules:
   - function_body_length
   - cyclomatic_complexity
   - large_tuple
+  - function_parameter_count   # some SwiftUI views take many bindings/callbacks
 opt_in_rules:
   - empty_count
   - explicit_init
@@ -25,5 +26,7 @@ excluded:
 identifier_name:
   min_length: 1
   excluded: [id, x, y, r, g, b, p, s, w, h, dx, dy]
+type_name:
+  excluded: [P]   # private `struct P` persistence-snapshot idiom across stores
 nesting:
   type_level: 3

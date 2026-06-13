@@ -17,7 +17,7 @@ struct SpinWheelOverlay: View {
 
     private let colors: [Color] = [
         AppColors.primary, AppColors.tertiary, AppColors.secondary, AppColors.blockLavender,
-        AppColors.blockPeach, AppColors.blockSage, AppColors.primaryContainer, AppColors.tertiaryContainer,
+        AppColors.blockPeach, AppColors.blockSage, AppColors.primaryContainer, AppColors.tertiaryContainer
     ]
 
     private func label(_ i: Int) -> String {

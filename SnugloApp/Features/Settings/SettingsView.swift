@@ -771,11 +771,11 @@ struct SettingsView: View {
     /// active sound pack + volume (handy after dropping in custom audio).
     private var soundPreviewRow: some View {
         let events: [(SoundService.Sound, String, String)] = [
-            (.place,  "place",  "square.fill"),
-            (.snap,   "snap",   "arrow.down.to.line"),
-            (.solve,  "solve",  "checkmark"),
+            (.place, "place", "square.fill"),
+            (.snap, "snap", "arrow.down.to.line"),
+            (.solve, "solve", "checkmark"),
             (.reward, "reward", "gift.fill"),
-            (.error,  "error",  "xmark"),
+            (.error, "error", "xmark")
         ]
         return VStack(alignment: .leading, spacing: AppSpacing.sm) {
             HStack {

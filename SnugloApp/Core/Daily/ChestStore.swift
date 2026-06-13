@@ -80,7 +80,7 @@ final class ChestStore {
     /// Weighted reward table — mostly coins, occasional gems, rare jackpot.
     static func roll() -> ChestReward {
         switch Int.random(in: 0..<100) {
-        case 0..<55:  return ChestReward(coin: Int.random(in: 50...100),  gem: 0, tier: .common)
+        case 0..<55:  return ChestReward(coin: Int.random(in: 50...100), gem: 0, tier: .common)
         case 55..<80: return ChestReward(coin: Int.random(in: 120...200), gem: 0, tier: .rare)
         case 80..<92: return ChestReward(coin: 0, gem: Int.random(in: 1...2), tier: .epic)
         default:      return ChestReward(coin: 300, gem: 0, tier: .epic)

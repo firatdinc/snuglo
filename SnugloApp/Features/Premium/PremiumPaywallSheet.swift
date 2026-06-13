@@ -11,10 +11,10 @@ struct PremiumPaywallSheet: View {
     @State private var working = false
 
     private let benefits: [(String, LocalizedStringKey)] = [
-        ("bolt.fill",       "paywall.benefit.energy"),
+        ("bolt.fill", "paywall.benefit.energy"),
         ("rectangle.slash", "paywall.benefit.ads"),
-        ("sparkles",        "paywall.benefit.cosmetics"),
-        ("square.grid.2x2.fill", "paywall.benefit.levels"),
+        ("sparkles", "paywall.benefit.cosmetics"),
+        ("square.grid.2x2.fill", "paywall.benefit.levels")
     ]
 
     var body: some View {

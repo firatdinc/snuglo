@@ -49,7 +49,7 @@ final class RelaxedRewardStore {
     @discardableResult
     func grant(xp: Int = 10, coin: Int = 5) -> (xp: Int, coin: Int) {
         rolloverIfNeeded()
-        let gx = max(0, min(xp,  Self.maxXPPerDay   - xpToday))
+        let gx = max(0, min(xp, Self.maxXPPerDay   - xpToday))
         let gc = max(0, min(coin, Self.maxCoinPerDay - coinToday))
         xpToday += gx
         coinToday += gc

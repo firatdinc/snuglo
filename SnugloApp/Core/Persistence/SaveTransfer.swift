@@ -39,7 +39,7 @@ enum SaveTransfer {
         "dailyReminderEnabled", "dailyReminderTime",
         "snuglo.dailyReminder.enabled",
         "comebackRemindersEnabled", "coachShown", "hasOnboarded",
-        "snuglo.ads.consent", "snuglo.language.override",
+        "snuglo.ads.consent", "snuglo.language.override"
     ]
 
     private static let header = "snuglo"

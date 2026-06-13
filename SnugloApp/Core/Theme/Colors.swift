@@ -153,7 +153,7 @@ enum AppColors {
         Color(light: "#8FC1F2", dark: "#6B8FB5"),
         Color(light: "#F2D06B", dark: "#B59E55"),
         Color(light: "#C9A0F2", dark: "#9277B5"),
-        Color(light: "#F2956B", dark: "#B5715A"),
+        Color(light: "#F2956B", dark: "#B5715A")
     ]
     static let skinOceanPalette: [Color] = [
         Color(light: "#3FA7B5", dark: "#347E89"),
@@ -161,7 +161,7 @@ enum AppColors {
         Color(light: "#6FA8DC", dark: "#567E9E"),
         Color(light: "#88D0C0", dark: "#5E9183"),
         Color(light: "#4E90A8", dark: "#3D6E80"),
-        Color(light: "#9AD0C2", dark: "#6E948A"),
+        Color(light: "#9AD0C2", dark: "#6E948A")
     ]
     static let skinMonoPalette: [Color] = [
         Color(light: "#8C8C8C", dark: "#9A9A9A"),
@@ -169,7 +169,7 @@ enum AppColors {
         Color(light: "#7E8A88", dark: "#6E7A78"),
         Color(light: "#B0AAA0", dark: "#7C766C"),
         Color(light: "#94908A", dark: "#A4A09A"),
-        Color(light: "#A8A29C", dark: "#827C76"),
+        Color(light: "#A8A29C", dark: "#827C76")
     ]
     static let skinSunsetPalette: [Color] = [
         Color(light: "#FF9E6D", dark: "#B5734E"),
@@ -177,7 +177,7 @@ enum AppColors {
         Color(light: "#F2785C", dark: "#B05743"),
         Color(light: "#FFC56B", dark: "#B58E4E"),
         Color(light: "#E8956B", dark: "#A86D50"),
-        Color(light: "#F4A6A0", dark: "#B07873"),
+        Color(light: "#F4A6A0", dark: "#B07873")
     ]
     static let skinAuroraPalette: [Color] = [
         Color(light: "#3FBFA8", dark: "#46A593"),
@@ -185,7 +185,7 @@ enum AppColors {
         Color(light: "#9A7FE8", dark: "#7765B0"),
         Color(light: "#4FCB94", dark: "#50A583"),
         Color(light: "#4FB3D9", dark: "#4592A8"),
-        Color(light: "#A48FE0", dark: "#8A7EB5"),
+        Color(light: "#A48FE0", dark: "#8A7EB5")
     ]
 
     // Premium skins — NEVER unlocked by level; obtained only with gems / IAP, so
@@ -196,7 +196,7 @@ enum AppColors {
         Color(light: "#9B5DE5", dark: "#6E42A5"),
         Color(light: "#00BBF9", dark: "#0A86B0"),
         Color(light: "#3A86FF", dark: "#2C63BF"),
-        Color(light: "#7B2CBF", dark: "#5A2090"),
+        Color(light: "#7B2CBF", dark: "#5A2090")
     ]
     static let skinBlossomPalette: [Color] = [
         Color(light: "#FFB3C6", dark: "#B57E8C"),
@@ -204,7 +204,7 @@ enum AppColors {
         Color(light: "#E0BBE4", dark: "#9C84A0"),
         Color(light: "#FEC8D8", dark: "#B58D99"),
         Color(light: "#D4A5FF", dark: "#9477B5"),
-        Color(light: "#FFDAC1", dark: "#B59C8A"),
+        Color(light: "#FFDAC1", dark: "#B59C8A")
     ]
 
     struct BlockSkin: Identifiable {
@@ -213,19 +213,19 @@ enum AppColors {
         let unlockLevel: Int
         let palette: [Color]
         /// Premium (gem-only) skins set this; they are never unlocked by level.
-        var premiumCost: Int? = nil
+        var premiumCost: Int?
     }
 
     static let blockSkins: [BlockSkin] = [
         BlockSkin(id: "nordic", nameKey: "skin.nordic", unlockLevel: 1, palette: blockPalette),
-        BlockSkin(id: "candy",  nameKey: "skin.candy",  unlockLevel: 3, palette: skinCandyPalette),
-        BlockSkin(id: "ocean",  nameKey: "skin.ocean",  unlockLevel: 6, palette: skinOceanPalette),
-        BlockSkin(id: "mono",   nameKey: "skin.mono",   unlockLevel: 9, palette: skinMonoPalette),
+        BlockSkin(id: "candy", nameKey: "skin.candy", unlockLevel: 3, palette: skinCandyPalette),
+        BlockSkin(id: "ocean", nameKey: "skin.ocean", unlockLevel: 6, palette: skinOceanPalette),
+        BlockSkin(id: "mono", nameKey: "skin.mono", unlockLevel: 9, palette: skinMonoPalette),
         BlockSkin(id: "sunset", nameKey: "skin.sunset", unlockLevel: 12, palette: skinSunsetPalette),
         BlockSkin(id: "aurora", nameKey: "skin.aurora", unlockLevel: 15, palette: skinAuroraPalette),
         // ── Premium (gem-only) ──
         BlockSkin(id: "midnight", nameKey: "skin.midnight", unlockLevel: .max, palette: skinMidnightPalette, premiumCost: 300),
-        BlockSkin(id: "blossom",  nameKey: "skin.blossom",  unlockLevel: .max, palette: skinBlossomPalette,  premiumCost: 400),
+        BlockSkin(id: "blossom", nameKey: "skin.blossom", unlockLevel: .max, palette: skinBlossomPalette, premiumCost: 400)
     ]
 
     /// The palette for the currently-selected skin (read live from UserDefaults).

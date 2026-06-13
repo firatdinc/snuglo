@@ -49,7 +49,7 @@ struct GameView: View {
     // decide — on the FIRST movement — whether the touch is a horizontal scroll
     // or an upward pick-up, then lock into that mode for the rest of the drag.
     @State private var carouselOffset: CGFloat = 0          // committed page offset (≤ 0)
-    @State private var carouselDrag:   CGFloat = 0          // live horizontal delta while scrolling
+    @State private var carouselDrag: CGFloat = 0          // live horizontal delta while scrolling
     @State private var trayGestureMode: TrayGestureMode = .undecided
     @State private var trayViewportFrame: CGRect = .zero    // viewport rect in "gameLayout" space
 
@@ -661,8 +661,8 @@ struct GameView: View {
             PowerUpBar(
                 viewModel: viewModel,
                 onInsufficientGem: { showInsufficientGemBanner = true },
-                onUndoRewarded:    { showUndoRewardedSheet = true },
-                onHintRewarded:    { showHintRewardedSheet = true }
+                onUndoRewarded: { showUndoRewardedSheet = true },
+                onHintRewarded: { showHintRewardedSheet = true }
             )
 
             if showInsufficientGemBanner {
@@ -1119,7 +1119,7 @@ struct GameView: View {
             .background(
                 GeometryReader { g in
                     Color.clear
-                        .onAppear  { trayViewportFrame = g.frame(in: .named("gameLayout")) }
+                        .onAppear { trayViewportFrame = g.frame(in: .named("gameLayout")) }
                         .onChange(of: g.frame(in: .named("gameLayout"))) { _, f in
                             trayViewportFrame = f
                         }
@@ -1321,7 +1321,7 @@ struct GameView: View {
                     break
                 }
             }
-            .onEnded { value in
+            .onEnded { _ in
                 let mode = trayGestureMode
                 trayGestureMode = .undecided
 

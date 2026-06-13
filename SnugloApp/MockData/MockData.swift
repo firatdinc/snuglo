@@ -67,23 +67,23 @@ enum MockData {
     static let allPacks: [Pack] = {
         // (id, English title, gridSize, SF icon, accent)
         let specs: [(String, String, Int, String, Color)] = [
-            ("cozy-beginnings",  "Cozy Beginnings",  5, "leaf.fill",            AppColors.blockLavender),
-            ("spice-route",      "Spice Route",      6, "cup.and.saucer.fill",  AppColors.blockPeach),
-            ("mambo-nights",     "Mambo Nights",     7, "moon.stars.fill",      AppColors.blockBlush),
-            ("woodland-retreat", "Woodland Retreat", 8, "tree.fill",            AppColors.blockSage),
-            ("morning-meadow",   "Morning Meadow",   5, "sun.max.fill",         AppColors.blockCream),
-            ("amber-harbor",     "Amber Harbor",     6, "sailboat.fill",        AppColors.blockPeach),
-            ("velvet-dusk",      "Velvet Dusk",      7, "sparkles",             AppColors.blockLavender),
-            ("hearth-tales",     "Hearth Tales",     8, "flame.fill",           AppColors.blockBlush),
-            ("misty-grove",      "Misty Grove",      5, "cloud.fill",           AppColors.blockSage),
-            ("honey-fields",     "Honey Fields",     6, "drop.fill",            AppColors.blockCream),
-            ("lantern-lane",     "Lantern Lane",     7, "lightbulb.fill",       AppColors.blockPeach),
-            ("frost-haven",      "Frost Haven",      8, "snowflake",            AppColors.blockLavender),
-            ("garden-party",     "Garden Party",     5, "leaf.circle.fill",     AppColors.blockSage),
-            ("ocean-breeze",     "Ocean Breeze",     6, "water.waves",          AppColors.blockBlush),
-            ("starlit-peak",     "Starlit Peak",     7, "mountain.2.fill",      AppColors.blockLavender),
-            ("cocoa-cabin",      "Cocoa Cabin",      8, "house.fill",           AppColors.blockPeach),
-            ("aurora-vale",      "Aurora Vale",      8, "sparkles.tv.fill",     AppColors.blockDustyOlive),
+            ("cozy-beginnings", "Cozy Beginnings", 5, "leaf.fill", AppColors.blockLavender),
+            ("spice-route", "Spice Route", 6, "cup.and.saucer.fill", AppColors.blockPeach),
+            ("mambo-nights", "Mambo Nights", 7, "moon.stars.fill", AppColors.blockBlush),
+            ("woodland-retreat", "Woodland Retreat", 8, "tree.fill", AppColors.blockSage),
+            ("morning-meadow", "Morning Meadow", 5, "sun.max.fill", AppColors.blockCream),
+            ("amber-harbor", "Amber Harbor", 6, "sailboat.fill", AppColors.blockPeach),
+            ("velvet-dusk", "Velvet Dusk", 7, "sparkles", AppColors.blockLavender),
+            ("hearth-tales", "Hearth Tales", 8, "flame.fill", AppColors.blockBlush),
+            ("misty-grove", "Misty Grove", 5, "cloud.fill", AppColors.blockSage),
+            ("honey-fields", "Honey Fields", 6, "drop.fill", AppColors.blockCream),
+            ("lantern-lane", "Lantern Lane", 7, "lightbulb.fill", AppColors.blockPeach),
+            ("frost-haven", "Frost Haven", 8, "snowflake", AppColors.blockLavender),
+            ("garden-party", "Garden Party", 5, "leaf.circle.fill", AppColors.blockSage),
+            ("ocean-breeze", "Ocean Breeze", 6, "water.waves", AppColors.blockBlush),
+            ("starlit-peak", "Starlit Peak", 7, "mountain.2.fill", AppColors.blockLavender),
+            ("cocoa-cabin", "Cocoa Cabin", 8, "house.fill", AppColors.blockPeach),
+            ("aurora-vale", "Aurora Vale", 8, "sparkles.tv.fill", AppColors.blockDustyOlive)
         ]
         return specs.enumerated().map { idx, s in
             Pack(

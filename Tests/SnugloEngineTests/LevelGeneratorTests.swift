@@ -110,9 +110,9 @@ final class LevelGeneratorTests: XCTestCase {
                        "5×5 levelIndex 21-60 → 5 piece bekleniyor")
     }
 
-    /// 8×8, levelIndex 41-60 → 12 piece.
+    /// 8×8, levelIndex 41-60 → 12 piece (45 = non-milestone, no +1 bump).
     func testPieceCountInRange_8x8_hardest() {
-        let level = gen.generate(packId: "hard-pack", levelIndex: 50, gridSize: 8)
+        let level = gen.generate(packId: "hard-pack", levelIndex: 45, gridSize: 8)
         XCTAssertEqual(level.pieces.count, 12,
                        "8×8 levelIndex 41-60 → 12 piece bekleniyor")
     }
@@ -163,11 +163,11 @@ final class LevelGeneratorTests: XCTestCase {
     // MARK: - DifficultyPieceCount yardımcı
 
     func testDifficultyCurveValues() {
-        // 5×5
+        // 5×5 (non-milestone indices → base curve, no +1 bump)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 1), 4)
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 20), 4)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 18), 4)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 21), 5)
-        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 60), 5)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 55), 5)
         // 6×6
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 1), 5)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 6, levelIndex: 21), 6)
@@ -179,5 +179,9 @@ final class LevelGeneratorTests: XCTestCase {
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 1), 8)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 21), 10)
         XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 41), 12)
+        // Milestone levels (every 10th) get a +1 difficulty bump.
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 20), 5)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 5, levelIndex: 60), 6)
+        XCTAssertEqual(gen.difficultyPieceCount(gridSize: 8, levelIndex: 50), 13)
     }
 }

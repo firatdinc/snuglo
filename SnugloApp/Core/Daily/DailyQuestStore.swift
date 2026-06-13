@@ -67,9 +67,9 @@ final class DailyQuestStore {
         let skillKind = skillKinds[day % 4]
         let skillGoal = [2, 2, 3, 3][day % 4]
         return [
-            DailyQuest(id: 0, kind: .solveLevels, goal: solveGoal, param: 0,         rewardCoins: 60, rewardGems: 0),
-            DailyQuest(id: 1, kind: .solveUnder,  goal: 1,         param: underSecs, rewardCoins: 80, rewardGems: 0),
-            DailyQuest(id: 2, kind: skillKind,    goal: skillGoal, param: 0,         rewardCoins: 0,  rewardGems: 1),
+            DailyQuest(id: 0, kind: .solveLevels, goal: solveGoal, param: 0, rewardCoins: 60, rewardGems: 0),
+            DailyQuest(id: 1, kind: .solveUnder, goal: 1, param: underSecs, rewardCoins: 80, rewardGems: 0),
+            DailyQuest(id: 2, kind: skillKind, goal: skillGoal, param: 0, rewardCoins: 0, rewardGems: 1)
         ]
     }
 

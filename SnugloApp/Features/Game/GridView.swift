@@ -23,7 +23,7 @@ struct GridView: View {
     /// 0…1 animated phase driving the pulsing target outline (juicy snap feedback).
     var snapPulse: CGFloat = 0
     /// When set, this placed piece gets a pulsing highlight (visual hint feedback).
-    var hintPieceID: PieceID? = nil
+    var hintPieceID: PieceID?
 
     var body: some View {
         GeometryReader { geo in
