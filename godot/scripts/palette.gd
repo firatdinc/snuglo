@@ -17,20 +17,20 @@ const GOOD := Color("7fb87a")
 const BAD := Color("e2675c")
 const GOLD := Color("f2b544")
 
-## Parça kumaşları — sıcak, toprak tonlu; neon yok.
+## Parça kumaşları — art/fabric/classic/fNN.png medyan renkleri (hayalet, yan yüz, vurgu için).
 const PIECES: Array[Color] = [
-	Color("e98a6b"),  # terracotta
-	Color("f0be5a"),  # hardal
-	Color("8fbf8a"),  # adaçayı
-	Color("79a7d3"),  # soluk mavi
-	Color("b58ac9"),  # erik
-	Color("f2a9a0"),  # şeftali
-	Color("5fb3a9"),  # deniz yeşili
-	Color("e57f9b"),  # gül
-	Color("a9b86a"),  # zeytin
-	Color("9d9be0"),  # lavanta
-	Color("d9965b"),  # karamel
-	Color("7cc4e0"),  # gökyüzü
+	Color("bb7056"),  # 00 terracotta kareli
+	Color("c37d27"),  # 01 hardal çiçekli
+	Color("6e6c4f"),  # 02 adaçayı fitilli kadife
+	Color("69778c"),  # 03 denim
+	Color("7a3242"),  # 04 erik kadife puantiye
+	Color("e6b49a"),  # 05 şeftali seersucker
+	Color("3d5a55"),  # 06 deniz yeşili örgü
+	Color("ca7266"),  # 07 gül çiçekli
+	Color("6a5d3c"),  # 08 zeytin balıksırtı tüvit
+	Color("a48aa7"),  # 09 lavanta waffle
+	Color("b47547"),  # 10 karamel ekose
+	Color("6c8ba7"),  # 11 gökyüzü yıldızlı
 ]
 
 static func piece(i: int) -> Color:

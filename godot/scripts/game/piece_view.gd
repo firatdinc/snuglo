@@ -26,6 +26,9 @@ var squash := 0.0                # >0: yassı (x geniş y kısa)
 
 var _font: Font
 
+func _init() -> void:
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_MIRROR
+
 func setup(p: PieceData, cell_size: float) -> void:
 	data = p
 	cs = cell_size
@@ -90,18 +93,29 @@ func _draw() -> void:
 	draw_set_transform(off + Vector2(0, depth), 0.0, Vector2.ONE)
 	draw_colored_polygon(sh.outer, col.darkened(0.28))
 	draw_set_transform(off, 0.0, Vector2.ONE)
-	draw_colored_polygon(sh.outer, col)
-	# Yastık şişkinliği: iç bölge hafif açık, üst-sol ışık.
-	if sh.inner.size() > 2:
-		draw_colored_polygon(sh.inner, col.lightened(0.1))
+	var tex := Fabrics.get_tex(data.color_index)
+	if tex:
+		var tint := Color.WHITE.lerp(Palette.BAD, invalid * 0.6)
+		draw_colored_polygon(sh.outer, tint, Fabrics.uvs(sh.outer, tex, data.color_index), tex)
+	else:
+		draw_colored_polygon(sh.outer, col)
+	# Yastık şişkinliği: kenarda sıcak gölge (kenar içe kıvrılmış), üst-solda yumuşak ışık.
+	var ring: PackedVector2Array = sh.outer.duplicate()
+	ring.append(sh.outer[0])
+	draw_polyline(ring, Color(0.3, 0.14, 0.06, 0.28), cs * 0.09, true)
+	draw_polyline(ring, Color(0.3, 0.14, 0.06, 0.18), cs * 0.04, true)
+	if sh.hi.size() > 2:
 		draw_set_transform(off + Vector2(-cs * 0.03, -cs * 0.035), 0.0, Vector2.ONE)
-		if sh.hi.size() > 2:
-			draw_colored_polygon(sh.hi, Color(1, 1, 1, 0.13))
+		draw_colored_polygon(sh.hi, Color(1, 0.97, 0.9, 0.1 if tex else 0.14))
 		draw_set_transform(off, 0.0, Vector2.ONE)
-	# Dikiş: çevre boyunca kesikli iplik.
+	# Dikiş: krem iplik + altında gölgesi (kumaşa batan iplik hissi).
 	var d := PieceShape.dashes(sh.stitch, cs * 0.09, cs * 0.06)
 	if d.size() > 1:
-		draw_multiline(d, col.lightened(0.45), maxf(2.0, cs * 0.028))
+		var w := maxf(2.0, cs * 0.032)
+		draw_set_transform(off + Vector2(w * 0.35, w * 0.5), 0.0, Vector2.ONE)
+		draw_multiline(d, Color(0.25, 0.12, 0.05, 0.45), w)
+		draw_set_transform(off, 0.0, Vector2.ONE)
+		draw_multiline(d, Palette.CREAM if tex else col.lightened(0.45), w)
 	# Alan sayısı: işlenmiş rakam.
 	var c0 := Vector2(data.cells[0]) * cs + Vector2(cs, cs) * 0.5
 	var fs := int(cs * 0.42)
