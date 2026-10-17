@@ -33,13 +33,15 @@ static func generate(pack_id: String, level_index: int, grid_size: int, seed_bas
 		lvl.solution[pid] = Vector2i(min_x, min_y)
 	return lvl
 
+## Her 10. bölüm (10/20/…/60) +1 parça: o bölümlerde Nook parçası kazanılır (canlı 1.2.0 kuralı).
 static func piece_count(grid_size: int, level_index: int) -> int:
+	var bump := 1 if level_index > 0 and level_index % 10 == 0 else 0
 	match grid_size:
-		5: return 4 if level_index <= 20 else 5
-		6: return 5 if level_index <= 20 else (6 if level_index <= 40 else 7)
-		7: return 6 if level_index <= 20 else (7 if level_index <= 40 else 8)
-		8: return 8 if level_index <= 20 else (10 if level_index <= 40 else 12)
-	return maxi(3, grid_size * grid_size / 6)
+		5: return (4 if level_index <= 20 else 5) + bump
+		6: return (5 if level_index <= 20 else (6 if level_index <= 40 else 7)) + bump
+		7: return (6 if level_index <= 20 else (7 if level_index <= 40 else 8)) + bump
+		8: return (8 if level_index <= 20 else (10 if level_index <= 40 else 12)) + bump
+	return maxi(3, grid_size * grid_size / 6) + bump
 
 static func _partition(size: int, count: int, rng: SeededRandom) -> Array:
 	var total := size * size

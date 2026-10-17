@@ -9,7 +9,14 @@ var _streams := {}
 var _players: Array[AudioStreamPlayer] = []
 var _next := 0
 var _music: AudioStreamPlayer
+var _music_b: AudioStreamPlayer
 var sfx_volume := 1.0
+## Müzik: 0..1 kullanıcı sesi (Settings), parça "calm" | "zen". Geçişte çapraz soluklaşma.
+const TRACKS := {"calm": "res://audio/music/bgm.mp3", "zen": "res://audio/music/bgm_zen.mp3"}
+const MUSIC_DB := -14.0
+var music_volume := 0.6
+var track := ""
+var _fade: Tween
 
 func _ready() -> void:
 	for n in ["click", "combo", "error", "levelUp", "place", "reward", "snap", "solve"]:
@@ -19,12 +26,54 @@ func _ready() -> void:
 		add_child(p)
 		_players.append(p)
 	_music = AudioStreamPlayer.new()
-	_music.stream = load("res://audio/music/bgm.mp3")
-	_music.volume_db = -14.0
+	_music_b = AudioStreamPlayer.new()
 	add_child(_music)
-	if OS.get_environment("SNUG_MUTE") == "":
+	add_child(_music_b)
+	Events.settings_changed.connect(func(k: String) -> void:
+		if k in ["music_track", "zen_mode"]:
+			set_track(Settings.desired_track()))
+
+func _music_db() -> float:
+	return MUSIC_DB + linear_to_db(maxf(music_volume, 0.001))
+
+## Müzik sesi (0 → durur). Settings çağırır.
+func set_music_volume(v: float) -> void:
+	music_volume = clampf(v, 0.0, 1.0)
+	if _fade and _fade.is_running():
+		return
+	_music.volume_db = _music_db()
+	if music_volume <= 0.001:
+		_music.stop()
+	elif track != "" and not _music.playing and OS.get_environment("SNUG_MUTE") == "":
 		_music.play()
-	(_music.stream as AudioStreamMP3).loop = true
+
+## Parçayı değiştir (calm | zen); aynıysa bir şey yapmaz. 0.8 sn çapraz geçiş.
+func set_track(name: String) -> void:
+	if not TRACKS.has(name):
+		name = "calm"
+	if name == track:
+		return
+	track = name
+	var st := load(TRACKS[name]) as AudioStreamMP3
+	if st == null:
+		return
+	st.loop = true
+	if OS.get_environment("SNUG_MUTE") != "" or music_volume <= 0.001:
+		_music.stream = st
+		return
+	var old := _music
+	_music = _music_b
+	_music_b = old
+	_music.stream = st
+	_music.volume_db = -60.0
+	_music.play()
+	if _fade:
+		_fade.kill()
+	_fade = create_tween().set_parallel()
+	_fade.tween_property(_music, "volume_db", _music_db(), 0.8)
+	if old.playing:
+		_fade.tween_property(old, "volume_db", -60.0, 0.8)
+		_fade.chain().tween_callback(old.stop)
 
 func play(name: String, pitch := 1.0, vol_db := 0.0, jitter := 0.04) -> void:
 	if not _streams.has(name) or OS.get_environment("SNUG_MUTE") != "":

@@ -17,6 +17,21 @@ const GOOD := Color("7fb87a")
 const BAD := Color("e2675c")
 const GOLD := Color("f2b544")
 
+## UI (menü/ekranlar) — kumaş buton dokularının ana renkleri + yardımcı tonlar.
+const TERRACOTTA := Color("c0674f")
+const SAGE := Color("7f9a73")
+const MUSTARD := Color("d9a441")
+const CARD := Color("fbf1e3")         # kart içi patiska
+const CARD_EDGE := Color("d8b897")
+const STITCH := Color("fff7ec")       # açık dikiş ipliği
+const STITCH_DARK := Color("a77a5c")  # krem zeminde dikiş
+const DIM := Color(0.18, 0.11, 0.07, 0.55)   # perde/örtü karartması
+const FLAME := Color("e9823f")
+const TEA := Color("b5524f")          # enerji (fincan örgüsü)
+const LOCKED := Color("b9a593")
+const NIGHT := Color("3b2a33")
+const WHITE_SOFT := Color(1, 0.98, 0.94)
+
 ## Parça kumaşları — art/fabric/classic/fNN.png medyan renkleri (hayalet, yan yüz, vurgu için).
 const PIECES: Array[Color] = [
 	Color("bb7056"),  # 00 terracotta kareli

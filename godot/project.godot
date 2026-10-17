@@ -1,11 +1,54 @@
 ; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
+
+[admob]
+
+general/android/enabled=false
+general/ios/app_id="ca-app-pub-8571533711927103~5613795076"
 
 [application]
 
 config/name="Snuglo"
+config/version="2.0.0"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
+boot_splash/bg_color=Color(0.9647059, 0.9058824, 0.8392157, 1)
+boot_splash/stretch_mode=0
+boot_splash/image="res://ios/launch/logo@3x.png"
+
+[autoload]
+
+Sfx="*res://autoload/Sfx.gd"
+Juice="*res://autoload/Juice.gd"
+Events="*res://autoload/Events.gd"
+Save="*res://autoload/Save.gd"
+Settings="*res://autoload/Settings.gd"
+Purchases="*res://autoload/Purchases.gd"
+Wallet="*res://autoload/Wallet.gd"
+Progress="*res://autoload/Progress.gd"
+Energy="*res://autoload/Energy.gd"
+Tower="*res://autoload/Tower.gd"
+XP="*res://autoload/XP.gd"
+Quests="*res://autoload/Quests.gd"
+Chest="*res://autoload/Chest.gd"
+Spin="*res://autoload/Spin.gd"
+DailyReward="*res://autoload/DailyReward.gd"
+Cosmetics="*res://autoload/Cosmetics.gd"
+Nook="*res://autoload/Nook.gd"
+Achievements="*res://autoload/Achievements.gd"
+GameCenter="*res://autoload/GameCenter.gd"
+Notify="*res://autoload/Notify.gd"
+Ads="*res://autoload/Ads.gd"
+VersionGate="*res://autoload/VersionGate.gd"
+Main="*res://autoload/Main.gd"
+Dev="*res://autoload/Dev.gd"
 
 [display]
 
@@ -17,9 +60,17 @@ window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/admob/plugin.cfg")
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res://i18n/strings.tr.translation", "res://i18n/strings.es.translation")
 
 [rendering]
 
@@ -27,10 +78,3 @@ renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 anti_aliasing/quality/msaa_2d=2
 environment/defaults/default_clear_color=Color(0.96, 0.9, 0.84, 1)
-
-[autoload]
-
-Sfx="*res://autoload/Sfx.gd"
-Juice="*res://autoload/Juice.gd"
-Main="*res://autoload/Main.gd"
-Dev="*res://autoload/Dev.gd"

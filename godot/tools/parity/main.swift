@@ -7,7 +7,7 @@ func enc(_ l: Level) -> [String: Any] {
      "pieces": l.pieces.map { ["id": $0.id, "cells": $0.cells.map { [$0.x, $0.y] }] },
      "solution": l.solution.map { ["id": $0.pieceId, "o": [$0.origin.x, $0.origin.y]] }]
 }
-for (p, s) in [("cozy-beginnings",5),("spice-route",6),("mambo-nights",7),("woodland-retreat",8)] {
+for (p, s) in [("cozy-beginnings",5),("spice-route",6),("mambo-nights",7),("woodland-retreat",8),("morning-meadow",5),("amber-harbor",6),("velvet-dusk",7),("hearth-tales",8),("misty-grove",5),("honey-fields",6),("lantern-lane",7),("frost-haven",8),("garden-party",5),("ocean-breeze",6),("starlit-peak",7),("cocoa-cabin",8),("aurora-vale",8)] {
     for i in 1...60 { out.append(enc(gen.generate(packId: p, levelIndex: i, gridSize: s))) }
 }
 let f = DateFormatter(); f.dateFormat = "yyyy-MM-dd"; f.timeZone = TimeZone(identifier: "UTC")

@@ -1,0 +1,22 @@
+[config]
+name="SnugloBridge"
+binary="snuglo_bridge.xcframework"
+
+initialization="initialize_snuglo_bridge_module"
+deinitialization="uninitialize_snuglo_bridge_module"
+
+; Singleton "SnugloBridge": legacy NSUserDefaults / iCloud KV import + backup, local notifications, ATT,
+; haptics, review prompt, share sheet, 1.2.0 transfer-code plist decoding.
+; Source src/snuglo_bridge.mm, rebuilt by tools/build_snuglo_bridge.sh (debug + release variants).
+[dependencies]
+linked=[]
+embedded=[]
+system=["Foundation.framework", "UIKit.framework", "UserNotifications.framework", "AppTrackingTransparency.framework", "StoreKit.framework"]
+
+capabilities=[]
+
+files=[]
+
+linker_flags=[]
+
+[plist]

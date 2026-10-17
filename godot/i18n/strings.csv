@@ -1,0 +1,722 @@
+keys,en,tr,es
+common.continue,Continue,Devam,Continuar
+common.cancel,Cancel,İptal,Cancelar
+common.back,Back,Geri,Atrás
+common.next,Next,İleri,Siguiente
+common.done,Done,Tamam,Hecho
+common.skip,Skip,Geç,Saltar
+common.restart,Restart,Yeniden Başlat,Reiniciar
+common.quit,Quit,Çık,Salir
+common.retry,Retry,Tekrar Dene,Reintentar
+common.ok,OK,Tamam,Aceptar
+common.error,Error,Hata,Error
+app.name,Snuglo,Snuglo,Snuglo
+app.tagline,Cozy block-logic puzzles,Sıcacık blok-mantık bulmacaları,Acogedores rompecabezas de lógica de bloques
+onboarding.page1.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo
+onboarding.page1.body,A cozy puzzle to fit your day,Güne uygun sıcacık bir bulmaca,Un acogedor rompecabezas para tu día
+onboarding.page2.title,Fill the Grid,Izgarayı Doldur,Rellena la cuadrícula
+onboarding.page2.body,"Drag and drop pieces to fill every cell. No overlaps, no gaps.","Parçaları sürükle ve bırak, her hücreyi doldur. Bindirme yok, boşluk yok.","Arrastra y suelta las piezas para llenar cada celda. Sin superposiciones, sin huecos."
+onboarding.page3.title,Cozy Every Day,Her Gün Sıcacık,Acogedor cada día
+onboarding.page3.body,"Daily puzzles, streaks, and 17 cozy worlds to explore at your pace.","Günlük bulmacalar, seriler ve kendi temponda keşfedebileceğin 17 sıcak dünya.","Rompecabezas diarios, rachas y 17 mundos acogedores para explorar a tu ritmo."
+onboarding.getStarted,Get Started,Başla,Empezar
+menu.dailyPuzzle,Daily Puzzle,Günün Bulmacası,Rompecabezas diario
+menu.continue,Continue,Devam Et,Continuar
+menu.viewAll,View All,Tümünü Gör,Ver todo
+menu.startFirst,Start your first level,İlk seviyene başla,Empieza tu primer nivel
+menu.refresh,Refresh in %s,%s içinde yenilenir,Se renueva en %s
+menu.dailyComeBack,Done — new puzzles tomorrow,Bitti — yarın yeni bulmacalar,Listo — nuevos puzles mañana
+menu.dailyNext,Next puzzle in,Yeni bulmaca,Próximo en
+menu.daily.notif.on,Daily reminder on,Günlük hatırlatma açık,Recordatorio diario activado
+menu.daily.notif.off,Daily reminder off,Günlük hatırlatma kapalı,Recordatorio diario desactivado
+notif.daily.title,Your daily puzzle is ready 🧩,Günlük bulmacan hazır 🧩,Tu puzle diario está listo 🧩
+notif.daily.body,A fresh set of puzzles is waiting. Keep your streak going!,Yeni bulmacalar seni bekliyor. Serini sürdür!,Una nueva tanda de puzles te espera. ¡Mantén tu racha!
+game.title.daily,Daily Puzzle,Günün Bulmacası,Puzle del día
+game.tray.remaining,Remaining,Kalan,Quedan
+game.quitConfirm.title,Quit the puzzle?,Çıkmak istediğine emin misin?,¿Salir del puzle?
+game.quitConfirm.message,Your current progress in this level won't be saved.,Bu bölümdeki ilerlemen kaydedilmeyecek.,Tu progreso en este nivel no se guardará.
+game.quitConfirm.confirm,Quit,Çık,Salir
+game.quitConfirm.cancel,Keep playing,Devam Et,Seguir jugando
+game.hint,Hint,İpucu,Pista
+tab.levels,Levels,Bölümler,Niveles
+tab.shop,Shop,Mağaza,Tienda
+tab.play,Play,Oyna,Jugar
+tab.leaderboard,Leaderboard,Liderlik,Ranking
+tab.profile,Profile,Profil,Perfil
+tab.home,Home,Ana,Inicio
+tab.stats,Stats,İstatistik,Estadísticas
+tab.settings,Settings,Ayarlar,Ajustes
+profile.title,Profile,Profil,Perfil
+profile.subtitle,Your puzzle journey,Bulmaca yolculuğun,Tu viaje de puzles
+levels.title,Levels,Seviyeler,Niveles
+levels.subtitle,Pick a pack,Bir paket seç,Elige un paquete
+pack.cozy_beginnings.title,Cozy Beginnings,Rahat Başlangıçlar,Comienzos Acogedores
+pack.spice_route.title,Spice Route,Baharat Yolu,Ruta de Especias
+pack.mambo_nights.title,Mambo Nights,Mambo Geceleri,Noches de Mambo
+pack.woodland_retreat.title,Woodland Retreat,Orman Kaçamağı,Refugio del Bosque
+pack.cozyBeginnings,Cozy Beginnings,Sıcak Başlangıç,Comienzos acogedores
+pack.spiceRoute,Spice Route,Baharat Yolu,Ruta de las especias
+pack.mamboNights,Mambo Nights,Mambo Geceleri,Noches de Mambo
+pack.woodlandRetreat,Woodland Retreat,Orman Sığınağı,Refugio del bosque
+pack.locked,Locked,Kilitli,Bloqueado
+pack.progress,Progress,İlerleme,Progreso
+alert.unlockPack.title,Unlock Pack,Paketi Kilitsiz Aç,Desbloquear paquete
+alert.unlockPack.message,%s is locked. Visit the Shop to unlock it.,%s kilitli. Kilidi açmak için Mağaza'ya git.,%s está bloqueado. Ve a la Tienda para desbloquearlo.
+alert.unlockPack.goToShop,Go to Shop,Mağazaya Git,Ir a la tienda
+pause.title,Paused,Durakladı,Pausado
+pause.resume,Resume,Devam Et,Continuar
+pause.restart,Restart,Yeniden Başlat,Reiniciar
+pause.home,Home,Ana Sayfa,Inicio
+pause.sound,Sound,Ses,Sonido
+pause.haptics,Haptics,Titreşim,Vibración
+complete.puzzleSolved,Level complete!,Seviye Tamamlandı!,¡Nivel completado!
+complete.dailyAllDone,All daily puzzles solved!,Bugünün tüm bulmacaları çözüldü!,¡Todos los puzles diarios resueltos!
+complete.dailyComeBack,Come back tomorrow for a fresh set.,Yarın yeni bir set için tekrar gel.,Vuelve mañana para una nueva tanda.
+complete.next,Next Level,Sonraki Seviye,Siguiente nivel
+complete.outOfEnergy,Out of Energy,Enerji Bitti,Sin energía
+complete.replay,Replay,Tekrar Oyna,Repetir
+complete.home,Home,Ana Sayfa,Inicio
+complete.time,Time,Süre,Tiempo
+complete.stars,Stars,Yıldız,Estrellas
+complete.hints,Hints,İpucu,Pistas
+complete.moves,Moves,Hamle,Movimientos
+complete.bestTime,Best Time,En İyi Süre,Mejor Tiempo
+stats.title,Stats,İstatistik,Estadísticas
+stats.header,Your Stats,İstatistiklerin,Tus estadísticas
+stats.streakActive,🔥 %d-day streak — keep it going!,🔥 %d günlük seri — devam et!,🔥 Racha de %d días — ¡sigue así!
+stats.streakEmpty,Play today's daily puzzle to start a streak 🧩,Seri başlatmak için bugünkü bulmacayı çöz 🧩,Resuelve el rompecabezas de hoy para empezar una racha 🧩
+stats.levelsCompleted,Levels,Seviye,Niveles
+stats.streak,Streak,Seri,Racha
+stats.avgTime,Avg Time,Ort. Süre,Tiempo medio
+stats.dailySolved,Daily Solved,Günlük Çözüm,Resuelto hoy
+stats.packProgress,Pack Progress,Paket İlerlemesi,Progreso del paquete
+stats.last7Days,Solves per day,Günlük çözümler,Resoluciones por día
+stats.chartSolved,Solved,Çözüldü,Resuelto
+stats.chartMissed,Missed,Kaçırıldı,Perdido
+stats.hintUsage,Hint usage,İpucu kullanımı,Uso de pistas
+stats.noHints,No hints,İpucu yok,Sin pistas
+stats.hints1to2,1–2 hints,1–2 ipucu,1–2 pistas
+stats.hints3plus,3+ hints,3+ ipucu,3+ pistas
+shop.title,Shop,Mağaza,Tienda
+shop.enhance,Enhance your cozy experience,Sıcacık deneyimini geliştir,Mejora tu experiencia acogedora
+shop.packUnlocks,Puzzle Packs,Bulmaca Paketleri,Paquetes de rompecabezas
+shop.hintsSection,Hints,İpuçları,Pistas
+shop.oneTime,One-Time Purchases,Tek Seferlik Satın Almalar,Compras únicas
+shop.hintsRemaining,You have %d remaining,%d ipucun kaldı,Tienes %d restantes
+shop.hintsAvailable,%d hints available,%d ipucu mevcut,%d pistas disponibles
+shop.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras
+shop.owned,Owned,Sahip Olundu,Ya adquirido
+sku.hintsSmall.title,10 Hints,10 İpucu,10 Pistas
+sku.hintsSmall.body,Get unstuck when puzzles get tricky,Bulmacalar zorlaştığında yardım al,Úsalas cuando el puzle se ponga difícil
+sku.removeAds.title,Remove Ads,Reklamları Kaldır,Eliminar anuncios
+sku.removeAds.body,One-time · No more interruptions,Tek seferlik · Kesintisiz oyna,Único pago · Sin más interrupciones
+sku.spiceRoute.title,Spice Route Pack,Baharat Yolu Paketi,Paquete Ruta de las especias
+sku.spiceRoute.body,Unlock 60 levels of 6×6 puzzles,6×6 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 6×6
+sku.mamboNights.title,Mambo Nights Pack,Mambo Geceleri Paketi,Paquete Noches de Mambo
+sku.mamboNights.body,Unlock 60 levels of 7×7 puzzles,7×7 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 7×7
+sku.woodlandRetreat.title,Woodland Retreat Pack,Orman Sığınağı Paketi,Paquete Refugio del bosque
+sku.woodlandRetreat.body,Unlock 60 levels of 8×8 puzzles,8×8 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 8×8
+settings.title,Settings,Ayarlar,Ajustes
+settings.sound.title,Sound & Feel,Ses & Hissiyat,Sonido y sensaciones
+settings.sound.music,Music,Müzik,Música
+settings.sound.effects,Sound Effects,Ses Efektleri,Efectos de sonido
+settings.haptics.enable,Haptics,Titreşim,Vibración
+settings.appearance.title,Appearance,Görünüm,Apariencia
+settings.appearance.theme,Theme,Tema,Tema
+settings.appearance.system,System,Sistem,Sistema
+settings.appearance.light,Light,Açık,Claro
+settings.appearance.dark,Dark,Koyu,Oscuro
+settings.notifications.title,Notifications,Bildirimler,Notificaciones
+settings.notifications.reminder,Daily Reminder,Günlük Hatırlatıcı,Recordatorio diario
+settings.notifications.time,Reminder Time,Hatırlatma Saati,Hora del recordatorio
+settings.notifications.reminderSet,Daily reminder set for %s,%s için günlük hatırlatıcı ayarlandı,Recordatorio diario configurado para %s
+settings.language.title,Language,Dil,Idioma
+settings.language.label,Language,Dil,Idioma
+settings.language.footer,You can also change the language in iOS Settings → Snuglo.,Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz.,También puedes cambiar el idioma en Ajustes de iOS → Snuglo.
+settings.language.system,System,Sistem,Sistema
+settings.language.en,English,English,English
+settings.language.tr,Türkçe,Türkçe,Türkçe
+settings.language.es,Español,Español,Español
+settings.language.restartTitle,Restart Required,Yeniden Başlatma Gerekli,Reinicio requerido
+settings.language.restartMessage,Language changes take effect after you restart Snuglo.,Dil değişikliği Snuglo'yu yeniden başlattıktan sonra geçerli olur.,Los cambios de idioma surten efecto después de reiniciar Snuglo.
+settings.privacy.title,Privacy,Gizlilik,Privacidad
+settings.privacy.personalizedAds,Personalized Ads,Kişiselleştirilmiş Reklamlar,Anuncios personalizados
+settings.privacy.adsFooter,Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.,Snuglo'nun Apple reklam kimliğini kullanarak ilgi alanlarınıza göre reklamlar göstermesine izin verir. iOS Ayarlar → Gizlilik → İzleme bölümünden değiştirebilirsiniz.,Permite que Snuglo muestre anuncios adaptados a tus intereses usando el ID de publicidad de Apple. Puedes cambiarlo en Ajustes de iOS → Privacidad → Seguimiento.
+settings.account.title,Account,Hesap,Cuenta
+settings.account.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras
+settings.account.privacy,Privacy Policy,Gizlilik Politikası,Política de privacidad
+settings.account.terms,Terms of Service,Kullanım Koşulları,Condiciones de servicio
+settings.account.reset,Reset Progress,İlerlemeyi Sıfırla,Restablecer progreso
+settings.account.resetTitle,Reset All Progress?,Tüm İlerleme Sıfırlansın mı?,¿Restablecer todo el progreso?
+settings.account.resetMessage,"This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.","Tamamlanan tüm seviyeler, yıldızlar, seriler ve günlük bulmaca geçmişi kalıcı olarak silinecek. Bu işlem geri alınamaz.","Esto eliminará permanentemente todos los niveles completados, estrellas, rachas e historial de rompecabezas diarios. Esta acción no se puede deshacer."
+settings.account.resetAction,Reset,Sıfırla,Restablecer
+settings.about.title,About,Hakkında,Acerca de
+settings.about.version,Version,Sürüm,Versión
+settings.about.credits,Made with ♥ and cozy vibes,♥ ve sıcaklıkla yapıldı,Hecho con ♥ y calidez
+notif.disabled.title,Notifications Disabled,Bildirimler Devre Dışı,Notificaciones desactivadas
+notif.disabled.message,"To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.",Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git.,"Para activar los recordatorios diarios, permite que Snuglo envíe notificaciones en Ajustes → Snuglo → Notificaciones."
+notif.openSettings,Open Settings,Ayarları Aç,Abrir ajustes
+currency.coin,Coin,Coin,Moneda
+currency.gem,Gem,Mücevher,Gema
+currency.ticket,Ticket,Jeton,Boleto
+currency.cup,Trophy,Kupa,Trofeo
+levelcomplete.reward,You earned,Kazandın,Ganaste
+leaderboard.title,Leaderboard,Liderlik,Clasificación
+leaderboard.placeholder.title,Coming in Phase 5,Faz 5'te Geliyor,Próximamente en la Fase 5
+leaderboard.placeholder.body,Rankings and achievements are on their way!,Sıralamalar ve başarılar çok yakında!,¡Las clasificaciones y logros están en camino!
+leaderboard.board.totalLevels,Total Levels,Toplam Seviye,Total de Niveles
+leaderboard.board.fastestSolve,Fastest Solve,En Hızlı Çözüm,Resolución más rápida
+leaderboard.board.bestStreak,Best Streak,En İyi Seri,Mejor racha
+leaderboard.board.endless,Endless,Sonsuz,Infinito
+leaderboard.empty.title,No Entries Yet,Henüz Giriş Yok,Aún sin entradas
+leaderboard.empty.body,Complete some levels to appear on the leaderboard.,Liderlik tablosunda görünmek için birkaç seviye tamamla.,Completa algunos niveles para aparecer en la clasificación.
+leaderboard.notSignedIn.title,Game Center Required,Game Center Gerekli,Se requiere Game Center
+leaderboard.notSignedIn.body,Sign in to Game Center in iOS Settings to view global rankings.,Global sıralamaları görmek için iOS Ayarlar'dan Game Center'a giriş yap.,Inicia sesión en Game Center en los Ajustes de iOS para ver las clasificaciones globales.
+leaderboard.notSignedIn.cta,Open Settings,Ayarları Aç,Abrir ajustes
+leaderboard.error.title,Couldn't Load,Yüklenemedi,No se pudo cargar
+leaderboard.error.body,There was a problem fetching the leaderboard.,Liderlik tablosu alınırken bir sorun oluştu.,Hubo un problema al obtener la clasificación.
+leaderboard.sample,(Sample),(Örnek),(Muestra)
+leaderboard.row.rank,Rank %d,Sıra %d,Puesto %d
+common.viewAll,View All,Tümünü gör,Ver todo
+announcement.dismiss,Dismiss,Kapat,Cerrar
+powerup.hint,Hint,İpucu,Pista
+powerup.peek,Peek,Göz At,Vistazo
+powerup.shuffle,Restart,Yeniden,Reiniciar
+powerup.insufficient.gem.title,Not Enough Gems,Yetersiz Mücevher,Gemas insuficientes
+powerup.insufficient.gem.message,You can get more from the Shop.,Mağaza'dan daha fazlasını alabilirsin.,Puedes conseguir más en la Tienda.
+powerup.insufficient.gem.cta,Go to Shop,Mağazaya Git,Ir a la tienda
+shop.deal.section,Today's Deal,Bugünün Fırsatı,Oferta del Día
+shop.deal.claim,Claim,Al,Reclamar
+shop.deal.claimed,Claimed today,Bugün alındı,Reclamada hoy
+shop.deal.gems.title,Gem Boost,Mücevher Desteği,Refuerzo de Gemas
+shop.deal.gems.message,Watch an ad and earn 20 free gems.,Reklam izle ve 20 ücretsiz mücevher kazan.,Mira un anuncio y gana 20 gemas gratis.
+shop.deal.coins.title,Coin Rain,Altın Yağmuru,Lluvia de Monedas
+shop.deal.coins.message,Watch an ad to earn 150 coins.,Reklam izle ve 150 altın kazan.,Mira un anuncio y gana 150 monedas.
+shop.deal.ticket.title,Free Ticket,Ücretsiz Bilet,Entrada Gratis
+shop.deal.ticket.message,Watch an ad and get a game ticket.,Reklam izle ve bir oyun bileti kazan.,Mira un anuncio y obtén un boleto de juego.
+shop.deal.exchange.title,Gem Deal,Mücevher Fırsatı,Oferta de Gemas
+shop.deal.exchange.message,Spend 300 coins and get 5 gems.,300 altın harca ve 5 mücevher al.,Gasta 300 monedas y obtén 5 gemas.
+shop.deal.ticket.gems.title,Ticket Deal,Bilet Fırsatı,Oferta de Boleto
+shop.deal.ticket.gems.message,Spend 80 gems and get 2 tickets.,80 mücevher harca ve 2 bilet al.,Gasta 80 gemas y obtén 2 boletos.
+shop.packs.section,Free Rewards,Ücretsiz Ödüller,Recompensas Gratis
+shop.packs.hint,Watch a short video to earn — free,"Kısa bir video izle, ücretsiz kazan",Mira un video corto y gana — gratis
+shop.free,FREE,ÜCRETSİZ,GRATIS
+shop.pack.watch.ad,Watch Ad,Reklam İzle,Ver Anuncio
+shop.pack.coins.sm,Small Pack,Küçük Paket,Paquete Pequeño
+shop.pack.coins.md,Coin Bundle,Altın Demeti,Paquete Mediano
+shop.pack.gems.sm,Gem Pouch,Mücevher Kesesi,Bolsa de Gemas
+shop.pack.ticket,Game Ticket,Oyun Bileti,Boleto de Juego
+shop.exchange.section,Exchange,Dönüştür,Intercambio
+shop.exchange.hint,Convert coins and gems,Altın ve mücevher dönüştür,Convierte monedas y gemas
+shop.exchange.rate,Rate,Kur,Tasa
+shop.exchange.need,Need %d more,%d daha gerekli,Faltan %d
+shop.exchange.confirm,Exchange,Dönüştür,Intercambiar
+shop.debug.section,Debug Controls,Hata Ayıklama,Controles Debug
+shop.debug.add.coins,Add 500 Coins,500 Altın Ekle,Añadir 500 Monedas
+shop.debug.add.gems,Add 100 Gems,100 Mücevher Ekle,Añadir 100 Gemas
+shop.debug.add.tickets,Add 5 Tickets,5 Bilet Ekle,Añadir 5 Boletos
+shop.exchange.success.title,Exchanged!,Takas Yapıldı!,¡Intercambiado!
+shop.exchange.success.message,Your balance has been updated.,Bakiyen güncellendi.,Tu saldo ha sido actualizado.
+shop.exchange.insufficient.title,Insufficient Balance,Yetersiz Bakiye,Saldo insuficiente
+shop.exchange.insufficient.message,You don't have enough to complete this exchange.,Bu takas için yeterli bakiyen yok.,No tienes suficiente para completar este intercambio.
+shop.iap.purchase.success,Purchase Successful,Satın Alma Başarılı,Compra exitosa
+shop.iap.purchase.success.message,Your items have been added to your account.,Öğelerin hesabına eklendi.,Tus artículos han sido añadidos a tu cuenta.
+shop.ad.unavailable,Ad not available,Reklam mevcut değil,Anuncio no disponible
+profile.identity.title,Player,Oyuncu,Jugador
+profile.premium.active,Premium Active,Premium Aktif,Premium Activo
+profile.premium.upgrade.title,Go Premium,Premium'a Yükselt,Hazte Premium
+profile.premium.upgrade.subtitle,Remove ads and unlock bonuses,Reklamları kaldır ve bonusların kilidini aç,Elimina los anuncios y desbloquea bonificaciones
+profile.link.achievements,Achievements,Başarımlar,Logros
+profile.link.bestScores,Best Scores,En İyi Skorlar,Mejores Puntuaciones
+profile.link.dailyReward,Daily Reward,Günlük Ödül,Recompensa Diaria
+profile.link.stats,Stats,İstatistikler,Estadísticas
+profile.settings.title,Settings,Ayarlar,Ajustes
+common.upgrade,Upgrade,Yükselt,Mejorar
+dailyReward.title,Daily Reward,Günlük Ödül,Recompensa Diaria
+dailyReward.claim.cta,Claim Today's Reward,Bugünün Ödülünü Al,Reclamar Recompensa de Hoy
+dailyReward.claim.disabled,Come Back Tomorrow,Yarın Geri Gel,Vuelve Mañana
+dailyReward.success.title,Reward Claimed!,Ödül Alındı!,¡Recompensa Reclamada!
+dailyReward.success.subtitle,See you tomorrow,Yarın görüşürüz,Hasta mañana
+dailyReward.day,Day %d,Gün %d,Día %d
+dailyReward.premium.bonus,Premium Bonus,Premium Bonusu,Bono Premium
+achievements.title,Achievements,Başarımlar,Logros
+achievement.category.levels,Levels,Seviyeler,Niveles
+achievement.category.streak,Streaks,Seriler,Rachas
+achievement.category.skill,Skills,Beceriler,Habilidades
+achievement.locked.label,Locked,Kilitli,Bloqueado
+achievement.unlocked.banner.title,Achievement Unlocked!,Başarım Açıldı!,¡Logro Desbloqueado!
+achievement.firstSteps.title,First Steps,İlk Adımlar,Primeros Pasos
+achievement.firstSteps.description,Complete your first level,İlk seviyeni tamamla,Completa tu primer nivel
+achievement.levelHunter10.title,Level Hunter,Seviye Avcısı,Cazador de Niveles
+achievement.levelHunter10.description,Complete 10 levels,10 seviyeyi tamamla,Completa 10 niveles
+achievement.levelMaster50.title,Level Master,Seviye Ustası,Maestro de Niveles
+achievement.levelMaster50.description,Complete 50 levels,50 seviyeyi tamamla,Completa 50 niveles
+achievement.perfectionist1.title,Perfectionist,Mükemmeliyetçi,Perfeccionista
+achievement.perfectionist1.description,Earn 3 stars on a level,Bir seviyede 3 yıldız kazan,Consigue 3 estrellas en un nivel
+achievement.perfectionistPro10.title,Perfectionist Pro,Mükemmeliyetçi Pro,Perfeccionista Pro
+achievement.perfectionistPro10.description,Earn 3 stars on 10 levels,10 seviyede 3 yıldız kazan,Consigue 3 estrellas en 10 niveles
+achievement.streak3.title,Hot Streak,Ateşli Seri,Racha Ardiente
+achievement.streak3.description,Maintain a 3-day streak,3 günlük seri kur,Mantén una racha de 3 días
+achievement.streak7.title,Streak Master,Seri Ustası,Maestro de Rachas
+achievement.streak7.description,Maintain a 7-day streak,7 günlük seri kur,Mantén una racha de 7 días
+achievement.streak30.title,Unstoppable,Durdurulamaz,Imparable
+achievement.streak30.description,Maintain a 30-day streak,30 günlük seri kur,Mantén una racha de 30 días
+achievement.noHints10.title,No Help Needed,Yardıma Gerek Yok,Sin Ayuda
+achievement.noHints10.description,Complete 10 levels without hints,İpucu kullanmadan 10 seviyeyi tamamla,Completa 10 niveles sin pistas
+achievement.speedSolver.title,Speed Solver,Hız Çözücü,Solucionador Rápido
+achievement.speedSolver.description,Solve a level in under 30 seconds,Bir seviyeyi 30 saniyenin altında çöz,Resuelve un nivel en menos de 30 segundos
+menu.streak.days,%d-day streak,%d günlük seri,Racha de %d días
+menu.streak.start,Play any level today to start a streak,"Bugün oyna, serini başlat",Juega hoy para iniciar una racha
+menu.streak.best,Best %d,En iyi %d,Mejor %d
+settings.gameplay.title,Gameplay,Oyun,Juego
+settings.gameplay.zen,Zen Mode,Zen Modu,Modo Zen
+settings.gameplay.zenFooter,"No timer, no fail — solve at your own pace.","Süre yok, başarısızlık yok — sakin sakin çöz.","Sin tiempo, sin fallos: resuelve a tu ritmo."
+quest.header,Daily Quests,Günlük Görevler,Misiones diarias
+quest.solveLevels,Solve %d levels,%d bölüm çöz,Resuelve %d niveles
+quest.solveUnder,Solve a level under %ds,%d sn altında bir bölüm çöz,Resuelve un nivel en menos de %ds
+quest.noHints,"Solve %d levels, no hints",İpucu olmadan %d bölüm çöz,Resuelve %d niveles sin pistas
+quest.claim,CLAIM,AL,RECLAMAR
+quest.claimed,Claimed,Alındı,Reclamado
+chest.title,Reward Chest,Ödül Sandığı,Cofre de recompensa
+chest.ready,Chest ready!,Sandık hazır!,¡Cofre listo!
+chest.tapToOpen,Tap to open,Açmak için dokun,Toca para abrir
+chest.reward,Reward!,Ödül!,¡Recompensa!
+chest.collect,Collect,Topla,Recoger
+spin.title,Daily Spin,Günlük Çark,Giro diario
+spin.available,Free spin ready!,Ücretsiz çevirme hazır!,¡Giro gratis listo!
+spin.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana
+spin.spin,SPIN,ÇEVİR,GIRAR
+spin.reward,You won!,Kazandın!,¡Ganaste!
+spin.collect,Collect,Topla,Recoger
+level.label,Level %d,Seviye %d,Nivel %d
+level.labelTotal,Level %d/%d,Seviye %d/%d,Nivel %d/%d
+level.up,Level Up,Seviye Atladın,Subiste de nivel
+level.reached,Level %d!,Seviye %d!,¡Nivel %d!
+skin.title,Block Skin,Blok Teması,Aspecto de bloques
+skin.nordic,Nordic,Nordic,Nórdico
+skin.candy,Candy,Şeker,Dulce
+skin.ocean,Ocean,Okyanus,Océano
+skin.mono,Mono,Mono,Mono
+skin.locked,Lv %d,Sv %d,Nv %d
+streak.milestone,%d-Day Streak!,%d Günlük Seri!,¡Racha de %d días!
+streak.keepGoing,Keep it going,Böyle devam et,Sigue así
+endless.title,Endless Zen,Sonsuz Zen,Zen infinito
+endless.subtitle,"Relaxed, never-ending","Sakin, hiç bitmeyen","Relajado, sin fin"
+endless.best,Best: Level %d,Rekor: Seviye %d,Mejor: Nivel %d
+weekly.title,Weekly Challenge,Haftalık Görev,Reto semanal
+weekly.goal,Solve %d levels this week,Bu hafta %d bölüm çöz,Resuelve %d niveles esta semana
+share.button,Share Result,Sonucu Paylaş,Compartir resultado
+share.solved,Solved!,Çözüldü!,¡Resuelto!
+share.time,TIME,SÜRE,TIEMPO
+share.level,LEVEL,SEVİYE,NIVEL
+share.streak,STREAK,SERİ,RACHA
+share.tagline,cozy block puzzle,rahatlatıcı blok bulmaca,puzzle de bloques relajante
+calendar.title,Daily Reward,Günlük Ödül,Recompensa diaria
+calendar.available,Claim today's reward!,Bugünkü ödülü al!,¡Reclama la de hoy!
+calendar.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana
+calendar.claimDay,Claim Day %d,%d. Günü Al,Reclamar día %d
+common.close,Close,Kapat,Cerrar
+stats.heatmap.title,Activity (30 days),Aktiflik (30 gün),Actividad (30 días)
+stats.activeDays,%d/30 active days,%d/30 aktif gün,%d/30 días activos
+stats.stars.title,Star Distribution,Yıldız Dağılımı,Distribución de estrellas
+board.parchment,Parchment,Parşömen,Pergamino
+board.dawn,Dawn,Şafak,Amanecer
+board.forest,Forest,Orman,Bosque
+board.night,Night,Gece,Noche
+board.title,Board Background,Tahta Arkaplanı,Fondo del tablero
+settings.gameplay.colorblind,Color-Blind Patterns,Renk Körü Desenleri,Patrones daltónicos
+soundpack.title,Sound Pack,Ses Paketi,Paquete de sonido
+soundpack.classic,Classic,Klasik,Clásico
+soundpack.soft,Soft,Yumuşak,Suave
+soundpack.crisp,Crisp,Net,Nítido
+stats.empty,Solve a level to start your stats,İstatistiklerini doldurmak için bir bölüm çöz,Resuelve un nivel para ver tus estadísticas
+freeze.title,Streak Freeze,Seri Dondurma,Congelar racha
+freeze.held,%d held — protects a missed day,%d adet — kaçırılan bir günü korur,%d en reserva — protege un día perdido
+reward.double,Watch → 2×,İzle → 2×,Ver → 2×
+haptic.strength,Haptic Strength,Titreşim Şiddeti,Intensidad háptica
+haptic.full,Full,Tam,Completo
+haptic.light,Light,Hafif,Suave
+coach.drag,Drag a piece onto the board,Bir parçayı tahtaya sürükle,Arrastra una pieza al tablero
+pause.hint,Hint,İpucu,Pista
+pause.settings,Settings,Ayarlar,Ajustes
+settings.sound.volume,Volume,Ses seviyesi,Volumen
+settings.notifications.comeback,Comeback reminders,Geri dönüş hatırlatması,Recordatorios de regreso
+notif.comeback.title,We miss you! 🧩,Seni özledik! 🧩,¡Te echamos de menos! 🧩
+notif.comeback.body,Your Snuglo puzzles and streak are waiting.,Snuglo bulmacaların ve streak'in seni bekliyor.,Tus puzzles de Snuglo y tu racha te esperan.
+settings.sound.track,Music track,Müzik parçası,Pista de música
+settings.sound.track.auto,Auto,Otomatik,Automático
+settings.sound.track.calm,Calm,Sakin,Tranquila
+settings.sound.track.zen,Zen,Zen,Zen
+settings.account.transfer,Back up / transfer progress,İlerlemeyi yedekle / aktar,Respaldar / transferir progreso
+transfer.title,Backup & Transfer,Yedekle ve Aktar,Respaldo y transferencia
+transfer.backup.title,Backup code,Yedekleme kodu,Código de respaldo
+transfer.backup.desc,"Copy this code and keep it safe, or move it to a new device.",Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar.,"Copia este código y guárdalo, o pásalo a un nuevo dispositivo."
+transfer.copy,Copy,Kopyala,Copiar
+transfer.share,Share,Paylaş,Compartir
+transfer.restore.title,Restore,Geri yükle,Restaurar
+transfer.restore.desc,Paste a backup code here to restore it.,Bir yedekleme kodunu buraya yapıştır ve geri yükle.,Pega aquí un código de respaldo para restaurarlo.
+transfer.restore.action,Restore,Geri yükle,Restaurar
+transfer.note,"Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.","İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir.","Incluye progreso, monedas, cosméticos y ajustes. La restauración se aplica del todo al reiniciar la app."
+transfer.restored.title,Restored,Geri yüklendi,Restaurado
+transfer.restored.message,Your save was restored. Restart the app to fully apply the changes.,Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat.,Tu partida se restauró. Reinicia la app para aplicar los cambios.
+transfer.invalid.title,Invalid code,Geçersiz kod,Código no válido
+transfer.invalid.message,This code couldn't be read. Make sure you copied all of it.,Bu kod okunamadı. Tamamını kopyaladığından emin ol.,No se pudo leer el código. Asegúrate de copiarlo completo.
+stats.lifetime.title,Lifetime,Tüm Zamanlar,Histórico
+stats.starsEarned,Total stars,Toplam yıldız,Estrellas totales
+stats.perfectSolves,Perfect (3★),Mükemmel (3★),Perfectos (3★)
+stats.bestTime,Best time,En iyi süre,Mejor tiempo
+stats.longestStreak,Longest streak,En uzun seri,Racha más larga
+pack.complete.title,Pack complete!,Paket tamamlandı!,¡Paquete completado!
+praise.0,Nicely done!,Güzel!,¡Bien hecho!
+praise.1,Beautiful!,Harika!,¡Precioso!
+praise.2,Cozy!,Huzurlu!,¡Acogedor!
+praise.3,Smooth!,Akıcı!,¡Fluido!
+praise.4,Perfect fit!,Tam oturdu!,¡Encaje perfecto!
+praise.5,Lovely!,Sıcacık!,¡Encantador!
+achievement.levelLegend100.title,Legend,Efsane,Leyenda
+achievement.levelLegend100.description,Complete 100 levels,100 bölüm tamamla,Completa 100 niveles
+achievement.packFinisher.title,Pack Finisher,Paket Ustası,Finalizador
+achievement.packFinisher.description,Complete every level in a pack,Bir paketi tamamen bitir,Completa todos los niveles de un paquete
+achievement.perfectionistMaster25.title,Flawless Master,Kusursuz Usta,Maestro Impecable
+achievement.perfectionistMaster25.description,Solve 25 levels with 3 stars,25 bölümü 3 yıldızla çöz,Resuelve 25 niveles con 3 estrellas
+achievement.dedicated7.title,Dedicated,Sadık,Dedicado
+achievement.dedicated7.description,Play 7 days in a row,7 gün üst üste oyna,Juega 7 días seguidos
+achievement.comboChampion.title,Combo Champion,Kombo Şampiyonu,Campeón Combo
+achievement.comboChampion.description,Solve 5 levels in a row without failing,5 bölümü arka arkaya kaybetmeden çöz,Resuelve 5 niveles seguidos sin fallar
+achievement.speedDemon.title,Speed Demon,Şimşek,Demonio Veloz
+achievement.speedDemon.description,Solve a level in under 15 seconds,Bir bölümü 15 saniyenin altında çöz,Resuelve un nivel en menos de 15 segundos
+today.greeting.morning,Good morning 🌿,Günaydın 🌿,Buenos días 🌿
+today.greeting.afternoon,Good afternoon 🌿,İyi günler 🌿,Buenas tardes 🌿
+today.greeting.evening,Good evening 🌙,İyi akşamlar 🌙,Buenas noches 🌙
+today.greeting.night,Good night 🌙,İyi geceler 🌙,Buenas noches 🌙
+skin.sunset,Sunset,Gün Batımı,Atardecer
+skin.aurora,Aurora,Auroralar,Aurora
+board.dusk,Dusk,Alacakaranlık,Crepúsculo
+board.rose,Rose,Gül,Rosa
+board.meadow,Meadow,Çayır,Pradera
+skin.midnight,Midnight,Gece Yarısı,Medianoche
+skin.blossom,Blossom,Çiçek,Flor
+board.twilight,Twilight,Alacakaranlık,Crepúsculo
+board.ember,Ember,Köz,Brasa
+hint.rewarded.title,Hint — Free,İpucu — Ücretsiz,Pista — Gratis
+hint.rewarded.message,Watch a short ad and one piece will be placed for you.,"Kısa bir reklam izle, bir parça senin için yerleştirilsin.",Mira un anuncio corto y se colocará una pieza por ti.
+powerup.watchAd,Watch Ad,Reklam İzle,Ver anuncio
+daily.share.title,My Daily Streak!,Günlük Serim!,¡Mi racha diaria!
+daily.share.solved,dailies solved,günlük çözüldü,diarios resueltos
+menu.streak.day,day streak,gün seri,racha de días
+pack.difficulty.beginner,Beginner,Başlangıç,Principiante
+pack.difficulty.easy,Easy,Kolay,Fácil
+pack.difficulty.medium,Medium,Orta,Medio
+pack.difficulty.hard,Hard,Zor,Difícil
+stats.share.title,My Stats,İstatistiklerim,Mis estadísticas
+complete.newBest,New Best!,Yeni Rekor!,¡Nuevo récord!
+settings.sound.preview,Preview sounds,Sesleri dinle,Escuchar sonidos
+quest.perfect,Solve %d levels with 3 stars,%d bölümü 3 yıldızla çöz,Resuelve %d niveles con 3 estrellas
+endless.record,New Record! 🏆,Yeni Rekor! 🏆,¡Nuevo récord! 🏆
+pack.grid_label.5,5×5 Grid,5×5 Izgara,Cuadrícula 5×5
+pack.grid_label.6,6×6 Grid,6×6 Izgara,Cuadrícula 6×6
+pack.grid_label.7,7×7 Grid,7×7 Izgara,Cuadrícula 7×7
+pack.grid_label.8,8×8 Grid,8×8 Izgara,Cuadrícula 8×8
+common.loading,Loading…,Yükleniyor…,Cargando…
+shop.unlock,Unlock,Aç,Desbloquear
+shop.info.packs.title,Puzzle Pack,Puzzle Paketi,Paquete de puzles
+shop.info.packs.body,"This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.","Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur.","Este paquete desbloquea 60 niveles nuevos: cuadrículas más grandes y temas nuevos. Compra única, tuyo para siempre."
+shop.info.hints.title,Hints,İpuçları,Pistas
+shop.info.hints.body,"When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.","Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.","Cuando te atascas, una pista coloca una pieza correcta por ti. Úsala desde el botón de pista durante un nivel."
+shop.info.removeAds.title,Remove Ads,Reklamları Kaldır,Quitar anuncios
+shop.info.removeAds.body,Permanently removes all ads. A one-time purchase.,Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.,Elimina todos los anuncios de forma permanente. Compra única.
+energy.title,Energy,Enerji,Energía
+energy.unlimited,Unlimited,Sınırsız,Ilimitada
+energy.full,Full,Dolu,Llena
+energy.next,+1 in %s,%s sonra +1,+1 en %s
+energy.out.title,Out of Energy,Enerji Bitti,Sin energía
+energy.out.message,"Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.",Enerji zamanla dolar. Hızlı dolum için reklam izle ya da sınırsız oyun için Premium’a geç.,La energía se recarga con el tiempo. Mira un anuncio para un impulso o hazte Premium para jugar sin límites.
+energy.watchAd,Watch Ad  +%d,Reklam İzle  +%d,Ver anuncio  +%d
+energy.goPremium,Go Premium — Unlimited,Premium — Sınırsız,Premium — Ilimitado
+energy.playable,Enough to play in %s,%s sonra oynanabilir,Jugable en %s
+energy.spent.a11y,%d energy spent,%d enerji harcandı,%d de energía gastada
+zen.mode.title,Zen Mode,Zen Modu,Modo Zen
+zen.mode.subtitle,Relax · no timer · free,Rahatla · süre yok · ücretsiz,Relájate · sin tiempo · gratis
+rewards.fab,Rewards,Ödüller,Recompensas
+pack.morning_meadow.title,Morning Meadow,Sabah Çayırı,Pradera Matinal
+pack.amber_harbor.title,Amber Harbor,Kehribar Liman,Puerto Ámbar
+pack.velvet_dusk.title,Velvet Dusk,Kadife Akşam,Ocaso de Terciopelo
+pack.hearth_tales.title,Hearth Tales,Ocak Masalları,Cuentos del Hogar
+pack.misty_grove.title,Misty Grove,Sisli Koru,Arboleda Neblinosa
+pack.honey_fields.title,Honey Fields,Bal Tarlaları,Campos de Miel
+pack.lantern_lane.title,Lantern Lane,Fener Sokağı,Callejón de Faroles
+pack.frost_haven.title,Frost Haven,Kırağı Limanı,Refugio Helado
+pack.garden_party.title,Garden Party,Bahçe Partisi,Fiesta de Jardín
+pack.ocean_breeze.title,Ocean Breeze,Okyanus Esintisi,Brisa Marina
+pack.starlit_peak.title,Starlit Peak,Yıldızlı Zirve,Pico Estrellado
+pack.cocoa_cabin.title,Cocoa Cabin,Kakao Kulübesi,Cabaña de Cacao
+pack.aurora_vale.title,Aurora Vale,Auroralı Vadi,Valle Aurora
+button.close,Close,Kapat,Cerrar
+paywall.title,Snuglo Premium,Snuglo Premium,Snuglo Premium
+paywall.subtitle,Play without limits.,Sınırsız oyna.,Juega sin límites.
+paywall.benefit.energy,Unlimited energy — no waiting,Sınırsız enerji — bekleme yok,Energía ilimitada — sin esperas
+paywall.benefit.ads,"No ads, ever",Hiç reklam yok,"Sin anuncios, nunca"
+paywall.benefit.cosmetics,Exclusive skins & boards,Özel skinler ve board'lar,Skins y tableros exclusivos
+paywall.benefit.levels,All 1000+ levels unlocked,1000+ bölümün tamamı açık,Más de 1000 niveles desbloqueados
+paywall.cta,Go Premium · %s,Premium Ol · %s,Hazte Premium · %s
+paywall.restore,Restore Purchases,Satın Alımları Geri Yükle,Restaurar compras
+shop.claim.insufficient,Not enough balance,Yetersiz bakiye,Saldo insuficiente
+shop.claim.adNotReady,Ad not ready — try again,Reklam hazır değil — tekrar dene,Anuncio no listo — reinténtalo
+settings.about.footer,Snuglo · %s,Snuglo · %s,Snuglo · %s
+tutorial.welcome.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo
+tutorial.welcome.body,Fill the board with cozy blocks — leave no empty square.,Tahtayı sıcacık bloklarla doldur — boş kare bırakma.,Llena el tablero con bloques acogedores — sin dejar casillas vacías.
+tutorial.drag.title,Drag & Drop,Sürükle & Bırak,Arrastra y Suelta
+tutorial.drag.body,Drag pieces from the tray up onto the grid. Fit them all with no gaps or overlaps to solve the level.,Parçaları tepsiden tahtaya sürükle. Boşluk veya üst üste binme olmadan hepsini yerleştir ve bölümü çöz.,Arrastra las piezas de la bandeja al tablero. Encájalas todas sin huecos ni solapamientos para resolver el nivel.
+tutorial.power.title,Need a Hand?,Yardım Lazım mı?,¿Necesitas Ayuda?
+tutorial.power.body,"Stuck? Hint places a piece for you, Peek flashes the solution for a moment, Restart clears the board.","Takıldın mı? İpucu bir parçayı yerine koyar, Göz At çözümü bir anlığına gösterir, Yeniden tahtayı boşaltır.","¿Atascado? Pista coloca una pieza, Vistazo muestra la solución un instante y Reiniciar vacía el tablero."
+tutorial.next,Next,İleri,Siguiente
+tutorial.start,Let's Play,Hadi Başlayalım,A Jugar
+tutorial.skip,Skip,Geç,Saltar
+reward.earned,You earned,Kazandın,Has ganado
+reward.great,Great!,Harika!,¡Genial!
+achievement.levelHunter25.title,Getting Serious,İşi Ciddiye Aldın,Vas en Serio
+achievement.levelHunter25.description,Complete 25 levels,25 bölüm tamamla,Completa 25 niveles
+achievement.levelVoyager250.title,Level Voyager,Seviye Gezgini,Viajero de Niveles
+achievement.levelVoyager250.description,Complete 250 levels,250 bölüm tamamla,Completa 250 niveles
+achievement.levelSage500.title,Level Sage,Seviye Bilgesi,Sabio de Niveles
+achievement.levelSage500.description,Complete 500 levels,500 bölüm tamamla,Completa 500 niveles
+achievement.completionist1000.title,Completionist,Tamamlayıcı,Completista
+achievement.completionist1000.description,Complete 1000 levels,1000 bölüm tamamla,Completa 1000 niveles
+achievement.packCollector3.title,Pack Collector,Paket Koleksiyoncusu,Coleccionista de Paquetes
+achievement.packCollector3.description,Finish 3 packs,3 paketi bitir,Termina 3 paquetes
+achievement.packMaster10.title,Pack Master,Paket Ustası,Maestro de Paquetes
+achievement.packMaster10.description,Finish 10 packs,10 paketi bitir,Termina 10 paquetes
+achievement.perfectionistGrand50.title,Grand Perfectionist,Büyük Mükemmeliyetçi,Gran Perfeccionista
+achievement.perfectionistGrand50.description,50 perfect (3★) solves,50 kusursuz (3★) çözüm,50 resoluciones perfectas (3★)
+achievement.perfectionistLegend100.title,Perfect Legend,Kusursuz Efsane,Leyenda Perfecta
+achievement.perfectionistLegend100.description,100 perfect (3★) solves,100 kusursuz (3★) çözüm,100 resoluciones perfectas (3★)
+achievement.chainMaster10.title,Chain Master,Zincir Ustası,Maestro de Cadenas
+achievement.chainMaster10.description,Win 10 levels in a row,Üst üste 10 bölüm kazan,Gana 10 niveles seguidos
+achievement.chainLegend20.title,Unbroken,Kırılmaz,Imparable
+achievement.chainLegend20.description,Win 20 levels in a row,Üst üste 20 bölüm kazan,Gana 20 niveles seguidos
+achievement.noHints25.title,Self-Reliant,Kendi Başına,Autosuficiente
+achievement.noHints25.description,Solve 25 levels with no hints,25 bölümü ipuçsuz çöz,Resuelve 25 niveles sin pistas
+achievement.noHints50.title,Pure Skill,Saf Yetenek,Pura Habilidad
+achievement.noHints50.description,Solve 50 levels with no hints,50 bölümü ipuçsuz çöz,Resuelve 50 niveles sin pistas
+achievement.speedLightning.title,Lightning,Şimşek,Relámpago
+achievement.speedLightning.description,Solve a level under 10 seconds,Bir bölümü 10 saniye altında çöz,Resuelve un nivel en menos de 10s
+achievement.speedBlitz.title,Blitz,Blitz,Blitz
+achievement.speedBlitz.description,Solve a level under 5 seconds,Bir bölümü 5 saniye altında çöz,Resuelve un nivel en menos de 5s
+achievement.streak14.title,Two-Week Glow,İki Haftalık Işıltı,Brillo de Dos Semanas
+achievement.streak14.description,Reach a 14-day daily streak,14 günlük seriye ulaş,Alcanza una racha de 14 días
+achievement.streak60.title,Two-Month Flame,İki Aylık Alev,Llama de Dos Meses
+achievement.streak60.description,Reach a 60-day daily streak,60 günlük seriye ulaş,Alcanza una racha de 60 días
+achievement.streak100.title,Century Streak,Yüz Günlük Seri,Racha del Siglo
+achievement.streak100.description,Reach a 100-day daily streak,100 günlük seriye ulaş,Alcanza una racha de 100 días
+achievement.dedicated14.title,Committed,Kararlı,Comprometido
+achievement.dedicated14.description,Play 14 days in a row,Üst üste 14 gün oyna,Juega 14 días seguidos
+achievement.dedicated30.title,Devoted,Adanmış,Devoto
+achievement.dedicated30.description,Play 30 days in a row,Üst üste 30 gün oyna,Juega 30 días seguidos
+tower.title,Tower,Kule,Torre
+tower.subtitle,1 ticket · climb as high as you can,1 bilet · olabildiğince yüksele tırman,1 ticket · sube lo más alto que puedas
+tower.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d
+tower.floorUp,Next floor!,Sıradaki kat!,¡Siguiente piso!
+tower.over.title,Tower Over,Kule Bitti,Torre Terminada
+tower.over.floors,You cleared %d floors,%d kat geçtin,Superaste %d pisos
+tower.over.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d
+tower.over.retry,Retry · %d,Tekrar Dene · %d,Reintentar · %d
+tower.over.home,Home,Ana Sayfa,Inicio
+menu.gameModes,Game Modes,Oyun Modları,Modos de Juego
+tower.needTicket,You need 1 ticket to climb the Tower. Convert gems to tickets in the Shop?,Kuleye tırmanmak için 1 bilet gerekli. Mağazada elmasları bilete çevir?,Necesitas 1 ticket para subir la Torre. ¿Convertir gemas en tickets en la Tienda?
+tower.getTickets,Get Tickets,Bilet Al,Conseguir Tickets
+alert.unlockPack.prevPack,Finish the previous pack to unlock this one.,Bunu açmak için önceki paketi bitir.,Termina el paquete anterior para desbloquear este.
+tower.resume,Floor %d · tap to continue,%d. kat · devam et,Piso %d · continuar
+shop.keysSection,Keys,Anahtarlar,Llaves
+sku.keysSmall.title,3 Keys,3 Anahtar,3 Llaves
+shop.keysOwned,You have %d,Elinde %d var,Tienes %d
+shop.info.keys.title,Keys,Anahtarlar,Llaves
+shop.info.keys.body,"Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.","Anahtarlar sandıkları açar. Ayrıca kusursuz çözümlerden, galibiyet serilerinden ve paket bitirmekten de kazanırsın.","Las llaves abren cofres. También las ganas con resoluciones perfectas, rachas y al terminar paquetes."
+fail.title,Time's Up!,Süre Bitti!,¡Se acabó el tiempo!
+fail.message,We didn't make it this time — let's try again!,Bu sefer bitiremesek de bir daha deneyelim!,"No lo logramos esta vez, ¡inténtalo de nuevo!"
+powerup.free,Free,Ücretsiz,Gratis
+stats.perGame,per game,oyun başına,por partida
+ad.label,Ad,Reklam,Anuncio
+ad.loading,Loading ad…,Reklam yükleniyor…,Cargando anuncio…
+ad.advertisement,ADVERTISEMENT,REKLAM,ANUNCIO
+ad.bannerPlaceholder,Banner Ad Placeholder,Banner reklam yer tutucu,Marcador de anuncio
+a11y.replayHint,Restarts this same level,Bu bölümü baştan başlatır,Reinicia este mismo nivel
+a11y.homeHint,Returns to the main menu,Ana menüye döner,Vuelve al menú principal
+a11y.nextHint,Proceeds to the next level,Sonraki bölüme geçer,Avanza al siguiente nivel
+a11y.resetLabel,Reset all progress,Tüm ilerlemeyi sıfırla,Restablecer todo el progreso
+a11y.resetHint,Permanently deletes all your game data. This cannot be undone.,Tüm oyun verini kalıcı olarak siler. Geri alınamaz.,Elimina permanentemente todos tus datos. No se puede deshacer.
+a11y.restoreHint,Restores any previously purchased items,Önceden satın alınan öğeleri geri yükler,Restaura las compras anteriores
+a11y.dismiss,Dismiss,Kapat,Cerrar
+a11y.info,info,bilgi,información
+a11y.puzzleGrid,Puzzle grid,Bulmaca ızgarası,Cuadrícula del rompecabezas
+a11y.back,Back,Geri,Atrás
+a11y.backHint,Returns to the previous screen,Önceki ekrana döner,Vuelve a la pantalla anterior
+a11y.newPuzzle,New puzzle,Yeni bulmaca,Nuevo rompecabezas
+a11y.newPuzzleHint,Discards this puzzle and loads a new one,Bu bulmacayı atıp yenisini yükler,Descarta este rompecabezas y carga uno nuevo
+a11y.pause,Pause,Duraklat,Pausa
+a11y.pauseHint,Pauses the timer and shows pause options,Süreyi duraklatır ve seçenekleri gösterir,Pausa el tiempo y muestra opciones
+a11y.blockHint,"Double tap to select, then drag to place on the grid","Seçmek için çift dokun, sonra ızgaraya sürükle",Toca dos veces para seleccionar y arrastra a la cuadrícula
+a11y.viewAllPacks,View all level packs,Tüm bölüm paketlerini gör,Ver todos los paquetes de niveles
+a11y.startFirstHint,Opens the levels list to start your first puzzle,İlk bulmacan için bölüm listesini açar,Abre la lista para empezar tu primer rompecabezas
+a11y.continueHint,Tap to continue this level,Bu bölüme devam etmek için dokun,Toca para continuar este nivel
+a11y.skipOnboarding,Skip onboarding,Tanıtımı atla,Saltar la introducción
+a11y.skipOnboardingHint,Goes directly to the main menu,Doğrudan ana menüye gider,Va directo al menú principal
+a11y.packLockedHint,Complete the previous pack to unlock this one,Bunu açmak için önceki paketi bitir,Completa el paquete anterior para desbloquearlo
+a11y.openPackHint,Opens the level list for this pack,Bu paketin bölüm listesini açar,Abre la lista de niveles de este paquete
+a11y.tapToPlay,Tap to play this level,Bu bölümü oynamak için dokun,Toca para jugar este nivel
+a11y.removeAdsOwned,Remove Ads. Owned,Reklamları Kaldır. Sahipsin,Quitar anuncios. Adquirido
+a11y.noStreak,No active streak. Play any level today to start one.,Aktif seri yok. Başlatmak için bugün bir bölüm oyna.,Sin racha activa. Juega hoy para empezar una.
+a11y.starsEarned3,%d of 3 stars earned,3 yıldızdan %d tanesi kazanıldı,%d de 3 estrellas conseguidas
+a11y.remainingTime,"%s, remaining time %s","%s, kalan süre %s","%s, tiempo restante %s"
+a11y.winStreak,Win streak times %d,Galibiyet serisi %d kez,Racha de victorias x%d
+a11y.pieceTray,Piece tray. %d pieces remaining.,Parça tepsisi. %d parça kaldı.,Bandeja de piezas. Quedan %d.
+a11y.cellBlock,%d-cell block,%d hücreli blok,Bloque de %d celdas
+a11y.levelXP,"Level %d, %d of %d XP","Seviye %d, %d / %d XP","Nivel %d, %d de %d XP"
+a11y.levelsCompleted,%d of %d levels completed,%d / %d bölüm tamamlandı,%d de %d niveles completados
+a11y.starsEarned,%d of %d stars earned,%d / %d yıldız kazanıldı,%d de %d estrellas conseguidas
+a11y.menuStats,"Streak %d days, level %d, %d of %d levels","%d günlük seri, seviye %d, %d / %d bölüm","Racha %d días, nivel %d, %d de %d niveles"
+a11y.continueStats,On level %d of %d. %d completed.,%d / %d bölümdesin. %d tamamlandı.,En el nivel %d de %d. %d completados.
+a11y.playedDays,Played on %d of the last 30 days,Son 30 günün %d gününde oynadın,Jugaste %d de los últimos 30 días
+a11y.page,Page %d of %d,Sayfa %d / %d,Página %d de %d
+a11y.buyKeys,3 Keys. %s. Tap to purchase,3 Anahtar. %s. Satın almak için dokun,3 Llaves. %s. Toca para comprar
+a11y.buyHints,10 Hints. %s. Tap to purchase,10 İpucu. %s. Satın almak için dokun,10 Pistas. %s. Toca para comprar
+a11y.buyRemoveAds,Remove Ads. %s. Tap to purchase,Reklamları Kaldır. %s. Satın almak için dokun,Quitar anuncios. %s. Toca para comprar
+a11y.playStreak,Play streak: %d days. Best %d.,Oynama serisi: %d gün. En iyi %d.,Racha de juego: %d días. Mejor %d.
+a11y.currentStreak,Current streak: %d days,Mevcut seri: %d gün,Racha actual: %d días
+a11y.packLocked,%s. Locked. Tap to unlock.,%s. Kilitli. Açmak için dokun.,%s. Bloqueado. Toca para desbloquear.
+a11y.packProgress,"%s, %d of %d levels completed, %d percent","%s, %d / %d bölüm tamamlandı, yüzde %d","%s, %d de %d niveles, %d por ciento"
+shop.error.productUnavailable,Product unavailable,Ürün mevcut değil,Producto no disponible
+a11y.dayStatus,%s: %s,%s: %s,%s: %s
+a11y.daySolved,solved,çözüldü,resuelto
+a11y.dayMissed,missed,kaçırıldı,perdido
+a11y.dayToday,", today",", bugün",", hoy"
+a11y.continueCard,"%s, Level %d, %d percent complete","%s, Seviye %d, %%%d tamamlandı","%s, Nivel %d, %d por ciento completado"
+shop.gems.section,Gem Packs,Elmas Paketleri,Paquetes de Gemas
+shop.gems.hint,Top up your gems instantly,Elmaslarını anında yükle,Recarga tus gemas al instante
+shop.bestValue,BEST VALUE,EN AVANTAJLI,MEJOR VALOR
+a11y.buyGems,%d gems for %s. Tap to purchase,"%d elmas, %s. Satın almak için dokun",%d gemas por %s. Toca para comprar
+nook.title,Cozy Nook,Sıcak Köşe,Rincón Acogedor
+nook.subtitle,"Restore each scene, rescue cozy friends","Sahneleri tamamla, dostları kurtar",Restaura escenas y rescata amigos
+nook.drag.hint,Drag the glowing piece into its dark slot.,Parlayan parçayı karanlık yerine sürükle.,Arrastra la pieza brillante a su hueco oscuro.
+nook.pieces.ready,%d piece ready to place,%d parça yerleştirilmeye hazır,%d pieza lista para colocar
+nook.scene.done,Scene restored — your friend is home!,Sahne tamamlandı — dostun evinde!,"¡Escena restaurada, tu amigo está en casa!"
+nook.locked.hint,Finish %d more levels to earn a piece.,Bir parça için %d bölüm daha bitir.,Completa %d niveles más para ganar una pieza.
+nook.restored.badge,Restored,Tamamlandı,Restaurada
+nook.world.restored,%d%% restored,%%%d tamamlandı,%d%% restaurado
+nook.reveal.title,Surprise! A new scene piece,Sürpriz! Yeni bir sahne parçası,¡Sorpresa! Una pieza nueva
+nook.reveal.subtitle,Drag it into your scene in the Nook to bring it back to life.,Sahneyi canlandırmak için Nook'ta yerine sürükle.,Arrástrala a su sitio en el rincón para revivir la escena.
+nook.reveal.place,Place now,Şimdi yerleştir,Colocar ahora
+nook.reveal.later,Later,Sonra,Más tarde
+nook.cozy.percent,%d%% cozy,%%%d rahat,%d%% acogedor
+nook.furnish.title,Furnish your nook,Köşeni döşe,Decora tu rincón
+nook.hint.tap,Tap a glowing spot to place a piece.,Eşya yerleştirmek için parlayan noktaya dokun.,Toca un punto brillante para colocar una pieza.
+nook.toast.poor,Solve puzzles to earn more!,Daha fazlası için bulmaca çöz!,¡Resuelve puzzles para ganar más!
+nook.complete,Complete,Tamamlandı,Completo
+nook.shelf.title,Your cozy things,Eşyaların,Tus cosas acogedoras
+nook.shelf.empty,Buy decor below to fill your nook.,Köşeni doldurmak için aşağıdan eşya al.,Compra decoración abajo para llenar tu rincón.
+nook.section,Section,Bölüm,Sección
+nook.tab.decor,Decor,Eşya,Decoración
+nook.tab.scenes,Scenes,Sahneler,Escenas
+nook.tab.friends,Friends,Dostlar,Amigos
+nook.owned,Owned,Sende,Tienes
+nook.selected,Selected,Seçili,Elegido
+nook.use,Use,Kullan,Usar
+nook.friend.home,Rescued,Kurtarıldı,Rescatado
+nook.friend.locked,Finish pack,Paketi bitir,Acaba el pack
+nook.decor.tea,Tea Set,Çay Takımı,Juego de Té
+nook.decor.plant,Plant,Saksı,Planta
+nook.decor.photo,Photo,Fotoğraf,Foto
+nook.decor.lamp,Lamp,Lamba,Lámpara
+nook.decor.clock,Clock,Saat,Reloj
+nook.decor.books,Books,Kitaplar,Libros
+nook.decor.teddy,Teddy,Oyuncak Ayı,Osito
+nook.decor.fish,Fish Bowl,Akvaryum,Pecera
+nook.decor.guitar,Guitar,Gitar,Guitarra
+nook.decor.console,Game Nook,Oyun Köşesi,Rincón de Juegos
+nook.decor.sofa,Sofa,Koltuk,Sofá
+nook.decor.bed,Cozy Bed,Rahat Yatak,Cama Acogedora
+nook.decor.fairylights,Fairy Lights,Peri Işıkları,Lucecitas
+nook.decor.starlight,Starlight,Yıldız Işığı,Luz Estelar
+nook.decor.fireplace,Fireplace,Şömine,Chimenea
+nook.decor.royal,Royal Cushion,Kraliyet Minderi,Cojín Real
+nook.scene.island,Island,Ada,Isla
+nook.scene.forest,Forest,Orman,Bosque
+nook.scene.flower,Flower Field,Çiçek Tarlası,Campo de Flores
+nook.scene.beach,Beach,Sahil,Playa
+nook.scene.mushroom,Mushroom Grove,Mantar Korusu,Bosque de Setas
+nook.scene.lake,Lakeside,Göl Kıyısı,Orilla del Lago
+nook.scene.autumn,Autumn,Sonbahar,Otoño
+nook.scene.desert,Desert,Çöl,Desierto
+nook.scene.waterfall,Waterfall,Şelale,Cascada
+nook.scene.snow,Snowy,Karlı,Nevado
+nook.scene.volcano,Volcano,Yanardağ,Volcán
+update.required.title,Update Required,Güncelleme Gerekli,Actualización necesaria
+update.required.message,This version is no longer supported. Please update to keep playing.,Bu sürüm artık desteklenmiyor. Oynamaya devam etmek için lütfen güncelle.,Esta versión ya no es compatible. Actualiza para seguir jugando.
+update.required.cta,Update Now,Şimdi Güncelle,Actualizar ahora
+update.soft.title,New Version Available,Yeni Sürüm Var,Nueva versión disponible
+update.soft.message,Update Snuglo for the latest fixes and features.,En son düzeltmeler ve özellikler için Snuglo'yu güncelle.,Actualiza Snuglo para las últimas mejoras y novedades.
+update.soft.cta,Update,Güncelle,Actualizar
+fabric.title,Fabric Set,Kumaş Seti,Juego de telas
+fabric.classic,Classic,Klasik,Clásico
+fabric.meadow,Meadow,Çayır,Pradera
+fabric.berry,Berry,Böğürtlen,Frutos rojos
+fabric.denim,Denim,Kot,Denim
+fabric.sunset,Sunset,Gün Batımı,Atardecer
+fabric.aurora,Aurora,Kutup Işığı,Aurora
+fabric.locked,Lv %d,Sv %d,Nv %d
+fabric.buy,Unlock for %d gems,%d mücevherle aç,Desbloquear por %d gemas
+currency.hint,Hint,İpucu,Pista
+chest.tier.common,Common,Sıradan,Común
+chest.tier.rare,Rare,Nadir,Raro
+chest.tier.epic,Epic,Destansı,Épico
+chest.tier.legendary,Legendary,Efsanevi,Legendario
+chest.progress,%d/%d solves,%d/%d çözüm,%d/%d resueltos
+combo.label,Combo ×%d,Kombo ×%d,Combo ×%d
+chain.label,%d in a row!,Üst üste %d!,¡%d seguidos!
+toast.purchase.done,Purchase complete,Satın alma tamamlandı,Compra completada
+toast.purchase.failed,Purchase failed,Satın alma başarısız,La compra falló
+toast.purchase.pending,Purchase pending approval,Satın alma onay bekliyor,Compra pendiente de aprobación
+toast.restore.done,Purchases restored,Satın almalar geri yüklendi,Compras restauradas
+toast.wallet.insufficient,Not enough %s,Yeterli %s yok,No hay suficiente %s
+toast.achievement,Achievement unlocked: %s,Başarım açıldı: %s,Logro desbloqueado: %s
+toast.quest.done,Quest complete!,Görev tamamlandı!,¡Misión completada!
+settings.notifications.unsupported,Notifications aren't available yet,Bildirimler henüz kullanılamıyor,Las notificaciones aún no están disponibles
+daily.level,Puzzle %d of %d,Bulmaca %d / %d,Puzle %d de %d
+daily.allDone,All done for today!,Bugünlük hepsi tamam!,¡Todo listo por hoy!
+pack.reward,+%d coins · +%d gems,+%d coin · +%d mücevher,+%d monedas · +%d gemas
+time.limit,Time left: %s,Kalan süre: %s,Tiempo restante: %s
+fabric.midnight,Midnight,Gece Yarısı,Medianoche
+fabric.blossom,Blossom,Çiçek Açan,Flor
+currency.key,Key,Anahtar,Llave
+currency.energy,Energy,Enerji,Energía
+menu.premium,Premium,Premium,Premium
+settings.gameplay.reduceMotion,Reduce Motion,Hareketi Azalt,Reducir movimiento
+settings.account.support,Support,Destek,Soporte
+transfer.paste,Paste,Yapıştır,Pegar
+nook.friends,Friends %d/%d,Dostlar %d/%d,Amigos %d/%d
+nook.decor.unlock,Place %d more pieces to unlock,Açmak için %d parça daha yerleştir,Coloca %d piezas más para desbloquear
+daily.streak.title,Daily streak,Günlük seri,Racha diaria
+daily.today,Today,Bugün,Hoy
+daily.play,Play puzzle %d,%d. bulmacayı oyna,Jugar puzle %d
+month.1,January,Ocak,Enero
+month.2,February,Şubat,Febrero
+month.3,March,Mart,Marzo
+month.4,April,Nisan,Abril
+month.5,May,Mayıs,Mayo
+month.6,June,Haziran,Junio
+month.7,July,Temmuz,Julio
+month.8,August,Ağustos,Agosto
+month.9,September,Eylül,Septiembre
+month.10,October,Ekim,Octubre
+month.11,November,Kasım,Noviembre
+month.12,December,Aralık,Diciembre
+weekday.short.1,Mo,Pt,Lu
+weekday.short.2,Tu,Sa,Ma
+weekday.short.3,We,Ça,Mi
+weekday.short.4,Th,Pe,Ju
+weekday.short.5,Fr,Cu,Vi
+weekday.short.6,Sa,Ct,Sá
+weekday.short.0,Su,Pz,Do
+calendar.subtitle,"Log in every day — rewards grow, missing a day restarts the cycle.","Her gün gir — ödüller büyür, bir gün kaçırırsan döngü baştan başlar.","Entra cada día: las recompensas crecen; si faltas un día, el ciclo se reinicia."
+nook.reveal.piece,Piece %d of %d,Parça %d / %d,Pieza %d de %d
+tower.floor,Floor %d,Kat %d,Piso %d
+tower.start,Start Climb,Tırmanışa Başla,Empezar a escalar
+tower.buyTicket,1 ticket · %d,1 bilet · %d,1 boleto · %d

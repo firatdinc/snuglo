@@ -1,22 +1,18 @@
 class_name StarBadge
 extends Control
-## Yıldız rozeti (geçici vektör; ChatGPT işlemeli yıldız gelecek).
+## İşlemeli yıldız arması (art/ui/ic_star). filled=false → soluk, gri-kahve.
 
-var filled := true
+var filled := true:
+	set(v):
+		filled = v
+		queue_redraw()
 
 func _draw() -> void:
-	var c := size / 2.0
-	var pts := PackedVector2Array()
-	for i in 10:
-		var r := (size.x * 0.5) if i % 2 == 0 else (size.x * 0.22)
-		var a := -PI / 2 + i * PI / 5
-		pts.append(c + Vector2(cos(a), sin(a)) * r)
-	var base := Palette.GOLD if filled else Palette.SLOT_SHADE
-	var shadow := pts.duplicate()
-	for i in shadow.size():
-		shadow[i] += Vector2(0, 10)
-	draw_colored_polygon(shadow, base.darkened(0.3))
-	draw_colored_polygon(pts, base)
-	var inner := Geometry2D.offset_polygon(pts, -size.x * 0.07, Geometry2D.JOIN_ROUND)
-	if inner.size() > 0:
-		draw_colored_polygon(inner[0], base.lightened(0.18))
+	var t := UiArt.tex("ic_star")
+	if t == null:
+		return
+	var k := minf(size.x / t.get_width(), size.y / t.get_height())
+	var d := t.get_size() * k
+	var r := Rect2((size - d) / 2.0, d)
+	draw_texture_rect(t, Rect2(r.position + Vector2(0, 8), r.size), false, Color(0.3, 0.15, 0.05, 0.25))
+	draw_texture_rect(t, r, false, Color.WHITE if filled else Color(0.5, 0.45, 0.42, 0.5))

@@ -1,0 +1,35 @@
+[config]
+name="MetaSDK"
+binary="meta_sdk.xcframework"
+
+initialization="initialize_meta_sdk_module"
+deinitialization="uninitialize_meta_sdk_module"
+
+[dependencies]
+linked=[]
+embedded=[
+    "FBSDKCoreKit.xcframework",
+    "FBSDKCoreKit_Basics.xcframework",
+    "FBAEMKit.xcframework"
+]
+system=["Foundation.framework", "UIKit.framework"]
+
+capabilities=[]
+
+files=[]
+
+linker_flags=[
+    "-ObjC",
+]
+
+; CFBundleURLTypes lives only here (no other plugin/addon emits it; fb<appid> scheme for Meta deep links).
+; SKAdNetworkItems is NOT here: it lives in ONE merged list (AdMob + live app + Meta's v9wttpbfk9/n38lu8286q)
+;   in addons/admob/ios/bin/ads/poing_godot_admob_ads.gd get_plist_content(). Two plugins emitting the same
+;   key would give Info.plist a duplicate key. tools/ios_release.sh checks the Meta ids are present.
+[plist]
+FacebookAppID:string="1879491072709561"
+FacebookClientToken:string="0a3e119d6b1f70ade11293fd73a9de96"
+FacebookDisplayName:string="Snuglo"
+FacebookAutoLogAppEventsEnabled:boolean=true
+FacebookAdvertiserIDCollectionEnabled:boolean=true
+CFBundleURLTypes:raw="<array><dict><key>CFBundleURLName</key><string>com.snuglo.app.facebook</string><key>CFBundleURLSchemes</key><array><string>fb1879491072709561</string></array></dict></array>"

@@ -12,6 +12,7 @@ var _ghost_t := 0.0
 var _bump := {}                    # Vector2i → [offset, vel] (yuva zıplaması)
 var _wave := {}                    # Vector2i → parlama 0..1 (çözüm dalgası)
 var _clock := 0.0
+var _frame: Texture2D = load("res://art/board/frame.png") if ResourceLoader.exists("res://art/board/frame.png") else null
 
 func setup(level: LevelData, cell_size: float) -> void:
 	lvl = level
@@ -98,26 +99,33 @@ func _draw() -> void:
 	if lvl == null:
 		return
 	var g := grid_px()
-	var pad := cs * 0.32
-	var frame := Rect2(-Vector2(pad, pad), g + Vector2(pad, pad) * 2)
-	# Çerçeve: alt kalınlık + yüz + iç gölge. (Sonra ChatGPT ahşap kasnak dokusu gelecek.)
-	_rrect(frame.grow(4).grow_individual(0, 0, 0, cs * 0.12), Palette.SHADOW, pad)
-	_rrect(frame.grow_individual(0, 0, 0, cs * 0.1), Palette.BOARD_EDGE, pad)
-	_rrect(frame, Palette.BOARD, pad)
-	_rrect(Rect2(Vector2(-cs * 0.06, -cs * 0.06), g + Vector2(cs, cs) * 0.12), Palette.SLOT_SHADE, cs * 0.22)
+	if _frame:
+		# Ahşap germe çerçevesi (ChatGPT). İç patiska alanı = grid + kenar payı.
+		var inner := g + Vector2(cs, cs) * 0.36
+		var k := inner.x / 840.0
+		var sz := Vector2(1024, 1024) * k
+		var at := -(sz - g) / 2.0
+		draw_texture_rect(_frame, Rect2(at + Vector2(0, cs * 0.08), sz), false, Color(0.3, 0.15, 0.05, 0.35))
+		draw_texture_rect(_frame, Rect2(at, sz), false)
+	else:
+		var pad := cs * 0.32
+		var frame := Rect2(-Vector2(pad, pad), g + Vector2(pad, pad) * 2)
+		_rrect(frame.grow_individual(0, 0, 0, cs * 0.1), Palette.BOARD_EDGE, pad)
+		_rrect(frame, Palette.BOARD, pad)
+	# Boş yuvalar: patiskaya bastırılmış hafif çukur + tebeşir çizgisi.
 	for y in lvl.height:
 		for x in lvl.width:
 			var c := Vector2i(x, y)
 			if occ.has(c):
 				continue
 			var b: float = _bump.get(c, [0.0, 0.0])[0]
-			var r := Rect2(Vector2(c) * cs, Vector2(cs, cs)).grow(-cs * 0.06)
+			var r := Rect2(Vector2(c) * cs, Vector2(cs, cs)).grow(-cs * 0.05)
 			r.position.y += b
-			_rrect(r.grow_individual(0, 0, 0, cs * 0.04), Palette.SLOT_SHADE.darkened(0.06), cs * 0.16)
-			_rrect(r, Palette.SLOT, cs * 0.16)
+			_rrect(r, Color(Palette.SLOT_SHADE, 0.32), cs * 0.12)
+			_rrect(r.grow_individual(-cs * 0.03, -cs * 0.03, -cs * 0.03, -cs * 0.06), Color(Palette.CREAM, 0.38), cs * 0.1)
 			var w: float = _wave.get(c, 0.0)
 			if w > 0.0:
-				_rrect(r, Color(Palette.CREAM, w), cs * 0.16)
+				_rrect(r, Color(Palette.CREAM, w), cs * 0.12)
 	if ghost_piece != null:
 		var sh := PieceShape.build(ghost_piece.cells, cs)
 		var col := Palette.piece(ghost_piece.color_index)

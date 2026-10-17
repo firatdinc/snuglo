@@ -34,6 +34,9 @@ func hit_stop(duration := 0.06, scale := 0.05) -> void:
 func haptic(kind: String) -> void:
 	if not haptics:
 		return
+	if Engine.has_singleton("SnugloBridge"):
+		Engine.get_singleton("SnugloBridge").haptic(kind)
+		return
 	match kind:
 		"tick": Input.vibrate_handheld(8, 0.25)
 		"light": Input.vibrate_handheld(12, 0.4)
