@@ -2,7 +2,7 @@
 # ios/plugins/meta_sdk/src/meta_sdk.mm → meta_sdk.debug.xcframework + meta_sdk.release.xcframework
 # (statik, yalnız iPhone ios-arm64; oyun simülatörde çalıştırılmıyor, FB çerçeveleri de yalnız cihaz dilimli).
 # FB SDK çerçeveleri (FBSDKCoreKit, _Basics, FBAEMKit 18.1.1) facebook-ios-sdk sürüm sayfasındaki
-# *-Dynamic_XCFramework.zip'lerden; tools/slim_ios_plugins.py ios/plugins/meta_sdk ile küçültülür.
+# *-Dynamic_XCFramework.zip'lerden. Meta imzalıdır (ITMS-91065): KÜÇÜLTME — slim_ios_plugins.py imzayı bozar, Invalid Binary.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 P="$ROOT/ios/plugins/meta_sdk"

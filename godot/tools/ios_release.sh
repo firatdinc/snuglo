@@ -61,6 +61,16 @@ for k in NSCameraUsageDescription NSMicrophoneUsageDescription NSPhotoLibraryUsa
 	if [ "$(plutil -extract $k raw "$PLIST" 2>/dev/null)" = "" ]; then plutil -remove $k "$PLIST" 2>/dev/null || true; fi
 done
 
+# Meta SDK çerçeveleri Apple'ın imza zorunlu listesinde (ITMS-91065 → Invalid Binary). Godot kopyalarken
+# Catalyst dilimindeki sembolik bağlantıları açıp mühürlü imzayı bozuyor → aslını bağlantılarıyla geri koy.
+for fw in FBAEMKit FBSDKCoreKit FBSDKCoreKit_Basics; do
+	dst="$OUT/$NAME/dylibs/ios/plugins/meta_sdk/$fw.xcframework"
+	[ -d "$dst" ] || { echo "DUR: $dst yok"; exit 1; }
+	rm -rf "$dst"
+	ditto "$ROOT/ios/plugins/meta_sdk/$fw.xcframework" "$dst"
+	codesign -v "$dst" || { echo "DUR: $fw.xcframework imzası geçersiz (Meta'nın resmî zip'ini kullan, küçültme)"; exit 1; }
+done
+
 echo "== 3/5 Kapılar: Info.plist + Xcode projesi =="
 python3 - "$PLIST" "$PBX" <<'PYGATE'
 import plistlib, sys, re
