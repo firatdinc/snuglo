@@ -301,15 +301,16 @@ func _bundles() -> void:
 	_section("shop.hintsSection")
 	_iap_row(Purchases.HINTS_SMALL, "ic_hint", "sku.hintsSmall.title", "sku.hintsSmall.body", 0)
 	_section("shop.oneTime")
-	_iap_row(Purchases.KEYS_SMALL, "ic_key", "sku.keysSmall.title", "shop.info.keys.body", 3)
+	# Anahtar sandık açar (rastgele ödül) → olasılıklar satın almadan önce görünür (Apple 3.1.1).
+	_iap_row(Purchases.KEYS_SMALL, "ic_key", "sku.keysSmall.title", tr("shop.info.keys.body") + "\n" + Chest.odds_text(), 3)
 	_iap_row(Purchases.REMOVE_ADS, "ic_sound", "sku.removeAds.title", "sku.removeAds.body", 7)
 
 func _iap_row(id: String, icon: String, title: String, body: String, fabric: int) -> void:
-	# Açıklama 3 satıra kadar (es/tr uzun); kart yüksekliği satır sayısına göre.
+	# Açıklama 5 satıra kadar (es/tr uzun, anahtarda olasılıklar); kart yüksekliği satır sayısına göre.
 	var m := Ui.wrap(Ui.label(tr(body), 27, Palette.INK_SOFT), _cw - 480)
-	m.max_lines_visible = 3
+	m.max_lines_visible = 5
 	m.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	var lines := clampi(roundi(Ui.FONT.get_multiline_string_size(tr(body), HORIZONTAL_ALIGNMENT_LEFT, _cw - 480, 27).y / Ui.FONT.get_height(27)), 1, 3)
+	var lines := clampi(roundi(Ui.FONT.get_multiline_string_size(tr(body), HORIZONTAL_ALIGNMENT_LEFT, _cw - 480, 27).y / Ui.FONT.get_height(27)), 1, 5)
 	var h := 120.0 + lines * 36.0
 	var c := _card(fabric, h)
 	_icon(c, icon, Vector2(30, (h - 140) / 2.0), 140)

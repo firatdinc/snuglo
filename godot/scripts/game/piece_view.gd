@@ -33,7 +33,13 @@ func setup(p: PieceData, cell_size: float) -> void:
 	data = p
 	cs = cell_size
 	_font = preload("res://art/fonts/fredoka_bold.tres")
+	if not Events.settings_changed.is_connected(_on_setting):
+		Events.settings_changed.connect(_on_setting)
 	queue_redraw()
+
+func _on_setting(k: String) -> void:
+	if k == "colorblind":
+		queue_redraw()
 
 func size_px() -> Vector2:
 	return Vector2(data.size) * cs
@@ -124,6 +130,52 @@ func _draw() -> void:
 	var p := c0 + Vector2(-tw.x / 2.0, fs * 0.36)
 	draw_string(_font, p + Vector2(0, cs * 0.025), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, col.darkened(0.35))
 	draw_string(_font, p, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Palette.CREAM)
+	# Renk körü desenleri: her renk için ayrı sembol, sayı hücresi dışındaki her hücrede.
+	if bool(Settings.get_value("colorblind")):
+		for i in range(1, data.cells.size()):
+			_symbol(Vector2(data.cells[i]) * cs + Vector2(cs, cs) * 0.5, data.color_index, cs * 0.17, col)
 	if flash > 0.0:
 		draw_colored_polygon(sh.outer, Color(1, 1, 1, flash * 0.55))
 	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+## Renk körü sembolü: 12 kumaş rengi için 12 ayrı şekil; krem dolgu + koyu kontur, kumaş üstünde okunur.
+func _symbol(c: Vector2, idx: int, r: float, col: Color) -> void:
+	var edge := col.darkened(0.5)
+	var lw := maxf(1.5, r * 0.18)
+	var k := idx % Palette.PIECES.size()
+	if k == 9: # halka
+		draw_arc(c, r * 0.8, 0.0, TAU, 24, edge, r * 0.62, true)
+		draw_arc(c, r * 0.8, 0.0, TAU, 24, Palette.CREAM, r * 0.38, true)
+		return
+	if k == 11: # çift nokta
+		for o in [Vector2(-r * 0.6, 0), Vector2(r * 0.6, 0)]:
+			draw_circle(c + o, r * 0.5, edge)
+			draw_circle(c + o, r * 0.5 - lw, Palette.CREAM)
+		return
+	var pts := PackedVector2Array()
+	match k:
+		0: # daire
+			for i in 20: pts.append(c + Vector2.from_angle(TAU * i / 20.0) * r)
+		1: # üçgen
+			for i in 3: pts.append(c + Vector2.from_angle(-PI / 2 + TAU * i / 3.0) * r * 1.2)
+		2: # kare
+			for v in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]: pts.append(c + v * r * 0.85)
+		3: # elmas
+			for i in 4: pts.append(c + Vector2.from_angle(-PI / 2 + TAU * i / 4.0) * r * 1.15)
+		4: # yıldız
+			for i in 10: pts.append(c + Vector2.from_angle(-PI / 2 + TAU * i / 10.0) * r * (1.25 if i % 2 == 0 else 0.55))
+		5, 10: # artı (5) / çarpı (10)
+			var a := r * 0.38
+			var rot := 0.0 if k == 5 else PI / 4.0
+			for v in [Vector2(-a, -r), Vector2(a, -r), Vector2(a, -a), Vector2(r, -a), Vector2(r, a), Vector2(a, a), Vector2(a, r), Vector2(-a, r), Vector2(-a, a), Vector2(-r, a), Vector2(-r, -a), Vector2(-a, -a)]:
+				pts.append(c + v.rotated(rot) * 1.1)
+		6: # kum saati
+			for v in [Vector2(-1, -1.1), Vector2(1, -1.1), Vector2(0.22, 0), Vector2(1, 1.1), Vector2(-1, 1.1), Vector2(-0.22, 0)]: pts.append(c + v * r)
+		7: # yatay çubuk
+			for v in [Vector2(-1.15, -0.45), Vector2(1.15, -0.45), Vector2(1.15, 0.45), Vector2(-1.15, 0.45)]: pts.append(c + v * r)
+		_: # 8: ters üçgen
+			for i in 3: pts.append(c + Vector2.from_angle(PI / 2 + TAU * i / 3.0) * r * 1.2)
+	draw_colored_polygon(pts, Palette.CREAM)
+	var ring := pts.duplicate()
+	ring.append(pts[0])
+	draw_polyline(ring, edge, lw, true)

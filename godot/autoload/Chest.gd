@@ -46,6 +46,16 @@ func record_solve() -> bool:
 ## Kademe sırası (açılış animasyonu bu sırayla tırmanır).
 const TIERS := ["common", "rare", "epic", "legendary"]
 
+## Kademe olasılıkları (%) — roll() ile aynı eşikler. Apple 3.1.1: anahtar satın alınabildiği için
+## olasılıklar sandık açılmadan / anahtar alınmadan önce gösterilir (odds_text).
+const ODDS := {"common": 52, "rare": 30, "epic": 14, "legendary": 4}
+
+func odds_text() -> String:
+	var parts := PackedStringArray()
+	for t in TIERS:
+		parts.append(tr("chest.odds.item") % [tr("chest.tier." + t), int(ODDS[t])])
+	return tr("chest.odds") % " · ".join(parts)
+
 ## Ağırlıklı tablo — çoğunlukla düğme (coin), kademe yükseldikçe ipucu/yüksük/anahtar eklenir:
 ## %52 sıradan 60-120 coin · %30 nadir 150-250 coin + 1 ipucu · %14 destansı 300-400 coin +
 ## 2 ipucu + 2-3 yüksük · %4 efsanevi 800 coin + 3 ipucu + 5 yüksük + 1 anahtar.

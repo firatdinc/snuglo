@@ -743,3 +743,5 @@ praise.near.3,Nearly done!,Neredeyse!,¡Ya casi!
 praise.final.1,Final touch!,Son dokunuş!,¡Toque final!
 praise.final.2,Last stitch!,Son dikiş!,¡Última puntada!
 praise.final.3,Done!,Tamamdır!,¡Listo!
+chest.odds,Chest odds: %s,Sandık olasılıkları: %s,Probabilidades del cofre: %s
+chest.odds.item,%s %d%%,%s %%%d,%s %d %%

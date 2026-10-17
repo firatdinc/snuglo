@@ -34,6 +34,9 @@ func hit_stop(duration := 0.06, scale := 0.05) -> void:
 func haptic(kind: String) -> void:
 	if not haptics:
 		return
+	# Ayarlar → Titreşim gücü "hafif": her kademe bir alta iner (bildirim titreşimleri → hafif darbe).
+	if String(Settings.get_value("haptic_level")) == "light":
+		kind = {"heavy": "medium", "medium": "light", "success": "light", "error": "light"}.get(kind, kind)
 	if Engine.has_singleton("SnugloBridge"):
 		Engine.get_singleton("SnugloBridge").haptic(kind)
 		return

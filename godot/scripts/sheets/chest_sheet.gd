@@ -47,7 +47,11 @@ func build() -> void:
 	add(bar, Vector2(120, y), Vector2(w - 240, 36))
 	var pl := Ui.label(tr("chest.progress") % [Chest.progress, Chest.goal], 30, Palette.INK_SOFT, HORIZONTAL_ALIGNMENT_CENTER)
 	add(pl, Vector2(40, y + 40), Vector2(w - 80, 44))
-	y += 110
+	y += 100
+	# Olasılıklar (Apple 3.1.1: rastgele ödül + satın alınabilir anahtar → açmadan önce göster)
+	var odds := Ui.wrap(Ui.label(Chest.odds_text(), 27, Palette.INK_SOFT, HORIZONTAL_ALIGNMENT_CENTER), w - 120)
+	add(odds, Vector2(60, y), Vector2(w - 120, 76))
+	y += 86
 	var kk := Ui.icon("ic_key", Vector2(80, 80))
 	add(kk, Vector2(w / 2.0 - 120, y))
 	var kl := Ui.label(tr("shop.keysOwned") % Wallet.keys, 38, Palette.INK)
