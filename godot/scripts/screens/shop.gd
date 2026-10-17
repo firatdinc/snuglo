@@ -107,7 +107,7 @@ func _owned_strip() -> void:
 func _deal() -> void:
 	_section("shop.deal.section")
 	var d := Wallet.daily_deal()
-	var c := _card(1, 290)
+	var c := _card(1, 310)
 	var rays := Rays.new()
 	Ui.place(rays, Vector2(-30, -40), Vector2(330, 330))
 	rays.alpha = 0.25
@@ -156,7 +156,7 @@ func _deal() -> void:
 	Ui.place(btn, Vector2(270, 172), btn.size)
 	c.add_child(btn)
 	_iap_rows["deal"] = btn
-	_y += 310
+	_y += 330
 
 ## Fırsat alındı: buton "Alındı" olur ve kapanır (yarına kadar).
 func _mark_deal_done(btn: JuicyButton) -> void:
@@ -167,27 +167,27 @@ func _mark_deal_done(btn: JuicyButton) -> void:
 
 func _premium() -> void:
 	_y += 20
-	var c := _card(4, 230)
+	var c := _card(4, 280)
 	c.glow = not Purchases.is_premium()
 	c.pressable = true
 	c.mouse_filter = Control.MOUSE_FILTER_STOP
-	var crown := _icon(c, "ic_crown", Vector2(36, 34), 160)
+	var crown := _icon(c, "ic_crown", Vector2(36, 56), 160)
 	Ui.bob(crown, 6.0, 2.0)
 	_lbl(c, tr("paywall.title"), 50, Vector2(220, 36), Vector2(_cw - 250, 64))
 	_lbl(c, tr("paywall.subtitle"), 32, Vector2(220, 98), Vector2(_cw - 250, 44), Palette.INK_SOFT)
 	var b: JuicyButton
 	if Purchases.is_premium():
-		b = Ui.button(tr("shop.owned"), "sage", Vector2(300, 80), "", 34)
+		b = Ui.button(tr("shop.owned"), "sage", Vector2(_cw - 280, 96), "", 36)
 		b.disabled = true
 	else:
-		b = Ui.button(Purchases.get_price(Purchases.PREMIUM), "mustard", Vector2(300, 80), "", 38)
+		b = Ui.button(Purchases.get_price(Purchases.PREMIUM), "mustard", Vector2(_cw - 280, 96), "", 42)
 		b.tapped.connect(func() -> void: Main.open("premium"))
-	Ui.place(b, Vector2(220, 140), b.size)
+	Ui.place(b, Vector2(220, 154), b.size)
 	c.add_child(b)
 	c.tapped.connect(func() -> void:
 		if not Purchases.is_premium():
 			Main.open("premium"))
-	_y += 250
+	_y += 300
 
 func _gems() -> void:
 	_section("shop.gems.section", "shop.gems.hint")
@@ -305,19 +305,23 @@ func _bundles() -> void:
 	_iap_row(Purchases.REMOVE_ADS, "ic_sound", "sku.removeAds.title", "sku.removeAds.body", 7)
 
 func _iap_row(id: String, icon: String, title: String, body: String, fabric: int) -> void:
-	var c := _card(fabric, 200)
-	_icon(c, icon, Vector2(30, 30), 140)
-	_lbl(c, tr(title), 44, Vector2(190, 30), Vector2(_cw - 470, 60))
-	var m := Ui.wrap(Ui.label(tr(body), 28, Palette.INK_SOFT), _cw - 480)
-	m.max_lines_visible = 2
-	Ui.place(m, Vector2(190, 92), Vector2(_cw - 480, 80))
+	# Açıklama 3 satıra kadar (es/tr uzun); kart yüksekliği satır sayısına göre.
+	var m := Ui.wrap(Ui.label(tr(body), 27, Palette.INK_SOFT), _cw - 480)
+	m.max_lines_visible = 3
+	m.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	var lines := clampi(roundi(Ui.FONT.get_multiline_string_size(tr(body), HORIZONTAL_ALIGNMENT_LEFT, _cw - 480, 27).y / Ui.FONT.get_height(27)), 1, 3)
+	var h := 120.0 + lines * 36.0
+	var c := _card(fabric, h)
+	_icon(c, icon, Vector2(30, (h - 140) / 2.0), 140)
+	_lbl(c, tr(title), Ui.fit_font(tr(title), 44, _cw - 480, 32), Vector2(190, 26), Vector2(_cw - 470, 60))
+	Ui.place(m, Vector2(190, 90), Vector2(_cw - 480, lines * 36.0 + 8))
 	c.add_child(m)
 	var b := Ui.button(Purchases.get_price(id), "mustard", Vector2(240, 100), "", 38)
-	Ui.place(b, Vector2(_cw - 270, 50), b.size)
+	Ui.place(b, Vector2(_cw - 270, (h - 100) / 2.0), b.size)
 	c.add_child(b)
 	b.tapped.connect(func() -> void: _buy(id, b))
 	_iap_rows[id] = b
-	_y += 222
+	_y += h + 22
 
 func _restore() -> void:
 	_y += 20

@@ -125,6 +125,6 @@ func close_x() -> JuicyButton:
 ## Panel üst kenarına taşan kurdele başlık (art/ui/banner.png). Altının y'sini döndürür.
 func banner_title(text: String, w := 640.0) -> float:
 	var b := Ui.banner(text, w)
-	add(b, Vector2((pw() - w) / 2.0, -60))
+	add(b, Vector2((pw() - b.size.x) / 2.0, -60))
 	Ui.pop_in(b, 0.12, 0.4)
 	return b.size.y - 40.0

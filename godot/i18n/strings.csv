@@ -269,7 +269,7 @@ menu.streak.start,Play any level today to start a streak,"Bugün oyna, serini ba
 menu.streak.best,Best %d,En iyi %d,Mejor %d
 settings.gameplay.title,Gameplay,Oyun,Juego
 settings.gameplay.zen,Zen Mode,Zen Modu,Modo Zen
-settings.gameplay.zenFooter,"No timer, no fail — solve at your own pace.","Süre yok, başarısızlık yok — sakin sakin çöz.","Sin tiempo, sin fallos: resuelve a tu ritmo."
+settings.gameplay.zenFooter,"No timer and no fail in campaign and daily levels. Rewards are smaller (up to 25 coins a day). Tower is not affected.","Kampanya ve günlük bölümlerde süre yok, kaybetmek yok. Ödüller küçülür (günde en fazla 25 düğme). Kule etkilenmez.","Sin tiempo ni fallos en campaña y diarios. Recompensas menores (hasta 25 monedas al día). La Torre no se ve afectada."
 quest.header,Daily Quests,Günlük Görevler,Misiones diarias
 quest.solveLevels,Solve %d levels,%d bölüm çöz,Resuelve %d niveles
 quest.solveUnder,Solve a level under %ds,%d sn altında bir bölüm çöz,Resuelve un nivel en menos de %ds
@@ -300,7 +300,7 @@ skin.locked,Lv %d,Sv %d,Nv %d
 streak.milestone,%d-Day Streak!,%d Günlük Seri!,¡Racha de %d días!
 streak.keepGoing,Keep it going,Böyle devam et,Sigue así
 endless.title,Endless Zen,Sonsuz Zen,Zen infinito
-endless.subtitle,"Relaxed, never-ending","Sakin, hiç bitmeyen","Relajado, sin fin"
+endless.subtitle,"Never-ending, no timer","Süresiz, bitmeyen","Sin fin, sin tiempo"
 endless.best,Best: Level %d,Rekor: Seviye %d,Mejor: Nivel %d
 weekly.title,Weekly Challenge,Haftalık Görev,Reto semanal
 weekly.goal,Solve %d levels this week,Bu hafta %d bölüm çöz,Resuelve %d niveles esta semana
@@ -382,7 +382,7 @@ achievement.dedicated7.title,Dedicated,Sadık,Dedicado
 achievement.dedicated7.description,Play 7 days in a row,7 gün üst üste oyna,Juega 7 días seguidos
 achievement.comboChampion.title,Combo Champion,Kombo Şampiyonu,Campeón Combo
 achievement.comboChampion.description,Solve 5 levels in a row without failing,5 bölümü arka arkaya kaybetmeden çöz,Resuelve 5 niveles seguidos sin fallar
-achievement.speedDemon.title,Speed Demon,Şimşek,Demonio Veloz
+achievement.speedDemon.title,Speed Demon,Hız Canavarı,Demonio Veloz
 achievement.speedDemon.description,Solve a level in under 15 seconds,Bir bölümü 15 saniyenin altında çöz,Resuelve un nivel en menos de 15 segundos
 today.greeting.morning,Good morning 🌿,Günaydın 🌿,Buenos días 🌿
 today.greeting.afternoon,Good afternoon 🌿,İyi günler 🌿,Buenas tardes 🌿
@@ -529,7 +529,7 @@ shop.keysSection,Keys,Anahtarlar,Llaves
 sku.keysSmall.title,3 Keys,3 Anahtar,3 Llaves
 shop.keysOwned,You have %d,Elinde %d var,Tienes %d
 shop.info.keys.title,Keys,Anahtarlar,Llaves
-shop.info.keys.body,"Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.","Anahtarlar sandıkları açar. Ayrıca kusursuz çözümlerden, galibiyet serilerinden ve paket bitirmekten de kazanırsın.","Las llaves abren cofres. También las ganas con resoluciones perfectas, rachas y al terminar paquetes."
+shop.info.keys.body,"Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.","Anahtarlar sandık açar. Kusursuz çözüm, galibiyet serisi ve paket bitirerek de kazanırsın.","Las llaves abren cofres. También las ganas con resoluciones perfectas, rachas y al terminar paquetes."
 fail.title,Time's Up!,Süre Bitti!,¡Se acabó el tiempo!
 fail.message,We didn't make it this time — let's try again!,Bu sefer bitiremesek de bir daha deneyelim!,"No lo logramos esta vez, ¡inténtalo de nuevo!"
 powerup.free,Free,Ücretsiz,Gratis
@@ -596,7 +596,7 @@ a11y.buyGems,%d gems for %s. Tap to purchase,"%d elmas, %s. Satın almak için d
 nook.title,Cozy Nook,Sıcak Köşe,Rincón Acogedor
 nook.subtitle,"Restore each scene, rescue cozy friends","Sahneleri tamamla, dostları kurtar",Restaura escenas y rescata amigos
 nook.drag.hint,Drag the glowing piece into its dark slot.,Parlayan parçayı karanlık yerine sürükle.,Arrastra la pieza brillante a su hueco oscuro.
-nook.pieces.ready,%d piece ready to place,%d parça yerleştirilmeye hazır,%d pieza lista para colocar
+nook.pieces.ready,Pieces ready to place: %d,Yerleştirilmeye hazır parça: %d,Piezas listas para colocar: %d
 nook.scene.done,Scene restored — your friend is home!,Sahne tamamlandı — dostun evinde!,"¡Escena restaurada, tu amigo está en casa!"
 nook.locked.hint,Finish %d more levels to earn a piece.,Bir parça için %d bölüm daha bitir.,Completa %d niveles más para ganar una pieza.
 nook.restored.badge,Restored,Tamamlandı,Restaurada

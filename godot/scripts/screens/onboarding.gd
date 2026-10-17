@@ -417,7 +417,7 @@ func _win() -> void:
 		_fx.confetti(Vector2(X0 + W + 20, H * 0.6), 60, PI * 0.18, -PI * 0.68, 2000.0)
 		Sfx.play("reward", 1.0, -2.0, 0.0)
 		var bn := Ui.banner(tr("praise.%d" % (randi() % 6)), 620.0, 150.0)
-		bn.position = Vector2(X0 + (W - 620) / 2.0, _board.position.y + _board.grid_px().y + _cs * 0.6)
+		bn.position = Vector2(X0 + (W - bn.size.x) / 2.0, _board.position.y + _board.grid_px().y + _cs * 0.6)
 		_pages[1].add_child(bn)
 		Ui.pop_in(bn, 0.0, 0.3, 0.5)
 		_next.visible = true

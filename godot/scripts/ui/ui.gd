@@ -250,8 +250,14 @@ static func seconds_to_utc_midnight() -> int:
 ## Kurdele başlık: art/ui/banner.png yatay 3-dilim (uçlar ~150 px) + kontürlü krem yazı.
 static func banner(text: String, w := 640.0, h := 140.0) -> Control:
 	var b := Ribbon.new()
+	# Uzun başlık (es/tr): önce kurdele uzar (en çok %35), sonra yazı küçülür — "…" ile kesilmesin.
+	var fs := int(h * 0.38)
+	var need := FONT.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x + maxi(6, fs / 6) * 2 + h * 1.8
+	if need > w:
+		w = minf(need + 8.0, w * 1.35)
+	fs = fit_font(text, fs, w - h * 1.8, 30)
 	b.size = Vector2(w, h)
-	var l := title(text, int(h * 0.38), Palette.CREAM)
+	var l := title(text, fs, Palette.CREAM)
 	l.position = Vector2(h * 0.9, h * 0.04)
 	l.size = Vector2(w - h * 1.8, h * 0.7)
 	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS

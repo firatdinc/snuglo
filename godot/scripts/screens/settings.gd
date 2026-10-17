@@ -137,10 +137,15 @@ func _toggle_row(key: String, on: bool, cb: Callable, footer := "") -> void:
 	tg.toggled.connect(cb)
 	_cy += ROW
 	if footer != "":
-		var f := Ui.wrap(Ui.label(tr(footer), 28, Palette.INK_SOFT), _cw - 100)
-		Ui.place(f, Vector2(44, _cy - 26), Vector2(_cw - 100, 44))
+		# Çok satırlı açıklama: satır sayısı kadar yer aç (es/tr uzun).
+		var fw := _cw - 100
+		var lines := maxi(1, roundi(Ui.FONT.get_multiline_string_size(tr(footer), HORIZONTAL_ALIGNMENT_LEFT, fw, 28).y / Ui.FONT.get_height(28)))
+		var lh := Ui.FONT.get_height(28)
+		var f := Ui.wrap(Ui.label(tr(footer), 28, Palette.INK_SOFT), fw)
+		f.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+		Ui.place(f, Vector2(44, _cy - 22), Vector2(fw, lines * lh + 4))
 		_card.add_child(f)
-		_cy += 30
+		_cy += 30 + (lines - 1) * lh + 6
 
 func _slider_row(key: String, v: float, cb: Callable, on_release := Callable()) -> void:
 	_sep()

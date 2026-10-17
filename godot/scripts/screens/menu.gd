@@ -254,29 +254,15 @@ func _tick_daily() -> void:
 
 func _modes(y: float) -> void:
 	var gap := 24.0
-	var cw := (W - 80 - gap * 2) / 3.0
+	var cw := (W - 80 - gap) / 2.0
 	var ch := 240.0
-	# Zen anahtarı
-	var zen := _mode_card(X0 + 40, y, cw, ch, 2, "ic_zen", tr("zen.mode.title"), tr("common.ok") if false else "")
-	var tg := Widgets.Toggle.new()
-	tg.on = Settings.zen_mode
-	Ui.place(tg, Vector2((cw - 120) / 2.0, ch - 74), Vector2(120, 56))
-	zen.add_child(tg)
-	tg.toggled.connect(func(on: bool) -> void:
-		Settings.zen_mode = on
-		Main.toast(tr("zen.mode.subtitle") if on else tr("zen.mode.title") + " ✕", "ic_zen", Palette.SAGE)
-		var tw := create_tween()
-		tw.tween_property(_bg, "modulate", Color(0.86, 0.95, 0.86) if on else Color.WHITE, 0.6))
-	zen.tapped.connect(func() -> void:
-		tg.set_on(not tg.on)
-		tg.toggled.emit(tg.on))
 	# Endless
 	var best := Progress.endless_best
-	var en := _mode_card(X0 + 40 + cw + gap, y, cw, ch, 6, "ic_endless", tr("endless.title"), tr("endless.best") % best if best > 0 else tr("endless.subtitle"))
+	var en := _mode_card(X0 + 40, y, cw, ch, 6, "ic_endless", tr("endless.title"), tr("endless.best") % best if best > 0 else tr("endless.subtitle"))
 	en.tapped.connect(func() -> void: Main.play("endless-1"))
 	# Kule
 	var sub := tr("tower.resume") % Tower.current_floor if Tower.has_active_run() else (tr("tower.best") % Tower.best_floor if Tower.best_floor > 0 else tr("tower.subtitle"))
-	var tw2 := _mode_card(X0 + 40 + (cw + gap) * 2, y, cw, ch, 4, "ic_tower", tr("tower.title"), sub)
+	var tw2 := _mode_card(X0 + 40 + cw + gap, y, cw, ch, 4, "ic_tower", tr("tower.title"), sub)
 	tw2.tapped.connect(func() -> void: Main.open("tower"))
 	var tk := Ui.badge("%d" % Wallet.tickets, Palette.MUSTARD.darkened(0.15))
 	tk.position = Vector2(cw - 56, -14)
@@ -303,6 +289,7 @@ func _mode_card(x: float, y: float, w: float, h: float, fabric: int, icon: Strin
 		s.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		s.max_lines_visible = 2
 		c.add_child(s)
+		c.set_meta("sub", s)
 	_anim.append(c)
 	return c
 

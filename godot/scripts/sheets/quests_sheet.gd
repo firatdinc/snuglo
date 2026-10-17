@@ -2,6 +2,9 @@ extends Sheet
 ## Günlük görevler (3) + haftalık meydan okuma. Her satır: ikon, metin, dikişli çubuk, ödül,
 ## Al / Alındı / ilerleme. Al → Quests.claim → ikonlar üst bara uçar, satır "damga" ile kapanır.
 
+## Satır yüksekliği: başlık + çubuk + ödül çipleri kartın içinde kalsın.
+const RH := 204.0
+
 var _rows: Control
 
 func _init() -> void:
@@ -39,7 +42,7 @@ func _fill(animate := false) -> float:
 				_after_claim(r, at))
 		if animate:
 			Ui.slide_in(row, 0.1 + y / 2000.0, 60)
-		y += 196
+		y += RH + 20
 	# Haftalık
 	y += 20
 	var head := Ui.label(tr("weekly.title"), 46, Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
@@ -53,7 +56,7 @@ func _fill(animate := false) -> float:
 			_after_claim(r, at), true)
 	if animate:
 		Ui.slide_in(wr, 0.35, 60)
-	y += 196
+	y += RH + 20
 	return y
 
 func _row(y: float, icon: String, text: String, prog: int, goal: int, reward: Dictionary, complete: bool, claimed: bool, on_claim: Callable, weekly := false) -> Control:
@@ -67,11 +70,11 @@ func _row(y: float, icon: String, text: String, prog: int, goal: int, reward: Di
 	card.glow = complete and not claimed
 	if claimed:
 		card.modulate = Color(1, 1, 1, 0.65)
-	Ui.place(card, Vector2(40, y), Vector2(w - 80, 176))
+	Ui.place(card, Vector2(40, y), Vector2(w - 80, RH))
 	_rows.add_child(card)
 	var cw := w - 80
 	var ic := Ui.icon(icon, Vector2(100, 100))
-	Ui.place(ic, Vector2(24, 38), Vector2(100, 100))
+	Ui.place(ic, Vector2(24, (RH - 100) / 2.0), Vector2(100, 100))
 	card.add_child(ic)
 	var t := Ui.label(text, 34, Palette.INK)
 	t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -80,10 +83,10 @@ func _row(y: float, icon: String, text: String, prog: int, goal: int, reward: Di
 	var bar := Widgets.StitchBar.new()
 	bar.value = float(prog) / maxf(1.0, goal)
 	bar.col = Palette.SAGE if not complete else Palette.MUSTARD
-	Ui.place(bar, Vector2(140, 92), Vector2(cw - 140 - 330, 30))
+	Ui.place(bar, Vector2(140, 86), Vector2(cw - 140 - 330, 30))
 	card.add_child(bar)
 	var pl := Ui.label("%d/%d" % [mini(prog, goal), goal], 28, Palette.INK_SOFT)
-	Ui.place(pl, Vector2(cw - 180, 82), Vector2(80, 50))
+	Ui.place(pl, Vector2(cw - 180, 76), Vector2(80, 50))
 	pl.position.x = 140 + (cw - 140 - 330) + 14
 	card.add_child(pl)
 	# Ödül çipi
@@ -93,19 +96,19 @@ func _row(y: float, icon: String, text: String, prog: int, goal: int, reward: Di
 		if int(reward[c]) <= 0:
 			continue
 		var ri_ic := Ui.icon(Ui.currency_icon(String(c)), Vector2(46, 46))
-		Ui.place(ri_ic, Vector2(140 + ri * 130, 128), Vector2(46, 46))
+		Ui.place(ri_ic, Vector2(140 + ri * 150, 132), Vector2(46, 46))
 		var rl := Ui.label("+%d" % int(reward[c]), 28, Palette.INK)
-		Ui.place(rl, Vector2(190 + ri * 130, 124), Vector2(80, 50))
+		Ui.place(rl, Vector2(192 + ri * 150, 130), Vector2(96, 50))
 		card.add_child(ri_ic)
 		card.add_child(rl)
 		ri += 1
 	if claimed:
 		var done := Ui.label("✓ " + tr("quest.claimed"), 32, Palette.SAGE.darkened(0.3), HORIZONTAL_ALIGNMENT_CENTER)
-		Ui.place(done, Vector2(rx, 50), Vector2(190, 76))
+		Ui.place(done, Vector2(rx, (RH - 76) / 2.0), Vector2(190, 76))
 		card.add_child(done)
 	elif complete:
 		var b := Ui.button(tr("quest.claim"), "mustard", Vector2(190, 100), "", 36)
-		Ui.place(b, Vector2(rx, 38), Vector2(190, 100))
+		Ui.place(b, Vector2(rx, (RH - 100) / 2.0), Vector2(190, 100))
 		card.add_child(b)
 		b.tapped.connect(func() -> void:
 			b.disabled = true

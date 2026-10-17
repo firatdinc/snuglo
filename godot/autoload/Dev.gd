@@ -4,7 +4,7 @@ extends Node
 ##               quests|daily_login|calendar|levelcomplete|levelup|streak|packcomplete|onboarding|
 ##               splash|tower|premium|energy|pause|fail|nook_reveal|version|game>
 ##   SNUG_DEMO=<n>     ilk n kampanya bölümünü çözülmüş say + örnek bakiye (bekleyen kutlamalar temizlenir)
-##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SHOT=<sn>:<png>
+##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SCROLL=<px|-1> · SNUG_SHOT=<sn>:<png>
 ##   SNUG_LANG=en|tr|es · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
 
 func _ready() -> void:
@@ -21,10 +21,29 @@ func _ready() -> void:
 		# İlk karelerin dev delta'sı (sahne yükleme süresi) zamanlayıcıyı yemesin.
 		for i in 3:
 			await get_tree().process_frame
-		await get_tree().create_timer(t, true, false, true).timeout
+		var scr := int(OS.get_environment("SNUG_SCROLL"))
+		if scr != 0:
+			await get_tree().create_timer(maxf(t - 1.0, 0.1), true, false, true).timeout
+			var sc := _last_scroll(get_tree().root)
+			if sc:
+				sc.scroll_to(float(scr) if scr > 0 else 1e9, false)
+			await get_tree().create_timer(minf(t, 1.0), true, false, true).timeout
+		else:
+			await get_tree().create_timer(t, true, false, true).timeout
 		await RenderingServer.frame_post_draw
 		get_viewport().get_texture().get_image().save_png(path)
 		get_tree().quit()
+
+## SNUG_SCROLL=<px|-1>: en son eklenen görünür dikey DragScroll'u kaydır (-1 → en alt).
+func _last_scroll(n: Node) -> DragScroll:
+	var found: DragScroll = null
+	for c in n.get_children():
+		var r := _last_scroll(c)
+		if r:
+			found = r
+	if found == null and n is DragScroll and not (n as DragScroll).horizontal and (n as DragScroll).is_visible_in_tree():
+		found = n
+	return found
 
 ## Örnek ilerleme: ilk n bölüm (paket sırasıyla) çözülür, bakiye doldurulur.
 func seed_demo(n: int) -> void:

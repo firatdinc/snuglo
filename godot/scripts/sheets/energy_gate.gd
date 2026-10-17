@@ -94,6 +94,6 @@ func _tick() -> void:
 
 func _ribbon(text: String, y: float, w := 680.0) -> float:
 	var b := Ui.banner(text, w)
-	add(b, Vector2((pw() - w) / 2.0, y))
+	add(b, Vector2((pw() - b.size.x) / 2.0, y))
 	Ui.pop_in(b, 0.15, 0.4)
 	return y + b.size.y + 10.0

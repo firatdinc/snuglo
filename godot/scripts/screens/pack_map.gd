@@ -72,7 +72,7 @@ func _card(p: Dictionary, i: int, sz: Vector2) -> QuiltCard:
 	# Bilgiler
 	var tx := 310.0
 	var tw := sz.x - tx - 40.0
-	var t := Ui.label(tr(String(p.title)), 50, Palette.INK if unlocked else Palette.INK_SOFT)
+	var t := Ui.label(tr(String(p.title)), Ui.fit_font(tr(String(p.title)), 50, tw - 70, 36), Palette.INK if unlocked else Palette.INK_SOFT)
 	t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	Ui.place(t, Vector2(tx, 40), Vector2(tw - 70, 66))
 	c.add_child(t)
