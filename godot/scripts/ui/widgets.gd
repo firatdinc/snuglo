@@ -140,15 +140,24 @@ class Toggle extends Control:
 			create_tween().tween_property(self, "_k", 1.0 if on else 0.0, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		else:
 			_k = 1.0 if on else 0.0
+	var _down := false
 	func _gui_input(e: InputEvent) -> void:
-		if (e is InputEventScreenTouch and not e.pressed) or (e is InputEventMouseButton and not e.pressed and e.button_index == MOUSE_BUTTON_LEFT):
-			if DragScroll.recently_dragged():
-				return
-			set_on(not on)
-			Sfx.play("click", 1.4 if on else 1.0, -6.0)
-			Juice.haptic("light")
-			toggled.emit(on)
-			accept_event()
+		# Cihazda tek dokunuş hem ScreenTouch hem taklit fare olayı üretir; _down ile tek sefer işlenir.
+		if not (e is InputEventScreenTouch or (e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT)):
+			return
+		if e.pressed:
+			_down = true
+			return
+		if not _down:
+			return
+		_down = false
+		if DragScroll.recently_dragged():
+			return
+		set_on(not on)
+		Sfx.play("click", 1.4 if on else 1.0, -6.0)
+		Juice.haptic("light")
+		toggled.emit(on)
+		accept_event()
 	func _process(_dt: float) -> void:
 		queue_redraw()
 	func _draw() -> void:

@@ -260,7 +260,9 @@ func _test_meta_misc() -> void:
 	w0_keys_reset()
 	_check("chest: anahtarsız açılmaz", chest.open().is_empty() and not chest.can_open())
 	_node("Wallet").debug_set("key", 1)
-	_check("chest: anahtarla aç", not chest.open().is_empty() and chest.pending == pend and _node("Wallet").keys == 0)
+	var cr: Dictionary = chest.open()
+	# Efsanevi kademe 1 anahtar geri verir.
+	_check("chest: anahtarla aç", not cr.is_empty() and chest.pending == pend and _node("Wallet").keys == int(cr.get("rewards", {}).get("key", 0)))
 	var cos := _node("Cosmetics")
 	var w := _node("Wallet")
 	_check("cosmetics: aurora kilitli", not cos.is_fabric_unlocked("aurora") and not cos.select_fabric("aurora"))

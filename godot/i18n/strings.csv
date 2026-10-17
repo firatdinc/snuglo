@@ -720,3 +720,26 @@ nook.reveal.piece,Piece %d of %d,Parça %d / %d,Pieza %d de %d
 tower.floor,Floor %d,Kat %d,Piso %d
 tower.start,Start Climb,Tırmanışa Başla,Empezar a escalar
 tower.buyTicket,1 ticket · %d,1 bilet · %d,1 boleto · %d
+praise.t1.1,Nice!,Güzel!,¡Bien!
+praise.t1.2,Good!,İyi!,¡Bueno!
+praise.t1.3,Neat!,Tamam!,¡Vale!
+praise.t2.1,Great!,Harika!,¡Genial!
+praise.t2.2,Sweet!,Tatlı!,¡Qué bien!
+praise.t2.3,Cool!,Hoş!,¡Chévere!
+praise.t3.1,Super!,Süper!,¡Súper!
+praise.t3.2,Awesome!,Müthiş!,¡Brutal!
+praise.t3.3,Brilliant!,Şahane!,¡Brillante!
+praise.t4.1,Amazing!,Muhteşem!,¡Increíble!
+praise.t4.2,Fantastic!,Fantastik!,¡Fantástico!
+praise.t4.3,Superb!,Enfes!,¡Soberbio!
+praise.t4.4,Wow!,Vay be!,¡Guau!
+praise.t5.1,Perfect!,Kusursuz!,¡Perfecto!
+praise.t5.2,Legendary!,Efsane!,¡Legendario!
+praise.t5.3,Unstoppable!,Durdurulamaz!,¡Imparable!
+praise.t5.4,Bravo!,Bravo!,¡Bravo!
+praise.near.1,Almost there!,Az kaldı!,¡Casi!
+praise.near.2,So close!,Çok yakın!,¡Muy cerca!
+praise.near.3,Nearly done!,Neredeyse!,¡Ya casi!
+praise.final.1,Final touch!,Son dokunuş!,¡Toque final!
+praise.final.2,Last stitch!,Son dikiş!,¡Última puntada!
+praise.final.3,Done!,Tamamdır!,¡Listo!

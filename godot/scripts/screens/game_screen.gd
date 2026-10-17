@@ -17,6 +17,9 @@ var hud: GameHud
 var _bg: SceneBackdrop
 var _free_peek := 1
 var _combo := 0
+## Övgü kelime havuzları: anahtar → varyant sayısı (i18n praise.<havuz>.<n>, ses audio/voice/<dil>/<anahtar>).
+const PRAISE := {"t1": 3, "t2": 3, "t3": 3, "t4": 4, "t5": 4, "near": 3, "final": 3}
+var _fresh_n := 0   ## bu denemede oyuncunun ilk kez yerleştirdiği parça sayısı (övgü yazısı)
 var _last_place := -10.0
 var _failed := false
 var _result := {}
@@ -80,6 +83,7 @@ func _start_game(restore: Dictionary, elapsed := 0.0, hints := 0) -> void:
 		game.queue_free()
 	_failed = false
 	_combo = 0
+	_fresh_n = 0
 	game = Game.new()
 	game.use_backdrop = false
 	add_child(game)
@@ -252,11 +256,15 @@ func _on_placed(by_player: bool, fresh: bool) -> void:
 	var now := Time.get_ticks_msec() / 1000.0
 	_combo = _combo + 1 if now - _last_place <= Progress.COMBO_WINDOW else 1
 	_last_place = now
+	_fresh_n += 1
+	# Kumaş övgü yazısı: ilk yerleşimde ve bölümü bitiren son parçada yok (çözüm övgüsü gelir).
+	var last := game.placements.size() >= lvl.pieces.size()
+	if _fresh_n >= 2 and not last:
+		var pool := "near" if game.board.filled_ratio() >= 0.8 else "t%d" % clampi(_combo, 1, 5)
+		_praise_word(pool, "×%d" % _combo if _combo >= 2 else "")
 	if _combo < 2:
 		return
 	var r := Progress.award_combo(_combo, relaxed)
-	var fs := 64 + mini(_combo, 6) * 6
-	hud.pop_text(tr("combo.label") % _combo, _board_top_center() + Vector2(randf_range(-80, 80), 0), fs, Palette.MUSTARD.lightened(0.2), 0.4)
 	if r.milestone:
 		Sfx.play("reward", 1.0 + _combo * 0.03, -4.0)
 		Juice.haptic("heavy")
@@ -267,18 +275,55 @@ func _on_placed(by_player: bool, fresh: bool) -> void:
 	if int(r.coins) > 0:
 		Fly.currency(_board_top_center(), "coin", int(r.coins))
 
+## Yerleşen parçanın üstünde (yer yoksa altında) kumaş harfli övgü; tahta içinde kalır, HUD'a girmez.
+func _praise_key(pool: String) -> String:
+	return "praise.%s.%d" % [pool, randi_range(1, int(PRAISE.get(pool, 1)))]
+
+func _praise_word(pool: String, sub: String) -> void:
+	var key := _praise_key(pool)
+	var text := tr(key)
+	Sfx.voice(key)
+	var tier := 5 if pool == "near" else int(pool.substr(1)) if pool.begins_with("t") else 3
+	var bp := game.board.position
+	var gp := game.board.grid_px()
+	var fs := int(clampf(game.cs * 1.0, 72.0, 150.0))
+	var sz := FabricWord.measure(text, fs)
+	while sz.x > gp.x + game.cs * 0.3 and fs > 36:
+		fs -= 4
+		sz = FabricWord.measure(text, fs)
+	var r: Rect2 = game.last_rect
+	var hh := sz.y / 2.0 + (fs * 0.45 if sub != "" else 0.0)
+	var top_lim := maxf(hud.top_h, bp.y - game.cs * 0.35)
+	var bot_lim := bp.y + gp.y + game.cs * 0.35
+	var c := Vector2(r.get_center().x, r.position.y - sz.y * 0.45)
+	if c.y - hh < top_lim:
+		c.y = r.end.y + sz.y * 0.45          # üstte yer yok → parçanın altı
+		if c.y + hh > bot_lim:
+			c.y = r.get_center().y           # altta da yok → parçanın üstüne bindir
+	c.x = clampf(c.x, bp.x + sz.x / 2.0, bp.x + gp.x - sz.x / 2.0) if sz.x < gp.x else bp.x + gp.x / 2.0
+	c.y = clampf(c.y, top_lim + hh, bot_lim - hh)
+	FabricWord.show_at(hud, text, c, fs, {sub = sub, hold = 0.55 + tier * 0.06})
+	if tier >= 3:
+		game.fx.sparks(c, 6 + tier * 2, Palette.CREAM, 380.0)
+
 func _on_solve_started() -> void:
 	Progress.clear_session(id)
 	_result = Progress.record_level(id, game.elapsed, game.hints_used, lvl.width, 1 if relaxed else 0)
 	if mode != "tower":
 		Ads.on_level_completed()
-	var text := tr("praise.%d" % (randi() % 6))
+	var key := _praise_key("final")
+	var text := tr(key)
 	if mode == "tower":
 		text = tr("tower.floorUp")
 	elif mode == "endless" and _result.get("endless_record", false):
 		text = tr("endless.record")
 	var gp := game.board.grid_px()
-	hud.pop_text(text, game.board.position + gp / 2.0, 104, Palette.CREAM, 1.0)
+	var fs := 112
+	while FabricWord.measure(text, fs).x > gp.x + game.cs * 0.6 and fs > 48:
+		fs -= 4
+	if mode != "tower" and not (mode == "endless" and _result.get("endless_record", false)):
+		Sfx.voice(key)
+	FabricWord.show_at(hud, text, game.board.position + gp / 2.0, fs, {hold = 1.1})
 	hud.set_chain(int(_result.get("chain", 0)))
 
 func _on_solved(_stars: int, _secs: float) -> void:

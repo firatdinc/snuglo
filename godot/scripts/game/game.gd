@@ -29,6 +29,8 @@ var tray_rect := Rect2()
 var elapsed := 0.0
 var done := false
 var hints_used := 0
+## Son yerleşen parçanın tahta dikdörtgeni (dünya koordinatı) — övgü yazısının yeri.
+var last_rect := Rect2()
 ## Bu denemede en az bir kez yerleşmiş parçalar (kombo istismarına karşı).
 var _landed_once := {}
 ## Göz at: çözüm hayaleti katmanı.
@@ -298,6 +300,7 @@ func _on_landed(v: PieceView, o: Vector2i, by_player: bool) -> void:
 		if not v.data.has_cell(c + Vector2i.DOWN):
 			fx.puff(bottom + (Vector2(c) + Vector2(0.5, 1.0)) * cs, 3, Palette.CREAM, cs * 0.16)
 	_nudge_neighbors(v.data.id, o)
+	last_rect = Rect2(board.position + Vector2(o) * cs, Vector2(v.data.size) * cs)
 	var fresh := not _landed_once.has(v.data.id)
 	_landed_once[v.data.id] = true
 	placed.emit(by_player, fresh)

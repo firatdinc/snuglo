@@ -12,7 +12,7 @@ var _music: AudioStreamPlayer
 var _music_b: AudioStreamPlayer
 var sfx_volume := 1.0
 ## Müzik: 0..1 kullanıcı sesi (Settings), parça "calm" | "zen". Geçişte çapraz soluklaşma.
-const TRACKS := {"calm": "res://audio/music/bgm.mp3", "zen": "res://audio/music/bgm_zen.mp3"}
+const TRACKS := {"calm": "res://audio/music/bgm_play.wav", "zen": "res://audio/music/bgm_zen.mp3"}
 const MUSIC_DB := -14.0
 var music_volume := 0.6
 var track := ""
@@ -34,6 +34,8 @@ func _ready() -> void:
 			set_track(Settings.desired_track()))
 
 func _music_db() -> float:
+	if OS.get_environment("SNUG_NOMUSIC") != "":
+		return -80.0   # tanıtım çekimi: yalnız efektler
 	return MUSIC_DB + linear_to_db(maxf(music_volume, 0.001))
 
 ## Müzik sesi (0 → durur). Settings çağırır.
@@ -54,10 +56,11 @@ func set_track(name: String) -> void:
 	if name == track:
 		return
 	track = name
-	var st := load(TRACKS[name]) as AudioStreamMP3
+	var st := load(TRACKS[name]) as AudioStream
 	if st == null:
 		return
-	st.loop = true
+	if st is AudioStreamMP3:
+		(st as AudioStreamMP3).loop = true
 	if OS.get_environment("SNUG_MUTE") != "" or music_volume <= 0.001:
 		_music.stream = st
 		return
@@ -84,6 +87,35 @@ func play(name: String, pitch := 1.0, vol_db := 0.0, jitter := 0.04) -> void:
 	p.pitch_scale = pitch * randf_range(1.0 - jitter, 1.0 + jitter)
 	p.volume_db = vol_db + linear_to_db(maxf(sfx_volume, 0.001))
 	p.play()
+
+var _voice: AudioStreamPlayer
+var _voice_cache := {}
+
+## Kısa seslendirme (övgü kelimeleri): res://audio/voice/<dil>/<anahtar>.ogg|.wav varsa çalar.
+## Yoksa sessizce false döner (çağıran normal efektle devam eder). Aynı anda tek ses (yenisi keser).
+func voice(key: String) -> bool:
+	if OS.get_environment("SNUG_MUTE") != "" or sfx_volume <= 0.001:
+		return false
+	var lang := TranslationServer.get_locale().substr(0, 2)
+	var ck := lang + "/" + key
+	if not _voice_cache.has(ck):
+		var st: AudioStream = null
+		for ext in ["ogg", "wav", "mp3"]:
+			var path := "res://audio/voice/%s/%s.%s" % [lang, key, ext]
+			if ResourceLoader.exists(path):
+				st = load(path)
+				break
+		_voice_cache[ck] = st
+	var stream: AudioStream = _voice_cache[ck]
+	if stream == null:
+		return false
+	if _voice == null:
+		_voice = AudioStreamPlayer.new()
+		add_child(_voice)
+	_voice.stream = stream
+	_voice.volume_db = linear_to_db(maxf(sfx_volume, 0.001))
+	_voice.play()
+	return true
 
 func note(step: int, name := "place", vol_db := 0.0) -> void:
 	play(name, SCALE[clampi(step, 0, SCALE.size() - 1)] * 0.8, vol_db, 0.0)

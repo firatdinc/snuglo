@@ -119,6 +119,9 @@ func attach(g: Game) -> void:
 		_autoplay(g, int(auto))
 	if OS.get_environment("SNUG_PEEK") != "":
 		get_tree().create_timer(2.6).timeout.connect(func() -> void: g.peek())
+	var pl := OS.get_environment("SNUG_PLAY")
+	if pl != "":
+		play_demo(g, int(pl), OS.get_environment("SNUG_PLAY_MISS") != "")
 	var dr := OS.get_environment("SNUG_DRAG")
 	if dr != "":
 		drag_test(g, dr == "drop")
@@ -159,3 +162,70 @@ func _touch(at: Vector2, pressed: bool) -> void:
 	e.position = get_viewport().get_final_transform() * at
 	e.pressed = pressed
 	Input.parse_input_event(e)
+
+## SNUG_PLAY=<n>: reklam/tanıtım çekimi — el imleciyle n parçayı gerçek dokunma olaylarıyla
+## sürükleyip çözüm yerine bırakır (n<=0 → hepsi). SNUG_PLAY_MISS=1: ilki önce yanlış yere.
+var _hand: TextureRect
+var _hand_at := Vector2.ZERO
+
+func play_demo(g: Game, n: int, miss: bool) -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 100
+	add_child(layer)
+	_hand = TextureRect.new()
+	_hand.texture = UiArt.tex("ic_hand")
+	_hand.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_hand.size = Vector2(160, 180)
+	_hand.modulate.a = 0.0
+	layer.add_child(_hand)
+	await get_tree().create_timer(1.1).timeout
+	var order: Array = g.lvl.pieces.duplicate()
+	order.sort_custom(func(a: PieceData, b: PieceData) -> bool: return a.cells.size() > b.cells.size())
+	var k := 0
+	for p: PieceData in order:
+		if (n > 0 and k >= n) or not is_instance_valid(g) or g.done:
+			break
+		if g.placements.get(p.id, Vector2i(-99, -99)) == g.lvl.solution[p.id]:
+			continue
+		var o: Vector2i = g.lvl.solution[p.id]
+		if miss and k == 0:
+			await _demo_drag(g, p, Vector2i(g.lvl.width - 1, clampi(o.y, 0, g.lvl.height - 1)))   # tahtadan taşar → sığmaz
+			await get_tree().create_timer(0.55).timeout
+		await _demo_drag(g, p, o)
+		await get_tree().create_timer(0.22).timeout
+		k += 1
+	create_tween().tween_property(_hand, "modulate:a", 0.0, 0.3)
+
+func _demo_drag(g: Game, p: PieceData, o: Vector2i) -> void:
+	var v: PieceView = g.pieces[p.id]
+	var xf := g.get_global_transform_with_canvas()
+	var c0 := p.cells[0]
+	var start := xf * (v.position + (Vector2(c0) - Vector2(p.size) / 2.0 + Vector2(0.5, 0.5)) * v.cs * v.tray_scale)
+	var dest := xf * (g.board.position + (Vector2(o) + Vector2(p.size) / 2.0) * g.cs + Vector2(0, Game.LIFT * g.cs))
+	await _hand_to(start, 14)
+	_touch(start, true)
+	var frames := 26
+	for i in frames:
+		await get_tree().process_frame
+		var at := start.lerp(dest, ease(float(i + 1) / frames, -2.2))
+		_hand_set(at)
+		var d := InputEventScreenDrag.new()
+		d.position = get_viewport().get_final_transform() * at
+		Input.parse_input_event(d)
+	for i in 5:
+		await get_tree().process_frame
+	_touch(dest, false)
+
+func _hand_to(at: Vector2, frames: int) -> void:
+	if _hand.modulate.a < 0.5:
+		_hand_set(at + Vector2(80, 160))
+		create_tween().tween_property(_hand, "modulate:a", 1.0, 0.15)
+	var from := _hand_at
+	for i in frames:
+		await get_tree().process_frame
+		_hand_set(from.lerp(at, ease(float(i + 1) / frames, -2.0)))
+
+func _hand_set(at: Vector2) -> void:
+	_hand_at = at
+	# Parmak ucu görselin sol-üst köşesine yakın (≈ 20, 10 px).
+	_hand.position = at - Vector2(20, 10)
