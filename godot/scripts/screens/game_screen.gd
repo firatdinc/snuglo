@@ -129,7 +129,7 @@ func on_enter() -> void:
 				game._place(game.pieces[p.id], lvl.solution[p.id], true)
 				await get_tree().create_timer(0.12).timeout
 	var dev_sheet := String(args.get("dev_sheet", ""))
-	if OS.get_environment("SNUG_TIMEUP") != "":
+	if Dev.env("SNUG_TIMEUP") != "":
 		dev_sheet = "fail"   # Geliştirme: süre doldu akışı (Kule'de tower_over)
 	match dev_sheet:
 		"pause":

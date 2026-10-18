@@ -79,7 +79,7 @@ func build() -> void:
 	_place_panel()
 	panel.position.y += 20
 	close_x()
-	if OS.get_environment("SNUG_AUTOSPIN") != "" and Spin.can_spin():
+	if Dev.env("SNUG_AUTOSPIN") != "" and Spin.can_spin():
 		get_tree().create_timer(0.6).timeout.connect(_spin)
 
 func _tick_timer() -> void:

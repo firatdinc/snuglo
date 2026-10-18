@@ -61,8 +61,8 @@ func odds_text() -> String:
 ## 2 ipucu + 2-3 yüksük · %4 efsanevi 800 coin + 3 ipucu + 5 yüksük + 1 anahtar.
 func roll() -> Dictionary:
 	var r := rng.randi_range(0, 99)
-	if OS.is_debug_build() and OS.get_environment("SNUG_CHEST_TIER") != "":
-		r = {"common": 0, "rare": 60, "epic": 90, "legendary": 99}.get(OS.get_environment("SNUG_CHEST_TIER"), r)   # tanıtım çekimi
+	if OS.is_debug_build() and Dev.env("SNUG_CHEST_TIER") != "":
+		r = {"common": 0, "rare": 60, "epic": 90, "legendary": 99}.get(Dev.env("SNUG_CHEST_TIER"), r)   # tanıtım çekimi
 	if r < 52:
 		return {"tier": "common", "rewards": {"coin": rng.randi_range(6, 12) * 10}}
 	if r < 82:

@@ -68,9 +68,9 @@ func build() -> void:
 			_finish()
 		else:
 			_go(_page + 1))
-	var start := clampi(int(OS.get_environment("SNUG_ONB_PAGE")) - 1, 0, 2) if OS.get_environment("SNUG_ONB_PAGE") != "" else 0
+	var start := clampi(int(Dev.env("SNUG_ONB_PAGE")) - 1, 0, 2) if Dev.env("SNUG_ONB_PAGE") != "" else 0
 	_show_page(start, false)
-	if OS.get_environment("SNUG_ONB_SOLVE") != "" and start == 1:
+	if Dev.env("SNUG_ONB_SOLVE") != "" and start == 1:
 		_dev_drag_all()
 
 # ------------------------------------------------------------------ Sayfalar

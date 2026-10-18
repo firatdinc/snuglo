@@ -34,7 +34,7 @@ func _ready() -> void:
 			set_track(Settings.desired_track()))
 
 func _music_db() -> float:
-	if OS.get_environment("SNUG_NOMUSIC") != "":
+	if Dev.env("SNUG_NOMUSIC") != "":
 		return -80.0   # tanıtım çekimi: yalnız efektler
 	return MUSIC_DB + linear_to_db(maxf(music_volume, 0.001))
 
@@ -46,7 +46,7 @@ func set_music_volume(v: float) -> void:
 	_music.volume_db = _music_db()
 	if music_volume <= 0.001:
 		_music.stop()
-	elif track != "" and not _music.playing and OS.get_environment("SNUG_MUTE") == "":
+	elif track != "" and not _music.playing and Dev.env("SNUG_MUTE") == "":
 		_music.play()
 
 ## Parçayı değiştir (calm | zen); aynıysa bir şey yapmaz. 0.8 sn çapraz geçiş.
@@ -61,7 +61,7 @@ func set_track(name: String) -> void:
 		return
 	if st is AudioStreamMP3:
 		(st as AudioStreamMP3).loop = true
-	if OS.get_environment("SNUG_MUTE") != "" or music_volume <= 0.001:
+	if Dev.env("SNUG_MUTE") != "" or music_volume <= 0.001:
 		_music.stream = st
 		return
 	var old := _music
@@ -79,7 +79,7 @@ func set_track(name: String) -> void:
 		_fade.chain().tween_callback(old.stop)
 
 func play(name: String, pitch := 1.0, vol_db := 0.0, jitter := 0.04) -> void:
-	if not _streams.has(name) or OS.get_environment("SNUG_MUTE") != "":
+	if not _streams.has(name) or Dev.env("SNUG_MUTE") != "":
 		return
 	var p := _players[_next]
 	_next = (_next + 1) % POOL
@@ -94,7 +94,7 @@ var _voice_cache := {}
 ## Kısa seslendirme (övgü kelimeleri): res://audio/voice/<dil>/<anahtar>.ogg|.wav varsa çalar.
 ## Yoksa sessizce false döner (çağıran normal efektle devam eder). Aynı anda tek ses (yenisi keser).
 func voice(key: String) -> bool:
-	if OS.get_environment("SNUG_MUTE") != "" or sfx_volume <= 0.001:
+	if Dev.env("SNUG_MUTE") != "" or sfx_volume <= 0.001:
 		return false
 	var lang := TranslationServer.get_locale().substr(0, 2)
 	var ck := lang + "/" + key

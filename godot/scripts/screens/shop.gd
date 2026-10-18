@@ -34,7 +34,7 @@ func build() -> void:
 	Events.purchase_failed.connect(func(_id: String) -> void: Main.toast(tr("toast.purchase.failed"), "ic_lock", Palette.TERRACOTTA))
 	Events.wallet_changed.connect(func(_c: String, _a: int, _d: int) -> void: _refresh())
 	Purchases.entitlements_changed.connect(_refresh)
-	var ds := OS.get_environment("SNUG_SCROLL")
+	var ds := Dev.env("SNUG_SCROLL")
 	if ds != "":
 		_scroll.scroll_to(float(ds), false)
 

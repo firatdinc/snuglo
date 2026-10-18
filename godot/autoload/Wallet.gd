@@ -155,6 +155,8 @@ func claim_ad_deal(deal: Dictionary) -> bool:
 
 ## Debug/test.
 func debug_set(currency: String, amount: int) -> void:
+	if not OS.is_debug_build():
+		return
 	var delta := amount - balance(currency)
 	_s[currency] = maxi(0, amount)
 	Save.mark_dirty()

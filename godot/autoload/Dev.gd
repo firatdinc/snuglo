@@ -6,22 +6,32 @@ extends Node
 ##   SNUG_DEMO=<n>     ilk n kampanya bölümünü çözülmüş say + örnek bakiye (bekleyen kutlamalar temizlenir)
 ##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SCROLL=<px|-1> · SNUG_SHOT=<sn>:<png>
 ##   SNUG_LANG=en|tr|es · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
+## Yalnızca debug yapıda çalışır; release (App Store) dışa aktarımında tüm kancalar ölüdür.
+
+## Tüm SNUG_* okumaları buradan geçer: release yapıda daima "" döner.
+static func env(key: String) -> String:
+	if not OS.is_debug_build():
+		return ""
+	return OS.get_environment(key)
 
 func _ready() -> void:
-	var lang := OS.get_environment("SNUG_LANG")
+	if not OS.is_debug_build():
+		set_process(false)
+		return
+	var lang := Dev.env("SNUG_LANG")
 	if lang != "":
 		Settings.language = lang
-	var demo := OS.get_environment("SNUG_DEMO")
+	var demo := Dev.env("SNUG_DEMO")
 	if demo != "":
 		seed_demo(int(demo))
-	var shot := OS.get_environment("SNUG_SHOT")
+	var shot := Dev.env("SNUG_SHOT")
 	if shot != "":
 		var t := float(shot.get_slice(":", 0))
 		var path := shot.get_slice(":", 1)
 		# İlk karelerin dev delta'sı (sahne yükleme süresi) zamanlayıcıyı yemesin.
 		for i in 3:
 			await get_tree().process_frame
-		var scr := int(OS.get_environment("SNUG_SCROLL"))
+		var scr := int(Dev.env("SNUG_SCROLL"))
 		if scr != 0:
 			await get_tree().create_timer(maxf(t - 1.0, 0.1), true, false, true).timeout
 			var sc := _last_scroll(get_tree().root)
@@ -47,6 +57,8 @@ func _last_scroll(n: Node) -> DragScroll:
 
 ## Örnek ilerleme: ilk n bölüm (paket sırasıyla) çözülür, bakiye doldurulur.
 func seed_demo(n: int) -> void:
+	if not OS.is_debug_build():
+		return
 	var k := 0
 	for p in Progress.PACKS:
 		for i in range(1, int(p.levels) + 1):
@@ -69,6 +81,8 @@ func seed_demo(n: int) -> void:
 
 ## SNUG_SCREEN yönlendirmesi (Main.boot çağırır).
 func open_screen(spec: String) -> void:
+	if not OS.is_debug_build():
+		return
 	var name := spec.get_slice(":", 0)
 	var arg := spec.get_slice(":", 1) if spec.contains(":") else ""
 	if name in Main.SCREENS and name not in ["pack", "game"]:
@@ -114,15 +128,17 @@ func open_screen(spec: String) -> void:
 					Main.open(name)
 
 func attach(g: Game) -> void:
-	var auto := OS.get_environment("SNUG_AUTO")
+	if not OS.is_debug_build():
+		return
+	var auto := Dev.env("SNUG_AUTO")
 	if auto != "":
 		_autoplay(g, int(auto))
-	if OS.get_environment("SNUG_PEEK") != "":
+	if Dev.env("SNUG_PEEK") != "":
 		get_tree().create_timer(2.6).timeout.connect(func() -> void: g.peek())
-	var pl := OS.get_environment("SNUG_PLAY")
+	var pl := Dev.env("SNUG_PLAY")
 	if pl != "":
-		play_demo(g, int(pl), OS.get_environment("SNUG_PLAY_MISS") != "")
-	var dr := OS.get_environment("SNUG_DRAG")
+		play_demo(g, int(pl), Dev.env("SNUG_PLAY_MISS") != "")
+	var dr := Dev.env("SNUG_DRAG")
 	if dr != "":
 		drag_test(g, dr == "drop")
 

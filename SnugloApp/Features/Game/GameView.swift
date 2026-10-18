@@ -1402,7 +1402,9 @@ struct GameView: View {
     private func startTimer() {
         // Faz I-2: skip timer in XCUITest runs — constant accessibility tree updates
         // from the 1-second tick cause XCUITest snapshot queries to time out.
+        #if DEBUG
         guard !UserDefaults.standard.bool(forKey: "snuglo.uitestmode") else { return }
+        #endif
         timerTask?.cancel()
         timerTask = Task { @MainActor in
             while !Task.isCancelled {

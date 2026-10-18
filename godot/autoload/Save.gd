@@ -32,7 +32,7 @@ var _cloud_at := -1000.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	var env := OS.get_environment("SNUG_SAVE")
+	var env := Dev.env("SNUG_SAVE")
 	if env != "":
 		path = env
 	_timer = Timer.new()

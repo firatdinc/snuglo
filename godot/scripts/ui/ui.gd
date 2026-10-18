@@ -27,7 +27,7 @@ static func insets() -> Dictionary:
 		if scr.y > 0 and safe.size.y > 0:
 			var k := v.y / scr.y
 			return {"top": safe.position.y * k, "bottom": maxf(0.0, (scr.y - safe.end.y) * k)}
-	if OS.get_environment("SNUG_NOTCH") == "0":
+	if Dev.env("SNUG_NOTCH") == "0":
 		return {"top": 0.0, "bottom": 0.0}
 	if v.y / v.x > 1.9:
 		return {"top": SIM_TOP, "bottom": SIM_BOTTOM}

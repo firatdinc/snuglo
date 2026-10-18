@@ -80,7 +80,7 @@ func build() -> void:
 	panel.size.y = y + 40
 	_place_panel()
 	close_x()
-	if OS.get_environment("SNUG_AUTOOPEN") != "" and Chest.can_open():
+	if Dev.env("SNUG_AUTOOPEN") != "" and Chest.can_open():
 		get_tree().create_timer(0.7).timeout.connect(_open_chest)
 
 func _open_chest() -> void:

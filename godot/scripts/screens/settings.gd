@@ -86,7 +86,7 @@ func build() -> void:
 
 	_about()
 	_scroll.set_length(_y + BOTTOM + 60)
-	var ds := OS.get_environment("SNUG_SCROLL")
+	var ds := Dev.env("SNUG_SCROLL")
 	if ds != "":
 		_scroll.scroll_to(float(ds), false)
 

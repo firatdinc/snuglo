@@ -67,7 +67,7 @@ var pack := "cozy-beginnings"
 var index := 1
 
 func _ready() -> void:
-	var env := OS.get_environment("SNUG_LEVEL")
+	var env := Dev.env("SNUG_LEVEL")
 	if env != "":
 		pack = env.get_slice(":", 0)
 		index = int(env.get_slice(":", 1))
@@ -90,11 +90,11 @@ func boot(root: Node) -> void:
 	curtain = Curtain.new()
 	cl.add_child(curtain)
 	Sfx.set_track(Settings.desired_track())
-	var dev := OS.get_environment("SNUG_SCREEN")
+	var dev := Dev.env("SNUG_SCREEN")
 	if dev != "":
 		Dev.open_screen(dev)
-	elif OS.get_environment("SNUG_LEVEL") != "" or OS.get_environment("SNUG_DAILY") != "":
-		var id := "daily-0" if OS.get_environment("SNUG_DAILY") != "" else Progress.level_id(pack, index)
+	elif Dev.env("SNUG_LEVEL") != "" or Dev.env("SNUG_DAILY") != "":
+		var id := "daily-0" if Dev.env("SNUG_DAILY") != "" else Progress.level_id(pack, index)
 		_show("menu", {}, false)
 		push("game", {"level": id}, "none")
 	else:
@@ -356,7 +356,7 @@ func level_data(id: String) -> LevelData:
 
 ## Eski API (Dev/test).
 func current_level() -> LevelData:
-	if OS.get_environment("SNUG_DAILY") != "":
+	if Dev.env("SNUG_DAILY") != "":
 		return DailyPuzzle.today(0)
 	return level_data(Progress.level_id(pack, index))
 

@@ -464,7 +464,7 @@ func _build_queue() -> void:
 			return Main.reward(tr("streak.milestone") % int(r.days), {"coin": r.coin, "gem": r.gem}, {"subtitle": tr("streak.keepGoing"), "pose": "wave"}))
 	if DailyReward.can_claim_week() and Progress.total_completed() > 0:
 		_queue.append(func() -> Sheet: return Main.open("daily_login"))
-	if OS.get_environment("SNUG_NOPOPUP") != "":
+	if Dev.env("SNUG_NOPOPUP") != "":
 		_queue.clear()   # Geliştirme: mağaza görselleri için açılış kutlamaları yok
 
 func _next_in_queue() -> void:
