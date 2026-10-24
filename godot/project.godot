@@ -16,7 +16,7 @@ general/ios/app_id="ca-app-pub-8571533711927103~5613795076"
 [application]
 
 config/name="Snuglo"
-config/version="2.0.1"
+config/version="2.0.2"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.9647059, 0.9058824, 0.8392157, 1)

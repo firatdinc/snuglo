@@ -1,7 +1,7 @@
 extends Screen
 ## Oyun içi liderlik (Game Center skorları kendi arayüzümüzde): üstte 4 pano sekmesi
 ## (toplam bölüm / en hızlı / en iyi seri / endless), Global–Arkadaşlar anahtarı, kendi sıran
-## kartı, ilk 50 satır. Giriş yoksa Game Center kartı; altta Apple panosunu açma butonu.
+## kartı, ilk 100 satır (+ "İlk 200'ü göster" ile 101–200). Giriş yoksa Game Center kartı; altta Apple panosunu açma butonu.
 
 const BOARDS := [
 	[GameCenter.TOTAL_LEVELS, "leaderboard.board.totalLevels", "ic_star"],
@@ -18,6 +18,7 @@ var _friends := false
 var _cw := 0.0
 var _y := 0.0
 var _req := 0   # geç gelen eski cevapları yok saymak için
+var _more: JuicyButton
 
 func build() -> void:
 	var bg := SceneBackdrop.new()
@@ -123,7 +124,32 @@ func _show(rows: Array, me: Dictionary, err: String) -> void:
 		return
 	for r in rows:
 		_row(r)
+	if rows.size() >= GameCenter.PAGE:
+		_more_button()
 	_scroll.set_length(_y + 40)
+
+## İlk 100 doluysa listenin sonunda 101–200'ü getiren buton.
+func _more_button() -> void:
+	_more = Ui.button(tr("leaderboard.showTop200"), "mustard", Vector2(minf(_cw, 620), 100), "", 32)
+	_add(_more, Vector2(40 + (_cw - _more.size.x) / 2.0, _y + 10), _more.size)
+	_more.tapped.connect(_load_more)
+	_y += 130
+
+func _load_more() -> void:
+	_more.disabled = true
+	var req := _req
+	GameCenter.load_board(BOARDS[_board][0], _friends, func(rows: Array, _me: Dictionary, err: String) -> void:
+		if req != _req or not is_inside_tree():
+			return
+		if err != "":
+			_more.disabled = false
+			Main.toast(tr("leaderboard.error.title"), "ic_trophy", Palette.TERRACOTTA)
+			return
+		_y -= 130
+		_more.queue_free()
+		for r in rows:
+			_row(r)
+		_scroll.set_length(_y + 40), GameCenter.PAGE + 1)
 
 func _me_card(me: Dictionary) -> void:
 	var c := QuiltCard.new()

@@ -51,14 +51,17 @@ func sign_in() -> void:
 		gc.authenticate()
 
 ## Oyun içi tablo için skorlar. cb(rows: Array[Dictionary], me: Dictionary, err: String);
-## satır: {rank, name, score, me}. friends=true → yalnız arkadaşlar.
-func load_board(id: String, friends: bool, cb: Callable, count := 50) -> void:
+## satır: {rank, name, score, me}. friends=true → yalnız arkadaşlar. Apple istek başına en çok
+## 100 kayıt verir → daha fazlası için start ile sayfala (1, 101, ...).
+const PAGE := 100
+
+func load_board(id: String, friends: bool, cb: Callable, start := 1) -> void:
 	if not authed:
 		cb.call([], {}, "auth")
 		return
 	var mine := String(gc.local_player.game_player_id)
 	_with_board(id, func(lb) -> void:
-		lb.load_local_player_entries(1 if friends else 0, 2, 1, count, func(local, list, _range, err) -> void:
+		lb.load_local_player_entries(1 if friends else 0, 2, start, PAGE, func(local, list, _range, err) -> void:
 			if err != null:
 				cb.call([], {}, str(err))
 				return

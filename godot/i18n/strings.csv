@@ -180,6 +180,7 @@ leaderboard.scope.friends,Friends,Arkadaşlar,Amigos
 leaderboard.you,Your rank,Senin sıran,Tu puesto
 leaderboard.openGC,Open in Game Center,Game Center'da Aç,Abrir en Game Center
 leaderboard.signIn,Sign in to Game Center,Game Center'a Giriş Yap,Iniciar sesión en Game Center
+leaderboard.showTop200,Show top 200,İlk 200'ü göster,Mostrar los 200 primeros
 leaderboard.row.rank,Rank %d,Sıra %d,Puesto %d
 common.viewAll,View All,Tümünü gör,Ver todo
 announcement.dismiss,Dismiss,Kapat,Cerrar
