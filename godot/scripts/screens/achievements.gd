@@ -57,11 +57,7 @@ func _summary(list: Array) -> void:
 	_add(bar, Vector2(264, 122), Vector2(_cw - 310, 34), c)
 	var lb := Ui.button(tr("leaderboard.title"), "sage", Vector2(_cw - 310, 74), "ic_trophy", 32)
 	_add(lb, Vector2(260, 162), lb.size, c)
-	lb.tapped.connect(func() -> void:
-		if GameCenter.is_supported():
-			GameCenter.show_leaderboards()
-		else:
-			Main.toast(tr("leaderboard.notSignedIn.title"), "ic_trophy", Palette.TERRACOTTA))
+	lb.tapped.connect(func() -> void: Main.push("leaderboard"))
 	_y += 270
 
 func _section(key: String) -> void:

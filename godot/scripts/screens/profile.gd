@@ -95,11 +95,7 @@ func _premium() -> void:
 func _links() -> void:
 	var items := [["ic_trophy", "profile.link.achievements", func() -> void: Main.push("achievements")],
 		["ic_stats", "profile.link.stats", func() -> void: Main.push("stats")],
-		["ic_star", "profile.link.bestScores", func() -> void:
-			if GameCenter.is_supported():
-				GameCenter.show_leaderboards()
-			else:
-				Main.toast(tr("leaderboard.notSignedIn.title"), "ic_trophy", Palette.TERRACOTTA)],
+		["ic_star", "profile.link.bestScores", func() -> void: Main.push("leaderboard")],
 		["ic_settings", "profile.settings.title", func() -> void: Main.push("settings")]]
 	var w := (_cw - 24) / 2.0
 	for i in items.size():

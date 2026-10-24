@@ -136,7 +136,7 @@ clean_dd() { rm -rf "$DD"; }
 if [ "$MODE" = check ] || [ "$MODE" = dev ]; then
 	if [ "$MODE" = dev ]; then
 		if [ -z "$DEVICE" ]; then
-			DEVICE="$(xcrun devicectl list devices 2>/dev/null | grep -E "[Ee]rgun.*iPhone" | grep -w connected | grep -oE "[0-9A-F]{8}-[0-9A-F]{16}" | head -1)"
+			DEVICE="$(xcrun devicectl list devices 2>/dev/null | grep -E "[Ee]rgun.*iPhone" | grep -E "connected|available" | grep -oE "[0-9A-F]{8}-[0-9A-F]{16}" | head -1)"
 		fi
 		[ -n "$DEVICE" ] || { echo "DUR: Ergun's iPhone bağlı değil (xcrun devicectl list devices); DEVICE=<udid> ver"; exit 1; }
 		DEST="id=$DEVICE"

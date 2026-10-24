@@ -89,18 +89,28 @@ func _roll_day() -> void:
 		_s.count = 0
 
 ## Ödüllü reklam şu an gösterilebilir mi (yüklü + bekleme bitti + günlük sınır altında).
+## Reklamsız/premium: reklam hiç açılmaz, ödül anında verilir (yalnız günlük sınır geçerli).
 func rewarded_ready() -> bool:
 	_roll_day()
+	if not enabled():
+		return int(_s.count) < MAX_REWARDED_PER_DAY
 	var loaded: bool = _p.rewarded_ready() if _p != null else _desktop_fallback()
 	return loaded and int(_s.count) < MAX_REWARDED_PER_DAY \
 		and Time.get_unix_time_from_system() - float(_s.last) >= REWARDED_COOLDOWN
 
 func rewarded_cooldown_remaining() -> int:
+	if not enabled():
+		return 0
 	return maxi(0, int(REWARDED_COOLDOWN - (Time.get_unix_time_from_system() - float(_s.last))))
 
 ## Ödüllü reklam; on_reward yalnız sonuna kadar izlenirse (reklam kapanınca) çağrılır.
 func show_rewarded(on_reward: Callable) -> void:
 	if not rewarded_ready():
+		return
+	if not enabled():
+		_s.count = int(_s.count) + 1
+		Save.mark_dirty()
+		on_reward.call()
 		return
 	if _p != null:
 		_on_reward = on_reward

@@ -24,6 +24,7 @@ const SCREENS := {
 	"settings": "res://scripts/screens/settings.gd",
 	"stats": "res://scripts/screens/stats.gd",
 	"achievements": "res://scripts/screens/achievements.gd",
+	"leaderboard": "res://scripts/screens/leaderboard.gd",
 	"profile": "res://scripts/screens/profile.gd",
 	"nook": "res://scripts/screens/nook.gd",
 	"daily": "res://scripts/screens/daily_calendar.gd",

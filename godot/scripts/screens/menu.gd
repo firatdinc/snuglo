@@ -6,6 +6,8 @@ extends Screen
 
 var _bg: SceneBackdrop
 var _mascot: TextureRect
+var _mascot_crown: TextureRect
+var _crown_btn: JuicyButton
 var _rewards_btn: JuicyButton
 var _rewards_badge: Badge
 var _nook_badge: Badge
@@ -132,7 +134,7 @@ func _logo(y: float) -> void:
 
 func _hero(y: float) -> void:
 	var s := 330.0
-	_mascot = Ui.icon("idle", Vector2(s, s), "mascot")
+	_mascot = Ui.icon(_mascot_pose(), Vector2(s, s), "mascot")
 	var shadow := Shadow.new()
 	put(shadow, Vector2(X0 + W / 2.0 - 130, y + s - 34), Vector2(260, 44))
 	put(_mascot, Vector2(X0 + (W - s) / 2.0, y))
@@ -153,25 +155,65 @@ func _hero(y: float) -> void:
 	var rl := Ui.title(tr("rewards.fab"), 30)
 	Ui.place(rl, Vector2(-30, 140), Vector2(210, 50))
 	_rewards_btn.add_child(rl)
-	if not Purchases.is_premium():
-		var crown := Ui.icon_button("ic_crown", 150)
-		put(crown, Vector2(X0 + W - 190, y + 40), Vector2(150, 150))
-		crown.tapped.connect(func() -> void: Main.open("premium"))
-		Ui.bob(crown, 6.0, 2.2, 2.0)
-		_anim.append(crown)
-		var cl := Ui.title(tr("menu.premium"), 30)
-		Ui.place(cl, Vector2(-30, 140), Vector2(210, 50))
-		crown.add_child(cl)
+	_crown_btn = Ui.icon_button("ic_crown", 150)
+	put(_crown_btn, Vector2(X0 + W - 190, y + 40), Vector2(150, 150))
+	_crown_btn.tapped.connect(func() -> void: Main.open("premium"))
+	Ui.bob(_crown_btn, 6.0, 2.2, 2.0)
+	_anim.append(_crown_btn)
+	var cl := Ui.title(tr("menu.premium"), 30)
+	Ui.place(cl, Vector2(-30, 140), Vector2(210, 50))
+	_crown_btn.add_child(cl)
+	# Premium rozeti: maskotun kafasında taç (maskotla birlikte sallanır/zıplar).
+	_mascot_crown = Ui.icon("ic_crown", Vector2(120, 101))
+	_mascot.add_child(_mascot_crown)
+	_place_mascot_crown()
+	_apply_premium()
+	Purchases.entitlements_changed.connect(_apply_premium)
+
+## Premium değişince (satın alma/restore) menüyü yeniden kurmadan güncelle.
+func _apply_premium() -> void:
+	if not is_instance_valid(_crown_btn):
+		return
+	var prem := Purchases.is_premium()
+	_crown_btn.visible = not prem
+	_mascot_crown.visible = prem
+
+## Pozlar sırayla döner; seçilen poz kaydedilir, kendiliğinden geri dönmez.
+const MASCOT_POSES := ["idle", "cheer", "wave", "think"]
+## Poz başına kafa üstü (doku oranı: x merkez, y tepe) + kafa genişliği oranı.
+const MASCOT_HEAD := {
+	"idle": [0.52, 0.09, 0.57], "cheer": [0.50, 0.06, 0.58],
+	"wave": [0.54, 0.075, 0.70], "think": [0.43, 0.045, 0.64],
+}
+
+func _mascot_pose() -> String:
+	var p := String(Save.get_section("menu").get("mascot", "idle"))
+	return p if p in MASCOT_POSES else "idle"
 
 func _poke_mascot() -> void:
-	var poses := ["cheer", "wave", "think"]
-	_mascot.texture = UiArt.tex(poses[randi() % poses.size()], "mascot")
+	var next: String = MASCOT_POSES[(MASCOT_POSES.find(_mascot_pose()) + 1) % MASCOT_POSES.size()]
+	Save.get_section("menu")["mascot"] = next
+	Save.mark_dirty()
+	_mascot.texture = UiArt.tex(next, "mascot")
+	_place_mascot_crown()
 	Ui.punch(_mascot, 0.22)
 	Sfx.note(randi() % 6 + 3, "place", -6.0)
 	Juice.haptic("light")
-	get_tree().create_timer(1.4).timeout.connect(func() -> void:
-		if is_instance_valid(_mascot):
-			_mascot.texture = UiArt.tex("idle", "mascot"))
+
+## Tacı o pozdaki kafanın tepesine oturt (KEEP_ASPECT_CENTERED sığdırmasına göre).
+func _place_mascot_crown() -> void:
+	var tex := _mascot.texture
+	var box := _mascot.size
+	var k := minf(box.x / tex.get_width(), box.y / tex.get_height())
+	var off := (box - Vector2(tex.get_width(), tex.get_height()) * k) / 2.0
+	var h: Array = MASCOT_HEAD.get(_mascot_pose(), MASCOT_HEAD.idle)
+	var cw: float = tex.get_width() * k * float(h[2]) * 0.62
+	var cs := Vector2(cw, cw * 305.0 / 361.0)
+	var top := off + Vector2(tex.get_width() * float(h[0]), tex.get_height() * float(h[1])) * k
+	_mascot_crown.size = cs
+	_mascot_crown.pivot_offset = Vector2(cs.x / 2.0, cs.y)
+	_mascot_crown.position = top - Vector2(cs.x / 2.0, cs.y * 0.72)
+	_mascot_crown.rotation_degrees = -8.0
 
 func _play(y: float, target: String) -> void:
 	var bw := minf(W - 200, 800.0)
@@ -303,17 +345,19 @@ func _dock(y: float, h: float) -> void:
 		["ic_home", "nook.title", func() -> void: Main.push("nook")],
 		["ic_star", "levels.title", func() -> void: Main.push("map")],
 		["ic_trophy", "achievements.title", func() -> void: Main.push("achievements")],
+		["ic_cup", "leaderboard.title", func() -> void: Main.push("leaderboard")],
 		["ic_stats", "tab.stats", func() -> void: Main.push("stats")]]
 	var n := items.size()
 	var step := (W - 80) / n
+	var bs := minf(128.0, step - 8.0)
 	for i in n:
 		var it: Array = items[i]
-		var b := Ui.icon_button(it[0], 128)
-		put(b, Vector2(X0 + 40 + i * step + (step - 128) / 2.0, y + 16), Vector2(128, 128))
+		var b := Ui.icon_button(it[0], bs)
+		put(b, Vector2(X0 + 40 + i * step + (step - bs) / 2.0, y + 16), Vector2(bs, bs))
 		b.tapped.connect(it[2])
 		var lw := minf(step - 6.0, 190.0)
 		var l := Ui.title(tr(it[1]), Ui.fit_font(tr(it[1]), 28, lw - 8.0, 18))
-		Ui.place(l, Vector2((128 - lw) / 2.0, 118), Vector2(lw, 40))
+		Ui.place(l, Vector2((bs - lw) / 2.0, bs - 10.0), Vector2(lw, 40))
 		b.add_child(l)
 		_anim.append(b)
 		if i == 1:

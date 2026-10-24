@@ -225,19 +225,38 @@ func _set_entitlements(premium: bool, ads: bool) -> void:
 
 # --- RevenueCat ---
 
-func _on_rc_customer_info(_info: Dictionary) -> void:
-	call_deferred("_rc_sync")
+## Açılışta RC'nin ilk customer_info olayı eklentinin önbelleği (currentCustomerInfo) dolmadan
+## gelebiliyor → has_entitlement false döner. Eskiden bu yerel premiumu siliyordu (yeniden açınca
+## taç geri geliyor, reklam çıkıyordu; restore düzeltiyordu). Artık olaylar yalnız hak EKLER;
+## hak düşürme yalnız kullanıcının başlattığı restore sonucunda olur.
+func _on_rc_customer_info(info: Dictionary) -> void:
+	call_deferred("_rc_sync", false, info)
 
-func _rc_sync() -> void:
+func _rc_sync(authoritative := false, info := {}) -> void:
 	if _rc == null:
 		return
-	_set_entitlements(bool(_rc.has_entitlement(ENT_PREMIUM)), bool(_rc.has_entitlement(ENT_ADS)))
+	var active := _active_from_info(info)
+	var prem := bool(_rc.has_entitlement(ENT_PREMIUM)) or ENT_PREMIUM in active
+	var ads := bool(_rc.has_entitlement(ENT_ADS)) or ENT_ADS in active
+	if not authoritative:
+		prem = prem or bool(_s.premium)
+		ads = ads or bool(_s.ads_removed)
+	_set_entitlements(prem, ads)
 	if _restoring and not _silent_restore:
 		_restoring = false
 		Events.toast.emit("toast.restore.done", [])
 
-func _on_rc_restore(_data: Dictionary) -> void:
-	_rc_sync()
+## customer_info sözlüğündeki "active_entitlements" (dizi ya da sözlük) → kimlik listesi.
+func _active_from_info(info: Dictionary) -> Array:
+	var raw = info.get("active_entitlements", null)
+	if raw is Dictionary:
+		return raw.keys().map(func(k): return str(k))
+	if raw is Array:
+		return raw.map(func(k): return str(k))
+	return []
+
+func _on_rc_restore(data: Dictionary) -> void:
+	_rc_sync(_restoring and not _silent_restore, data)
 	_silent_restore = false
 
 ## Tüketilebilirler işlem kimliği başına bir kez (StoreKit yolundaki delivered_tx ile aynı defter);
@@ -267,7 +286,7 @@ func _on_rc_purchase(data: Dictionary) -> void:
 		elif pending == "":
 			return
 	_grant(id)
-	call_deferred("_rc_sync")
+	call_deferred("_rc_sync", false, data)
 
 ## iOS Array, Android ArrayList döndürür.
 func _on_rc_products(data: Dictionary) -> void:
