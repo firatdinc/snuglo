@@ -66,6 +66,8 @@ func build() -> void:
 		var cx := w / 2.0 + (i - 1) * 200.0
 		add(st, Vector2(cx - s / 2.0, y + (0.0 if i == 1 else 34.0)))
 		_stamp(st, i < stars, 0.45 + i * 0.3, i)
+	if stars == 3:
+		Share.maybe_request_review(self, 2.4)   # yıldız damgaları bittikten sonra
 	y += 220
 	if res.get("new_best", false):
 		var nb := Ui.badge(tr("complete.newBest"), Palette.FLAME)

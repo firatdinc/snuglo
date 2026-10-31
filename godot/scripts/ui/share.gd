@@ -36,15 +36,29 @@ static func share(node: Node, text: String, with_shot := true) -> void:
 static func tr_static(key: String) -> String:
 	return TranslationServer.translate(key)
 
-## Swift MainMenuView.maybeRequestReview: paket tamamlama ödülü toplandıktan sonra, bir kez,
-## en az 8 bölüm bitmişse; ödül yerleşsin diye 1.4 sn gecikmeli. Apple ayrıca kısıtlar.
-static func maybe_request_review(node: Node) -> void:
-	if bool(Settings.get_value("review_requested")) or Progress.total_completed() < 8:
+const REVIEW_MIN_LEVELS := 5
+const REVIEW_GAP_SEC := 30 * 86400
+
+## Mutlu anda puan isteği (3★ bitiş, paket ödülü, seri kilometre taşı). Sürüm başına en fazla 1,
+## aralar ≥30 gün, ≥5 bölüm bitmiş olmalı. Apple ayrıca yılda 3 ile sınırlar.
+## delay: kutlama animasyonu otursun diye bekleme.
+static func can_request_review() -> bool:
+	if Progress.total_completed() < REVIEW_MIN_LEVELS:
+		return false
+	if String(Settings.get_value("review_last_version")) == VersionGate.current_version():
+		return false
+	var last := int(Settings.get_value("review_last_ts"))
+	return last == 0 or int(Time.get_unix_time_from_system()) - last >= REVIEW_GAP_SEC
+
+static func maybe_request_review(node: Node, delay := 1.4) -> void:
+	if not can_request_review():
 		return
+	Settings.set_value("review_last_ts", int(Time.get_unix_time_from_system()))
+	Settings.set_value("review_last_version", VersionGate.current_version())
 	Settings.set_value("review_requested", true)
 	if not node.is_inside_tree():
 		return
-	await node.get_tree().create_timer(1.4).timeout
+	await node.get_tree().create_timer(delay).timeout
 	if OS.get_name() == "iOS" and Engine.has_singleton("SnugloBridge"):
 		var b := Engine.get_singleton("SnugloBridge")
 		if b.has_method("request_review"):

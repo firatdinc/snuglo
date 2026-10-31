@@ -67,9 +67,13 @@ func build() -> void:
 		_end()
 
 	_begin("settings.language.title", "ic_hint")
-	_segment_row("", ["", "en", "tr", "es"], "", Settings.language, func(v: String) -> void:
+	var lang_names := {"": tr("settings.language.system"), "en": "English", "tr": "Türkçe", "es": "Español",
+		"de": "Deutsch", "fr": "Français", "it": "Italiano", "pt": "Português", "ja": "日本語", "ko": "한국어"}
+	var on_lang := func(v: String) -> void:
 		Settings.language = v
-		Main.replace("settings", {}, "none"), {"": tr("settings.language.system"), "en": "English", "tr": "Türkçe", "es": "Español"})
+		Main.replace("settings", {}, "none")
+	_segment_row("", ["", "en", "tr", "es", "de"], "", Settings.language, on_lang, lang_names, 26)
+	_segment_row("", ["fr", "it", "pt", "ja", "ko"], "", Settings.language, on_lang, lang_names, 26, false)
 	_end()
 
 	_begin("settings.account.title", "ic_key")
@@ -162,8 +166,9 @@ func _slider_row(key: String, v: float, cb: Callable, on_release := Callable()) 
 	_cy += ROW
 
 ## Bölmeli seçim. labels: değer → metin (yoksa tr(prefix+değer)).
-func _segment_row(key: String, values: Array, prefix: String, current: String, cb: Callable, labels := {}) -> void:
-	_sep()
+func _segment_row(key: String, values: Array, prefix: String, current: String, cb: Callable, labels := {}, fs := 32, sep := true) -> void:
+	if sep:
+		_sep()
 	var x0 := 44.0
 	if key != "":
 		_row_label(key, ROW)
@@ -181,7 +186,7 @@ func _segment_row(key: String, values: Array, prefix: String, current: String, c
 		c.depth = 6
 		Ui.place(c, Vector2(x0 + i * (w + gap), _cy + 6), Vector2(w, 82))
 		_card.add_child(c)
-		var t := Ui.label(labels.get(v, tr(prefix + v)), 32, Palette.CREAM if v == current else Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
+		var t := Ui.label(labels.get(v, tr(prefix + v)), fs, Palette.CREAM if v == current else Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
 		t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		Ui.place(t, Vector2(8, 0), Vector2(w - 16, 82))
 		c.add_child(t)

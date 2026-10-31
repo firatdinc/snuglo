@@ -1,753 +1,753 @@
-keys,en,tr,es
-common.continue,Continue,Devam,Continuar
-common.cancel,Cancel,İptal,Cancelar
-common.back,Back,Geri,Atrás
-common.next,Next,İleri,Siguiente
-common.done,Done,Tamam,Hecho
-common.skip,Skip,Geç,Saltar
-common.restart,Restart,Yeniden Başlat,Reiniciar
-common.quit,Quit,Çık,Salir
-common.retry,Retry,Tekrar Dene,Reintentar
-common.ok,OK,Tamam,Aceptar
-common.error,Error,Hata,Error
-app.name,Snuglo,Snuglo,Snuglo
-app.tagline,Cozy block-logic puzzles,Sıcacık blok-mantık bulmacaları,Acogedores rompecabezas de lógica de bloques
-onboarding.page1.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo
-onboarding.page1.body,A cozy puzzle to fit your day,Güne uygun sıcacık bir bulmaca,Un acogedor rompecabezas para tu día
-onboarding.page2.title,Fill the Grid,Izgarayı Doldur,Rellena la cuadrícula
-onboarding.page2.body,"Drag and drop pieces to fill every cell. No overlaps, no gaps.","Parçaları sürükle ve bırak, her hücreyi doldur. Bindirme yok, boşluk yok.","Arrastra y suelta las piezas para llenar cada celda. Sin superposiciones, sin huecos."
-onboarding.page3.title,Cozy Every Day,Her Gün Sıcacık,Acogedor cada día
-onboarding.page3.body,"Daily puzzles, streaks, and 17 cozy worlds to explore at your pace.","Günlük bulmacalar, seriler ve kendi temponda keşfedebileceğin 17 sıcak dünya.","Rompecabezas diarios, rachas y 17 mundos acogedores para explorar a tu ritmo."
-onboarding.getStarted,Get Started,Başla,Empezar
-menu.dailyPuzzle,Daily Puzzle,Günün Bulmacası,Rompecabezas diario
-menu.continue,Continue,Devam Et,Continuar
-menu.viewAll,View All,Tümünü Gör,Ver todo
-menu.startFirst,Start your first level,İlk seviyene başla,Empieza tu primer nivel
-menu.refresh,Refresh in %s,%s içinde yenilenir,Se renueva en %s
-menu.dailyComeBack,Done — new puzzles tomorrow,Bitti — yarın yeni bulmacalar,Listo — nuevos puzles mañana
-menu.dailyNext,Next puzzle in,Yeni bulmaca,Próximo en
-menu.daily.notif.on,Daily reminder on,Günlük hatırlatma açık,Recordatorio diario activado
-menu.daily.notif.off,Daily reminder off,Günlük hatırlatma kapalı,Recordatorio diario desactivado
-notif.daily.title,Your daily puzzle is ready 🧩,Günlük bulmacan hazır 🧩,Tu puzle diario está listo 🧩
-notif.daily.body,A fresh set of puzzles is waiting. Keep your streak going!,Yeni bulmacalar seni bekliyor. Serini sürdür!,Una nueva tanda de puzles te espera. ¡Mantén tu racha!
-game.title.daily,Daily Puzzle,Günün Bulmacası,Puzle del día
-game.tray.remaining,Remaining,Kalan,Quedan
-game.quitConfirm.title,Quit the puzzle?,Çıkmak istediğine emin misin?,¿Salir del puzle?
-game.quitConfirm.message,Your current progress in this level won't be saved.,Bu bölümdeki ilerlemen kaydedilmeyecek.,Tu progreso en este nivel no se guardará.
-game.quitConfirm.confirm,Quit,Çık,Salir
-game.quitConfirm.cancel,Keep playing,Devam Et,Seguir jugando
-game.hint,Hint,İpucu,Pista
-tab.levels,Levels,Bölümler,Niveles
-tab.shop,Shop,Mağaza,Tienda
-tab.play,Play,Oyna,Jugar
-tab.leaderboard,Leaderboard,Liderlik,Ranking
-tab.profile,Profile,Profil,Perfil
-tab.home,Home,Ana,Inicio
-tab.stats,Stats,İstatistik,Estadísticas
-tab.settings,Settings,Ayarlar,Ajustes
-profile.title,Profile,Profil,Perfil
-profile.subtitle,Your puzzle journey,Bulmaca yolculuğun,Tu viaje de puzles
-levels.title,Levels,Seviyeler,Niveles
-levels.subtitle,Pick a pack,Bir paket seç,Elige un paquete
-pack.cozy_beginnings.title,Cozy Beginnings,Rahat Başlangıçlar,Comienzos Acogedores
-pack.spice_route.title,Spice Route,Baharat Yolu,Ruta de Especias
-pack.mambo_nights.title,Mambo Nights,Mambo Geceleri,Noches de Mambo
-pack.woodland_retreat.title,Woodland Retreat,Orman Kaçamağı,Refugio del Bosque
-pack.cozyBeginnings,Cozy Beginnings,Sıcak Başlangıç,Comienzos acogedores
-pack.spiceRoute,Spice Route,Baharat Yolu,Ruta de las especias
-pack.mamboNights,Mambo Nights,Mambo Geceleri,Noches de Mambo
-pack.woodlandRetreat,Woodland Retreat,Orman Sığınağı,Refugio del bosque
-pack.locked,Locked,Kilitli,Bloqueado
-pack.progress,Progress,İlerleme,Progreso
-alert.unlockPack.title,Unlock Pack,Paketi Kilitsiz Aç,Desbloquear paquete
-alert.unlockPack.message,%s is locked. Visit the Shop to unlock it.,%s kilitli. Kilidi açmak için Mağaza'ya git.,%s está bloqueado. Ve a la Tienda para desbloquearlo.
-alert.unlockPack.goToShop,Go to Shop,Mağazaya Git,Ir a la tienda
-pause.title,Paused,Durakladı,Pausado
-pause.resume,Resume,Devam Et,Continuar
-pause.restart,Restart,Yeniden Başlat,Reiniciar
-pause.home,Home,Ana Sayfa,Inicio
-pause.sound,Sound,Ses,Sonido
-pause.haptics,Haptics,Titreşim,Vibración
-complete.puzzleSolved,Level complete!,Seviye Tamamlandı!,¡Nivel completado!
-complete.dailyAllDone,All daily puzzles solved!,Bugünün tüm bulmacaları çözüldü!,¡Todos los puzles diarios resueltos!
-complete.dailyComeBack,Come back tomorrow for a fresh set.,Yarın yeni bir set için tekrar gel.,Vuelve mañana para una nueva tanda.
-complete.next,Next Level,Sonraki Seviye,Siguiente nivel
-complete.outOfEnergy,Out of Energy,Enerji Bitti,Sin energía
-complete.replay,Replay,Tekrar Oyna,Repetir
-complete.home,Home,Ana Sayfa,Inicio
-complete.time,Time,Süre,Tiempo
-complete.stars,Stars,Yıldız,Estrellas
-complete.hints,Hints,İpucu,Pistas
-complete.moves,Moves,Hamle,Movimientos
-complete.bestTime,Best Time,En İyi Süre,Mejor Tiempo
-stats.title,Stats,İstatistik,Estadísticas
-stats.header,Your Stats,İstatistiklerin,Tus estadísticas
-stats.streakActive,🔥 %d-day streak — keep it going!,🔥 %d günlük seri — devam et!,🔥 Racha de %d días — ¡sigue así!
-stats.streakEmpty,Play today's daily puzzle to start a streak 🧩,Seri başlatmak için bugünkü bulmacayı çöz 🧩,Resuelve el rompecabezas de hoy para empezar una racha 🧩
-stats.levelsCompleted,Levels,Seviye,Niveles
-stats.streak,Streak,Seri,Racha
-stats.avgTime,Avg Time,Ort. Süre,Tiempo medio
-stats.dailySolved,Daily Solved,Günlük Çözüm,Resuelto hoy
-stats.packProgress,Pack Progress,Paket İlerlemesi,Progreso del paquete
-stats.last7Days,Solves per day,Günlük çözümler,Resoluciones por día
-stats.chartSolved,Solved,Çözüldü,Resuelto
-stats.chartMissed,Missed,Kaçırıldı,Perdido
-stats.hintUsage,Hint usage,İpucu kullanımı,Uso de pistas
-stats.noHints,No hints,İpucu yok,Sin pistas
-stats.hints1to2,1–2 hints,1–2 ipucu,1–2 pistas
-stats.hints3plus,3+ hints,3+ ipucu,3+ pistas
-shop.title,Shop,Mağaza,Tienda
-shop.enhance,Enhance your cozy experience,Sıcacık deneyimini geliştir,Mejora tu experiencia acogedora
-shop.packUnlocks,Puzzle Packs,Bulmaca Paketleri,Paquetes de rompecabezas
-shop.hintsSection,Hints,İpuçları,Pistas
-shop.oneTime,One-Time Purchases,Tek Seferlik Satın Almalar,Compras únicas
-shop.hintsRemaining,You have %d remaining,%d ipucun kaldı,Tienes %d restantes
-shop.hintsAvailable,%d hints available,%d ipucu mevcut,%d pistas disponibles
-shop.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras
-shop.owned,Owned,Sahip Olundu,Ya adquirido
-sku.hintsSmall.title,10 Hints,10 İpucu,10 Pistas
-sku.hintsSmall.body,Get unstuck when puzzles get tricky,Bulmacalar zorlaştığında yardım al,Úsalas cuando el puzle se ponga difícil
-sku.removeAds.title,Remove Ads,Reklamları Kaldır,Eliminar anuncios
-sku.removeAds.body,One-time · No more interruptions,Tek seferlik · Kesintisiz oyna,Único pago · Sin más interrupciones
-sku.spiceRoute.title,Spice Route Pack,Baharat Yolu Paketi,Paquete Ruta de las especias
-sku.spiceRoute.body,Unlock 60 levels of 6×6 puzzles,6×6 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 6×6
-sku.mamboNights.title,Mambo Nights Pack,Mambo Geceleri Paketi,Paquete Noches de Mambo
-sku.mamboNights.body,Unlock 60 levels of 7×7 puzzles,7×7 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 7×7
-sku.woodlandRetreat.title,Woodland Retreat Pack,Orman Sığınağı Paketi,Paquete Refugio del bosque
-sku.woodlandRetreat.body,Unlock 60 levels of 8×8 puzzles,8×8 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 8×8
-settings.title,Settings,Ayarlar,Ajustes
-settings.sound.title,Sound & Feel,Ses & Hissiyat,Sonido y sensaciones
-settings.sound.music,Music,Müzik,Música
-settings.sound.effects,Sound Effects,Ses Efektleri,Efectos de sonido
-settings.haptics.enable,Haptics,Titreşim,Vibración
-settings.appearance.title,Appearance,Görünüm,Apariencia
-settings.appearance.theme,Theme,Tema,Tema
-settings.appearance.system,System,Sistem,Sistema
-settings.appearance.light,Light,Açık,Claro
-settings.appearance.dark,Dark,Koyu,Oscuro
-settings.notifications.title,Notifications,Bildirimler,Notificaciones
-settings.notifications.reminder,Daily Reminder,Günlük Hatırlatıcı,Recordatorio diario
-settings.notifications.time,Reminder Time,Hatırlatma Saati,Hora del recordatorio
-settings.notifications.reminderSet,Daily reminder set for %s,%s için günlük hatırlatıcı ayarlandı,Recordatorio diario configurado para %s
-settings.language.title,Language,Dil,Idioma
-settings.language.label,Language,Dil,Idioma
-settings.language.footer,You can also change the language in iOS Settings → Snuglo.,Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz.,También puedes cambiar el idioma en Ajustes de iOS → Snuglo.
-settings.language.system,System,Sistem,Sistema
-settings.language.en,English,English,English
-settings.language.tr,Türkçe,Türkçe,Türkçe
-settings.language.es,Español,Español,Español
-settings.language.restartTitle,Restart Required,Yeniden Başlatma Gerekli,Reinicio requerido
-settings.language.restartMessage,Language changes take effect after you restart Snuglo.,Dil değişikliği Snuglo'yu yeniden başlattıktan sonra geçerli olur.,Los cambios de idioma surten efecto después de reiniciar Snuglo.
-settings.privacy.title,Privacy,Gizlilik,Privacidad
-settings.privacy.personalizedAds,Personalized Ads,Kişiselleştirilmiş Reklamlar,Anuncios personalizados
-settings.privacy.adsFooter,Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.,Snuglo'nun Apple reklam kimliğini kullanarak ilgi alanlarınıza göre reklamlar göstermesine izin verir. iOS Ayarlar → Gizlilik → İzleme bölümünden değiştirebilirsiniz.,Permite que Snuglo muestre anuncios adaptados a tus intereses usando el ID de publicidad de Apple. Puedes cambiarlo en Ajustes de iOS → Privacidad → Seguimiento.
-settings.account.title,Account,Hesap,Cuenta
-settings.account.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras
-settings.account.privacy,Privacy Policy,Gizlilik Politikası,Política de privacidad
-settings.account.terms,Terms of Service,Kullanım Koşulları,Condiciones de servicio
-settings.account.reset,Reset Progress,İlerlemeyi Sıfırla,Restablecer progreso
-settings.account.resetTitle,Reset All Progress?,Tüm İlerleme Sıfırlansın mı?,¿Restablecer todo el progreso?
-settings.account.resetMessage,"This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.","Tamamlanan tüm seviyeler, yıldızlar, seriler ve günlük bulmaca geçmişi kalıcı olarak silinecek. Bu işlem geri alınamaz.","Esto eliminará permanentemente todos los niveles completados, estrellas, rachas e historial de rompecabezas diarios. Esta acción no se puede deshacer."
-settings.account.resetAction,Reset,Sıfırla,Restablecer
-settings.about.title,About,Hakkında,Acerca de
-settings.about.version,Version,Sürüm,Versión
-settings.about.credits,Made with ♥ and cozy vibes,♥ ve sıcaklıkla yapıldı,Hecho con ♥ y calidez
-notif.disabled.title,Notifications Disabled,Bildirimler Devre Dışı,Notificaciones desactivadas
-notif.disabled.message,"To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.",Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git.,"Para activar los recordatorios diarios, permite que Snuglo envíe notificaciones en Ajustes → Snuglo → Notificaciones."
-notif.openSettings,Open Settings,Ayarları Aç,Abrir ajustes
-currency.coin,Coin,Coin,Moneda
-currency.gem,Gem,Mücevher,Gema
-currency.ticket,Ticket,Jeton,Boleto
-currency.cup,Trophy,Kupa,Trofeo
-levelcomplete.reward,You earned,Kazandın,Ganaste
-leaderboard.title,Leaderboard,Liderlik,Clasificación
-leaderboard.placeholder.title,Coming in Phase 5,Faz 5'te Geliyor,Próximamente en la Fase 5
-leaderboard.placeholder.body,Rankings and achievements are on their way!,Sıralamalar ve başarılar çok yakında!,¡Las clasificaciones y logros están en camino!
-leaderboard.board.totalLevels,Total Levels,Toplam Seviye,Total de Niveles
-leaderboard.board.fastestSolve,Fastest Solve,En Hızlı Çözüm,Resolución más rápida
-leaderboard.board.bestStreak,Best Streak,En İyi Seri,Mejor racha
-leaderboard.board.endless,Endless,Sonsuz,Infinito
-leaderboard.empty.title,No Entries Yet,Henüz Giriş Yok,Aún sin entradas
-leaderboard.empty.body,Complete some levels to appear on the leaderboard.,Liderlik tablosunda görünmek için birkaç seviye tamamla.,Completa algunos niveles para aparecer en la clasificación.
-leaderboard.notSignedIn.title,Game Center Required,Game Center Gerekli,Se requiere Game Center
-leaderboard.notSignedIn.body,Sign in to Game Center in iOS Settings to view global rankings.,Global sıralamaları görmek için iOS Ayarlar'dan Game Center'a giriş yap.,Inicia sesión en Game Center en los Ajustes de iOS para ver las clasificaciones globales.
-leaderboard.notSignedIn.cta,Open Settings,Ayarları Aç,Abrir ajustes
-leaderboard.error.title,Couldn't Load,Yüklenemedi,No se pudo cargar
-leaderboard.error.body,There was a problem fetching the leaderboard.,Liderlik tablosu alınırken bir sorun oluştu.,Hubo un problema al obtener la clasificación.
-leaderboard.sample,(Sample),(Örnek),(Muestra)
-leaderboard.scope.global,Global,Dünya,Global
-leaderboard.scope.friends,Friends,Arkadaşlar,Amigos
-leaderboard.you,Your rank,Senin sıran,Tu puesto
-leaderboard.openGC,Open in Game Center,Game Center'da Aç,Abrir en Game Center
-leaderboard.signIn,Sign in to Game Center,Game Center'a Giriş Yap,Iniciar sesión en Game Center
-leaderboard.showTop200,Show top 200,İlk 200'ü göster,Mostrar los 200 primeros
-leaderboard.row.rank,Rank %d,Sıra %d,Puesto %d
-common.viewAll,View All,Tümünü gör,Ver todo
-announcement.dismiss,Dismiss,Kapat,Cerrar
-powerup.hint,Hint,İpucu,Pista
-powerup.peek,Peek,Göz At,Vistazo
-powerup.shuffle,Restart,Yeniden,Reiniciar
-powerup.insufficient.gem.title,Not Enough Gems,Yetersiz Mücevher,Gemas insuficientes
-powerup.insufficient.gem.message,You can get more from the Shop.,Mağaza'dan daha fazlasını alabilirsin.,Puedes conseguir más en la Tienda.
-powerup.insufficient.gem.cta,Go to Shop,Mağazaya Git,Ir a la tienda
-shop.deal.section,Today's Deal,Bugünün Fırsatı,Oferta del Día
-shop.deal.claim,Claim,Al,Reclamar
-shop.deal.claimed,Claimed today,Bugün alındı,Reclamada hoy
-shop.deal.gems.title,Gem Boost,Mücevher Desteği,Refuerzo de Gemas
-shop.deal.gems.message,Watch an ad and earn 20 free gems.,Reklam izle ve 20 ücretsiz mücevher kazan.,Mira un anuncio y gana 20 gemas gratis.
-shop.deal.coins.title,Coin Rain,Altın Yağmuru,Lluvia de Monedas
-shop.deal.coins.message,Watch an ad to earn 150 coins.,Reklam izle ve 150 altın kazan.,Mira un anuncio y gana 150 monedas.
-shop.deal.ticket.title,Free Ticket,Ücretsiz Bilet,Entrada Gratis
-shop.deal.ticket.message,Watch an ad and get a game ticket.,Reklam izle ve bir oyun bileti kazan.,Mira un anuncio y obtén un boleto de juego.
-shop.deal.exchange.title,Gem Deal,Mücevher Fırsatı,Oferta de Gemas
-shop.deal.exchange.message,Spend 300 coins and get 5 gems.,300 altın harca ve 5 mücevher al.,Gasta 300 monedas y obtén 5 gemas.
-shop.deal.ticket.gems.title,Ticket Deal,Bilet Fırsatı,Oferta de Boleto
-shop.deal.ticket.gems.message,Spend 80 gems and get 2 tickets.,80 mücevher harca ve 2 bilet al.,Gasta 80 gemas y obtén 2 boletos.
-shop.packs.section,Free Rewards,Ücretsiz Ödüller,Recompensas Gratis
-shop.packs.hint,Watch a short video to earn — free,"Kısa bir video izle, ücretsiz kazan",Mira un video corto y gana — gratis
-shop.free,FREE,ÜCRETSİZ,GRATIS
-shop.pack.watch.ad,Watch Ad,Reklam İzle,Ver Anuncio
-shop.pack.coins.sm,Small Pack,Küçük Paket,Paquete Pequeño
-shop.pack.coins.md,Coin Bundle,Altın Demeti,Paquete Mediano
-shop.pack.gems.sm,Gem Pouch,Mücevher Kesesi,Bolsa de Gemas
-shop.pack.ticket,Game Ticket,Oyun Bileti,Boleto de Juego
-shop.exchange.section,Exchange,Dönüştür,Intercambio
-shop.exchange.hint,Convert coins and gems,Altın ve mücevher dönüştür,Convierte monedas y gemas
-shop.exchange.rate,Rate,Kur,Tasa
-shop.exchange.need,Need %d more,%d daha gerekli,Faltan %d
-shop.exchange.confirm,Exchange,Dönüştür,Intercambiar
-shop.debug.section,Debug Controls,Hata Ayıklama,Controles Debug
-shop.debug.add.coins,Add 500 Coins,500 Altın Ekle,Añadir 500 Monedas
-shop.debug.add.gems,Add 100 Gems,100 Mücevher Ekle,Añadir 100 Gemas
-shop.debug.add.tickets,Add 5 Tickets,5 Bilet Ekle,Añadir 5 Boletos
-shop.exchange.success.title,Exchanged!,Takas Yapıldı!,¡Intercambiado!
-shop.exchange.success.message,Your balance has been updated.,Bakiyen güncellendi.,Tu saldo ha sido actualizado.
-shop.exchange.insufficient.title,Insufficient Balance,Yetersiz Bakiye,Saldo insuficiente
-shop.exchange.insufficient.message,You don't have enough to complete this exchange.,Bu takas için yeterli bakiyen yok.,No tienes suficiente para completar este intercambio.
-shop.iap.purchase.success,Purchase Successful,Satın Alma Başarılı,Compra exitosa
-shop.iap.purchase.success.message,Your items have been added to your account.,Öğelerin hesabına eklendi.,Tus artículos han sido añadidos a tu cuenta.
-shop.ad.unavailable,Ad not available,Reklam mevcut değil,Anuncio no disponible
-profile.identity.title,Player,Oyuncu,Jugador
-profile.premium.active,Premium Active,Premium Aktif,Premium Activo
-profile.premium.upgrade.title,Go Premium,Premium'a Yükselt,Hazte Premium
-profile.premium.upgrade.subtitle,Remove ads and unlock bonuses,Reklamları kaldır ve bonusların kilidini aç,Elimina los anuncios y desbloquea bonificaciones
-profile.link.achievements,Achievements,Başarımlar,Logros
-profile.link.bestScores,Best Scores,En İyi Skorlar,Mejores Puntuaciones
-profile.link.dailyReward,Daily Reward,Günlük Ödül,Recompensa Diaria
-profile.link.stats,Stats,İstatistikler,Estadísticas
-profile.settings.title,Settings,Ayarlar,Ajustes
-common.upgrade,Upgrade,Yükselt,Mejorar
-dailyReward.title,Daily Reward,Günlük Ödül,Recompensa Diaria
-dailyReward.claim.cta,Claim Today's Reward,Bugünün Ödülünü Al,Reclamar Recompensa de Hoy
-dailyReward.claim.disabled,Come Back Tomorrow,Yarın Geri Gel,Vuelve Mañana
-dailyReward.success.title,Reward Claimed!,Ödül Alındı!,¡Recompensa Reclamada!
-dailyReward.success.subtitle,See you tomorrow,Yarın görüşürüz,Hasta mañana
-dailyReward.day,Day %d,Gün %d,Día %d
-dailyReward.premium.bonus,Premium Bonus,Premium Bonusu,Bono Premium
-achievements.title,Achievements,Başarımlar,Logros
-achievement.category.levels,Levels,Seviyeler,Niveles
-achievement.category.streak,Streaks,Seriler,Rachas
-achievement.category.skill,Skills,Beceriler,Habilidades
-achievement.locked.label,Locked,Kilitli,Bloqueado
-achievement.unlocked.banner.title,Achievement Unlocked!,Başarım Açıldı!,¡Logro Desbloqueado!
-achievement.firstSteps.title,First Steps,İlk Adımlar,Primeros Pasos
-achievement.firstSteps.description,Complete your first level,İlk seviyeni tamamla,Completa tu primer nivel
-achievement.levelHunter10.title,Level Hunter,Seviye Avcısı,Cazador de Niveles
-achievement.levelHunter10.description,Complete 10 levels,10 seviyeyi tamamla,Completa 10 niveles
-achievement.levelMaster50.title,Level Master,Seviye Ustası,Maestro de Niveles
-achievement.levelMaster50.description,Complete 50 levels,50 seviyeyi tamamla,Completa 50 niveles
-achievement.perfectionist1.title,Perfectionist,Mükemmeliyetçi,Perfeccionista
-achievement.perfectionist1.description,Earn 3 stars on a level,Bir seviyede 3 yıldız kazan,Consigue 3 estrellas en un nivel
-achievement.perfectionistPro10.title,Perfectionist Pro,Mükemmeliyetçi Pro,Perfeccionista Pro
-achievement.perfectionistPro10.description,Earn 3 stars on 10 levels,10 seviyede 3 yıldız kazan,Consigue 3 estrellas en 10 niveles
-achievement.streak3.title,Hot Streak,Ateşli Seri,Racha Ardiente
-achievement.streak3.description,Maintain a 3-day streak,3 günlük seri kur,Mantén una racha de 3 días
-achievement.streak7.title,Streak Master,Seri Ustası,Maestro de Rachas
-achievement.streak7.description,Maintain a 7-day streak,7 günlük seri kur,Mantén una racha de 7 días
-achievement.streak30.title,Unstoppable,Durdurulamaz,Imparable
-achievement.streak30.description,Maintain a 30-day streak,30 günlük seri kur,Mantén una racha de 30 días
-achievement.noHints10.title,No Help Needed,Yardıma Gerek Yok,Sin Ayuda
-achievement.noHints10.description,Complete 10 levels without hints,İpucu kullanmadan 10 seviyeyi tamamla,Completa 10 niveles sin pistas
-achievement.speedSolver.title,Speed Solver,Hız Çözücü,Solucionador Rápido
-achievement.speedSolver.description,Solve a level in under 30 seconds,Bir seviyeyi 30 saniyenin altında çöz,Resuelve un nivel en menos de 30 segundos
-menu.streak.days,%d-day streak,%d günlük seri,Racha de %d días
-menu.streak.start,Play any level today to start a streak,"Bugün oyna, serini başlat",Juega hoy para iniciar una racha
-menu.streak.best,Best %d,En iyi %d,Mejor %d
-settings.gameplay.title,Gameplay,Oyun,Juego
-settings.gameplay.zen,Zen Mode,Zen Modu,Modo Zen
-settings.gameplay.zenFooter,"No timer and no fail in campaign and daily levels. Rewards are smaller (up to 25 coins a day). Tower is not affected.","Kampanya ve günlük bölümlerde süre yok, kaybetmek yok. Ödüller küçülür (günde en fazla 25 düğme). Kule etkilenmez.","Sin tiempo ni fallos en campaña y diarios. Recompensas menores (hasta 25 monedas al día). La Torre no se ve afectada."
-quest.header,Daily Quests,Günlük Görevler,Misiones diarias
-quest.solveLevels,Solve %d levels,%d bölüm çöz,Resuelve %d niveles
-quest.solveUnder,Solve a level under %ds,%d sn altında bir bölüm çöz,Resuelve un nivel en menos de %ds
-quest.noHints,"Solve %d levels, no hints",İpucu olmadan %d bölüm çöz,Resuelve %d niveles sin pistas
-quest.claim,CLAIM,AL,RECLAMAR
-quest.claimed,Claimed,Alındı,Reclamado
-chest.title,Reward Chest,Ödül Sandığı,Cofre de recompensa
-chest.ready,Chest ready!,Sandık hazır!,¡Cofre listo!
-chest.tapToOpen,Tap to open,Açmak için dokun,Toca para abrir
-chest.reward,Reward!,Ödül!,¡Recompensa!
-chest.collect,Collect,Topla,Recoger
-spin.title,Daily Spin,Günlük Çark,Giro diario
-spin.available,Free spin ready!,Ücretsiz çevirme hazır!,¡Giro gratis listo!
-spin.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana
-spin.spin,SPIN,ÇEVİR,GIRAR
-spin.reward,You won!,Kazandın!,¡Ganaste!
-spin.collect,Collect,Topla,Recoger
-level.label,Level %d,Seviye %d,Nivel %d
-level.labelTotal,Level %d/%d,Seviye %d/%d,Nivel %d/%d
-level.up,Level Up,Seviye Atladın,Subiste de nivel
-level.reached,Level %d!,Seviye %d!,¡Nivel %d!
-skin.title,Block Skin,Blok Teması,Aspecto de bloques
-skin.nordic,Nordic,Nordic,Nórdico
-skin.candy,Candy,Şeker,Dulce
-skin.ocean,Ocean,Okyanus,Océano
-skin.mono,Mono,Mono,Mono
-skin.locked,Lv %d,Sv %d,Nv %d
-streak.milestone,%d-Day Streak!,%d Günlük Seri!,¡Racha de %d días!
-streak.keepGoing,Keep it going,Böyle devam et,Sigue así
-endless.title,Endless Zen,Sonsuz Zen,Zen infinito
-endless.subtitle,"Never-ending, no timer","Süresiz, bitmeyen","Sin fin, sin tiempo"
-endless.best,Best: Level %d,Rekor: Seviye %d,Mejor: Nivel %d
-weekly.title,Weekly Challenge,Haftalık Görev,Reto semanal
-weekly.goal,Solve %d levels this week,Bu hafta %d bölüm çöz,Resuelve %d niveles esta semana
-share.button,Share Result,Sonucu Paylaş,Compartir resultado
-share.solved,Solved!,Çözüldü!,¡Resuelto!
-share.time,TIME,SÜRE,TIEMPO
-share.level,LEVEL,SEVİYE,NIVEL
-share.streak,STREAK,SERİ,RACHA
-share.tagline,cozy block puzzle,rahatlatıcı blok bulmaca,puzzle de bloques relajante
-calendar.title,Daily Reward,Günlük Ödül,Recompensa diaria
-calendar.available,Claim today's reward!,Bugünkü ödülü al!,¡Reclama la de hoy!
-calendar.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana
-calendar.claimDay,Claim Day %d,%d. Günü Al,Reclamar día %d
-common.close,Close,Kapat,Cerrar
-stats.heatmap.title,Activity (30 days),Aktiflik (30 gün),Actividad (30 días)
-stats.activeDays,%d/30 active days,%d/30 aktif gün,%d/30 días activos
-stats.stars.title,Star Distribution,Yıldız Dağılımı,Distribución de estrellas
-board.parchment,Parchment,Parşömen,Pergamino
-board.dawn,Dawn,Şafak,Amanecer
-board.forest,Forest,Orman,Bosque
-board.night,Night,Gece,Noche
-board.title,Board Background,Tahta Arkaplanı,Fondo del tablero
-settings.gameplay.colorblind,Color-Blind Patterns,Renk Körü Desenleri,Patrones daltónicos
-soundpack.title,Sound Pack,Ses Paketi,Paquete de sonido
-soundpack.classic,Classic,Klasik,Clásico
-soundpack.soft,Soft,Yumuşak,Suave
-soundpack.crisp,Crisp,Net,Nítido
-stats.empty,Solve a level to start your stats,İstatistiklerini doldurmak için bir bölüm çöz,Resuelve un nivel para ver tus estadísticas
-freeze.title,Streak Freeze,Seri Dondurma,Congelar racha
-freeze.held,%d held — protects a missed day,%d adet — kaçırılan bir günü korur,%d en reserva — protege un día perdido
-reward.double,Watch → 2×,İzle → 2×,Ver → 2×
-haptic.strength,Haptic Strength,Titreşim Şiddeti,Intensidad háptica
-haptic.full,Full,Tam,Completo
-haptic.light,Light,Hafif,Suave
-coach.drag,Drag a piece onto the board,Bir parçayı tahtaya sürükle,Arrastra una pieza al tablero
-pause.hint,Hint,İpucu,Pista
-pause.settings,Settings,Ayarlar,Ajustes
-settings.sound.volume,Volume,Ses seviyesi,Volumen
-settings.notifications.comeback,Comeback reminders,Geri dönüş hatırlatması,Recordatorios de regreso
-notif.comeback.title,We miss you! 🧩,Seni özledik! 🧩,¡Te echamos de menos! 🧩
-notif.comeback.body,Your Snuglo puzzles and streak are waiting.,Snuglo bulmacaların ve streak'in seni bekliyor.,Tus puzzles de Snuglo y tu racha te esperan.
-settings.sound.track,Music track,Müzik parçası,Pista de música
-settings.sound.track.auto,Auto,Otomatik,Automático
-settings.sound.track.calm,Calm,Sakin,Tranquila
-settings.sound.track.zen,Zen,Zen,Zen
-settings.account.transfer,Back up / transfer progress,İlerlemeyi yedekle / aktar,Respaldar / transferir progreso
-transfer.title,Backup & Transfer,Yedekle ve Aktar,Respaldo y transferencia
-transfer.backup.title,Backup code,Yedekleme kodu,Código de respaldo
-transfer.backup.desc,"Copy this code and keep it safe, or move it to a new device.",Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar.,"Copia este código y guárdalo, o pásalo a un nuevo dispositivo."
-transfer.copy,Copy,Kopyala,Copiar
-transfer.share,Share,Paylaş,Compartir
-transfer.restore.title,Restore,Geri yükle,Restaurar
-transfer.restore.desc,Paste a backup code here to restore it.,Bir yedekleme kodunu buraya yapıştır ve geri yükle.,Pega aquí un código de respaldo para restaurarlo.
-transfer.restore.action,Restore,Geri yükle,Restaurar
-transfer.note,"Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.","İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir.","Incluye progreso, monedas, cosméticos y ajustes. La restauración se aplica del todo al reiniciar la app."
-transfer.restored.title,Restored,Geri yüklendi,Restaurado
-transfer.restored.message,Your save was restored. Restart the app to fully apply the changes.,Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat.,Tu partida se restauró. Reinicia la app para aplicar los cambios.
-transfer.invalid.title,Invalid code,Geçersiz kod,Código no válido
-transfer.invalid.message,This code couldn't be read. Make sure you copied all of it.,Bu kod okunamadı. Tamamını kopyaladığından emin ol.,No se pudo leer el código. Asegúrate de copiarlo completo.
-stats.lifetime.title,Lifetime,Tüm Zamanlar,Histórico
-stats.starsEarned,Total stars,Toplam yıldız,Estrellas totales
-stats.perfectSolves,Perfect (3★),Mükemmel (3★),Perfectos (3★)
-stats.bestTime,Best time,En iyi süre,Mejor tiempo
-stats.longestStreak,Longest streak,En uzun seri,Racha más larga
-pack.complete.title,Pack complete!,Paket tamamlandı!,¡Paquete completado!
-praise.0,Nicely done!,Güzel!,¡Bien hecho!
-praise.1,Beautiful!,Harika!,¡Precioso!
-praise.2,Cozy!,Huzurlu!,¡Acogedor!
-praise.3,Smooth!,Akıcı!,¡Fluido!
-praise.4,Perfect fit!,Tam oturdu!,¡Encaje perfecto!
-praise.5,Lovely!,Sıcacık!,¡Encantador!
-achievement.levelLegend100.title,Legend,Efsane,Leyenda
-achievement.levelLegend100.description,Complete 100 levels,100 bölüm tamamla,Completa 100 niveles
-achievement.packFinisher.title,Pack Finisher,Paket Ustası,Finalizador
-achievement.packFinisher.description,Complete every level in a pack,Bir paketi tamamen bitir,Completa todos los niveles de un paquete
-achievement.perfectionistMaster25.title,Flawless Master,Kusursuz Usta,Maestro Impecable
-achievement.perfectionistMaster25.description,Solve 25 levels with 3 stars,25 bölümü 3 yıldızla çöz,Resuelve 25 niveles con 3 estrellas
-achievement.dedicated7.title,Dedicated,Sadık,Dedicado
-achievement.dedicated7.description,Play 7 days in a row,7 gün üst üste oyna,Juega 7 días seguidos
-achievement.comboChampion.title,Combo Champion,Kombo Şampiyonu,Campeón Combo
-achievement.comboChampion.description,Solve 5 levels in a row without failing,5 bölümü arka arkaya kaybetmeden çöz,Resuelve 5 niveles seguidos sin fallar
-achievement.speedDemon.title,Speed Demon,Hız Canavarı,Demonio Veloz
-achievement.speedDemon.description,Solve a level in under 15 seconds,Bir bölümü 15 saniyenin altında çöz,Resuelve un nivel en menos de 15 segundos
-today.greeting.morning,Good morning 🌿,Günaydın 🌿,Buenos días 🌿
-today.greeting.afternoon,Good afternoon 🌿,İyi günler 🌿,Buenas tardes 🌿
-today.greeting.evening,Good evening 🌙,İyi akşamlar 🌙,Buenas noches 🌙
-today.greeting.night,Good night 🌙,İyi geceler 🌙,Buenas noches 🌙
-skin.sunset,Sunset,Gün Batımı,Atardecer
-skin.aurora,Aurora,Auroralar,Aurora
-board.dusk,Dusk,Alacakaranlık,Crepúsculo
-board.rose,Rose,Gül,Rosa
-board.meadow,Meadow,Çayır,Pradera
-skin.midnight,Midnight,Gece Yarısı,Medianoche
-skin.blossom,Blossom,Çiçek,Flor
-board.twilight,Twilight,Alacakaranlık,Crepúsculo
-board.ember,Ember,Köz,Brasa
-hint.rewarded.title,Hint — Free,İpucu — Ücretsiz,Pista — Gratis
-hint.rewarded.message,Watch a short ad and one piece will be placed for you.,"Kısa bir reklam izle, bir parça senin için yerleştirilsin.",Mira un anuncio corto y se colocará una pieza por ti.
-powerup.watchAd,Watch Ad,Reklam İzle,Ver anuncio
-daily.share.title,My Daily Streak!,Günlük Serim!,¡Mi racha diaria!
-daily.share.solved,dailies solved,günlük çözüldü,diarios resueltos
-menu.streak.day,day streak,gün seri,racha de días
-pack.difficulty.beginner,Beginner,Başlangıç,Principiante
-pack.difficulty.easy,Easy,Kolay,Fácil
-pack.difficulty.medium,Medium,Orta,Medio
-pack.difficulty.hard,Hard,Zor,Difícil
-stats.share.title,My Stats,İstatistiklerim,Mis estadísticas
-complete.newBest,New Best!,Yeni Rekor!,¡Nuevo récord!
-settings.sound.preview,Preview sounds,Sesleri dinle,Escuchar sonidos
-quest.perfect,Solve %d levels with 3 stars,%d bölümü 3 yıldızla çöz,Resuelve %d niveles con 3 estrellas
-endless.record,New Record! 🏆,Yeni Rekor! 🏆,¡Nuevo récord! 🏆
-pack.grid_label.5,5×5 Grid,5×5 Izgara,Cuadrícula 5×5
-pack.grid_label.6,6×6 Grid,6×6 Izgara,Cuadrícula 6×6
-pack.grid_label.7,7×7 Grid,7×7 Izgara,Cuadrícula 7×7
-pack.grid_label.8,8×8 Grid,8×8 Izgara,Cuadrícula 8×8
-common.loading,Loading…,Yükleniyor…,Cargando…
-shop.unlock,Unlock,Aç,Desbloquear
-shop.info.packs.title,Puzzle Pack,Puzzle Paketi,Paquete de puzles
-shop.info.packs.body,"This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.","Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur.","Este paquete desbloquea 60 niveles nuevos: cuadrículas más grandes y temas nuevos. Compra única, tuyo para siempre."
-shop.info.hints.title,Hints,İpuçları,Pistas
-shop.info.hints.body,"When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.","Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.","Cuando te atascas, una pista coloca una pieza correcta por ti. Úsala desde el botón de pista durante un nivel."
-shop.info.removeAds.title,Remove Ads,Reklamları Kaldır,Quitar anuncios
-shop.info.removeAds.body,Permanently removes all ads. A one-time purchase.,Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.,Elimina todos los anuncios de forma permanente. Compra única.
-energy.title,Energy,Enerji,Energía
-energy.unlimited,Unlimited,Sınırsız,Ilimitada
-energy.full,Full,Dolu,Llena
-energy.next,+1 in %s,%s sonra +1,+1 en %s
-energy.out.title,Out of Energy,Enerji Bitti,Sin energía
-energy.out.message,"Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.",Enerji zamanla dolar. Hızlı dolum için reklam izle ya da sınırsız oyun için Premium’a geç.,La energía se recarga con el tiempo. Mira un anuncio para un impulso o hazte Premium para jugar sin límites.
-energy.watchAd,Watch Ad  +%d,Reklam İzle  +%d,Ver anuncio  +%d
-energy.goPremium,Go Premium — Unlimited,Premium — Sınırsız,Premium — Ilimitado
-energy.playable,Enough to play in %s,%s sonra oynanabilir,Jugable en %s
-energy.spent.a11y,%d energy spent,%d enerji harcandı,%d de energía gastada
-zen.mode.title,Zen Mode,Zen Modu,Modo Zen
-zen.mode.subtitle,Relax · no timer · free,Rahatla · süre yok · ücretsiz,Relájate · sin tiempo · gratis
-rewards.fab,Rewards,Ödüller,Recompensas
-pack.morning_meadow.title,Morning Meadow,Sabah Çayırı,Pradera Matinal
-pack.amber_harbor.title,Amber Harbor,Kehribar Liman,Puerto Ámbar
-pack.velvet_dusk.title,Velvet Dusk,Kadife Akşam,Ocaso de Terciopelo
-pack.hearth_tales.title,Hearth Tales,Ocak Masalları,Cuentos del Hogar
-pack.misty_grove.title,Misty Grove,Sisli Koru,Arboleda Neblinosa
-pack.honey_fields.title,Honey Fields,Bal Tarlaları,Campos de Miel
-pack.lantern_lane.title,Lantern Lane,Fener Sokağı,Callejón de Faroles
-pack.frost_haven.title,Frost Haven,Kırağı Limanı,Refugio Helado
-pack.garden_party.title,Garden Party,Bahçe Partisi,Fiesta de Jardín
-pack.ocean_breeze.title,Ocean Breeze,Okyanus Esintisi,Brisa Marina
-pack.starlit_peak.title,Starlit Peak,Yıldızlı Zirve,Pico Estrellado
-pack.cocoa_cabin.title,Cocoa Cabin,Kakao Kulübesi,Cabaña de Cacao
-pack.aurora_vale.title,Aurora Vale,Auroralı Vadi,Valle Aurora
-button.close,Close,Kapat,Cerrar
-paywall.title,Snuglo Premium,Snuglo Premium,Snuglo Premium
-paywall.subtitle,Play without limits.,Sınırsız oyna.,Juega sin límites.
-paywall.benefit.energy,Unlimited energy — no waiting,Sınırsız enerji — bekleme yok,Energía ilimitada — sin esperas
-paywall.benefit.ads,"No ads, ever",Hiç reklam yok,"Sin anuncios, nunca"
-paywall.benefit.cosmetics,Exclusive skins & boards,Özel skinler ve board'lar,Skins y tableros exclusivos
-paywall.benefit.levels,All 1000+ levels unlocked,1000+ bölümün tamamı açık,Más de 1000 niveles desbloqueados
-paywall.cta,Go Premium · %s,Premium Ol · %s,Hazte Premium · %s
-paywall.restore,Restore Purchases,Satın Alımları Geri Yükle,Restaurar compras
-shop.claim.insufficient,Not enough balance,Yetersiz bakiye,Saldo insuficiente
-shop.claim.adNotReady,Ad not ready — try again,Reklam hazır değil — tekrar dene,Anuncio no listo — reinténtalo
-settings.about.footer,Snuglo · %s,Snuglo · %s,Snuglo · %s
-tutorial.welcome.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo
-tutorial.welcome.body,Fill the board with cozy blocks — leave no empty square.,Tahtayı sıcacık bloklarla doldur — boş kare bırakma.,Llena el tablero con bloques acogedores — sin dejar casillas vacías.
-tutorial.drag.title,Drag & Drop,Sürükle & Bırak,Arrastra y Suelta
-tutorial.drag.body,Drag pieces from the tray up onto the grid. Fit them all with no gaps or overlaps to solve the level.,Parçaları tepsiden tahtaya sürükle. Boşluk veya üst üste binme olmadan hepsini yerleştir ve bölümü çöz.,Arrastra las piezas de la bandeja al tablero. Encájalas todas sin huecos ni solapamientos para resolver el nivel.
-tutorial.power.title,Need a Hand?,Yardım Lazım mı?,¿Necesitas Ayuda?
-tutorial.power.body,"Stuck? Hint places a piece for you, Peek flashes the solution for a moment, Restart clears the board.","Takıldın mı? İpucu bir parçayı yerine koyar, Göz At çözümü bir anlığına gösterir, Yeniden tahtayı boşaltır.","¿Atascado? Pista coloca una pieza, Vistazo muestra la solución un instante y Reiniciar vacía el tablero."
-tutorial.next,Next,İleri,Siguiente
-tutorial.start,Let's Play,Hadi Başlayalım,A Jugar
-tutorial.skip,Skip,Geç,Saltar
-reward.earned,You earned,Kazandın,Has ganado
-reward.great,Great!,Harika!,¡Genial!
-achievement.levelHunter25.title,Getting Serious,İşi Ciddiye Aldın,Vas en Serio
-achievement.levelHunter25.description,Complete 25 levels,25 bölüm tamamla,Completa 25 niveles
-achievement.levelVoyager250.title,Level Voyager,Seviye Gezgini,Viajero de Niveles
-achievement.levelVoyager250.description,Complete 250 levels,250 bölüm tamamla,Completa 250 niveles
-achievement.levelSage500.title,Level Sage,Seviye Bilgesi,Sabio de Niveles
-achievement.levelSage500.description,Complete 500 levels,500 bölüm tamamla,Completa 500 niveles
-achievement.completionist1000.title,Completionist,Tamamlayıcı,Completista
-achievement.completionist1000.description,Complete 1000 levels,1000 bölüm tamamla,Completa 1000 niveles
-achievement.packCollector3.title,Pack Collector,Paket Koleksiyoncusu,Coleccionista de Paquetes
-achievement.packCollector3.description,Finish 3 packs,3 paketi bitir,Termina 3 paquetes
-achievement.packMaster10.title,Pack Master,Paket Ustası,Maestro de Paquetes
-achievement.packMaster10.description,Finish 10 packs,10 paketi bitir,Termina 10 paquetes
-achievement.perfectionistGrand50.title,Grand Perfectionist,Büyük Mükemmeliyetçi,Gran Perfeccionista
-achievement.perfectionistGrand50.description,50 perfect (3★) solves,50 kusursuz (3★) çözüm,50 resoluciones perfectas (3★)
-achievement.perfectionistLegend100.title,Perfect Legend,Kusursuz Efsane,Leyenda Perfecta
-achievement.perfectionistLegend100.description,100 perfect (3★) solves,100 kusursuz (3★) çözüm,100 resoluciones perfectas (3★)
-achievement.chainMaster10.title,Chain Master,Zincir Ustası,Maestro de Cadenas
-achievement.chainMaster10.description,Win 10 levels in a row,Üst üste 10 bölüm kazan,Gana 10 niveles seguidos
-achievement.chainLegend20.title,Unbroken,Kırılmaz,Imparable
-achievement.chainLegend20.description,Win 20 levels in a row,Üst üste 20 bölüm kazan,Gana 20 niveles seguidos
-achievement.noHints25.title,Self-Reliant,Kendi Başına,Autosuficiente
-achievement.noHints25.description,Solve 25 levels with no hints,25 bölümü ipuçsuz çöz,Resuelve 25 niveles sin pistas
-achievement.noHints50.title,Pure Skill,Saf Yetenek,Pura Habilidad
-achievement.noHints50.description,Solve 50 levels with no hints,50 bölümü ipuçsuz çöz,Resuelve 50 niveles sin pistas
-achievement.speedLightning.title,Lightning,Şimşek,Relámpago
-achievement.speedLightning.description,Solve a level under 10 seconds,Bir bölümü 10 saniye altında çöz,Resuelve un nivel en menos de 10s
-achievement.speedBlitz.title,Blitz,Blitz,Blitz
-achievement.speedBlitz.description,Solve a level under 5 seconds,Bir bölümü 5 saniye altında çöz,Resuelve un nivel en menos de 5s
-achievement.streak14.title,Two-Week Glow,İki Haftalık Işıltı,Brillo de Dos Semanas
-achievement.streak14.description,Reach a 14-day daily streak,14 günlük seriye ulaş,Alcanza una racha de 14 días
-achievement.streak60.title,Two-Month Flame,İki Aylık Alev,Llama de Dos Meses
-achievement.streak60.description,Reach a 60-day daily streak,60 günlük seriye ulaş,Alcanza una racha de 60 días
-achievement.streak100.title,Century Streak,Yüz Günlük Seri,Racha del Siglo
-achievement.streak100.description,Reach a 100-day daily streak,100 günlük seriye ulaş,Alcanza una racha de 100 días
-achievement.dedicated14.title,Committed,Kararlı,Comprometido
-achievement.dedicated14.description,Play 14 days in a row,Üst üste 14 gün oyna,Juega 14 días seguidos
-achievement.dedicated30.title,Devoted,Adanmış,Devoto
-achievement.dedicated30.description,Play 30 days in a row,Üst üste 30 gün oyna,Juega 30 días seguidos
-tower.title,Tower,Kule,Torre
-tower.subtitle,1 ticket · climb as high as you can,1 bilet · olabildiğince yüksele tırman,1 ticket · sube lo más alto que puedas
-tower.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d
-tower.floorUp,Next floor!,Sıradaki kat!,¡Siguiente piso!
-tower.over.title,Tower Over,Kule Bitti,Torre Terminada
-tower.over.floors,You cleared %d floors,%d kat geçtin,Superaste %d pisos
-tower.over.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d
-tower.over.retry,Retry · %d,Tekrar Dene · %d,Reintentar · %d
-tower.over.home,Home,Ana Sayfa,Inicio
-menu.gameModes,Game Modes,Oyun Modları,Modos de Juego
-tower.needTicket,You need 1 ticket to climb the Tower. Convert gems to tickets in the Shop?,Kuleye tırmanmak için 1 bilet gerekli. Mağazada elmasları bilete çevir?,Necesitas 1 ticket para subir la Torre. ¿Convertir gemas en tickets en la Tienda?
-tower.getTickets,Get Tickets,Bilet Al,Conseguir Tickets
-alert.unlockPack.prevPack,Finish the previous pack to unlock this one.,Bunu açmak için önceki paketi bitir.,Termina el paquete anterior para desbloquear este.
-tower.resume,Floor %d · tap to continue,%d. kat · devam et,Piso %d · continuar
-shop.keysSection,Keys,Anahtarlar,Llaves
-sku.keysSmall.title,3 Keys,3 Anahtar,3 Llaves
-shop.keysOwned,You have %d,Elinde %d var,Tienes %d
-shop.info.keys.title,Keys,Anahtarlar,Llaves
-shop.info.keys.body,"Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.","Anahtarlar sandık açar. Kusursuz çözüm, galibiyet serisi ve paket bitirerek de kazanırsın.","Las llaves abren cofres. También las ganas con resoluciones perfectas, rachas y al terminar paquetes."
-fail.title,Time's Up!,Süre Bitti!,¡Se acabó el tiempo!
-fail.message,We didn't make it this time — let's try again!,Bu sefer bitiremesek de bir daha deneyelim!,"No lo logramos esta vez, ¡inténtalo de nuevo!"
-powerup.free,Free,Ücretsiz,Gratis
-stats.perGame,per game,oyun başına,por partida
-ad.label,Ad,Reklam,Anuncio
-ad.loading,Loading ad…,Reklam yükleniyor…,Cargando anuncio…
-ad.advertisement,ADVERTISEMENT,REKLAM,ANUNCIO
-ad.bannerPlaceholder,Banner Ad Placeholder,Banner reklam yer tutucu,Marcador de anuncio
-a11y.replayHint,Restarts this same level,Bu bölümü baştan başlatır,Reinicia este mismo nivel
-a11y.homeHint,Returns to the main menu,Ana menüye döner,Vuelve al menú principal
-a11y.nextHint,Proceeds to the next level,Sonraki bölüme geçer,Avanza al siguiente nivel
-a11y.resetLabel,Reset all progress,Tüm ilerlemeyi sıfırla,Restablecer todo el progreso
-a11y.resetHint,Permanently deletes all your game data. This cannot be undone.,Tüm oyun verini kalıcı olarak siler. Geri alınamaz.,Elimina permanentemente todos tus datos. No se puede deshacer.
-a11y.restoreHint,Restores any previously purchased items,Önceden satın alınan öğeleri geri yükler,Restaura las compras anteriores
-a11y.dismiss,Dismiss,Kapat,Cerrar
-a11y.info,info,bilgi,información
-a11y.puzzleGrid,Puzzle grid,Bulmaca ızgarası,Cuadrícula del rompecabezas
-a11y.back,Back,Geri,Atrás
-a11y.backHint,Returns to the previous screen,Önceki ekrana döner,Vuelve a la pantalla anterior
-a11y.newPuzzle,New puzzle,Yeni bulmaca,Nuevo rompecabezas
-a11y.newPuzzleHint,Discards this puzzle and loads a new one,Bu bulmacayı atıp yenisini yükler,Descarta este rompecabezas y carga uno nuevo
-a11y.pause,Pause,Duraklat,Pausa
-a11y.pauseHint,Pauses the timer and shows pause options,Süreyi duraklatır ve seçenekleri gösterir,Pausa el tiempo y muestra opciones
-a11y.blockHint,"Double tap to select, then drag to place on the grid","Seçmek için çift dokun, sonra ızgaraya sürükle",Toca dos veces para seleccionar y arrastra a la cuadrícula
-a11y.viewAllPacks,View all level packs,Tüm bölüm paketlerini gör,Ver todos los paquetes de niveles
-a11y.startFirstHint,Opens the levels list to start your first puzzle,İlk bulmacan için bölüm listesini açar,Abre la lista para empezar tu primer rompecabezas
-a11y.continueHint,Tap to continue this level,Bu bölüme devam etmek için dokun,Toca para continuar este nivel
-a11y.skipOnboarding,Skip onboarding,Tanıtımı atla,Saltar la introducción
-a11y.skipOnboardingHint,Goes directly to the main menu,Doğrudan ana menüye gider,Va directo al menú principal
-a11y.packLockedHint,Complete the previous pack to unlock this one,Bunu açmak için önceki paketi bitir,Completa el paquete anterior para desbloquearlo
-a11y.openPackHint,Opens the level list for this pack,Bu paketin bölüm listesini açar,Abre la lista de niveles de este paquete
-a11y.tapToPlay,Tap to play this level,Bu bölümü oynamak için dokun,Toca para jugar este nivel
-a11y.removeAdsOwned,Remove Ads. Owned,Reklamları Kaldır. Sahipsin,Quitar anuncios. Adquirido
-a11y.noStreak,No active streak. Play any level today to start one.,Aktif seri yok. Başlatmak için bugün bir bölüm oyna.,Sin racha activa. Juega hoy para empezar una.
-a11y.starsEarned3,%d of 3 stars earned,3 yıldızdan %d tanesi kazanıldı,%d de 3 estrellas conseguidas
-a11y.remainingTime,"%s, remaining time %s","%s, kalan süre %s","%s, tiempo restante %s"
-a11y.winStreak,Win streak times %d,Galibiyet serisi %d kez,Racha de victorias x%d
-a11y.pieceTray,Piece tray. %d pieces remaining.,Parça tepsisi. %d parça kaldı.,Bandeja de piezas. Quedan %d.
-a11y.cellBlock,%d-cell block,%d hücreli blok,Bloque de %d celdas
-a11y.levelXP,"Level %d, %d of %d XP","Seviye %d, %d / %d XP","Nivel %d, %d de %d XP"
-a11y.levelsCompleted,%d of %d levels completed,%d / %d bölüm tamamlandı,%d de %d niveles completados
-a11y.starsEarned,%d of %d stars earned,%d / %d yıldız kazanıldı,%d de %d estrellas conseguidas
-a11y.menuStats,"Streak %d days, level %d, %d of %d levels","%d günlük seri, seviye %d, %d / %d bölüm","Racha %d días, nivel %d, %d de %d niveles"
-a11y.continueStats,On level %d of %d. %d completed.,%d / %d bölümdesin. %d tamamlandı.,En el nivel %d de %d. %d completados.
-a11y.playedDays,Played on %d of the last 30 days,Son 30 günün %d gününde oynadın,Jugaste %d de los últimos 30 días
-a11y.page,Page %d of %d,Sayfa %d / %d,Página %d de %d
-a11y.buyKeys,3 Keys. %s. Tap to purchase,3 Anahtar. %s. Satın almak için dokun,3 Llaves. %s. Toca para comprar
-a11y.buyHints,10 Hints. %s. Tap to purchase,10 İpucu. %s. Satın almak için dokun,10 Pistas. %s. Toca para comprar
-a11y.buyRemoveAds,Remove Ads. %s. Tap to purchase,Reklamları Kaldır. %s. Satın almak için dokun,Quitar anuncios. %s. Toca para comprar
-a11y.playStreak,Play streak: %d days. Best %d.,Oynama serisi: %d gün. En iyi %d.,Racha de juego: %d días. Mejor %d.
-a11y.currentStreak,Current streak: %d days,Mevcut seri: %d gün,Racha actual: %d días
-a11y.packLocked,%s. Locked. Tap to unlock.,%s. Kilitli. Açmak için dokun.,%s. Bloqueado. Toca para desbloquear.
-a11y.packProgress,"%s, %d of %d levels completed, %d percent","%s, %d / %d bölüm tamamlandı, yüzde %d","%s, %d de %d niveles, %d por ciento"
-shop.error.productUnavailable,Product unavailable,Ürün mevcut değil,Producto no disponible
-a11y.dayStatus,%s: %s,%s: %s,%s: %s
-a11y.daySolved,solved,çözüldü,resuelto
-a11y.dayMissed,missed,kaçırıldı,perdido
-a11y.dayToday,", today",", bugün",", hoy"
-a11y.continueCard,"%s, Level %d, %d percent complete","%s, Seviye %d, %%%d tamamlandı","%s, Nivel %d, %d por ciento completado"
-shop.gems.section,Gem Packs,Elmas Paketleri,Paquetes de Gemas
-shop.gems.hint,Top up your gems instantly,Elmaslarını anında yükle,Recarga tus gemas al instante
-shop.bestValue,BEST VALUE,EN AVANTAJLI,MEJOR VALOR
-a11y.buyGems,%d gems for %s. Tap to purchase,"%d elmas, %s. Satın almak için dokun",%d gemas por %s. Toca para comprar
-nook.title,Cozy Nook,Sıcak Köşe,Rincón Acogedor
-nook.subtitle,"Restore each scene, rescue cozy friends","Sahneleri tamamla, dostları kurtar",Restaura escenas y rescata amigos
-nook.drag.hint,Drag the glowing piece into its dark slot.,Parlayan parçayı karanlık yerine sürükle.,Arrastra la pieza brillante a su hueco oscuro.
-nook.pieces.ready,Pieces ready to place: %d,Yerleştirilmeye hazır parça: %d,Piezas listas para colocar: %d
-nook.scene.done,Scene restored — your friend is home!,Sahne tamamlandı — dostun evinde!,"¡Escena restaurada, tu amigo está en casa!"
-nook.locked.hint,Finish %d more levels to earn a piece.,Bir parça için %d bölüm daha bitir.,Completa %d niveles más para ganar una pieza.
-nook.restored.badge,Restored,Tamamlandı,Restaurada
-nook.world.restored,%d%% restored,%%%d tamamlandı,%d%% restaurado
-nook.reveal.title,Surprise! A new scene piece,Sürpriz! Yeni bir sahne parçası,¡Sorpresa! Una pieza nueva
-nook.reveal.subtitle,Drag it into your scene in the Nook to bring it back to life.,Sahneyi canlandırmak için Nook'ta yerine sürükle.,Arrástrala a su sitio en el rincón para revivir la escena.
-nook.reveal.place,Place now,Şimdi yerleştir,Colocar ahora
-nook.reveal.later,Later,Sonra,Más tarde
-nook.cozy.percent,%d%% cozy,%%%d rahat,%d%% acogedor
-nook.furnish.title,Furnish your nook,Köşeni döşe,Decora tu rincón
-nook.hint.tap,Tap a glowing spot to place a piece.,Eşya yerleştirmek için parlayan noktaya dokun.,Toca un punto brillante para colocar una pieza.
-nook.toast.poor,Solve puzzles to earn more!,Daha fazlası için bulmaca çöz!,¡Resuelve puzzles para ganar más!
-nook.complete,Complete,Tamamlandı,Completo
-nook.shelf.title,Your cozy things,Eşyaların,Tus cosas acogedoras
-nook.shelf.empty,Buy decor below to fill your nook.,Köşeni doldurmak için aşağıdan eşya al.,Compra decoración abajo para llenar tu rincón.
-nook.section,Section,Bölüm,Sección
-nook.tab.decor,Decor,Eşya,Decoración
-nook.tab.scenes,Scenes,Sahneler,Escenas
-nook.tab.friends,Friends,Dostlar,Amigos
-nook.owned,Owned,Sende,Tienes
-nook.selected,Selected,Seçili,Elegido
-nook.use,Use,Kullan,Usar
-nook.friend.home,Rescued,Kurtarıldı,Rescatado
-nook.friend.locked,Finish pack,Paketi bitir,Acaba el pack
-nook.decor.tea,Tea Set,Çay Takımı,Juego de Té
-nook.decor.plant,Plant,Saksı,Planta
-nook.decor.photo,Photo,Fotoğraf,Foto
-nook.decor.lamp,Lamp,Lamba,Lámpara
-nook.decor.clock,Clock,Saat,Reloj
-nook.decor.books,Books,Kitaplar,Libros
-nook.decor.teddy,Teddy,Oyuncak Ayı,Osito
-nook.decor.fish,Fish Bowl,Akvaryum,Pecera
-nook.decor.guitar,Guitar,Gitar,Guitarra
-nook.decor.console,Game Nook,Oyun Köşesi,Rincón de Juegos
-nook.decor.sofa,Sofa,Koltuk,Sofá
-nook.decor.bed,Cozy Bed,Rahat Yatak,Cama Acogedora
-nook.decor.fairylights,Fairy Lights,Peri Işıkları,Lucecitas
-nook.decor.starlight,Starlight,Yıldız Işığı,Luz Estelar
-nook.decor.fireplace,Fireplace,Şömine,Chimenea
-nook.decor.royal,Royal Cushion,Kraliyet Minderi,Cojín Real
-nook.scene.island,Island,Ada,Isla
-nook.scene.forest,Forest,Orman,Bosque
-nook.scene.flower,Flower Field,Çiçek Tarlası,Campo de Flores
-nook.scene.beach,Beach,Sahil,Playa
-nook.scene.mushroom,Mushroom Grove,Mantar Korusu,Bosque de Setas
-nook.scene.lake,Lakeside,Göl Kıyısı,Orilla del Lago
-nook.scene.autumn,Autumn,Sonbahar,Otoño
-nook.scene.desert,Desert,Çöl,Desierto
-nook.scene.waterfall,Waterfall,Şelale,Cascada
-nook.scene.snow,Snowy,Karlı,Nevado
-nook.scene.volcano,Volcano,Yanardağ,Volcán
-update.required.title,Update Required,Güncelleme Gerekli,Actualización necesaria
-update.required.message,This version is no longer supported. Please update to keep playing.,Bu sürüm artık desteklenmiyor. Oynamaya devam etmek için lütfen güncelle.,Esta versión ya no es compatible. Actualiza para seguir jugando.
-update.required.cta,Update Now,Şimdi Güncelle,Actualizar ahora
-update.soft.title,New Version Available,Yeni Sürüm Var,Nueva versión disponible
-update.soft.message,Update Snuglo for the latest fixes and features.,En son düzeltmeler ve özellikler için Snuglo'yu güncelle.,Actualiza Snuglo para las últimas mejoras y novedades.
-update.soft.cta,Update,Güncelle,Actualizar
-fabric.title,Fabric Set,Kumaş Seti,Juego de telas
-fabric.classic,Classic,Klasik,Clásico
-fabric.meadow,Meadow,Çayır,Pradera
-fabric.berry,Berry,Böğürtlen,Frutos rojos
-fabric.denim,Denim,Kot,Denim
-fabric.sunset,Sunset,Gün Batımı,Atardecer
-fabric.aurora,Aurora,Kutup Işığı,Aurora
-fabric.locked,Lv %d,Sv %d,Nv %d
-fabric.buy,Unlock for %d gems,%d mücevherle aç,Desbloquear por %d gemas
-currency.hint,Hint,İpucu,Pista
-chest.tier.common,Common,Sıradan,Común
-chest.tier.rare,Rare,Nadir,Raro
-chest.tier.epic,Epic,Destansı,Épico
-chest.tier.legendary,Legendary,Efsanevi,Legendario
-chest.progress,%d/%d solves,%d/%d çözüm,%d/%d resueltos
-combo.label,Combo ×%d,Kombo ×%d,Combo ×%d
-chain.label,%d in a row!,Üst üste %d!,¡%d seguidos!
-toast.purchase.done,Purchase complete,Satın alma tamamlandı,Compra completada
-toast.purchase.failed,Purchase failed,Satın alma başarısız,La compra falló
-toast.purchase.pending,Purchase pending approval,Satın alma onay bekliyor,Compra pendiente de aprobación
-toast.restore.done,Purchases restored,Satın almalar geri yüklendi,Compras restauradas
-toast.wallet.insufficient,Not enough %s,Yeterli %s yok,No hay suficiente %s
-toast.achievement,Achievement unlocked: %s,Başarım açıldı: %s,Logro desbloqueado: %s
-toast.quest.done,Quest complete!,Görev tamamlandı!,¡Misión completada!
-settings.notifications.unsupported,Notifications aren't available yet,Bildirimler henüz kullanılamıyor,Las notificaciones aún no están disponibles
-daily.level,Puzzle %d of %d,Bulmaca %d / %d,Puzle %d de %d
-daily.allDone,All done for today!,Bugünlük hepsi tamam!,¡Todo listo por hoy!
-pack.reward,+%d coins · +%d gems,+%d coin · +%d mücevher,+%d monedas · +%d gemas
-time.limit,Time left: %s,Kalan süre: %s,Tiempo restante: %s
-fabric.midnight,Midnight,Gece Yarısı,Medianoche
-fabric.blossom,Blossom,Çiçek Açan,Flor
-currency.key,Key,Anahtar,Llave
-currency.energy,Energy,Enerji,Energía
-menu.premium,Premium,Premium,Premium
-settings.gameplay.reduceMotion,Reduce Motion,Hareketi Azalt,Reducir movimiento
-settings.account.support,Support,Destek,Soporte
-transfer.paste,Paste,Yapıştır,Pegar
-nook.friends,Friends %d/%d,Dostlar %d/%d,Amigos %d/%d
-nook.decor.unlock,Place %d more pieces to unlock,Açmak için %d parça daha yerleştir,Coloca %d piezas más para desbloquear
-daily.streak.title,Daily streak,Günlük seri,Racha diaria
-daily.today,Today,Bugün,Hoy
-daily.play,Play puzzle %d,%d. bulmacayı oyna,Jugar puzle %d
-month.1,January,Ocak,Enero
-month.2,February,Şubat,Febrero
-month.3,March,Mart,Marzo
-month.4,April,Nisan,Abril
-month.5,May,Mayıs,Mayo
-month.6,June,Haziran,Junio
-month.7,July,Temmuz,Julio
-month.8,August,Ağustos,Agosto
-month.9,September,Eylül,Septiembre
-month.10,October,Ekim,Octubre
-month.11,November,Kasım,Noviembre
-month.12,December,Aralık,Diciembre
-weekday.short.1,Mo,Pt,Lu
-weekday.short.2,Tu,Sa,Ma
-weekday.short.3,We,Ça,Mi
-weekday.short.4,Th,Pe,Ju
-weekday.short.5,Fr,Cu,Vi
-weekday.short.6,Sa,Ct,Sá
-weekday.short.0,Su,Pz,Do
-calendar.subtitle,"Log in every day — rewards grow, missing a day restarts the cycle.","Her gün gir — ödüller büyür, bir gün kaçırırsan döngü baştan başlar.","Entra cada día: las recompensas crecen; si faltas un día, el ciclo se reinicia."
-nook.reveal.piece,Piece %d of %d,Parça %d / %d,Pieza %d de %d
-tower.floor,Floor %d,Kat %d,Piso %d
-tower.start,Start Climb,Tırmanışa Başla,Empezar a escalar
-tower.buyTicket,1 ticket · %d,1 bilet · %d,1 boleto · %d
-praise.t1.1,Nice!,Güzel!,¡Bien!
-praise.t1.2,Good!,İyi!,¡Bueno!
-praise.t1.3,Neat!,Tamam!,¡Vale!
-praise.t2.1,Great!,Harika!,¡Genial!
-praise.t2.2,Sweet!,Tatlı!,¡Qué bien!
-praise.t2.3,Cool!,Hoş!,¡Chévere!
-praise.t3.1,Super!,Süper!,¡Súper!
-praise.t3.2,Awesome!,Müthiş!,¡Brutal!
-praise.t3.3,Brilliant!,Şahane!,¡Brillante!
-praise.t4.1,Amazing!,Muhteşem!,¡Increíble!
-praise.t4.2,Fantastic!,Fantastik!,¡Fantástico!
-praise.t4.3,Superb!,Enfes!,¡Soberbio!
-praise.t4.4,Wow!,Vay be!,¡Guau!
-praise.t5.1,Perfect!,Kusursuz!,¡Perfecto!
-praise.t5.2,Legendary!,Efsane!,¡Legendario!
-praise.t5.3,Unstoppable!,Durdurulamaz!,¡Imparable!
-praise.t5.4,Bravo!,Bravo!,¡Bravo!
-praise.near.1,Almost there!,Az kaldı!,¡Casi!
-praise.near.2,So close!,Çok yakın!,¡Muy cerca!
-praise.near.3,Nearly done!,Neredeyse!,¡Ya casi!
-praise.final.1,Final touch!,Son dokunuş!,¡Toque final!
-praise.final.2,Last stitch!,Son dikiş!,¡Última puntada!
-praise.final.3,Done!,Tamamdır!,¡Listo!
-chest.odds,Chest odds: %s,Sandık olasılıkları: %s,Probabilidades del cofre: %s
-chest.odds.item,%s %d%%,%s %%%d,%s %d %%
+keys,en,tr,es,de,fr,it,pt,ja,ko
+common.continue,Continue,Devam,Continuar,Weiter,Continuer,Continua,Continuar,つづける,계속하기
+common.cancel,Cancel,İptal,Cancelar,Abbrechen,Annuler,Annulla,Cancelar,キャンセル,취소
+common.back,Back,Geri,Atrás,Zurück,Retour,Indietro,Voltar,もどる,뒤로
+common.next,Next,İleri,Siguiente,Weiter,Suivant,Avanti,Próximo,つぎへ,다음
+common.done,Done,Tamam,Hecho,Fertig,Terminé,Fatto,Concluir,完了,완료
+common.skip,Skip,Geç,Saltar,Überspringen,Passer,Salta,Pular,スキップ,건너뛰기
+common.restart,Restart,Yeniden Başlat,Reiniciar,Neustart,Recommencer,Ricomincia,Reiniciar,やり直す,다시 시작
+common.quit,Quit,Çık,Salir,Beenden,Quitter,Esci,Sair,やめる,그만하기
+common.retry,Retry,Tekrar Dene,Reintentar,Nochmal,Réessayer,Riprova,Tentar de novo,再試行,다시 시도
+common.ok,OK,Tamam,Aceptar,OK,OK,OK,OK,OK,확인
+common.error,Error,Hata,Error,Fehler,Erreur,Errore,Erro,エラー,오류
+app.name,Snuglo,Snuglo,Snuglo,Snuglo,Snuglo,Snuglo,Snuglo,Snuglo,Snuglo
+app.tagline,Cozy block-logic puzzles,Sıcacık blok-mantık bulmacaları,Acogedores rompecabezas de lógica de bloques,Gemütliche Block-Rätsel,Puzzles de blocs douillets,Puzzle a blocchi accoglienti,Quebra-cabeças aconchegantes de blocos,ほっこりブロックパズル,포근한 블록 퍼즐
+onboarding.page1.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo,Willkommen bei Snuglo,Bienvenue dans Snuglo,Benvenuto in Snuglo,Bem-vindo ao Snuglo,Snugloへようこそ,Snuglo에 오신 걸 환영해요
+onboarding.page1.body,A cozy puzzle to fit your day,Güne uygun sıcacık bir bulmaca,Un acogedor rompecabezas para tu día,Ein gemütliches Rätsel für deinen Tag,Un puzzle douillet pour ta journée,Un puzzle accogliente per la tua giornata,Um quebra-cabeça aconchegante para o seu dia,毎日にぴったりハマる、ほっこりパズル,하루에 쏙 맞는 포근한 퍼즐
+onboarding.page2.title,Fill the Grid,Izgarayı Doldur,Rellena la cuadrícula,Füll das Raster,Remplis la grille,Riempi la griglia,Preencha a grade,マスをうめよう,칸을 채워 보세요
+onboarding.page2.body,"Drag and drop pieces to fill every cell. No overlaps, no gaps.","Parçaları sürükle ve bırak, her hücreyi doldur. Bindirme yok, boşluk yok.","Arrastra y suelta las piezas para llenar cada celda. Sin superposiciones, sin huecos.","Zieh die Teile ins Raster und füll jedes Feld. Keine Überlappungen, keine Lücken.",Glisse les pièces pour remplir chaque case. Sans chevauchement ni trou.,"Trascina i pezzi per riempire ogni cella. Niente sovrapposizioni, niente buchi.","Arraste as peças para preencher cada célula. Sem sobreposições, sem lacunas.",ピースをドラッグ&ドロップして、すべてのマスをうめましょう。重ねたり、すき間をあけたりしないでね。,조각을 끌어다 놓아 모든 칸을 채워요. 겹치거나 빈칸이 없게 해 주세요.
+onboarding.page3.title,Cozy Every Day,Her Gün Sıcacık,Acogedor cada día,Jeden Tag gemütlich,Douceur au quotidien,Comfort ogni giorno,Aconchego todo dia,毎日ほっこり,매일매일 포근하게
+onboarding.page3.body,"Daily puzzles, streaks, and 17 cozy worlds to explore at your pace.","Günlük bulmacalar, seriler ve kendi temponda keşfedebileceğin 17 sıcak dünya.","Rompecabezas diarios, rachas y 17 mundos acogedores para explorar a tu ritmo.","Tägliche Rätsel, Serien und 17 gemütliche Welten in deinem Tempo.","Puzzles du jour, séries et 17 mondes douillets à explorer à ton rythme.","Puzzle giornalieri, serie e 17 mondi accoglienti da esplorare coi tuoi tempi.","Quebra-cabeças diários, sequências e 17 mundos aconchegantes para explorar no seu ritmo.",デイリーパズル、連続記録、17のほっこりワールドを、自分のペースで楽しもう。,"데일리 퍼즐, 연속 기록, 17개의 포근한 월드를 나만의 속도로 즐겨요."
+onboarding.getStarted,Get Started,Başla,Empezar,Los geht's,C'est parti,Iniziamo,Começar,はじめる,시작하기
+menu.dailyPuzzle,Daily Puzzle,Günün Bulmacası,Rompecabezas diario,Tagesrätsel,Puzzle du jour,Puzzle del giorno,Quebra-cabeça do dia,デイリーパズル,데일리 퍼즐
+menu.continue,Continue,Devam Et,Continuar,Weiter,Continuer,Continua,Continuar,つづける,계속하기
+menu.viewAll,View All,Tümünü Gör,Ver todo,Alle ansehen,Tout voir,Vedi tutti,Ver todos,すべて見る,모두 보기
+menu.startFirst,Start your first level,İlk seviyene başla,Empieza tu primer nivel,Starte dein erstes Level,Lance ton premier niveau,Inizia il tuo primo livello,Comece seu primeiro nível,最初のレベルをはじめよう,첫 레벨을 시작해 보세요
+menu.refresh,Refresh in %s,%s içinde yenilenir,Se renueva en %s,Neu in %s,Nouveau dans %s,Si rinnova tra %s,Atualiza em %s,%sで更新,%s 후 새로고침
+menu.dailyComeBack,Done — new puzzles tomorrow,Bitti — yarın yeni bulmacalar,Listo — nuevos puzles mañana,Geschafft – morgen gibt's neue Rätsel,Terminé — nouveaux puzzles demain,Fatto — nuovi puzzle domani,Pronto — novos puzzles amanhã,クリア！新しいパズルは明日,완료! 새 퍼즐은 내일 와요
+menu.dailyNext,Next puzzle in,Yeni bulmaca,Próximo en,Nächstes Rätsel in,Prochain puzzle dans,Prossimo puzzle tra,Próximo puzzle em,次のパズルまで,다음 퍼즐까지
+menu.daily.notif.on,Daily reminder on,Günlük hatırlatma açık,Recordatorio diario activado,Tägliche Erinnerung an,Rappel quotidien activé,Promemoria giornaliero attivo,Lembrete diário ativado,デイリー通知：オン,데일리 알림 켜짐
+menu.daily.notif.off,Daily reminder off,Günlük hatırlatma kapalı,Recordatorio diario desactivado,Tägliche Erinnerung aus,Rappel quotidien désactivé,Promemoria giornaliero disattivo,Lembrete diário desativado,デイリー通知：オフ,데일리 알림 꺼짐
+notif.daily.title,Your daily puzzle is ready 🧩,Günlük bulmacan hazır 🧩,Tu puzle diario está listo 🧩,Dein Tagesrätsel ist bereit 🧩,Ton puzzle du jour est prêt 🧩,Il puzzle del giorno è pronto 🧩,Seu quebra-cabeça do dia está pronto 🧩,今日のデイリーパズルが届いたよ 🧩,오늘의 데일리 퍼즐이 도착했어요 🧩
+notif.daily.body,A fresh set of puzzles is waiting. Keep your streak going!,Yeni bulmacalar seni bekliyor. Serini sürdür!,Una nueva tanda de puzles te espera. ¡Mantén tu racha!,Neue Rätsel warten auf dich. Halte deine Serie am Laufen!,De nouveaux puzzles t'attendent. Garde ta série !,Ti aspetta una nuova serie di puzzle. Mantieni viva la tua serie!,Um novo conjunto de puzzles está esperando. Mantenha sua sequência!,新しいパズルが待っています。連続記録をのばそう！,새 퍼즐이 기다리고 있어요. 연속 기록을 이어 가요!
+game.title.daily,Daily Puzzle,Günün Bulmacası,Puzle del día,Tagesrätsel,Puzzle du jour,Puzzle del giorno,Quebra-cabeça do dia,デイリーパズル,데일리 퍼즐
+game.tray.remaining,Remaining,Kalan,Quedan,Übrig,Restantes,Rimanenti,Restantes,のこり,남은 조각
+game.quitConfirm.title,Quit the puzzle?,Çıkmak istediğine emin misin?,¿Salir del puzle?,Rätsel beenden?,Quitter le puzzle ?,Uscire dal puzzle?,Sair do puzzle?,パズルをやめますか？,퍼즐을 그만둘까요?
+game.quitConfirm.message,Your current progress in this level won't be saved.,Bu bölümdeki ilerlemen kaydedilmeyecek.,Tu progreso en este nivel no se guardará.,Dein Fortschritt in diesem Level geht verloren.,Ta progression dans ce niveau ne sera pas enregistrée.,I progressi di questo livello non verranno salvati.,Seu progresso neste nível não será salvo.,このレベルの途中経過は保存されません。,이 레벨의 진행 상황은 저장되지 않아요.
+game.quitConfirm.confirm,Quit,Çık,Salir,Beenden,Quitter,Esci,Sair,やめる,그만하기
+game.quitConfirm.cancel,Keep playing,Devam Et,Seguir jugando,Weiterspielen,Continuer à jouer,Continua a giocare,Continuar jogando,つづける,계속하기
+game.hint,Hint,İpucu,Pista,Tipp,Indice,Suggerimento,Dica,ヒント,힌트
+tab.levels,Levels,Bölümler,Niveles,Level,Niveaux,Livelli,Níveis,レベル,레벨
+tab.shop,Shop,Mağaza,Tienda,Shop,Boutique,Negozio,Loja,ショップ,상점
+tab.play,Play,Oyna,Jugar,Spielen,Jouer,Gioca,Jogar,あそぶ,플레이
+tab.leaderboard,Leaderboard,Liderlik,Ranking,Rangliste,Classement,Classifica,Ranking,ランキング,순위
+tab.profile,Profile,Profil,Perfil,Profil,Profil,Profilo,Perfil,プロフィール,프로필
+tab.home,Home,Ana,Inicio,Start,Accueil,Home,Início,ホーム,홈
+tab.stats,Stats,İstatistik,Estadísticas,Statistik,Stats,Statistiche,Estatísticas,きろく,기록
+tab.settings,Settings,Ayarlar,Ajustes,Einstellungen,Réglages,Impostazioni,Ajustes,設定,설정
+profile.title,Profile,Profil,Perfil,Profil,Profil,Profilo,Perfil,プロフィール,프로필
+profile.subtitle,Your puzzle journey,Bulmaca yolculuğun,Tu viaje de puzles,Deine Rätselreise,Ton parcours de puzzles,Il tuo percorso di puzzle,Sua jornada de puzzles,あなたのパズルの旅,나의 퍼즐 여정
+levels.title,Levels,Seviyeler,Niveles,Level,Niveaux,Livelli,Níveis,レベル,레벨
+levels.subtitle,Pick a pack,Bir paket seç,Elige un paquete,Wähl ein Paket,Choisis un pack,Scegli un pacchetto,Escolha um pacote,パックを選ぼう,팩을 골라 보세요
+pack.cozy_beginnings.title,Cozy Beginnings,Rahat Başlangıçlar,Comienzos Acogedores,Gemütlicher Anfang,Doux Commencements,Inizi Accoglienti,Começos Aconchegantes,ほっこりのはじまり,포근한 시작
+pack.spice_route.title,Spice Route,Baharat Yolu,Ruta de Especias,Gewürzroute,Route des Épices,Via delle Spezie,Rota das Especiarias,スパイスロード,스파이스 로드
+pack.mambo_nights.title,Mambo Nights,Mambo Geceleri,Noches de Mambo,Mambo-Nächte,Nuits Mambo,Notti di Mambo,Noites de Mambo,マンボナイト,맘보 나이트
+pack.woodland_retreat.title,Woodland Retreat,Orman Kaçamağı,Refugio del Bosque,Waldrefugium,Retraite en Forêt,Rifugio nel Bosco,Refúgio na Floresta,森のやすらぎ,숲속 휴식
+pack.cozyBeginnings,Cozy Beginnings,Sıcak Başlangıç,Comienzos acogedores,Gemütlicher Anfang,Doux Commencements,Inizi Accoglienti,Começos Aconchegantes,ほっこりのはじまり,포근한 시작
+pack.spiceRoute,Spice Route,Baharat Yolu,Ruta de las especias,Gewürzroute,Route des Épices,Via delle Spezie,Rota das Especiarias,スパイスロード,스파이스 로드
+pack.mamboNights,Mambo Nights,Mambo Geceleri,Noches de Mambo,Mambo-Nächte,Nuits Mambo,Notti di Mambo,Noites de Mambo,マンボナイト,맘보 나이트
+pack.woodlandRetreat,Woodland Retreat,Orman Sığınağı,Refugio del bosque,Waldrefugium,Retraite en Forêt,Rifugio nel Bosco,Refúgio na Floresta,森のやすらぎ,숲속 휴식
+pack.locked,Locked,Kilitli,Bloqueado,Gesperrt,Verrouillé,Bloccato,Bloqueado,ロック中,잠김
+pack.progress,Progress,İlerleme,Progreso,Fortschritt,Progression,Progresso,Progresso,進行度,진행도
+alert.unlockPack.title,Unlock Pack,Paketi Kilitsiz Aç,Desbloquear paquete,Paket freischalten,Débloquer le pack,Sblocca pacchetto,Desbloquear pacote,パックを解放,팩 잠금 해제
+alert.unlockPack.message,%s is locked. Visit the Shop to unlock it.,%s kilitli. Kilidi açmak için Mağaza'ya git.,%s está bloqueado. Ve a la Tienda para desbloquearlo.,%s ist gesperrt. Schalte es im Shop frei.,%s est verrouillé. Débloque-le dans la boutique.,%s è bloccato. Vai al Negozio per sbloccarlo.,%s está bloqueado. Vá à Loja para desbloquear.,%sはロックされています。ショップで解放してね。,%s 팩은 잠겨 있어요. 상점에서 잠금을 해제해 주세요.
+alert.unlockPack.goToShop,Go to Shop,Mağazaya Git,Ir a la tienda,Zum Shop,Aller à la boutique,Vai al Negozio,Ir à Loja,ショップへ,상점으로 가기
+pause.title,Paused,Durakladı,Pausado,Pause,Pause,In pausa,Pausado,一時停止,일시정지
+pause.resume,Resume,Devam Et,Continuar,Weiter,Reprendre,Riprendi,Retomar,再開,계속하기
+pause.restart,Restart,Yeniden Başlat,Reiniciar,Neustart,Recommencer,Ricomincia,Reiniciar,やり直す,다시 시작
+pause.home,Home,Ana Sayfa,Inicio,Start,Accueil,Home,Início,ホーム,홈
+pause.sound,Sound,Ses,Sonido,Ton,Son,Suoni,Som,サウンド,사운드
+pause.haptics,Haptics,Titreşim,Vibración,Haptik,Vibrations,Vibrazione,Vibração,振動,진동
+complete.puzzleSolved,Level complete!,Seviye Tamamlandı!,¡Nivel completado!,Level geschafft!,Niveau terminé !,Livello completato!,Nível concluído!,レベルクリア！,레벨 클리어!
+complete.dailyAllDone,All daily puzzles solved!,Bugünün tüm bulmacaları çözüldü!,¡Todos los puzles diarios resueltos!,Alle Tagesrätsel gelöst!,Tous les puzzles du jour résolus !,Tutti i puzzle del giorno risolti!,Todos os puzzles do dia resolvidos!,デイリーパズルを全部クリア！,데일리 퍼즐을 모두 풀었어요!
+complete.dailyComeBack,Come back tomorrow for a fresh set.,Yarın yeni bir set için tekrar gel.,Vuelve mañana para una nueva tanda.,Komm morgen für neue Rätsel wieder.,Reviens demain pour de nouveaux puzzles.,Torna domani per una nuova serie.,Volte amanhã para um novo conjunto.,明日また新しいパズルに会いに来てね。,내일 새 퍼즐을 만나러 오세요.
+complete.next,Next Level,Sonraki Seviye,Siguiente nivel,Nächstes Level,Niveau suivant,Livello successivo,Próximo nível,次のレベル,다음 레벨
+complete.outOfEnergy,Out of Energy,Enerji Bitti,Sin energía,Keine Energie,Plus d'énergie,Energia esaurita,Sem energia,エナジーがありません,에너지가 부족해요
+complete.replay,Replay,Tekrar Oyna,Repetir,Nochmal,Rejouer,Rigioca,Jogar de novo,もう一度,다시 하기
+complete.home,Home,Ana Sayfa,Inicio,Start,Accueil,Home,Início,ホーム,홈
+complete.time,Time,Süre,Tiempo,Zeit,Temps,Tempo,Tempo,タイム,시간
+complete.stars,Stars,Yıldız,Estrellas,Sterne,Étoiles,Stelle,Estrelas,スター,별
+complete.hints,Hints,İpucu,Pistas,Tipps,Indices,Suggerimenti,Dicas,ヒント,힌트
+complete.moves,Moves,Hamle,Movimientos,Züge,Coups,Mosse,Jogadas,手数,이동 횟수
+complete.bestTime,Best Time,En İyi Süre,Mejor Tiempo,Bestzeit,Meilleur temps,Miglior tempo,Melhor tempo,ベストタイム,최고 기록
+stats.title,Stats,İstatistik,Estadísticas,Statistik,Stats,Statistiche,Estatísticas,きろく,기록
+stats.header,Your Stats,İstatistiklerin,Tus estadísticas,Deine Statistik,Tes stats,Le tue statistiche,Suas estatísticas,あなたのきろく,나의 기록
+stats.streakActive,🔥 %d-day streak — keep it going!,🔥 %d günlük seri — devam et!,🔥 Racha de %d días — ¡sigue así!,🔥 %d Tage in Folge – weiter so!,🔥 Série de %d jours — continue !,🔥 Serie di %d giorni — continua così!,🔥 Sequência de %d dias — continue assim!,🔥 %d日連続！この調子でいこう！,🔥 %d일 연속! 계속 이어 가요!
+stats.streakEmpty,Play today's daily puzzle to start a streak 🧩,Seri başlatmak için bugünkü bulmacayı çöz 🧩,Resuelve el rompecabezas de hoy para empezar una racha 🧩,Löse heute das Tagesrätsel und starte eine Serie 🧩,Joue le puzzle du jour pour lancer une série 🧩,Gioca il puzzle di oggi per iniziare una serie 🧩,Jogue o puzzle de hoje para começar uma sequência 🧩,今日のデイリーパズルで連続記録をはじめよう 🧩,오늘의 데일리 퍼즐로 연속 기록을 시작해 보세요 🧩
+stats.levelsCompleted,Levels,Seviye,Niveles,Level,Niveaux,Livelli,Níveis,レベル,레벨
+stats.streak,Streak,Seri,Racha,Serie,Série,Serie,Sequência,連続記録,연속 기록
+stats.avgTime,Avg Time,Ort. Süre,Tiempo medio,Ø Zeit,Temps moy.,Tempo medio,Tempo médio,平均タイム,평균 시간
+stats.dailySolved,Daily Solved,Günlük Çözüm,Resuelto hoy,Tagesrätsel gelöst,Puzzles du jour,Giornalieri risolti,Diários resolvidos,デイリークリア,데일리 완료
+stats.packProgress,Pack Progress,Paket İlerlemesi,Progreso del paquete,Paketfortschritt,Progression des packs,Progresso pacchetti,Progresso dos pacotes,パックの進行度,팩 진행도
+stats.last7Days,Solves per day,Günlük çözümler,Resoluciones por día,Lösungen pro Tag,Résolus par jour,Risolti al giorno,Resolvidos por dia,1日のクリア数,하루 클리어 수
+stats.chartSolved,Solved,Çözüldü,Resuelto,Gelöst,Résolu,Risolti,Resolvidos,クリア,완료
+stats.chartMissed,Missed,Kaçırıldı,Perdido,Verpasst,Manqué,Mancati,Perdidos,未クリア,놓침
+stats.hintUsage,Hint usage,İpucu kullanımı,Uso de pistas,Tipp-Nutzung,Usage des indices,Uso dei suggerimenti,Uso de dicas,ヒントの使用,힌트 사용
+stats.noHints,No hints,İpucu yok,Sin pistas,Keine Tipps,Sans indice,Nessun suggerimento,Sem dicas,ヒントなし,힌트 없음
+stats.hints1to2,1–2 hints,1–2 ipucu,1–2 pistas,1–2 Tipps,1–2 indices,1–2 suggerimenti,1–2 dicas,ヒント1〜2回,힌트 1~2회
+stats.hints3plus,3+ hints,3+ ipucu,3+ pistas,3+ Tipps,3+ indices,3+ suggerimenti,3+ dicas,ヒント3回以上,힌트 3회 이상
+shop.title,Shop,Mağaza,Tienda,Shop,Boutique,Negozio,Loja,ショップ,상점
+shop.enhance,Enhance your cozy experience,Sıcacık deneyimini geliştir,Mejora tu experiencia acogedora,Mach's dir noch gemütlicher,Rends ton expérience encore plus douillette,Rendi più accogliente la tua esperienza,Deixe sua experiência mais aconchegante,ほっこり体験をもっと楽しく,포근한 즐거움을 더해 보세요
+shop.packUnlocks,Puzzle Packs,Bulmaca Paketleri,Paquetes de rompecabezas,Rätselpakete,Packs de puzzles,Pacchetti di puzzle,Pacotes de puzzles,パズルパック,퍼즐 팩
+shop.hintsSection,Hints,İpuçları,Pistas,Tipps,Indices,Suggerimenti,Dicas,ヒント,힌트
+shop.oneTime,One-Time Purchases,Tek Seferlik Satın Almalar,Compras únicas,Einmalkäufe,Achats uniques,Acquisti una tantum,Compras únicas,買い切りアイテム,일회성 구매
+shop.hintsRemaining,You have %d remaining,%d ipucun kaldı,Tienes %d restantes,Du hast noch %d,Il t'en reste %d,Te ne restano %d,Você tem %d restantes,のこり%d個,%d개 남음
+shop.hintsAvailable,%d hints available,%d ipucu mevcut,%d pistas disponibles,%d Tipps verfügbar,%d indices disponibles,%d suggerimenti disponibili,%d dicas disponíveis,ヒント%d個を利用できます,힌트 %d개 사용 가능
+shop.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras,Käufe wiederherstellen,Restaurer les achats,Ripristina acquisti,Restaurar compras,購入を復元,구매 복원
+shop.owned,Owned,Sahip Olundu,Ya adquirido,Gekauft,Acquis,Posseduto,Adquirido,購入済み,보유 중
+sku.hintsSmall.title,10 Hints,10 İpucu,10 Pistas,10 Tipps,10 indices,10 suggerimenti,10 dicas,ヒント10個,힌트 10개
+sku.hintsSmall.body,Get unstuck when puzzles get tricky,Bulmacalar zorlaştığında yardım al,Úsalas cuando el puzle se ponga difícil,"Hilfe, wenn's knifflig wird",Un coup de pouce quand ça se corse,Sbloccati quando i puzzle si fanno difficili,Destrave-se quando os puzzles ficarem difíceis,むずかしいパズルで困ったときに,어려운 퍼즐에서 막힐 때 도움이 돼요
+sku.removeAds.title,Remove Ads,Reklamları Kaldır,Eliminar anuncios,Werbung entfernen,Supprimer les pubs,Rimuovi pubblicità,Remover anúncios,広告を削除,광고 제거
+sku.removeAds.body,One-time · No more interruptions,Tek seferlik · Kesintisiz oyna,Único pago · Sin más interrupciones,Einmalig · Keine Unterbrechungen mehr,Achat unique · Fini les interruptions,Una tantum · Niente più interruzioni,Compra única · Sem mais interrupções,買い切り・もうじゃまされません,일회성 구매 · 방해 없이 즐겨요
+sku.spiceRoute.title,Spice Route Pack,Baharat Yolu Paketi,Paquete Ruta de las especias,Gewürzroute-Paket,Pack Route des Épices,Pacchetto Via delle Spezie,Pacote Rota das Especiarias,スパイスロードパック,스파이스 로드 팩
+sku.spiceRoute.body,Unlock 60 levels of 6×6 puzzles,6×6 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 6×6,Schalte 60 Level mit 6×6-Rätseln frei,Débloque 60 niveaux de puzzles 6×6,Sblocca 60 livelli di puzzle 6×6,Desbloqueie 60 níveis de puzzles 6×6,6×6パズル60レベルを解放,6×6 퍼즐 60레벨 잠금 해제
+sku.mamboNights.title,Mambo Nights Pack,Mambo Geceleri Paketi,Paquete Noches de Mambo,Mambo-Nächte-Paket,Pack Nuits Mambo,Pacchetto Notti di Mambo,Pacote Noites de Mambo,マンボナイトパック,맘보 나이트 팩
+sku.mamboNights.body,Unlock 60 levels of 7×7 puzzles,7×7 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 7×7,Schalte 60 Level mit 7×7-Rätseln frei,Débloque 60 niveaux de puzzles 7×7,Sblocca 60 livelli di puzzle 7×7,Desbloqueie 60 níveis de puzzles 7×7,7×7パズル60レベルを解放,7×7 퍼즐 60레벨 잠금 해제
+sku.woodlandRetreat.title,Woodland Retreat Pack,Orman Sığınağı Paketi,Paquete Refugio del bosque,Waldrefugium-Paket,Pack Retraite en Forêt,Pacchetto Rifugio nel Bosco,Pacote Refúgio na Floresta,森のやすらぎパック,숲속 휴식 팩
+sku.woodlandRetreat.body,Unlock 60 levels of 8×8 puzzles,8×8 bulmacalardan 60 seviyenin kilidini aç,Desbloquea 60 niveles de rompecabezas 8×8,Schalte 60 Level mit 8×8-Rätseln frei,Débloque 60 niveaux de puzzles 8×8,Sblocca 60 livelli di puzzle 8×8,Desbloqueie 60 níveis de puzzles 8×8,8×8パズル60レベルを解放,8×8 퍼즐 60레벨 잠금 해제
+settings.title,Settings,Ayarlar,Ajustes,Einstellungen,Réglages,Impostazioni,Ajustes,設定,설정
+settings.sound.title,Sound & Feel,Ses & Hissiyat,Sonido y sensaciones,Ton & Gefühl,Son et ressenti,Suoni e tatto,Som e toque,サウンドと振動,사운드 및 진동
+settings.sound.music,Music,Müzik,Música,Musik,Musique,Musica,Música,音楽,음악
+settings.sound.effects,Sound Effects,Ses Efektleri,Efectos de sonido,Soundeffekte,Effets sonores,Effetti sonori,Efeitos sonoros,効果音,효과음
+settings.haptics.enable,Haptics,Titreşim,Vibración,Haptik,Vibrations,Vibrazione,Vibração,振動,진동
+settings.appearance.title,Appearance,Görünüm,Apariencia,Darstellung,Apparence,Aspetto,Aparência,外観,화면 스타일
+settings.appearance.theme,Theme,Tema,Tema,Design,Thème,Tema,Tema,テーマ,테마
+settings.appearance.system,System,Sistem,Sistema,System,Système,Sistema,Sistema,システム,시스템
+settings.appearance.light,Light,Açık,Claro,Hell,Clair,Chiaro,Claro,ライト,라이트
+settings.appearance.dark,Dark,Koyu,Oscuro,Dunkel,Sombre,Scuro,Escuro,ダーク,다크
+settings.notifications.title,Notifications,Bildirimler,Notificaciones,Mitteilungen,Notifications,Notifiche,Notificações,通知,알림
+settings.notifications.reminder,Daily Reminder,Günlük Hatırlatıcı,Recordatorio diario,Tägliche Erinnerung,Rappel quotidien,Promemoria giornaliero,Lembrete diário,デイリー通知,데일리 알림
+settings.notifications.time,Reminder Time,Hatırlatma Saati,Hora del recordatorio,Erinnerungszeit,Heure du rappel,Orario promemoria,Horário do lembrete,通知時刻,알림 시간
+settings.notifications.reminderSet,Daily reminder set for %s,%s için günlük hatırlatıcı ayarlandı,Recordatorio diario configurado para %s,Tägliche Erinnerung um %s,Rappel quotidien réglé à %s,Promemoria giornaliero impostato per le %s,Lembrete diário definido para %s,デイリー通知を%sに設定しました,데일리 알림이 %s(으)로 설정됐어요
+settings.language.title,Language,Dil,Idioma,Sprache,Langue,Lingua,Idioma,言語,언어
+settings.language.label,Language,Dil,Idioma,Sprache,Langue,Lingua,Idioma,言語,언어
+settings.language.footer,You can also change the language in iOS Settings → Snuglo.,Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz.,También puedes cambiar el idioma en Ajustes de iOS → Snuglo.,Du kannst die Sprache auch in den iOS-Einstellungen → Snuglo ändern.,Tu peux aussi changer la langue dans Réglages iOS → Snuglo.,Puoi cambiare la lingua anche in Impostazioni iOS → Snuglo.,Você também pode mudar o idioma em Ajustes do iOS → Snuglo.,言語はiOSの設定 → Snugloからも変更できます。,언어는 iOS 설정 → Snuglo에서도 바꿀 수 있어요.
+settings.language.system,System,Sistem,Sistema,System,Système,Sistema,Sistema,システム,시스템
+settings.language.en,English,English,English,English,English,English,English,English,English
+settings.language.tr,Türkçe,Türkçe,Türkçe,Türkçe,Türkçe,Türkçe,Türkçe,Türkçe,Türkçe
+settings.language.es,Español,Español,Español,Español,Español,Español,Español,Español,Español
+settings.language.restartTitle,Restart Required,Yeniden Başlatma Gerekli,Reinicio requerido,Neustart nötig,Redémarrage requis,Riavvio necessario,Reinício necessário,再起動が必要です,다시 시작이 필요해요
+settings.language.restartMessage,Language changes take effect after you restart Snuglo.,Dil değişikliği Snuglo'yu yeniden başlattıktan sonra geçerli olur.,Los cambios de idioma surten efecto después de reiniciar Snuglo.,"Die Sprache ändert sich, sobald du Snuglo neu startest.",Le changement de langue s'applique après le redémarrage de Snuglo.,Il cambio di lingua avrà effetto dopo il riavvio di Snuglo.,A mudança de idioma terá efeito após reiniciar o Snuglo.,言語の変更はSnugloを再起動すると反映されます。,언어 변경은 Snuglo를 다시 시작하면 적용돼요.
+settings.privacy.title,Privacy,Gizlilik,Privacidad,Datenschutz,Confidentialité,Privacy,Privacidade,プライバシー,개인정보 보호
+settings.privacy.personalizedAds,Personalized Ads,Kişiselleştirilmiş Reklamlar,Anuncios personalizados,Personalisierte Werbung,Publicités personnalisées,Annunci personalizzati,Anúncios personalizados,パーソナライズ広告,맞춤 광고
+settings.privacy.adsFooter,Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.,Snuglo'nun Apple reklam kimliğini kullanarak ilgi alanlarınıza göre reklamlar göstermesine izin verir. iOS Ayarlar → Gizlilik → İzleme bölümünden değiştirebilirsiniz.,Permite que Snuglo muestre anuncios adaptados a tus intereses usando el ID de publicidad de Apple. Puedes cambiarlo en Ajustes de iOS → Privacidad → Seguimiento.,"Erlaubt Snuglo, Werbung passend zu deinen Interessen mit Apples Werbe-ID zu zeigen. Ändern unter iOS-Einstellungen → Datenschutz → Tracking.",Permet à Snuglo d'afficher des pubs adaptées à tes intérêts via l'identifiant publicitaire d'Apple. Modifiable dans Réglages iOS → Confidentialité → Suivi.,Permette a Snuglo di mostrare annunci in linea con i tuoi interessi usando l'ID pubblicitario di Apple. Puoi cambiarlo in Impostazioni iOS → Privacy → Tracciamento.,Permite que o Snuglo mostre anúncios de acordo com seus interesses usando o ID de publicidade da Apple. Você pode mudar isso em Ajustes do iOS → Privacidade → Rastreamento.,Appleの広告識別子を使って、興味に合わせた広告をSnugloで表示できるようにします。iOSの設定 → プライバシー → トラッキングで変更できます。,Apple 광고 ID를 사용해 관심사에 맞는 광고를 Snuglo에서 보여줄 수 있어요. iOS 설정 → 개인정보 보호 → 추적에서 바꿀 수 있어요.
+settings.account.title,Account,Hesap,Cuenta,Konto,Compte,Account,Conta,アカウント,계정
+settings.account.restore,Restore Purchases,Satın Almaları Geri Yükle,Restaurar compras,Käufe wiederherstellen,Restaurer les achats,Ripristina acquisti,Restaurar compras,購入を復元,구매 복원
+settings.account.privacy,Privacy Policy,Gizlilik Politikası,Política de privacidad,Datenschutzerklärung,Politique de confidentialité,Informativa sulla privacy,Política de Privacidade,プライバシーポリシー,개인정보 처리방침
+settings.account.terms,Terms of Service,Kullanım Koşulları,Condiciones de servicio,Nutzungsbedingungen,Conditions d'utilisation,Termini di servizio,Termos de Serviço,利用規約,이용 약관
+settings.account.reset,Reset Progress,İlerlemeyi Sıfırla,Restablecer progreso,Fortschritt zurücksetzen,Réinitialiser la progression,Azzera progressi,Zerar progresso,進行状況をリセット,진행 상황 초기화
+settings.account.resetTitle,Reset All Progress?,Tüm İlerleme Sıfırlansın mı?,¿Restablecer todo el progreso?,Alles zurücksetzen?,Tout réinitialiser ?,Azzerare tutti i progressi?,Zerar todo o progresso?,すべての進行状況をリセットしますか？,모든 진행 상황을 초기화할까요?
+settings.account.resetMessage,"This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.","Tamamlanan tüm seviyeler, yıldızlar, seriler ve günlük bulmaca geçmişi kalıcı olarak silinecek. Bu işlem geri alınamaz.","Esto eliminará permanentemente todos los niveles completados, estrellas, rachas e historial de rompecabezas diarios. Esta acción no se puede deshacer.","Dadurch werden alle gelösten Level, Sterne, Serien und der Verlauf der Tagesrätsel dauerhaft gelöscht. Das kann nicht rückgängig gemacht werden.","Cela supprimera définitivement tous les niveaux terminés, les étoiles, les séries et l'historique des puzzles du jour. Action irréversible.","Verranno eliminati definitivamente tutti i livelli completati, le stelle, le serie e la cronologia dei puzzle giornalieri. Questa azione non può essere annullata.","Isso apagará permanentemente todos os níveis concluídos, estrelas, sequências e o histórico de puzzles diários. Esta ação não pode ser desfeita.",クリアしたレベル、スター、連続記録、デイリーパズルの履歴がすべて完全に削除されます。この操作は取り消せません。,"클리어한 레벨, 별, 연속 기록, 데일리 퍼즐 기록이 모두 영구적으로 삭제돼요. 이 작업은 되돌릴 수 없어요."
+settings.account.resetAction,Reset,Sıfırla,Restablecer,Zurücksetzen,Réinitialiser,Azzera,Zerar,リセット,초기화
+settings.about.title,About,Hakkında,Acerca de,Info,À propos,Info,Sobre,このアプリについて,정보
+settings.about.version,Version,Sürüm,Versión,Version,Version,Versione,Versão,バージョン,버전
+settings.about.credits,Made with ♥ and cozy vibes,♥ ve sıcaklıkla yapıldı,Hecho con ♥ y calidez,Mit ♥ und gemütlichen Vibes gemacht,Fait avec ♥ et douceur,Fatto con ♥ e atmosfera accogliente,Feito com ♥ e clima aconchegante,♥とほっこりを込めて,♥과 포근함을 담아 만들었어요
+notif.disabled.title,Notifications Disabled,Bildirimler Devre Dışı,Notificaciones desactivadas,Mitteilungen deaktiviert,Notifications désactivées,Notifiche disattivate,Notificações desativadas,通知がオフです,알림이 꺼져 있어요
+notif.disabled.message,"To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.",Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git.,"Para activar los recordatorios diarios, permite que Snuglo envíe notificaciones en Ajustes → Snuglo → Notificaciones.",Erlaube Snuglo für tägliche Erinnerungen Mitteilungen unter Einstellungen → Snuglo → Mitteilungen.,"Pour activer les rappels quotidiens, autorise Snuglo à envoyer des notifications dans Réglages → Snuglo → Notifications.","Per attivare i promemoria giornalieri, consenti a Snuglo di inviare notifiche in Impostazioni → Snuglo → Notifiche.","Para ativar os lembretes diários, permita que o Snuglo envie notificações em Ajustes → Snuglo → Notificações.",デイリー通知を受け取るには、設定 → Snuglo → 通知 で通知を許可してください。,데일리 알림을 받으려면 설정 → Snuglo → 알림에서 알림을 허용해 주세요.
+notif.openSettings,Open Settings,Ayarları Aç,Abrir ajustes,Einstellungen öffnen,Ouvrir les réglages,Apri Impostazioni,Abrir Ajustes,設定を開く,설정 열기
+currency.coin,Coin,Coin,Moneda,Münze,Pièce,Moneta,Moeda,コイン,코인
+currency.gem,Gem,Mücevher,Gema,Edelstein,Gemme,Gemma,Gema,ジェム,젬
+currency.ticket,Ticket,Jeton,Boleto,Ticket,Ticket,Biglietto,Bilhete,チケット,티켓
+currency.cup,Trophy,Kupa,Trofeo,Pokal,Trophée,Trofeo,Troféu,トロフィー,트로피
+levelcomplete.reward,You earned,Kazandın,Ganaste,Du hast erhalten,Tu as gagné,Hai ottenuto,Você ganhou,獲得したもの,획득한 보상
+leaderboard.title,Leaderboard,Liderlik,Clasificación,Rangliste,Classement,Classifica,Ranking,ランキング,순위
+leaderboard.placeholder.title,Coming in Phase 5,Faz 5'te Geliyor,Próximamente en la Fase 5,Kommt in Phase 5,Bientôt en phase 5,Arriva nella Fase 5,Chega na Fase 5,フェーズ5で登場,페이즈 5에서 만나요
+leaderboard.placeholder.body,Rankings and achievements are on their way!,Sıralamalar ve başarılar çok yakında!,¡Las clasificaciones y logros están en camino!,Ranglisten und Erfolge sind bald da!,Classements et succès arrivent bientôt !,Classifiche e traguardi stanno arrivando!,Rankings e conquistas estão a caminho!,ランキングと実績は準備中です！,순위와 업적이 곧 찾아와요!
+leaderboard.board.totalLevels,Total Levels,Toplam Seviye,Total de Niveles,Alle Level,Total des niveaux,Livelli totali,Total de níveis,総レベル数,총 레벨 수
+leaderboard.board.fastestSolve,Fastest Solve,En Hızlı Çözüm,Resolución más rápida,Schnellste Lösung,Résolution la plus rapide,Soluzione più veloce,Solução mais rápida,最速クリア,최단 클리어
+leaderboard.board.bestStreak,Best Streak,En İyi Seri,Mejor racha,Beste Serie,Meilleure série,Miglior serie,Melhor sequência,最長連続記録,최장 연속 기록
+leaderboard.board.endless,Endless,Sonsuz,Infinito,Endlos,Infini,Infinita,Infinito,エンドレス,무한 모드
+leaderboard.empty.title,No Entries Yet,Henüz Giriş Yok,Aún sin entradas,Noch keine Einträge,Aucune entrée,Ancora nessun risultato,Nenhum registro ainda,まだ記録がありません,아직 기록이 없어요
+leaderboard.empty.body,Complete some levels to appear on the leaderboard.,Liderlik tablosunda görünmek için birkaç seviye tamamla.,Completa algunos niveles para aparecer en la clasificación.,"Löse ein paar Level, um in der Rangliste zu erscheinen.",Termine quelques niveaux pour apparaître au classement.,Completa qualche livello per comparire in classifica.,Conclua alguns níveis para aparecer no ranking.,レベルをクリアすると、ランキングに載ります。,레벨을 클리어하면 순위에 올라요.
+leaderboard.notSignedIn.title,Game Center Required,Game Center Gerekli,Se requiere Game Center,Game Center nötig,Game Center requis,Serve Game Center,Game Center necessário,Game Centerが必要です,Game Center가 필요해요
+leaderboard.notSignedIn.body,Sign in to Game Center in iOS Settings to view global rankings.,Global sıralamaları görmek için iOS Ayarlar'dan Game Center'a giriş yap.,Inicia sesión en Game Center en los Ajustes de iOS para ver las clasificaciones globales.,"Melde dich in den iOS-Einstellungen bei Game Center an, um die weltweite Rangliste zu sehen.",Connecte-toi à Game Center dans les réglages iOS pour voir le classement mondial.,Accedi a Game Center nelle Impostazioni iOS per vedere le classifiche globali.,Entre no Game Center nos Ajustes do iOS para ver os rankings globais.,世界ランキングを見るには、iOSの設定でGame Centerにサインインしてください。,전 세계 순위를 보려면 iOS 설정에서 Game Center에 로그인해 주세요.
+leaderboard.notSignedIn.cta,Open Settings,Ayarları Aç,Abrir ajustes,Einstellungen öffnen,Ouvrir les réglages,Apri Impostazioni,Abrir Ajustes,設定を開く,설정 열기
+leaderboard.error.title,Couldn't Load,Yüklenemedi,No se pudo cargar,Laden fehlgeschlagen,Chargement impossible,Impossibile caricare,Não foi possível carregar,読み込めませんでした,불러오지 못했어요
+leaderboard.error.body,There was a problem fetching the leaderboard.,Liderlik tablosu alınırken bir sorun oluştu.,Hubo un problema al obtener la clasificación.,Die Rangliste konnte nicht geladen werden.,Un problème est survenu lors du chargement du classement.,Problema nel recupero della classifica.,Houve um problema ao buscar o ranking.,ランキングの取得中に問題が起きました。,순위를 가져오는 중 문제가 생겼어요.
+leaderboard.sample,(Sample),(Örnek),(Muestra),(Beispiel),(Exemple),(Esempio),(Exemplo),（サンプル）,(샘플)
+leaderboard.scope.global,Global,Dünya,Global,Weltweit,Mondial,Globale,Global,世界,전체
+leaderboard.scope.friends,Friends,Arkadaşlar,Amigos,Freunde,Amis,Amici,Amigos,フレンド,친구
+leaderboard.you,Your rank,Senin sıran,Tu puesto,Dein Rang,Ton rang,La tua posizione,Sua posição,あなたの順位,내 순위
+leaderboard.openGC,Open in Game Center,Game Center'da Aç,Abrir en Game Center,In Game Center öffnen,Ouvrir dans Game Center,Apri in Game Center,Abrir no Game Center,Game Centerで開く,Game Center에서 열기
+leaderboard.signIn,Sign in to Game Center,Game Center'a Giriş Yap,Iniciar sesión en Game Center,Bei Game Center anmelden,Se connecter à Game Center,Accedi a Game Center,Entrar no Game Center,Game Centerにサインイン,Game Center에 로그인
+leaderboard.showTop200,Show top 200,İlk 200'ü göster,Mostrar los 200 primeros,Top 200 zeigen,Voir le top 200,Mostra i primi 200,Mostrar os 200 melhores,上位200位を見る,상위 200위 보기
+leaderboard.row.rank,Rank %d,Sıra %d,Puesto %d,Rang %d,Rang %d,Posizione %d,Posição %d,%d位,%d위
+common.viewAll,View All,Tümünü gör,Ver todo,Alle ansehen,Tout voir,Vedi tutti,Ver todos,すべて見る,모두 보기
+announcement.dismiss,Dismiss,Kapat,Cerrar,Schließen,Fermer,Chiudi,Dispensar,閉じる,닫기
+powerup.hint,Hint,İpucu,Pista,Tipp,Indice,Suggerimento,Dica,ヒント,힌트
+powerup.peek,Peek,Göz At,Vistazo,Vorschau,Aperçu,Sbircia,Espiar,のぞき見,미리보기
+powerup.shuffle,Restart,Yeniden,Reiniciar,Neustart,Recommencer,Ricomincia,Reiniciar,やり直す,다시 시작
+powerup.insufficient.gem.title,Not Enough Gems,Yetersiz Mücevher,Gemas insuficientes,Nicht genug Edelsteine,Pas assez de gemmes,Gemme insufficienti,Gemas insuficientes,ジェムが足りません,젬이 부족해요
+powerup.insufficient.gem.message,You can get more from the Shop.,Mağaza'dan daha fazlasını alabilirsin.,Puedes conseguir más en la Tienda.,Mehr gibt's im Shop.,Tu en trouveras plus dans la boutique.,Ne trovi altre nel Negozio.,Você pode conseguir mais na Loja.,ショップでもっと手に入ります。,상점에서 더 얻을 수 있어요.
+powerup.insufficient.gem.cta,Go to Shop,Mağazaya Git,Ir a la tienda,Zum Shop,Aller à la boutique,Vai al Negozio,Ir à Loja,ショップへ,상점으로 가기
+shop.deal.section,Today's Deal,Bugünün Fırsatı,Oferta del Día,Heutiges Angebot,Offre du jour,Offerta di oggi,Oferta de hoje,今日のお得,오늘의 특가
+shop.deal.claim,Claim,Al,Reclamar,Abholen,Récupérer,Ritira,Resgatar,受け取る,받기
+shop.deal.claimed,Claimed today,Bugün alındı,Reclamada hoy,Heute abgeholt,Récupéré aujourd'hui,Ritirato oggi,Resgatado hoje,本日受け取り済み,오늘 받음
+shop.deal.gems.title,Gem Boost,Mücevher Desteği,Refuerzo de Gemas,Edelstein-Boost,Boost de gemmes,Boost di gemme,Impulso de gemas,ジェムブースト,젬 부스트
+shop.deal.gems.message,Watch an ad and earn 20 free gems.,Reklam izle ve 20 ücretsiz mücevher kazan.,Mira un anuncio y gana 20 gemas gratis.,Sieh dir eine Werbung an und erhalte 20 Edelsteine gratis.,Regarde une pub et gagne 20 gemmes gratuites.,Guarda un annuncio e ottieni 20 gemme gratis.,Veja um anúncio e ganhe 20 gemas grátis.,広告を見ると、ジェム20個をプレゼント。,광고를 보면 젬 20개를 무료로 받아요.
+shop.deal.coins.title,Coin Rain,Altın Yağmuru,Lluvia de Monedas,Münzregen,Pluie de pièces,Pioggia di monete,Chuva de moedas,コインの雨,코인 비
+shop.deal.coins.message,Watch an ad to earn 150 coins.,Reklam izle ve 150 altın kazan.,Mira un anuncio y gana 150 monedas.,Sieh dir eine Werbung an und erhalte 150 Münzen.,Regarde une pub pour gagner 150 pièces.,Guarda un annuncio per ottenere 150 monete.,Veja um anúncio para ganhar 150 moedas.,広告を見ると、コイン150枚をゲット。,광고를 보면 코인 150개를 받아요.
+shop.deal.ticket.title,Free Ticket,Ücretsiz Bilet,Entrada Gratis,Gratis-Ticket,Ticket gratuit,Biglietto gratis,Bilhete grátis,無料チケット,무료 티켓
+shop.deal.ticket.message,Watch an ad and get a game ticket.,Reklam izle ve bir oyun bileti kazan.,Mira un anuncio y obtén un boleto de juego.,Sieh dir eine Werbung an und erhalte ein Spielticket.,Regarde une pub et reçois un ticket de jeu.,Guarda un annuncio e ottieni un biglietto di gioco.,Veja um anúncio e ganhe um bilhete de jogo.,広告を見て、ゲームチケットをゲット。,광고를 보고 게임 티켓을 받아요.
+shop.deal.exchange.title,Gem Deal,Mücevher Fırsatı,Oferta de Gemas,Edelstein-Deal,Offre de gemmes,Affare gemme,Troca de gemas,ジェム交換,젬 교환
+shop.deal.exchange.message,Spend 300 coins and get 5 gems.,300 altın harca ve 5 mücevher al.,Gasta 300 monedas y obtén 5 gemas.,Gib 300 Münzen aus und erhalte 5 Edelsteine.,Dépense 300 pièces et reçois 5 gemmes.,Spendi 300 monete e ottieni 5 gemme.,Gaste 300 moedas e ganhe 5 gemas.,コイン300枚でジェム5個と交換。,코인 300개로 젬 5개를 받아요.
+shop.deal.ticket.gems.title,Ticket Deal,Bilet Fırsatı,Oferta de Boleto,Ticket-Deal,Offre de tickets,Affare biglietti,Troca de bilhetes,チケット交換,티켓 교환
+shop.deal.ticket.gems.message,Spend 80 gems and get 2 tickets.,80 mücevher harca ve 2 bilet al.,Gasta 80 gemas y obtén 2 boletos.,Gib 80 Edelsteine aus und erhalte 2 Tickets.,Dépense 80 gemmes et reçois 2 tickets.,Spendi 80 gemme e ottieni 2 biglietti.,Gaste 80 gemas e ganhe 2 bilhetes.,ジェム80個でチケット2枚と交換。,젬 80개로 티켓 2장을 받아요.
+shop.packs.section,Free Rewards,Ücretsiz Ödüller,Recompensas Gratis,Gratis-Belohnungen,Récompenses gratuites,Premi gratuiti,Prêmios grátis,無料ごほうび,무료 보상
+shop.packs.hint,Watch a short video to earn — free,"Kısa bir video izle, ücretsiz kazan",Mira un video corto y gana — gratis,Kurzes Video ansehen und gratis verdienen,Regarde une courte vidéo pour gagner — gratuit,Guarda un breve video per ottenere — gratis,Veja um vídeo curto para ganhar — grátis,短い動画を見て無料でゲット,짧은 영상을 보고 무료로 받아요
+shop.free,FREE,ÜCRETSİZ,GRATIS,GRATIS,GRATUIT,GRATIS,GRÁTIS,無料,무료
+shop.pack.watch.ad,Watch Ad,Reklam İzle,Ver Anuncio,Werbung ansehen,Voir la pub,Guarda annuncio,Ver anúncio,広告を見る,광고 보기
+shop.pack.coins.sm,Small Pack,Küçük Paket,Paquete Pequeño,Kleines Paket,Petit pack,Pacco piccolo,Pacote pequeno,スモールパック,스몰 팩
+shop.pack.coins.md,Coin Bundle,Altın Demeti,Paquete Mediano,Münzbündel,Lot de pièces,Set di monete,Kit de moedas,コインバンドル,코인 묶음
+shop.pack.gems.sm,Gem Pouch,Mücevher Kesesi,Bolsa de Gemas,Edelstein-Beutel,Bourse de gemmes,Sacchetto di gemme,Bolsa de gemas,ジェムポーチ,젬 주머니
+shop.pack.ticket,Game Ticket,Oyun Bileti,Boleto de Juego,Spielticket,Ticket de jeu,Biglietto di gioco,Bilhete de jogo,ゲームチケット,게임 티켓
+shop.exchange.section,Exchange,Dönüştür,Intercambio,Tauschen,Échange,Cambio,Troca,交換所,교환소
+shop.exchange.hint,Convert coins and gems,Altın ve mücevher dönüştür,Convierte monedas y gemas,Münzen und Edelsteine tauschen,Convertis pièces et gemmes,Converti monete e gemme,Converta moedas e gemas,コインとジェムを交換,코인과 젬을 교환해요
+shop.exchange.rate,Rate,Kur,Tasa,Kurs,Taux,Tasso,Taxa,レート,교환 비율
+shop.exchange.need,Need %d more,%d daha gerekli,Faltan %d,Noch %d nötig,Encore %d requis,Te ne servono %d in più,Faltam %d,あと%d必要,%d 더 필요해요
+shop.exchange.confirm,Exchange,Dönüştür,Intercambiar,Tauschen,Échanger,Scambia,Trocar,交換する,교환하기
+shop.debug.section,Debug Controls,Hata Ayıklama,Controles Debug,Debug-Optionen,Options de debug,Controlli debug,Controles de depuração,デバッグ,디버그
+shop.debug.add.coins,Add 500 Coins,500 Altın Ekle,Añadir 500 Monedas,500 Münzen hinzufügen,Ajouter 500 pièces,Aggiungi 500 monete,Adicionar 500 moedas,コイン500枚を追加,코인 500개 추가
+shop.debug.add.gems,Add 100 Gems,100 Mücevher Ekle,Añadir 100 Gemas,100 Edelsteine hinzufügen,Ajouter 100 gemmes,Aggiungi 100 gemme,Adicionar 100 gemas,ジェム100個を追加,젬 100개 추가
+shop.debug.add.tickets,Add 5 Tickets,5 Bilet Ekle,Añadir 5 Boletos,5 Tickets hinzufügen,Ajouter 5 tickets,Aggiungi 5 biglietti,Adicionar 5 bilhetes,チケット5枚を追加,티켓 5장 추가
+shop.exchange.success.title,Exchanged!,Takas Yapıldı!,¡Intercambiado!,Getauscht!,Échangé !,Scambio fatto!,Troca feita!,交換しました！,교환 완료!
+shop.exchange.success.message,Your balance has been updated.,Bakiyen güncellendi.,Tu saldo ha sido actualizado.,Dein Guthaben wurde aktualisiert.,Ton solde a été mis à jour.,Il tuo saldo è stato aggiornato.,Seu saldo foi atualizado.,残高を更新しました。,잔액이 업데이트됐어요.
+shop.exchange.insufficient.title,Insufficient Balance,Yetersiz Bakiye,Saldo insuficiente,Zu wenig Guthaben,Solde insuffisant,Saldo insufficiente,Saldo insuficiente,残高不足,잔액 부족
+shop.exchange.insufficient.message,You don't have enough to complete this exchange.,Bu takas için yeterli bakiyen yok.,No tienes suficiente para completar este intercambio.,Du hast nicht genug für diesen Tausch.,Tu n'en as pas assez pour cet échange.,Non ne hai abbastanza per completare lo scambio.,Você não tem o suficiente para concluir esta troca.,交換するには足りません。,교환하기에는 부족해요.
+shop.iap.purchase.success,Purchase Successful,Satın Alma Başarılı,Compra exitosa,Kauf erfolgreich,Achat réussi,Acquisto riuscito,Compra concluída,購入完了,구매 완료
+shop.iap.purchase.success.message,Your items have been added to your account.,Öğelerin hesabına eklendi.,Tus artículos han sido añadidos a tu cuenta.,Deine Artikel wurden deinem Konto hinzugefügt.,Tes articles ont été ajoutés à ton compte.,I tuoi oggetti sono stati aggiunti al tuo account.,Seus itens foram adicionados à sua conta.,アイテムをアカウントに追加しました。,아이템이 계정에 추가됐어요.
+shop.ad.unavailable,Ad not available,Reklam mevcut değil,Anuncio no disponible,Werbung nicht verfügbar,Pub indisponible,Annuncio non disponibile,Anúncio indisponível,広告を表示できません,광고를 볼 수 없어요
+profile.identity.title,Player,Oyuncu,Jugador,Spieler,Joueur,Giocatore,Jogador,プレイヤー,플레이어
+profile.premium.active,Premium Active,Premium Aktif,Premium Activo,Premium aktiv,Premium actif,Premium attivo,Premium ativo,プレミアム利用中,프리미엄 이용 중
+profile.premium.upgrade.title,Go Premium,Premium'a Yükselt,Hazte Premium,Premium holen,Passer Premium,Passa a Premium,Seja Premium,プレミアムにする,프리미엄 시작하기
+profile.premium.upgrade.subtitle,Remove ads and unlock bonuses,Reklamları kaldır ve bonusların kilidini aç,Elimina los anuncios y desbloquea bonificaciones,Ohne Werbung und mit Boni,"Sans pubs, avec des bonus",Rimuovi gli annunci e sblocca bonus,Remova anúncios e desbloqueie bônus,広告を消して特典を解放,광고 제거 및 보너스 해제
+profile.link.achievements,Achievements,Başarımlar,Logros,Erfolge,Succès,Traguardi,Conquistas,実績,업적
+profile.link.bestScores,Best Scores,En İyi Skorlar,Mejores Puntuaciones,Bestwerte,Meilleurs scores,Migliori punteggi,Melhores pontuações,ベストスコア,최고 기록
+profile.link.dailyReward,Daily Reward,Günlük Ödül,Recompensa Diaria,Tagesbelohnung,Récompense du jour,Premio giornaliero,Prêmio diário,デイリー報酬,일일 보상
+profile.link.stats,Stats,İstatistikler,Estadísticas,Statistik,Stats,Statistiche,Estatísticas,きろく,기록
+profile.settings.title,Settings,Ayarlar,Ajustes,Einstellungen,Réglages,Impostazioni,Ajustes,設定,설정
+common.upgrade,Upgrade,Yükselt,Mejorar,Upgrade,Améliorer,Passa a Premium,Fazer upgrade,アップグレード,업그레이드
+dailyReward.title,Daily Reward,Günlük Ödül,Recompensa Diaria,Tagesbelohnung,Récompense du jour,Premio giornaliero,Prêmio diário,デイリー報酬,일일 보상
+dailyReward.claim.cta,Claim Today's Reward,Bugünün Ödülünü Al,Reclamar Recompensa de Hoy,Heutige Belohnung abholen,Récupérer la récompense,Ritira il premio di oggi,Resgatar prêmio de hoje,今日の報酬を受け取る,오늘의 보상 받기
+dailyReward.claim.disabled,Come Back Tomorrow,Yarın Geri Gel,Vuelve Mañana,Komm morgen wieder,Reviens demain,Torna domani,Volte amanhã,また明日来てね,내일 또 만나요
+dailyReward.success.title,Reward Claimed!,Ödül Alındı!,¡Recompensa Reclamada!,Belohnung abgeholt!,Récompense récupérée !,Premio ritirato!,Prêmio resgatado!,報酬を受け取りました！,보상을 받았어요!
+dailyReward.success.subtitle,See you tomorrow,Yarın görüşürüz,Hasta mañana,Bis morgen,À demain,A domani,Até amanhã,また明日ね,내일 또 봐요
+dailyReward.day,Day %d,Gün %d,Día %d,Tag %d,Jour %d,Giorno %d,Dia %d,%d日目,%d일째
+dailyReward.premium.bonus,Premium Bonus,Premium Bonusu,Bono Premium,Premium-Bonus,Bonus Premium,Bonus Premium,Bônus Premium,プレミアムボーナス,프리미엄 보너스
+achievements.title,Achievements,Başarımlar,Logros,Erfolge,Succès,Traguardi,Conquistas,実績,업적
+achievement.category.levels,Levels,Seviyeler,Niveles,Level,Niveaux,Livelli,Níveis,レベル,레벨
+achievement.category.streak,Streaks,Seriler,Rachas,Serien,Séries,Serie,Sequências,連続記録,연속 기록
+achievement.category.skill,Skills,Beceriler,Habilidades,Können,Talents,Abilità,Habilidades,スキル,실력
+achievement.locked.label,Locked,Kilitli,Bloqueado,Gesperrt,Verrouillé,Bloccato,Bloqueado,ロック中,잠김
+achievement.unlocked.banner.title,Achievement Unlocked!,Başarım Açıldı!,¡Logro Desbloqueado!,Erfolg freigeschaltet!,Succès débloqué !,Traguardo sbloccato!,Conquista desbloqueada!,実績を解除しました！,업적 달성!
+achievement.firstSteps.title,First Steps,İlk Adımlar,Primeros Pasos,Erste Schritte,Premiers pas,Primi passi,Primeiros passos,はじめの一歩,첫걸음
+achievement.firstSteps.description,Complete your first level,İlk seviyeni tamamla,Completa tu primer nivel,Schließe dein erstes Level ab,Termine ton premier niveau,Completa il tuo primo livello,Conclua seu primeiro nível,最初のレベルをクリア,첫 레벨 클리어
+achievement.levelHunter10.title,Level Hunter,Seviye Avcısı,Cazador de Niveles,Level-Jäger,Chasseur de niveaux,Cacciatore di livelli,Caçador de níveis,レベルハンター,레벨 헌터
+achievement.levelHunter10.description,Complete 10 levels,10 seviyeyi tamamla,Completa 10 niveles,Schließe 10 Level ab,Termine 10 niveaux,Completa 10 livelli,Conclua 10 níveis,10レベルをクリア,10레벨 클리어
+achievement.levelMaster50.title,Level Master,Seviye Ustası,Maestro de Niveles,Level-Meister,Maître des niveaux,Maestro dei livelli,Mestre dos níveis,レベルマスター,레벨 마스터
+achievement.levelMaster50.description,Complete 50 levels,50 seviyeyi tamamla,Completa 50 niveles,Schließe 50 Level ab,Termine 50 niveaux,Completa 50 livelli,Conclua 50 níveis,50レベルをクリア,50레벨 클리어
+achievement.perfectionist1.title,Perfectionist,Mükemmeliyetçi,Perfeccionista,Perfektionist,Perfectionniste,Perfezionista,Perfeccionista,完璧主義者,완벽주의자
+achievement.perfectionist1.description,Earn 3 stars on a level,Bir seviyede 3 yıldız kazan,Consigue 3 estrellas en un nivel,Erreiche 3 Sterne in einem Level,Obtiens 3 étoiles sur un niveau,Ottieni 3 stelle in un livello,Ganhe 3 estrelas em um nível,1レベルでスター3つを獲得,한 레벨에서 별 3개 획득
+achievement.perfectionistPro10.title,Perfectionist Pro,Mükemmeliyetçi Pro,Perfeccionista Pro,Perfektionist Pro,Perfectionniste Pro,Perfezionista pro,Perfeccionista pro,完璧主義の達人,완벽주의 달인
+achievement.perfectionistPro10.description,Earn 3 stars on 10 levels,10 seviyede 3 yıldız kazan,Consigue 3 estrellas en 10 niveles,Erreiche 3 Sterne in 10 Leveln,Obtiens 3 étoiles sur 10 niveaux,Ottieni 3 stelle in 10 livelli,Ganhe 3 estrelas em 10 níveis,10レベルでスター3つを獲得,10개 레벨에서 별 3개 획득
+achievement.streak3.title,Hot Streak,Ateşli Seri,Racha Ardiente,Heiße Serie,Série en feu,Serie infuocata,Sequência quente,絶好調,불타는 연속
+achievement.streak3.description,Maintain a 3-day streak,3 günlük seri kur,Mantén una racha de 3 días,Halte eine 3-Tage-Serie,Garde une série de 3 jours,Mantieni una serie di 3 giorni,Mantenha uma sequência de 3 dias,3日連続記録を達成,3일 연속 기록 달성
+achievement.streak7.title,Streak Master,Seri Ustası,Maestro de Rachas,Serienmeister,Maître des séries,Maestro di serie,Mestre da sequência,連続の達人,연속 기록의 달인
+achievement.streak7.description,Maintain a 7-day streak,7 günlük seri kur,Mantén una racha de 7 días,Halte eine 7-Tage-Serie,Garde une série de 7 jours,Mantieni una serie di 7 giorni,Mantenha uma sequência de 7 dias,7日連続記録を達成,7일 연속 기록 달성
+achievement.streak30.title,Unstoppable,Durdurulamaz,Imparable,Unaufhaltsam,Inarrêtable,Inarrestabile,Imparável,止まらない！,멈추지 않아요
+achievement.streak30.description,Maintain a 30-day streak,30 günlük seri kur,Mantén una racha de 30 días,Halte eine 30-Tage-Serie,Garde une série de 30 jours,Mantieni una serie di 30 giorni,Mantenha uma sequência de 30 dias,30日連続記録を達成,30일 연속 기록 달성
+achievement.noHints10.title,No Help Needed,Yardıma Gerek Yok,Sin Ayuda,Ohne Hilfe,Sans aide,Nessun aiuto,Sem ajuda,ヒント不要,도움은 필요 없어요
+achievement.noHints10.description,Complete 10 levels without hints,İpucu kullanmadan 10 seviyeyi tamamla,Completa 10 niveles sin pistas,Schließe 10 Level ohne Tipps ab,Termine 10 niveaux sans indice,Completa 10 livelli senza suggerimenti,Conclua 10 níveis sem dicas,ヒントなしで10レベルをクリア,힌트 없이 10레벨 클리어
+achievement.speedSolver.title,Speed Solver,Hız Çözücü,Solucionador Rápido,Schnelllöser,Résolveur rapide,Risolutore lampo,Resolvedor veloz,スピードクリア,스피드 클리어
+achievement.speedSolver.description,Solve a level in under 30 seconds,Bir seviyeyi 30 saniyenin altında çöz,Resuelve un nivel en menos de 30 segundos,Löse ein Level in unter 30 Sekunden,Résous un niveau en moins de 30 secondes,Risolvi un livello in meno di 30 secondi,Resolva um nível em menos de 30 segundos,30秒以内にレベルをクリア,30초 안에 레벨 클리어
+menu.streak.days,%d-day streak,%d günlük seri,Racha de %d días,%d Tage in Folge,Série de %d jours,Serie di %d giorni,Sequência de %d dias,%d日連続,%d일 연속
+menu.streak.start,Play any level today to start a streak,"Bugün oyna, serini başlat",Juega hoy para iniciar una racha,"Spiel heute ein Level, um eine Serie zu starten",Joue un niveau aujourd'hui pour lancer une série,Gioca un livello oggi per iniziare una serie,Jogue um nível hoje para começar uma sequência,今日どれか1レベルをあそんで連続記録をはじめよう,오늘 아무 레벨이나 플레이해서 연속 기록을 시작해요
+menu.streak.best,Best %d,En iyi %d,Mejor %d,Beste: %d,Record %d,Record %d,Recorde %d,最高%d日,최고 %d일
+settings.gameplay.title,Gameplay,Oyun,Juego,Spiel,Jeu,Gioco,Jogabilidade,ゲームプレイ,게임 플레이
+settings.gameplay.zen,Zen Mode,Zen Modu,Modo Zen,Zen-Modus,Mode Zen,Modalità Zen,Modo Zen,Zenモード,젠 모드
+settings.gameplay.zenFooter,No timer and no fail in campaign and daily levels. Rewards are smaller (up to 25 coins a day). Tower is not affected.,"Kampanya ve günlük bölümlerde süre yok, kaybetmek yok. Ödüller küçülür (günde en fazla 25 düğme). Kule etkilenmez.",Sin tiempo ni fallos en campaña y diarios. Recompensas menores (hasta 25 monedas al día). La Torre no se ve afectada.,"Kein Timer, kein Scheitern in Kampagnen- und Tageslevels. Belohnungen sind kleiner (bis zu 25 Münzen pro Tag). Der Turm ist nicht betroffen.",Sans chrono ni échec dans les niveaux de campagne et du jour. Récompenses réduites (jusqu'à 25 pièces par jour). La Tour n'est pas concernée.,Niente timer e niente sconfitte nei livelli della campagna e giornalieri. Premi ridotti (fino a 25 monete al giorno). La Torre non è interessata.,Sem cronômetro e sem derrota nos níveis da campanha e diários. Prêmios menores (até 25 moedas por dia). A Torre não é afetada.,キャンペーンとデイリーのレベルでタイマーなし、失敗なし。報酬は少なめです（1日最大コイン25枚）。タワーは対象外です。,캠페인과 데일리 레벨에서 타이머와 실패가 없어져요. 보상은 적어요(하루 최대 코인 25개). 타워는 해당되지 않아요.
+quest.header,Daily Quests,Günlük Görevler,Misiones diarias,Tagesaufgaben,Quêtes du jour,Missioni giornaliere,Missões diárias,デイリークエスト,일일 퀘스트
+quest.solveLevels,Solve %d levels,%d bölüm çöz,Resuelve %d niveles,Löse %d Level,Résous %d niveaux,Risolvi %d livelli,Resolva %d níveis,%dレベルをクリア,%d개 레벨 클리어
+quest.solveUnder,Solve a level under %ds,%d sn altında bir bölüm çöz,Resuelve un nivel en menos de %ds,Löse ein Level in unter %ds,Résous un niveau en moins de %ds,Risolvi un livello in meno di %ds,Resolva um nível em menos de %ds,%d秒以内にレベルをクリア,%d초 안에 레벨 클리어
+quest.noHints,"Solve %d levels, no hints",İpucu olmadan %d bölüm çöz,Resuelve %d niveles sin pistas,Löse %d Level ohne Tipps,Résous %d niveaux sans indice,"Risolvi %d livelli, senza suggerimenti","Resolva %d níveis, sem dicas",ヒントなしで%dレベルをクリア,힌트 없이 %d개 레벨 클리어
+quest.claim,CLAIM,AL,RECLAMAR,ABHOLEN,RÉCUPÉRER,RITIRA,RESGATAR,受け取る,받기
+quest.claimed,Claimed,Alındı,Reclamado,Abgeholt,Récupéré,Ritirato,Resgatado,受け取り済み,받음
+chest.title,Reward Chest,Ödül Sandığı,Cofre de recompensa,Belohnungstruhe,Coffre de récompense,Forziere premio,Baú de prêmios,ごほうび宝箱,보상 상자
+chest.ready,Chest ready!,Sandık hazır!,¡Cofre listo!,Truhe bereit!,Coffre prêt !,Forziere pronto!,Baú pronto!,宝箱の準備OK！,상자가 준비됐어요!
+chest.tapToOpen,Tap to open,Açmak için dokun,Toca para abrir,Zum Öffnen tippen,Touche pour ouvrir,Tocca per aprire,Toque para abrir,タップして開ける,탭해서 열기
+chest.reward,Reward!,Ödül!,¡Recompensa!,Belohnung!,Récompense !,Premio!,Prêmio!,ごほうび！,보상!
+chest.collect,Collect,Topla,Recoger,Einsammeln,Récupérer,Raccogli,Coletar,受け取る,받기
+spin.title,Daily Spin,Günlük Çark,Giro diario,Tägliches Glücksrad,Roue du jour,Ruota giornaliera,Roleta diária,デイリースピン,일일 룰렛
+spin.available,Free spin ready!,Ücretsiz çevirme hazır!,¡Giro gratis listo!,Gratis-Dreh bereit!,Tour gratuit prêt !,Giro gratis pronto!,Giro grátis pronto!,無料スピンできるよ！,무료 룰렛을 돌릴 수 있어요!
+spin.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana,Komm morgen wieder,Reviens demain,Torna domani,Volte amanhã,また明日来てね,내일 또 만나요
+spin.spin,SPIN,ÇEVİR,GIRAR,DREHEN,TOURNER,GIRA,GIRAR,回す,돌리기
+spin.reward,You won!,Kazandın!,¡Ganaste!,Gewonnen!,Tu as gagné !,Hai vinto!,Você ganhou!,当たり！,당첨!
+spin.collect,Collect,Topla,Recoger,Einsammeln,Récupérer,Raccogli,Coletar,受け取る,받기
+level.label,Level %d,Seviye %d,Nivel %d,Level %d,Niveau %d,Livello %d,Nível %d,レベル%d,레벨 %d
+level.labelTotal,Level %d/%d,Seviye %d/%d,Nivel %d/%d,Level %d/%d,Niveau %d/%d,Livello %d/%d,Nível %d/%d,レベル%d/%d,레벨 %d/%d
+level.up,Level Up,Seviye Atladın,Subiste de nivel,Level-Aufstieg,Niveau supérieur,Livello su,Subiu de nível,レベルアップ,레벨 업
+level.reached,Level %d!,Seviye %d!,¡Nivel %d!,Level %d!,Niveau %d !,Livello %d!,Nível %d!,レベル%d到達！,레벨 %d 달성!
+skin.title,Block Skin,Blok Teması,Aspecto de bloques,Block-Design,Style de blocs,Stile blocchi,Estilo dos blocos,ブロックスキン,블록 스킨
+skin.nordic,Nordic,Nordic,Nórdico,Nordisch,Nordique,Nordico,Nórdico,ノルディック,노르딕
+skin.candy,Candy,Şeker,Dulce,Bonbon,Bonbon,Caramella,Doce,キャンディ,캔디
+skin.ocean,Ocean,Okyanus,Océano,Ozean,Océan,Oceano,Oceano,オーシャン,오션
+skin.mono,Mono,Mono,Mono,Mono,Mono,Mono,Mono,モノ,모노
+skin.locked,Lv %d,Sv %d,Nv %d,Lv %d,Niv. %d,Liv. %d,Nv. %d,Lv%d,Lv %d
+streak.milestone,%d-Day Streak!,%d Günlük Seri!,¡Racha de %d días!,%d Tage in Folge!,Série de %d jours !,Serie di %d giorni!,Sequência de %d dias!,%d日連続！,%d일 연속!
+streak.keepGoing,Keep it going,Böyle devam et,Sigue así,Weiter so,Continue comme ça,Continua così,Continue assim,この調子！,계속 이어 가요
+endless.title,Endless Zen,Sonsuz Zen,Zen infinito,Endlos-Zen,Zen infini,Zen infinito,Zen sem fim,エンドレスZen,무한 젠
+endless.subtitle,"Never-ending, no timer","Süresiz, bitmeyen","Sin fin, sin tiempo","Endlos, ohne Timer","Sans fin, sans chrono","Senza fine, senza timer","Sem fim, sem cronômetro",終わりなし、タイマーなし,"끝없이, 타이머 없이"
+endless.best,Best: Level %d,Rekor: Seviye %d,Mejor: Nivel %d,Beste: Level %d,Record : niveau %d,Record: Livello %d,Recorde: Nível %d,最高：レベル%d,최고: 레벨 %d
+weekly.title,Weekly Challenge,Haftalık Görev,Reto semanal,Wochenchallenge,Défi de la semaine,Sfida settimanale,Desafio semanal,ウィークリーチャレンジ,주간 챌린지
+weekly.goal,Solve %d levels this week,Bu hafta %d bölüm çöz,Resuelve %d niveles esta semana,Löse diese Woche %d Level,Résous %d niveaux cette semaine,Risolvi %d livelli questa settimana,Resolva %d níveis nesta semana,今週%dレベルをクリア,이번 주 %d개 레벨 클리어
+share.button,Share Result,Sonucu Paylaş,Compartir resultado,Ergebnis teilen,Partager,Condividi risultato,Compartilhar resultado,結果をシェア,결과 공유
+share.solved,Solved!,Çözüldü!,¡Resuelto!,Gelöst!,Résolu !,Risolto!,Resolvido!,クリア！,클리어!
+share.time,TIME,SÜRE,TIEMPO,ZEIT,TEMPS,TEMPO,TEMPO,タイム,시간
+share.level,LEVEL,SEVİYE,NIVEL,LEVEL,NIVEAU,LIVELLO,NÍVEL,レベル,레벨
+share.streak,STREAK,SERİ,RACHA,SERIE,SÉRIE,SERIE,SEQUÊNCIA,連続記録,연속 기록
+share.tagline,cozy block puzzle,rahatlatıcı blok bulmaca,puzzle de bloques relajante,gemütliches Block-Rätsel,puzzle de blocs douillet,puzzle a blocchi accogliente,quebra-cabeça de blocos aconchegante,ほっこりブロックパズル,포근한 블록 퍼즐
+calendar.title,Daily Reward,Günlük Ödül,Recompensa diaria,Tagesbelohnung,Récompense du jour,Premio giornaliero,Prêmio diário,デイリー報酬,일일 보상
+calendar.available,Claim today's reward!,Bugünkü ödülü al!,¡Reclama la de hoy!,Hol dir die heutige Belohnung!,Récupère la récompense du jour !,Ritira il premio di oggi!,Resgate o prêmio de hoje!,今日の報酬を受け取ろう！,오늘의 보상을 받아 보세요!
+calendar.comeBack,Come back tomorrow,Yarın tekrar gel,Vuelve mañana,Komm morgen wieder,Reviens demain,Torna domani,Volte amanhã,また明日来てね,내일 또 만나요
+calendar.claimDay,Claim Day %d,%d. Günü Al,Reclamar día %d,Tag %d abholen,Récupérer le jour %d,Ritira giorno %d,Resgatar dia %d,%d日目を受け取る,%d일째 보상 받기
+common.close,Close,Kapat,Cerrar,Schließen,Fermer,Chiudi,Fechar,閉じる,닫기
+stats.heatmap.title,Activity (30 days),Aktiflik (30 gün),Actividad (30 días),Aktivität (30 Tage),Activité (30 jours),Attività (30 giorni),Atividade (30 dias),アクティビティ（30日間）,활동 기록(30일)
+stats.activeDays,%d/30 active days,%d/30 aktif gün,%d/30 días activos,%d/30 aktive Tage,%d/30 jours actifs,%d/30 giorni attivi,%d/30 dias ativos,%d/30日あそびました,30일 중 %d일 플레이
+stats.stars.title,Star Distribution,Yıldız Dağılımı,Distribución de estrellas,Sterneverteilung,Répartition des étoiles,Distribuzione stelle,Distribuição de estrelas,スターの内訳,별 분포
+board.parchment,Parchment,Parşömen,Pergamino,Pergament,Parchemin,Pergamena,Pergaminho,羊皮紙,양피지
+board.dawn,Dawn,Şafak,Amanecer,Morgenröte,Aube,Alba,Alvorecer,夜明け,새벽
+board.forest,Forest,Orman,Bosque,Wald,Forêt,Foresta,Floresta,森,숲
+board.night,Night,Gece,Noche,Nacht,Nuit,Notte,Noite,夜,밤
+board.title,Board Background,Tahta Arkaplanı,Fondo del tablero,Brett-Hintergrund,Fond du plateau,Sfondo del tavolo,Fundo do tabuleiro,ボードの背景,보드 배경
+settings.gameplay.colorblind,Color-Blind Patterns,Renk Körü Desenleri,Patrones daltónicos,Muster für Farbenblindheit,Motifs daltoniens,Motivi per daltonici,Padrões para daltonismo,色覚サポート模様,색약 지원 패턴
+soundpack.title,Sound Pack,Ses Paketi,Paquete de sonido,Soundpaket,Pack sonore,Pacchetto suoni,Pacote de sons,サウンドパック,사운드 팩
+soundpack.classic,Classic,Klasik,Clásico,Klassisch,Classique,Classico,Clássico,クラシック,클래식
+soundpack.soft,Soft,Yumuşak,Suave,Sanft,Doux,Morbido,Suave,ソフト,소프트
+soundpack.crisp,Crisp,Net,Nítido,Klar,Net,Nitido,Nítido,クリスプ,크리스프
+stats.empty,Solve a level to start your stats,İstatistiklerini doldurmak için bir bölüm çöz,Resuelve un nivel para ver tus estadísticas,"Löse ein Level, um deine Statistik zu starten",Résous un niveau pour lancer tes stats,Risolvi un livello per iniziare le statistiche,Resolva um nível para iniciar suas estatísticas,レベルをクリアするときろくがたまります,레벨을 클리어하면 기록이 쌓여요
+freeze.title,Streak Freeze,Seri Dondurma,Congelar racha,Serien-Schutz,Gel de série,Salva-serie,Proteção de sequência,連続記録フリーズ,연속 기록 프리즈
+freeze.held,%d held — protects a missed day,%d adet — kaçırılan bir günü korur,%d en reserva — protege un día perdido,%d vorrätig – schützt einen verpassten Tag,%d en réserve — protège un jour manqué,%d disponibili — protegge un giorno saltato,%d disponíveis — protege um dia perdido,%d個所持 — 1日休んでも守ります,%d개 보유 — 하루 빠져도 지켜 줘요
+reward.double,Watch → 2×,İzle → 2×,Ver → 2×,Ansehen → 2×,Voir → 2×,Guarda → 2×,Ver → 2×,動画で2倍,영상 보고 2배
+haptic.strength,Haptic Strength,Titreşim Şiddeti,Intensidad háptica,Haptik-Stärke,Intensité des vibrations,Intensità vibrazione,Intensidade da vibração,振動の強さ,진동 세기
+haptic.full,Full,Tam,Completo,Voll,Forte,Piena,Total,強,강
+haptic.light,Light,Hafif,Suave,Leicht,Légère,Leggera,Leve,弱,약
+coach.drag,Drag a piece onto the board,Bir parçayı tahtaya sürükle,Arrastra una pieza al tablero,Zieh ein Teil aufs Brett,Glisse une pièce sur le plateau,Trascina un pezzo sul tavolo,Arraste uma peça para o tabuleiro,ピースをボードにドラッグしてね,조각을 보드로 끌어다 놓아요
+pause.hint,Hint,İpucu,Pista,Tipp,Indice,Suggerimento,Dica,ヒント,힌트
+pause.settings,Settings,Ayarlar,Ajustes,Einstellungen,Réglages,Impostazioni,Ajustes,設定,설정
+settings.sound.volume,Volume,Ses seviyesi,Volumen,Lautstärke,Volume,Volume,Volume,音量,볼륨
+settings.notifications.comeback,Comeback reminders,Geri dönüş hatırlatması,Recordatorios de regreso,Rückkehr-Erinnerungen,Rappels de retour,Promemoria di ritorno,Lembretes de retorno,おかえり通知,복귀 알림
+notif.comeback.title,We miss you! 🧩,Seni özledik! 🧩,¡Te echamos de menos! 🧩,Wir vermissen dich! 🧩,Tu nous manques ! 🧩,Ci manchi! 🧩,Sentimos sua falta! 🧩,会いたいよ！🧩,보고 싶어요! 🧩
+notif.comeback.body,Your Snuglo puzzles and streak are waiting.,Snuglo bulmacaların ve streak'in seni bekliyor.,Tus puzzles de Snuglo y tu racha te esperan.,Deine Snuglo-Rätsel und deine Serie warten auf dich.,Tes puzzles Snuglo et ta série t'attendent.,I tuoi puzzle Snuglo e la tua serie ti aspettano.,Seus puzzles do Snuglo e sua sequência estão te esperando.,Snugloのパズルと連続記録が待っています。,Snuglo 퍼즐과 연속 기록이 기다리고 있어요.
+settings.sound.track,Music track,Müzik parçası,Pista de música,Musikstück,Piste musicale,Traccia musicale,Faixa de música,BGM,배경 음악
+settings.sound.track.auto,Auto,Otomatik,Automático,Auto,Auto,Auto,Auto,おまかせ,자동
+settings.sound.track.calm,Calm,Sakin,Tranquila,Ruhig,Calme,Calma,Calma,おだやか,잔잔함
+settings.sound.track.zen,Zen,Zen,Zen,Zen,Zen,Zen,Zen,Zen,젠
+settings.account.transfer,Back up / transfer progress,İlerlemeyi yedekle / aktar,Respaldar / transferir progreso,Fortschritt sichern / übertragen,Sauvegarder / transférer la progression,Backup / trasferisci progressi,Backup / transferir progresso,進行状況のバックアップ／引き継ぎ,진행 상황 백업/이전
+transfer.title,Backup & Transfer,Yedekle ve Aktar,Respaldo y transferencia,Sichern & Übertragen,Sauvegarde et transfert,Backup e trasferimento,Backup e transferência,バックアップと引き継ぎ,백업 및 이전
+transfer.backup.title,Backup code,Yedekleme kodu,Código de respaldo,Sicherungscode,Code de sauvegarde,Codice di backup,Código de backup,バックアップコード,백업 코드
+transfer.backup.desc,"Copy this code and keep it safe, or move it to a new device.",Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar.,"Copia este código y guárdalo, o pásalo a un nuevo dispositivo.",Kopiere diesen Code und bewahre ihn sicher auf oder nimm ihn aufs neue Gerät mit.,"Copie ce code et garde-le en lieu sûr, ou emporte-le sur un nouvel appareil.","Copia questo codice e conservalo, oppure usalo su un nuovo dispositivo.","Copie este código e guarde-o bem, ou leve-o para um novo dispositivo.",このコードをコピーして大切に保管するか、新しいデバイスに移しましょう。,이 코드를 복사해 안전하게 보관하거나 새 기기로 옮기세요.
+transfer.copy,Copy,Kopyala,Copiar,Kopieren,Copier,Copia,Copiar,コピー,복사
+transfer.share,Share,Paylaş,Compartir,Teilen,Partager,Condividi,Compartilhar,共有,공유
+transfer.restore.title,Restore,Geri yükle,Restaurar,Wiederherstellen,Restaurer,Ripristina,Restaurar,復元,복원
+transfer.restore.desc,Paste a backup code here to restore it.,Bir yedekleme kodunu buraya yapıştır ve geri yükle.,Pega aquí un código de respaldo para restaurarlo.,"Füge hier einen Sicherungscode ein, um wiederherzustellen.",Colle ici un code de sauvegarde pour restaurer.,Incolla qui un codice di backup per ripristinare.,Cole um código de backup aqui para restaurar.,バックアップコードをここに貼り付けて復元します。,백업 코드를 여기에 붙여넣어 복원하세요.
+transfer.restore.action,Restore,Geri yükle,Restaurar,Wiederherstellen,Restaurer,Ripristina,Restaurar,復元する,복원하기
+transfer.note,"Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.","İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir.","Incluye progreso, monedas, cosméticos y ajustes. La restauración se aplica del todo al reiniciar la app.","Enthält Fortschritt, Währungen, Designs und Einstellungen. Eine Wiederherstellung gilt vollständig nach einem Neustart der App.","Inclut la progression, les monnaies, les cosmétiques et les réglages. Une restauration s'applique pleinement après redémarrage de l'app.","Include progressi, valute, cosmetici e impostazioni. Il ripristino si applica del tutto dopo il riavvio dell'app.","Inclui progresso, moedas, cosméticos e ajustes. A restauração é aplicada por completo após reiniciar o app.",進行状況、通貨、コスメ、設定が含まれます。復元はアプリの再起動後に完全に反映されます。,"진행 상황, 재화, 꾸미기 아이템, 설정이 포함돼요. 복원은 앱을 다시 시작한 후 완전히 적용돼요."
+transfer.restored.title,Restored,Geri yüklendi,Restaurado,Wiederhergestellt,Restauré,Ripristinato,Restaurado,復元しました,복원 완료
+transfer.restored.message,Your save was restored. Restart the app to fully apply the changes.,Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat.,Tu partida se restauró. Reinicia la app para aplicar los cambios.,"Dein Spielstand wurde wiederhergestellt. Starte die App neu, um alles zu übernehmen.",Ta sauvegarde a été restaurée. Redémarre l'app pour tout appliquer.,Il salvataggio è stato ripristinato. Riavvia l'app per applicare tutte le modifiche.,Seu progresso foi restaurado. Reinicie o app para aplicar todas as mudanças.,セーブデータを復元しました。変更を完全に反映するにはアプリを再起動してください。,저장 데이터를 복원했어요. 변경 사항을 완전히 적용하려면 앱을 다시 시작해 주세요.
+transfer.invalid.title,Invalid code,Geçersiz kod,Código no válido,Ungültiger Code,Code invalide,Codice non valido,Código inválido,コードが正しくありません,올바르지 않은 코드
+transfer.invalid.message,This code couldn't be read. Make sure you copied all of it.,Bu kod okunamadı. Tamamını kopyaladığından emin ol.,No se pudo leer el código. Asegúrate de copiarlo completo.,"Dieser Code konnte nicht gelesen werden. Prüfe, ob du ihn vollständig kopiert hast.",Ce code n'a pas pu être lu. Vérifie que tu l'as copié en entier.,Impossibile leggere il codice. Assicurati di averlo copiato per intero.,Não foi possível ler este código. Confira se você copiou tudo.,このコードを読み取れませんでした。すべてコピーできているか確認してください。,이 코드를 읽을 수 없어요. 전체를 복사했는지 확인해 주세요.
+stats.lifetime.title,Lifetime,Tüm Zamanlar,Histórico,Gesamt,Total,Totale,Total geral,通算,누적
+stats.starsEarned,Total stars,Toplam yıldız,Estrellas totales,Sterne gesamt,Total d'étoiles,Stelle totali,Total de estrelas,スター合計,총 별 개수
+stats.perfectSolves,Perfect (3★),Mükemmel (3★),Perfectos (3★),Perfekt (3★),Parfaits (3★),Perfetti (3★),Perfeitos (3★),パーフェクト（3★）,퍼펙트(3★)
+stats.bestTime,Best time,En iyi süre,Mejor tiempo,Bestzeit,Meilleur temps,Miglior tempo,Melhor tempo,ベストタイム,최고 기록
+stats.longestStreak,Longest streak,En uzun seri,Racha más larga,Längste Serie,Plus longue série,Serie più lunga,Maior sequência,最長連続記録,최장 연속 기록
+pack.complete.title,Pack complete!,Paket tamamlandı!,¡Paquete completado!,Paket geschafft!,Pack terminé !,Pacchetto completato!,Pacote concluído!,パックコンプリート！,팩 완료!
+praise.0,Nicely done!,Güzel!,¡Bien hecho!,Gut gemacht!,Bien joué !,Ben fatto!,Muito bem!,いいね！,잘했어요!
+praise.1,Beautiful!,Harika!,¡Precioso!,Wunderschön!,Magnifique !,Bellissimo!,Lindo!,きれい！,아름다워요!
+praise.2,Cozy!,Huzurlu!,¡Acogedor!,Gemütlich!,Douillet !,Che comfort!,Aconchegante!,ほっこり！,포근해요!
+praise.3,Smooth!,Akıcı!,¡Fluido!,Geschmeidig!,Tout en douceur !,Liscio!,Suave!,スムーズ！,매끄러워요!
+praise.4,Perfect fit!,Tam oturdu!,¡Encaje perfecto!,Passt perfekt!,Ça s'emboîte !,Incastro perfetto!,Encaixe perfeito!,ぴったり！,딱 맞아요!
+praise.5,Lovely!,Sıcacık!,¡Encantador!,Herrlich!,Adorable !,Adorabile!,Encantador!,すてき！,멋져요!
+achievement.levelLegend100.title,Legend,Efsane,Leyenda,Legende,Légende,Leggenda,Lenda,レジェンド,전설
+achievement.levelLegend100.description,Complete 100 levels,100 bölüm tamamla,Completa 100 niveles,Schließe 100 Level ab,Termine 100 niveaux,Completa 100 livelli,Conclua 100 níveis,100レベルをクリア,100레벨 클리어
+achievement.packFinisher.title,Pack Finisher,Paket Ustası,Finalizador,Paket-Finisher,Finisseur de packs,Chiudi-pacchetto,Pacote completo,パックコンプリーター,팩 정복자
+achievement.packFinisher.description,Complete every level in a pack,Bir paketi tamamen bitir,Completa todos los niveles de un paquete,Schließe jedes Level in einem Paket ab,Termine tous les niveaux d'un pack,Completa ogni livello di un pacchetto,Conclua todos os níveis de um pacote,パックの全レベルをクリア,팩의 모든 레벨 클리어
+achievement.perfectionistMaster25.title,Flawless Master,Kusursuz Usta,Maestro Impecable,Makelloser Meister,Maître impeccable,Maestro impeccabile,Mestre impecável,ノーミスマスター,완벽 마스터
+achievement.perfectionistMaster25.description,Solve 25 levels with 3 stars,25 bölümü 3 yıldızla çöz,Resuelve 25 niveles con 3 estrellas,Löse 25 Level mit 3 Sternen,Résous 25 niveaux avec 3 étoiles,Risolvi 25 livelli con 3 stelle,Resolva 25 níveis com 3 estrelas,25レベルをスター3つでクリア,25개 레벨을 별 3개로 클리어
+achievement.dedicated7.title,Dedicated,Sadık,Dedicado,Hingebungsvoll,Assidu,Costante,Dedicado,がんばり屋さん,꾸준한 플레이어
+achievement.dedicated7.description,Play 7 days in a row,7 gün üst üste oyna,Juega 7 días seguidos,Spiel 7 Tage hintereinander,Joue 7 jours de suite,Gioca 7 giorni di fila,Jogue 7 dias seguidos,7日連続であそぶ,7일 연속 플레이
+achievement.comboChampion.title,Combo Champion,Kombo Şampiyonu,Campeón Combo,Kombi-Champion,Champion du combo,Campione di combo,Campeão de combo,コンボチャンピオン,콤보 챔피언
+achievement.comboChampion.description,Solve 5 levels in a row without failing,5 bölümü arka arkaya kaybetmeden çöz,Resuelve 5 niveles seguidos sin fallar,Löse 5 Level in Folge ohne Scheitern,Résous 5 niveaux d'affilée sans échouer,Risolvi 5 livelli di fila senza fallire,Resolva 5 níveis seguidos sem falhar,失敗せずに5レベル連続でクリア,실패 없이 5개 레벨 연속 클리어
+achievement.speedDemon.title,Speed Demon,Hız Canavarı,Demonio Veloz,Tempo-Teufel,Démon de vitesse,Fulmine,Relâmpago,スピードの鬼,스피드 악마
+achievement.speedDemon.description,Solve a level in under 15 seconds,Bir bölümü 15 saniyenin altında çöz,Resuelve un nivel en menos de 15 segundos,Löse ein Level in unter 15 Sekunden,Résous un niveau en moins de 15 secondes,Risolvi un livello in meno di 15 secondi,Resolva um nível em menos de 15 segundos,15秒以内にレベルをクリア,15초 안에 레벨 클리어
+today.greeting.morning,Good morning 🌿,Günaydın 🌿,Buenos días 🌿,Guten Morgen 🌿,Bonjour 🌿,Buongiorno 🌿,Bom dia 🌿,おはよう 🌿,좋은 아침이에요 🌿
+today.greeting.afternoon,Good afternoon 🌿,İyi günler 🌿,Buenas tardes 🌿,Guten Tag 🌿,Bon après-midi 🌿,Buon pomeriggio 🌿,Boa tarde 🌿,こんにちは 🌿,좋은 오후예요 🌿
+today.greeting.evening,Good evening 🌙,İyi akşamlar 🌙,Buenas noches 🌙,Guten Abend 🌙,Bonsoir 🌙,Buonasera 🌙,Boa noite 🌙,こんばんは 🌙,좋은 저녁이에요 🌙
+today.greeting.night,Good night 🌙,İyi geceler 🌙,Buenas noches 🌙,Gute Nacht 🌙,Bonne nuit 🌙,Buonanotte 🌙,Boa noite 🌙,おやすみなさい 🌙,잘 자요 🌙
+skin.sunset,Sunset,Gün Batımı,Atardecer,Sonnenuntergang,Coucher de soleil,Tramonto,Pôr do sol,サンセット,선셋
+skin.aurora,Aurora,Auroralar,Aurora,Polarlicht,Aurore,Aurora,Aurora,オーロラ,오로라
+board.dusk,Dusk,Alacakaranlık,Crepúsculo,Dämmerung,Crépuscule,Crepuscolo,Entardecer,たそがれ,해질녘
+board.rose,Rose,Gül,Rosa,Rose,Rose,Rosa,Rosa,ローズ,로즈
+board.meadow,Meadow,Çayır,Pradera,Wiese,Prairie,Prato,Campo,草原,초원
+skin.midnight,Midnight,Gece Yarısı,Medianoche,Mitternacht,Minuit,Mezzanotte,Meia-noite,ミッドナイト,미드나이트
+skin.blossom,Blossom,Çiçek,Flor,Blüte,Floraison,Fiore,Flor,ブロッサム,블로섬
+board.twilight,Twilight,Alacakaranlık,Crepúsculo,Zwielicht,Entre-chien-et-loup,Penombra,Crepúsculo,トワイライト,트와일라잇
+board.ember,Ember,Köz,Brasa,Glut,Braise,Brace,Brasa,エンバー,엠버
+hint.rewarded.title,Hint — Free,İpucu — Ücretsiz,Pista — Gratis,Tipp – gratis,Indice — gratuit,Suggerimento — Gratis,Dica — Grátis,ヒント — 無料,힌트 — 무료
+hint.rewarded.message,Watch a short ad and one piece will be placed for you.,"Kısa bir reklam izle, bir parça senin için yerleştirilsin.",Mira un anuncio corto y se colocará una pieza por ti.,Sieh dir eine kurze Werbung an und ein Teil wird für dich gesetzt.,Regarde une courte pub et une pièce sera placée pour toi.,Guarda un breve annuncio e ti piazzeremo un pezzo.,Veja um anúncio curto e uma peça será colocada para você.,短い広告を見ると、ピースを1つ置いてあげます。,짧은 광고를 보면 조각 하나를 대신 놓아 드려요.
+powerup.watchAd,Watch Ad,Reklam İzle,Ver anuncio,Werbung ansehen,Voir la pub,Guarda annuncio,Ver anúncio,広告を見る,광고 보기
+daily.share.title,My Daily Streak!,Günlük Serim!,¡Mi racha diaria!,Meine Tagesserie!,Ma série du jour !,La mia serie giornaliera!,Minha sequência diária!,私のデイリー連続記録！,나의 데일리 연속 기록!
+daily.share.solved,dailies solved,günlük çözüldü,diarios resueltos,Tagesrätsel gelöst,puzzles du jour résolus,puzzle giornalieri risolti,diários resolvidos,デイリークリア,데일리 클리어
+menu.streak.day,day streak,gün seri,racha de días,Tage in Folge,jours de série,giorni di serie,dias de sequência,日連続,일 연속
+pack.difficulty.beginner,Beginner,Başlangıç,Principiante,Anfänger,Débutant,Principiante,Iniciante,入門,입문
+pack.difficulty.easy,Easy,Kolay,Fácil,Leicht,Facile,Facile,Fácil,かんたん,쉬움
+pack.difficulty.medium,Medium,Orta,Medio,Mittel,Moyen,Medio,Médio,ふつう,보통
+pack.difficulty.hard,Hard,Zor,Difícil,Schwer,Difficile,Difficile,Difícil,むずかしい,어려움
+stats.share.title,My Stats,İstatistiklerim,Mis estadísticas,Meine Statistik,Mes stats,Le mie statistiche,Minhas estatísticas,私のきろく,나의 기록
+complete.newBest,New Best!,Yeni Rekor!,¡Nuevo récord!,Neue Bestmarke!,Nouveau record !,Nuovo record!,Novo recorde!,新記録！,신기록!
+settings.sound.preview,Preview sounds,Sesleri dinle,Escuchar sonidos,Töne anhören,Écouter les sons,Ascolta i suoni,Ouvir os sons,サウンドを試聴,사운드 미리 듣기
+quest.perfect,Solve %d levels with 3 stars,%d bölümü 3 yıldızla çöz,Resuelve %d niveles con 3 estrellas,Löse %d Level mit 3 Sternen,Résous %d niveaux avec 3 étoiles,Risolvi %d livelli con 3 stelle,Resolva %d níveis com 3 estrelas,%dレベルをスター3つでクリア,%d개 레벨을 별 3개로 클리어
+endless.record,New Record! 🏆,Yeni Rekor! 🏆,¡Nuevo récord! 🏆,Neuer Rekord! 🏆,Nouveau record ! 🏆,Nuovo record! 🏆,Novo recorde! 🏆,新記録！🏆,신기록! 🏆
+pack.grid_label.5,5×5 Grid,5×5 Izgara,Cuadrícula 5×5,5×5-Raster,Grille 5×5,Griglia 5×5,Grade 5×5,5×5グリッド,5×5 격자
+pack.grid_label.6,6×6 Grid,6×6 Izgara,Cuadrícula 6×6,6×6-Raster,Grille 6×6,Griglia 6×6,Grade 6×6,6×6グリッド,6×6 격자
+pack.grid_label.7,7×7 Grid,7×7 Izgara,Cuadrícula 7×7,7×7-Raster,Grille 7×7,Griglia 7×7,Grade 7×7,7×7グリッド,7×7 격자
+pack.grid_label.8,8×8 Grid,8×8 Izgara,Cuadrícula 8×8,8×8-Raster,Grille 8×8,Griglia 8×8,Grade 8×8,8×8グリッド,8×8 격자
+common.loading,Loading…,Yükleniyor…,Cargando…,Lädt…,Chargement…,Caricamento…,Carregando…,読み込み中…,불러오는 중…
+shop.unlock,Unlock,Aç,Desbloquear,Freischalten,Débloquer,Sblocca,Desbloquear,解放,잠금 해제
+shop.info.packs.title,Puzzle Pack,Puzzle Paketi,Paquete de puzles,Rätselpaket,Pack de puzzles,Pacchetto di puzzle,Pacote de puzzles,パズルパック,퍼즐 팩
+shop.info.packs.body,"This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.","Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur.","Este paquete desbloquea 60 niveles nuevos: cuadrículas más grandes y temas nuevos. Compra única, tuyo para siempre.","Dieses Paket schaltet 60 neue Level frei – größere Raster und frische Themen. Einmalkauf, für immer deins.","Ce pack débloque 60 nouveaux niveaux — grilles plus grandes et thèmes inédits. Achat unique, à toi pour toujours.","Questo pacchetto sblocca 60 nuovi livelli: griglie più grandi e temi nuovi. Acquisto una tantum, tuo per sempre.","Este pacote desbloqueia 60 novos níveis: grades maiores e temas novos. Compra única, sua para sempre.",このパックで60の新しいレベルが解放されます。より大きなグリッドと新しいテーマ。買い切りでずっと使えます。,이 팩으로 60개의 새 레벨이 열려요. 더 큰 격자와 새로운 테마. 한 번 구매하면 영원히 내 것이에요.
+shop.info.hints.title,Hints,İpuçları,Pistas,Tipps,Indices,Suggerimenti,Dicas,ヒント,힌트
+shop.info.hints.body,"When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.","Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır.","Cuando te atascas, una pista coloca una pieza correcta por ti. Úsala desde el botón de pista durante un nivel.","Wenn du nicht weiterkommst, setzt ein Tipp ein richtiges Teil für dich. Nutze den Tipp-Button im Level.","Quand tu bloques, un indice place une bonne pièce pour toi. Utilise le bouton d'indice pendant un niveau.","Quando sei bloccato, un suggerimento piazza per te un pezzo giusto. Usalo dal pulsante suggerimento durante un livello.","Quando você travar, uma dica coloca uma peça certa para você. Use o botão de dica durante um nível.",行き詰まったときは、ヒントが正しいピースを1つ置いてくれます。レベル中にヒントボタンから使えます。,막혔을 때 힌트가 올바른 조각 하나를 놓아 줘요. 레벨 중에 힌트 버튼으로 사용하세요.
+shop.info.removeAds.title,Remove Ads,Reklamları Kaldır,Quitar anuncios,Werbung entfernen,Supprimer les pubs,Rimuovi pubblicità,Remover anúncios,広告を削除,광고 제거
+shop.info.removeAds.body,Permanently removes all ads. A one-time purchase.,Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma.,Elimina todos los anuncios de forma permanente. Compra única.,Entfernt dauerhaft alle Werbung. Einmalkauf.,Supprime définitivement toutes les pubs. Achat unique.,Rimuove per sempre tutti gli annunci. Acquisto una tantum.,Remove todos os anúncios para sempre. Compra única.,すべての広告をずっと非表示にします。買い切りです。,모든 광고를 영구적으로 없애 줘요. 일회성 구매예요.
+energy.title,Energy,Enerji,Energía,Energie,Énergie,Energia,Energia,エナジー,에너지
+energy.unlimited,Unlimited,Sınırsız,Ilimitada,Unbegrenzt,Illimitée,Illimitata,Ilimitada,無制限,무제한
+energy.full,Full,Dolu,Llena,Voll,Pleine,Piena,Cheia,満タン,가득 참
+energy.next,+1 in %s,%s sonra +1,+1 en %s,+1 in %s,+1 dans %s,+1 tra %s,+1 em %s,%sで+1,%s 후 +1
+energy.out.title,Out of Energy,Enerji Bitti,Sin energía,Keine Energie,Plus d'énergie,Energia esaurita,Sem energia,エナジーがありません,에너지가 부족해요
+energy.out.message,"Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.",Enerji zamanla dolar. Hızlı dolum için reklam izle ya da sınırsız oyun için Premium’a geç.,La energía se recarga con el tiempo. Mira un anuncio para un impulso o hazte Premium para jugar sin límites.,Energie lädt sich mit der Zeit auf. Sieh dir eine Werbung für einen Boost an oder hol dir Premium für unbegrenztes Spielen.,"L'énergie se recharge avec le temps. Regarde une pub pour un boost, ou passe Premium pour jouer sans limite.","L'energia si ricarica col tempo. Guarda un annuncio per un aiuto, o passa a Premium per giocare senza limiti.","A energia recarrega com o tempo. Veja um anúncio para um impulso, ou seja Premium para jogar sem limites.",エナジーは時間とともに回復します。広告でブーストするか、プレミアムで無制限にあそぼう。,에너지는 시간이 지나면 채워져요. 광고로 충전하거나 프리미엄으로 무제한 플레이하세요.
+energy.watchAd,Watch Ad  +%d,Reklam İzle  +%d,Ver anuncio  +%d,Werbung ansehen  +%d,Voir la pub  +%d,Guarda annuncio  +%d,Ver anúncio  +%d,広告を見る  +%d,광고 보기  +%d
+energy.goPremium,Go Premium — Unlimited,Premium — Sınırsız,Premium — Ilimitado,Premium holen – Unbegrenzt,Passer Premium — Illimité,Passa a Premium — Illimitata,Seja Premium — Ilimitada,プレミアムで無制限,프리미엄 — 무제한
+energy.playable,Enough to play in %s,%s sonra oynanabilir,Jugable en %s,Genug zum Spielen in %s,Assez pour jouer dans %s,Abbastanza per giocare tra %s,Suficiente para jogar em %s,%sでプレイ可能,%s 후 플레이 가능
+energy.spent.a11y,%d energy spent,%d enerji harcandı,%d de energía gastada,%d Energie verbraucht,%d énergie dépensée,%d energia spesa,%d de energia gasta,エナジーを%d使用,에너지 %d 사용
+zen.mode.title,Zen Mode,Zen Modu,Modo Zen,Zen-Modus,Mode Zen,Modalità Zen,Modo Zen,Zenモード,젠 모드
+zen.mode.subtitle,Relax · no timer · free,Rahatla · süre yok · ücretsiz,Relájate · sin tiempo · gratis,Entspannt · kein Timer · gratis,Détente · sans chrono · gratuit,Relax · senza timer · gratis,Relax · sem cronômetro · grátis,のんびり・タイマーなし・無料,느긋하게 · 타이머 없음 · 무료
+rewards.fab,Rewards,Ödüller,Recompensas,Belohnungen,Récompenses,Premi,Prêmios,ごほうび,보상
+pack.morning_meadow.title,Morning Meadow,Sabah Çayırı,Pradera Matinal,Morgenwiese,Prairie du Matin,Prato del Mattino,Campo da Manhã,朝の草原,아침 초원
+pack.amber_harbor.title,Amber Harbor,Kehribar Liman,Puerto Ámbar,Bernsteinhafen,Port d'Ambre,Porto d'Ambra,Porto Âmbar,琥珀の港,앰버 하버
+pack.velvet_dusk.title,Velvet Dusk,Kadife Akşam,Ocaso de Terciopelo,Samtdämmerung,Crépuscule de Velours,Crepuscolo di Velluto,Crepúsculo de Veludo,ベルベットの夕暮れ,벨벳 황혼
+pack.hearth_tales.title,Hearth Tales,Ocak Masalları,Cuentos del Hogar,Kamingeschichten,Contes du Foyer,Racconti del Focolare,Contos da Lareira,暖炉のものがたり,난롯가 이야기
+pack.misty_grove.title,Misty Grove,Sisli Koru,Arboleda Neblinosa,Nebelhain,Bosquet Brumeux,Bosco Nebbioso,Bosque Nebuloso,霧の木立,안개 숲
+pack.honey_fields.title,Honey Fields,Bal Tarlaları,Campos de Miel,Honigfelder,Champs de Miel,Campi di Miele,Campos de Mel,はちみつ畑,허니 필드
+pack.lantern_lane.title,Lantern Lane,Fener Sokağı,Callejón de Faroles,Laternengasse,Ruelle des Lanternes,Vicolo delle Lanterne,Beco das Lanternas,ランタン小路,랜턴 골목
+pack.frost_haven.title,Frost Haven,Kırağı Limanı,Refugio Helado,Frostzuflucht,Havre de Givre,Rifugio di Brina,Refúgio Gelado,霜の港町,프로스트 헤이븐
+pack.garden_party.title,Garden Party,Bahçe Partisi,Fiesta de Jardín,Gartenparty,Fête au Jardin,Festa in Giardino,Festa no Jardim,ガーデンパーティー,가든 파티
+pack.ocean_breeze.title,Ocean Breeze,Okyanus Esintisi,Brisa Marina,Meeresbrise,Brise Marine,Brezza Marina,Brisa do Mar,海のそよ風,바닷바람
+pack.starlit_peak.title,Starlit Peak,Yıldızlı Zirve,Pico Estrellado,Sternengipfel,Pic Étoilé,Vetta Stellata,Pico Estrelado,星あかりの頂,별빛 봉우리
+pack.cocoa_cabin.title,Cocoa Cabin,Kakao Kulübesi,Cabaña de Cacao,Kakaohütte,Chalet Chocolat,Baita del Cacao,Cabana do Cacau,ココアの山小屋,코코아 오두막
+pack.aurora_vale.title,Aurora Vale,Auroralı Vadi,Valle Aurora,Polarlichttal,Vallée Boréale,Valle dell'Aurora,Vale da Aurora,オーロラの谷,오로라 계곡
+button.close,Close,Kapat,Cerrar,Schließen,Fermer,Chiudi,Fechar,閉じる,닫기
+paywall.title,Snuglo Premium,Snuglo Premium,Snuglo Premium,Snuglo Premium,Snuglo Premium,Snuglo Premium,Snuglo Premium,Snuglo プレミアム,Snuglo 프리미엄
+paywall.subtitle,Play without limits.,Sınırsız oyna.,Juega sin límites.,Spiel ohne Grenzen.,Joue sans limites.,Gioca senza limiti.,Jogue sem limites.,制限なしであそぼう。,제한 없이 즐겨요.
+paywall.benefit.energy,Unlimited energy — no waiting,Sınırsız enerji — bekleme yok,Energía ilimitada — sin esperas,Unbegrenzte Energie – kein Warten,Énergie illimitée — sans attendre,Energia illimitata — niente attese,Energia ilimitada — sem esperas,エナジー無制限・待ち時間なし,무제한 에너지 · 기다림 없음
+paywall.benefit.ads,"No ads, ever",Hiç reklam yok,"Sin anuncios, nunca",Nie wieder Werbung,"Aucune pub, jamais","Niente pubblicità, mai","Sem anúncios, nunca",広告ゼロ、ずっと,광고 없이 영원히
+paywall.benefit.cosmetics,Exclusive skins & boards,Özel skinler ve board'lar,Skins y tableros exclusivos,Exklusive Designs & Bretter,Styles et plateaux exclusifs,Stili e tavoli esclusivi,Estilos e tabuleiros exclusivos,限定スキンとボード,한정 스킨과 보드
+paywall.benefit.levels,All 1000+ levels unlocked,1000+ bölümün tamamı açık,Más de 1000 niveles desbloqueados,Alle über 1000 Level freigeschaltet,Plus de 1000 niveaux débloqués,Tutti i 1000+ livelli sbloccati,Todos os mais de 1000 níveis liberados,1000以上の全レベルを解放,1000개 이상의 모든 레벨 해제
+paywall.cta,Go Premium · %s,Premium Ol · %s,Hazte Premium · %s,Premium holen · %s,Passer Premium · %s,Passa a Premium · %s,Seja Premium · %s,プレミアムにする · %s,프리미엄 시작 · %s
+paywall.restore,Restore Purchases,Satın Alımları Geri Yükle,Restaurar compras,Käufe wiederherstellen,Restaurer les achats,Ripristina acquisti,Restaurar compras,購入を復元,구매 복원
+shop.claim.insufficient,Not enough balance,Yetersiz bakiye,Saldo insuficiente,Nicht genug Guthaben,Solde insuffisant,Saldo insufficiente,Saldo insuficiente,残高が足りません,잔액이 부족해요
+shop.claim.adNotReady,Ad not ready — try again,Reklam hazır değil — tekrar dene,Anuncio no listo — reinténtalo,Werbung nicht bereit – versuch's nochmal,Pub indisponible — réessaie,Annuncio non pronto — riprova,Anúncio não está pronto — tente de novo,広告の準備中です。もう一度お試しください,광고 준비 중이에요. 다시 시도해 주세요
+settings.about.footer,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s,Snuglo · %s
+tutorial.welcome.title,Welcome to Snuglo,Snuglo'ya Hoş Geldin,Bienvenido a Snuglo,Willkommen bei Snuglo,Bienvenue dans Snuglo,Benvenuto in Snuglo,Bem-vindo ao Snuglo,Snugloへようこそ,Snuglo에 오신 걸 환영해요
+tutorial.welcome.body,Fill the board with cozy blocks — leave no empty square.,Tahtayı sıcacık bloklarla doldur — boş kare bırakma.,Llena el tablero con bloques acogedores — sin dejar casillas vacías.,Füll das Brett mit gemütlichen Blöcken – kein Feld bleibt leer.,Remplis le plateau de blocs douillets — aucune case vide.,Riempi il tavolo di blocchi accoglienti — senza lasciare caselle vuote.,Preencha o tabuleiro com blocos aconchegantes — sem deixar casas vazias.,ほっこりブロックでボードをうめよう。空きマスは残さないでね。,포근한 블록으로 보드를 채워요. 빈칸이 없도록 해 주세요.
+tutorial.drag.title,Drag & Drop,Sürükle & Bırak,Arrastra y Suelta,Ziehen & Ablegen,Glisser-déposer,Trascina e rilascia,Arraste e solte,ドラッグ&ドロップ,끌어서 놓기
+tutorial.drag.body,Drag pieces from the tray up onto the grid. Fit them all with no gaps or overlaps to solve the level.,Parçaları tepsiden tahtaya sürükle. Boşluk veya üst üste binme olmadan hepsini yerleştir ve bölümü çöz.,Arrastra las piezas de la bandeja al tablero. Encájalas todas sin huecos ni solapamientos para resolver el nivel.,"Zieh Teile aus der Ablage aufs Raster. Passen alle ohne Lücken oder Überlappungen, ist das Level gelöst.",Fais glisser les pièces du plateau de pièces vers la grille. Place-les toutes sans trou ni chevauchement pour résoudre le niveau.,Trascina i pezzi dal vassoio sulla griglia. Incastrali tutti senza buchi né sovrapposizioni per risolvere il livello.,Arraste as peças da bandeja para a grade. Encaixe todas sem lacunas nem sobreposições para resolver o nível.,トレイのピースをグリッドへドラッグ。すき間も重なりもなく全部はめるとクリアです。,트레이의 조각을 격자로 끌어 올려요. 빈틈도 겹침도 없이 모두 맞추면 클리어예요.
+tutorial.power.title,Need a Hand?,Yardım Lazım mı?,¿Necesitas Ayuda?,Brauchst du Hilfe?,Besoin d'un coup de main ?,Serve una mano?,Precisa de ajuda?,お困りですか？,도움이 필요하세요?
+tutorial.power.body,"Stuck? Hint places a piece for you, Peek flashes the solution for a moment, Restart clears the board.","Takıldın mı? İpucu bir parçayı yerine koyar, Göz At çözümü bir anlığına gösterir, Yeniden tahtayı boşaltır.","¿Atascado? Pista coloca una pieza, Vistazo muestra la solución un instante y Reiniciar vacía el tablero.","Hängst du fest? Ein Tipp setzt ein Teil für dich, die Vorschau zeigt kurz die Lösung, Neustart leert das Brett.","Bloqué ? Indice place une pièce pour toi, Aperçu montre la solution un instant, Recommencer vide le plateau.","Bloccato? Il suggerimento piazza un pezzo per te, Sbircia mostra per un attimo la soluzione, Ricomincia svuota il tavolo.","Travou? A dica coloca uma peça para você, Espiar mostra a solução por um instante, Reiniciar limpa o tabuleiro.",困ったら、ヒントでピースを1つ置き、のぞき見で答えをちょっと表示、やり直すでボードをリセットできます。,"막히면 힌트는 조각 하나를 놓아 주고, 미리보기는 정답을 잠깐 보여 주고, 다시 시작은 보드를 비워요."
+tutorial.next,Next,İleri,Siguiente,Weiter,Suivant,Avanti,Próximo,つぎへ,다음
+tutorial.start,Let's Play,Hadi Başlayalım,A Jugar,Los geht's,Jouons,Si gioca!,Vamos jogar,あそぼう,시작해요
+tutorial.skip,Skip,Geç,Saltar,Überspringen,Passer,Salta,Pular,スキップ,건너뛰기
+reward.earned,You earned,Kazandın,Has ganado,Du hast erhalten,Tu as gagné,Hai ottenuto,Você ganhou,獲得したもの,획득한 보상
+reward.great,Great!,Harika!,¡Genial!,Super!,Super !,Fantastico!,Ótimo!,やったね！,멋져요!
+achievement.levelHunter25.title,Getting Serious,İşi Ciddiye Aldın,Vas en Serio,Jetzt wird's ernst,On se prend au jeu,Si fa sul serio,Levando a sério,本気モード,본격 플레이어
+achievement.levelHunter25.description,Complete 25 levels,25 bölüm tamamla,Completa 25 niveles,Schließe 25 Level ab,Termine 25 niveaux,Completa 25 livelli,Conclua 25 níveis,25レベルをクリア,25레벨 클리어
+achievement.levelVoyager250.title,Level Voyager,Seviye Gezgini,Viajero de Niveles,Level-Entdecker,Voyageur des niveaux,Viaggiatore dei livelli,Viajante de níveis,レベルの旅人,레벨 항해자
+achievement.levelVoyager250.description,Complete 250 levels,250 bölüm tamamla,Completa 250 niveles,Schließe 250 Level ab,Termine 250 niveaux,Completa 250 livelli,Conclua 250 níveis,250レベルをクリア,250레벨 클리어
+achievement.levelSage500.title,Level Sage,Seviye Bilgesi,Sabio de Niveles,Level-Weiser,Sage des niveaux,Saggio dei livelli,Sábio dos níveis,レベルの賢者,레벨 현자
+achievement.levelSage500.description,Complete 500 levels,500 bölüm tamamla,Completa 500 niveles,Schließe 500 Level ab,Termine 500 niveaux,Completa 500 livelli,Conclua 500 níveis,500レベルをクリア,500레벨 클리어
+achievement.completionist1000.title,Completionist,Tamamlayıcı,Completista,Komplettist,Complétiste,Completista,Completista,コンプリート王,컴플리셔니스트
+achievement.completionist1000.description,Complete 1000 levels,1000 bölüm tamamla,Completa 1000 niveles,Schließe 1000 Level ab,Termine 1000 niveaux,Completa 1000 livelli,Conclua 1000 níveis,1000レベルをクリア,1000레벨 클리어
+achievement.packCollector3.title,Pack Collector,Paket Koleksiyoncusu,Coleccionista de Paquetes,Paket-Sammler,Collectionneur de packs,Collezionista di pacchetti,Colecionador de pacotes,パックコレクター,팩 수집가
+achievement.packCollector3.description,Finish 3 packs,3 paketi bitir,Termina 3 paquetes,Schließe 3 Pakete ab,Termine 3 packs,Finisci 3 pacchetti,Termine 3 pacotes,3つのパックをクリア,팩 3개 완료
+achievement.packMaster10.title,Pack Master,Paket Ustası,Maestro de Paquetes,Paket-Meister,Maître des packs,Maestro dei pacchetti,Mestre dos pacotes,パックマスター,팩 마스터
+achievement.packMaster10.description,Finish 10 packs,10 paketi bitir,Termina 10 paquetes,Schließe 10 Pakete ab,Termine 10 packs,Finisci 10 pacchetti,Termine 10 pacotes,10個のパックをクリア,팩 10개 완료
+achievement.perfectionistGrand50.title,Grand Perfectionist,Büyük Mükemmeliyetçi,Gran Perfeccionista,Großer Perfektionist,Grand perfectionniste,Gran perfezionista,Grande perfeccionista,大いなる完璧主義者,그랜드 완벽주의자
+achievement.perfectionistGrand50.description,50 perfect (3★) solves,50 kusursuz (3★) çözüm,50 resoluciones perfectas (3★),50 perfekte Lösungen (3★),50 résolutions parfaites (3★),50 soluzioni perfette (3★),50 soluções perfeitas (3★),パーフェクト（3★）クリア50回,퍼펙트(3★) 클리어 50회
+achievement.perfectionistLegend100.title,Perfect Legend,Kusursuz Efsane,Leyenda Perfecta,Perfekte Legende,Légende parfaite,Leggenda perfetta,Lenda perfeita,パーフェクトレジェンド,퍼펙트 레전드
+achievement.perfectionistLegend100.description,100 perfect (3★) solves,100 kusursuz (3★) çözüm,100 resoluciones perfectas (3★),100 perfekte Lösungen (3★),100 résolutions parfaites (3★),100 soluzioni perfette (3★),100 soluções perfeitas (3★),パーフェクト（3★）クリア100回,퍼펙트(3★) 클리어 100회
+achievement.chainMaster10.title,Chain Master,Zincir Ustası,Maestro de Cadenas,Ketten-Meister,Maître des enchaînements,Maestro delle catene,Mestre das correntes,連勝マスター,연승 마스터
+achievement.chainMaster10.description,Win 10 levels in a row,Üst üste 10 bölüm kazan,Gana 10 niveles seguidos,Gewinne 10 Level in Folge,Gagne 10 niveaux d'affilée,Vinci 10 livelli di fila,Vença 10 níveis seguidos,10レベル連続でクリア,10개 레벨 연속 클리어
+achievement.chainLegend20.title,Unbroken,Kırılmaz,Imparable,Ungebrochen,Invaincu,Inarrestabile,Ininterrupto,無敗,무패
+achievement.chainLegend20.description,Win 20 levels in a row,Üst üste 20 bölüm kazan,Gana 20 niveles seguidos,Gewinne 20 Level in Folge,Gagne 20 niveaux d'affilée,Vinci 20 livelli di fila,Vença 20 níveis seguidos,20レベル連続でクリア,20개 레벨 연속 클리어
+achievement.noHints25.title,Self-Reliant,Kendi Başına,Autosuficiente,Selbstständig,Autonome,Autonomo,Autossuficiente,自分の力で,자력으로
+achievement.noHints25.description,Solve 25 levels with no hints,25 bölümü ipuçsuz çöz,Resuelve 25 niveles sin pistas,Löse 25 Level ohne Tipps,Résous 25 niveaux sans indice,Risolvi 25 livelli senza suggerimenti,Resolva 25 níveis sem dicas,ヒントなしで25レベルをクリア,힌트 없이 25레벨 클리어
+achievement.noHints50.title,Pure Skill,Saf Yetenek,Pura Habilidad,Pures Können,Talent pur,Pura abilità,Pura habilidade,純粋な実力,순수 실력
+achievement.noHints50.description,Solve 50 levels with no hints,50 bölümü ipuçsuz çöz,Resuelve 50 niveles sin pistas,Löse 50 Level ohne Tipps,Résous 50 niveaux sans indice,Risolvi 50 livelli senza suggerimenti,Resolva 50 níveis sem dicas,ヒントなしで50レベルをクリア,힌트 없이 50레벨 클리어
+achievement.speedLightning.title,Lightning,Şimşek,Relámpago,Blitz,Éclair,Fulmine,Raio,稲妻,번개
+achievement.speedLightning.description,Solve a level under 10 seconds,Bir bölümü 10 saniye altında çöz,Resuelve un nivel en menos de 10s,Löse ein Level in unter 10 Sekunden,Résous un niveau en moins de 10 secondes,Risolvi un livello in meno di 10 secondi,Resolva um nível em menos de 10 segundos,10秒以内にレベルをクリア,10초 안에 레벨 클리어
+achievement.speedBlitz.title,Blitz,Blitz,Blitz,Blitzschnell,Blitz,Lampo,Blitz,電光石火,블리츠
+achievement.speedBlitz.description,Solve a level under 5 seconds,Bir bölümü 5 saniye altında çöz,Resuelve un nivel en menos de 5s,Löse ein Level in unter 5 Sekunden,Résous un niveau en moins de 5 secondes,Risolvi un livello in meno di 5 secondi,Resolva um nível em menos de 5 segundos,5秒以内にレベルをクリア,5초 안에 레벨 클리어
+achievement.streak14.title,Two-Week Glow,İki Haftalık Işıltı,Brillo de Dos Semanas,Zwei-Wochen-Glanz,Éclat de deux semaines,Bagliore di due settimane,Brilho de duas semanas,2週間のぬくもり,2주의 온기
+achievement.streak14.description,Reach a 14-day daily streak,14 günlük seriye ulaş,Alcanza una racha de 14 días,Erreiche eine 14-Tage-Serie,Atteins une série de 14 jours,Raggiungi una serie giornaliera di 14 giorni,Alcance uma sequência diária de 14 dias,デイリー14日連続を達成,데일리 14일 연속 달성
+achievement.streak60.title,Two-Month Flame,İki Aylık Alev,Llama de Dos Meses,Zwei-Monats-Flamme,Flamme de deux mois,Fiamma di due mesi,Chama de dois meses,2か月の炎,2달의 불꽃
+achievement.streak60.description,Reach a 60-day daily streak,60 günlük seriye ulaş,Alcanza una racha de 60 días,Erreiche eine 60-Tage-Serie,Atteins une série de 60 jours,Raggiungi una serie giornaliera di 60 giorni,Alcance uma sequência diária de 60 dias,デイリー60日連続を達成,데일리 60일 연속 달성
+achievement.streak100.title,Century Streak,Yüz Günlük Seri,Racha del Siglo,Hunderter-Serie,Série centenaire,Serie centenaria,Sequência centenária,100日連続,100일 연속
+achievement.streak100.description,Reach a 100-day daily streak,100 günlük seriye ulaş,Alcanza una racha de 100 días,Erreiche eine 100-Tage-Serie,Atteins une série de 100 jours,Raggiungi una serie giornaliera di 100 giorni,Alcance uma sequência diária de 100 dias,デイリー100日連続を達成,데일리 100일 연속 달성
+achievement.dedicated14.title,Committed,Kararlı,Comprometido,Entschlossen,Engagé,Determinato,Comprometido,コツコツ派,꾸준함의 힘
+achievement.dedicated14.description,Play 14 days in a row,Üst üste 14 gün oyna,Juega 14 días seguidos,Spiel 14 Tage hintereinander,Joue 14 jours de suite,Gioca 14 giorni di fila,Jogue 14 dias seguidos,14日連続であそぶ,14일 연속 플레이
+achievement.dedicated30.title,Devoted,Adanmış,Devoto,Ergeben,Dévoué,Devoto,Devotado,ひたむき,한결같은 마음
+achievement.dedicated30.description,Play 30 days in a row,Üst üste 30 gün oyna,Juega 30 días seguidos,Spiel 30 Tage hintereinander,Joue 30 jours de suite,Gioca 30 giorni di fila,Jogue 30 dias seguidos,30日連続であそぶ,30일 연속 플레이
+tower.title,Tower,Kule,Torre,Turm,Tour,Torre,Torre,タワー,타워
+tower.subtitle,1 ticket · climb as high as you can,1 bilet · olabildiğince yüksele tırman,1 ticket · sube lo más alto que puedas,1 Ticket · klettere so hoch du kannst,1 ticket · grimpe aussi haut que possible,1 biglietto · sali più in alto che puoi,1 bilhete · suba o mais alto que puder,チケット1枚・できるだけ高く登ろう,티켓 1장 · 최대한 높이 올라가요
+tower.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d,Beste: Etage %d,Record : étage %d,Record: piano %d,Recorde: andar %d,最高：%d階,최고: %d층
+tower.floorUp,Next floor!,Sıradaki kat!,¡Siguiente piso!,Nächste Etage!,Étage suivant !,Piano successivo!,Próximo andar!,次の階へ！,다음 층으로!
+tower.over.title,Tower Over,Kule Bitti,Torre Terminada,Turm vorbei,Fin de la Tour,Torre finita,Fim da Torre,タワー終了,타워 종료
+tower.over.floors,You cleared %d floors,%d kat geçtin,Superaste %d pisos,Du hast %d Etagen geschafft,Tu as franchi %d étages,Hai superato %d piani,Você passou por %d andares,%d階をクリアしました,%d층을 클리어했어요
+tower.over.best,Best: floor %d,En iyi: %d. kat,Mejor: piso %d,Beste: Etage %d,Record : étage %d,Record: piano %d,Recorde: andar %d,最高：%d階,최고: %d층
+tower.over.retry,Retry · %d,Tekrar Dene · %d,Reintentar · %d,Nochmal · %d,Réessayer · %d,Riprova · %d,Tentar de novo · %d,再挑戦 · %d,재도전 · %d
+tower.over.home,Home,Ana Sayfa,Inicio,Start,Accueil,Home,Início,ホーム,홈
+menu.gameModes,Game Modes,Oyun Modları,Modos de Juego,Spielmodi,Modes de jeu,Modalità di gioco,Modos de jogo,ゲームモード,게임 모드
+tower.needTicket,You need 1 ticket to climb the Tower. Convert gems to tickets in the Shop?,Kuleye tırmanmak için 1 bilet gerekli. Mağazada elmasları bilete çevir?,Necesitas 1 ticket para subir la Torre. ¿Convertir gemas en tickets en la Tienda?,Für den Turm brauchst du 1 Ticket. Edelsteine im Shop in Tickets tauschen?,Il te faut 1 ticket pour grimper dans la Tour. Convertir des gemmes en tickets dans la boutique ?,Ti serve 1 biglietto per salire sulla Torre. Convertire gemme in biglietti nel Negozio?,Você precisa de 1 bilhete para subir a Torre. Trocar gemas por bilhetes na Loja?,タワーに登るにはチケットが1枚必要です。ショップでジェムをチケットに交換しますか？,타워에 오르려면 티켓 1장이 필요해요. 상점에서 젬을 티켓으로 교환할까요?
+tower.getTickets,Get Tickets,Bilet Al,Conseguir Tickets,Tickets holen,Obtenir des tickets,Ottieni biglietti,Obter bilhetes,チケットを入手,티켓 받기
+alert.unlockPack.prevPack,Finish the previous pack to unlock this one.,Bunu açmak için önceki paketi bitir.,Termina el paquete anterior para desbloquear este.,"Schließe das vorherige Paket ab, um dieses freizuschalten.",Termine le pack précédent pour débloquer celui-ci.,Finisci il pacchetto precedente per sbloccare questo.,Termine o pacote anterior para desbloquear este.,前のパックをクリアすると解放されます。,이전 팩을 완료하면 잠금이 해제돼요.
+tower.resume,Floor %d · tap to continue,%d. kat · devam et,Piso %d · continuar,Etage %d · tippen zum Fortsetzen,Étage %d · touche pour continuer,Piano %d · tocca per continuare,Andar %d · toque para continuar,%d階 · タップで再開,%d층 · 탭해서 계속
+shop.keysSection,Keys,Anahtarlar,Llaves,Schlüssel,Clés,Chiavi,Chaves,カギ,열쇠
+sku.keysSmall.title,3 Keys,3 Anahtar,3 Llaves,3 Schlüssel,3 clés,3 chiavi,3 Chaves,カギ3個,열쇠 3개
+shop.keysOwned,You have %d,Elinde %d var,Tienes %d,Du hast %d,Tu en as %d,Ne hai %d,Você tem %d,所持：%d,보유: %d
+shop.info.keys.title,Keys,Anahtarlar,Llaves,Schlüssel,Clés,Chiavi,Chaves,カギ,열쇠
+shop.info.keys.body,"Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.","Anahtarlar sandık açar. Kusursuz çözüm, galibiyet serisi ve paket bitirerek de kazanırsın.","Las llaves abren cofres. También las ganas con resoluciones perfectas, rachas y al terminar paquetes.","Schlüssel öffnen Schatztruhen. Du bekommst sie auch für perfekte Lösungen, Siegesserien und abgeschlossene Pakete.","Les clés ouvrent les coffres au trésor. Tu en gagnes aussi avec les résolutions parfaites, les séries de victoires et les packs terminés.","Le chiavi aprono i forzieri del tesoro. Le ottieni anche con soluzioni perfette, serie di vittorie e completando pacchetti.","As chaves abrem baús do tesouro. Você também ganha chaves com soluções perfeitas, sequências de vitórias e ao terminar pacotes.",カギで宝箱が開きます。パーフェクトクリア、連勝、パックのクリアでも手に入ります。,"열쇠로 보물상자를 열 수 있어요. 퍼펙트 클리어, 연승, 팩 완료로도 얻을 수 있어요."
+fail.title,Time's Up!,Süre Bitti!,¡Se acabó el tiempo!,Zeit abgelaufen!,Temps écoulé !,Tempo scaduto!,Acabou o tempo!,タイムアップ！,시간 종료!
+fail.message,We didn't make it this time — let's try again!,Bu sefer bitiremesek de bir daha deneyelim!,"No lo logramos esta vez, ¡inténtalo de nuevo!",Diesmal hat's nicht geklappt – versuch's nochmal!,Raté cette fois — on réessaie !,Stavolta non ce l'abbiamo fatta — riproviamo!,Dessa vez não deu — vamos tentar de novo!,今回は惜しかった。もう一度やってみよう！,이번엔 아쉬웠어요. 다시 도전해 봐요!
+powerup.free,Free,Ücretsiz,Gratis,Gratis,Gratuit,Gratis,Grátis,無料,무료
+stats.perGame,per game,oyun başına,por partida,pro Spiel,par partie,a partita,por partida,1ゲームあたり,게임당
+ad.label,Ad,Reklam,Anuncio,Werbung,Pub,Ann.,Anúncio,広告,광고
+ad.loading,Loading ad…,Reklam yükleniyor…,Cargando anuncio…,Werbung lädt…,Chargement de la pub…,Caricamento annuncio…,Carregando anúncio…,広告を読み込み中…,광고 불러오는 중…
+ad.advertisement,ADVERTISEMENT,REKLAM,ANUNCIO,WERBUNG,PUBLICITÉ,PUBBLICITÀ,PUBLICIDADE,広告,광고
+ad.bannerPlaceholder,Banner Ad Placeholder,Banner reklam yer tutucu,Marcador de anuncio,Banner-Platzhalter,Espace bannière pub,Segnaposto banner,Espaço do banner,バナー広告の仮表示,배너 광고 자리
+a11y.replayHint,Restarts this same level,Bu bölümü baştan başlatır,Reinicia este mismo nivel,Startet dieses Level neu,Relance ce même niveau,Riavvia questo stesso livello,Reinicia este mesmo nível,このレベルを最初からやり直します,같은 레벨을 처음부터 다시 시작해요
+a11y.homeHint,Returns to the main menu,Ana menüye döner,Vuelve al menú principal,Zurück zum Hauptmenü,Retourne au menu principal,Torna al menu principale,Volta ao menu principal,メインメニューに戻ります,메인 메뉴로 돌아가요
+a11y.nextHint,Proceeds to the next level,Sonraki bölüme geçer,Avanza al siguiente nivel,Weiter zum nächsten Level,Passe au niveau suivant,Passa al livello successivo,Vai para o próximo nível,次のレベルに進みます,다음 레벨로 넘어가요
+a11y.resetLabel,Reset all progress,Tüm ilerlemeyi sıfırla,Restablecer todo el progreso,Gesamten Fortschritt zurücksetzen,Réinitialiser toute la progression,Azzera tutti i progressi,Zerar todo o progresso,すべての進行状況をリセット,모든 진행 상황 초기화
+a11y.resetHint,Permanently deletes all your game data. This cannot be undone.,Tüm oyun verini kalıcı olarak siler. Geri alınamaz.,Elimina permanentemente todos tus datos. No se puede deshacer.,Löscht alle deine Spieldaten dauerhaft. Das kann nicht rückgängig gemacht werden.,Supprime définitivement toutes tes données de jeu. Action irréversible.,Elimina definitivamente tutti i dati di gioco. Non si può annullare.,Apaga permanentemente todos os seus dados do jogo. Não pode ser desfeito.,ゲームデータをすべて完全に削除します。取り消せません。,모든 게임 데이터를 영구적으로 삭제해요. 되돌릴 수 없어요.
+a11y.restoreHint,Restores any previously purchased items,Önceden satın alınan öğeleri geri yükler,Restaura las compras anteriores,Stellt bereits gekaufte Artikel wieder her,Restaure les articles déjà achetés,Ripristina gli elementi acquistati in precedenza,Restaura itens comprados anteriormente,以前に購入したアイテムを復元します,이전에 구매한 아이템을 복원해요
+a11y.dismiss,Dismiss,Kapat,Cerrar,Schließen,Fermer,Chiudi,Dispensar,閉じる,닫기
+a11y.info,info,bilgi,información,Info,info,info,informações,情報,정보
+a11y.puzzleGrid,Puzzle grid,Bulmaca ızgarası,Cuadrícula del rompecabezas,Rätselraster,Grille de puzzle,Griglia del puzzle,Grade do puzzle,パズルのグリッド,퍼즐 격자
+a11y.back,Back,Geri,Atrás,Zurück,Retour,Indietro,Voltar,もどる,뒤로
+a11y.backHint,Returns to the previous screen,Önceki ekrana döner,Vuelve a la pantalla anterior,Zurück zum vorherigen Bildschirm,Retourne à l'écran précédent,Torna alla schermata precedente,Volta para a tela anterior,前の画面に戻ります,이전 화면으로 돌아가요
+a11y.newPuzzle,New puzzle,Yeni bulmaca,Nuevo rompecabezas,Neues Rätsel,Nouveau puzzle,Nuovo puzzle,Novo puzzle,新しいパズル,새 퍼즐
+a11y.newPuzzleHint,Discards this puzzle and loads a new one,Bu bulmacayı atıp yenisini yükler,Descarta este rompecabezas y carga uno nuevo,Verwirft dieses Rätsel und lädt ein neues,Abandonne ce puzzle et en charge un nouveau,Scarta questo puzzle e ne carica uno nuovo,Descarta este puzzle e carrega um novo,このパズルをやめて、新しいパズルを読み込みます,이 퍼즐을 버리고 새 퍼즐을 불러와요
+a11y.pause,Pause,Duraklat,Pausa,Pause,Pause,Pausa,Pausar,一時停止,일시정지
+a11y.pauseHint,Pauses the timer and shows pause options,Süreyi duraklatır ve seçenekleri gösterir,Pausa el tiempo y muestra opciones,Pausiert den Timer und zeigt Pause-Optionen,Met le chrono en pause et affiche les options,Mette in pausa il timer e mostra le opzioni di pausa,Pausa o cronômetro e mostra as opções de pausa,タイマーを止めて、一時停止メニューを表示します,타이머를 멈추고 일시정지 옵션을 보여 줘요
+a11y.blockHint,"Double tap to select, then drag to place on the grid","Seçmek için çift dokun, sonra ızgaraya sürükle",Toca dos veces para seleccionar y arrastra a la cuadrícula,"Doppeltippen zum Auswählen, dann aufs Raster ziehen","Touche deux fois pour sélectionner, puis glisse sur la grille","Tocca due volte per selezionare, poi trascina per posizionare sulla griglia","Toque duas vezes para selecionar, depois arraste para colocar na grade",ダブルタップで選択し、ドラッグしてグリッドに置きます,두 번 탭해서 선택한 뒤 끌어서 격자에 놓아요
+a11y.viewAllPacks,View all level packs,Tüm bölüm paketlerini gör,Ver todos los paquetes de niveles,Alle Level-Pakete ansehen,Voir tous les packs de niveaux,Vedi tutti i pacchetti di livelli,Ver todos os pacotes de níveis,すべてのレベルパックを見る,모든 레벨 팩 보기
+a11y.startFirstHint,Opens the levels list to start your first puzzle,İlk bulmacan için bölüm listesini açar,Abre la lista para empezar tu primer rompecabezas,"Öffnet die Levelliste, um dein erstes Rätsel zu starten",Ouvre la liste des niveaux pour lancer ton premier puzzle,Apre l'elenco dei livelli per iniziare il tuo primo puzzle,Abre a lista de níveis para começar seu primeiro puzzle,レベル一覧を開いて、最初のパズルをはじめます,레벨 목록을 열어 첫 퍼즐을 시작해요
+a11y.continueHint,Tap to continue this level,Bu bölüme devam etmek için dokun,Toca para continuar este nivel,"Tippen, um dieses Level fortzusetzen",Touche pour continuer ce niveau,Tocca per continuare questo livello,Toque para continuar este nível,タップしてこのレベルをつづけます,탭해서 이 레벨을 계속해요
+a11y.skipOnboarding,Skip onboarding,Tanıtımı atla,Saltar la introducción,Einführung überspringen,Passer l'introduction,Salta l'introduzione,Pular introdução,紹介をスキップ,소개 건너뛰기
+a11y.skipOnboardingHint,Goes directly to the main menu,Doğrudan ana menüye gider,Va directo al menú principal,Geht direkt zum Hauptmenü,Va directement au menu principal,Va direttamente al menu principale,Vai direto ao menu principal,メインメニューに直接移動します,메인 메뉴로 바로 이동해요
+a11y.packLockedHint,Complete the previous pack to unlock this one,Bunu açmak için önceki paketi bitir,Completa el paquete anterior para desbloquearlo,"Schließe das vorherige Paket ab, um dieses freizuschalten",Termine le pack précédent pour débloquer celui-ci,Completa il pacchetto precedente per sbloccare questo,Conclua o pacote anterior para desbloquear este,前のパックをクリアすると解放されます,이전 팩을 완료하면 잠금이 해제돼요
+a11y.openPackHint,Opens the level list for this pack,Bu paketin bölüm listesini açar,Abre la lista de niveles de este paquete,Öffnet die Levelliste dieses Pakets,Ouvre la liste des niveaux de ce pack,Apre l'elenco dei livelli di questo pacchetto,Abre a lista de níveis deste pacote,このパックのレベル一覧を開きます,이 팩의 레벨 목록을 열어요
+a11y.tapToPlay,Tap to play this level,Bu bölümü oynamak için dokun,Toca para jugar este nivel,"Tippen, um dieses Level zu spielen",Touche pour jouer ce niveau,Tocca per giocare questo livello,Toque para jogar este nível,タップしてこのレベルをあそぶ,탭해서 이 레벨 플레이
+a11y.removeAdsOwned,Remove Ads. Owned,Reklamları Kaldır. Sahipsin,Quitar anuncios. Adquirido,Werbung entfernen. Gekauft,Supprimer les pubs. Acquis,Rimuovi pubblicità. Acquistato,Remover anúncios. Adquirido,広告を削除。購入済み,광고 제거. 보유 중
+a11y.noStreak,No active streak. Play any level today to start one.,Aktif seri yok. Başlatmak için bugün bir bölüm oyna.,Sin racha activa. Juega hoy para empezar una.,"Keine aktive Serie. Spiel heute ein Level, um eine zu starten.",Aucune série en cours. Joue un niveau aujourd'hui pour en lancer une.,Nessuna serie attiva. Gioca un livello oggi per iniziarne una.,Nenhuma sequência ativa. Jogue um nível hoje para começar uma.,連続記録はありません。今日どれか1レベルをあそんではじめよう。,진행 중인 연속 기록이 없어요. 오늘 아무 레벨이나 플레이해서 시작해 보세요.
+a11y.starsEarned3,%d of 3 stars earned,3 yıldızdan %d tanesi kazanıldı,%d de 3 estrellas conseguidas,%d von 3 Sternen erreicht,%d étoiles sur 3 obtenues,%d stelle su 3 ottenute,%d de 3 estrelas ganhas,スター3つ中%d個を獲得,별 3개 중 %d개 획득
+a11y.remainingTime,"%s, remaining time %s","%s, kalan süre %s","%s, tiempo restante %s","%s, verbleibende Zeit %s","%s, temps restant %s","%s, tempo rimasto %s","%s, tempo restante %s",%s、残り時間%s,"%s, 남은 시간 %s"
+a11y.winStreak,Win streak times %d,Galibiyet serisi %d kez,Racha de victorias x%d,Siegesserie: %d,Série de victoires ×%d,Serie di vittorie per %d,Sequência de vitórias x%d,%d連勝,%d연승
+a11y.pieceTray,Piece tray. %d pieces remaining.,Parça tepsisi. %d parça kaldı.,Bandeja de piezas. Quedan %d.,Teile-Ablage. Noch %d Teile.,Plateau de pièces. %d pièces restantes.,Vassoio dei pezzi. %d pezzi rimasti.,Bandeja de peças. %d peças restantes.,ピーストレイ。のこり%d個。,조각 트레이. %d개 남음.
+a11y.cellBlock,%d-cell block,%d hücreli blok,Bloque de %d celdas,Block mit %d Feldern,Bloc de %d cases,Blocco da %d celle,Bloco de %d células,%dマスのブロック,%d칸 블록
+a11y.levelXP,"Level %d, %d of %d XP","Seviye %d, %d / %d XP","Nivel %d, %d de %d XP","Level %d, %d von %d XP","Niveau %d, %d sur %d XP","Livello %d, %d di %d XP","Nível %d, %d de %d XP",レベル%d、XP %d/%d,"레벨 %d, XP %d/%d"
+a11y.levelsCompleted,%d of %d levels completed,%d / %d bölüm tamamlandı,%d de %d niveles completados,%d von %d Leveln abgeschlossen,%d niveaux terminés sur %d,%d livelli completati su %d,%d de %d níveis concluídos,%d/%dレベルをクリア,%d/%d 레벨 클리어
+a11y.starsEarned,%d of %d stars earned,%d / %d yıldız kazanıldı,%d de %d estrellas conseguidas,%d von %d Sternen erreicht,%d étoiles obtenues sur %d,%d stelle su %d ottenute,%d de %d estrelas ganhas,スター%d/%d個を獲得,별 %d/%d개 획득
+a11y.menuStats,"Streak %d days, level %d, %d of %d levels","%d günlük seri, seviye %d, %d / %d bölüm","Racha %d días, nivel %d, %d de %d niveles","Serie %d Tage, Level %d, %d von %d Leveln","Série de %d jours, niveau %d, %d niveaux sur %d","Serie di %d giorni, livello %d, %d livelli su %d","Sequência de %d dias, nível %d, %d de %d níveis",連続%d日、レベル%d、%d/%dレベル,"%d일 연속, 레벨 %d, %d/%d 레벨"
+a11y.continueStats,On level %d of %d. %d completed.,%d / %d bölümdesin. %d tamamlandı.,En el nivel %d de %d. %d completados.,Bei Level %d von %d. %d abgeschlossen.,Au niveau %d sur %d. %d terminés.,Al livello %d di %d. %d completati.,No nível %d de %d. %d concluídos.,%d/%dレベル目。%dクリア済み。,%d/%d 레벨 진행 중. %d개 완료.
+a11y.playedDays,Played on %d of the last 30 days,Son 30 günün %d gününde oynadın,Jugaste %d de los últimos 30 días,An %d der letzten 30 Tage gespielt,Joué %d des 30 derniers jours,Hai giocato %d giorni negli ultimi 30,Jogou em %d dos últimos 30 dias,直近30日のうち%d日あそびました,최근 30일 중 %d일 플레이
+a11y.page,Page %d of %d,Sayfa %d / %d,Página %d de %d,Seite %d von %d,Page %d sur %d,Pagina %d di %d,Página %d de %d,%d/%dページ,%d/%d 페이지
+a11y.buyKeys,3 Keys. %s. Tap to purchase,3 Anahtar. %s. Satın almak için dokun,3 Llaves. %s. Toca para comprar,3 Schlüssel. %s. Zum Kaufen tippen,3 clés. %s. Touche pour acheter,3 chiavi. %s. Tocca per acquistare,3 Chaves. %s. Toque para comprar,カギ3個。%s。タップして購入,열쇠 3개. %s. 탭해서 구매
+a11y.buyHints,10 Hints. %s. Tap to purchase,10 İpucu. %s. Satın almak için dokun,10 Pistas. %s. Toca para comprar,10 Tipps. %s. Zum Kaufen tippen,10 indices. %s. Touche pour acheter,10 suggerimenti. %s. Tocca per acquistare,10 Dicas. %s. Toque para comprar,ヒント10個。%s。タップして購入,힌트 10개. %s. 탭해서 구매
+a11y.buyRemoveAds,Remove Ads. %s. Tap to purchase,Reklamları Kaldır. %s. Satın almak için dokun,Quitar anuncios. %s. Toca para comprar,Werbung entfernen. %s. Zum Kaufen tippen,Supprimer les pubs. %s. Touche pour acheter,Rimuovi pubblicità. %s. Tocca per acquistare,Remover anúncios. %s. Toque para comprar,広告を削除。%s。タップして購入,광고 제거. %s. 탭해서 구매
+a11y.playStreak,Play streak: %d days. Best %d.,Oynama serisi: %d gün. En iyi %d.,Racha de juego: %d días. Mejor %d.,Spielserie: %d Tage. Beste %d.,Série de jeu : %d jours. Record %d.,Serie di gioco: %d giorni. Record %d.,Sequência de jogo: %d dias. Recorde %d.,連続プレイ：%d日。最高%d日。,연속 플레이: %d일. 최고 %d일.
+a11y.currentStreak,Current streak: %d days,Mevcut seri: %d gün,Racha actual: %d días,Aktuelle Serie: %d Tage,Série actuelle : %d jours,Serie attuale: %d giorni,Sequência atual: %d dias,現在の連続記録：%d日,현재 연속 기록: %d일
+a11y.packLocked,%s. Locked. Tap to unlock.,%s. Kilitli. Açmak için dokun.,%s. Bloqueado. Toca para desbloquear.,%s. Gesperrt. Zum Freischalten tippen.,%s. Verrouillé. Touche pour débloquer.,%s. Bloccato. Tocca per sbloccare.,%s. Bloqueado. Toque para desbloquear.,%s。ロック中。タップして解放。,%s. 잠김. 탭해서 잠금 해제.
+a11y.packProgress,"%s, %d of %d levels completed, %d percent","%s, %d / %d bölüm tamamlandı, yüzde %d","%s, %d de %d niveles, %d por ciento","%s, %d von %d Leveln abgeschlossen, %d Prozent","%s, %d niveaux terminés sur %d, %d pour cent","%s, %d livelli su %d completati, %d percento","%s, %d de %d níveis concluídos, %d por cento",%s、%d/%dレベルをクリア、%dパーセント,"%s, %d/%d 레벨 클리어, %d퍼센트"
+shop.error.productUnavailable,Product unavailable,Ürün mevcut değil,Producto no disponible,Produkt nicht verfügbar,Produit indisponible,Prodotto non disponibile,Produto indisponível,この商品は購入できません,구매할 수 없는 상품이에요
+a11y.dayStatus,%s: %s,%s: %s,%s: %s,%s: %s,%s : %s,%s: %s,%s: %s,%s：%s,%s: %s
+a11y.daySolved,solved,çözüldü,resuelto,gelöst,résolu,risolto,resolvido,クリア,클리어
+a11y.dayMissed,missed,kaçırıldı,perdido,verpasst,manqué,mancato,perdido,未クリア,놓침
+a11y.dayToday,", today",", bugün",", hoy",", heute",", aujourd'hui",", oggi",", hoje",、今日,", 오늘"
+a11y.continueCard,"%s, Level %d, %d percent complete","%s, Seviye %d, %%%d tamamlandı","%s, Nivel %d, %d por ciento completado","%s, Level %d, %d Prozent abgeschlossen","%s, niveau %d, %d pour cent terminé","%s, Livello %d, %d percento completato","%s, Nível %d, %d por cento concluído",%s、レベル%d、%dパーセント完了,"%s, 레벨 %d, %d퍼센트 완료"
+shop.gems.section,Gem Packs,Elmas Paketleri,Paquetes de Gemas,Edelstein-Pakete,Packs de gemmes,Pacchetti di gemme,Pacotes de gemas,ジェムパック,젬 팩
+shop.gems.hint,Top up your gems instantly,Elmaslarını anında yükle,Recarga tus gemas al instante,Fülle deine Edelsteine sofort auf,Recharge tes gemmes tout de suite,Ricarica subito le tue gemme,Recarregue suas gemas na hora,ジェムをすぐにチャージ,젬을 바로 충전해요
+shop.bestValue,BEST VALUE,EN AVANTAJLI,MEJOR VALOR,BESTER WERT,MEILLEURE OFFRE,OFFERTA MIGLIORE,MELHOR OFERTA,一番お得,최고 가성비
+a11y.buyGems,%d gems for %s. Tap to purchase,"%d elmas, %s. Satın almak için dokun",%d gemas por %s. Toca para comprar,%d Edelsteine für %s. Zum Kaufen tippen,%d gemmes pour %s. Touche pour acheter,%d gemme per %s. Tocca per acquistare,%d gemas por %s. Toque para comprar,ジェム%d個、%s。タップして購入,"젬 %d개, %s. 탭해서 구매"
+nook.title,Cozy Nook,Sıcak Köşe,Rincón Acogedor,Gemütliche Ecke,Coin Douillet,Angolo accogliente,Cantinho Aconchegante,ほっこりヌック,포근한 누크
+nook.subtitle,"Restore each scene, rescue cozy friends","Sahneleri tamamla, dostları kurtar",Restaura escenas y rescata amigos,Stell jede Szene wieder her und rette kuschelige Freunde,"Restaure chaque scène, sauve des amis tout doux","Restaura ogni scena, salva amici accoglienti","Restaure cada cena, resgate amigos aconchegantes",シーンを修復して、仲間を助けよう,장면을 복원하고 포근한 친구들을 구해요
+nook.drag.hint,Drag the glowing piece into its dark slot.,Parlayan parçayı karanlık yerine sürükle.,Arrastra la pieza brillante a su hueco oscuro.,Zieh das leuchtende Teil in seinen dunklen Platz.,Glisse la pièce lumineuse dans son emplacement sombre.,Trascina il pezzo luminoso nel suo spazio scuro.,Arraste a peça brilhante para o espaço escuro dela.,光るピースを暗いスロットにドラッグしてね。,빛나는 조각을 어두운 칸으로 끌어다 놓아요.
+nook.pieces.ready,Pieces ready to place: %d,Yerleştirilmeye hazır parça: %d,Piezas listas para colocar: %d,Teile zum Platzieren: %d,Pièces à placer : %d,Pezzi pronti da posizionare: %d,Peças prontas para colocar: %d,置けるピース：%d,놓을 수 있는 조각: %d
+nook.scene.done,Scene restored — your friend is home!,Sahne tamamlandı — dostun evinde!,"¡Escena restaurada, tu amigo está en casa!",Szene wiederhergestellt – dein Freund ist zu Hause!,Scène restaurée — ton ami est chez lui !,Scena restaurata — il tuo amico è a casa!,Cena restaurada — seu amigo está em casa!,シーンを修復しました。仲間がおうちに帰れたよ！,장면이 복원됐어요. 친구가 집에 돌아왔어요!
+nook.locked.hint,Finish %d more levels to earn a piece.,Bir parça için %d bölüm daha bitir.,Completa %d niveles más para ganar una pieza.,"Schließe noch %d Level ab, um ein Teil zu bekommen.",Termine encore %d niveaux pour gagner une pièce.,Completa altri %d livelli per ottenere un pezzo.,Conclua mais %d níveis para ganhar uma peça.,あと%dレベルクリアでピースをゲット。,%d개 레벨을 더 클리어하면 조각을 얻어요.
+nook.restored.badge,Restored,Tamamlandı,Restaurada,Wiederhergestellt,Restaurée,Restaurato,Restaurado,修復済み,복원됨
+nook.world.restored,%d%% restored,%%%d tamamlandı,%d%% restaurado,%d%% wiederhergestellt,%d%% restauré,%d%% restaurato,%d%% restaurado,%d%%修復,%d%% 복원
+nook.reveal.title,Surprise! A new scene piece,Sürpriz! Yeni bir sahne parçası,¡Sorpresa! Una pieza nueva,Überraschung! Ein neues Szenenteil,Surprise ! Une nouvelle pièce de scène,Sorpresa! Un nuovo pezzo di scena,Surpresa! Uma nova peça de cena,サプライズ！新しいシーンのピース,깜짝! 새 장면 조각
+nook.reveal.subtitle,Drag it into your scene in the Nook to bring it back to life.,Sahneyi canlandırmak için Nook'ta yerine sürükle.,Arrástrala a su sitio en el rincón para revivir la escena.,"Zieh es in deiner Ecke in die Szene, um sie wieder zum Leben zu erwecken.",Glisse-la dans ta scène du Coin pour la ramener à la vie.,Trascinalo nella scena nell'Angolo per farla rivivere.,Arraste-a para a cena no Cantinho para dar vida a ela.,ヌックのシーンにドラッグして、よみがえらせよう。,누크의 장면에 끌어다 놓아 되살려 주세요.
+nook.reveal.place,Place now,Şimdi yerleştir,Colocar ahora,Jetzt platzieren,Placer maintenant,Posiziona ora,Colocar agora,今すぐ置く,지금 놓기
+nook.reveal.later,Later,Sonra,Más tarde,Später,Plus tard,Dopo,Depois,あとで,나중에
+nook.cozy.percent,%d%% cozy,%%%d rahat,%d%% acogedor,%d%% gemütlich,%d%% douillet,%d%% accogliente,%d%% aconchegante,ほっこり度%d%%,포근함 %d%%
+nook.furnish.title,Furnish your nook,Köşeni döşe,Decora tu rincón,Richte deine Ecke ein,Aménage ton coin,Arreda il tuo angolo,Decore seu cantinho,ヌックを飾ろう,누크를 꾸며 보세요
+nook.hint.tap,Tap a glowing spot to place a piece.,Eşya yerleştirmek için parlayan noktaya dokun.,Toca un punto brillante para colocar una pieza.,"Tippe auf eine leuchtende Stelle, um ein Teil zu platzieren.",Touche un emplacement lumineux pour placer une pièce.,Tocca un punto luminoso per posizionare un pezzo.,Toque em um ponto brilhante para colocar uma peça.,光る場所をタップしてピースを置こう。,빛나는 곳을 탭해서 조각을 놓아요.
+nook.toast.poor,Solve puzzles to earn more!,Daha fazlası için bulmaca çöz!,¡Resuelve puzzles para ganar más!,"Löse Rätsel, um mehr zu verdienen!",Résous des puzzles pour en gagner plus !,Risolvi puzzle per averne di più!,Resolva puzzles para ganhar mais!,パズルを解いてもっと集めよう！,퍼즐을 풀어서 더 모아 보세요!
+nook.complete,Complete,Tamamlandı,Completo,Fertig,Terminé,Completa,Completo,完成,완성
+nook.shelf.title,Your cozy things,Eşyaların,Tus cosas acogedoras,Deine gemütlichen Sachen,Tes petites choses douillettes,Le tue cose accoglienti,Suas coisinhas aconchegantes,お気に入りのもの,나의 포근한 물건들
+nook.shelf.empty,Buy decor below to fill your nook.,Köşeni doldurmak için aşağıdan eşya al.,Compra decoración abajo para llenar tu rincón.,"Kauf unten Deko, um deine Ecke zu füllen.",Achète de la déco ci-dessous pour remplir ton coin.,Compra decorazioni qui sotto per riempire il tuo angolo.,Compre decorações abaixo para encher seu cantinho.,下のデコを買って、ヌックを飾ろう。,아래에서 장식을 사서 누크를 채워 보세요.
+nook.section,Section,Bölüm,Sección,Bereich,Section,Sezione,Seção,セクション,구역
+nook.tab.decor,Decor,Eşya,Decoración,Deko,Déco,Decori,Decoração,デコ,장식
+nook.tab.scenes,Scenes,Sahneler,Escenas,Szenen,Scènes,Scene,Cenas,シーン,장면
+nook.tab.friends,Friends,Dostlar,Amigos,Freunde,Amis,Amici,Amigos,なかま,친구
+nook.owned,Owned,Sende,Tienes,Gekauft,Acquis,Posseduto,Adquirido,所持済み,보유 중
+nook.selected,Selected,Seçili,Elegido,Ausgewählt,Choisi,Selezionato,Selecionado,選択中,선택됨
+nook.use,Use,Kullan,Usar,Nutzen,Utiliser,Usa,Usar,使う,사용
+nook.friend.home,Rescued,Kurtarıldı,Rescatado,Gerettet,Sauvé,Salvato,Resgatado,救出済み,구출함
+nook.friend.locked,Finish pack,Paketi bitir,Acaba el pack,Paket abschließen,Terminer le pack,Finisci pacchetto,Termine o pacote,パックをクリア,팩 완료 필요
+nook.decor.tea,Tea Set,Çay Takımı,Juego de Té,Teeservice,Service à thé,Set da tè,Jogo de chá,ティーセット,티 세트
+nook.decor.plant,Plant,Saksı,Planta,Pflanze,Plante,Pianta,Planta,観葉植物,화분
+nook.decor.photo,Photo,Fotoğraf,Foto,Foto,Photo,Foto,Foto,写真,사진
+nook.decor.lamp,Lamp,Lamba,Lámpara,Lampe,Lampe,Lampada,Luminária,ランプ,램프
+nook.decor.clock,Clock,Saat,Reloj,Uhr,Horloge,Orologio,Relógio,時計,시계
+nook.decor.books,Books,Kitaplar,Libros,Bücher,Livres,Libri,Livros,本,책
+nook.decor.teddy,Teddy,Oyuncak Ayı,Osito,Teddy,Nounours,Orsetto,Ursinho,テディベア,테디베어
+nook.decor.fish,Fish Bowl,Akvaryum,Pecera,Fischglas,Bocal à poissons,Boccia dei pesci,Aquário,金魚鉢,어항
+nook.decor.guitar,Guitar,Gitar,Guitarra,Gitarre,Guitare,Chitarra,Violão,ギター,기타
+nook.decor.console,Game Nook,Oyun Köşesi,Rincón de Juegos,Spielecke,Coin jeux,Angolo giochi,Cantinho gamer,ゲームコーナー,게임 코너
+nook.decor.sofa,Sofa,Koltuk,Sofá,Sofa,Canapé,Divano,Sofá,ソファ,소파
+nook.decor.bed,Cozy Bed,Rahat Yatak,Cama Acogedora,Kuschelbett,Lit douillet,Letto accogliente,Cama aconchegante,ふかふかベッド,포근한 침대
+nook.decor.fairylights,Fairy Lights,Peri Işıkları,Lucecitas,Lichterkette,Guirlandes lumineuses,Luci fatate,Luzes de fada,フェアリーライト,요정 조명
+nook.decor.starlight,Starlight,Yıldız Işığı,Luz Estelar,Sternenlicht,Lumière d'étoiles,Luce stellare,Luz das estrelas,スターライト,별빛 조명
+nook.decor.fireplace,Fireplace,Şömine,Chimenea,Kamin,Cheminée,Camino,Lareira,暖炉,벽난로
+nook.decor.royal,Royal Cushion,Kraliyet Minderi,Cojín Real,Königskissen,Coussin royal,Cuscino reale,Almofada real,ロイヤルクッション,로열 쿠션
+nook.scene.island,Island,Ada,Isla,Insel,Île,Isola,Ilha,島,섬
+nook.scene.forest,Forest,Orman,Bosque,Wald,Forêt,Foresta,Floresta,森,숲
+nook.scene.flower,Flower Field,Çiçek Tarlası,Campo de Flores,Blumenfeld,Champ de fleurs,Campo di fiori,Campo de flores,花畑,꽃밭
+nook.scene.beach,Beach,Sahil,Playa,Strand,Plage,Spiaggia,Praia,ビーチ,해변
+nook.scene.mushroom,Mushroom Grove,Mantar Korusu,Bosque de Setas,Pilzhain,Bosquet de champignons,Bosco di funghi,Bosque de cogumelos,きのこの森,버섯 숲
+nook.scene.lake,Lakeside,Göl Kıyısı,Orilla del Lago,Seeufer,Bord du lac,Lungolago,Beira do lago,湖畔,호숫가
+nook.scene.autumn,Autumn,Sonbahar,Otoño,Herbst,Automne,Autunno,Outono,秋,가을
+nook.scene.desert,Desert,Çöl,Desierto,Wüste,Désert,Deserto,Deserto,砂漠,사막
+nook.scene.waterfall,Waterfall,Şelale,Cascada,Wasserfall,Cascade,Cascata,Cachoeira,滝,폭포
+nook.scene.snow,Snowy,Karlı,Nevado,Verschneit,Neige,Innevato,Nevado,雪景色,설경
+nook.scene.volcano,Volcano,Yanardağ,Volcán,Vulkan,Volcan,Vulcano,Vulcão,火山,화산
+update.required.title,Update Required,Güncelleme Gerekli,Actualización necesaria,Update nötig,Mise à jour requise,Aggiornamento necessario,Atualização necessária,アップデートが必要です,업데이트가 필요해요
+update.required.message,This version is no longer supported. Please update to keep playing.,Bu sürüm artık desteklenmiyor. Oynamaya devam etmek için lütfen güncelle.,Esta versión ya no es compatible. Actualiza para seguir jugando.,"Diese Version wird nicht mehr unterstützt. Bitte aktualisiere, um weiterzuspielen.",Cette version n'est plus prise en charge. Mets à jour pour continuer à jouer.,Questa versione non è più supportata. Aggiorna per continuare a giocare.,Esta versão não é mais compatível. Atualize para continuar jogando.,このバージョンはサポートが終了しました。続けるにはアップデートしてください。,이 버전은 더 이상 지원되지 않아요. 계속하려면 업데이트해 주세요.
+update.required.cta,Update Now,Şimdi Güncelle,Actualizar ahora,Jetzt aktualisieren,Mettre à jour,Aggiorna ora,Atualizar agora,今すぐアップデート,지금 업데이트
+update.soft.title,New Version Available,Yeni Sürüm Var,Nueva versión disponible,Neue Version verfügbar,Nouvelle version disponible,Nuova versione disponibile,Nova versão disponível,新しいバージョンがあります,새 버전이 있어요
+update.soft.message,Update Snuglo for the latest fixes and features.,En son düzeltmeler ve özellikler için Snuglo'yu güncelle.,Actualiza Snuglo para las últimas mejoras y novedades.,Aktualisiere Snuglo für die neuesten Fixes und Funktionen.,Mets Snuglo à jour pour les derniers correctifs et nouveautés.,Aggiorna Snuglo per le ultime correzioni e novità.,Atualize o Snuglo para ter as últimas correções e novidades.,最新の修正と機能のためにSnugloをアップデートしてね。,최신 수정 사항과 기능을 위해 Snuglo를 업데이트해 주세요.
+update.soft.cta,Update,Güncelle,Actualizar,Update,Mettre à jour,Aggiorna,Atualizar,アップデート,업데이트
+fabric.title,Fabric Set,Kumaş Seti,Juego de telas,Stoffset,Set de tissus,Set di tessuti,Conjunto de tecidos,ファブリックセット,원단 세트
+fabric.classic,Classic,Klasik,Clásico,Klassisch,Classique,Classico,Clássico,クラシック,클래식
+fabric.meadow,Meadow,Çayır,Pradera,Wiese,Prairie,Prato,Campo,草原,초원
+fabric.berry,Berry,Böğürtlen,Frutos rojos,Beere,Baie,Bacca,Frutas vermelhas,ベリー,베리
+fabric.denim,Denim,Kot,Denim,Jeans,Denim,Jeans,Jeans,デニム,데님
+fabric.sunset,Sunset,Gün Batımı,Atardecer,Sonnenuntergang,Coucher de soleil,Tramonto,Pôr do sol,サンセット,선셋
+fabric.aurora,Aurora,Kutup Işığı,Aurora,Polarlicht,Aurore,Aurora,Aurora,オーロラ,오로라
+fabric.locked,Lv %d,Sv %d,Nv %d,Lv %d,Niv. %d,Liv. %d,Nv. %d,Lv%d,Lv %d
+fabric.buy,Unlock for %d gems,%d mücevherle aç,Desbloquear por %d gemas,Für %d Edelsteine freischalten,Débloquer pour %d gemmes,Sblocca per %d gemme,Desbloquear por %d gemas,ジェム%d個で解放,젬 %d개로 잠금 해제
+currency.hint,Hint,İpucu,Pista,Tipp,Indice,Suggerimento,Dica,ヒント,힌트
+chest.tier.common,Common,Sıradan,Común,Gewöhnlich,Commun,Comune,Comum,コモン,일반
+chest.tier.rare,Rare,Nadir,Raro,Selten,Rare,Raro,Raro,レア,레어
+chest.tier.epic,Epic,Destansı,Épico,Episch,Épique,Epico,Épico,エピック,에픽
+chest.tier.legendary,Legendary,Efsanevi,Legendario,Legendär,Légendaire,Leggendario,Lendário,レジェンド,전설
+chest.progress,%d/%d solves,%d/%d çözüm,%d/%d resueltos,%d/%d Lösungen,%d/%d résolutions,%d/%d risolti,%d/%d resolvidos,%d/%dクリア,%d/%d 클리어
+combo.label,Combo ×%d,Kombo ×%d,Combo ×%d,Kombi ×%d,Combo ×%d,Combo ×%d,Combo ×%d,コンボ ×%d,콤보 ×%d
+chain.label,%d in a row!,Üst üste %d!,¡%d seguidos!,%d in Folge!,%d d'affilée !,%d di fila!,%d seguidos!,%d連続！,%d연속!
+toast.purchase.done,Purchase complete,Satın alma tamamlandı,Compra completada,Kauf abgeschlossen,Achat terminé,Acquisto completato,Compra concluída,購入が完了しました,구매 완료
+toast.purchase.failed,Purchase failed,Satın alma başarısız,La compra falló,Kauf fehlgeschlagen,Échec de l'achat,Acquisto non riuscito,Falha na compra,購入できませんでした,구매 실패
+toast.purchase.pending,Purchase pending approval,Satın alma onay bekliyor,Compra pendiente de aprobación,Kauf wartet auf Genehmigung,Achat en attente d'approbation,Acquisto in attesa di approvazione,Compra aguardando aprovação,購入の承認待ちです,구매 승인 대기 중
+toast.restore.done,Purchases restored,Satın almalar geri yüklendi,Compras restauradas,Käufe wiederhergestellt,Achats restaurés,Acquisti ripristinati,Compras restauradas,購入を復元しました,구매 복원 완료
+toast.wallet.insufficient,Not enough %s,Yeterli %s yok,No hay suficiente %s,Nicht genug %s,Pas assez de %s,%s insufficienti,%s insuficientes,%sが足りません,%s이(가) 부족해요
+toast.achievement,Achievement unlocked: %s,Başarım açıldı: %s,Logro desbloqueado: %s,Erfolg freigeschaltet: %s,Succès débloqué : %s,Traguardo sbloccato: %s,Conquista desbloqueada: %s,実績解除：%s,업적 달성: %s
+toast.quest.done,Quest complete!,Görev tamamlandı!,¡Misión completada!,Aufgabe erledigt!,Quête terminée !,Missione completata!,Missão concluída!,クエストクリア！,퀘스트 완료!
+settings.notifications.unsupported,Notifications aren't available yet,Bildirimler henüz kullanılamıyor,Las notificaciones aún no están disponibles,Mitteilungen sind noch nicht verfügbar,Les notifications ne sont pas encore disponibles,Le notifiche non sono ancora disponibili,As notificações ainda não estão disponíveis,通知はまだ利用できません,알림은 아직 사용할 수 없어요
+daily.level,Puzzle %d of %d,Bulmaca %d / %d,Puzle %d de %d,Rätsel %d von %d,Puzzle %d sur %d,Puzzle %d di %d,Puzzle %d de %d,パズル %d/%d,퍼즐 %d/%d
+daily.allDone,All done for today!,Bugünlük hepsi tamam!,¡Todo listo por hoy!,Für heute alles geschafft!,Tout est fait pour aujourd'hui !,Tutto fatto per oggi!,Tudo pronto por hoje!,今日はぜんぶクリア！,오늘은 모두 끝!
+pack.reward,+%d coins · +%d gems,+%d coin · +%d mücevher,+%d monedas · +%d gemas,+%d Münzen · +%d Edelsteine,+%d pièces · +%d gemmes,+%d monete · +%d gemme,+%d moedas · +%d gemas,+コイン%d枚 · +ジェム%d個,+코인 %d개 · +젬 %d개
+time.limit,Time left: %s,Kalan süre: %s,Tiempo restante: %s,Verbleibend: %s,Temps restant : %s,Tempo rimasto: %s,Tempo restante: %s,残り時間：%s,남은 시간: %s
+fabric.midnight,Midnight,Gece Yarısı,Medianoche,Mitternacht,Minuit,Mezzanotte,Meia-noite,ミッドナイト,미드나이트
+fabric.blossom,Blossom,Çiçek Açan,Flor,Blüte,Floraison,Fiore,Flor,ブロッサム,블로섬
+currency.key,Key,Anahtar,Llave,Schlüssel,Clé,Chiave,Chave,カギ,열쇠
+currency.energy,Energy,Enerji,Energía,Energie,Énergie,Energia,Energia,エナジー,에너지
+menu.premium,Premium,Premium,Premium,Premium,Premium,Premium,Premium,プレミアム,프리미엄
+settings.gameplay.reduceMotion,Reduce Motion,Hareketi Azalt,Reducir movimiento,Weniger Bewegung,Réduire les animations,Riduci animazioni,Reduzir movimento,動きを減らす,동작 줄이기
+settings.account.support,Support,Destek,Soporte,Support,Assistance,Assistenza,Suporte,サポート,지원
+transfer.paste,Paste,Yapıştır,Pegar,Einfügen,Coller,Incolla,Colar,貼り付け,붙여넣기
+nook.friends,Friends %d/%d,Dostlar %d/%d,Amigos %d/%d,Freunde %d/%d,Amis %d/%d,Amici %d/%d,Amigos %d/%d,なかま %d/%d,친구 %d/%d
+nook.decor.unlock,Place %d more pieces to unlock,Açmak için %d parça daha yerleştir,Coloca %d piezas más para desbloquear,Platziere noch %d Teile zum Freischalten,Place encore %d pièces pour débloquer,Posiziona altri %d pezzi per sbloccare,Coloque mais %d peças para desbloquear,あとピース%d個置くと解放,조각 %d개를 더 놓으면 해제돼요
+daily.streak.title,Daily streak,Günlük seri,Racha diaria,Tagesserie,Série du jour,Serie giornaliera,Sequência diária,デイリー連続記録,데일리 연속 기록
+daily.today,Today,Bugün,Hoy,Heute,Aujourd'hui,Oggi,Hoje,今日,오늘
+daily.play,Play puzzle %d,%d. bulmacayı oyna,Jugar puzle %d,Rätsel %d spielen,Jouer le puzzle %d,Gioca il puzzle %d,Jogar puzzle %d,パズル%dをあそぶ,퍼즐 %d 플레이
+month.1,January,Ocak,Enero,Januar,Janvier,Gennaio,Janeiro,1月,1월
+month.2,February,Şubat,Febrero,Februar,Février,Febbraio,Fevereiro,2月,2월
+month.3,March,Mart,Marzo,März,Mars,Marzo,Março,3月,3월
+month.4,April,Nisan,Abril,April,Avril,Aprile,Abril,4月,4월
+month.5,May,Mayıs,Mayo,Mai,Mai,Maggio,Maio,5月,5월
+month.6,June,Haziran,Junio,Juni,Juin,Giugno,Junho,6月,6월
+month.7,July,Temmuz,Julio,Juli,Juillet,Luglio,Julho,7月,7월
+month.8,August,Ağustos,Agosto,August,Août,Agosto,Agosto,8月,8월
+month.9,September,Eylül,Septiembre,September,Septembre,Settembre,Setembro,9月,9월
+month.10,October,Ekim,Octubre,Oktober,Octobre,Ottobre,Outubro,10月,10월
+month.11,November,Kasım,Noviembre,November,Novembre,Novembre,Novembro,11月,11월
+month.12,December,Aralık,Diciembre,Dezember,Décembre,Dicembre,Dezembro,12月,12월
+weekday.short.1,Mo,Pt,Lu,Mo,Lu,Lu,Seg,月,월
+weekday.short.2,Tu,Sa,Ma,Di,Ma,Ma,Ter,火,화
+weekday.short.3,We,Ça,Mi,Mi,Me,Me,Qua,水,수
+weekday.short.4,Th,Pe,Ju,Do,Je,Gi,Qui,木,목
+weekday.short.5,Fr,Cu,Vi,Fr,Ve,Ve,Sex,金,금
+weekday.short.6,Sa,Ct,Sá,Sa,Sa,Sa,Sáb,土,토
+weekday.short.0,Su,Pz,Do,So,Di,Do,Dom,日,일
+calendar.subtitle,"Log in every day — rewards grow, missing a day restarts the cycle.","Her gün gir — ödüller büyür, bir gün kaçırırsan döngü baştan başlar.","Entra cada día: las recompensas crecen; si faltas un día, el ciclo se reinicia.","Melde dich jeden Tag an – die Belohnungen wachsen, ein verpasster Tag startet den Zyklus neu.","Connecte-toi chaque jour — les récompenses grandissent, un jour manqué relance le cycle.","Accedi ogni giorno — i premi crescono, saltare un giorno riavvia il ciclo.","Entre todo dia — os prêmios crescem, e perder um dia reinicia o ciclo.",毎日ログインすると報酬がアップ。1日休むと最初からになります。,매일 접속하면 보상이 늘어나요. 하루 빠지면 처음부터 다시 시작해요.
+nook.reveal.piece,Piece %d of %d,Parça %d / %d,Pieza %d de %d,Teil %d von %d,Pièce %d sur %d,Pezzo %d di %d,Peça %d de %d,ピース %d/%d,조각 %d/%d
+tower.floor,Floor %d,Kat %d,Piso %d,Etage %d,Étage %d,Piano %d,Andar %d,%d階,%d층
+tower.start,Start Climb,Tırmanışa Başla,Empezar a escalar,Aufstieg starten,Commencer l'ascension,Inizia la salita,Começar a subir,登りはじめる,오르기 시작
+tower.buyTicket,1 ticket · %d,1 bilet · %d,1 boleto · %d,1 Ticket · %d,1 ticket · %d,1 biglietto · %d,1 bilhete · %d,チケット1枚 · %d,티켓 1장 · %d
+praise.t1.1,Nice!,Güzel!,¡Bien!,Nett!,Joli !,Bene!,Legal!,いいね！,좋아요!
+praise.t1.2,Good!,İyi!,¡Bueno!,Gut!,Bien !,Buono!,Bom!,いい感じ！,잘했어요!
+praise.t1.3,Neat!,Tamam!,¡Vale!,Fein!,Net !,Pulito!,Certinho!,きれい！,깔끔해요!
+praise.t2.1,Great!,Harika!,¡Genial!,Toll!,Super !,Ottimo!,Ótimo!,すごい！,대단해요!
+praise.t2.2,Sweet!,Tatlı!,¡Qué bien!,Süß!,Doux !,Dolce!,Doce!,いいぞ！,달콤해요!
+praise.t2.3,Cool!,Hoş!,¡Chévere!,Cool!,Cool !,Forte!,Show!,かっこいい！,멋져요!
+praise.t3.1,Super!,Süper!,¡Súper!,Super!,Génial !,Super!,Super!,スーパー！,슈퍼!
+praise.t3.2,Awesome!,Müthiş!,¡Brutal!,Klasse!,Top !,Fantastico!,Incrível!,最高！,최고예요!
+praise.t3.3,Brilliant!,Şahane!,¡Brillante!,Brillant!,Brillant !,Brillante!,Brilhante!,お見事！,훌륭해요!
+praise.t4.1,Amazing!,Muhteşem!,¡Increíble!,Wahnsinn!,Incroyable !,Stupendo!,Impressionante!,すばらしい！,놀라워요!
+praise.t4.2,Fantastic!,Fantastik!,¡Fantástico!,Fantastisch!,Fantastique !,Favoloso!,Fantástico!,ファンタスティック！,환상적이에요!
+praise.t4.3,Superb!,Enfes!,¡Soberbio!,Großartig!,Superbe !,Magnifico!,Soberbo!,見事！,최상이에요!
+praise.t4.4,Wow!,Vay be!,¡Guau!,Wow!,Wow !,Wow!,Uau!,わあ！,우와!
+praise.t5.1,Perfect!,Kusursuz!,¡Perfecto!,Perfekt!,Parfait !,Perfetto!,Perfeito!,パーフェクト！,완벽해요!
+praise.t5.2,Legendary!,Efsane!,¡Legendario!,Legendär!,Légendaire !,Leggendario!,Lendário!,伝説級！,전설이에요!
+praise.t5.3,Unstoppable!,Durdurulamaz!,¡Imparable!,Unaufhaltsam!,Inarrêtable !,Inarrestabile!,Imparável!,止まらない！,멈출 수 없어요!
+praise.t5.4,Bravo!,Bravo!,¡Bravo!,Bravo!,Bravo !,Bravo!,Bravo!,ブラボー！,브라보!
+praise.near.1,Almost there!,Az kaldı!,¡Casi!,Fast geschafft!,Presque là !,Quasi fatto!,Quase lá!,もう少し！,거의 다 왔어요!
+praise.near.2,So close!,Çok yakın!,¡Muy cerca!,So nah!,Si près !,Ci sei quasi!,Tão perto!,おしい！,아주 가까워요!
+praise.near.3,Nearly done!,Neredeyse!,¡Ya casi!,Gleich fertig!,Bientôt fini !,Manca poco!,Quase pronto!,あと少しで完成！,거의 끝났어요!
+praise.final.1,Final touch!,Son dokunuş!,¡Toque final!,Letzter Schliff!,Touche finale !,Tocco finale!,Toque final!,仕上げ！,마지막 손질!
+praise.final.2,Last stitch!,Son dikiş!,¡Última puntada!,Letzter Stich!,Dernier point !,Ultimo punto!,Último ponto!,最後のひと針！,마지막 한 땀!
+praise.final.3,Done!,Tamamdır!,¡Listo!,Geschafft!,Terminé !,Fatto!,Pronto!,完成！,완성!
+chest.odds,Chest odds: %s,Sandık olasılıkları: %s,Probabilidades del cofre: %s,Truhen-Chancen: %s,Chances du coffre : %s,Probabilità forziere: %s,Chances do baú: %s,宝箱の確率：%s,상자 확률: %s
+chest.odds.item,%s %d%%,%s %%%d,%s %d %%,%s %d%%,%s %d%%,%s %d%%,%s %d%%,%s %d%%,%s %d%%

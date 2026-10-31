@@ -2,7 +2,7 @@ extends Node
 ## Oyuncu tercihleri. Setter'lar kaydeder + Events.settings_changed(key) yayar ve
 ## Sfx/Juice/TranslationServer'a anında uygular. Kozmetik seçimleri Cosmetics'te.
 
-const LANGS := ["en", "tr", "es"]
+const LANGS := ["en", "tr", "es", "de", "fr", "it", "pt", "ja", "ko"]
 const TRACKS := ["auto", "calm", "zen"]
 const DEFAULTS := {
 	"music_enabled": true,
@@ -24,7 +24,9 @@ const DEFAULTS := {
 	"music_track": "auto",
 	"coach_shown": false,
 	"onboarded": false,
-	"review_requested": false,
+	"review_requested": false,   # eski (2.0.2 ve öncesi): tek seferlik istek yapıldı mı
+	"review_last_ts": 0,          # son puan isteği (unix sn)
+	"review_last_version": "",    # son puan isteğinin yapıldığı sürüm
 }
 const HAPTIC_LEVELS := ["full", "light"]
 const SOUND_PACKS := ["classic", "soft", "crisp"]

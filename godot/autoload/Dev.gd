@@ -5,7 +5,7 @@ extends Node
 ##               splash|tower|premium|energy|pause|fail|nook_reveal|version|game>
 ##   SNUG_DEMO=<n>     ilk n kampanya bölümünü çözülmüş say + örnek bakiye (bekleyen kutlamalar temizlenir)
 ##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SCROLL=<px|-1> · SNUG_SHOT=<sn>:<png>
-##   SNUG_LANG=en|tr|es · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
+##   SNUG_LANG=en|tr|es|de|fr|it|pt|ja|ko · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
 ## Yalnızca debug yapıda çalışır; release (App Store) dışa aktarımında tüm kancalar ölüdür.
 
 ## Tüm SNUG_* okumaları buradan geçer: release yapıda daima "" döner.

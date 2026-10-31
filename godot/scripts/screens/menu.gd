@@ -505,7 +505,12 @@ func _build_queue() -> void:
 	if Progress.pending_streak_milestone() > 0:
 		_queue.append(func() -> Sheet:
 			var r := Progress.collect_streak_milestone()
-			return Main.reward(tr("streak.milestone") % int(r.days), {"coin": r.coin, "gem": r.gem}, {"subtitle": tr("streak.keepGoing"), "pose": "wave"}))
+			var sh := Main.reward(tr("streak.milestone") % int(r.days), {"coin": r.coin, "gem": r.gem}, {"subtitle": tr("streak.keepGoing"), "pose": "wave"})
+			if sh:
+				sh.closed.connect(func() -> void:
+					if is_instance_valid(self):
+						Share.maybe_request_review(self), CONNECT_ONE_SHOT)
+			return sh)
 	if DailyReward.can_claim_week() and Progress.total_completed() > 0:
 		_queue.append(func() -> Sheet: return Main.open("daily_login"))
 	if Dev.env("SNUG_NOPOPUP") != "":

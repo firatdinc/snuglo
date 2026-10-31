@@ -1,0 +1,3762 @@
+[
+{
+"key": "common.continue",
+"en": "Continue",
+"tr": "Devam"
+},
+{
+"key": "common.cancel",
+"en": "Cancel",
+"tr": "İptal"
+},
+{
+"key": "common.back",
+"en": "Back",
+"tr": "Geri"
+},
+{
+"key": "common.next",
+"en": "Next",
+"tr": "İleri"
+},
+{
+"key": "common.done",
+"en": "Done",
+"tr": "Tamam"
+},
+{
+"key": "common.skip",
+"en": "Skip",
+"tr": "Geç"
+},
+{
+"key": "common.restart",
+"en": "Restart",
+"tr": "Yeniden Başlat"
+},
+{
+"key": "common.quit",
+"en": "Quit",
+"tr": "Çık"
+},
+{
+"key": "common.retry",
+"en": "Retry",
+"tr": "Tekrar Dene"
+},
+{
+"key": "common.ok",
+"en": "OK",
+"tr": "Tamam"
+},
+{
+"key": "common.error",
+"en": "Error",
+"tr": "Hata"
+},
+{
+"key": "app.name",
+"en": "Snuglo",
+"tr": "Snuglo"
+},
+{
+"key": "app.tagline",
+"en": "Cozy block-logic puzzles",
+"tr": "Sıcacık blok-mantık bulmacaları"
+},
+{
+"key": "onboarding.page1.title",
+"en": "Welcome to Snuglo",
+"tr": "Snuglo'ya Hoş Geldin"
+},
+{
+"key": "onboarding.page1.body",
+"en": "A cozy puzzle to fit your day",
+"tr": "Güne uygun sıcacık bir bulmaca"
+},
+{
+"key": "onboarding.page2.title",
+"en": "Fill the Grid",
+"tr": "Izgarayı Doldur"
+},
+{
+"key": "onboarding.page2.body",
+"en": "Drag and drop pieces to fill every cell. No overlaps, no gaps.",
+"tr": "Parçaları sürükle ve bırak, her hücreyi doldur. Bindirme yok, boşluk yok."
+},
+{
+"key": "onboarding.page3.title",
+"en": "Cozy Every Day",
+"tr": "Her Gün Sıcacık"
+},
+{
+"key": "onboarding.page3.body",
+"en": "Daily puzzles, streaks, and 17 cozy worlds to explore at your pace.",
+"tr": "Günlük bulmacalar, seriler ve kendi temponda keşfedebileceğin 17 sıcak dünya."
+},
+{
+"key": "onboarding.getStarted",
+"en": "Get Started",
+"tr": "Başla"
+},
+{
+"key": "menu.dailyPuzzle",
+"en": "Daily Puzzle",
+"tr": "Günün Bulmacası"
+},
+{
+"key": "menu.continue",
+"en": "Continue",
+"tr": "Devam Et"
+},
+{
+"key": "menu.viewAll",
+"en": "View All",
+"tr": "Tümünü Gör"
+},
+{
+"key": "menu.startFirst",
+"en": "Start your first level",
+"tr": "İlk seviyene başla"
+},
+{
+"key": "menu.refresh",
+"en": "Refresh in %s",
+"tr": "%s içinde yenilenir"
+},
+{
+"key": "menu.dailyComeBack",
+"en": "Done — new puzzles tomorrow",
+"tr": "Bitti — yarın yeni bulmacalar"
+},
+{
+"key": "menu.dailyNext",
+"en": "Next puzzle in",
+"tr": "Yeni bulmaca"
+},
+{
+"key": "menu.daily.notif.on",
+"en": "Daily reminder on",
+"tr": "Günlük hatırlatma açık"
+},
+{
+"key": "menu.daily.notif.off",
+"en": "Daily reminder off",
+"tr": "Günlük hatırlatma kapalı"
+},
+{
+"key": "notif.daily.title",
+"en": "Your daily puzzle is ready 🧩",
+"tr": "Günlük bulmacan hazır 🧩"
+},
+{
+"key": "notif.daily.body",
+"en": "A fresh set of puzzles is waiting. Keep your streak going!",
+"tr": "Yeni bulmacalar seni bekliyor. Serini sürdür!"
+},
+{
+"key": "game.title.daily",
+"en": "Daily Puzzle",
+"tr": "Günün Bulmacası"
+},
+{
+"key": "game.tray.remaining",
+"en": "Remaining",
+"tr": "Kalan"
+},
+{
+"key": "game.quitConfirm.title",
+"en": "Quit the puzzle?",
+"tr": "Çıkmak istediğine emin misin?"
+},
+{
+"key": "game.quitConfirm.message",
+"en": "Your current progress in this level won't be saved.",
+"tr": "Bu bölümdeki ilerlemen kaydedilmeyecek."
+},
+{
+"key": "game.quitConfirm.confirm",
+"en": "Quit",
+"tr": "Çık"
+},
+{
+"key": "game.quitConfirm.cancel",
+"en": "Keep playing",
+"tr": "Devam Et"
+},
+{
+"key": "game.hint",
+"en": "Hint",
+"tr": "İpucu"
+},
+{
+"key": "tab.levels",
+"en": "Levels",
+"tr": "Bölümler"
+},
+{
+"key": "tab.shop",
+"en": "Shop",
+"tr": "Mağaza"
+},
+{
+"key": "tab.play",
+"en": "Play",
+"tr": "Oyna"
+},
+{
+"key": "tab.leaderboard",
+"en": "Leaderboard",
+"tr": "Liderlik"
+},
+{
+"key": "tab.profile",
+"en": "Profile",
+"tr": "Profil"
+},
+{
+"key": "tab.home",
+"en": "Home",
+"tr": "Ana"
+},
+{
+"key": "tab.stats",
+"en": "Stats",
+"tr": "İstatistik"
+},
+{
+"key": "tab.settings",
+"en": "Settings",
+"tr": "Ayarlar"
+},
+{
+"key": "profile.title",
+"en": "Profile",
+"tr": "Profil"
+},
+{
+"key": "profile.subtitle",
+"en": "Your puzzle journey",
+"tr": "Bulmaca yolculuğun"
+},
+{
+"key": "levels.title",
+"en": "Levels",
+"tr": "Seviyeler"
+},
+{
+"key": "levels.subtitle",
+"en": "Pick a pack",
+"tr": "Bir paket seç"
+},
+{
+"key": "pack.cozy_beginnings.title",
+"en": "Cozy Beginnings",
+"tr": "Rahat Başlangıçlar"
+},
+{
+"key": "pack.spice_route.title",
+"en": "Spice Route",
+"tr": "Baharat Yolu"
+},
+{
+"key": "pack.mambo_nights.title",
+"en": "Mambo Nights",
+"tr": "Mambo Geceleri"
+},
+{
+"key": "pack.woodland_retreat.title",
+"en": "Woodland Retreat",
+"tr": "Orman Kaçamağı"
+},
+{
+"key": "pack.cozyBeginnings",
+"en": "Cozy Beginnings",
+"tr": "Sıcak Başlangıç"
+},
+{
+"key": "pack.spiceRoute",
+"en": "Spice Route",
+"tr": "Baharat Yolu"
+},
+{
+"key": "pack.mamboNights",
+"en": "Mambo Nights",
+"tr": "Mambo Geceleri"
+},
+{
+"key": "pack.woodlandRetreat",
+"en": "Woodland Retreat",
+"tr": "Orman Sığınağı"
+},
+{
+"key": "pack.locked",
+"en": "Locked",
+"tr": "Kilitli"
+},
+{
+"key": "pack.progress",
+"en": "Progress",
+"tr": "İlerleme"
+},
+{
+"key": "alert.unlockPack.title",
+"en": "Unlock Pack",
+"tr": "Paketi Kilitsiz Aç"
+},
+{
+"key": "alert.unlockPack.message",
+"en": "%s is locked. Visit the Shop to unlock it.",
+"tr": "%s kilitli. Kilidi açmak için Mağaza'ya git."
+},
+{
+"key": "alert.unlockPack.goToShop",
+"en": "Go to Shop",
+"tr": "Mağazaya Git"
+},
+{
+"key": "pause.title",
+"en": "Paused",
+"tr": "Durakladı"
+},
+{
+"key": "pause.resume",
+"en": "Resume",
+"tr": "Devam Et"
+},
+{
+"key": "pause.restart",
+"en": "Restart",
+"tr": "Yeniden Başlat"
+},
+{
+"key": "pause.home",
+"en": "Home",
+"tr": "Ana Sayfa"
+},
+{
+"key": "pause.sound",
+"en": "Sound",
+"tr": "Ses"
+},
+{
+"key": "pause.haptics",
+"en": "Haptics",
+"tr": "Titreşim"
+},
+{
+"key": "complete.puzzleSolved",
+"en": "Level complete!",
+"tr": "Seviye Tamamlandı!"
+},
+{
+"key": "complete.dailyAllDone",
+"en": "All daily puzzles solved!",
+"tr": "Bugünün tüm bulmacaları çözüldü!"
+},
+{
+"key": "complete.dailyComeBack",
+"en": "Come back tomorrow for a fresh set.",
+"tr": "Yarın yeni bir set için tekrar gel."
+},
+{
+"key": "complete.next",
+"en": "Next Level",
+"tr": "Sonraki Seviye"
+},
+{
+"key": "complete.outOfEnergy",
+"en": "Out of Energy",
+"tr": "Enerji Bitti"
+},
+{
+"key": "complete.replay",
+"en": "Replay",
+"tr": "Tekrar Oyna"
+},
+{
+"key": "complete.home",
+"en": "Home",
+"tr": "Ana Sayfa"
+},
+{
+"key": "complete.time",
+"en": "Time",
+"tr": "Süre"
+},
+{
+"key": "complete.stars",
+"en": "Stars",
+"tr": "Yıldız"
+},
+{
+"key": "complete.hints",
+"en": "Hints",
+"tr": "İpucu"
+},
+{
+"key": "complete.moves",
+"en": "Moves",
+"tr": "Hamle"
+},
+{
+"key": "complete.bestTime",
+"en": "Best Time",
+"tr": "En İyi Süre"
+},
+{
+"key": "stats.title",
+"en": "Stats",
+"tr": "İstatistik"
+},
+{
+"key": "stats.header",
+"en": "Your Stats",
+"tr": "İstatistiklerin"
+},
+{
+"key": "stats.streakActive",
+"en": "🔥 %d-day streak — keep it going!",
+"tr": "🔥 %d günlük seri — devam et!"
+},
+{
+"key": "stats.streakEmpty",
+"en": "Play today's daily puzzle to start a streak 🧩",
+"tr": "Seri başlatmak için bugünkü bulmacayı çöz 🧩"
+},
+{
+"key": "stats.levelsCompleted",
+"en": "Levels",
+"tr": "Seviye"
+},
+{
+"key": "stats.streak",
+"en": "Streak",
+"tr": "Seri"
+},
+{
+"key": "stats.avgTime",
+"en": "Avg Time",
+"tr": "Ort. Süre"
+},
+{
+"key": "stats.dailySolved",
+"en": "Daily Solved",
+"tr": "Günlük Çözüm"
+},
+{
+"key": "stats.packProgress",
+"en": "Pack Progress",
+"tr": "Paket İlerlemesi"
+},
+{
+"key": "stats.last7Days",
+"en": "Solves per day",
+"tr": "Günlük çözümler"
+},
+{
+"key": "stats.chartSolved",
+"en": "Solved",
+"tr": "Çözüldü"
+},
+{
+"key": "stats.chartMissed",
+"en": "Missed",
+"tr": "Kaçırıldı"
+},
+{
+"key": "stats.hintUsage",
+"en": "Hint usage",
+"tr": "İpucu kullanımı"
+},
+{
+"key": "stats.noHints",
+"en": "No hints",
+"tr": "İpucu yok"
+},
+{
+"key": "stats.hints1to2",
+"en": "1–2 hints",
+"tr": "1–2 ipucu"
+},
+{
+"key": "stats.hints3plus",
+"en": "3+ hints",
+"tr": "3+ ipucu"
+},
+{
+"key": "shop.title",
+"en": "Shop",
+"tr": "Mağaza"
+},
+{
+"key": "shop.enhance",
+"en": "Enhance your cozy experience",
+"tr": "Sıcacık deneyimini geliştir"
+},
+{
+"key": "shop.packUnlocks",
+"en": "Puzzle Packs",
+"tr": "Bulmaca Paketleri"
+},
+{
+"key": "shop.hintsSection",
+"en": "Hints",
+"tr": "İpuçları"
+},
+{
+"key": "shop.oneTime",
+"en": "One-Time Purchases",
+"tr": "Tek Seferlik Satın Almalar"
+},
+{
+"key": "shop.hintsRemaining",
+"en": "You have %d remaining",
+"tr": "%d ipucun kaldı"
+},
+{
+"key": "shop.hintsAvailable",
+"en": "%d hints available",
+"tr": "%d ipucu mevcut"
+},
+{
+"key": "shop.restore",
+"en": "Restore Purchases",
+"tr": "Satın Almaları Geri Yükle"
+},
+{
+"key": "shop.owned",
+"en": "Owned",
+"tr": "Sahip Olundu"
+},
+{
+"key": "sku.hintsSmall.title",
+"en": "10 Hints",
+"tr": "10 İpucu"
+},
+{
+"key": "sku.hintsSmall.body",
+"en": "Get unstuck when puzzles get tricky",
+"tr": "Bulmacalar zorlaştığında yardım al"
+},
+{
+"key": "sku.removeAds.title",
+"en": "Remove Ads",
+"tr": "Reklamları Kaldır"
+},
+{
+"key": "sku.removeAds.body",
+"en": "One-time · No more interruptions",
+"tr": "Tek seferlik · Kesintisiz oyna"
+},
+{
+"key": "sku.spiceRoute.title",
+"en": "Spice Route Pack",
+"tr": "Baharat Yolu Paketi"
+},
+{
+"key": "sku.spiceRoute.body",
+"en": "Unlock 60 levels of 6×6 puzzles",
+"tr": "6×6 bulmacalardan 60 seviyenin kilidini aç"
+},
+{
+"key": "sku.mamboNights.title",
+"en": "Mambo Nights Pack",
+"tr": "Mambo Geceleri Paketi"
+},
+{
+"key": "sku.mamboNights.body",
+"en": "Unlock 60 levels of 7×7 puzzles",
+"tr": "7×7 bulmacalardan 60 seviyenin kilidini aç"
+},
+{
+"key": "sku.woodlandRetreat.title",
+"en": "Woodland Retreat Pack",
+"tr": "Orman Sığınağı Paketi"
+},
+{
+"key": "sku.woodlandRetreat.body",
+"en": "Unlock 60 levels of 8×8 puzzles",
+"tr": "8×8 bulmacalardan 60 seviyenin kilidini aç"
+},
+{
+"key": "settings.title",
+"en": "Settings",
+"tr": "Ayarlar"
+},
+{
+"key": "settings.sound.title",
+"en": "Sound & Feel",
+"tr": "Ses & Hissiyat"
+},
+{
+"key": "settings.sound.music",
+"en": "Music",
+"tr": "Müzik"
+},
+{
+"key": "settings.sound.effects",
+"en": "Sound Effects",
+"tr": "Ses Efektleri"
+},
+{
+"key": "settings.haptics.enable",
+"en": "Haptics",
+"tr": "Titreşim"
+},
+{
+"key": "settings.appearance.title",
+"en": "Appearance",
+"tr": "Görünüm"
+},
+{
+"key": "settings.appearance.theme",
+"en": "Theme",
+"tr": "Tema"
+},
+{
+"key": "settings.appearance.system",
+"en": "System",
+"tr": "Sistem"
+},
+{
+"key": "settings.appearance.light",
+"en": "Light",
+"tr": "Açık"
+},
+{
+"key": "settings.appearance.dark",
+"en": "Dark",
+"tr": "Koyu"
+},
+{
+"key": "settings.notifications.title",
+"en": "Notifications",
+"tr": "Bildirimler"
+},
+{
+"key": "settings.notifications.reminder",
+"en": "Daily Reminder",
+"tr": "Günlük Hatırlatıcı"
+},
+{
+"key": "settings.notifications.time",
+"en": "Reminder Time",
+"tr": "Hatırlatma Saati"
+},
+{
+"key": "settings.notifications.reminderSet",
+"en": "Daily reminder set for %s",
+"tr": "%s için günlük hatırlatıcı ayarlandı"
+},
+{
+"key": "settings.language.title",
+"en": "Language",
+"tr": "Dil"
+},
+{
+"key": "settings.language.label",
+"en": "Language",
+"tr": "Dil"
+},
+{
+"key": "settings.language.footer",
+"en": "You can also change the language in iOS Settings → Snuglo.",
+"tr": "Dili iOS Ayarlar → Snuglo bölümünden de değiştirebilirsiniz."
+},
+{
+"key": "settings.language.system",
+"en": "System",
+"tr": "Sistem"
+},
+{
+"key": "settings.language.en",
+"en": "English",
+"tr": "English"
+},
+{
+"key": "settings.language.tr",
+"en": "Türkçe",
+"tr": "Türkçe"
+},
+{
+"key": "settings.language.es",
+"en": "Español",
+"tr": "Español"
+},
+{
+"key": "settings.language.restartTitle",
+"en": "Restart Required",
+"tr": "Yeniden Başlatma Gerekli"
+},
+{
+"key": "settings.language.restartMessage",
+"en": "Language changes take effect after you restart Snuglo.",
+"tr": "Dil değişikliği Snuglo'yu yeniden başlattıktan sonra geçerli olur."
+},
+{
+"key": "settings.privacy.title",
+"en": "Privacy",
+"tr": "Gizlilik"
+},
+{
+"key": "settings.privacy.personalizedAds",
+"en": "Personalized Ads",
+"tr": "Kişiselleştirilmiş Reklamlar"
+},
+{
+"key": "settings.privacy.adsFooter",
+"en": "Allows Snuglo to show ads tailored to your interests using Apple's advertising ID. You can change this in iOS Settings → Privacy → Tracking.",
+"tr": "Snuglo'nun Apple reklam kimliğini kullanarak ilgi alanlarınıza göre reklamlar göstermesine izin verir. iOS Ayarlar → Gizlilik → İzleme bölümünden değiştirebilirsiniz."
+},
+{
+"key": "settings.account.title",
+"en": "Account",
+"tr": "Hesap"
+},
+{
+"key": "settings.account.restore",
+"en": "Restore Purchases",
+"tr": "Satın Almaları Geri Yükle"
+},
+{
+"key": "settings.account.privacy",
+"en": "Privacy Policy",
+"tr": "Gizlilik Politikası"
+},
+{
+"key": "settings.account.terms",
+"en": "Terms of Service",
+"tr": "Kullanım Koşulları"
+},
+{
+"key": "settings.account.reset",
+"en": "Reset Progress",
+"tr": "İlerlemeyi Sıfırla"
+},
+{
+"key": "settings.account.resetTitle",
+"en": "Reset All Progress?",
+"tr": "Tüm İlerleme Sıfırlansın mı?"
+},
+{
+"key": "settings.account.resetMessage",
+"en": "This will permanently delete all completed levels, stars, streaks, and daily puzzle history. This action cannot be undone.",
+"tr": "Tamamlanan tüm seviyeler, yıldızlar, seriler ve günlük bulmaca geçmişi kalıcı olarak silinecek. Bu işlem geri alınamaz."
+},
+{
+"key": "settings.account.resetAction",
+"en": "Reset",
+"tr": "Sıfırla"
+},
+{
+"key": "settings.about.title",
+"en": "About",
+"tr": "Hakkında"
+},
+{
+"key": "settings.about.version",
+"en": "Version",
+"tr": "Sürüm"
+},
+{
+"key": "settings.about.credits",
+"en": "Made with ♥ and cozy vibes",
+"tr": "♥ ve sıcaklıkla yapıldı"
+},
+{
+"key": "notif.disabled.title",
+"en": "Notifications Disabled",
+"tr": "Bildirimler Devre Dışı"
+},
+{
+"key": "notif.disabled.message",
+"en": "To enable daily reminders, allow Snuglo to send notifications in Settings → Snuglo → Notifications.",
+"tr": "Günlük hatırlatıcıları etkinleştirmek için Ayarlar → Snuglo → Bildirimler bölümüne git."
+},
+{
+"key": "notif.openSettings",
+"en": "Open Settings",
+"tr": "Ayarları Aç"
+},
+{
+"key": "currency.coin",
+"en": "Coin",
+"tr": "Coin"
+},
+{
+"key": "currency.gem",
+"en": "Gem",
+"tr": "Mücevher"
+},
+{
+"key": "currency.ticket",
+"en": "Ticket",
+"tr": "Jeton"
+},
+{
+"key": "currency.cup",
+"en": "Trophy",
+"tr": "Kupa"
+},
+{
+"key": "levelcomplete.reward",
+"en": "You earned",
+"tr": "Kazandın"
+},
+{
+"key": "leaderboard.title",
+"en": "Leaderboard",
+"tr": "Liderlik"
+},
+{
+"key": "leaderboard.placeholder.title",
+"en": "Coming in Phase 5",
+"tr": "Faz 5'te Geliyor"
+},
+{
+"key": "leaderboard.placeholder.body",
+"en": "Rankings and achievements are on their way!",
+"tr": "Sıralamalar ve başarılar çok yakında!"
+},
+{
+"key": "leaderboard.board.totalLevels",
+"en": "Total Levels",
+"tr": "Toplam Seviye"
+},
+{
+"key": "leaderboard.board.fastestSolve",
+"en": "Fastest Solve",
+"tr": "En Hızlı Çözüm"
+},
+{
+"key": "leaderboard.board.bestStreak",
+"en": "Best Streak",
+"tr": "En İyi Seri"
+},
+{
+"key": "leaderboard.board.endless",
+"en": "Endless",
+"tr": "Sonsuz"
+},
+{
+"key": "leaderboard.empty.title",
+"en": "No Entries Yet",
+"tr": "Henüz Giriş Yok"
+},
+{
+"key": "leaderboard.empty.body",
+"en": "Complete some levels to appear on the leaderboard.",
+"tr": "Liderlik tablosunda görünmek için birkaç seviye tamamla."
+},
+{
+"key": "leaderboard.notSignedIn.title",
+"en": "Game Center Required",
+"tr": "Game Center Gerekli"
+},
+{
+"key": "leaderboard.notSignedIn.body",
+"en": "Sign in to Game Center in iOS Settings to view global rankings.",
+"tr": "Global sıralamaları görmek için iOS Ayarlar'dan Game Center'a giriş yap."
+},
+{
+"key": "leaderboard.notSignedIn.cta",
+"en": "Open Settings",
+"tr": "Ayarları Aç"
+},
+{
+"key": "leaderboard.error.title",
+"en": "Couldn't Load",
+"tr": "Yüklenemedi"
+},
+{
+"key": "leaderboard.error.body",
+"en": "There was a problem fetching the leaderboard.",
+"tr": "Liderlik tablosu alınırken bir sorun oluştu."
+},
+{
+"key": "leaderboard.sample",
+"en": "(Sample)",
+"tr": "(Örnek)"
+},
+{
+"key": "leaderboard.scope.global",
+"en": "Global",
+"tr": "Dünya"
+},
+{
+"key": "leaderboard.scope.friends",
+"en": "Friends",
+"tr": "Arkadaşlar"
+},
+{
+"key": "leaderboard.you",
+"en": "Your rank",
+"tr": "Senin sıran"
+},
+{
+"key": "leaderboard.openGC",
+"en": "Open in Game Center",
+"tr": "Game Center'da Aç"
+},
+{
+"key": "leaderboard.signIn",
+"en": "Sign in to Game Center",
+"tr": "Game Center'a Giriş Yap"
+},
+{
+"key": "leaderboard.showTop200",
+"en": "Show top 200",
+"tr": "İlk 200'ü göster"
+},
+{
+"key": "leaderboard.row.rank",
+"en": "Rank %d",
+"tr": "Sıra %d"
+},
+{
+"key": "common.viewAll",
+"en": "View All",
+"tr": "Tümünü gör"
+},
+{
+"key": "announcement.dismiss",
+"en": "Dismiss",
+"tr": "Kapat"
+},
+{
+"key": "powerup.hint",
+"en": "Hint",
+"tr": "İpucu"
+},
+{
+"key": "powerup.peek",
+"en": "Peek",
+"tr": "Göz At"
+},
+{
+"key": "powerup.shuffle",
+"en": "Restart",
+"tr": "Yeniden"
+},
+{
+"key": "powerup.insufficient.gem.title",
+"en": "Not Enough Gems",
+"tr": "Yetersiz Mücevher"
+},
+{
+"key": "powerup.insufficient.gem.message",
+"en": "You can get more from the Shop.",
+"tr": "Mağaza'dan daha fazlasını alabilirsin."
+},
+{
+"key": "powerup.insufficient.gem.cta",
+"en": "Go to Shop",
+"tr": "Mağazaya Git"
+},
+{
+"key": "shop.deal.section",
+"en": "Today's Deal",
+"tr": "Bugünün Fırsatı"
+},
+{
+"key": "shop.deal.claim",
+"en": "Claim",
+"tr": "Al"
+},
+{
+"key": "shop.deal.claimed",
+"en": "Claimed today",
+"tr": "Bugün alındı"
+},
+{
+"key": "shop.deal.gems.title",
+"en": "Gem Boost",
+"tr": "Mücevher Desteği"
+},
+{
+"key": "shop.deal.gems.message",
+"en": "Watch an ad and earn 20 free gems.",
+"tr": "Reklam izle ve 20 ücretsiz mücevher kazan."
+},
+{
+"key": "shop.deal.coins.title",
+"en": "Coin Rain",
+"tr": "Altın Yağmuru"
+},
+{
+"key": "shop.deal.coins.message",
+"en": "Watch an ad to earn 150 coins.",
+"tr": "Reklam izle ve 150 altın kazan."
+},
+{
+"key": "shop.deal.ticket.title",
+"en": "Free Ticket",
+"tr": "Ücretsiz Bilet"
+},
+{
+"key": "shop.deal.ticket.message",
+"en": "Watch an ad and get a game ticket.",
+"tr": "Reklam izle ve bir oyun bileti kazan."
+},
+{
+"key": "shop.deal.exchange.title",
+"en": "Gem Deal",
+"tr": "Mücevher Fırsatı"
+},
+{
+"key": "shop.deal.exchange.message",
+"en": "Spend 300 coins and get 5 gems.",
+"tr": "300 altın harca ve 5 mücevher al."
+},
+{
+"key": "shop.deal.ticket.gems.title",
+"en": "Ticket Deal",
+"tr": "Bilet Fırsatı"
+},
+{
+"key": "shop.deal.ticket.gems.message",
+"en": "Spend 80 gems and get 2 tickets.",
+"tr": "80 mücevher harca ve 2 bilet al."
+},
+{
+"key": "shop.packs.section",
+"en": "Free Rewards",
+"tr": "Ücretsiz Ödüller"
+},
+{
+"key": "shop.packs.hint",
+"en": "Watch a short video to earn — free",
+"tr": "Kısa bir video izle, ücretsiz kazan"
+},
+{
+"key": "shop.free",
+"en": "FREE",
+"tr": "ÜCRETSİZ"
+},
+{
+"key": "shop.pack.watch.ad",
+"en": "Watch Ad",
+"tr": "Reklam İzle"
+},
+{
+"key": "shop.pack.coins.sm",
+"en": "Small Pack",
+"tr": "Küçük Paket"
+},
+{
+"key": "shop.pack.coins.md",
+"en": "Coin Bundle",
+"tr": "Altın Demeti"
+},
+{
+"key": "shop.pack.gems.sm",
+"en": "Gem Pouch",
+"tr": "Mücevher Kesesi"
+},
+{
+"key": "shop.pack.ticket",
+"en": "Game Ticket",
+"tr": "Oyun Bileti"
+},
+{
+"key": "shop.exchange.section",
+"en": "Exchange",
+"tr": "Dönüştür"
+},
+{
+"key": "shop.exchange.hint",
+"en": "Convert coins and gems",
+"tr": "Altın ve mücevher dönüştür"
+},
+{
+"key": "shop.exchange.rate",
+"en": "Rate",
+"tr": "Kur"
+},
+{
+"key": "shop.exchange.need",
+"en": "Need %d more",
+"tr": "%d daha gerekli"
+},
+{
+"key": "shop.exchange.confirm",
+"en": "Exchange",
+"tr": "Dönüştür"
+},
+{
+"key": "shop.debug.section",
+"en": "Debug Controls",
+"tr": "Hata Ayıklama"
+},
+{
+"key": "shop.debug.add.coins",
+"en": "Add 500 Coins",
+"tr": "500 Altın Ekle"
+},
+{
+"key": "shop.debug.add.gems",
+"en": "Add 100 Gems",
+"tr": "100 Mücevher Ekle"
+},
+{
+"key": "shop.debug.add.tickets",
+"en": "Add 5 Tickets",
+"tr": "5 Bilet Ekle"
+},
+{
+"key": "shop.exchange.success.title",
+"en": "Exchanged!",
+"tr": "Takas Yapıldı!"
+},
+{
+"key": "shop.exchange.success.message",
+"en": "Your balance has been updated.",
+"tr": "Bakiyen güncellendi."
+},
+{
+"key": "shop.exchange.insufficient.title",
+"en": "Insufficient Balance",
+"tr": "Yetersiz Bakiye"
+},
+{
+"key": "shop.exchange.insufficient.message",
+"en": "You don't have enough to complete this exchange.",
+"tr": "Bu takas için yeterli bakiyen yok."
+},
+{
+"key": "shop.iap.purchase.success",
+"en": "Purchase Successful",
+"tr": "Satın Alma Başarılı"
+},
+{
+"key": "shop.iap.purchase.success.message",
+"en": "Your items have been added to your account.",
+"tr": "Öğelerin hesabına eklendi."
+},
+{
+"key": "shop.ad.unavailable",
+"en": "Ad not available",
+"tr": "Reklam mevcut değil"
+},
+{
+"key": "profile.identity.title",
+"en": "Player",
+"tr": "Oyuncu"
+},
+{
+"key": "profile.premium.active",
+"en": "Premium Active",
+"tr": "Premium Aktif"
+},
+{
+"key": "profile.premium.upgrade.title",
+"en": "Go Premium",
+"tr": "Premium'a Yükselt"
+},
+{
+"key": "profile.premium.upgrade.subtitle",
+"en": "Remove ads and unlock bonuses",
+"tr": "Reklamları kaldır ve bonusların kilidini aç"
+},
+{
+"key": "profile.link.achievements",
+"en": "Achievements",
+"tr": "Başarımlar"
+},
+{
+"key": "profile.link.bestScores",
+"en": "Best Scores",
+"tr": "En İyi Skorlar"
+},
+{
+"key": "profile.link.dailyReward",
+"en": "Daily Reward",
+"tr": "Günlük Ödül"
+},
+{
+"key": "profile.link.stats",
+"en": "Stats",
+"tr": "İstatistikler"
+},
+{
+"key": "profile.settings.title",
+"en": "Settings",
+"tr": "Ayarlar"
+},
+{
+"key": "common.upgrade",
+"en": "Upgrade",
+"tr": "Yükselt"
+},
+{
+"key": "dailyReward.title",
+"en": "Daily Reward",
+"tr": "Günlük Ödül"
+},
+{
+"key": "dailyReward.claim.cta",
+"en": "Claim Today's Reward",
+"tr": "Bugünün Ödülünü Al"
+},
+{
+"key": "dailyReward.claim.disabled",
+"en": "Come Back Tomorrow",
+"tr": "Yarın Geri Gel"
+},
+{
+"key": "dailyReward.success.title",
+"en": "Reward Claimed!",
+"tr": "Ödül Alındı!"
+},
+{
+"key": "dailyReward.success.subtitle",
+"en": "See you tomorrow",
+"tr": "Yarın görüşürüz"
+},
+{
+"key": "dailyReward.day",
+"en": "Day %d",
+"tr": "Gün %d"
+},
+{
+"key": "dailyReward.premium.bonus",
+"en": "Premium Bonus",
+"tr": "Premium Bonusu"
+},
+{
+"key": "achievements.title",
+"en": "Achievements",
+"tr": "Başarımlar"
+},
+{
+"key": "achievement.category.levels",
+"en": "Levels",
+"tr": "Seviyeler"
+},
+{
+"key": "achievement.category.streak",
+"en": "Streaks",
+"tr": "Seriler"
+},
+{
+"key": "achievement.category.skill",
+"en": "Skills",
+"tr": "Beceriler"
+},
+{
+"key": "achievement.locked.label",
+"en": "Locked",
+"tr": "Kilitli"
+},
+{
+"key": "achievement.unlocked.banner.title",
+"en": "Achievement Unlocked!",
+"tr": "Başarım Açıldı!"
+},
+{
+"key": "achievement.firstSteps.title",
+"en": "First Steps",
+"tr": "İlk Adımlar"
+},
+{
+"key": "achievement.firstSteps.description",
+"en": "Complete your first level",
+"tr": "İlk seviyeni tamamla"
+},
+{
+"key": "achievement.levelHunter10.title",
+"en": "Level Hunter",
+"tr": "Seviye Avcısı"
+},
+{
+"key": "achievement.levelHunter10.description",
+"en": "Complete 10 levels",
+"tr": "10 seviyeyi tamamla"
+},
+{
+"key": "achievement.levelMaster50.title",
+"en": "Level Master",
+"tr": "Seviye Ustası"
+},
+{
+"key": "achievement.levelMaster50.description",
+"en": "Complete 50 levels",
+"tr": "50 seviyeyi tamamla"
+},
+{
+"key": "achievement.perfectionist1.title",
+"en": "Perfectionist",
+"tr": "Mükemmeliyetçi"
+},
+{
+"key": "achievement.perfectionist1.description",
+"en": "Earn 3 stars on a level",
+"tr": "Bir seviyede 3 yıldız kazan"
+},
+{
+"key": "achievement.perfectionistPro10.title",
+"en": "Perfectionist Pro",
+"tr": "Mükemmeliyetçi Pro"
+},
+{
+"key": "achievement.perfectionistPro10.description",
+"en": "Earn 3 stars on 10 levels",
+"tr": "10 seviyede 3 yıldız kazan"
+},
+{
+"key": "achievement.streak3.title",
+"en": "Hot Streak",
+"tr": "Ateşli Seri"
+},
+{
+"key": "achievement.streak3.description",
+"en": "Maintain a 3-day streak",
+"tr": "3 günlük seri kur"
+},
+{
+"key": "achievement.streak7.title",
+"en": "Streak Master",
+"tr": "Seri Ustası"
+},
+{
+"key": "achievement.streak7.description",
+"en": "Maintain a 7-day streak",
+"tr": "7 günlük seri kur"
+},
+{
+"key": "achievement.streak30.title",
+"en": "Unstoppable",
+"tr": "Durdurulamaz"
+},
+{
+"key": "achievement.streak30.description",
+"en": "Maintain a 30-day streak",
+"tr": "30 günlük seri kur"
+},
+{
+"key": "achievement.noHints10.title",
+"en": "No Help Needed",
+"tr": "Yardıma Gerek Yok"
+},
+{
+"key": "achievement.noHints10.description",
+"en": "Complete 10 levels without hints",
+"tr": "İpucu kullanmadan 10 seviyeyi tamamla"
+},
+{
+"key": "achievement.speedSolver.title",
+"en": "Speed Solver",
+"tr": "Hız Çözücü"
+},
+{
+"key": "achievement.speedSolver.description",
+"en": "Solve a level in under 30 seconds",
+"tr": "Bir seviyeyi 30 saniyenin altında çöz"
+},
+{
+"key": "menu.streak.days",
+"en": "%d-day streak",
+"tr": "%d günlük seri"
+},
+{
+"key": "menu.streak.start",
+"en": "Play any level today to start a streak",
+"tr": "Bugün oyna, serini başlat"
+},
+{
+"key": "menu.streak.best",
+"en": "Best %d",
+"tr": "En iyi %d"
+},
+{
+"key": "settings.gameplay.title",
+"en": "Gameplay",
+"tr": "Oyun"
+},
+{
+"key": "settings.gameplay.zen",
+"en": "Zen Mode",
+"tr": "Zen Modu"
+},
+{
+"key": "settings.gameplay.zenFooter",
+"en": "No timer and no fail in campaign and daily levels. Rewards are smaller (up to 25 coins a day). Tower is not affected.",
+"tr": "Kampanya ve günlük bölümlerde süre yok, kaybetmek yok. Ödüller küçülür (günde en fazla 25 düğme). Kule etkilenmez."
+},
+{
+"key": "quest.header",
+"en": "Daily Quests",
+"tr": "Günlük Görevler"
+},
+{
+"key": "quest.solveLevels",
+"en": "Solve %d levels",
+"tr": "%d bölüm çöz"
+},
+{
+"key": "quest.solveUnder",
+"en": "Solve a level under %ds",
+"tr": "%d sn altında bir bölüm çöz"
+},
+{
+"key": "quest.noHints",
+"en": "Solve %d levels, no hints",
+"tr": "İpucu olmadan %d bölüm çöz"
+},
+{
+"key": "quest.claim",
+"en": "CLAIM",
+"tr": "AL"
+},
+{
+"key": "quest.claimed",
+"en": "Claimed",
+"tr": "Alındı"
+},
+{
+"key": "chest.title",
+"en": "Reward Chest",
+"tr": "Ödül Sandığı"
+},
+{
+"key": "chest.ready",
+"en": "Chest ready!",
+"tr": "Sandık hazır!"
+},
+{
+"key": "chest.tapToOpen",
+"en": "Tap to open",
+"tr": "Açmak için dokun"
+},
+{
+"key": "chest.reward",
+"en": "Reward!",
+"tr": "Ödül!"
+},
+{
+"key": "chest.collect",
+"en": "Collect",
+"tr": "Topla"
+},
+{
+"key": "spin.title",
+"en": "Daily Spin",
+"tr": "Günlük Çark"
+},
+{
+"key": "spin.available",
+"en": "Free spin ready!",
+"tr": "Ücretsiz çevirme hazır!"
+},
+{
+"key": "spin.comeBack",
+"en": "Come back tomorrow",
+"tr": "Yarın tekrar gel"
+},
+{
+"key": "spin.spin",
+"en": "SPIN",
+"tr": "ÇEVİR"
+},
+{
+"key": "spin.reward",
+"en": "You won!",
+"tr": "Kazandın!"
+},
+{
+"key": "spin.collect",
+"en": "Collect",
+"tr": "Topla"
+},
+{
+"key": "level.label",
+"en": "Level %d",
+"tr": "Seviye %d"
+},
+{
+"key": "level.labelTotal",
+"en": "Level %d/%d",
+"tr": "Seviye %d/%d"
+},
+{
+"key": "level.up",
+"en": "Level Up",
+"tr": "Seviye Atladın"
+},
+{
+"key": "level.reached",
+"en": "Level %d!",
+"tr": "Seviye %d!"
+},
+{
+"key": "skin.title",
+"en": "Block Skin",
+"tr": "Blok Teması"
+},
+{
+"key": "skin.nordic",
+"en": "Nordic",
+"tr": "Nordic"
+},
+{
+"key": "skin.candy",
+"en": "Candy",
+"tr": "Şeker"
+},
+{
+"key": "skin.ocean",
+"en": "Ocean",
+"tr": "Okyanus"
+},
+{
+"key": "skin.mono",
+"en": "Mono",
+"tr": "Mono"
+},
+{
+"key": "skin.locked",
+"en": "Lv %d",
+"tr": "Sv %d"
+},
+{
+"key": "streak.milestone",
+"en": "%d-Day Streak!",
+"tr": "%d Günlük Seri!"
+},
+{
+"key": "streak.keepGoing",
+"en": "Keep it going",
+"tr": "Böyle devam et"
+},
+{
+"key": "endless.title",
+"en": "Endless Zen",
+"tr": "Sonsuz Zen"
+},
+{
+"key": "endless.subtitle",
+"en": "Never-ending, no timer",
+"tr": "Süresiz, bitmeyen"
+},
+{
+"key": "endless.best",
+"en": "Best: Level %d",
+"tr": "Rekor: Seviye %d"
+},
+{
+"key": "weekly.title",
+"en": "Weekly Challenge",
+"tr": "Haftalık Görev"
+},
+{
+"key": "weekly.goal",
+"en": "Solve %d levels this week",
+"tr": "Bu hafta %d bölüm çöz"
+},
+{
+"key": "share.button",
+"en": "Share Result",
+"tr": "Sonucu Paylaş"
+},
+{
+"key": "share.solved",
+"en": "Solved!",
+"tr": "Çözüldü!"
+},
+{
+"key": "share.time",
+"en": "TIME",
+"tr": "SÜRE"
+},
+{
+"key": "share.level",
+"en": "LEVEL",
+"tr": "SEVİYE"
+},
+{
+"key": "share.streak",
+"en": "STREAK",
+"tr": "SERİ"
+},
+{
+"key": "share.tagline",
+"en": "cozy block puzzle",
+"tr": "rahatlatıcı blok bulmaca"
+},
+{
+"key": "calendar.title",
+"en": "Daily Reward",
+"tr": "Günlük Ödül"
+},
+{
+"key": "calendar.available",
+"en": "Claim today's reward!",
+"tr": "Bugünkü ödülü al!"
+},
+{
+"key": "calendar.comeBack",
+"en": "Come back tomorrow",
+"tr": "Yarın tekrar gel"
+},
+{
+"key": "calendar.claimDay",
+"en": "Claim Day %d",
+"tr": "%d. Günü Al"
+},
+{
+"key": "common.close",
+"en": "Close",
+"tr": "Kapat"
+},
+{
+"key": "stats.heatmap.title",
+"en": "Activity (30 days)",
+"tr": "Aktiflik (30 gün)"
+},
+{
+"key": "stats.activeDays",
+"en": "%d/30 active days",
+"tr": "%d/30 aktif gün"
+},
+{
+"key": "stats.stars.title",
+"en": "Star Distribution",
+"tr": "Yıldız Dağılımı"
+},
+{
+"key": "board.parchment",
+"en": "Parchment",
+"tr": "Parşömen"
+},
+{
+"key": "board.dawn",
+"en": "Dawn",
+"tr": "Şafak"
+},
+{
+"key": "board.forest",
+"en": "Forest",
+"tr": "Orman"
+},
+{
+"key": "board.night",
+"en": "Night",
+"tr": "Gece"
+},
+{
+"key": "board.title",
+"en": "Board Background",
+"tr": "Tahta Arkaplanı"
+},
+{
+"key": "settings.gameplay.colorblind",
+"en": "Color-Blind Patterns",
+"tr": "Renk Körü Desenleri"
+},
+{
+"key": "soundpack.title",
+"en": "Sound Pack",
+"tr": "Ses Paketi"
+},
+{
+"key": "soundpack.classic",
+"en": "Classic",
+"tr": "Klasik"
+},
+{
+"key": "soundpack.soft",
+"en": "Soft",
+"tr": "Yumuşak"
+},
+{
+"key": "soundpack.crisp",
+"en": "Crisp",
+"tr": "Net"
+},
+{
+"key": "stats.empty",
+"en": "Solve a level to start your stats",
+"tr": "İstatistiklerini doldurmak için bir bölüm çöz"
+},
+{
+"key": "freeze.title",
+"en": "Streak Freeze",
+"tr": "Seri Dondurma"
+},
+{
+"key": "freeze.held",
+"en": "%d held — protects a missed day",
+"tr": "%d adet — kaçırılan bir günü korur"
+},
+{
+"key": "reward.double",
+"en": "Watch → 2×",
+"tr": "İzle → 2×"
+},
+{
+"key": "haptic.strength",
+"en": "Haptic Strength",
+"tr": "Titreşim Şiddeti"
+},
+{
+"key": "haptic.full",
+"en": "Full",
+"tr": "Tam"
+},
+{
+"key": "haptic.light",
+"en": "Light",
+"tr": "Hafif"
+},
+{
+"key": "coach.drag",
+"en": "Drag a piece onto the board",
+"tr": "Bir parçayı tahtaya sürükle"
+},
+{
+"key": "pause.hint",
+"en": "Hint",
+"tr": "İpucu"
+},
+{
+"key": "pause.settings",
+"en": "Settings",
+"tr": "Ayarlar"
+},
+{
+"key": "settings.sound.volume",
+"en": "Volume",
+"tr": "Ses seviyesi"
+},
+{
+"key": "settings.notifications.comeback",
+"en": "Comeback reminders",
+"tr": "Geri dönüş hatırlatması"
+},
+{
+"key": "notif.comeback.title",
+"en": "We miss you! 🧩",
+"tr": "Seni özledik! 🧩"
+},
+{
+"key": "notif.comeback.body",
+"en": "Your Snuglo puzzles and streak are waiting.",
+"tr": "Snuglo bulmacaların ve streak'in seni bekliyor."
+},
+{
+"key": "settings.sound.track",
+"en": "Music track",
+"tr": "Müzik parçası"
+},
+{
+"key": "settings.sound.track.auto",
+"en": "Auto",
+"tr": "Otomatik"
+},
+{
+"key": "settings.sound.track.calm",
+"en": "Calm",
+"tr": "Sakin"
+},
+{
+"key": "settings.sound.track.zen",
+"en": "Zen",
+"tr": "Zen"
+},
+{
+"key": "settings.account.transfer",
+"en": "Back up / transfer progress",
+"tr": "İlerlemeyi yedekle / aktar"
+},
+{
+"key": "transfer.title",
+"en": "Backup & Transfer",
+"tr": "Yedekle ve Aktar"
+},
+{
+"key": "transfer.backup.title",
+"en": "Backup code",
+"tr": "Yedekleme kodu"
+},
+{
+"key": "transfer.backup.desc",
+"en": "Copy this code and keep it safe, or move it to a new device.",
+"tr": "Bu kodu kopyala ve güvenli bir yere sakla ya da yeni cihazına aktar."
+},
+{
+"key": "transfer.copy",
+"en": "Copy",
+"tr": "Kopyala"
+},
+{
+"key": "transfer.share",
+"en": "Share",
+"tr": "Paylaş"
+},
+{
+"key": "transfer.restore.title",
+"en": "Restore",
+"tr": "Geri yükle"
+},
+{
+"key": "transfer.restore.desc",
+"en": "Paste a backup code here to restore it.",
+"tr": "Bir yedekleme kodunu buraya yapıştır ve geri yükle."
+},
+{
+"key": "transfer.restore.action",
+"en": "Restore",
+"tr": "Geri yükle"
+},
+{
+"key": "transfer.note",
+"en": "Includes progress, currencies, cosmetics and settings. A restore fully applies after restarting the app.",
+"tr": "İlerleme, para birimleri, kozmetikler ve ayarlar dahildir. Geri yükleme uygulamayı yeniden başlatınca tam etkinleşir."
+},
+{
+"key": "transfer.restored.title",
+"en": "Restored",
+"tr": "Geri yüklendi"
+},
+{
+"key": "transfer.restored.message",
+"en": "Your save was restored. Restart the app to fully apply the changes.",
+"tr": "Kaydın geri yüklendi. Değişikliklerin tam uygulanması için uygulamayı yeniden başlat."
+},
+{
+"key": "transfer.invalid.title",
+"en": "Invalid code",
+"tr": "Geçersiz kod"
+},
+{
+"key": "transfer.invalid.message",
+"en": "This code couldn't be read. Make sure you copied all of it.",
+"tr": "Bu kod okunamadı. Tamamını kopyaladığından emin ol."
+},
+{
+"key": "stats.lifetime.title",
+"en": "Lifetime",
+"tr": "Tüm Zamanlar"
+},
+{
+"key": "stats.starsEarned",
+"en": "Total stars",
+"tr": "Toplam yıldız"
+},
+{
+"key": "stats.perfectSolves",
+"en": "Perfect (3★)",
+"tr": "Mükemmel (3★)"
+},
+{
+"key": "stats.bestTime",
+"en": "Best time",
+"tr": "En iyi süre"
+},
+{
+"key": "stats.longestStreak",
+"en": "Longest streak",
+"tr": "En uzun seri"
+},
+{
+"key": "pack.complete.title",
+"en": "Pack complete!",
+"tr": "Paket tamamlandı!"
+},
+{
+"key": "praise.0",
+"en": "Nicely done!",
+"tr": "Güzel!"
+},
+{
+"key": "praise.1",
+"en": "Beautiful!",
+"tr": "Harika!"
+},
+{
+"key": "praise.2",
+"en": "Cozy!",
+"tr": "Huzurlu!"
+},
+{
+"key": "praise.3",
+"en": "Smooth!",
+"tr": "Akıcı!"
+},
+{
+"key": "praise.4",
+"en": "Perfect fit!",
+"tr": "Tam oturdu!"
+},
+{
+"key": "praise.5",
+"en": "Lovely!",
+"tr": "Sıcacık!"
+},
+{
+"key": "achievement.levelLegend100.title",
+"en": "Legend",
+"tr": "Efsane"
+},
+{
+"key": "achievement.levelLegend100.description",
+"en": "Complete 100 levels",
+"tr": "100 bölüm tamamla"
+},
+{
+"key": "achievement.packFinisher.title",
+"en": "Pack Finisher",
+"tr": "Paket Ustası"
+},
+{
+"key": "achievement.packFinisher.description",
+"en": "Complete every level in a pack",
+"tr": "Bir paketi tamamen bitir"
+},
+{
+"key": "achievement.perfectionistMaster25.title",
+"en": "Flawless Master",
+"tr": "Kusursuz Usta"
+},
+{
+"key": "achievement.perfectionistMaster25.description",
+"en": "Solve 25 levels with 3 stars",
+"tr": "25 bölümü 3 yıldızla çöz"
+},
+{
+"key": "achievement.dedicated7.title",
+"en": "Dedicated",
+"tr": "Sadık"
+},
+{
+"key": "achievement.dedicated7.description",
+"en": "Play 7 days in a row",
+"tr": "7 gün üst üste oyna"
+},
+{
+"key": "achievement.comboChampion.title",
+"en": "Combo Champion",
+"tr": "Kombo Şampiyonu"
+},
+{
+"key": "achievement.comboChampion.description",
+"en": "Solve 5 levels in a row without failing",
+"tr": "5 bölümü arka arkaya kaybetmeden çöz"
+},
+{
+"key": "achievement.speedDemon.title",
+"en": "Speed Demon",
+"tr": "Hız Canavarı"
+},
+{
+"key": "achievement.speedDemon.description",
+"en": "Solve a level in under 15 seconds",
+"tr": "Bir bölümü 15 saniyenin altında çöz"
+},
+{
+"key": "today.greeting.morning",
+"en": "Good morning 🌿",
+"tr": "Günaydın 🌿"
+},
+{
+"key": "today.greeting.afternoon",
+"en": "Good afternoon 🌿",
+"tr": "İyi günler 🌿"
+},
+{
+"key": "today.greeting.evening",
+"en": "Good evening 🌙",
+"tr": "İyi akşamlar 🌙"
+},
+{
+"key": "today.greeting.night",
+"en": "Good night 🌙",
+"tr": "İyi geceler 🌙"
+},
+{
+"key": "skin.sunset",
+"en": "Sunset",
+"tr": "Gün Batımı"
+},
+{
+"key": "skin.aurora",
+"en": "Aurora",
+"tr": "Auroralar"
+},
+{
+"key": "board.dusk",
+"en": "Dusk",
+"tr": "Alacakaranlık"
+},
+{
+"key": "board.rose",
+"en": "Rose",
+"tr": "Gül"
+},
+{
+"key": "board.meadow",
+"en": "Meadow",
+"tr": "Çayır"
+},
+{
+"key": "skin.midnight",
+"en": "Midnight",
+"tr": "Gece Yarısı"
+},
+{
+"key": "skin.blossom",
+"en": "Blossom",
+"tr": "Çiçek"
+},
+{
+"key": "board.twilight",
+"en": "Twilight",
+"tr": "Alacakaranlık"
+},
+{
+"key": "board.ember",
+"en": "Ember",
+"tr": "Köz"
+},
+{
+"key": "hint.rewarded.title",
+"en": "Hint — Free",
+"tr": "İpucu — Ücretsiz"
+},
+{
+"key": "hint.rewarded.message",
+"en": "Watch a short ad and one piece will be placed for you.",
+"tr": "Kısa bir reklam izle, bir parça senin için yerleştirilsin."
+},
+{
+"key": "powerup.watchAd",
+"en": "Watch Ad",
+"tr": "Reklam İzle"
+},
+{
+"key": "daily.share.title",
+"en": "My Daily Streak!",
+"tr": "Günlük Serim!"
+},
+{
+"key": "daily.share.solved",
+"en": "dailies solved",
+"tr": "günlük çözüldü"
+},
+{
+"key": "menu.streak.day",
+"en": "day streak",
+"tr": "gün seri"
+},
+{
+"key": "pack.difficulty.beginner",
+"en": "Beginner",
+"tr": "Başlangıç"
+},
+{
+"key": "pack.difficulty.easy",
+"en": "Easy",
+"tr": "Kolay"
+},
+{
+"key": "pack.difficulty.medium",
+"en": "Medium",
+"tr": "Orta"
+},
+{
+"key": "pack.difficulty.hard",
+"en": "Hard",
+"tr": "Zor"
+},
+{
+"key": "stats.share.title",
+"en": "My Stats",
+"tr": "İstatistiklerim"
+},
+{
+"key": "complete.newBest",
+"en": "New Best!",
+"tr": "Yeni Rekor!"
+},
+{
+"key": "settings.sound.preview",
+"en": "Preview sounds",
+"tr": "Sesleri dinle"
+},
+{
+"key": "quest.perfect",
+"en": "Solve %d levels with 3 stars",
+"tr": "%d bölümü 3 yıldızla çöz"
+},
+{
+"key": "endless.record",
+"en": "New Record! 🏆",
+"tr": "Yeni Rekor! 🏆"
+},
+{
+"key": "pack.grid_label.5",
+"en": "5×5 Grid",
+"tr": "5×5 Izgara"
+},
+{
+"key": "pack.grid_label.6",
+"en": "6×6 Grid",
+"tr": "6×6 Izgara"
+},
+{
+"key": "pack.grid_label.7",
+"en": "7×7 Grid",
+"tr": "7×7 Izgara"
+},
+{
+"key": "pack.grid_label.8",
+"en": "8×8 Grid",
+"tr": "8×8 Izgara"
+},
+{
+"key": "common.loading",
+"en": "Loading…",
+"tr": "Yükleniyor…"
+},
+{
+"key": "shop.unlock",
+"en": "Unlock",
+"tr": "Aç"
+},
+{
+"key": "shop.info.packs.title",
+"en": "Puzzle Pack",
+"tr": "Puzzle Paketi"
+},
+{
+"key": "shop.info.packs.body",
+"en": "This pack unlocks 60 new levels — bigger grids and fresh themes. A one-time purchase, yours forever.",
+"tr": "Bu paket 60 yeni bölüm açar — daha büyük ızgaralar ve yeni temalar. Tek seferlik satın alma, kalıcı olarak senin olur."
+},
+{
+"key": "shop.info.hints.title",
+"en": "Hints",
+"tr": "İpuçları"
+},
+{
+"key": "shop.info.hints.body",
+"en": "When you're stuck, a hint places one correct piece for you. Use it from the hint button during a level.",
+"tr": "Bir bölümde takıldığında ipucu, doğru bir parçayı senin için yerleştirir. Oyun içindeki ipucu butonundan kullanılır."
+},
+{
+"key": "shop.info.removeAds.title",
+"en": "Remove Ads",
+"tr": "Reklamları Kaldır"
+},
+{
+"key": "shop.info.removeAds.body",
+"en": "Permanently removes all ads. A one-time purchase.",
+"tr": "Tüm reklamları kalıcı olarak kaldırır. Tek seferlik satın alma."
+},
+{
+"key": "energy.title",
+"en": "Energy",
+"tr": "Enerji"
+},
+{
+"key": "energy.unlimited",
+"en": "Unlimited",
+"tr": "Sınırsız"
+},
+{
+"key": "energy.full",
+"en": "Full",
+"tr": "Dolu"
+},
+{
+"key": "energy.next",
+"en": "+1 in %s",
+"tr": "%s sonra +1"
+},
+{
+"key": "energy.out.title",
+"en": "Out of Energy",
+"tr": "Enerji Bitti"
+},
+{
+"key": "energy.out.message",
+"en": "Energy refills over time. Watch an ad for a boost, or go Premium for unlimited play.",
+"tr": "Enerji zamanla dolar. Hızlı dolum için reklam izle ya da sınırsız oyun için Premium’a geç."
+},
+{
+"key": "energy.watchAd",
+"en": "Watch Ad  +%d",
+"tr": "Reklam İzle  +%d"
+},
+{
+"key": "energy.goPremium",
+"en": "Go Premium — Unlimited",
+"tr": "Premium — Sınırsız"
+},
+{
+"key": "energy.playable",
+"en": "Enough to play in %s",
+"tr": "%s sonra oynanabilir"
+},
+{
+"key": "energy.spent.a11y",
+"en": "%d energy spent",
+"tr": "%d enerji harcandı"
+},
+{
+"key": "zen.mode.title",
+"en": "Zen Mode",
+"tr": "Zen Modu"
+},
+{
+"key": "zen.mode.subtitle",
+"en": "Relax · no timer · free",
+"tr": "Rahatla · süre yok · ücretsiz"
+},
+{
+"key": "rewards.fab",
+"en": "Rewards",
+"tr": "Ödüller"
+},
+{
+"key": "pack.morning_meadow.title",
+"en": "Morning Meadow",
+"tr": "Sabah Çayırı"
+},
+{
+"key": "pack.amber_harbor.title",
+"en": "Amber Harbor",
+"tr": "Kehribar Liman"
+},
+{
+"key": "pack.velvet_dusk.title",
+"en": "Velvet Dusk",
+"tr": "Kadife Akşam"
+},
+{
+"key": "pack.hearth_tales.title",
+"en": "Hearth Tales",
+"tr": "Ocak Masalları"
+},
+{
+"key": "pack.misty_grove.title",
+"en": "Misty Grove",
+"tr": "Sisli Koru"
+},
+{
+"key": "pack.honey_fields.title",
+"en": "Honey Fields",
+"tr": "Bal Tarlaları"
+},
+{
+"key": "pack.lantern_lane.title",
+"en": "Lantern Lane",
+"tr": "Fener Sokağı"
+},
+{
+"key": "pack.frost_haven.title",
+"en": "Frost Haven",
+"tr": "Kırağı Limanı"
+},
+{
+"key": "pack.garden_party.title",
+"en": "Garden Party",
+"tr": "Bahçe Partisi"
+},
+{
+"key": "pack.ocean_breeze.title",
+"en": "Ocean Breeze",
+"tr": "Okyanus Esintisi"
+},
+{
+"key": "pack.starlit_peak.title",
+"en": "Starlit Peak",
+"tr": "Yıldızlı Zirve"
+},
+{
+"key": "pack.cocoa_cabin.title",
+"en": "Cocoa Cabin",
+"tr": "Kakao Kulübesi"
+},
+{
+"key": "pack.aurora_vale.title",
+"en": "Aurora Vale",
+"tr": "Auroralı Vadi"
+},
+{
+"key": "button.close",
+"en": "Close",
+"tr": "Kapat"
+},
+{
+"key": "paywall.title",
+"en": "Snuglo Premium",
+"tr": "Snuglo Premium"
+},
+{
+"key": "paywall.subtitle",
+"en": "Play without limits.",
+"tr": "Sınırsız oyna."
+},
+{
+"key": "paywall.benefit.energy",
+"en": "Unlimited energy — no waiting",
+"tr": "Sınırsız enerji — bekleme yok"
+},
+{
+"key": "paywall.benefit.ads",
+"en": "No ads, ever",
+"tr": "Hiç reklam yok"
+},
+{
+"key": "paywall.benefit.cosmetics",
+"en": "Exclusive skins & boards",
+"tr": "Özel skinler ve board'lar"
+},
+{
+"key": "paywall.benefit.levels",
+"en": "All 1000+ levels unlocked",
+"tr": "1000+ bölümün tamamı açık"
+},
+{
+"key": "paywall.cta",
+"en": "Go Premium · %s",
+"tr": "Premium Ol · %s"
+},
+{
+"key": "paywall.restore",
+"en": "Restore Purchases",
+"tr": "Satın Alımları Geri Yükle"
+},
+{
+"key": "shop.claim.insufficient",
+"en": "Not enough balance",
+"tr": "Yetersiz bakiye"
+},
+{
+"key": "shop.claim.adNotReady",
+"en": "Ad not ready — try again",
+"tr": "Reklam hazır değil — tekrar dene"
+},
+{
+"key": "settings.about.footer",
+"en": "Snuglo · %s",
+"tr": "Snuglo · %s"
+},
+{
+"key": "tutorial.welcome.title",
+"en": "Welcome to Snuglo",
+"tr": "Snuglo'ya Hoş Geldin"
+},
+{
+"key": "tutorial.welcome.body",
+"en": "Fill the board with cozy blocks — leave no empty square.",
+"tr": "Tahtayı sıcacık bloklarla doldur — boş kare bırakma."
+},
+{
+"key": "tutorial.drag.title",
+"en": "Drag & Drop",
+"tr": "Sürükle & Bırak"
+},
+{
+"key": "tutorial.drag.body",
+"en": "Drag pieces from the tray up onto the grid. Fit them all with no gaps or overlaps to solve the level.",
+"tr": "Parçaları tepsiden tahtaya sürükle. Boşluk veya üst üste binme olmadan hepsini yerleştir ve bölümü çöz."
+},
+{
+"key": "tutorial.power.title",
+"en": "Need a Hand?",
+"tr": "Yardım Lazım mı?"
+},
+{
+"key": "tutorial.power.body",
+"en": "Stuck? Hint places a piece for you, Peek flashes the solution for a moment, Restart clears the board.",
+"tr": "Takıldın mı? İpucu bir parçayı yerine koyar, Göz At çözümü bir anlığına gösterir, Yeniden tahtayı boşaltır."
+},
+{
+"key": "tutorial.next",
+"en": "Next",
+"tr": "İleri"
+},
+{
+"key": "tutorial.start",
+"en": "Let's Play",
+"tr": "Hadi Başlayalım"
+},
+{
+"key": "tutorial.skip",
+"en": "Skip",
+"tr": "Geç"
+},
+{
+"key": "reward.earned",
+"en": "You earned",
+"tr": "Kazandın"
+},
+{
+"key": "reward.great",
+"en": "Great!",
+"tr": "Harika!"
+},
+{
+"key": "achievement.levelHunter25.title",
+"en": "Getting Serious",
+"tr": "İşi Ciddiye Aldın"
+},
+{
+"key": "achievement.levelHunter25.description",
+"en": "Complete 25 levels",
+"tr": "25 bölüm tamamla"
+},
+{
+"key": "achievement.levelVoyager250.title",
+"en": "Level Voyager",
+"tr": "Seviye Gezgini"
+},
+{
+"key": "achievement.levelVoyager250.description",
+"en": "Complete 250 levels",
+"tr": "250 bölüm tamamla"
+},
+{
+"key": "achievement.levelSage500.title",
+"en": "Level Sage",
+"tr": "Seviye Bilgesi"
+},
+{
+"key": "achievement.levelSage500.description",
+"en": "Complete 500 levels",
+"tr": "500 bölüm tamamla"
+},
+{
+"key": "achievement.completionist1000.title",
+"en": "Completionist",
+"tr": "Tamamlayıcı"
+},
+{
+"key": "achievement.completionist1000.description",
+"en": "Complete 1000 levels",
+"tr": "1000 bölüm tamamla"
+},
+{
+"key": "achievement.packCollector3.title",
+"en": "Pack Collector",
+"tr": "Paket Koleksiyoncusu"
+},
+{
+"key": "achievement.packCollector3.description",
+"en": "Finish 3 packs",
+"tr": "3 paketi bitir"
+},
+{
+"key": "achievement.packMaster10.title",
+"en": "Pack Master",
+"tr": "Paket Ustası"
+},
+{
+"key": "achievement.packMaster10.description",
+"en": "Finish 10 packs",
+"tr": "10 paketi bitir"
+},
+{
+"key": "achievement.perfectionistGrand50.title",
+"en": "Grand Perfectionist",
+"tr": "Büyük Mükemmeliyetçi"
+},
+{
+"key": "achievement.perfectionistGrand50.description",
+"en": "50 perfect (3★) solves",
+"tr": "50 kusursuz (3★) çözüm"
+},
+{
+"key": "achievement.perfectionistLegend100.title",
+"en": "Perfect Legend",
+"tr": "Kusursuz Efsane"
+},
+{
+"key": "achievement.perfectionistLegend100.description",
+"en": "100 perfect (3★) solves",
+"tr": "100 kusursuz (3★) çözüm"
+},
+{
+"key": "achievement.chainMaster10.title",
+"en": "Chain Master",
+"tr": "Zincir Ustası"
+},
+{
+"key": "achievement.chainMaster10.description",
+"en": "Win 10 levels in a row",
+"tr": "Üst üste 10 bölüm kazan"
+},
+{
+"key": "achievement.chainLegend20.title",
+"en": "Unbroken",
+"tr": "Kırılmaz"
+},
+{
+"key": "achievement.chainLegend20.description",
+"en": "Win 20 levels in a row",
+"tr": "Üst üste 20 bölüm kazan"
+},
+{
+"key": "achievement.noHints25.title",
+"en": "Self-Reliant",
+"tr": "Kendi Başına"
+},
+{
+"key": "achievement.noHints25.description",
+"en": "Solve 25 levels with no hints",
+"tr": "25 bölümü ipuçsuz çöz"
+},
+{
+"key": "achievement.noHints50.title",
+"en": "Pure Skill",
+"tr": "Saf Yetenek"
+},
+{
+"key": "achievement.noHints50.description",
+"en": "Solve 50 levels with no hints",
+"tr": "50 bölümü ipuçsuz çöz"
+},
+{
+"key": "achievement.speedLightning.title",
+"en": "Lightning",
+"tr": "Şimşek"
+},
+{
+"key": "achievement.speedLightning.description",
+"en": "Solve a level under 10 seconds",
+"tr": "Bir bölümü 10 saniye altında çöz"
+},
+{
+"key": "achievement.speedBlitz.title",
+"en": "Blitz",
+"tr": "Blitz"
+},
+{
+"key": "achievement.speedBlitz.description",
+"en": "Solve a level under 5 seconds",
+"tr": "Bir bölümü 5 saniye altında çöz"
+},
+{
+"key": "achievement.streak14.title",
+"en": "Two-Week Glow",
+"tr": "İki Haftalık Işıltı"
+},
+{
+"key": "achievement.streak14.description",
+"en": "Reach a 14-day daily streak",
+"tr": "14 günlük seriye ulaş"
+},
+{
+"key": "achievement.streak60.title",
+"en": "Two-Month Flame",
+"tr": "İki Aylık Alev"
+},
+{
+"key": "achievement.streak60.description",
+"en": "Reach a 60-day daily streak",
+"tr": "60 günlük seriye ulaş"
+},
+{
+"key": "achievement.streak100.title",
+"en": "Century Streak",
+"tr": "Yüz Günlük Seri"
+},
+{
+"key": "achievement.streak100.description",
+"en": "Reach a 100-day daily streak",
+"tr": "100 günlük seriye ulaş"
+},
+{
+"key": "achievement.dedicated14.title",
+"en": "Committed",
+"tr": "Kararlı"
+},
+{
+"key": "achievement.dedicated14.description",
+"en": "Play 14 days in a row",
+"tr": "Üst üste 14 gün oyna"
+},
+{
+"key": "achievement.dedicated30.title",
+"en": "Devoted",
+"tr": "Adanmış"
+},
+{
+"key": "achievement.dedicated30.description",
+"en": "Play 30 days in a row",
+"tr": "Üst üste 30 gün oyna"
+},
+{
+"key": "tower.title",
+"en": "Tower",
+"tr": "Kule"
+},
+{
+"key": "tower.subtitle",
+"en": "1 ticket · climb as high as you can",
+"tr": "1 bilet · olabildiğince yüksele tırman"
+},
+{
+"key": "tower.best",
+"en": "Best: floor %d",
+"tr": "En iyi: %d. kat"
+},
+{
+"key": "tower.floorUp",
+"en": "Next floor!",
+"tr": "Sıradaki kat!"
+},
+{
+"key": "tower.over.title",
+"en": "Tower Over",
+"tr": "Kule Bitti"
+},
+{
+"key": "tower.over.floors",
+"en": "You cleared %d floors",
+"tr": "%d kat geçtin"
+},
+{
+"key": "tower.over.best",
+"en": "Best: floor %d",
+"tr": "En iyi: %d. kat"
+},
+{
+"key": "tower.over.retry",
+"en": "Retry · %d",
+"tr": "Tekrar Dene · %d"
+},
+{
+"key": "tower.over.home",
+"en": "Home",
+"tr": "Ana Sayfa"
+},
+{
+"key": "menu.gameModes",
+"en": "Game Modes",
+"tr": "Oyun Modları"
+},
+{
+"key": "tower.needTicket",
+"en": "You need 1 ticket to climb the Tower. Convert gems to tickets in the Shop?",
+"tr": "Kuleye tırmanmak için 1 bilet gerekli. Mağazada elmasları bilete çevir?"
+},
+{
+"key": "tower.getTickets",
+"en": "Get Tickets",
+"tr": "Bilet Al"
+},
+{
+"key": "alert.unlockPack.prevPack",
+"en": "Finish the previous pack to unlock this one.",
+"tr": "Bunu açmak için önceki paketi bitir."
+},
+{
+"key": "tower.resume",
+"en": "Floor %d · tap to continue",
+"tr": "%d. kat · devam et"
+},
+{
+"key": "shop.keysSection",
+"en": "Keys",
+"tr": "Anahtarlar"
+},
+{
+"key": "sku.keysSmall.title",
+"en": "3 Keys",
+"tr": "3 Anahtar"
+},
+{
+"key": "shop.keysOwned",
+"en": "You have %d",
+"tr": "Elinde %d var"
+},
+{
+"key": "shop.info.keys.title",
+"en": "Keys",
+"tr": "Anahtarlar"
+},
+{
+"key": "shop.info.keys.body",
+"en": "Keys open treasure chests. You also earn them from perfect solves, win streaks and finishing packs.",
+"tr": "Anahtarlar sandık açar. Kusursuz çözüm, galibiyet serisi ve paket bitirerek de kazanırsın."
+},
+{
+"key": "fail.title",
+"en": "Time's Up!",
+"tr": "Süre Bitti!"
+},
+{
+"key": "fail.message",
+"en": "We didn't make it this time — let's try again!",
+"tr": "Bu sefer bitiremesek de bir daha deneyelim!"
+},
+{
+"key": "powerup.free",
+"en": "Free",
+"tr": "Ücretsiz"
+},
+{
+"key": "stats.perGame",
+"en": "per game",
+"tr": "oyun başına"
+},
+{
+"key": "ad.label",
+"en": "Ad",
+"tr": "Reklam"
+},
+{
+"key": "ad.loading",
+"en": "Loading ad…",
+"tr": "Reklam yükleniyor…"
+},
+{
+"key": "ad.advertisement",
+"en": "ADVERTISEMENT",
+"tr": "REKLAM"
+},
+{
+"key": "ad.bannerPlaceholder",
+"en": "Banner Ad Placeholder",
+"tr": "Banner reklam yer tutucu"
+},
+{
+"key": "a11y.replayHint",
+"en": "Restarts this same level",
+"tr": "Bu bölümü baştan başlatır"
+},
+{
+"key": "a11y.homeHint",
+"en": "Returns to the main menu",
+"tr": "Ana menüye döner"
+},
+{
+"key": "a11y.nextHint",
+"en": "Proceeds to the next level",
+"tr": "Sonraki bölüme geçer"
+},
+{
+"key": "a11y.resetLabel",
+"en": "Reset all progress",
+"tr": "Tüm ilerlemeyi sıfırla"
+},
+{
+"key": "a11y.resetHint",
+"en": "Permanently deletes all your game data. This cannot be undone.",
+"tr": "Tüm oyun verini kalıcı olarak siler. Geri alınamaz."
+},
+{
+"key": "a11y.restoreHint",
+"en": "Restores any previously purchased items",
+"tr": "Önceden satın alınan öğeleri geri yükler"
+},
+{
+"key": "a11y.dismiss",
+"en": "Dismiss",
+"tr": "Kapat"
+},
+{
+"key": "a11y.info",
+"en": "info",
+"tr": "bilgi"
+},
+{
+"key": "a11y.puzzleGrid",
+"en": "Puzzle grid",
+"tr": "Bulmaca ızgarası"
+},
+{
+"key": "a11y.back",
+"en": "Back",
+"tr": "Geri"
+},
+{
+"key": "a11y.backHint",
+"en": "Returns to the previous screen",
+"tr": "Önceki ekrana döner"
+},
+{
+"key": "a11y.newPuzzle",
+"en": "New puzzle",
+"tr": "Yeni bulmaca"
+},
+{
+"key": "a11y.newPuzzleHint",
+"en": "Discards this puzzle and loads a new one",
+"tr": "Bu bulmacayı atıp yenisini yükler"
+},
+{
+"key": "a11y.pause",
+"en": "Pause",
+"tr": "Duraklat"
+},
+{
+"key": "a11y.pauseHint",
+"en": "Pauses the timer and shows pause options",
+"tr": "Süreyi duraklatır ve seçenekleri gösterir"
+},
+{
+"key": "a11y.blockHint",
+"en": "Double tap to select, then drag to place on the grid",
+"tr": "Seçmek için çift dokun, sonra ızgaraya sürükle"
+},
+{
+"key": "a11y.viewAllPacks",
+"en": "View all level packs",
+"tr": "Tüm bölüm paketlerini gör"
+},
+{
+"key": "a11y.startFirstHint",
+"en": "Opens the levels list to start your first puzzle",
+"tr": "İlk bulmacan için bölüm listesini açar"
+},
+{
+"key": "a11y.continueHint",
+"en": "Tap to continue this level",
+"tr": "Bu bölüme devam etmek için dokun"
+},
+{
+"key": "a11y.skipOnboarding",
+"en": "Skip onboarding",
+"tr": "Tanıtımı atla"
+},
+{
+"key": "a11y.skipOnboardingHint",
+"en": "Goes directly to the main menu",
+"tr": "Doğrudan ana menüye gider"
+},
+{
+"key": "a11y.packLockedHint",
+"en": "Complete the previous pack to unlock this one",
+"tr": "Bunu açmak için önceki paketi bitir"
+},
+{
+"key": "a11y.openPackHint",
+"en": "Opens the level list for this pack",
+"tr": "Bu paketin bölüm listesini açar"
+},
+{
+"key": "a11y.tapToPlay",
+"en": "Tap to play this level",
+"tr": "Bu bölümü oynamak için dokun"
+},
+{
+"key": "a11y.removeAdsOwned",
+"en": "Remove Ads. Owned",
+"tr": "Reklamları Kaldır. Sahipsin"
+},
+{
+"key": "a11y.noStreak",
+"en": "No active streak. Play any level today to start one.",
+"tr": "Aktif seri yok. Başlatmak için bugün bir bölüm oyna."
+},
+{
+"key": "a11y.starsEarned3",
+"en": "%d of 3 stars earned",
+"tr": "3 yıldızdan %d tanesi kazanıldı"
+},
+{
+"key": "a11y.remainingTime",
+"en": "%s, remaining time %s",
+"tr": "%s, kalan süre %s"
+},
+{
+"key": "a11y.winStreak",
+"en": "Win streak times %d",
+"tr": "Galibiyet serisi %d kez"
+},
+{
+"key": "a11y.pieceTray",
+"en": "Piece tray. %d pieces remaining.",
+"tr": "Parça tepsisi. %d parça kaldı."
+},
+{
+"key": "a11y.cellBlock",
+"en": "%d-cell block",
+"tr": "%d hücreli blok"
+},
+{
+"key": "a11y.levelXP",
+"en": "Level %d, %d of %d XP",
+"tr": "Seviye %d, %d / %d XP"
+},
+{
+"key": "a11y.levelsCompleted",
+"en": "%d of %d levels completed",
+"tr": "%d / %d bölüm tamamlandı"
+},
+{
+"key": "a11y.starsEarned",
+"en": "%d of %d stars earned",
+"tr": "%d / %d yıldız kazanıldı"
+},
+{
+"key": "a11y.menuStats",
+"en": "Streak %d days, level %d, %d of %d levels",
+"tr": "%d günlük seri, seviye %d, %d / %d bölüm"
+},
+{
+"key": "a11y.continueStats",
+"en": "On level %d of %d. %d completed.",
+"tr": "%d / %d bölümdesin. %d tamamlandı."
+},
+{
+"key": "a11y.playedDays",
+"en": "Played on %d of the last 30 days",
+"tr": "Son 30 günün %d gününde oynadın"
+},
+{
+"key": "a11y.page",
+"en": "Page %d of %d",
+"tr": "Sayfa %d / %d"
+},
+{
+"key": "a11y.buyKeys",
+"en": "3 Keys. %s. Tap to purchase",
+"tr": "3 Anahtar. %s. Satın almak için dokun"
+},
+{
+"key": "a11y.buyHints",
+"en": "10 Hints. %s. Tap to purchase",
+"tr": "10 İpucu. %s. Satın almak için dokun"
+},
+{
+"key": "a11y.buyRemoveAds",
+"en": "Remove Ads. %s. Tap to purchase",
+"tr": "Reklamları Kaldır. %s. Satın almak için dokun"
+},
+{
+"key": "a11y.playStreak",
+"en": "Play streak: %d days. Best %d.",
+"tr": "Oynama serisi: %d gün. En iyi %d."
+},
+{
+"key": "a11y.currentStreak",
+"en": "Current streak: %d days",
+"tr": "Mevcut seri: %d gün"
+},
+{
+"key": "a11y.packLocked",
+"en": "%s. Locked. Tap to unlock.",
+"tr": "%s. Kilitli. Açmak için dokun."
+},
+{
+"key": "a11y.packProgress",
+"en": "%s, %d of %d levels completed, %d percent",
+"tr": "%s, %d / %d bölüm tamamlandı, yüzde %d"
+},
+{
+"key": "shop.error.productUnavailable",
+"en": "Product unavailable",
+"tr": "Ürün mevcut değil"
+},
+{
+"key": "a11y.dayStatus",
+"en": "%s: %s",
+"tr": "%s: %s"
+},
+{
+"key": "a11y.daySolved",
+"en": "solved",
+"tr": "çözüldü"
+},
+{
+"key": "a11y.dayMissed",
+"en": "missed",
+"tr": "kaçırıldı"
+},
+{
+"key": "a11y.dayToday",
+"en": ", today",
+"tr": ", bugün"
+},
+{
+"key": "a11y.continueCard",
+"en": "%s, Level %d, %d percent complete",
+"tr": "%s, Seviye %d, %%%d tamamlandı"
+},
+{
+"key": "shop.gems.section",
+"en": "Gem Packs",
+"tr": "Elmas Paketleri"
+},
+{
+"key": "shop.gems.hint",
+"en": "Top up your gems instantly",
+"tr": "Elmaslarını anında yükle"
+},
+{
+"key": "shop.bestValue",
+"en": "BEST VALUE",
+"tr": "EN AVANTAJLI"
+},
+{
+"key": "a11y.buyGems",
+"en": "%d gems for %s. Tap to purchase",
+"tr": "%d elmas, %s. Satın almak için dokun"
+},
+{
+"key": "nook.title",
+"en": "Cozy Nook",
+"tr": "Sıcak Köşe"
+},
+{
+"key": "nook.subtitle",
+"en": "Restore each scene, rescue cozy friends",
+"tr": "Sahneleri tamamla, dostları kurtar"
+},
+{
+"key": "nook.drag.hint",
+"en": "Drag the glowing piece into its dark slot.",
+"tr": "Parlayan parçayı karanlık yerine sürükle."
+},
+{
+"key": "nook.pieces.ready",
+"en": "Pieces ready to place: %d",
+"tr": "Yerleştirilmeye hazır parça: %d"
+},
+{
+"key": "nook.scene.done",
+"en": "Scene restored — your friend is home!",
+"tr": "Sahne tamamlandı — dostun evinde!"
+},
+{
+"key": "nook.locked.hint",
+"en": "Finish %d more levels to earn a piece.",
+"tr": "Bir parça için %d bölüm daha bitir."
+},
+{
+"key": "nook.restored.badge",
+"en": "Restored",
+"tr": "Tamamlandı"
+},
+{
+"key": "nook.world.restored",
+"en": "%d%% restored",
+"tr": "%%%d tamamlandı"
+},
+{
+"key": "nook.reveal.title",
+"en": "Surprise! A new scene piece",
+"tr": "Sürpriz! Yeni bir sahne parçası"
+},
+{
+"key": "nook.reveal.subtitle",
+"en": "Drag it into your scene in the Nook to bring it back to life.",
+"tr": "Sahneyi canlandırmak için Nook'ta yerine sürükle."
+},
+{
+"key": "nook.reveal.place",
+"en": "Place now",
+"tr": "Şimdi yerleştir"
+},
+{
+"key": "nook.reveal.later",
+"en": "Later",
+"tr": "Sonra"
+},
+{
+"key": "nook.cozy.percent",
+"en": "%d%% cozy",
+"tr": "%%%d rahat"
+},
+{
+"key": "nook.furnish.title",
+"en": "Furnish your nook",
+"tr": "Köşeni döşe"
+},
+{
+"key": "nook.hint.tap",
+"en": "Tap a glowing spot to place a piece.",
+"tr": "Eşya yerleştirmek için parlayan noktaya dokun."
+},
+{
+"key": "nook.toast.poor",
+"en": "Solve puzzles to earn more!",
+"tr": "Daha fazlası için bulmaca çöz!"
+},
+{
+"key": "nook.complete",
+"en": "Complete",
+"tr": "Tamamlandı"
+},
+{
+"key": "nook.shelf.title",
+"en": "Your cozy things",
+"tr": "Eşyaların"
+},
+{
+"key": "nook.shelf.empty",
+"en": "Buy decor below to fill your nook.",
+"tr": "Köşeni doldurmak için aşağıdan eşya al."
+},
+{
+"key": "nook.section",
+"en": "Section",
+"tr": "Bölüm"
+},
+{
+"key": "nook.tab.decor",
+"en": "Decor",
+"tr": "Eşya"
+},
+{
+"key": "nook.tab.scenes",
+"en": "Scenes",
+"tr": "Sahneler"
+},
+{
+"key": "nook.tab.friends",
+"en": "Friends",
+"tr": "Dostlar"
+},
+{
+"key": "nook.owned",
+"en": "Owned",
+"tr": "Sende"
+},
+{
+"key": "nook.selected",
+"en": "Selected",
+"tr": "Seçili"
+},
+{
+"key": "nook.use",
+"en": "Use",
+"tr": "Kullan"
+},
+{
+"key": "nook.friend.home",
+"en": "Rescued",
+"tr": "Kurtarıldı"
+},
+{
+"key": "nook.friend.locked",
+"en": "Finish pack",
+"tr": "Paketi bitir"
+},
+{
+"key": "nook.decor.tea",
+"en": "Tea Set",
+"tr": "Çay Takımı"
+},
+{
+"key": "nook.decor.plant",
+"en": "Plant",
+"tr": "Saksı"
+},
+{
+"key": "nook.decor.photo",
+"en": "Photo",
+"tr": "Fotoğraf"
+},
+{
+"key": "nook.decor.lamp",
+"en": "Lamp",
+"tr": "Lamba"
+},
+{
+"key": "nook.decor.clock",
+"en": "Clock",
+"tr": "Saat"
+},
+{
+"key": "nook.decor.books",
+"en": "Books",
+"tr": "Kitaplar"
+},
+{
+"key": "nook.decor.teddy",
+"en": "Teddy",
+"tr": "Oyuncak Ayı"
+},
+{
+"key": "nook.decor.fish",
+"en": "Fish Bowl",
+"tr": "Akvaryum"
+},
+{
+"key": "nook.decor.guitar",
+"en": "Guitar",
+"tr": "Gitar"
+},
+{
+"key": "nook.decor.console",
+"en": "Game Nook",
+"tr": "Oyun Köşesi"
+},
+{
+"key": "nook.decor.sofa",
+"en": "Sofa",
+"tr": "Koltuk"
+},
+{
+"key": "nook.decor.bed",
+"en": "Cozy Bed",
+"tr": "Rahat Yatak"
+},
+{
+"key": "nook.decor.fairylights",
+"en": "Fairy Lights",
+"tr": "Peri Işıkları"
+},
+{
+"key": "nook.decor.starlight",
+"en": "Starlight",
+"tr": "Yıldız Işığı"
+},
+{
+"key": "nook.decor.fireplace",
+"en": "Fireplace",
+"tr": "Şömine"
+},
+{
+"key": "nook.decor.royal",
+"en": "Royal Cushion",
+"tr": "Kraliyet Minderi"
+},
+{
+"key": "nook.scene.island",
+"en": "Island",
+"tr": "Ada"
+},
+{
+"key": "nook.scene.forest",
+"en": "Forest",
+"tr": "Orman"
+},
+{
+"key": "nook.scene.flower",
+"en": "Flower Field",
+"tr": "Çiçek Tarlası"
+},
+{
+"key": "nook.scene.beach",
+"en": "Beach",
+"tr": "Sahil"
+},
+{
+"key": "nook.scene.mushroom",
+"en": "Mushroom Grove",
+"tr": "Mantar Korusu"
+},
+{
+"key": "nook.scene.lake",
+"en": "Lakeside",
+"tr": "Göl Kıyısı"
+},
+{
+"key": "nook.scene.autumn",
+"en": "Autumn",
+"tr": "Sonbahar"
+},
+{
+"key": "nook.scene.desert",
+"en": "Desert",
+"tr": "Çöl"
+},
+{
+"key": "nook.scene.waterfall",
+"en": "Waterfall",
+"tr": "Şelale"
+},
+{
+"key": "nook.scene.snow",
+"en": "Snowy",
+"tr": "Karlı"
+},
+{
+"key": "nook.scene.volcano",
+"en": "Volcano",
+"tr": "Yanardağ"
+},
+{
+"key": "update.required.title",
+"en": "Update Required",
+"tr": "Güncelleme Gerekli"
+},
+{
+"key": "update.required.message",
+"en": "This version is no longer supported. Please update to keep playing.",
+"tr": "Bu sürüm artık desteklenmiyor. Oynamaya devam etmek için lütfen güncelle."
+},
+{
+"key": "update.required.cta",
+"en": "Update Now",
+"tr": "Şimdi Güncelle"
+},
+{
+"key": "update.soft.title",
+"en": "New Version Available",
+"tr": "Yeni Sürüm Var"
+},
+{
+"key": "update.soft.message",
+"en": "Update Snuglo for the latest fixes and features.",
+"tr": "En son düzeltmeler ve özellikler için Snuglo'yu güncelle."
+},
+{
+"key": "update.soft.cta",
+"en": "Update",
+"tr": "Güncelle"
+},
+{
+"key": "fabric.title",
+"en": "Fabric Set",
+"tr": "Kumaş Seti"
+},
+{
+"key": "fabric.classic",
+"en": "Classic",
+"tr": "Klasik"
+},
+{
+"key": "fabric.meadow",
+"en": "Meadow",
+"tr": "Çayır"
+},
+{
+"key": "fabric.berry",
+"en": "Berry",
+"tr": "Böğürtlen"
+},
+{
+"key": "fabric.denim",
+"en": "Denim",
+"tr": "Kot"
+},
+{
+"key": "fabric.sunset",
+"en": "Sunset",
+"tr": "Gün Batımı"
+},
+{
+"key": "fabric.aurora",
+"en": "Aurora",
+"tr": "Kutup Işığı"
+},
+{
+"key": "fabric.locked",
+"en": "Lv %d",
+"tr": "Sv %d"
+},
+{
+"key": "fabric.buy",
+"en": "Unlock for %d gems",
+"tr": "%d mücevherle aç"
+},
+{
+"key": "currency.hint",
+"en": "Hint",
+"tr": "İpucu"
+},
+{
+"key": "chest.tier.common",
+"en": "Common",
+"tr": "Sıradan"
+},
+{
+"key": "chest.tier.rare",
+"en": "Rare",
+"tr": "Nadir"
+},
+{
+"key": "chest.tier.epic",
+"en": "Epic",
+"tr": "Destansı"
+},
+{
+"key": "chest.tier.legendary",
+"en": "Legendary",
+"tr": "Efsanevi"
+},
+{
+"key": "chest.progress",
+"en": "%d/%d solves",
+"tr": "%d/%d çözüm"
+},
+{
+"key": "combo.label",
+"en": "Combo ×%d",
+"tr": "Kombo ×%d"
+},
+{
+"key": "chain.label",
+"en": "%d in a row!",
+"tr": "Üst üste %d!"
+},
+{
+"key": "toast.purchase.done",
+"en": "Purchase complete",
+"tr": "Satın alma tamamlandı"
+},
+{
+"key": "toast.purchase.failed",
+"en": "Purchase failed",
+"tr": "Satın alma başarısız"
+},
+{
+"key": "toast.purchase.pending",
+"en": "Purchase pending approval",
+"tr": "Satın alma onay bekliyor"
+},
+{
+"key": "toast.restore.done",
+"en": "Purchases restored",
+"tr": "Satın almalar geri yüklendi"
+},
+{
+"key": "toast.wallet.insufficient",
+"en": "Not enough %s",
+"tr": "Yeterli %s yok"
+},
+{
+"key": "toast.achievement",
+"en": "Achievement unlocked: %s",
+"tr": "Başarım açıldı: %s"
+},
+{
+"key": "toast.quest.done",
+"en": "Quest complete!",
+"tr": "Görev tamamlandı!"
+},
+{
+"key": "settings.notifications.unsupported",
+"en": "Notifications aren't available yet",
+"tr": "Bildirimler henüz kullanılamıyor"
+},
+{
+"key": "daily.level",
+"en": "Puzzle %d of %d",
+"tr": "Bulmaca %d / %d"
+},
+{
+"key": "daily.allDone",
+"en": "All done for today!",
+"tr": "Bugünlük hepsi tamam!"
+},
+{
+"key": "pack.reward",
+"en": "+%d coins · +%d gems",
+"tr": "+%d coin · +%d mücevher"
+},
+{
+"key": "time.limit",
+"en": "Time left: %s",
+"tr": "Kalan süre: %s"
+},
+{
+"key": "fabric.midnight",
+"en": "Midnight",
+"tr": "Gece Yarısı"
+},
+{
+"key": "fabric.blossom",
+"en": "Blossom",
+"tr": "Çiçek Açan"
+},
+{
+"key": "currency.key",
+"en": "Key",
+"tr": "Anahtar"
+},
+{
+"key": "currency.energy",
+"en": "Energy",
+"tr": "Enerji"
+},
+{
+"key": "menu.premium",
+"en": "Premium",
+"tr": "Premium"
+},
+{
+"key": "settings.gameplay.reduceMotion",
+"en": "Reduce Motion",
+"tr": "Hareketi Azalt"
+},
+{
+"key": "settings.account.support",
+"en": "Support",
+"tr": "Destek"
+},
+{
+"key": "transfer.paste",
+"en": "Paste",
+"tr": "Yapıştır"
+},
+{
+"key": "nook.friends",
+"en": "Friends %d/%d",
+"tr": "Dostlar %d/%d"
+},
+{
+"key": "nook.decor.unlock",
+"en": "Place %d more pieces to unlock",
+"tr": "Açmak için %d parça daha yerleştir"
+},
+{
+"key": "daily.streak.title",
+"en": "Daily streak",
+"tr": "Günlük seri"
+},
+{
+"key": "daily.today",
+"en": "Today",
+"tr": "Bugün"
+},
+{
+"key": "daily.play",
+"en": "Play puzzle %d",
+"tr": "%d. bulmacayı oyna"
+},
+{
+"key": "month.1",
+"en": "January",
+"tr": "Ocak"
+},
+{
+"key": "month.2",
+"en": "February",
+"tr": "Şubat"
+},
+{
+"key": "month.3",
+"en": "March",
+"tr": "Mart"
+},
+{
+"key": "month.4",
+"en": "April",
+"tr": "Nisan"
+},
+{
+"key": "month.5",
+"en": "May",
+"tr": "Mayıs"
+},
+{
+"key": "month.6",
+"en": "June",
+"tr": "Haziran"
+},
+{
+"key": "month.7",
+"en": "July",
+"tr": "Temmuz"
+},
+{
+"key": "month.8",
+"en": "August",
+"tr": "Ağustos"
+},
+{
+"key": "month.9",
+"en": "September",
+"tr": "Eylül"
+},
+{
+"key": "month.10",
+"en": "October",
+"tr": "Ekim"
+},
+{
+"key": "month.11",
+"en": "November",
+"tr": "Kasım"
+},
+{
+"key": "month.12",
+"en": "December",
+"tr": "Aralık"
+},
+{
+"key": "weekday.short.1",
+"en": "Mo",
+"tr": "Pt"
+},
+{
+"key": "weekday.short.2",
+"en": "Tu",
+"tr": "Sa"
+},
+{
+"key": "weekday.short.3",
+"en": "We",
+"tr": "Ça"
+},
+{
+"key": "weekday.short.4",
+"en": "Th",
+"tr": "Pe"
+},
+{
+"key": "weekday.short.5",
+"en": "Fr",
+"tr": "Cu"
+},
+{
+"key": "weekday.short.6",
+"en": "Sa",
+"tr": "Ct"
+},
+{
+"key": "weekday.short.0",
+"en": "Su",
+"tr": "Pz"
+},
+{
+"key": "calendar.subtitle",
+"en": "Log in every day — rewards grow, missing a day restarts the cycle.",
+"tr": "Her gün gir — ödüller büyür, bir gün kaçırırsan döngü baştan başlar."
+},
+{
+"key": "nook.reveal.piece",
+"en": "Piece %d of %d",
+"tr": "Parça %d / %d"
+},
+{
+"key": "tower.floor",
+"en": "Floor %d",
+"tr": "Kat %d"
+},
+{
+"key": "tower.start",
+"en": "Start Climb",
+"tr": "Tırmanışa Başla"
+},
+{
+"key": "tower.buyTicket",
+"en": "1 ticket · %d",
+"tr": "1 bilet · %d"
+},
+{
+"key": "praise.t1.1",
+"en": "Nice!",
+"tr": "Güzel!"
+},
+{
+"key": "praise.t1.2",
+"en": "Good!",
+"tr": "İyi!"
+},
+{
+"key": "praise.t1.3",
+"en": "Neat!",
+"tr": "Tamam!"
+},
+{
+"key": "praise.t2.1",
+"en": "Great!",
+"tr": "Harika!"
+},
+{
+"key": "praise.t2.2",
+"en": "Sweet!",
+"tr": "Tatlı!"
+},
+{
+"key": "praise.t2.3",
+"en": "Cool!",
+"tr": "Hoş!"
+},
+{
+"key": "praise.t3.1",
+"en": "Super!",
+"tr": "Süper!"
+},
+{
+"key": "praise.t3.2",
+"en": "Awesome!",
+"tr": "Müthiş!"
+},
+{
+"key": "praise.t3.3",
+"en": "Brilliant!",
+"tr": "Şahane!"
+},
+{
+"key": "praise.t4.1",
+"en": "Amazing!",
+"tr": "Muhteşem!"
+},
+{
+"key": "praise.t4.2",
+"en": "Fantastic!",
+"tr": "Fantastik!"
+},
+{
+"key": "praise.t4.3",
+"en": "Superb!",
+"tr": "Enfes!"
+},
+{
+"key": "praise.t4.4",
+"en": "Wow!",
+"tr": "Vay be!"
+},
+{
+"key": "praise.t5.1",
+"en": "Perfect!",
+"tr": "Kusursuz!"
+},
+{
+"key": "praise.t5.2",
+"en": "Legendary!",
+"tr": "Efsane!"
+},
+{
+"key": "praise.t5.3",
+"en": "Unstoppable!",
+"tr": "Durdurulamaz!"
+},
+{
+"key": "praise.t5.4",
+"en": "Bravo!",
+"tr": "Bravo!"
+},
+{
+"key": "praise.near.1",
+"en": "Almost there!",
+"tr": "Az kaldı!"
+},
+{
+"key": "praise.near.2",
+"en": "So close!",
+"tr": "Çok yakın!"
+},
+{
+"key": "praise.near.3",
+"en": "Nearly done!",
+"tr": "Neredeyse!"
+},
+{
+"key": "praise.final.1",
+"en": "Final touch!",
+"tr": "Son dokunuş!"
+},
+{
+"key": "praise.final.2",
+"en": "Last stitch!",
+"tr": "Son dikiş!"
+},
+{
+"key": "praise.final.3",
+"en": "Done!",
+"tr": "Tamamdır!"
+},
+{
+"key": "chest.odds",
+"en": "Chest odds: %s",
+"tr": "Sandık olasılıkları: %s"
+},
+{
+"key": "chest.odds.item",
+"en": "%s %d%%",
+"tr": "%s %%%d"
+}
+]
