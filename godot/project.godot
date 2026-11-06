@@ -16,7 +16,7 @@ general/ios/app_id="ca-app-pub-8571533711927103~5613795076"
 [application]
 
 config/name="Snuglo"
-config/version="2.0.4"
+config/version="2.0.5"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.9647059, 0.9058824, 0.8392157, 1)
@@ -29,6 +29,7 @@ Sfx="*res://autoload/Sfx.gd"
 Juice="*res://autoload/Juice.gd"
 Events="*res://autoload/Events.gd"
 Save="*res://autoload/Save.gd"
+LiveConfig="*res://autoload/LiveConfig.gd"
 Settings="*res://autoload/Settings.gd"
 Purchases="*res://autoload/Purchases.gd"
 Wallet="*res://autoload/Wallet.gd"

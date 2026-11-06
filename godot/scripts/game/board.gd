@@ -12,9 +12,10 @@ var _ghost_t := 0.0
 var _bump := {}                    # Vector2i → [offset, vel] (yuva zıplaması)
 var _wave := {}                    # Vector2i → parlama 0..1 (çözüm dalgası)
 var _clock := 0.0
-var _frame: Texture2D = load("res://art/board/frame.png") if ResourceLoader.exists("res://art/board/frame.png") else null
+var _frame: Texture2D
 
 func setup(level: LevelData, cell_size: float) -> void:
+	_frame = Cosmetics.board_texture()
 	lvl = level
 	cs = cell_size
 	occ.clear()

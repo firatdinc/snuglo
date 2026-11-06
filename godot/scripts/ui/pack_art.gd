@@ -40,7 +40,7 @@ const FRIENDS := {
 	"morning-meadow": "cow", "amber-harbor": "lion", "velvet-dusk": "bee", "hearth-tales": "hippo",
 	"misty-grove": "cactus", "honey-fields": "turtle", "lantern-lane": "bunny", "frost-haven": "penguin",
 	"garden-party": "frog", "ocean-breeze": "redpanda", "starlit-peak": "tiger", "cocoa-cabin": "bear",
-	"aurora-vale": "koala",
+	"aurora-vale": "koala", "winter-quilt": "reindeer", "advent-quilt": "santa",
 }
 
 static func friend_id(pack_id: String) -> String:
@@ -74,4 +74,6 @@ static func difficulty_key(grid: int) -> String:
 
 ## Paketin imza kumaşı (kart dokusu).
 static func fabric(pack_id: String) -> int:
+	if Progress.is_season(pack_id):
+		return int(Progress.pack(pack_id).get("fabric", 7))
 	return maxi(0, Progress.pack_index(pack_id)) % 12

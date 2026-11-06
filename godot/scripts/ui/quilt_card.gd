@@ -5,7 +5,8 @@ extends Control
 
 signal tapped
 
-var fabric := -1             ## art/fabric/classic/fNN; -1 → düz `fill`
+var fabric := -1             ## art/fabric/<set>/fNN; -1 → düz `fill`
+var fabric_set := ""         ## "" → seçili set (Fabrics.current_set)
 var fill := Palette.CARD
 var inner := 0.0             ## >0: kenardan bu kadar içeride krem panel
 var inner_fill := Palette.CARD
@@ -73,7 +74,7 @@ func _draw() -> void:
 		_draw_skin(r)
 		return
 	var outer := Ui.rrect(r, radius)
-	var tex: Texture2D = Fabrics.get_tex(fabric) if fabric >= 0 else null
+	var tex: Texture2D = Fabrics.get_tex(fabric, fabric_set) if fabric >= 0 else null
 	var mod := Color(0.62, 0.6, 0.6) if locked else Color.WHITE
 	if tex:
 		var uv := PackedVector2Array()

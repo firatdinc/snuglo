@@ -2,7 +2,8 @@ extends Node
 ## Kozmetikler (Swift CosmeticsStore + AppColors.blockSkins + BoardBackground, main):
 ## - Kumaş setleri (Swift "block skins"): XP seviyesiyle ücretsiz açılır ya da erken gem ile
 ##   alınır (fiyat = max(5, seviye*2)). Premium setler (midnight 300, blossom 400) YALNIZ gem.
-## - Tahtalar: 7 ücretsiz + 2 premium (twilight/ember 250 gem).
+## - Tahtalar: 7 ücretsiz + 2 premium (twilight/ember 250 gem). Görsel: art/board/<id>.png
+##   (parchment = frame.png), kumaşlar art/fabric/<set>/ — tools/make_cosmetic_sets.py üretir.
 ## - Premium abonelik tüm kozmetikleri açar.
 ## Ad anahtarı: fabric.<id> / board.<id>. Swift id eşlemesi: nordic→classic, candy→meadow,
 ## ocean→berry, mono→denim; sunset/aurora/midnight/blossom aynı.
@@ -21,9 +22,11 @@ const FABRICS := [
 const SWIFT_SKIN := {"nordic": "classic", "candy": "meadow", "ocean": "berry", "mono": "denim",
 	"sunset": "sunset", "aurora": "aurora", "midnight": "midnight", "blossom": "blossom"}
 const BOARDS := [
-	{"id": "parchment", "gem_cost": 0}, {"id": "dawn", "gem_cost": 0}, {"id": "forest", "gem_cost": 0},
-	{"id": "night", "gem_cost": 0}, {"id": "dusk", "gem_cost": 0}, {"id": "rose", "gem_cost": 0},
-	{"id": "meadow", "gem_cost": 0}, {"id": "twilight", "gem_cost": 250}, {"id": "ember", "gem_cost": 250},
+	{"id": "parchment", "gem_cost": 0, "cloth": "e2c9b1"}, {"id": "dawn", "gem_cost": 0, "cloth": "f6d9c8"},
+	{"id": "forest", "gem_cost": 0, "cloth": "cfdcbc"}, {"id": "night", "gem_cost": 0, "cloth": "aeb0c8"},
+	{"id": "dusk", "gem_cost": 0, "cloth": "d5c6df"}, {"id": "rose", "gem_cost": 0, "cloth": "f1cdd0"},
+	{"id": "meadow", "gem_cost": 0, "cloth": "dde9c4"}, {"id": "twilight", "gem_cost": 250, "cloth": "9c9abf"},
+	{"id": "ember", "gem_cost": 250, "cloth": "e6b896"},
 ]
 
 var _s: Dictionary
@@ -33,6 +36,21 @@ func _ready() -> void:
 	Save.reloaded.connect(func() -> void:
 		_load()
 		Events.cosmetics_changed.emit())
+	Events.cosmetics_changed.connect(_sync)
+	Purchases.entitlements_changed.connect(_sync)
+	_sync.call_deferred()
+
+## Çizimdeki aktif kumaş setini seçimle eşle (premium bitince seçim klasiğe düşer).
+func _sync() -> void:
+	Fabrics.current_set = selected_fabric
+
+## Seçili (ya da verilen) tahtanın çerçeve dokusu; yoksa varsayılan.
+func board_texture(id := "") -> Texture2D:
+	var bid := id if id != "" else selected_board
+	var p := "res://art/board/frame.png" if bid == "parchment" else "res://art/board/%s.png" % bid
+	if not ResourceLoader.exists(p):
+		p = "res://art/board/frame.png"
+	return load(p) if ResourceLoader.exists(p) else null
 
 func _load() -> void:
 	_s = Save.get_section("cosmetics")
@@ -78,6 +96,7 @@ func boards() -> Array:
 	var out := []
 	for b in BOARDS:
 		out.append({"id": b.id, "name": "board." + b.id, "cost": b.gem_cost, "premium": int(b.gem_cost) > 0,
+			"cloth": Color(String(b.cloth)),
 			"unlocked": is_board_unlocked(b.id), "selected": selected_board == b.id})
 	return out
 

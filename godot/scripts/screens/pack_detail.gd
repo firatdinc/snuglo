@@ -74,6 +74,29 @@ func build() -> void:
 		Ui.place(seal, Vector2(iw - 150, -50), Vector2(130, 130))
 		info.add_child(seal)
 	Ui.slide_in(info, 0.05, 60.0)
+	# Sezon dostları şeridi (advent: 6 kapıda bir): kazanılan renkli, kalan gölge
+	var fl: Array = p.get("friends", [])
+	if not fl.is_empty():
+		var got := Progress.season_friends_earned(pack_id)
+		var fs := 104.0
+		for k in fl.size():
+			var ft := Ui.tex_rect(PackArt.friend(String(fl[k])), Vector2(fs, fs))
+			Ui.place(ft, Vector2(X0 + W - 360 - (fl.size() - k) * (fs + 6), hero_h - 130), Vector2(fs, fs))
+			if not String(fl[k]) in got:
+				ft.modulate = Color(0.45, 0.42, 0.55, 0.6)
+			c.add_child(ft)
+			Ui.pop_in(ft, 0.25 + k * 0.06, 0.3, 0.55)
+	# Başka bir sezon da açıksa ona geçiş (kış ↔ advent)
+	if Progress.is_season(pack_id):
+		for other in Progress.visible_seasons():
+			if other == pack_id:
+				continue
+			var sw := Ui.button(tr(String(Progress.pack(other).title)) + "  ›", "sage", Vector2(420, 96), "", 34)
+			Ui.place(sw, Vector2(X0 + 40, hero_h - 290), Vector2(420, 96))
+			c.add_child(sw)
+			var oid := String(other)
+			sw.tapped.connect(func() -> void: Main.replace("pack", {"pack": oid}))
+			break
 
 	# Yorgan ızgarası
 	var gy := hero_h + 270.0
@@ -102,7 +125,7 @@ func build() -> void:
 		patch.stars = Progress.stars(lid)
 		patch.playable = Progress.can_play(pack_id, i)
 		patch.current = i == _current
-		patch.milestone = i % Nook.LEVELS_PER_PIECE == 0
+		patch.milestone = i % Nook.LEVELS_PER_PIECE == 0 and not Progress.is_season(pack_id)
 		patch.fabric = (i * 5 + Progress.pack_index(pack_id) * 3) % 12
 		Ui.place(patch, Vector2(X0 + 40 + col * (cell + gap), y), Vector2(cell, cell))
 		c.add_child(patch)
@@ -114,7 +137,10 @@ func build() -> void:
 				Main.play(Progress.level_id(pack_id, n), false)
 			else:
 				Ui.shake(patch, 10.0)
-				Main.toast(tr("a11y.packLockedHint") if not Progress.is_pack_unlocked(pack_id) else tr("pack.locked"), "ic_lock", Palette.LOCKED.darkened(0.3)))
+				var msg := tr("a11y.packLockedHint") if not Progress.is_pack_unlocked(pack_id) else tr("pack.locked")
+				if bool(p.get("advent", false)) and n > Progress.season_open_levels(pack_id):
+					msg = tr("season.doorOn") % n
+				Main.toast(msg, "ic_lock", Palette.LOCKED.darkened(0.3)))
 	quilt.size.y = y + cell + 16.0 - quilt.position.y
 	var total := y + cell + 60.0 + BOTTOM
 	_scroll.set_length(total)

@@ -26,6 +26,33 @@ const PACKS := [
 	{"id": "aurora-vale", "title": "pack.aurora_vale.title", "grid": 8, "levels": 60, "art": "fox", "scene": "scene-forest"},
 ]
 const LEVELS_PER_PACK := 60
+## Sezon paketleri: kampanya sırasından bağımsız, pencere boyunca herkese açık (PACKS'te YOK →
+## Nook/harita/devam/paket sayacı etkilenmez). Pencere bitince yalnız başlamış olan bitirebilir.
+## "advent": bölüm N, pencerenin N. gününde açılır (kaçırılan sonra oynanır).
+## "remote": true → LiveConfig'ten enabled=true gelmeden ASLA açılmaz (Noel: güncellemeyle
+## yayın tarihini denk getirmek zor, bayrakla açılır). Uzak start/end koddakini ezer.
+## "friends": her (levels / n) bölümde bir dost kazanılır (advent: 6'da bir).
+## App Store In-App Event'leri bunlara bağlanır. SNUG_SEASON=<id> → debug'da o sezon açık
+## (SNUG_SEASON=all hepsi); SNUG_ADVENT_DAY=<n> açık kapı sayısı.
+static var include_upcoming := false
+
+static func all_seasons() -> Array:
+	return SEASONS + UPCOMING_SEASONS if include_upcoming else SEASONS
+
+const SEASONS := [
+	{"id": "winter-quilt", "title": "pack.winter_quilt.title", "grid": 6, "levels": 30,
+		"art": "reindeer", "scene": "scene-snow", "start": "2026-11-18", "end": "2027-01-15",
+		"fabric": 7, "reward": {"coin": 500, "gem": 50, "key": 3}},
+]
+## Sonraki sürümün sezonları (2.0.6 Noel). Yayında YOK: görselleri export'tan hariç
+## (export_presets exclude_filter); yalnız testler include_upcoming=true ile görür.
+## Yayına alırken bu girdiyi SEASONS'a taşı ve exclude_filter'dan Noel görsellerini çıkar.
+const UPCOMING_SEASONS := [
+	{"id": "advent-quilt", "title": "pack.advent_quilt.title", "grid": 6, "levels": 24,
+		"art": "snowman", "scene": "scene-christmas", "start": "2026-12-01", "end": "2026-12-31",
+		"advent": true, "remote": true, "fabric": 2, "reward": {"coin": 600, "gem": 75, "key": 4},
+		"friends": ["snowman", "elf", "gingerbread", "santa"]},
+]
 const TOTAL_LEVELS := 1020
 ## Günde 5 günlük bölüm (Swift ProgressStore.dailyLevelCount), sırayla açılır, index 0..4.
 const DAILY_LEVELS := 5
@@ -120,10 +147,78 @@ func clock_rewound() -> bool:
 # ============================================================ Paketler / kilitler
 
 func pack(pack_id: String) -> Dictionary:
+	for p in all_seasons():
+		if p.id == pack_id:
+			return p
 	for p in PACKS:
 		if p.id == pack_id:
 			return p
 	return {}
+
+static func is_season(pack_id: String) -> bool:
+	for p in all_seasons():
+		if p.id == pack_id:
+			return true
+	return false
+
+## Sezon alanı: uzak ayar (LiveConfig) varsa onu, yoksa koddakini döner (start/end).
+func season_field(pack_id: String, key: String) -> String:
+	var r := LiveConfig.season(pack_id)
+	if r.has(key) and String(r[key]).length() == 10:
+		return String(r[key])
+	return String(pack(pack_id).get(key, ""))
+
+## Sezon penceresi açık mı (yerel gün, uçlar dahil). Uzak enabled=false her şeyi kapatır;
+## "remote" sezon uzaktan enabled=true ister.
+func season_active(pack_id: String) -> bool:
+	var dev := Dev.env("SNUG_SEASON")
+	if dev == "all" or dev == pack_id:
+		return true
+	var p := pack(pack_id)
+	if p.is_empty():
+		return false
+	var r := LiveConfig.season(pack_id)
+	if r.has("enabled") and not bool(r.enabled):
+		return false
+	if bool(p.get("remote", false)) and not bool(r.get("enabled", false)):
+		return false
+	var k := local_key()
+	return k >= season_field(pack_id, "start") and k <= season_field(pack_id, "end")
+
+## Sezonun bitmesine kalan gün (bugün dahil; kapalıysa 0).
+func season_days_left(pack_id: String) -> int:
+	if not season_active(pack_id):
+		return 0
+	return maxi(1, day_number(season_field(pack_id, "end")) - local_day() + 1)
+
+## Sezon dostları: tamamlanan bölüme göre kazanılanlar ([] = dost listesi yok).
+func season_friends_earned(pack_id: String) -> Array:
+	var f: Array = pack(pack_id).get("friends", [])
+	if f.is_empty():
+		return []
+	var step := int(pack(pack_id).levels) / f.size()
+	var n := pack_completed_count(pack_id) / step
+	return f.slice(0, mini(n, f.size()))
+
+## Menüde gösterilecek sezonlar: açık olanlar + başlanıp bitirilmemiş olanlar; en yeni başlayan önce.
+func visible_seasons() -> Array:
+	var out := []
+	for p in all_seasons():
+		var started := pack_completed_count(p.id) > 0 and not is_pack_complete(p.id)
+		if season_active(p.id) or started:
+			out.append(p.id)
+	out.sort_custom(func(a: String, b: String) -> bool: return season_field(a, "start") > season_field(b, "start"))
+	return out
+
+## Advent sezonunda bugüne kadar açılmış bölüm sayısı (advent değilse tümü).
+func season_open_levels(pack_id: String) -> int:
+	var p := pack(pack_id)
+	if not p.get("advent", false):
+		return int(p.levels)
+	if Dev.env("SNUG_SEASON") != "" and Dev.env("SNUG_ADVENT_DAY") != "":
+		return clampi(int(Dev.env("SNUG_ADVENT_DAY")), 0, int(p.levels))
+	var d := local_day() - day_number(season_field(pack_id, "start")) + 1
+	return clampi(d, 0, int(p.levels))
 
 func pack_index(pack_id: String) -> int:
 	for i in PACKS.size():
@@ -133,6 +228,8 @@ func pack_index(pack_id: String) -> int:
 
 ## İlk paket hep açık; paket N, N-1 TAMAMEN bitince açılır. Premium hepsini açar.
 func is_pack_unlocked(pack_id: String) -> bool:
+	if is_season(pack_id):
+		return season_active(pack_id) or pack_completed_count(pack_id) > 0
 	var i := pack_index(pack_id)
 	if i < 0:
 		return false
@@ -142,6 +239,8 @@ func is_pack_unlocked(pack_id: String) -> bool:
 
 ## Bölüm 1 hep açık; N, N-1 tamamlanınca açılır (paket kilidinden bağımsız).
 func is_level_unlocked(pack_id: String, index: int) -> bool:
+	if bool(pack(pack_id).get("advent", false)) and index > season_open_levels(pack_id):
+		return false
 	return index == 1 or is_completed(level_id(pack_id, index - 1))
 
 ## Oynanabilir mi: paket açık + bölüm açık.
@@ -293,11 +392,18 @@ func record_level(id: String, seconds: float, hints: int = 0, grid: int = 0, rel
 			var parts := split_id(id)
 			var pid: String = parts[0]
 			# Nook: her 10. bölümün İLK çözümü bir sahne parçası kazandırır.
-			if res.first_clear and int(parts[1]) % Nook.LEVELS_PER_PIECE == 0:
+			if res.first_clear and int(parts[1]) % Nook.LEVELS_PER_PIECE == 0 and not is_season(pid):
 				res.nook_piece = int(parts[1]) / Nook.LEVELS_PER_PIECE - 1
 			if is_pack_complete(pid) and not pid in _s.pack_rewarded and _s.pack_pending == "":
 				_s.pack_pending = pid
 			res.pack_completed = pid if _s.pack_pending == pid else ""
+			# Sezon dostu: bu ilk çözüm yeni bir dost kazandırdıysa duyur.
+			if res.first_clear and is_season(pid):
+				var fr := season_friends_earned(pid)
+				var step := int(pack(pid).levels) / maxi(1, (pack(pid).get("friends", []) as Array).size())
+				if not fr.is_empty() and pack_completed_count(pid) % step == 0:
+					res.season_friend = fr.back()
+					Events.toast.emit("season.friendJoined", [tr("season.friend." + String(fr.back()))])
 		"daily":
 			var idx := clampi(int(split_id(id)[1]), 0, DAILY_LEVELS - 1)
 			res.daily_index = idx
@@ -438,7 +544,8 @@ func collect_pack_reward() -> Dictionary:
 	var pid := String(_s.pack_pending)
 	if pid == "":
 		return {}
-	Wallet.grant(PACK_REWARD, "pack")
+	var rw: Dictionary = pack(pid).reward if is_season(pid) else PACK_REWARD
+	Wallet.grant(rw, "pack")
 	(_s.pack_rewarded as Array).append(pid)
 	_s.pack_pending = ""
 	Save.mark_dirty()
@@ -447,7 +554,7 @@ func collect_pack_reward() -> Dictionary:
 		if is_pack_complete(p.id) and not p.id in _s.pack_rewarded:
 			_s.pack_pending = p.id
 			break
-	return {"pack": pid, "coin": PACK_REWARD.coin, "gem": PACK_REWARD.gem, "key": PACK_REWARD.key}
+	return {"pack": pid, "coin": rw.coin, "gem": rw.gem, "key": rw.key}
 
 func packs_completed() -> int:
 	var n := 0

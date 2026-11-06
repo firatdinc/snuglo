@@ -3,7 +3,7 @@
 # alfalı tam görsel kurar. Kullanım: tools/grab.sh <çıktı.png> [TX TY CW CH]   (varsayılan 2 2 627 627)
 set -e
 cd "$(dirname "$0")/.."
-P="$HOME/jellybusters/.venv/bin/python"
+P="$HOME/asset-tools/.venv/bin/python"
 T=$(ls -td /var/folders/*/*/T/claude-chrome-screenshots-* | head -1)
 OUT=$1; TX=${2:-2}; TY=${3:-2}; CW=${4:-627}; CH=${5:-627}
 # OPAQUE=1: karo başına tek (beyaz) görüntü; matte'e aynı dosya iki kez verilir.

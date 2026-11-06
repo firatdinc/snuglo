@@ -296,19 +296,53 @@ func _tick_daily() -> void:
 
 func _modes(y: float) -> void:
 	var gap := 24.0
-	var cw := (W - 80 - gap) / 2.0
+	var seasons := Progress.visible_seasons()
+	var season := not seasons.is_empty()
+	var n := 3 if season else 2
+	var cw := (W - 80 - gap * (n - 1)) / n
 	var ch := 240.0
+	var x := X0 + 40
+	# Sezon paketi (kış yorganı): pencere açıkken ilk kart
+	if season:
+		_season_card(String(seasons[0]), x, y, cw, ch)
+		x += cw + gap
 	# Endless
 	var best := Progress.endless_best
-	var en := _mode_card(X0 + 40, y, cw, ch, 6, "ic_endless", tr("endless.title"), tr("endless.best") % best if best > 0 else tr("endless.subtitle"))
+	var en := _mode_card(x, y, cw, ch, 6, "ic_endless", tr("endless.title"), tr("endless.best") % best if best > 0 else tr("endless.subtitle"))
 	en.tapped.connect(func() -> void: Main.play("endless-1"))
+	x += cw + gap
 	# Kule
 	var sub := tr("tower.resume") % Tower.current_floor if Tower.has_active_run() else (tr("tower.best") % Tower.best_floor if Tower.best_floor > 0 else tr("tower.subtitle"))
-	var tw2 := _mode_card(X0 + 40 + cw + gap, y, cw, ch, 4, "ic_tower", tr("tower.title"), sub)
+	var tw2 := _mode_card(x, y, cw, ch, 4, "ic_tower", tr("tower.title"), sub)
 	tw2.tapped.connect(func() -> void: Main.open("tower"))
 	var tk := Ui.badge("%d" % Wallet.tickets, Palette.MUSTARD.darkened(0.15))
 	tk.position = Vector2(cw - 56, -14)
 	tw2.add_child(tk)
+
+## Sezon kartı (kış / advent): peluş dost + ilerleme + kalan gün; paket ekranını açar.
+## Birden çok sezon açıksa en yeni başlayan gösterilir; paket ekranında diğerine geçiş var.
+func _season_card(sid: String, x: float, y: float, w: float, h: float) -> void:
+	var sp := Progress.pack(sid)
+	var done := Progress.pack_completed_count(sid)
+	var total := int(sp.levels)
+	var left := Progress.season_days_left(sid)
+	var sub := tr("season.daysLeft") % left if left > 0 else tr("season.ended")
+	# Advent: bugün açılan kapı oynanmadıysa "yeni kapı" vurgusu
+	# Advent: oynanabilir açık kapı varsa onu göster (sırayla ilerlenir)
+	var nxt := Progress.next_unplayed(sid)
+	var fresh := bool(sp.get("advent", false)) and nxt > 0 and nxt <= Progress.season_open_levels(sid)
+	if fresh:
+		sub = tr("season.newDoor") % nxt
+	var c := _mode_card(x, y, w, h, PackArt.fabric(sid), "", tr(String(sp.title)), sub)
+	c.glow = done < total
+	var fr := Ui.tex_rect(PackArt.animal(sid), Vector2(118, 118))
+	Ui.place(fr, Vector2((w - 118) / 2.0, 4), Vector2(118, 118))
+	c.add_child(fr)
+	Ui.bob(fr, 5.0, 2.6)
+	var b := Ui.badge("%d/%d" % [done, total] if done < total else "✓", Palette.SAGE.darkened(0.2))
+	b.position = Vector2(w - 70, -14)
+	c.add_child(b)
+	c.tapped.connect(func() -> void: Main.push("pack", {"pack": sid}))
 
 func _mode_card(x: float, y: float, w: float, h: float, fabric: int, icon: String, title: String, sub: String) -> QuiltCard:
 	var c := QuiltCard.new()
@@ -317,9 +351,10 @@ func _mode_card(x: float, y: float, w: float, h: float, fabric: int, icon: Strin
 	c.inner = 12
 	c.radius = 44
 	put(c, Vector2(x, y), Vector2(w, h))
-	var ic := Ui.icon(icon, Vector2(104, 104))
-	Ui.place(ic, Vector2((w - 104) / 2.0, 14), Vector2(104, 104))
-	c.add_child(ic)
+	if icon != "":
+		var ic := Ui.icon(icon, Vector2(104, 104))
+		Ui.place(ic, Vector2((w - 104) / 2.0, 14), Vector2(104, 104))
+		c.add_child(ic)
 	var t := Ui.label(title, 34, Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
 	t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	Ui.place(t, Vector2(16, 116), Vector2(w - 32, 46))

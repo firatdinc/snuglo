@@ -48,5 +48,6 @@ const PIECES: Array[Color] = [
 	Color("6c8ba7"),  # 11 gökyüzü yıldızlı
 ]
 
+## Seçili kumaş setine göre (Fabrics.color); klasik sette PIECES.
 static func piece(i: int) -> Color:
-	return PIECES[i % PIECES.size()]
+	return Fabrics.color(i)

@@ -265,6 +265,7 @@ func _fabrics() -> void:
 		var c := QuiltCard.new()
 		c.pressable = true
 		c.fabric = (i * 3) % 12
+		c.fabric_set = String(f.id)
 		c.locked = not f.unlocked
 		c.glow = f.selected
 		c.radius = 34
@@ -316,14 +317,17 @@ func _boards() -> void:
 		var b: Dictionary = list[i]
 		var c := QuiltCard.new()
 		c.pressable = true
-		c.fill = Palette.MUSTARD if b.selected else Palette.CREAM
+		c.fill = b.cloth
+		c.glow = b.selected
 		c.locked = not b.unlocked
 		c.radius = 30
 		c.depth = 5
 		Ui.place(c, Vector2(44 + (i % cols) * (w + gap), _cy + (i / cols) * 92), Vector2(w, 78))
 		_card.add_child(c)
 		var cap := tr(String(b.name)) if b.unlocked else "%d" % int(b.cost)
-		var t := Ui.label(cap, 28, Palette.CREAM if b.selected else Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
+		if b.selected:
+			cap = "✓ " + cap
+		var t := Ui.label(cap, 28, Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
 		t.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		Ui.place(t, Vector2(10, 0), Vector2(w - 20, 78))
 		c.add_child(t)

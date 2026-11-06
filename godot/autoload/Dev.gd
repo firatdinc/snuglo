@@ -137,7 +137,7 @@ func attach(g: Game) -> void:
 		get_tree().create_timer(2.6).timeout.connect(func() -> void: g.peek())
 	var pl := Dev.env("SNUG_PLAY")
 	if pl != "":
-		play_demo(g, int(pl), Dev.env("SNUG_PLAY_MISS") != "")
+		play_demo(g, int(pl), int(Dev.env("SNUG_PLAY_MISS")))
 	var dr := Dev.env("SNUG_DRAG")
 	if dr != "":
 		drag_test(g, dr == "drop")
@@ -180,11 +180,11 @@ func _touch(at: Vector2, pressed: bool) -> void:
 	Input.parse_input_event(e)
 
 ## SNUG_PLAY=<n>: reklam/tanıtım çekimi — el imleciyle n parçayı gerçek dokunma olaylarıyla
-## sürükleyip çözüm yerine bırakır (n<=0 → hepsi). SNUG_PLAY_MISS=1: ilki önce yanlış yere.
+## sürükleyip çözüm yerine bırakır (n<=0 → hepsi). SNUG_PLAY_MISS=<m>: ilk m parça önce yanlış yere.
 var _hand: TextureRect
 var _hand_at := Vector2.ZERO
 
-func play_demo(g: Game, n: int, miss: bool) -> void:
+func play_demo(g: Game, n: int, misses: int) -> void:
 	var layer := CanvasLayer.new()
 	layer.layer = 100
 	add_child(layer)
@@ -204,7 +204,7 @@ func play_demo(g: Game, n: int, miss: bool) -> void:
 		if g.placements.get(p.id, Vector2i(-99, -99)) == g.lvl.solution[p.id]:
 			continue
 		var o: Vector2i = g.lvl.solution[p.id]
-		if miss and k == 0:
+		if k < misses:
 			await _demo_drag(g, p, Vector2i(g.lvl.width - 1, clampi(o.y, 0, g.lvl.height - 1)))   # tahtadan taşar → sığmaz
 			await get_tree().create_timer(0.55).timeout
 		await _demo_drag(g, p, o)

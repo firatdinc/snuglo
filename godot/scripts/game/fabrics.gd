@@ -6,12 +6,21 @@ extends RefCounted
 static var _cache := {}
 static var current_set := "classic"
 
-static func get_tex(i: int) -> Texture2D:
-	var key := "%s/%d" % [current_set, i % Palette.PIECES.size()]
+## Seçili kumaş seti (Cosmetics._sync ayarlar). set_id verilirse o setin dokusu (ayar önizlemesi).
+static func get_tex(i: int, set_id := "") -> Texture2D:
+	var sid := set_id if set_id != "" else current_set
+	var key := "%s/%d" % [sid, i % Palette.PIECES.size()]
 	if not _cache.has(key):
-		var p := "res://art/fabric/%s/f%02d.png" % [current_set, i % Palette.PIECES.size()]
+		var p := "res://art/fabric/%s/f%02d.png" % [sid, i % Palette.PIECES.size()]
+		if not ResourceLoader.exists(p):
+			p = "res://art/fabric/classic/f%02d.png" % (i % Palette.PIECES.size())
 		_cache[key] = load(p) if ResourceLoader.exists(p) else null
 	return _cache[key]
+
+## Parça rengi (gölge/hayalet/rakam): setin dokudan ölçülmüş medyan rengi.
+static func color(i: int) -> Color:
+	var cols: Array = FabricColors.SETS.get(current_set, Palette.PIECES)
+	return cols[i % cols.size()]
 
 ## Kumaş ölçeği: dokunun 1 pikseli kaç ekran pikseli (hücre boyundan bağımsız sabit desen).
 const TEXEL := 0.75

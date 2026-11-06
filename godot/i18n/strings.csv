@@ -401,7 +401,7 @@ board.rose,Rose,Gül,Rosa,Rose,Rose,Rosa,Rosa,ローズ,로즈
 board.meadow,Meadow,Çayır,Pradera,Wiese,Prairie,Prato,Campo,草原,초원
 skin.midnight,Midnight,Gece Yarısı,Medianoche,Mitternacht,Minuit,Mezzanotte,Meia-noite,ミッドナイト,미드나이트
 skin.blossom,Blossom,Çiçek,Flor,Blüte,Floraison,Fiore,Flor,ブロッサム,블로섬
-board.twilight,Twilight,Alacakaranlık,Crepúsculo,Zwielicht,Entre-chien-et-loup,Penombra,Crepúsculo,トワイライト,트와일라잇
+board.twilight,Twilight,Lacivert Akşam,Anochecer,Zwielicht,Entre-chien-et-loup,Penombra,Anoitecer,トワイライト,트와일라잇
 board.ember,Ember,Köz,Brasa,Glut,Braise,Brace,Brasa,エンバー,엠버
 hint.rewarded.title,Hint — Free,İpucu — Ücretsiz,Pista — Gratis,Tipp – gratis,Indice — gratuit,Suggerimento — Gratis,Dica — Grátis,ヒント — 無料,힌트 — 무료
 hint.rewarded.message,Watch a short ad and one piece will be placed for you.,"Kısa bir reklam izle, bir parça senin için yerleştirilsin.",Mira un anuncio corto y se colocará una pieza por ti.,Sieh dir eine kurze Werbung an und ein Teil wird für dich gesetzt.,Regarde une courte pub et une pièce sera placée pour toi.,Guarda un breve annuncio e ti piazzeremo un pezzo.,Veja um anúncio curto e uma peça será colocada para você.,短い広告を見ると、ピースを1つ置いてあげます。,짧은 광고를 보면 조각 하나를 대신 놓아 드려요.
@@ -751,3 +751,14 @@ praise.final.2,Last stitch!,Son dikiş!,¡Última puntada!,Letzter Stich!,Dernie
 praise.final.3,Done!,Tamamdır!,¡Listo!,Geschafft!,Terminé !,Fatto!,Pronto!,完成！,완성!
 chest.odds,Chest odds: %s,Sandık olasılıkları: %s,Probabilidades del cofre: %s,Truhen-Chancen: %s,Chances du coffre : %s,Probabilità forziere: %s,Chances do baú: %s,宝箱の確率：%s,상자 확률: %s
 chest.odds.item,%s %d%%,%s %%%d,%s %d %%,%s %d%%,%s %d%%,%s %d%%,%s %d%%,%s %d%%,%s %d%%
+pack.winter_quilt.title,Winter Quilt,Kış Yorganı,Edredón de Invierno,Winterdecke,Courtepointe d'Hiver,Trapunta d'Inverno,Colcha de Inverno,冬のキルト,겨울 퀼트
+season.daysLeft,%d days left,%d gün kaldı,Quedan %d días,Noch %d Tage,Encore %d jours,Ancora %d giorni,Faltam %d dias,残り%d日,%d일 남음
+season.ended,Season over · finish it,Sezon bitti · tamamla,Temporada cerrada · termínala,Saison vorbei · beende sie,Saison finie · termine-la,Stagione finita · completala,Temporada encerrada · termine,シーズン終了・最後まで,시즌 종료 · 완료하기
+pack.advent_quilt.title,Advent Quilt,Advent Yorganı,Edredón de Adviento,Adventsdecke,Courtepointe de l'Avent,Trapunta dell'Avvento,Colcha do Advento,アドベントキルト,어드벤트 퀼트
+season.newDoor,New door: %d,Yeni kapı: %d,Nueva puerta: %d,Neues Türchen: %d,Nouvelle case : %d,Nuova casella: %d,Nova porta: %d,新しい扉：%d,새 문: %d
+season.doorOn,Opens on December %d,%d Aralık'ta açılır,Se abre el %d de diciembre,Öffnet am %d. Dezember,S'ouvre le %d décembre,Si apre il %d dicembre,Abre em %d de dezembro,12月%d日に開くよ,12월 %d일에 열려요
+season.friendJoined,%s joined your quilt!,%s yorganına katıldı!,¡%s se unió a tu edredón!,%s ist jetzt bei dir!,%s rejoint ta courtepointe !,%s si unisce alla tua trapunta!,%s entrou na sua colcha!,%sがなかまになった！,%s(이)가 함께해요!
+season.friend.snowman,Snowman,Kardan Adam,Muñeco de nieve,Schneemann,Bonhomme de neige,Pupazzo di neve,Boneco de neve,ゆきだるま,눈사람
+season.friend.elf,Elf,Elf,Elfo,Elf,Lutin,Elfo,Elfo,エルフ,엘프
+season.friend.gingerbread,Gingerbread,Zencefilli Kurabiye,Galleta de jengibre,Lebkuchen,Pain d'épice,Omino di pan di zenzero,Biscoito de gengibre,ジンジャーブレッド,진저브레드
+season.friend.santa,Santa,Noel Baba,Papá Noel,Weihnachtsmann,Père Noël,Babbo Natale,Papai Noel,サンタ,산타

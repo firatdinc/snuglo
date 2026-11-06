@@ -52,6 +52,7 @@ func _run() -> void:
 	_test_tower()
 	_test_nook()
 	_test_version_ads()
+	_test_seasons()
 	_test_legacy()
 	DirAccess.remove_absolute(_tmp)
 	print("systems: %d passed, %d failed" % [passes, fails])
@@ -139,6 +140,55 @@ func _test_pack_reward() -> void:
 	_check("pack: yeniden çözüm tekrar ödüllendirmez", p.pending_pack_reward() == "")
 	_check("pack: continue sonraki pakete geçer", p.continue_target() == "spice-route-1", p.continue_target())
 	_check("unlock: başta 2. paket kilitliydi (premium yok)", p.TOTAL_LEVELS == 1020 and p.PACKS.size() == 17)
+
+func _test_seasons() -> void:
+	var p := _node("Progress")
+	var w := _node("Wallet")
+	var keep: String = p.today_override
+	p.include_upcoming = true
+	p.today_override = "2026-11-10"
+	_check("season: pencere öncesi kapalı", not p.season_active("winter-quilt") and not p.is_pack_unlocked("winter-quilt") \
+		and p.visible_seasons().is_empty())
+	p.today_override = "2026-11-18"
+	_check("season: kış açık, advent kapalı", p.season_active("winter-quilt") and not p.season_active("advent-quilt") \
+		and p.visible_seasons() == ["winter-quilt"] and p.season_days_left("winter-quilt") == 59)
+	p.today_override = "2026-12-03"
+	var live := _node("LiveConfig")
+	_check("live: advent bayraksız kapalı", not p.season_active("advent-quilt") and p.visible_seasons() == ["winter-quilt"])
+	live.apply({"seasons": {"advent-quilt": {"enabled": true}}})
+	_check("season: aralıkta advent önce", p.visible_seasons() == ["advent-quilt", "winter-quilt"], str(p.visible_seasons()))
+	_check("advent: 3. gün 3 kapı", p.season_open_levels("advent-quilt") == 3 and p.is_level_unlocked("advent-quilt", 1) \
+		and not p.is_level_unlocked("advent-quilt", 4))
+	p.record_level("advent-quilt-1", 100.0, 0)
+	p.record_level("advent-quilt-2", 100.0, 0)
+	_check("advent: sıralı + güne bağlı", p.is_level_unlocked("advent-quilt", 3) and not p.can_play("advent-quilt", 4))
+	live.apply({"seasons": {"advent-quilt": {"enabled": true, "start": "2026-11-30"}}})
+	_check("live: uzak start ezer", p.season_open_levels("advent-quilt") == 4)
+	live.apply({"seasons": {"advent-quilt": {"enabled": true}, "winter-quilt": {"enabled": false}}})
+	_check("live: kış kapatılabilir", not p.season_active("winter-quilt") and p.season_open_levels("advent-quilt") == 3)
+	live.apply({"seasons": {"advent-quilt": {"enabled": true}}})
+	for i in range(3, 7):
+		p.today_override = "2026-12-%02d" % i
+		p.record_level("advent-quilt-%d" % i, 100.0, 0)
+	_check("advent: 6. kapı kardan adam", p.season_friends_earned("advent-quilt") == ["snowman"], str(p.season_friends_earned("advent-quilt")))
+	var r: Dictionary = p.record_level("winter-quilt-10", 100.0, 0)
+	_check("season: nook parçası vermez", int(r.get("nook_piece", -1)) == -1)
+	_check("season: kampanya sayacı/devam etkilenmez", p.PACKS.size() == 17 and not p.continue_target().begins_with("winter"))
+	for i in range(1, 31):
+		p.record_level("winter-quilt-%d" % i, 100.0, 0)
+	_check("season: kış bitti bekliyor", p.pending_pack_reward() == "winter-quilt", p.pending_pack_reward())
+	var g0: int = w.gems
+	var got: Dictionary = p.collect_pack_reward()
+	_check("season: 500 coin + 50 gem + 3 anahtar", got.get("coin") == 500 and w.gems - g0 == 50 and got.get("key") == 3, str(got))
+	p.today_override = "2027-01-20"
+	_check("season: bitince yarım kalan görünür", p.visible_seasons() == ["advent-quilt"] and p.is_pack_unlocked("advent-quilt") \
+		and p.is_pack_unlocked("winter-quilt"))
+	_check("advent: bitince tüm kapılar", p.season_open_levels("advent-quilt") == 24)
+	live.apply({"seasons": {}})
+	p.include_upcoming = false
+	_check("season: yayında yalnız kış", p.all_seasons().size() == 1 and not p.is_pack_unlocked("advent-quilt"))
+	p.today_override = keep
+	p._s.max_day = p.local_day()   # gün taklidi saat-geri-alma korumasını tetiklemesin
 
 func _test_daily_streak() -> void:
 	var p := _node("Progress")
@@ -277,6 +327,20 @@ func _test_meta_misc() -> void:
 		and not cos.select_board("x") and not cos.select_board("ember"))
 	w.debug_set("gem", 250)
 	_check("cosmetics: premium tahta 250 gem", cos.buy_board("ember") and cos.select_board("ember") and w.gems == 0)
+	_check("cosmetics: seçili set çizime yansır", Fabrics.current_set == "midnight" or (cos.select_fabric("midnight") and Fabrics.current_set == "midnight"))
+	_check("cosmetics: set dokusu + rengi", Fabrics.get_tex(0) != null and Fabrics.get_tex(0) != Fabrics.get_tex(0, "classic") \
+		and Palette.piece(3) == FabricColors.SETS.midnight[3])
+	_check("cosmetics: tahta dokusu", cos.board_texture() != null and cos.board_texture() != cos.board_texture("parchment"))
+	for f in cos.FABRICS:
+		for i in 12:
+			if not ResourceLoader.exists("res://art/fabric/%s/f%02d.png" % [f.id, i]):
+				_check("cosmetics: eksik doku %s/%d" % [f.id, i], false)
+	for bd in cos.BOARDS:
+		if bd.id != "parchment" and not ResourceLoader.exists("res://art/board/%s.png" % bd.id):
+			_check("cosmetics: eksik tahta " + bd.id, false)
+	cos.select_fabric("classic")
+	cos.select_board("parchment")
+	_check("cosmetics: klasiğe dönüş", Fabrics.current_set == "classic" and Palette.piece(0) == Palette.PIECES[0])
 	var combo: Dictionary = p.award_combo(5)
 	_check("combo: ×5 = 10 + 10 coin, gem yok", combo.coins == 20 and combo.milestone and p.award_combo(5, true).coins == 0)
 	var gc := _node("GameCenter")
