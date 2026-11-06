@@ -10,3 +10,9 @@ Package.resolved
 
 # Xcode user state
 xcuserdata/
+
+# Reklam videoları ve üretilmiş video görselleri (repoya girmesin)
+marketing/**/*.mp4
+marketing/**/*.mov
+marketing/**/*.webm
+marketing/ad-video/public/art/viral/
