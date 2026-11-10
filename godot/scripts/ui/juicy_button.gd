@@ -34,10 +34,14 @@ var _press := 0.0
 var _spring := 1.0
 var _vs := 0.0
 var _down := false
+## Noel: üst kenarda kar kümesi (Xmas açıkken otomatik; false ile kapatılır).
+var snow_cap := true
+var _snow := false
 var _font: Font = preload("res://art/fonts/fredoka_bold.tres")
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	_snow = snow_cap and Xmas.is_active()
 	pivot_offset = size / 2.0
 	resized.connect(func(): pivot_offset = size / 2.0)
 
@@ -79,8 +83,10 @@ func _draw() -> void:
 		return
 	if skin:
 		_draw_skin()
-		return
-	_draw_flat()
+	else:
+		_draw_flat()
+	if _snow and size.x >= 80.0:
+		XmasKit.draw_snow_cap(self, Rect2(Vector2(0, 8.0 * _press + size.y * 0.02), size), get_instance_id() % 9973, radius)
 
 func _draw_skin() -> void:
 	var dy := 8.0 * _press

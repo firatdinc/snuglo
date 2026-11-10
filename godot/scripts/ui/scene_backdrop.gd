@@ -19,6 +19,10 @@ func _ready() -> void:
 	var v := Ui.vp()
 	if size == Vector2.ZERO:
 		size = v
+	# Kış teması: yukarı süzülen pamuk tüyleri yerine yağan keçe kar.
+	if Xmas.winter_active() and motes > 0:
+		XmasKit.add_snow(self, clampi(motes + 10, 18, 36))
+		motes = 0
 	for i in motes:
 		_m.append({"p": Vector2(randf() * size.x, randf() * size.y), "r": randf_range(4, 11), "s": randf_range(10, 34), "ph": randf() * TAU, "d": randf_range(0.3, 1.0)})
 

@@ -11,6 +11,7 @@ var _crown_btn: JuicyButton
 var _rewards_btn: JuicyButton
 var _rewards_badge: Badge
 var _nook_badge: Badge
+var _quilt_badge: Badge
 var _dropdown: Control
 var _daily_timer: Label
 var _queue: Array[Callable] = []
@@ -26,6 +27,11 @@ func build() -> void:
 	_bg.wash_bottom = 0.8
 	_bg.size = size
 	add_child(_bg)
+	# Kış: kahve + kar konseptli menü sahnesi ve arkada yağan keçe kar (kartların arkasında).
+	if Xmas.winter_active():
+		_bg.tex = PackArt.scene_by_name("winter_cocoa" if ResourceLoader.exists("res://art/scene/winter_cocoa.jpg") else "snow")
+		_bg.motes = 0
+		XmasKit.add_snow(self, 46)
 	if Settings.zen_mode:
 		_bg.darken = 0.0
 		_bg.modulate = Color(0.86, 0.95, 0.86)
@@ -298,10 +304,23 @@ func _modes(y: float) -> void:
 	var gap := 24.0
 	var seasons := Progress.visible_seasons()
 	var season := not seasons.is_empty()
-	var n := 3 if season else 2
+	var xmas := Xmas.is_active()
+	var n := 2 + int(season) + int(xmas)
 	var cw := (W - 80 - gap * (n - 1)) / n
 	var ch := 240.0
 	var x := X0 + 40
+	# Noel Köyü (Aralık): ASMR mini oyunlar
+	if xmas:
+		var ico := "res://art/xmas/station_tree.png"
+		var vc := _mode_card(x, y, cw, ch, 0, "", tr("xmas.village.title"),
+			tr("xmas.daysLeft") % Xmas.days_to_christmas() if Xmas.days_to_christmas() > 0 else tr("xmas.merry"))
+		var vi: Control = Ui.tex_rect(load(ico), Vector2(118, 118)) if ResourceLoader.exists(ico) else Ui.icon("ic_gift", Vector2(110, 110))
+		Ui.place(vi, Vector2((cw - vi.size.x) / 2.0, 6), vi.size)
+		vc.add_child(vi)
+		Ui.bob(vi, 5.0, 2.4)
+		vc.glow = Xmas.gift_box_ready()
+		vc.tapped.connect(func() -> void: Main.push("xmas_village"))
+		x += cw + gap
 	# Sezon paketi (kış yorganı): pencere açıkken ilk kart
 	if season:
 		_season_card(String(seasons[0]), x, y, cw, ch)
@@ -378,6 +397,7 @@ func _dock(y: float, h: float) -> void:
 	put(dock, Vector2(X0 + 20, y), Vector2(W - 40, h + BOTTOM + 60))
 	var items := [["ic_shop", "tab.shop", func() -> void: Main.open_shop()],
 		["ic_home", "nook.title", func() -> void: Main.push("nook")],
+		["ic_heart", "quilt.title", func() -> void: Main.push("quilt")],
 		["ic_star", "levels.title", func() -> void: Main.push("map")],
 		["ic_trophy", "achievements.title", func() -> void: Main.push("achievements")],
 		["ic_cup", "leaderboard.title", func() -> void: Main.push("leaderboard")],
@@ -399,6 +419,10 @@ func _dock(y: float, h: float) -> void:
 			_nook_badge = Ui.badge("0", Palette.MUSTARD.darkened(0.1))
 			_nook_badge.position = Vector2(84, -12)
 			b.add_child(_nook_badge)
+		if i == 2:
+			_quilt_badge = Ui.badge("0")
+			_quilt_badge.position = Vector2(84, -12)
+			b.add_child(_quilt_badge)
 
 # ------------------------------------------------------------------ Ödül menüsü
 
@@ -499,6 +523,11 @@ func _refresh_badges() -> void:
 		_nook_badge.visible = nk > 0
 		_nook_badge.text = str(nk)
 		_nook_badge.queue_redraw()
+	if _quilt_badge:
+		var qn := Quilt.pending_count()
+		_quilt_badge.visible = qn > 0
+		_quilt_badge.text = str(qn)
+		_quilt_badge.queue_redraw()
 
 func _process(dt: float) -> void:
 	_acc += dt

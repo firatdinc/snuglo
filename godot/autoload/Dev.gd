@@ -5,6 +5,7 @@ extends Node
 ##               splash|tower|premium|energy|pause|fail|nook_reveal|version|game>
 ##   SNUG_DEMO=<n>     ilk n kampanya bölümünü çözülmüş say + örnek bakiye (bekleyen kutlamalar temizlenir)
 ##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SCROLL=<px|-1> · SNUG_SHOT=<sn>:<png>
+##   SNUG_QUILT=<n>   yorgana n örnek yama dik (farklı paket/boyut/yıldız)
 ##   SNUG_LANG=en|tr|es|de|fr|it|pt|ja|ko · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
 ## Yalnızca debug yapıda çalışır; release (App Store) dışa aktarımında tüm kancalar ölüdür.
 
@@ -24,6 +25,12 @@ func _ready() -> void:
 	var demo := Dev.env("SNUG_DEMO")
 	if demo != "":
 		seed_demo(int(demo))
+	var qn := Dev.env("SNUG_QUILT")
+	if qn != "":
+		seed_quilt(int(qn))
+	var pn := Dev.env("SNUG_PENDING")
+	if pn != "":
+		seed_pending(int(pn))
 	var shot := Dev.env("SNUG_SHOT")
 	if shot != "":
 		var t := float(shot.get_slice(":", 0))
@@ -245,3 +252,35 @@ func _hand_set(at: Vector2) -> void:
 	_hand_at = at
 	# Parmak ucu görselin sol-üst köşesine yakın (≈ 20, 10 px).
 	_hand.position = at - Vector2(20, 10)
+
+## SNUG_PENDING=<n>: n dikilmemiş yama. SNUG_SEW=pick|mid|pierce|auto (quilt ekranı) dikiş akışını açar; SNUG_SLOT=<0..63> yuva.
+func seed_pending(n: int) -> void:
+	Quilt.pending().clear()
+	for i in n:
+		var p: Dictionary = Progress.PACKS[i % Progress.PACKS.size()]
+		var g := 5 + (i % 4)
+		var lvl := LevelGenerator.generate(String(p.id), i + 1, g)
+		var occ := {}
+		for pc in lvl.pieces:
+			var o: Vector2i = lvl.solution[pc.id]
+			for c in pc.cells:
+				occ[c + o] = pc.id
+		Quilt.add_pending(Quilt.encode("%s-%d" % [p.id, i + 1], g, occ, lvl.pieces, 3, 30.0, "classic", int(Time.get_unix_time_from_system())))
+
+## Yorgana n örnek yama (gerçek bölüm çözümlerinden).
+func seed_quilt(n: int) -> void:
+	Quilt.reset()
+	var sets := ["classic", "classic", "classic"]
+	for i in n:
+		var p: Dictionary = Progress.PACKS[i % Progress.PACKS.size()]
+		var g := 5 + (i % 4)
+		var lvl := LevelGenerator.generate(String(p.id), i + 1, g)
+		var occ := {}
+		for pc in lvl.pieces:
+			var o: Vector2i = lvl.solution[pc.id]
+			for c in pc.cells:
+				occ[c + o] = pc.id
+		var id := "daily-%d" % (i % 5) if i % 9 == 4 else "%s-%d" % [p.id, i + 1]
+		Quilt.add_patch(Quilt.encode(id, g, occ, lvl.pieces, 1 + (i * 7) % 3, 20.0 + i * 3.0,
+			sets[i % sets.size()], int(Time.get_unix_time_from_system()) - (n - i) * 3600))
+	Quilt.pending_stitch = n - 1

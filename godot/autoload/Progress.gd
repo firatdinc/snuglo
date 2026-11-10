@@ -41,18 +41,16 @@ static func all_seasons() -> Array:
 
 const SEASONS := [
 	{"id": "winter-quilt", "title": "pack.winter_quilt.title", "grid": 6, "levels": 30,
-		"art": "reindeer", "scene": "scene-snow", "start": "2026-11-18", "end": "2027-01-15",
+		"art": "reindeer", "scene": "scene-snow", "start": "2026-11-18", "end": "2027-02-28",
 		"fabric": 7, "reward": {"coin": 500, "gem": 50, "key": 3}},
-]
-## Sonraki sürümün sezonları (2.0.6 Noel). Yayında YOK: görselleri export'tan hariç
-## (export_presets exclude_filter); yalnız testler include_upcoming=true ile görür.
-## Yayına alırken bu girdiyi SEASONS'a taşı ve exclude_filter'dan Noel görsellerini çıkar.
-const UPCOMING_SEASONS := [
+	# 2.0.6 Noel: "remote" → gist'te advent-quilt enabled=true olmadan açılmaz.
 	{"id": "advent-quilt", "title": "pack.advent_quilt.title", "grid": 6, "levels": 24,
 		"art": "snowman", "scene": "scene-christmas", "start": "2026-12-01", "end": "2026-12-31",
 		"advent": true, "remote": true, "fabric": 2, "reward": {"coin": 600, "gem": 75, "key": 4},
 		"friends": ["snowman", "elf", "gingerbread", "santa"]},
 ]
+## Sonraki sürümün sezonları (yayında yok; yalnız testler include_upcoming=true ile görür).
+const UPCOMING_SEASONS := []
 const TOTAL_LEVELS := 1020
 ## Günde 5 günlük bölüm (Swift ProgressStore.dailyLevelCount), sırayla açılır, index 0..4.
 const DAILY_LEVELS := 5
@@ -373,7 +371,7 @@ func record_level(id: String, seconds: float, hints: int = 0, grid: int = 0, rel
 	var res := {
 		"level_id": id, "mode": mode, "relaxed": relaxed, "stars": star_count, "seconds": seconds,
 		"hints": hints, "first_clear": false, "new_best": false, "prev_best": -1.0,
-		"coins": 0, "gems": 0, "keys": 0, "chain": 0, "chain_bonus": 0, "xp": 0, "levels_gained": 0,
+		"coins": 0, "gems": 0, "keys": 0, "chain": 0, "chain_bonus": 0, "cookie_bonus": 0, "xp": 0, "levels_gained": 0,
 		"level_up": 0, "achievements": [], "quests_completed": [], "chest_ready": false,
 		"pack_completed": "", "streak_milestone": 0, "endless_record": false,
 		"daily_index": -1, "daily_all_done": false, "nook_piece": -1, "tower_record": false,
@@ -442,8 +440,16 @@ func record_level(id: String, seconds: float, hints: int = 0, grid: int = 0, rel
 			res.coins += res.chain_bonus
 			if win_chain % 5 == 0:
 				res.keys += 1
+		# Fırın bonusu (Noel Köyü): kurabiye pişerken bölüm altını ve XP +%5/%10.
+		var cb: int = Xmas.cookie_boost_pct()
+		if cb > 0 and res.coins > 0:
+			res.cookie_bonus = maxi(1, roundi(res.coins * cb / 100.0))
+			res.coins += res.cookie_bonus
 		Wallet.grant({"coin": res.coins, "gem": res.gems, "key": res.keys}, "level")
+		Xmas.on_season_level(id)
 		res.xp = 20 + star_count * 10
+		if cb > 0:
+			res.xp += maxi(1, roundi(res.xp * cb / 100.0))   # fırın çalışırken XP bonusu
 		var before: int = XP.level
 		res.levels_gained = XP.award(res.xp)
 		res.level_up = XP.level if XP.level > before else 0

@@ -7,6 +7,8 @@ extends Control
 const THRESHOLD := 18.0
 
 static var _active := false
+## Bir öğe sürüklenirken (ör. yorgana yama taşıma) tüm kaydırmalar kilitlenir.
+static var locked := false
 static var _released_at := -10.0
 
 ## Şu an (ya da az önce) bir kaydırma sürüklemesi oldu mu: buton dokunuşlarını iptal etmek için.
@@ -67,6 +69,11 @@ func _axis(v: Vector2) -> float:
 
 func _input(e: InputEvent) -> void:
 	if not is_visible_in_tree():
+		return
+	if locked:
+		_track = false
+		_drag = false
+		_vel = 0.0
 		return
 	if e is InputEventScreenTouch and e.index == 0:
 		if e.pressed:

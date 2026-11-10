@@ -7,8 +7,18 @@ const FALLBACK := ["island", "forest", "flower", "beach", "mushroom", "lake"]
 static var _c := {}
 
 ## "scene-forest" ya da "forest" → doku. Yoksa ada göre deterministik yedek.
+## Kış teması (Xmas.winter_active): yaz sahneleri kışlık karşılığıyla değişir —
+## art/scene_winter/<ad>.jpg (ChatGPT, aynı konsept) varsa o, yoksa karlı "snow" sahnesi.
+const WINTER_NATIVE := ["snow", "christmas", "winter_cocoa"]
+
 static func scene_by_name(name: String) -> Texture2D:
 	name = name.trim_prefix("scene-")
+	if Xmas.winter_active() and name not in WINTER_NATIVE:
+		var wk := "winter/" + name
+		if not _c.has(wk):
+			var wp := "res://art/scene_winter/%s.jpg" % name
+			_c[wk] = load(wp) if ResourceLoader.exists(wp) else scene_by_name("snow")
+		return _c[wk]
 	if _c.has(name):
 		return _c[name]
 	var t: Texture2D = null
@@ -54,9 +64,12 @@ static func animal(pack_id: String, pose := "") -> Texture2D:
 	return UiArt.tex(pose if pose != "" else "idle", "mascot")
 
 static func friend(id: String) -> Texture2D:
-	var key := "friend/" + id
+	# Noel: şapkalı peluş (art/friends_xmas/, ChatGPT) varsa onu kullan.
+	var xp := "res://art/friends_xmas/%s.png" % id
+	var xm := Xmas.hats_on() and ResourceLoader.exists(xp)
+	var key := ("friend_xmas/" if xm else "friend/") + id
 	if not _c.has(key):
-		var p := "res://art/friends/%s.png" % id
+		var p := xp if xm else "res://art/friends/%s.png" % id
 		_c[key] = load(p) if ResourceLoader.exists(p) else null
 	return _c[key]
 

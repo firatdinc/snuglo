@@ -21,6 +21,7 @@ func build() -> void:
 	_y = 10.0
 	_owned_strip()
 	_deal()
+	_xmas()
 	_premium()
 	_gems()
 	_free()
@@ -164,6 +165,68 @@ func _mark_deal_done(btn: JuicyButton) -> void:
 	btn.icon = null
 	btn.text = tr("shop.deal.claimed")
 	btn.disabled = true
+
+## Noel Kileri (yalnız Noel Köyü açıkken): kurabiye malzemeleri düğmeyle, tam parti yüksükle.
+func _xmas() -> void:
+	if not Xmas.is_active():
+		return
+	_section("shop.xmas.section", "shop.xmas.hint")
+	var w := (_cw - 24) / 2.0
+	var h := 330.0
+	for i in Xmas.INGR.size():
+		var k: String = Xmas.INGR[i]
+		var x := _x + (i % 2) * (w + 24)
+		var c := QuiltCard.new()
+		c.fabric = [6, 3, 2, 0][i]
+		c.inner = 12
+		c.radius = 44
+		c_add(c, Vector2(x, _y), Vector2(w, h))
+		Ui.pop_in(c, 0.05 + i * 0.06, 0.7)
+		var path := "res://art/xmas/cookie/%s.png" % k
+		var im: Control = Ui.tex_rect(load(path), Vector2(120, 120)) if ResourceLoader.exists(path) else Ui.icon("ic_gift", Vector2(120, 120))
+		Ui.place(im, Vector2((w - 120) / 2.0, 22), im.size)
+		c.add_child(im)
+		Ui.bob(im, 4.0, 2.4, i * 0.6)
+		_lbl(c, tr("xmas.ing." + k), 40, Vector2(0, 148), Vector2(w, 54), Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
+		var b := Ui.button(str(Xmas.ING_PRICE), "mustard", Vector2(w - 60, 92), "coin", 40)
+		Ui.place(b, Vector2(30, 216), b.size)
+		c.add_child(b)
+		b.tapped.connect(func() -> void: _buy_xmas(b, Xmas.buy_ingredient(k), "coin", 1, k))
+		if i % 2 == 1:
+			_y += h + 24
+	# Tam parti paketi: 4 malzeme, düğme ya da yüksük
+	var bc := _card(5, 330)
+	var bw := 120.0
+	for j in Xmas.INGR.size():
+		var kp := "res://art/xmas/cookie/%s.png" % Xmas.INGR[j]
+		if ResourceLoader.exists(kp):
+			var t := Ui.tex_rect(load(kp), Vector2(bw * 0.75, bw * 0.75))
+			Ui.place(t, Vector2(36 + (j % 2) * 96, 40 + (j / 2) * 96), t.size)
+			bc.add_child(t)
+	_lbl(bc, tr("shop.xmas.bundle"), Ui.fit_font(tr("shop.xmas.bundle"), 44, _cw - 330, 30), Vector2(290, 34), Vector2(_cw - 320, 60))
+	var bm := Ui.wrap(Ui.label(tr("shop.xmas.bundleBody"), 28, Palette.INK_SOFT), _cw - 330)
+	Ui.place(bm, Vector2(290, 96), Vector2(_cw - 330, 70))
+	bc.add_child(bm)
+	var half := (_cw - 330 - 16) / 2.0
+	var bb1 := Ui.button(str(Xmas.SET_PRICE), "mustard", Vector2(half + 150, 96), "coin", 36)
+	Ui.place(bb1, Vector2(30, 222), Vector2((_cw - 60 - 16) / 2.0, 96))
+	bb1.size = Vector2((_cw - 60 - 16) / 2.0, 96)
+	bc.add_child(bb1)
+	bb1.tapped.connect(func() -> void: _buy_xmas(bb1, Xmas.buy_set("coin"), "coin", 0, ""))
+	var bb2 := Ui.button(str(Xmas.SET_GEMS), "sage", Vector2((_cw - 60 - 16) / 2.0, 96), "ic_gem", 36)
+	Ui.place(bb2, Vector2(30 + (_cw - 60 - 16) / 2.0 + 16, 222), bb2.size)
+	bc.add_child(bb2)
+	bb2.tapped.connect(func() -> void: _buy_xmas(bb2, Xmas.buy_set("gem"), "gem", 0, ""))
+	_y += 350
+
+func _buy_xmas(b: Control, ok: bool, cur: String, _n: int, _k: String) -> void:
+	if ok:
+		Ui.punch(b, 0.12)
+		Sfx.play("reward", 1.0, -4.0)
+		Juice.haptic("medium")
+	else:
+		Main.toast(tr("shop.claim.insufficient"), Ui.currency_icon(cur), Palette.TERRACOTTA)
+		Ui.shake(b)
 
 func _premium() -> void:
 	_y += 20

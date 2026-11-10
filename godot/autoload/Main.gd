@@ -27,6 +27,11 @@ const SCREENS := {
 	"leaderboard": "res://scripts/screens/leaderboard.gd",
 	"profile": "res://scripts/screens/profile.gd",
 	"nook": "res://scripts/screens/nook.gd",
+	"quilt": "res://scripts/screens/quilt.gd",
+	"xmas_village": "res://scripts/xmas/xmas_village.gd",
+	"xmas_tree": "res://scripts/xmas/tree.gd",
+	"xmas_cookie": "res://scripts/xmas/cookie.gd",
+	"xmas_wish": "res://scripts/xmas/wish.gd",
 	"daily": "res://scripts/screens/daily_calendar.gd",
 }
 const SHEETS := {

@@ -10,6 +10,8 @@ const DEFAULTS := {
 	"sfx_enabled": true,
 	"sfx_volume": 1.0,
 	"haptics": true,
+	"xmas_hats": true,           # Noel: dostlarda santa şapkası
+	"asmr": true,                # kumaş ASMR ses katmanı
 	"haptic_level": "full",      # full | light
 	"sound_pack": "classic",     # classic | soft | crisp
 	"colorblind": false,
@@ -118,7 +120,10 @@ var music_track: String:
 func desired_track() -> String:
 	var t := music_track
 	if t == "auto":
-		return "zen" if zen_mode else "calm"
+		if zen_mode:
+			return "zen"
+		# Kış teması boyunca (Xmas.winter_active, 18 Kas – 28 Şub): neşeli kış/Noel müziği.
+		return "xmas" if Xmas.winter_active() and ResourceLoader.exists("res://audio/music/bgm_xmas.wav") else "calm"
 	return t
 
 ## Etkin dil kodu (sistem dili desteklenmiyorsa en).

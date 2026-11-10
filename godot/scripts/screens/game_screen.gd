@@ -309,6 +309,7 @@ func _praise_word(pool: String, sub: String) -> void:
 func _on_solve_started() -> void:
 	Progress.clear_session(id)
 	_result = Progress.record_level(id, game.elapsed, game.hints_used, lvl.width, 1 if relaxed else 0)
+	_result["patch_index"] = Quilt.add_from_game(id, game, int(_result.get("stars", 0)), game.elapsed)
 	if mode != "tower":
 		Ads.on_level_completed()
 	var key := _praise_key("final")

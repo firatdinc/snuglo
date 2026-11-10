@@ -6,13 +6,17 @@ const POOL := 12
 const SCALE := [1.0, 1.125, 1.25, 1.5, 1.667, 2.0, 2.25, 2.5, 3.0, 3.333, 4.0, 4.5]
 
 var _streams := {}
+const OPTIONAL := ["stitch", "rustle", "felt_pop", "scissors", "bell", "jingle", "crackle", "paper_fold",
+	"ribbon", "bow", "icing", "sprinkle", "snow_roll", "snow_pack", "twinkle", "chime",
+	"knob_click", "timer_wind", "tick", "oven_hum", "oven_door", "ding", "sizzle",
+	"needle_in", "snow_place_1", "snow_place_2", "snow_place_3"]
 var _players: Array[AudioStreamPlayer] = []
 var _next := 0
 var _music: AudioStreamPlayer
 var _music_b: AudioStreamPlayer
 var sfx_volume := 1.0
 ## Müzik: 0..1 kullanıcı sesi (Settings), parça "calm" | "zen". Geçişte çapraz soluklaşma.
-const TRACKS := {"calm": "res://audio/music/bgm_play.wav", "zen": "res://audio/music/bgm_zen.mp3"}
+const TRACKS := {"calm": "res://audio/music/bgm_play.wav", "zen": "res://audio/music/bgm_zen.mp3", "xmas": "res://audio/music/bgm_xmas.wav"}
 const MUSIC_DB := -14.0
 var music_volume := 0.6
 var track := ""
@@ -21,6 +25,11 @@ var _fade: Tween
 func _ready() -> void:
 	for n in ["click", "combo", "error", "levelUp", "place", "reward", "snap", "solve"]:
 		_streams[n] = load("res://audio/sfx/%s.wav" % n)
+	# İsteğe bağlı ASMR/Noel sesleri (tools/compose_sfx.py): varsa yüklenir, yoksa play() sessiz geçer.
+	for n in OPTIONAL:
+		var path := "res://audio/sfx/%s.wav" % n
+		if ResourceLoader.exists(path):
+			_streams[n] = load(path)
 	for i in POOL:
 		var p := AudioStreamPlayer.new()
 		add_child(p)
@@ -77,6 +86,9 @@ func set_track(name: String) -> void:
 	if old.playing:
 		_fade.tween_property(old, "volume_db", -60.0, 0.8)
 		_fade.chain().tween_callback(old.stop)
+
+func has_sound(name: String) -> bool:
+	return _streams.has(name)
 
 func play(name: String, pitch := 1.0, vol_db := 0.0, jitter := 0.04) -> void:
 	if not _streams.has(name) or Dev.env("SNUG_MUTE") != "":

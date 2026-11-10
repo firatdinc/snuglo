@@ -36,6 +36,8 @@ func _ready() -> void:
 	pivot_offset = size / 2.0
 	resized.connect(func() -> void: pivot_offset = size / 2.0)
 	set_process(pressable or glow)
+	if pressable and not locked and Xmas.is_active():
+		XmasKit.cap(self, radius)
 
 func _gui_input(e: InputEvent) -> void:
 	if not pressable:

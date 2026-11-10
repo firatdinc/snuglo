@@ -151,6 +151,26 @@ func build() -> void:
 			tx += Ui.FONT.get_string_size(t[0], HORIZONTAL_ALIGNMENT_LEFT, -1, 30).x + 60
 			Ui.pop_in(b, 1.7, 0.3)
 		y += 70
+	# Yama dik (engellemez: küçük hap; yama bekleyenlere eklenir)
+	if Quilt.pending_count() > 0:
+		var sew := QuiltCard.new()
+		sew.fill = Palette.CREAM
+		sew.radius = 40
+		sew.depth = 8
+		sew.pressable = true
+		sew.glow = true
+		add(sew, Vector2(70, y), Vector2(w - 140, 100))
+		var si := Ui.icon("ic_heart", Vector2(64, 64))
+		Ui.place(si, Vector2(30, 18), Vector2(64, 64))
+		sew.add_child(si)
+		var sl := Ui.label(tr("sew.levelBtn"), 38, Palette.INK, HORIZONTAL_ALIGNMENT_CENTER)
+		Ui.place(sl, Vector2(90, 24), Vector2(w - 140 - 120, 52))
+		sew.add_child(sl)
+		sew.tapped.connect(func() -> void:
+			close()
+			Main.replace("quilt", {"sew": true}))
+		Ui.pop_in(sew, 1.9, 0.5)
+		y += 120
 	# Butonlar
 	y += 10
 	var next := _next_id()

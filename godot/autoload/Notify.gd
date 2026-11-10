@@ -68,6 +68,29 @@ func cancel_daily() -> void:
 	if _b:
 		_b.cancel(DAILY_ID)
 
+## Noel fırını: kurabiyeler hazır olunca yerel bildirim.
+const COOKIE_ID := "snuglo.cookie"
+func schedule_cookie(seconds: float) -> void:
+	if _b == null:
+		return
+	_b.cancel(COOKIE_ID)
+	_b.schedule_in(seconds, COOKIE_ID, tr("notif.cookie.title"), tr("notif.cookie.body"))
+
+## Yeni Yıl Dileği: 1 Ocak sabahı hatırlatma (metinde dilek özeti).
+const WISH_ID := "snuglo.wish"
+func schedule_wish(seconds: float, wish_text: String) -> void:
+	if _b == null:
+		return
+	_b.cancel(WISH_ID)
+	var snip := wish_text.replace("\n", " ")
+	if snip.length() > 70:
+		snip = snip.substr(0, 70) + "…"
+	_b.schedule_in(seconds, WISH_ID, tr("notif.wish.title"), tr("notif.wish.body") % snip)
+
+func cancel_wish() -> void:
+	if _b:
+		_b.cancel(WISH_ID)
+
 ## Arka plana geçişte çağır (Settings.comeback_reminders açıksa).
 func schedule_comeback() -> void:
 	if _b == null:

@@ -38,6 +38,7 @@ func _run() -> void:
 	var progress := _node("Progress")
 	progress.today_override = "2026-03-02"
 	_test_save(save)
+	_test_xmas()
 	_test_wallet()
 	_test_record_level()
 	_test_pack_reward()
@@ -151,7 +152,7 @@ func _test_seasons() -> void:
 		and p.visible_seasons().is_empty())
 	p.today_override = "2026-11-18"
 	_check("season: kış açık, advent kapalı", p.season_active("winter-quilt") and not p.season_active("advent-quilt") \
-		and p.visible_seasons() == ["winter-quilt"] and p.season_days_left("winter-quilt") == 59)
+		and p.visible_seasons() == ["winter-quilt"] and p.season_days_left("winter-quilt") == 103)
 	p.today_override = "2026-12-03"
 	var live := _node("LiveConfig")
 	_check("live: advent bayraksız kapalı", not p.season_active("advent-quilt") and p.visible_seasons() == ["winter-quilt"])
@@ -180,13 +181,13 @@ func _test_seasons() -> void:
 	var g0: int = w.gems
 	var got: Dictionary = p.collect_pack_reward()
 	_check("season: 500 coin + 50 gem + 3 anahtar", got.get("coin") == 500 and w.gems - g0 == 50 and got.get("key") == 3, str(got))
-	p.today_override = "2027-01-20"
+	p.today_override = "2027-03-05"
 	_check("season: bitince yarım kalan görünür", p.visible_seasons() == ["advent-quilt"] and p.is_pack_unlocked("advent-quilt") \
 		and p.is_pack_unlocked("winter-quilt"))
 	_check("advent: bitince tüm kapılar", p.season_open_levels("advent-quilt") == 24)
 	live.apply({"seasons": {}})
 	p.include_upcoming = false
-	_check("season: yayında yalnız kış", p.all_seasons().size() == 1 and not p.is_pack_unlocked("advent-quilt"))
+	_check("season: yayında kış + advent (uzak bayraklı)", p.all_seasons().size() == 2)
 	p.today_override = keep
 	p._s.max_day = p.local_day()   # gün taklidi saat-geri-alma korumasını tetiklemesin
 
@@ -439,6 +440,28 @@ func _test_tower() -> void:
 	var c0: int = w.coins
 	var end: Dictionary = t.end_run()
 	_check("tower: bitiş 2 kat × 20", end.floors == 2 and end.coins == 40 and w.coins - c0 == 40 and not t.has_active_run())
+
+func _test_xmas() -> void:
+	var x := _node("Xmas")
+	var w := _node("Wallet")
+	OS.set_environment("SNUG_XMAS", "1")
+	x.reset()
+	_check("xmas: 3 görev, kardan adam/hediye yok", x.tasks_today().size() == 3 and not x.TASKS.any(func(t: Dictionary) -> bool: return t.id in ["gift", "snowman"]))
+	_check("xmas: malzeme pahalı", x.SET_PRICE >= 4 * x.ING_PRICE and x.ING_PRICE >= 150)
+	w.add("coin", 1000, "test")
+	var b0: int = w.balance("coin")
+	_check("xmas: tek malzeme alınır", x.buy_ingredient("egg") and w.balance("coin") == b0 - x.ING_PRICE and int(x.pantry().egg) == 2)
+	_check("xmas: set alınır", x.buy_set() and w.balance("coin") == b0 - x.ING_PRICE - x.SET_PRICE)
+	var nxt: String = x.orn_next_locked()
+	_check("xmas: süs kilitli", nxt != "" and not x.orn_open(nxt))
+	_check("xmas: süs satın alma", x.orn_buy(nxt) or w.balance("coin") < x.ORN_PRICE)
+	var nx2: String = x.orn_next_locked()
+	var open_before: bool = nx2 == "" or not x.orn_open(nx2)
+	for i in x.ORN_LEVEL_EVERY:
+		x.on_season_level("campaign-1-%d" % i)
+	_check("xmas: her 4. bölüm süs açar", open_before and (nx2 == "" or x.orn_open(nx2)))
+	x.reset()
+	OS.set_environment("SNUG_XMAS", "")
 
 func _test_nook() -> void:
 	_node("Save").reset_all()

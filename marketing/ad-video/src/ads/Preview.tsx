@@ -7,8 +7,11 @@ import { C, FONT } from "../kit";
 export type PLang = "en" | "tr" | "es";
 export type PProps = { lang: PLang };
 const FABRICS = ["f00", "f03", "f05", "f07", "f09", "f02", "f06", "f04", "f08", "f01"];
+/** Kumaş seti bağlamı: varsayılan klasik; PreviewXmas Noel setini verir. */
+export const FabCtx = React.createContext<{ dir: string; ids: string[] }>({ dir: "fabric", ids: FABRICS });
+const fabUrl = (c: { dir: string }, id: string) => staticFile(`art/${c.dir}/${id}.png`);
 
-const AppClip: React.FC<{ src: string; trim?: number; vol?: number; zoom?: [number, number] }> = ({ src, trim = 0, vol = 0.8, zoom = [1, 1.03] }) => {
+export const AppClip: React.FC<{ src: string; trim?: number; vol?: number; zoom?: [number, number] }> = ({ src, trim = 0, vol = 0.8, zoom = [1, 1.03] }) => {
   const f = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   return (
@@ -19,7 +22,8 @@ const AppClip: React.FC<{ src: string; trim?: number; vol?: number; zoom?: [numb
 };
 
 /** Yavaş kayan kumaş yama zemin (oyunun yorgan dokusu). */
-const Patchwork: React.FC = () => {
+export const Patchwork: React.FC = () => {
+  const fc = React.useContext(FabCtx);
   const f = useCurrentFrame();
   const S = 180;
   const off = (f * 0.6) % S;
@@ -27,7 +31,7 @@ const Patchwork: React.FC = () => {
     <AbsoluteFill style={{ overflow: "hidden", background: C.ink }}>
       <div style={{ position: "absolute", left: -S, top: -S + off, width: 886 + 2 * S, height: 1920 + 2 * S, display: "flex", flexWrap: "wrap" }}>
         {Array.from({ length: 7 * 14 }).map((_, i) => (
-          <div key={i} style={{ width: S, height: S, backgroundImage: `url(${staticFile(`art/fabric/${FABRICS[(i * 7 + Math.floor(i / 7)) % FABRICS.length]}.png`)})`,
+          <div key={i} style={{ width: S, height: S, backgroundImage: `url(${fabUrl(fc, fc.ids[(i * 7 + Math.floor(i / 7)) % fc.ids.length])})`,
             backgroundSize: "260px", outline: `3px dashed rgba(251,241,225,0.35)`, outlineOffset: -10 }} />
         ))}
       </div>
@@ -38,7 +42,7 @@ const Patchwork: React.FC = () => {
 };
 
 /** Oyun klibi dikişli krem çerçevede; sahne başında yay ile oturur, hafifçe salınır. */
-const FramedClip: React.FC<{ src: string; trim: number; top?: number }> = ({ src, trim, top = 400 }) => {
+export const FramedClip: React.FC<{ src: string; trim: number; top?: number }> = ({ src, trim, top = 400 }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const h = 1920 - top - 70; const w = (h * 886) / 1920;
@@ -56,6 +60,7 @@ const FramedClip: React.FC<{ src: string; trim: number; top?: number }> = ({ src
 
 /** Oyundaki FabricWord gibi: her harf ayrı kumaş dolgulu, krem kenarlı, yayla zıplayarak gelir. */
 export const FabricText: React.FC<{ text: string; size?: number; y: number; at?: number; seed?: number }> = ({ text, size = 104, y, at = 0, seed = 0 }) => {
+  const fc = React.useContext(FabCtx);
   const f = useCurrentFrame() - at;
   const { fps, durationInFrames } = useVideoConfig();
   if (f < 0) return null;
@@ -69,7 +74,7 @@ export const FabricText: React.FC<{ text: string; size?: number; y: number; at?:
           {[...line].map((ch, i) => {
             const idx = k++;
             const s = spring({ frame: f - idx * 0.9, fps, config: { damping: 9, stiffness: 240, mass: 0.55 } });
-            const fab = FABRICS[(idx + seed) % FABRICS.length];
+            const fab = fc.ids[(idx + seed) % fc.ids.length];
             const rot = Math.sin((idx + seed) * 2.3) * 6;
             const bob = Math.sin((f + idx * 5) / 9) * 3;
             const st: React.CSSProperties = { fontFamily: FONT, fontWeight: 700, fontSize: size, lineHeight: 1.05, whiteSpace: "pre" };
@@ -77,7 +82,7 @@ export const FabricText: React.FC<{ text: string; size?: number; y: number; at?:
               <span key={i} style={{ position: "relative", display: "inline-block", scale: String(s), rotate: `${rot * s}deg`, translate: `0px ${(1 - s) * 60 + bob}px` }}>
                 <span style={{ ...st, color: C.cream, WebkitTextStroke: `${size * 0.2}px ${C.cream}`, paintOrder: "stroke fill",
                   filter: `drop-shadow(0 ${size * 0.07}px 0 ${C.ink}) drop-shadow(0 ${size * 0.1}px ${size * 0.12}px rgba(58,36,26,0.45))` }}>{ch}</span>
-                <span style={{ ...st, position: "absolute", left: 0, top: 0, color: "transparent", backgroundImage: `url(${staticFile(`art/fabric/${fab}.png`)})`,
+                <span style={{ ...st, position: "absolute", left: 0, top: 0, color: "transparent", backgroundImage: `url(${fabUrl(fc, fab)})`,
                   backgroundSize: `${size * 2.2}px`, backgroundPosition: `${idx * 37}px ${idx * 23}px`, WebkitBackgroundClip: "text", backgroundClip: "text",
                   WebkitTextStroke: `${size * 0.035}px rgba(58,36,26,0.55)` }}>{ch}</span>
               </span>
@@ -90,7 +95,7 @@ export const FabricText: React.FC<{ text: string; size?: number; y: number; at?:
 };
 
 /** Dikişli krem kurdele etiket (önizleme turu için sade başlık). */
-const Ribbon: React.FC<{ text: string; y?: number }> = ({ text, y = 130 }) => {
+export const Ribbon: React.FC<{ text: string; y?: number }> = ({ text, y = 130 }) => {
   const f = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const s = spring({ frame: f, fps, config: { damping: 11, stiffness: 200 } });
@@ -107,7 +112,8 @@ const Ribbon: React.FC<{ text: string; y?: number }> = ({ text, y = 130 }) => {
 };
 
 /** Kesme geçişi: çapraz kumaş şeritleri ekranı kaplayıp açılır (kesme noktası 'mid'). */
-const FabricWipe: React.FC<{ at: number; len?: number }> = ({ at, len = 16 }) => {
+export const FabricWipe: React.FC<{ at: number; len?: number }> = ({ at, len = 16 }) => {
+  const fc = React.useContext(FabCtx);
   const f = useCurrentFrame() - at;
   if (f < 0 || f > len) return null;
   const strips = 6;
@@ -120,7 +126,7 @@ const FabricWipe: React.FC<{ at: number; len?: number }> = ({ at, len = 16 }) =>
         const h = 2600 / strips;
         return (
           <div key={i} style={{ position: "absolute", left: -260 + x, top: -340 + i * h, width: 1400, height: h + 4, rotate: "-18deg",
-            backgroundImage: `url(${staticFile(`art/fabric/${FABRICS[i]}.png`)})`, backgroundSize: "300px", boxShadow: "0 0 0 3px rgba(251,241,225,0.9)",
+            backgroundImage: `url(${fabUrl(fc, fc.ids[i % fc.ids.length])})`, backgroundSize: "300px", boxShadow: "0 0 0 3px rgba(251,241,225,0.9)",
             borderTop: `5px dashed ${C.cream}`, borderBottom: `5px dashed ${C.cream}` }} />
         );
       })}
@@ -128,15 +134,15 @@ const FabricWipe: React.FC<{ at: number; len?: number }> = ({ at, len = 16 }) =>
   );
 };
 
-const Music: React.FC<{ from?: number; vol?: number }> = ({ from = 0, vol = 0.6 }) => {
+export const Music: React.FC<{ from?: number; vol?: number; file?: string }> = ({ from = 0, vol = 0.6, file = "snuglo_jingle.wav" }) => {
   const { durationInFrames, fps } = useVideoConfig();
   return (
-    <Audio src={staticFile("snuglo_jingle.wav")} trimBefore={from * fps}
+    <Audio src={staticFile(file)} trimBefore={from * fps}
       volume={(fr) => vol * interpolate(fr, [0, 6, durationInFrames - 30, durationInFrames], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
   );
 };
 
-const TX = {
+export const TX = {
   h1: { en: "Cozy patchwork\npuzzles", tr: "Sıcacık yama\nbulmacaları", es: "Puzles de\nretales" },
   h2: { en: "Snug every\npatch in!", tr: "Her yamayı\nyerine oturt!", es: "¡Encaja cada\nretal!" },
   h3: { en: "Legendary\nchests!", tr: "Efsanevi\nsandıklar!", es: "¡Cofres\nlegendarios!" },
@@ -202,10 +208,10 @@ export const AppTour: React.FC<PProps> = ({ lang }) => {
 /* ------------------------------------------------------------------ Ürün sayfası başlığı (21:9, 3840×1646)
    Sessiz başlar, sürekli döner: tüm hareketler HDR_DUR periyotlu, böylece döngü dikişsiz. */
 export const HDR_DUR = 360;
-const HW = 3840, HH = 1646;
-const cyc = (f: number, k = 1) => (2 * Math.PI * k * f) / HDR_DUR;
+export const HW = 3840, HH = 1646;
+export const cyc = (f: number, k = 1) => (2 * Math.PI * k * f) / HDR_DUR;
 
-const HeaderCard: React.FC<{ src: string; trim: number; x: number; y: number; rot: number; ph: number; h?: number }> = ({ src, trim, x, y, rot, ph, h = 1240 }) => {
+export const HeaderCard: React.FC<{ src: string; trim: number; x: number; y: number; rot: number; ph: number; h?: number }> = ({ src, trim, x, y, rot, ph, h = 1240 }) => {
   const f = useCurrentFrame();
   const w = (h * 886) / 1920;
   const bob = Math.sin(cyc(f, 2) + ph) * 18;
@@ -221,7 +227,7 @@ const HeaderCard: React.FC<{ src: string; trim: number; x: number; y: number; ro
   );
 };
 
-const Plush: React.FC<{ src: string; x: number; y: number; w: number; ph: number; flip?: boolean }> = ({ src, x, y, w, ph, flip }) => {
+export const Plush: React.FC<{ src: string; x: number; y: number; w: number; ph: number; flip?: boolean }> = ({ src, x, y, w, ph, flip }) => {
   const f = useCurrentFrame();
   return <Img src={staticFile(`art/${src}.png`)} style={{ position: "absolute", left: x, top: y + Math.sin(cyc(f, 2) + ph) * 14, width: w,
     rotate: `${Math.sin(cyc(f, 1) + ph) * 5}deg`, scale: flip ? "-1 1" : undefined, filter: "drop-shadow(0 24px 30px rgba(30,15,8,0.45))" }} />;

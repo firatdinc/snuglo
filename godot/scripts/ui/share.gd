@@ -33,6 +33,21 @@ static func share(node: Node, text: String, with_shot := true) -> void:
 		DisplayServer.clipboard_set(full)
 		Main.toast(tr_static("transfer.share") + " ✓", "ic_share", Palette.SAGE)
 
+## Hazır görseli (poster vb.) paylaş.
+static func share_image(node: Node, img: Image, text: String) -> void:
+	var full := "%s\n%s" % [text, STORE_URL]
+	var img_path := ""
+	if img:
+		var p := "user://share_poster.png"
+		if img.save_png(p) == OK:
+			img_path = ProjectSettings.globalize_path(p)
+	var b := _bridge()
+	if b:
+		b.share(full, img_path)
+	else:
+		DisplayServer.clipboard_set(full)
+		Main.toast(tr_static("transfer.share") + " ✓", "ic_share", Palette.SAGE)
+
 static func tr_static(key: String) -> String:
 	return TranslationServer.translate(key)
 

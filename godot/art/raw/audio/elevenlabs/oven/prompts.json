@@ -1,0 +1,12 @@
+{"knob_click":"single soft tactile click of a vintage oven dial knob turning one notch, wooden and plastic, calm, warm, muffled, low pitched, close microphone, no hiss, no high frequencies (v3 0.5s) -> v2",
+"tick":"single soft muted tick of a wooden kitchen timer, calm, warm, low pitched, dull, close microphone, no hiss, no high frequencies (v3 0.5s) -> v2",
+"oven_door":"gentle oven door closing thunk, soft padded wood and rubber seal, calm, warm, deep low pitched, muffled, close microphone, no metallic ring, no hiss (v3 0.5s) -> v1",
+"snow_place (snow_v1 only, unused)":"soft footstep pressing into fresh powdery snow, calm, low muffled crunch, tok thick, close microphone, warm, no hiss, no high frequencies",
+"snow_b":"single soft boot step pressing into deep fresh powdery snow, calm, muffled low thick crunch, padded thud, close microphone, no hiss, no squeak (v3 1.4s) -> snow_place_1=v3, _2=v1, _3=v4",
+"timer_wind (rejected, too bright)":"winding a mechanical kitchen timer dial, soft slow ratchet clicks, calm, warm, muffled, low pitched, close microphone, no hiss, no bell (1.4s)",
+"timer_wind2":"slowly turning a heavy wooden kitchen timer knob, soft muffled low wooden clicks, thick padded, warm bass, close microphone, no metallic, no hiss (1.4s) -> v1",
+"sizzle":"soft cozy low warm whoosh of an electric oven heating up, gentle muffled glow, deep and calm, close microphone, no sizzle, no hiss, no high frequencies (1.4s) -> v4",
+"crackle":"soft muffled crackle of cookies baking in a warm oven, few gentle low pops, calm, close microphone, no hiss (1.4s) -> v1 + 3.5kHz low-pass",
+"ding (rejected, shrill)":"single gentle warm kitchen timer bell ding, soft round tone, calm, cozy, short natural decay, close microphone, no harsh metallic ring, no hiss (1.4s)",
+"ding2":"deep mellow low pitched soft bell, big warm wooden bowl struck gently with a felt mallet, rounded dull tone, no bright overtones, no hiss (1.4s) -> v2",
+"oven_hum":"gentle warm electric oven fan and heating element hum, very soft steady low drone, calm, cozy, muffled, close microphone, no hiss, no high frequencies (v3, Loop on, 4.9s) -> v3, 0.25s self-crossfade for seamless loop"}

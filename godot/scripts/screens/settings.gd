@@ -39,6 +39,14 @@ func build() -> void:
 		Settings.haptics = on
 		Juice.haptic("medium"))
 	_segment_row("haptic.strength", ["full", "light"], "haptic.", String(Settings.get_value("haptic_level")), func(v: String) -> void: Settings.set_value("haptic_level", v))
+	_toggle_row("settings.asmr", Settings.get_value("asmr") != false, func(on: bool) -> void:
+		Settings.set_value("asmr", on)
+		if on:
+			Asmr.hit("felt_pop", "light"))
+	if Xmas.is_active():
+		_toggle_row("settings.xmasHats", Settings.get_value("xmas_hats") != false, func(on: bool) -> void:
+			Settings.set_value("xmas_hats", on)
+			Asmr.hit("jingle", "light"))
 	_end()
 
 	_begin("settings.gameplay.title", "ic_zen")

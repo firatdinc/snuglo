@@ -289,8 +289,10 @@ func _on_landed(v: PieceView, o: Vector2i, by_player: bool) -> void:
 	v.punch(4.0 * mass, -4.5 * mass)
 	v.flash = 0.8
 	var step := placements.size() - 1
-	Sfx.note(step, "place", -2.0)
-	Sfx.play("snap", 0.7, -10.0)
+	# Yerleşme: tok, yeni yağmış kara basış (ElevenLabs, 3 varyant); nota ve tık arkada hafifçe kalır.
+	Asmr.play("snow_place_%d" % (1 + step % 3), "felt_pop", randf_range(0.95, 1.04) - 0.06 * mass, -2.0)
+	Sfx.note(step, "place", -10.0)
+	Sfx.play("snap", 0.7, -14.0)
 	Juice.haptic("medium")
 	Juice.add_trauma(0.18 + 0.02 * v.data.cells.size())
 	var ctr := Vector2(o) + Vector2(v.data.size) / 2.0
@@ -453,6 +455,8 @@ func _win() -> void:
 			v.punch(-2.5, 5.0)
 			v.flash = 1.0
 			Sfx.note(i, "place", -10.0)
+			Asmr.play("stitch", "", 1.0 + 0.03 * i, -8.0)
+			Juice.haptic("tick")
 			fx.sparks(v.position, 8, Palette.CREAM, 420.0))
 		i += 1
 	await get_tree().create_timer(0.08 * i + 0.1).timeout

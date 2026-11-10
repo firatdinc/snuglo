@@ -1,0 +1,9 @@
+{
+ "needle_in_v1..v4 (chosen v3)": "close-up ASMR, a thick sewing needle pushing through dense soft cotton quilt, single muffled soft thup, warm, low, gentle, no hiss, quiet room",
+ "needle_out_v1..v4 (rejected, hissy)": "close-up ASMR, a thick sewing needle slowly pulled back out of dense soft cotton quilt, soft muted slide and gentle pop, warm, low, muffled, no hiss, quiet room",
+ "needle_out_b_v1..v4 (rejected, sub-bass only)": "close-up ASMR, single short soft muffled pop of a thick needle slipping out of dense cotton quilt, low gentle thump, warm, deep, close microphone, no hiss",
+ "needle_out_c_v1..v4 (chosen v1)": "foley, a darning needle pulled out of thick wool felt, soft muffled fabric friction slide ending in a tiny dull pop, close microphone ASMR, warm midrange, smooth, no hiss, no sub bass",
+ "thread_v1..v4 (chosen v3,v4; lowpassed 2.2k/1.7k)": "foley, cotton thread slowly drawn through thick wool felt quilt fabric, smooth soft gentle drag, muffled friction, close microphone ASMR, warm midrange, no hiss, no sub bass",
+ "thread_b_v1..v4 (chosen v3)": "thick heavy cotton quilt being gently pulled across a bed, soft dull muffled low cloth movement, thick padded fabric, warm deep, close microphone, no high frequencies",
+ "settings": "ElevenLabs SFX v3, duration 0.5s, prompt influence 30%; post: mono 44.1k, HP/LP filters, trim, 50ms fade, peak -3 dBFS"
+}
