@@ -16,3 +16,13 @@ secrets/*
 !secrets/.env.local.example
 AppIcon-Candidates/
 build_release.log
+
+# Reklam videoları ve üretilmiş video görselleri (repoya girmesin)
+marketing/**/*.mp4
+marketing/**/*.mov
+marketing/**/*.webm
+marketing/ad-video/public/art/viral/
+
+# Video çalışma dosyaları
+marketing/ad-video/work/
+godot/art/raw/**/*.mp4

@@ -1,0 +1,12 @@
+[gd_resource type="FontVariation" load_steps=3 format=3]
+
+[ext_resource type="FontFile" path="res://art/fonts/Fredoka.ttf" id="1"]
+
+[sub_resource type="SystemFont" id="cjk"]
+font_names = PackedStringArray("Hiragino Maru Gothic ProN", "Hiragino Sans", "Apple SD Gothic Neo", "PingFang SC", "Noto Sans CJK JP", "sans-serif")
+font_weight = 600
+
+[resource]
+base_font = ExtResource("1")
+fallbacks = Array[Font]([SubResource("cjk")])
+variation_opentype = {2003265652: 640}

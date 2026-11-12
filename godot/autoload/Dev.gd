@@ -1,0 +1,286 @@
+extends Node
+## Geliştirme kancaları (ortam değişkenleri):
+##   SNUG_SCREEN=<menu|map|pack:<id>|shop|settings|stats|achievements|profile|nook|daily|spin|chest|
+##               quests|daily_login|calendar|levelcomplete|levelup|streak|packcomplete|onboarding|
+##               splash|tower|premium|energy|pause|fail|nook_reveal|version|game>
+##   SNUG_DEMO=<n>     ilk n kampanya bölümünü çözülmüş say + örnek bakiye (bekleyen kutlamalar temizlenir)
+##   SNUG_LEVEL=pack:n · SNUG_DAILY=1 · SNUG_AUTO=<n yerleşim> · SNUG_DRAG=1|drop · SNUG_PEEK=1 · SNUG_SCROLL=<px|-1> · SNUG_SHOT=<sn>:<png>
+##   SNUG_QUILT=<n>   yorgana n örnek yama dik (farklı paket/boyut/yıldız)
+##   SNUG_LANG=en|tr|es|de|fr|it|pt|ja|ko · SNUG_MUTE=1 · SNUG_SAVE=<yol> · SNUG_NOTCH=0 (masaüstü çentik simülasyonunu kapat)
+## Yalnızca debug yapıda çalışır; release (App Store) dışa aktarımında tüm kancalar ölüdür.
+
+## Tüm SNUG_* okumaları buradan geçer: release yapıda daima "" döner.
+static func env(key: String) -> String:
+	if not OS.is_debug_build():
+		return ""
+	return OS.get_environment(key)
+
+func _ready() -> void:
+	if not OS.is_debug_build():
+		set_process(false)
+		return
+	var lang := Dev.env("SNUG_LANG")
+	if lang != "":
+		Settings.language = lang
+	var demo := Dev.env("SNUG_DEMO")
+	if demo != "":
+		seed_demo(int(demo))
+	var qn := Dev.env("SNUG_QUILT")
+	if qn != "":
+		seed_quilt(int(qn))
+	var pn := Dev.env("SNUG_PENDING")
+	if pn != "":
+		seed_pending(int(pn))
+	var shot := Dev.env("SNUG_SHOT")
+	if shot != "":
+		var t := float(shot.get_slice(":", 0))
+		var path := shot.get_slice(":", 1)
+		# İlk karelerin dev delta'sı (sahne yükleme süresi) zamanlayıcıyı yemesin.
+		for i in 3:
+			await get_tree().process_frame
+		var scr := int(Dev.env("SNUG_SCROLL"))
+		if scr != 0:
+			await get_tree().create_timer(maxf(t - 1.0, 0.1), true, false, true).timeout
+			var sc := _last_scroll(get_tree().root)
+			if sc:
+				sc.scroll_to(float(scr) if scr > 0 else 1e9, false)
+			await get_tree().create_timer(minf(t, 1.0), true, false, true).timeout
+		else:
+			await get_tree().create_timer(t, true, false, true).timeout
+		await RenderingServer.frame_post_draw
+		get_viewport().get_texture().get_image().save_png(path)
+		get_tree().quit()
+
+## SNUG_SCROLL=<px|-1>: en son eklenen görünür dikey DragScroll'u kaydır (-1 → en alt).
+func _last_scroll(n: Node) -> DragScroll:
+	var found: DragScroll = null
+	for c in n.get_children():
+		var r := _last_scroll(c)
+		if r:
+			found = r
+	if found == null and n is DragScroll and not (n as DragScroll).horizontal and (n as DragScroll).is_visible_in_tree():
+		found = n
+	return found
+
+## Örnek ilerleme: ilk n bölüm (paket sırasıyla) çözülür, bakiye doldurulur.
+func seed_demo(n: int) -> void:
+	if not OS.is_debug_build():
+		return
+	var k := 0
+	for p in Progress.PACKS:
+		for i in range(1, int(p.levels) + 1):
+			if k >= n:
+				break
+			Progress.record_level(Progress.level_id(p.id, i), [22.0, 41.0, 75.0, 130.0][k % 4], 0)
+			k += 1
+	Wallet.debug_set("coin", 1250)
+	Wallet.debug_set("gem", 48)
+	Wallet.debug_set("key", 2)
+	Wallet.debug_set("ticket", 1)
+	Wallet.debug_set("hint", 3)
+	XP.consume_level_up()
+	Progress.collect_streak_milestone()
+	if Progress.pending_pack_reward() != "":
+		Progress.collect_pack_reward()
+	Settings.set_value("onboarded", true)
+	Settings.set_value("coach_shown", true)
+	Progress.win_chain = 0
+
+## SNUG_SCREEN yönlendirmesi (Main.boot çağırır).
+func open_screen(spec: String) -> void:
+	if not OS.is_debug_build():
+		return
+	var name := spec.get_slice(":", 0)
+	var arg := spec.get_slice(":", 1) if spec.contains(":") else ""
+	if name in Main.SCREENS and name not in ["pack", "game"]:
+		Main.goto(name, {}, "none")
+		return
+	match name:
+		"pack":
+			Main._show("menu", {}, false)
+			Main._show("map", {})
+			Main.push("pack", {"pack": arg if arg != "" else "cozy-beginnings"}, "none")
+		"game":
+			Main._show("menu", {}, false)
+			Main.push("game", {"level": arg if arg != "" else Progress.level_id(Main.pack, Main.index)}, "none")
+		"levelcomplete":
+			Main._show("menu", {}, false)
+			Main.push("game", {"level": arg if arg != "" else Progress.level_id(Main.pack, Main.index), "dev_solve": true}, "none")
+		"pause", "fail":
+			Main._show("menu", {}, false)
+			Main.push("game", {"level": Progress.level_id(Main.pack, Main.index), "dev_sheet": name}, "none")
+		_:
+			Main.goto("menu", {"dev_quiet": true}, "none")
+			await get_tree().create_timer(0.5).timeout
+			match name:
+				"chest":
+					for i in Chest.SOLVES_PER_CHEST:
+						Chest.record_solve()
+					if Wallet.keys == 0:
+						Wallet.debug_set("key", 1)
+					Main.open("chest")
+				"levelup":
+					Main.open("reward", {"title": tr("level.reached") % (XP.level + 1), "rewards": {"coin": XP.level_up_coins(XP.level + 1)}, "pose": "cheer"})
+				"streak":
+					Main.reward(tr("streak.milestone") % 7, Progress.streak_reward(7), {"subtitle": tr("streak.keepGoing"), "icon": "ic_heart"})
+				"packcomplete":
+					Main.reward(tr("pack.complete.title"), {"coin": 200, "gem": 25, "key": 2}, {"subtitle": tr("pack.cozy_beginnings.title"), "pose": "cheer", "double": false})
+				"version":
+					Main.open("version", {"forced": true})
+				"energy":
+					Main.open("energy", {"level": Progress.continue_target()})
+				"nook_reveal":
+					Main.open("nook_reveal", {"pack": "cozy-beginnings", "piece": 0})
+				_:
+					Main.open(name)
+
+func attach(g: Game) -> void:
+	if not OS.is_debug_build():
+		return
+	var auto := Dev.env("SNUG_AUTO")
+	if auto != "":
+		_autoplay(g, int(auto))
+	if Dev.env("SNUG_PEEK") != "":
+		get_tree().create_timer(2.6).timeout.connect(func() -> void: g.peek())
+	var pl := Dev.env("SNUG_PLAY")
+	if pl != "":
+		play_demo(g, int(pl), int(Dev.env("SNUG_PLAY_MISS")))
+	var dr := Dev.env("SNUG_DRAG")
+	if dr != "":
+		drag_test(g, dr == "drop")
+
+func _autoplay(g: Game, n: int) -> void:
+	await get_tree().create_timer(1.0).timeout
+	var k := 0
+	for p in g.lvl.pieces:
+		if k >= n or not is_instance_valid(g):
+			break
+		g._place(g.pieces[p.id], g.lvl.solution[p.id], true)
+		k += 1
+		await get_tree().create_timer(0.35).timeout
+
+## SNUG_DRAG=1: ilk parçayı gerçek dokunma olaylarıyla çözüm yerine sürükler (bırakmadan durur).
+func drag_test(g: Game, release: bool) -> void:
+	await get_tree().create_timer(1.2).timeout
+	var p: PieceData = g.lvl.pieces[0]
+	var v: PieceView = g.pieces[p.id]
+	var xf := g.get_global_transform_with_canvas()
+	var start := v.position + (Vector2(p.cells[0]) - Vector2(p.size) / 2.0 + Vector2(0.5, 0.5)) * v.cs * v.tray_scale
+	var o: Vector2i = g.lvl.solution[p.id]
+	var dest := g.board.position + (Vector2(o) + Vector2(p.size) / 2.0) * g.cs + Vector2(0, Game.LIFT * g.cs) + Vector2(14, 10)
+	start = xf * start
+	dest = xf * dest
+	_touch(start, true)
+	for i in 30:
+		await get_tree().process_frame
+		var d := InputEventScreenDrag.new()
+		d.position = get_viewport().get_final_transform() * start.lerp(dest, ease(i / 29.0, 0.5))
+		Input.parse_input_event(d)
+	if release:
+		await get_tree().create_timer(0.3).timeout
+		_touch(dest, false)
+
+func _touch(at: Vector2, pressed: bool) -> void:
+	var e := InputEventScreenTouch.new()
+	e.position = get_viewport().get_final_transform() * at
+	e.pressed = pressed
+	Input.parse_input_event(e)
+
+## SNUG_PLAY=<n>: reklam/tanıtım çekimi — el imleciyle n parçayı gerçek dokunma olaylarıyla
+## sürükleyip çözüm yerine bırakır (n<=0 → hepsi). SNUG_PLAY_MISS=<m>: ilk m parça önce yanlış yere.
+var _hand: TextureRect
+var _hand_at := Vector2.ZERO
+
+func play_demo(g: Game, n: int, misses: int) -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 100
+	add_child(layer)
+	_hand = TextureRect.new()
+	_hand.texture = UiArt.tex("ic_hand")
+	_hand.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_hand.size = Vector2(160, 180)
+	_hand.modulate.a = 0.0
+	layer.add_child(_hand)
+	await get_tree().create_timer(1.1).timeout
+	var order: Array = g.lvl.pieces.duplicate()
+	order.sort_custom(func(a: PieceData, b: PieceData) -> bool: return a.cells.size() > b.cells.size())
+	var k := 0
+	for p: PieceData in order:
+		if (n > 0 and k >= n) or not is_instance_valid(g) or g.done:
+			break
+		if g.placements.get(p.id, Vector2i(-99, -99)) == g.lvl.solution[p.id]:
+			continue
+		var o: Vector2i = g.lvl.solution[p.id]
+		if k < misses:
+			await _demo_drag(g, p, Vector2i(g.lvl.width - 1, clampi(o.y, 0, g.lvl.height - 1)))   # tahtadan taşar → sığmaz
+			await get_tree().create_timer(0.55).timeout
+		await _demo_drag(g, p, o)
+		await get_tree().create_timer(0.22).timeout
+		k += 1
+	create_tween().tween_property(_hand, "modulate:a", 0.0, 0.3)
+
+func _demo_drag(g: Game, p: PieceData, o: Vector2i) -> void:
+	var v: PieceView = g.pieces[p.id]
+	var xf := g.get_global_transform_with_canvas()
+	var c0 := p.cells[0]
+	var start := xf * (v.position + (Vector2(c0) - Vector2(p.size) / 2.0 + Vector2(0.5, 0.5)) * v.cs * v.tray_scale)
+	var dest := xf * (g.board.position + (Vector2(o) + Vector2(p.size) / 2.0) * g.cs + Vector2(0, Game.LIFT * g.cs))
+	await _hand_to(start, 14)
+	_touch(start, true)
+	var frames := 26
+	for i in frames:
+		await get_tree().process_frame
+		var at := start.lerp(dest, ease(float(i + 1) / frames, -2.2))
+		_hand_set(at)
+		var d := InputEventScreenDrag.new()
+		d.position = get_viewport().get_final_transform() * at
+		Input.parse_input_event(d)
+	for i in 5:
+		await get_tree().process_frame
+	_touch(dest, false)
+
+func _hand_to(at: Vector2, frames: int) -> void:
+	if _hand.modulate.a < 0.5:
+		_hand_set(at + Vector2(80, 160))
+		create_tween().tween_property(_hand, "modulate:a", 1.0, 0.15)
+	var from := _hand_at
+	for i in frames:
+		await get_tree().process_frame
+		_hand_set(from.lerp(at, ease(float(i + 1) / frames, -2.0)))
+
+func _hand_set(at: Vector2) -> void:
+	_hand_at = at
+	# Parmak ucu görselin sol-üst köşesine yakın (≈ 20, 10 px).
+	_hand.position = at - Vector2(20, 10)
+
+## SNUG_PENDING=<n>: n dikilmemiş yama. SNUG_SEW=pick|mid|pierce|auto (quilt ekranı) dikiş akışını açar; SNUG_SLOT=<0..63> yuva.
+func seed_pending(n: int) -> void:
+	Quilt.pending().clear()
+	for i in n:
+		var p: Dictionary = Progress.PACKS[i % Progress.PACKS.size()]
+		var g := 5 + (i % 4)
+		var lvl := LevelGenerator.generate(String(p.id), i + 1, g)
+		var occ := {}
+		for pc in lvl.pieces:
+			var o: Vector2i = lvl.solution[pc.id]
+			for c in pc.cells:
+				occ[c + o] = pc.id
+		Quilt.add_pending(Quilt.encode("%s-%d" % [p.id, i + 1], g, occ, lvl.pieces, 3, 30.0, "classic", int(Time.get_unix_time_from_system())))
+
+## Yorgana n örnek yama (gerçek bölüm çözümlerinden).
+func seed_quilt(n: int) -> void:
+	Quilt.reset()
+	var sets := ["classic", "classic", "classic"]
+	for i in n:
+		var p: Dictionary = Progress.PACKS[i % Progress.PACKS.size()]
+		var g := 5 + (i % 4)
+		var lvl := LevelGenerator.generate(String(p.id), i + 1, g)
+		var occ := {}
+		for pc in lvl.pieces:
+			var o: Vector2i = lvl.solution[pc.id]
+			for c in pc.cells:
+				occ[c + o] = pc.id
+		var id := "daily-%d" % (i % 5) if i % 9 == 4 else "%s-%d" % [p.id, i + 1]
+		Quilt.add_patch(Quilt.encode(id, g, occ, lvl.pieces, 1 + (i * 7) % 3, 20.0 + i * 3.0,
+			sets[i % sets.size()], int(Time.get_unix_time_from_system()) - (n - i) * 3600))
+	Quilt.pending_stitch = n - 1

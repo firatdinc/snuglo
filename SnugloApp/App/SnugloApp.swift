@@ -11,6 +11,8 @@ import UserNotifications
 struct SnugloApp: App {
 
     init() {
+        // Guideline 2.5.19: UI-test launch args are compiled into DEBUG builds only.
+        #if DEBUG
         let args = CommandLine.arguments
 
         // Faz I-2: XCUITest fast-path — skip splash & onboarding in UI test runs.
@@ -26,6 +28,7 @@ struct SnugloApp: App {
             UserDefaults.standard.removeObject(forKey: "hasOnboarded")
             UserDefaults.standard.removeObject(forKey: "snuglo.language.override")
         }
+        #endif
 
         // Delegate must be assigned before any notifications arrive.
         // NotificationService.shared is the UNUserNotificationCenterDelegate.
