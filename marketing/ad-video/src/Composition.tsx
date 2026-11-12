@@ -11,6 +11,16 @@ import { ViralXmas, VIRAL_XMAS_DUR } from "./ads/ViralXmas";
 import { ViralDefrost, VIRAL_DEFROST_DUR } from "./ads/ViralDefrost";
 import { ViralAdvent, VIRAL_ADVENT_DUR } from "./ads/ViralAdvent";
 import { ViralHibernate, VIRAL_HIBERNATE_DUR } from "./ads/ViralHibernate";
+import { ViralElf, VIRAL_ELF_DUR } from "./ads/ViralElf";
+import { ViralOrnament, VIRAL_ORN_DUR } from "./ads/ViralOrnament";
+import { ViralGift, VIRAL_GIFT_DUR } from "./ads/ViralGift";
+import { ViralChaos, ViralChaosLink, VIRAL_CHAOS_DUR } from "./ads/ViralChaos";
+import { ViralDance, VIRAL_DANCE_DUR } from "./ads/ViralDance";
+import { ViralMeme, ViralMemeLink, VIRAL_MEME_DUR } from "./ads/ViralMeme";
+import { ViralInterview, ViralInterviewLink, VIRAL_INTERVIEW_DUR } from "./ads/ViralInterview";
+import { ViralPlay, ViralPlayLink, VIRAL_PLAY_DUR } from "./ads/ViralPlay";
+import { ViralLate, VIRAL_LATE_DUR, ViralTake, VIRAL_TAKE_DUR, ViralHero, VIRAL_HERO_DUR, ViralFit, VIRAL_FIT_DUR } from "./ads/ViralX";
+import { ViralSleepThrough, VIRAL_SLEEP_DUR, ViralSong, VIRAL_SONG_DUR, ViralSanta, VIRAL_SANTA_DUR, ViralSelfGift, VIRAL_SELF_DUR } from "./ads/ViralW";
 
 // 120 BPM: ölçü = 60 kare. Sahne kesmeleri ölçü/yarım ölçü çizgisinde.
 const PLAN: [React.FC, number][] = [
@@ -49,6 +59,26 @@ const ADS: [string, React.FC<{ lang: "en" | "tr" }>, number][] = [
   ["ViralDefrost", ViralDefrost, VIRAL_DEFROST_DUR],
   ["ViralAdvent", ViralAdvent, VIRAL_ADVENT_DUR],
   ["ViralHibernate", ViralHibernate, VIRAL_HIBERNATE_DUR],
+  ["ViralElf", ViralElf, VIRAL_ELF_DUR],
+  ["ViralOrnament", ViralOrnament, VIRAL_ORN_DUR],
+  ["ViralGift", ViralGift, VIRAL_GIFT_DUR],
+  ["ViralSleepThrough", ViralSleepThrough, VIRAL_SLEEP_DUR],
+  ["ViralSong", ViralSong, VIRAL_SONG_DUR],
+  ["ViralSanta", ViralSanta, VIRAL_SANTA_DUR],
+  ["ViralSelfGift", ViralSelfGift, VIRAL_SELF_DUR],
+  ["ViralLate", ViralLate, VIRAL_LATE_DUR],
+  ["ViralTake", ViralTake, VIRAL_TAKE_DUR],
+  ["ViralHero", ViralHero, VIRAL_HERO_DUR],
+  ["ViralFit", ViralFit, VIRAL_FIT_DUR],
+  ["ViralPlay", ViralPlay, VIRAL_PLAY_DUR],
+  ["ViralPlayLink", ViralPlayLink, VIRAL_PLAY_DUR],
+  ["ViralChaos", ViralChaos, VIRAL_CHAOS_DUR],
+  ["ViralChaosLink", ViralChaosLink, VIRAL_CHAOS_DUR],
+  ["ViralInterview", ViralInterview, VIRAL_INTERVIEW_DUR],
+  ["ViralInterviewLink", ViralInterviewLink, VIRAL_INTERVIEW_DUR],
+  ["ViralMeme", ViralMeme, VIRAL_MEME_DUR],
+  ["ViralMemeLink", ViralMemeLink, VIRAL_MEME_DUR],
+  ["ViralDance", ViralDance, VIRAL_DANCE_DUR],
 ];
 
 export const MyComposition = () => (
